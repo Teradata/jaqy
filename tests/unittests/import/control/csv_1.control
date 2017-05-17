@@ -1,0 +1,129 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+-- 0/5 - 0 ----------------------------------------------------------------
+.help import
+usage: .import [type] [type options] [file]
+type:
+  csv
+  json
+
+csv type options:
+  -c,--charset <arg>                                    sets the file
+                                                        character set
+  -d,--delimiter <arg>                                  specifies the
+                                                        delimiter
+  -h,--header <on | off>                                indicates the file has
+                                                        a header or not
+  -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
+
+json type options:
+  -b,--binary <base64 | hex>   sets the binary format.
+  -c,--charset <arg>           sets the file character set
+  -f,--format <text | bson>    sets the JSON format.
+  -p,--pretty <on | off>       turns pretty print on / off.
+
+-- 0/6 - 0 ----------------------------------------------------------------
+.import
+.import table
+-- 0/7 - 0 ----------------------------------------------------------------
+
+.open derby:memory:myDB;create=true
+-- 0/8 - 0 ----------------------------------------------------------------
+
+-- VARCHAR type
+CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
+-- success. update count = 0
+-- 1/8 - 0 ----------------------------------------------------------------
+
+.debug preparedstatement on
+-- 1/9 - 0 ----------------------------------------------------------------
+
+-- test csv with header
+.import csv -h on lib\import1.csv
+-- error: lib\import1.csv (No such file or directory)
+-- 1/10 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+-- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+-- 2/10 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+-- activity count = 0
+-- 3/10 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 4/10 - 0 ---------------------------------------------------------------
+
+-- test csv with header
+.import csv -h off lib\import2.csv
+-- error: lib\import2.csv (No such file or directory)
+-- 4/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+-- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+-- 5/11 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+-- activity count = 0
+-- 6/11 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 7/11 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 8/11 - 0 ---------------------------------------------------------------
+
+-- INTEGER type
+CREATE TABLE MyTable(a INTEGER, b INTEGER);
+-- success. update count = 0
+-- 9/11 - 0 ---------------------------------------------------------------
+-- test csv with header
+.import csv -h on lib\import1.csv
+-- error: lib\import1.csv (No such file or directory)
+-- 9/12 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+-- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+-- 10/12 - 0 --------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+          A           B
+----------- -----------
+-- activity count = 0
+-- 11/12 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 12/12 - 0 --------------------------------------------------------------
+
+-- test csv forgetting to skip header
+.import csv -h off lib\import1.csv
+-- error: lib\import1.csv (No such file or directory)
+-- 12/13 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+-- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+-- 13/13 - 0 --------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+          A           B
+----------- -----------
+-- activity count = 0
+-- 14/13 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 15/13 - 0 --------------------------------------------------------------

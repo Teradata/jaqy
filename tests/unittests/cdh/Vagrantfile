@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "quickstart/cdh"
+
+  # Be sure to have the following vagrant plugin installed.
+  # vagrant plugin install vagrant-vbguest
+  config.vm.synced_folder "../../..", "/vagrant"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "cdh"
+    vb.gui = false
+  end
+
+  config.vm.define "cdh" do |cdh|
+    cdh.vm.hostname = "cdh"
+    cdh.vm.network "private_network", ip: "10.2.3.12"
+	cdh.vm.provision "shell", path: "install.sh"
+	# hive
+	cdh.vm.network "forwarded_port", guest: 10000, host: 10000
+  end
+
+  config.ssh.forward_x11 = true
+end

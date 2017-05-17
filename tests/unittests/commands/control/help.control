@@ -1,0 +1,42 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .help command test
+--------------------------------------------------------------------------
+.help
+	.alias - creates a command alias.
+	.autocommit - turns auto-commit on / off
+	.classpath - displays / sets the class path for a JDBC driver.
+	.close - closes the current session.
+	.commit - commits the current transaction.
+	.debug - debug dump.
+	.driver - displays currently loaded JDBC drivers.
+	.echo - turns echo on / off
+	.end - ends a multi-line command.
+	.env - displays the execution environment.
+	.exit - exits the program
+	.export - exports a ResultSet.
+	.format - chooses the ResultSet output format.
+	.help - displays this help message
+	.if - conditional statement
+	.import - imports data into database.
+	.info - provides information for the database
+	.list - lists tables in the current catalog / schema.
+	.load - loads a Jaqy plugin
+	.log - displays / sets JDBC logging level.
+	.open - opens a new JDBC session.
+	.os - executes shell commands.
+	.prepare - prepares a sql statement.
+	.protocol - displays / sets JDBC protocols and their associated JDBC drivers.
+	.pwd - prints the current catalog and schema.
+	.quiet - turns ResultSet output on / off.
+	.rem - does nothing.
+	.rollback - rolls back the current transaction.
+	.run - runs a Jaqy script.
+	.script - runs a script.
+	.session - session related controls.
+	.version - displays version information
+-- 0/1 - 0 ----------------------------------------------------------------
+.help help
+usage: .help [optional command]
+-- 0/2 - 0 ----------------------------------------------------------------

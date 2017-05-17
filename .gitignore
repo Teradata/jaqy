@@ -1,0 +1,11 @@
+.settings/
+.project
+.classpath
+target/
+dependency-reduced-pom.xml
+/*.log
+.vagrant/
+/dist/*
+*.iml
+/.idea
+/tests/unittests/derby/derby.log

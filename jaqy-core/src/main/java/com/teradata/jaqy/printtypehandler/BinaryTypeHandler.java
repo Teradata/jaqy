@@ -1,0 +1,77 @@
+/*
+ * Copyright (c) 2017 Teradata
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.teradata.jaqy.printtypehandler;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+
+import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.utils.StringUtils;
+
+/**
+ * @author	Heng Yuan
+ */
+class BinaryTypeHandler implements TypeHandler
+{
+	private static int MAX_LEN = 64000;
+
+	private final static TypeHandler s_instance = new BinaryTypeHandler ();
+
+	public static TypeHandler getInstance ()
+	{
+		return s_instance;
+	}
+
+	private BinaryTypeHandler ()
+	{
+	}
+
+	@Override
+	public String getString (JaqyResultSet rs, int column) throws SQLException
+	{
+		Object obj = rs.getObject (column);
+		if (obj == null)
+			return null;
+		else if (obj instanceof byte[])
+		{
+			return StringUtils.getHexString ((byte[])obj);
+		}
+		else
+		{
+			InputStream is = rs.getBinaryStream (column);
+			byte[] bytes = new byte[4096];
+			int len;
+			try
+			{
+				String value = "";
+				while ((len = is.read (bytes)) > 0)
+				{
+					value += StringUtils.getHexString (bytes, 0, len);
+					if (value.length () > MAX_LEN)
+					{
+						return value.substring (0, MAX_LEN);
+					}
+				}
+				return value;
+			}
+			catch (IOException ex)
+			{
+				return ex.getMessage ();
+			}
+		}
+	}
+}

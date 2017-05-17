@@ -1,0 +1,156 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test SQLite specific types
+-- See https://www.sqlite.org/datatype3.html
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/5 - 0 ----------------------------------------------------------------
+.format csv
+-- 0/6 - 0 ----------------------------------------------------------------
+
+-- Null Type
+.debug resultset on
+-- 0/7 - 0 ----------------------------------------------------------------
+SELECT NULL AS Test;
+ResultSet Column Count                       1
+  Index                                        1
+    Name                                         Test
+    Label                                        Test
+    Type                                         Type 0
+    SQL Type                                     NULL
+    Catalog                                      
+    Schema                                       
+    Table Name                                   
+    Display Size                                 2147483647
+    Precision                                    0
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+Test
+
+-- activity count = 1
+-- 1/7 - 0 ----------------------------------------------------------------
+.debug resultset off
+-- 1/8 - 0 ----------------------------------------------------------------
+
+CREATE TABLE SqliteTypes
+(
+	a	INTEGER,
+	b	REAL,
+	c	TEXT,
+	d	BLOB
+);
+-- success. update count = 0
+-- 2/8 - 0 ----------------------------------------------------------------
+
+INSERT INTO SqliteTypes VALUES (123456789, 10.12, '你好，世界', X'DEADBEEF');
+-- success. update count = 1
+-- 3/8 - 0 ----------------------------------------------------------------
+
+.debug resultset on
+-- 3/9 - 0 ----------------------------------------------------------------
+SELECT * FROM SqliteTypes;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Catalog                                      SqliteTypes
+    Schema                                       
+    Table Name                                   SqliteTypes
+    Display Size                                 2147483647
+    Precision                                    0
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        2
+    Name                                         b
+    Label                                        b
+    Type                                         REAL
+    SQL Type                                     REAL
+    Catalog                                      SqliteTypes
+    Schema                                       
+    Table Name                                   SqliteTypes
+    Display Size                                 2147483647
+    Precision                                    0
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c
+    Label                                        c
+    Type                                         VARCHAR
+    SQL Type                                     TEXT
+    Catalog                                      SqliteTypes
+    Schema                                       
+    Table Name                                   SqliteTypes
+    Display Size                                 2147483647
+    Precision                                    0
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         d
+    Label                                        d
+    Type                                         BLOB
+    SQL Type                                     BLOB
+    Catalog                                      SqliteTypes
+    Schema                                       
+    Table Name                                   SqliteTypes
+    Display Size                                 2147483647
+    Precision                                    0
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a,b,c,d
+123456789,10.12,你好，世界,deadbeef
+-- activity count = 1
+-- 4/9 - 0 ----------------------------------------------------------------
+.debug resultset off
+-- 4/10 - 0 ---------------------------------------------------------------

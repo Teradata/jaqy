@@ -1,0 +1,11 @@
+usage: .session [new | session id]
+
+Examples:
+-- list the current sessions
+.session
+
+-- create a new session
+.session new
+
+-- switch to a session
+.session 1

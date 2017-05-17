@@ -1,0 +1,60 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .list command test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+.help list
+No detailed help information.
+-- 0/5 - 0 ----------------------------------------------------------------
+
+.format csv
+-- 0/6 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/7 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable
+(
+	a	INTEGER PRIMARY KEY,
+	b	VARCHAR(200)
+);
+-- success. update count = 0
+-- 1/7 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable2
+(
+	a	INTEGER PRIMARY KEY,
+	b	VARCHAR(200)
+);
+-- success. update count = 0
+-- 2/7 - 0 ----------------------------------------------------------------
+
+.list
+-- Listing tables: %
+TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
+,,MyTable,TABLE,,,,,,
+,,MyTable2,TABLE,,,,,,
+-- 2/8 - 0 ----------------------------------------------------------------
+.list . . %
+-- Listing tables: %
+TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
+,,MyTable,TABLE,,,,,,
+,,MyTable2,TABLE,,,,,,
+-- 2/9 - 0 ----------------------------------------------------------------
+.list . . MyTable
+-- Listing tables: MyTable
+TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
+,,MyTable,TABLE,,,,,,
+-- 2/10 - 0 ---------------------------------------------------------------
+.list . . %MyTable%
+-- Listing tables: %MyTable%
+TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
+,,MyTable,TABLE,,,,,,
+,,MyTable2,TABLE,,,,,,
+-- 2/11 - 0 ---------------------------------------------------------------

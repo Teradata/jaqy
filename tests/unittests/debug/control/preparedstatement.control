@@ -1,0 +1,122 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .debug preparedstatement on command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+-- 0/5 - 0 ----------------------------------------------------------------
+.help .debug
+usage: .debug type [on | off]
+
+type:
+    preparedstatement
+    resultset
+
+Example:
+.debug resultset on
+
+-- 0/6 - 0 ----------------------------------------------------------------
+.debug
+-- 0/7 - 0 ----------------------------------------------------------------
+
+.open derby:memory:myDB;create=true
+-- 0/8 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable (a INTEGER, b INTEGER);
+-- success. update count = 0
+-- 1/8 - 0 ----------------------------------------------------------------
+
+.debug preparedstatement on
+-- 1/9 - 0 ----------------------------------------------------------------
+
+.prepare
+-- 1/10 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (1, 1);
+Parameter Count                              0
+-- 2/10 - 0 ---------------------------------------------------------------
+
+.prepare
+-- 2/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- 3/11 - 0 ---------------------------------------------------------------
+
+.prepare
+-- 3/12 - 0 ---------------------------------------------------------------
+SELECT a AS Test, b FROM MyTable ORDER BY a;
+Parameter Count                              0
+-- 4/12 - 0 ---------------------------------------------------------------
+
+.prepare
+-- 4/13 - 0 ---------------------------------------------------------------
+SELECT a AS Test, b FROM MyTable WHERE a = ?;
+Parameter Count                              1
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- 5/13 - 0 ---------------------------------------------------------------
+
+-- Testing ambiguous parameters
+-- The support for ambiguous parameters vary greatly.
+.prepare
+-- 5/14 - 0 ---------------------------------------------------------------
+SELECT ? AS Test FROM MyTable;
+-- failure 30000: [42X34] There is a ? parameter in the select list.  This is not allowed.
+-- 6/14 - 0 ---------------------------------------------------------------
+
+.prepare
+-- 6/15 - 0 ---------------------------------------------------------------
+SELECT CAST(? AS VARCHAR(200)) AS Test FROM MyTable;
+Parameter Count                              1
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- 7/15 - 0 ---------------------------------------------------------------
+
+.prepare
+-- 7/16 - 0 ---------------------------------------------------------------
+SELECT 1 AS Test FROM MyTable WHERE ? IS NOT NULL;
+Parameter Count                              1
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    32672
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- 8/16 - 0 ---------------------------------------------------------------
+
+.exit

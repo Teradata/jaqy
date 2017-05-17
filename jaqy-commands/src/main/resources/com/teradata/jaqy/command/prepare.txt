@@ -1,0 +1,5 @@
+.prepare
+SQL statement
+.end prepare
+
+This command is mostly for checking the parameter types required.

@@ -1,0 +1,242 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+.run setup.sql
+-- Running script: setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.protocol hive2 org.apache.hive.jdbc.HiveDriver
+-- 0/2 - 0 ----------------------------------------------------------------
+.classpath hive2 lib/hive-jdbc-1.1.0-cdh5.7.0-standalone.jar:lib/hadoop-common-2.6.0-cdh5.7.0.jar:lib/slf4j-simple-1.7.5.jar
+-- 0/3 - 0 ----------------------------------------------------------------
+.open -u cloudera -p cloudera hive2://192.168.32.130:10000
+-- 0/4 - 0 ----------------------------------------------------------------
+.run ansi_types.inc
+-- Running script: ansi_types.inc
+-- 0/5 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- SQL92 types
+--------------------------------------------------------------------------
+
+-- Bit (SQL 99 removed it)
+
+-- bit string literal
+SELECT B'1100' AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:8 cannot recognize input near 'B' ''1100'' 'AS' in selection target
+-- 1/5 - 0 ----------------------------------------------------------------
+SELECT CAST(B'1100' AS BIT(16)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:13 cannot recognize input near 'B' ''1100'' 'AS' in expression specification
+-- 2/5 - 0 ----------------------------------------------------------------
+SELECT CAST(B'1100' AS BIT VARYING(16)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:13 cannot recognize input near 'B' ''1100'' 'AS' in expression specification
+-- 3/5 - 0 ----------------------------------------------------------------
+
+-- Numerical types
+SELECT CAST(12 AS SMALLINT) AS Test;
+-- success --
+  test
+------
+    12
+-- activity count = 1
+-- 4/5 - 0 ----------------------------------------------------------------
+SELECT CAST(123456789 AS INTEGER) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:25 cannot recognize input near 'INTEGER' ')' 'AS' in primitive type specification
+-- 5/5 - 0 ----------------------------------------------------------------
+SELECT CAST(123456789 AS NUMERIC) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:25 cannot recognize input near 'NUMERIC' ')' 'AS' in primitive type specification
+-- 6/5 - 0 ----------------------------------------------------------------
+SELECT CAST(-1234567.89 AS DEC(10,2)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:27 cannot recognize input near 'DEC' '(' '10' in primitive type specification
+-- 7/5 - 0 ----------------------------------------------------------------
+SELECT CAST(-1234567.89 AS DECIMAL(10,2)) AS Test;
+-- success --
+        test
+------------
+ -1234567.89
+-- activity count = 1
+-- 8/5 - 0 ----------------------------------------------------------------
+SELECT CAST(-1234567.89 AS DECIMAL) AS Test;
+-- success --
+        test
+------------
+    -1234568
+-- activity count = 1
+-- 9/5 - 0 ----------------------------------------------------------------
+
+SELECT CAST(-1234567.89 AS FLOAT) AS Test;
+-- success --
+                    test
+------------------------
+            -1234567.875
+-- activity count = 1
+-- 10/5 - 0 ---------------------------------------------------------------
+SELECT CAST(-1234567.89 AS FLOAT(2)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:32 mismatched input '(' expecting ) near 'FLOAT' in cast expression
+-- 11/5 - 0 ---------------------------------------------------------------
+SELECT CAST(-1234567.89 AS REAL) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:27 cannot recognize input near 'REAL' ')' 'AS' in primitive type specification
+-- 12/5 - 0 ---------------------------------------------------------------
+SELECT CAST(-1234567.89 AS DOUBLE PRECISION) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:34 extraneous input 'PRECISION' expecting ) near '<EOF>'
+-- 13/5 - 0 ---------------------------------------------------------------
+
+-- Characters
+
+-- character string literal
+SELECT 'A quick brown fox' AS Test;
+-- success --
+test
+-----------------
+-- activity count = 0
+-- 14/5 - 0 ---------------------------------------------------------------
+-- natioinal character string literal
+SELECT N'A quick brown fox' AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:8 cannot recognize input near 'N' ''A quick brown fox'' 'AS' in selection target
+-- 15/5 - 0 ---------------------------------------------------------------
+-- hex string literal
+SELECT X'DEADBEEF' AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:8 cannot recognize input near 'X' ''DEADBEEF'' 'AS' in selection target
+-- 16/5 - 0 ---------------------------------------------------------------
+
+SELECT CAST('A quick brown fox' AS CHARACTER(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'CHARACTER' '(' '20' in primitive type specification
+-- 17/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS CHAR(20)) AS Test;
+-- success --
+test
+--------------------
+A quick brown fox   
+-- activity count = 1
+-- 18/5 - 0 ---------------------------------------------------------------
+
+SELECT CAST('A quick brown fox' AS CHARACTER VARYING(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'CHARACTER' 'VARYING' '(' in primitive type specification
+-- 19/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS CHAR VARYING(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:40 extraneous input 'VARYING' expecting ( near '<EOF>'
+-- 20/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS VARCHAR(20)) AS Test;
+-- success --
+test
+--------------------
+A quick brown fox
+-- activity count = 1
+-- 21/5 - 0 ---------------------------------------------------------------
+
+SELECT CAST('A quick brown fox' AS NATIONAL CHARACTER(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'NATIONAL' 'CHARACTER' '(' in primitive type specification
+-- 22/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS NATIONAL CHAR(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'NATIONAL' 'CHAR' '(' in primitive type specification
+-- 23/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS NCHAR(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'NCHAR' '(' '20' in primitive type specification
+-- 24/5 - 0 ---------------------------------------------------------------
+
+SELECT CAST('A quick brown fox' AS NATIONAL CHARACTER VARYING(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'NATIONAL' 'CHARACTER' 'VARYING' in primitive type specification
+-- 25/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS NATIONAL CHAR VARYING(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'NATIONAL' 'CHAR' 'VARYING' in primitive type specification
+-- 26/5 - 0 ---------------------------------------------------------------
+SELECT CAST('A quick brown fox' AS NCHAR VARYING(20)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'NCHAR' 'VARYING' '(' in primitive type specification
+-- 27/5 - 0 ---------------------------------------------------------------
+
+SELECT '你好，世界' AS Test;
+-- success --
+test
+-----
+-- activity count = 0
+-- 28/5 - 0 ---------------------------------------------------------------
+
+-- Date/Time/Timestamp
+SELECT CAST('2001-02-03' AS DATE) AS Test;
+-- success --
+test
+----------
+2001-02-03
+-- activity count = 1
+-- 29/5 - 0 ---------------------------------------------------------------
+SELECT CAST('12:03:04' AS TIME) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:26 cannot recognize input near 'TIME' ')' 'AS' in primitive type specification
+-- 30/5 - 0 ---------------------------------------------------------------
+SELECT CAST('12:03:04.12' AS TIME(2)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:29 cannot recognize input near 'TIME' '(' '2' in primitive type specification
+-- 31/5 - 0 ---------------------------------------------------------------
+SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:32 cannot recognize input near 'TIME' 'WITH' 'TIME' in primitive type specification
+-- 32/5 - 0 ---------------------------------------------------------------
+SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:35 cannot recognize input near 'TIME' '(' '2' in primitive type specification
+-- 33/5 - 0 ---------------------------------------------------------------
+SELECT CAST('2001-02-03 12:03:04' AS TIMESTAMP) AS Test;
+-- success --
+test
+-----------------------------
+2001-02-03 12:03:04.0
+-- activity count = 1
+-- 34/5 - 0 ---------------------------------------------------------------
+SELECT CAST('2001-02-03 12:03:04.12' AS TIMESTAMP(2)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:49 mismatched input '(' expecting ) near 'TIMESTAMP' in cast expression
+-- 35/5 - 0 ---------------------------------------------------------------
+SELECT CAST('2001-02-03 12:03:04-08:00' AS TIMESTAMP WITH TIME ZONE) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:53 missing ) at 'WITH' near 'WITH'
+line 1:58 missing EOF at 'TIME' near 'WITH'
+-- 36/5 - 0 ---------------------------------------------------------------
+SELECT CAST('2001-02-03 12:03:04.12-08:00' AS TIMESTAMP(2) WITH TIME ZONE) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:55 mismatched input '(' expecting ) near 'TIMESTAMP' in cast expression
+-- 37/5 - 0 ---------------------------------------------------------------
+
+--------------------------------------------------------------------------
+-- SQL99 types
+--------------------------------------------------------------------------
+
+-- Boolean type
+SELECT TRUE AS Test;
+-- success --
+test
+----
+true
+-- activity count = 1
+-- 38/5 - 0 ---------------------------------------------------------------
+SELECT FALSE AS Test;
+-- success --
+test
+----
+fals
+-- activity count = 1
+-- 39/5 - 0 ---------------------------------------------------------------
+
+-- Distinct Types
+CREATE TYPE MyInt AS INTEGER FINAL;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:7 cannot recognize input near 'CREATE' 'TYPE' 'MyInt' in ddl statement
+-- 40/5 - 0 ---------------------------------------------------------------
+
+SELECT CAST(123 AS MyINT) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:19 cannot recognize input near 'MyINT' ')' 'AS' in primitive type specification
+-- 41/5 - 0 ---------------------------------------------------------------
+
+DROP TYPE MyInt;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:5 cannot recognize input near 'DROP' 'TYPE' 'MyInt' in ddl statement
+-- 42/5 - 0 ---------------------------------------------------------------
+
+--------------------------------------------------------------------------
+-- SQL2003 types
+--------------------------------------------------------------------------
+
+-- XML
+SELECT CAST('<a>123</a>' AS XML) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:28 cannot recognize input near 'XML' ')' 'AS' in primitive type specification
+-- 43/5 - 0 ---------------------------------------------------------------
+SELECT XMLELEMENT(NAME 'Customer', XMLATTRIBUTES('123' AS id), XMLFOREST('Joe' AS Name)) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:23 cannot recognize input near 'NAME' ''Customer'' ',' in select expression
+-- 44/5 - 0 ---------------------------------------------------------------
+
+--------------------------------------------------------------------------
+-- ST_GEOMETRY
+--------------------------------------------------------------------------
+SELECT CAST('POINT(1 1)' AS ST_GEOMETRY) AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:28 cannot recognize input near 'ST_GEOMETRY' ')' 'AS' in primitive type specification
+-- 45/5 - 0 ---------------------------------------------------------------
+SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
+-- failure 40000: [42000] Error while compiling statement: FAILED: ParseException line 1:28 cannot recognize input near 'ST_GEOMETRY' ')' '.' in primitive type specification
+-- 46/5 - 0 ---------------------------------------------------------------

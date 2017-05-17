@@ -1,0 +1,10 @@
+.protocol oracle oracle.jdbc.driver.OracleDriver
+.protocol mysql com.mysql.jdbc.Driver
+.protocol postgresql org.postgresql.Driver
+.protocol sqlite org.sqlite.JDBC
+.protocol sqlserver com.microsoft.sqlserver.jdbc.SQLServerDriver
+.protocol teradata com.teradata.jdbc.TeraDriver
+.alias quit
+.exit
+.end alias
+-- .prompt display.interactive ? (esc.color("green",null,1) + "-- " + session.id + ": " + session.sqlCount + "/" + session.commandCount + ": [ " + session.path + " ] --" + esc.reset () + "\n") : (display.fill ("-- " + session.id + ": " + session.sqlCount + "/" + session.commandCount + " ") + "\n")

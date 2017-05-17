@@ -1,0 +1,12 @@
+usage: info [type]
+type:
+  behavior   database behavior
+  client     client info properties
+  feature    database features
+  function   database functions
+  keyword    SQL keywords
+  limit      database limits
+  server     database server
+  table      database table types
+  type       database type info
+  user       logon user

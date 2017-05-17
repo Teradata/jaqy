@@ -1,0 +1,136 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+-- 0/5 - 0 ----------------------------------------------------------------
+.help import
+usage: .import [type] [type options] [file]
+type:
+  csv
+  json
+
+csv type options:
+  -c,--charset <arg>                                    sets the file
+                                                        character set
+  -d,--delimiter <arg>                                  specifies the
+                                                        delimiter
+  -h,--header <on | off>                                indicates the file has
+                                                        a header or not
+  -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
+
+json type options:
+  -b,--binary <base64 | hex>   sets the binary format.
+  -c,--charset <arg>           sets the file character set
+  -f,--format <text | bson>    sets the JSON format.
+  -p,--pretty <on | off>       turns pretty print on / off.
+
+-- 0/6 - 0 ----------------------------------------------------------------
+.import
+.import table
+-- 0/7 - 0 ----------------------------------------------------------------
+
+.open derby:memory:myDB;create=true
+-- 0/8 - 0 ----------------------------------------------------------------
+
+-- VARCHAR type
+CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
+-- success. update count = 0
+-- 1/8 - 0 ----------------------------------------------------------------
+
+.debug preparedstatement on
+-- 1/9 - 0 ----------------------------------------------------------------
+
+-- test csv with header
+.import csv -h on lib\import1.csv
+-- error: lib\import1.csv (No such file or directory)
+-- 1/10 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}});
+-- failure 30000: [42X01] Syntax error: Encountered "{" at line 1, column 30.
+-- 2/10 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+-- activity count = 0
+-- 3/10 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 4/10 - 0 ---------------------------------------------------------------
+
+.import csv -h on lib\import1.csv
+-- error: lib\import1.csv (No such file or directory)
+-- 4/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{c}});
+-- failure 30000: [42X01] Syntax error: Encountered "{" at line 1, column 30.
+-- 5/11 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+-- activity count = 0
+-- 6/11 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 7/11 - 0 ---------------------------------------------------------------
+
+-- test csv without header
+.import csv -h off lib\import2.csv
+-- error: lib\import2.csv (No such file or directory)
+-- 7/12 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
+-- failure 30000: [42X01] Syntax error: Encountered "{" at line 1, column 30.
+-- 8/12 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+-- activity count = 0
+-- 9/12 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 10/12 - 0 --------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 11/12 - 0 --------------------------------------------------------------
+
+-- test csv with more columns
+DROP TABLE MyTable;
+-- failure 30000: [42Y55] 'DROP TABLE' cannot be performed on 'MYTABLE' because it does not exist.
+-- 12/12 - 0 --------------------------------------------------------------
+
+CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200), c INTEGER);
+-- success. update count = 0
+-- 13/12 - 0 --------------------------------------------------------------
+
+.import csv -h off lib\import2.csv
+-- error: lib\import2.csv (No such file or directory)
+-- 13/13 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}}, {{col3}});
+-- failure 30000: [42X01] Syntax error: Encountered "{" at line 1, column 30.
+-- 14/13 - 0 --------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B           C
+- - -----------
+-- activity count = 0
+-- 15/13 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 0
+-- 16/13 - 0 --------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 17/13 - 0 --------------------------------------------------------------

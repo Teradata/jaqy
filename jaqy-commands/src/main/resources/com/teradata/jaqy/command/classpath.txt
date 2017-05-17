@@ -1,0 +1,18 @@
+usage: .classpath [protocol name] [classpath]
+
+protocol:   the JDBC protocol name
+classpath:  class path separated by either : or ; characters.  Both Windows
+            and Linux style paths are supported.
+
+This command specifies where to find specific drivers, but it does not load
+them until a connection corresponding the protocol is opened.
+
+Without any parameters, this command lists existing <protocol, classpath>
+pairs.
+
+Examples:
+-- List current settings
+.classpath
+
+-- Specify the jars need to load Teradata JDBC
+.classpath teradata lib\tdgssconfig.jar;lib\terajdbc4.jar

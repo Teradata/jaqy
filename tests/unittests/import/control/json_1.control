@@ -1,0 +1,125 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import json command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+-- 0/5 - 0 ----------------------------------------------------------------
+.help import
+usage: .import [type] [type options] [file]
+type:
+  csv
+  json
+
+csv type options:
+  -c,--charset <arg>                                    sets the file
+                                                        character set
+  -d,--delimiter <arg>                                  specifies the
+                                                        delimiter
+  -h,--header <on | off>                                indicates the file has
+                                                        a header or not
+  -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
+
+json type options:
+  -a,--array                   treats BSON root document as array.
+  -b,--binary <base64 | hex>   sets the binary format.
+  -c,--charset <arg>           sets the file character set
+  -f,--format <text | bson>    sets the JSON format.
+  -p,--pretty <on | off>       turns pretty print on / off.
+
+-- 0/6 - 0 ----------------------------------------------------------------
+.import
+.import table
+-- 0/7 - 0 ----------------------------------------------------------------
+
+.open derby:memory:myDB;create=true
+-- 0/8 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
+-- success. update count = 0
+-- 1/8 - 0 ----------------------------------------------------------------
+
+.debug preparedstatement on
+-- 1/9 - 0 ----------------------------------------------------------------
+
+.import json lib/import1.json
+-- 1/10 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- success. update count = 1
+-- 2/10 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+          A           B
+----------- -----------
+          1           2
+          3           4
+          5           6
+          7           8
+-- activity count = 4
+-- 3/10 - 0 ---------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 4/10 - 0 ---------------------------------------------------------------
+
+.import json -a -f bson lib/import1.bson
+-- 4/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- success. update count = 1
+-- 5/11 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+          A           B
+----------- -----------
+          1           2
+          3           4
+          5           6
+          7           8
+-- activity count = 4
+-- 6/11 - 0 ---------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 7/11 - 0 ---------------------------------------------------------------

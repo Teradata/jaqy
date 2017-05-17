@@ -1,0 +1,1 @@
+Type ".help" for help, and ".exit" to exit.
