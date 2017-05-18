@@ -78,7 +78,7 @@
 							<configuration>
 								<target name="ArgumentParser.java">
 									<taskdef name="cookcc" classname="org.yuanheng.cookcc.ant.Task"
-										classpath="${project.basedir}/lib/cookcc-latest.jar" />
+										classpath="${project.basedir}/lib/cookcc-0.4.0.jar" />
 									<cookcc srcdir="${project.basedir}/src/main/java/"
 										src="com/teradata/jaqy/parser/ArgumentParser.java" />
 									<cookcc srcdir="${project.basedir}/src/main/java/"

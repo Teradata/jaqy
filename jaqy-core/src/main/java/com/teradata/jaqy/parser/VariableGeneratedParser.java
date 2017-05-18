@@ -248,6 +248,7 @@ abstract class VariableGeneratedParser
 	{
 		if (_yyLexerStack == null)
 			_yyLexerStack = new Stack<Integer> ();
+
 		_yyLexerStack.push (new Integer (_yyBaseState));
 		begin (newState);
 	}
