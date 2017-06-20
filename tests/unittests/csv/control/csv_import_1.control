@@ -27,6 +27,7 @@ csv type options:
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
 
 json type options:
+  -a,--array                   treats BSON root document as array.
   -b,--binary <base64 | hex>   sets the binary format.
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
