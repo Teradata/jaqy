@@ -1,0 +1,351 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import json command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.echo off
+-- 0/2 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
+-- 0/5 - 0 ----------------------------------------------------------------
+.load /vagrant/jaqy-avro/target/jaqy-avro-1.0.jar
+-- 0/6 - 0 ----------------------------------------------------------------
+
+.open derby:memory:myDB;create=true
+-- 0/7 - 0 ----------------------------------------------------------------
+.format csv
+-- 0/8 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b VARCHAR(200) NOT NULL, c VARCHAR(200), d VARCHAR(200) FOR BIT DATA);
+-- success. update count = 0
+-- 1/8 - 0 ----------------------------------------------------------------
+
+.debug preparedstatement on
+-- 1/9 - 0 ----------------------------------------------------------------
+
+.import avro lib/file1.avro
+-- 1/10 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        4
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 2/10 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A,B,C,D
+1,abc,,deadbeef
+2,john,doe,
+3,"a""b","c""d",deadbeef
+4,"a,b","c,d",deadbeef
+5,a'b,c'd,deadbeef
+6,"a'"",b","c'"",d",deadbeef
+7,a	b,"c,d",deadbeef
+-- activity count = 7
+-- 3/10 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 4/10 - 0 ---------------------------------------------------------------
+
+.import avro lib/file2.avro
+-- 4/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        4
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 5/11 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A,B,C,D
+1,abc,,deadbeef
+2,john,doe,
+3,"a""b","c""d",deadbeef
+4,"a,b","c,d",deadbeef
+5,a'b,c'd,deadbeef
+6,"a'"",b","c'"",d",deadbeef
+7,a	b,"c,d",deadbeef
+-- activity count = 7
+-- 6/11 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 7/11 - 0 ---------------------------------------------------------------
+
+.import avro lib/file3.avro
+-- 7/12 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        4
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 8/12 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A,B,C,D
+1,abc,,deadbeef
+2,john,doe,
+3,"a""b","c""d",deadbeef
+4,"a,b","c,d",deadbeef
+5,a'b,c'd,deadbeef
+6,"a'"",b","c'"",d",deadbeef
+7,a	b,"c,d",deadbeef
+-- activity count = 7
+-- 9/12 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 10/12 - 0 --------------------------------------------------------------
+
+.import avro lib/file4.avro
+-- 10/13 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        4
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 11/13 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A,B,C,D
+1,abc,,deadbeef
+2,john,doe,
+3,"a""b","c""d",deadbeef
+4,"a,b","c,d",deadbeef
+5,a'b,c'd,deadbeef
+6,"a'"",b","c'"",d",deadbeef
+7,a	b,"c,d",deadbeef
+-- activity count = 7
+-- 12/13 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 13/13 - 0 --------------------------------------------------------------
+
+.import avro lib/file5.avro
+-- 13/14 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        4
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 14/14 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A,B,C,D
+1,abc,,deadbeef
+2,john,doe,
+3,"a""b","c""d",deadbeef
+4,"a,b","c,d",deadbeef
+5,a'b,c'd,deadbeef
+6,"a'"",b","c'"",d",deadbeef
+7,a	b,"c,d",deadbeef
+-- activity count = 7
+-- 15/14 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 16/14 - 0 --------------------------------------------------------------
+
+.import avro lib/file6.avro
+-- 16/15 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        4
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 17/15 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A,B,C,D
+1,abc,,deadbeef
+2,john,doe,
+3,"a""b","c""d",deadbeef
+4,"a,b","c,d",deadbeef
+5,a'b,c'd,deadbeef
+6,"a'"",b","c'"",d",deadbeef
+7,a	b,"c,d",deadbeef
+-- activity count = 7
+-- 18/15 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 19/15 - 0 --------------------------------------------------------------
