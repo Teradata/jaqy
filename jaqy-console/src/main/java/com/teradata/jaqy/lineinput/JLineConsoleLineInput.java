@@ -31,6 +31,7 @@ public class JLineConsoleLineInput implements LineInput
 	public JLineConsoleLineInput () throws IOException
 	{
 		m_jline = new ConsoleReader ();
+		m_jline.setExpandEvents (false);
 	}
 
 	public String getLine ()
