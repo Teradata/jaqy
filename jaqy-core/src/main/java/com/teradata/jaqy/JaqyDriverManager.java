@@ -61,7 +61,8 @@ public class JaqyDriverManager
 	{
 		synchronized (m_drivers)
 		{
-			return m_drivers.get (protocolName) != null;
+			WeakReference<Driver> driver = m_drivers.get (protocolName);
+			return driver != null && driver.get () != null;
 		}
 	}
 
@@ -201,7 +202,7 @@ public class JaqyDriverManager
 				// that we are using.
 				JDBCWrapperDriver wrapperDriver = new JDBCWrapperDriver ((Driver)c.newInstance ());
 				DriverManager.registerDriver (wrapperDriver);
-				registerDriver (className, wrapperDriver);
+				registerDriver (protocolName, wrapperDriver);
 			}
 			else
 			{
