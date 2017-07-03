@@ -28,7 +28,12 @@ import java.util.HashMap;
 
 import javax.script.ScriptEngine;
 
-import com.teradata.jaqy.interfaces.*;
+import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.JaqyOption;
+import com.teradata.jaqy.interfaces.JaqyPlugin;
+import com.teradata.jaqy.interfaces.JaqyPrinter;
+import com.teradata.jaqy.interfaces.VariableHook;
 import com.teradata.jaqy.utils.FixedVariableHook;
 import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.URLUtils;
@@ -40,13 +45,6 @@ import com.teradata.jaqy.utils.URLUtils;
  */
 public class Globals
 {
-	private final static Globals s_instance = new Globals ();
-
-	public static Globals getInstance ()
-	{
-		return s_instance;
-	}
-
 	/** The program name */
 	private String m_name;
 	/** The program version */
@@ -75,7 +73,7 @@ public class Globals
 
 	private final String m_rc = "com.teradata.jaqy.interfaces.JaqyPlugin";
 
-	private Globals ()
+	Globals ()
 	{
 	}
 

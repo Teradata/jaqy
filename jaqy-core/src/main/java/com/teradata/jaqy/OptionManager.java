@@ -35,6 +35,11 @@ public class OptionManager
 	private final Options m_options = new Options ();
 	private final HashMap<String, JaqyOption> m_optionHandlers = new HashMap<String, JaqyOption> ();
 
+	public CommandLine getCommandLine (String[] args) throws Exception
+	{
+		return new DefaultParser ().parse (m_options, args);
+	}
+
 	public void addOption (JaqyOption option)
 	{
 		Option o = new Option (option.getOption (),

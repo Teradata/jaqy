@@ -18,6 +18,8 @@ package com.teradata.jaqy;
 import com.teradata.jaqy.option.ColorOption;
 import com.teradata.jaqy.option.EchoOption;
 import com.teradata.jaqy.option.HelpOption;
+import com.teradata.jaqy.option.NoRCOption;
+import com.teradata.jaqy.option.RCFileOption;
 import com.teradata.jaqy.option.VersionOption;
 
 /**
@@ -32,6 +34,8 @@ class OptionSetup
 		globals.addOption (new EchoOption ());;
 
 		// console specific options
+		globals.addOption (new RCFileOption ());;
+		globals.addOption (new NoRCOption ());;
 		globals.addOption (new ColorOption ());;
 	}
 }

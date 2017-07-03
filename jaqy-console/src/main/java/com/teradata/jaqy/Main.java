@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.apache.commons.cli.CommandLine;
 import org.fusesource.jansi.AnsiConsole;
 
 import com.teradata.jaqy.interfaces.Display;
@@ -41,21 +42,8 @@ public class Main
 	private final static String USER_INIT_RC = ".jqrc";
 	private final static String GREET_RC = "greet.txt";
 
-	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display)
+	private static File getDefaultInitFile ()
 	{
-		LineInput lineInput;
-		try
-		{
-			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
-			lineInput = new ReaderLineInput (reader, false);
-			interpreter.push (lineInput);
-			interpreter.interpret (false);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace ();
-		}
-
 		// check if ~/.jqrc exists
 		try
 		{
@@ -70,13 +58,42 @@ public class Main
 			File file = new File (home, USER_INIT_RC);
 			if (file.exists ())
 			{
-				lineInput = LineInputFactory.getLineInput (file, null, false);
-				interpreter.push (lineInput);
-				interpreter.interpret (false);
+				return file;
 			}
 		}
 		catch (Exception ex)
 		{
+		}
+		return null;
+	}
+
+	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, File initFile)
+	{
+		LineInput lineInput;
+		try
+		{
+			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
+			lineInput = new ReaderLineInput (reader, false);
+			interpreter.push (lineInput);
+			interpreter.interpret (false);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace ();
+		}
+
+		if (initFile != null && initFile.exists ())
+		{
+			// check if ~/.jqrc exists
+			try
+			{
+				lineInput = LineInputFactory.getLineInput (initFile, null, false);
+				interpreter.push (lineInput);
+				interpreter.interpret (false);
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 	}
 
@@ -98,7 +115,7 @@ public class Main
 
 	public static void main (String[] args) throws Exception
 	{
-		Globals globals = Globals.getInstance ();
+		Globals globals = new Globals ();
 		// initiate the name and version
 		Package pkg = Main.class.getPackage ();
 		globals.setName (pkg.getImplementationTitle ());
@@ -152,7 +169,18 @@ public class Main
 		OptionSetup.init (globals);
 
 		// load initiation scripts
-		loadInit (globals, interpreter, display);
+		File initFile = getDefaultInitFile ();
+		CommandLine cmdLine = globals.getOptionManager ().getCommandLine (args);
+		if (cmdLine.hasOption ("norc"))
+		{
+			initFile = null;
+		}
+		else if (cmdLine.hasOption ("rcfile"))
+		{
+			String fileName = cmdLine.getOptionValue ("rcfile");
+			initFile = new File (fileName);
+		}
+		loadInit (globals, interpreter, display, initFile);
 
 		// Now handle command line options
 		// We want to do this after loading the initiation script to
