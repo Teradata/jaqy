@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 import org.apache.commons.cli.CommandLine;
 import org.fusesource.jansi.AnsiConsole;
@@ -45,24 +46,18 @@ public class Main
 	private static File getDefaultInitFile ()
 	{
 		// check if ~/.jqrc exists
-		try
-		{
-			// It is a known issue for getting the correct home directory
-			// on windows before JRE8.
-			//
-			// See http://stackoverflow.com/questions/585534/what-is-the-best-way-to-find-the-users-home-directory-in-java
-			//
-			// I am not going to lose sleep over this particular issue.
-			String home = System.getProperty ("user.home");
+		// It is a known issue for getting the correct home directory
+		// on windows before JRE8.
+		//
+		// See http://stackoverflow.com/questions/585534/what-is-the-best-way-to-find-the-users-home-directory-in-java
+		//
+		// I am not going to lose sleep over this particular issue.
+		String home = System.getProperty ("user.home");
 
-			File file = new File (home, USER_INIT_RC);
-			if (file.exists ())
-			{
-				return file;
-			}
-		}
-		catch (Exception ex)
+		File file = new File (home, USER_INIT_RC);
+		if (file.exists ())
 		{
+			return file;
 		}
 		return null;
 	}
@@ -93,6 +88,7 @@ public class Main
 			}
 			catch (Exception ex)
 			{
+				ex.printStackTrace ();
 			}
 		}
 	}
@@ -234,7 +230,15 @@ public class Main
 		}
 		else
 		{
-			interpreter.push (LineInputFactory.getLineInput (System.in, null, false));
+			String encoding = null;
+			if (System.in.available () == 0)
+			{
+				// If the input available bytes is 0, it is possible the input
+				// is not available.  So we do not want to guess the input
+				// encoding at all.  Instead, use the default.
+				encoding = Charset.defaultCharset ().displayName ();
+			}
+			interpreter.push (LineInputFactory.getLineInput (System.in, encoding, false));
 		}
 
 		// Interpret any remaining command line arguments first
