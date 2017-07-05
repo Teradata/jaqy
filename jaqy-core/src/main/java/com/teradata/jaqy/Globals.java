@@ -28,13 +28,14 @@ import java.util.HashMap;
 
 import javax.script.ScriptEngine;
 
+import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.JaqyOption;
 import com.teradata.jaqy.interfaces.JaqyPlugin;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
-import com.teradata.jaqy.interfaces.VariableHook;
-import com.teradata.jaqy.utils.FixedVariableHook;
+import com.teradata.jaqy.interfaces.Variable;
+import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.URLUtils;
 
@@ -65,7 +66,7 @@ public class Globals
 	private final ArrayList<Session> m_sessions = new ArrayList<Session> ();
 
 	private final VariableManager m_variables = new VariableManager (null);
-	private final VariableHook m_globalsVar = new FixedVariableHook (this);
+	private final Variable m_globalsVar = new FixedVariable ("globals", this, "Global objects");
 
 	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager = new JaqyHandlerFactoryManager<JaqyPrinter> ("com.teradata.jaqy.interfaces.JaqyPrinter");
 	private final JaqyHandlerFactoryManager<JaqyExporter> m_exporterManager = new JaqyHandlerFactoryManager<JaqyExporter> ("com.teradata.jaqy.interfaces.JaqyExporter");
@@ -180,12 +181,12 @@ public class Globals
 		}
 	}
 
-	public Session createSession ()
+	public Session createSession (Display display)
 	{
 		synchronized (m_sessionLock)
 		{
 			int sessionId = m_sessions.size ();
-			Session session = new Session (this, sessionId);
+			Session session = new Session (this, sessionId, display);
 			m_sessions.add (session);
 			return session;
 		}
@@ -283,7 +284,7 @@ public class Globals
 
 	public void setupVariables (VariableManager variables)
 	{
-		variables.put ("globals", m_globalsVar);
+		variables.setVariable (m_globalsVar);
 	}
 
 	/**

@@ -21,12 +21,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.teradata.jaqy.connection.*;
+import javax.script.ScriptContext;
+
+import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyParameterMetaData;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
+import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.importer.FieldImporter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.Variable;
 import com.teradata.jaqy.parser.VariableParser;
 import com.teradata.jaqy.utils.DriverManagerUtils;
+import com.teradata.jaqy.utils.FixedVariable;
+import com.teradata.jaqy.utils.VariableContext;
 
 /**
  * @author Heng Yuan
@@ -37,13 +46,65 @@ public class Session
 	private final Globals m_globals;
 
 	private JaqyConnection m_connection;
+	private final VariableContext m_scriptContext = new VariableContext ();
+	private final VariableManager m_varManager;
 
+	private long m_activityCount;
 	private final Object m_lock = new Object ();
+	private final Variable m_sessionVar;
+	private final Variable m_activityCountVar;
 
-	Session (Globals globals, int sessionId)
+	Session (Globals globals, int sessionId, Display display)
 	{
 		m_globals = globals;
 		m_sessionId = sessionId;
+		m_varManager = new VariableManager (globals.getVariables ());
+
+		m_sessionVar = new FixedVariable ("session", this, "Current session object");
+
+		m_activityCountVar = new Variable ()
+		{
+			@Override
+			public Object get ()
+			{
+				return getActivityCount ();
+			}
+
+			@Override
+			public boolean set (Object value)
+			{
+				if (value instanceof Number)
+				{
+					setActivityCount (((Number) value).longValue ());
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public String getName ()
+			{
+				return "activityCount";
+			}
+
+			@Override
+			public String getDescription ()
+			{
+				return "The number of rows in the query result";
+			}
+		};
+
+		setupScriptEngine (display);
+	}
+
+	private void setupScriptEngine (Display display)
+	{
+		VariableManager varManager = m_varManager;
+		m_globals.setupVariables (varManager);
+		display.setupVariables (varManager);
+		varManager.setVariable (m_sessionVar);
+		varManager.setVariable (m_activityCountVar);
+		m_scriptContext.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
 	}
 
 	private void reset ()
@@ -159,7 +220,7 @@ public class Session
 				m_globals.getDebugManager ().dumpResultSet (display, this, rs);
 				display.showSuccess (interpreter);
 				long activityCount = interpreter.print (rs);
-				interpreter.setActivityCount (activityCount);
+				interpreter.getSession ().setActivityCount (activityCount);
 				if (activityCount >= 0)
 				{
 					display.showActivityCount (interpreter);
@@ -172,7 +233,7 @@ public class Session
 				long activityCount = stmt.getUpdateCount ();
 				if (activityCount >= 0)
 				{
-					interpreter.setActivityCount (activityCount);
+					interpreter.getSession ().setActivityCount (activityCount);
 					display.showSuccessUpdate (interpreter);
 				}
 				else
@@ -213,7 +274,7 @@ public class Session
 		assert Debug.debug ("importQuery: " + importer);
 		importer.showSchema (interpreter.getDisplay ());
 		FieldImporter fieldImporter = new FieldImporter (importer);
-		sql = VariableParser.getString (sql, interpreter.getVariableHandler (), fieldImporter);
+		sql = VariableParser.getString (sql, interpreter.getSession ().getVariableHandler (), fieldImporter);
 		assert Debug.debug ("field sql: " + sql);
 		if (fieldImporter.hasFields ())
 			importer = fieldImporter;
@@ -410,5 +471,36 @@ public class Session
 			buffer.append ("closed.");
 		}
 		return buffer.toString ();
+	}
+
+	/**
+	 * Sets the activity count.
+	 * 
+	 * @param activity
+	 *            count the activity count
+	 */
+	public void setActivityCount (long activityCount)
+	{
+		m_activityCount = activityCount;
+	}
+
+	/**
+	 * Gets the activity count.
+	 * 
+	 * @return the activity count
+	 */
+	public long getActivityCount ()
+	{
+		return m_activityCount;
+	}
+
+	public VariableContext getVariableHandler ()
+	{
+		return m_scriptContext;
+	}
+
+	public VariableManager getVariableManager ()
+	{
+		return m_varManager;
 	}
 }

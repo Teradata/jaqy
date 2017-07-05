@@ -18,23 +18,31 @@ package com.teradata.jaqy.interfaces;
 /**
  * @author	Heng Yuan
  */
-public interface VariableHook
+public interface Variable
 {
 	/**
 	 * Gets a variable value.
 	 *
-	 * @param	name
-	 *			the variable name.
 	 * @return	the value of the object.
 	 */
-	public Object get (String name);
+	public Object get ();
 	/**
 	 * Sets a variable value.
-	 * @param	name
-	 *			the variable name.
 	 * @param	value
 	 *			the variable value.
 	 * @return	true if the variable is set successfully.  false otherwise.
 	 */
-	public boolean set (String name, Object value);
+	public boolean set (Object value);
+	/**
+	 * Gets the name of the variable.
+	 *
+	 * @return	the name of the variable.
+	 */
+	public String getName ();
+	/**
+	 * Gets the variable description.
+	 *
+	 * @return	the variable description.
+	 */
+	public String getDescription ();
 }

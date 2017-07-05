@@ -56,7 +56,7 @@ public class SessionCommand extends JaqyCommandAdapter
 		else if ("new".equals (args[0]))
 		{
 			// create a new session and set the session number to it.
-			Session sess = globals.createSession ();
+			Session sess = globals.createSession (interpreter.getDisplay ());
 			interpreter.setSession (sess);
 		}
 		else

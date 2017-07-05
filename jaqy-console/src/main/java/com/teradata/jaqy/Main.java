@@ -39,6 +39,8 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 public class Main
 {
+	public static boolean skipStdin = false;
+
 	private final static String INTERNAL_INIT_RC = "initrc";
 	private final static String USER_INIT_RC = ".jqrc";
 	private final static String GREET_RC = "greet.txt";
@@ -146,14 +148,14 @@ public class Main
 			new ConsoleSignalHandler (display).register ();
 		}
 
+		// now create an initial session and set the session to it.
+		Session session = globals.createSession (display);
+
 		// create an interpreter
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, display);
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, display, session);
 		// sets the display's active interpreter.
 		display.setInterpreter (interpreter);
 
-
-		// now create an initial session and set the session to it.
-		Session session = globals.createSession ();
 
 		// initiate logging
 		Logging.init ();
@@ -198,8 +200,6 @@ public class Main
 		// reset the command counter so we get consistent result regardless
 		// of the initiation script
 		interpreter.resetCommandCount ();
-		// sets the interpreter's active session.
-		interpreter.setSession (session);
 
 		// setup the input
 		if (display.isInteractive ())
@@ -230,15 +230,18 @@ public class Main
 		}
 		else
 		{
-			String encoding = null;
-			if (System.in.available () == 0)
+			if (!skipStdin)
 			{
-				// If the input available bytes is 0, it is possible the input
-				// is not available.  So we do not want to guess the input
-				// encoding at all.  Instead, use the default.
-				encoding = Charset.defaultCharset ().displayName ();
+				String encoding = null;
+				if (System.in.available () == 0)
+				{
+					// If the input available bytes is 0, it is possible the input
+					// is not available.  So we do not want to guess the input
+					// encoding at all.  Instead, use the default.
+					encoding = Charset.defaultCharset ().displayName ();
+				}
+				interpreter.push (LineInputFactory.getLineInput (System.in, encoding, false));
 			}
-			interpreter.push (LineInputFactory.getLineInput (System.in, encoding, false));
 		}
 
 		// Interpret any remaining command line arguments first

@@ -15,12 +15,16 @@
  */
 package com.teradata.jaqy;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.script.Bindings;
 
-import com.teradata.jaqy.interfaces.VariableHook;
-import com.teradata.jaqy.utils.FixedVariableHook;
+import com.teradata.jaqy.interfaces.Variable;
+import com.teradata.jaqy.utils.FixedVariable;
+import com.teradata.jaqy.utils.SimpleVariable;
 
 /**
  * @author	Heng Yuan
@@ -32,8 +36,6 @@ public class VariableManager implements Bindings
 	private final Object m_lock = new Object ();
 	/** all the variables in the current scope, including exports. */
 	private final HashMap<String, Object> m_variables = new HashMap<String, Object> ();
-	/** exported variables */
-	private final HashSet<String> m_exports = new HashSet<String> ();
 
 	VariableManager (VariableManager parent)
 	{
@@ -41,7 +43,7 @@ public class VariableManager implements Bindings
 
 		if (parent != null)
 		{
-			setVariable ("parent", new FixedVariableHook (parent));
+			setVariable (new FixedVariable ("parent", parent, "Parent variables"));
 		}
 	}
 
@@ -50,22 +52,11 @@ public class VariableManager implements Bindings
 		return m_parent;
 	}
 
-	public void addVariableHook (String name, VariableHook hook)
+	public void setVariable (Variable var)
 	{
 		synchronized (m_lock)
 		{
-			m_variables.put (name, hook);
-		}
-	}
-
-	public void export (String name)
-	{
-		synchronized (m_lock)
-		{
-			if (m_variables.get (name) != null)
-			{
-				m_exports.add (name);
-			}
+			m_variables.put (var.getName (), var);
 		}
 	}
 
@@ -77,37 +68,43 @@ public class VariableManager implements Bindings
 			throw new IllegalArgumentException ("Empty variable name.");
 		}
 
-		Object hook;
+		if (value instanceof Variable)
+		{
+			setVariable ((Variable)value);
+			return null;
+		}
+
+		Variable var;
 		synchronized (m_lock)
 		{
-			hook = m_variables.get (name);
-			if (!(hook instanceof VariableHook))
+			var = (Variable)m_variables.get (name);
+			if (var == null)
 			{
-				return m_variables.put (name, value);
+				var = new SimpleVariable (name);
+				var.set (value);
+				m_variables.put (name, var);
+				return null;
 			}
 		}
-		if (!((VariableHook) hook).set (name, value))
+		Object old = var.get ();
+		if (!var.set (value))
 		{
 			throw new IllegalArgumentException ("Cannot set the variable: " + name);
 		}
-		return null;
+		return old;
 	}
 
-	public Object getVariable (String name)
+	public Variable getVariable (String name)
 	{
-		Object value;
 		synchronized (m_lock)
 		{
-			value = m_variables.get (name);
+			return (Variable)m_variables.get (name);
 		}
-		if (value instanceof VariableHook)
-			return ((VariableHook) value).get (name);
-		return value;
 	}
 
 	public String getVariableString (String name)
 	{
-		Object o = getVariable (name);
+		Object o = get (name);
 		if (o == null)
 			return "";
 		return o.toString ();
@@ -211,7 +208,14 @@ public class VariableManager implements Bindings
 	{
 		if (key instanceof String)
 		{
-			return getVariable ((String) key);
+			Variable var;
+			synchronized (m_lock)
+			{
+				var = (Variable)m_variables.get ((String)key);
+			}
+			if (var == null)
+				return null;
+			return var.get ();
 		}
 		return null;
 	}
@@ -223,7 +227,7 @@ public class VariableManager implements Bindings
 		{
 			synchronized (m_lock)
 			{
-				return m_variables.remove ((String) key);
+				return m_variables.remove (key);
 			}
 		}
 		return null;

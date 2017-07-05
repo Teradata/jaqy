@@ -21,7 +21,7 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.ErrorStateHandler;
 import com.teradata.jaqy.interfaces.StateHandler;
 import com.teradata.jaqy.utils.Escape;
-import com.teradata.jaqy.utils.FixedVariableHook;
+import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.SimpleStateHandlers;
 import com.teradata.jaqy.utils.TitleUtils;
 
@@ -29,8 +29,9 @@ public class ConsoleDisplay implements Display
 {
 	private final Globals m_globals;
 
-	private final FixedVariableHook m_displayVar = new FixedVariableHook (this);
+	private final FixedVariable m_displayVar = new FixedVariable ("display", this, "Display object");
 	private final Escape m_escape = new Escape (this);
+	private final FixedVariable m_escapeVar = new FixedVariable ("esc", m_escape, "Escape object");
 
 	private PrintWriter m_pw;
 	private Echo m_echo = Echo.auto;
@@ -247,10 +248,10 @@ public class ConsoleDisplay implements Display
 	}
 
 	@Override
-	public void setupVariables (VariableManager variables)
+	public void setupVariables (VariableManager varManager)
 	{
-		variables.put ("display", m_displayVar);
-		variables.put ("esc", getEscape());
+		varManager.setVariable (m_displayVar);
+		varManager.setVariable (m_escapeVar);
 	}
 
 	public String fill (String str)

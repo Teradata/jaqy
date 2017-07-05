@@ -48,19 +48,14 @@ public class JaqyInterpreter
 	private Session m_session;
 	private int m_sqlCount;
 	private int m_commandCount;
-	private long m_activityCount;
 
 	private ParseAction m_parseAction;
 	private Object m_parseActionValue;
 	private final Stack<String> m_actionStack = new Stack<String> ();
 
-	private final VariableContext m_scriptContext = new VariableContext ();
 	private final HashMap<String, ScriptEngine> m_engines = new HashMap<String, ScriptEngine> ();
 	private final ScriptEngine m_engine;
-	private final VariableManager m_variables;
-	private final VariableHook m_sessionVar;
-	private final VariableHook m_interpreterVar;
-	private final VariableHook m_activityCountVar;
+	private final Variable m_interpreterVar = new FixedVariable ("interpreter", this, "Interpreter object");
 
 	private final StackedLineInput m_input = new StackedLineInput ();
 
@@ -76,57 +71,15 @@ public class JaqyInterpreter
 	 */
 	private final StringBuffer m_verbatimBuffer = new StringBuffer ();
 
-	public JaqyInterpreter (Globals globals, Display display)
+	public JaqyInterpreter (Globals globals, Display display, Session initialSession)
 	{
 		m_globals = globals;
 		m_display = display;
+		m_session = initialSession;
 		m_commandManager = globals.getCommandManager ();
 		m_aliasManager = globals.getAliasManager ();
 
-		m_interpreterVar = new FixedVariableHook (this);
-		m_sessionVar = new VariableHook ()
-		{
-			@Override
-			public Object get (String name)
-			{
-				return m_session;
-			}
-
-			@Override
-			public boolean set (String name, Object value)
-			{
-				if (value instanceof Session)
-				{
-					m_session = (Session) value;
-					return true;
-				}
-				return false;
-			}
-
-		};
-		m_activityCountVar = new VariableHook ()
-		{
-			@Override
-			public Object get (String name)
-			{
-				return getActivityCount ();
-			}
-
-			@Override
-			public boolean set (String name, Object value)
-			{
-				if (value instanceof Number)
-				{
-					setActivityCount (((Number) value).longValue ());
-					return true;
-				}
-				return false;
-			}
-
-		};
-		m_variables = new VariableManager (globals.getVariables ());
-
-		setupScriptEngine (m_scriptContext, m_variables);
+		setupScriptEngine (m_session.getVariableManager ());
 		m_engine = getScriptEngine (DEFAULT_ENGINE, false);
 
 		try
@@ -482,27 +435,6 @@ public class JaqyInterpreter
 	}
 
 	/**
-	 * Sets the activity count.
-	 * 
-	 * @param activity
-	 *            count the activity count
-	 */
-	public void setActivityCount (long activityCount)
-	{
-		m_activityCount = activityCount;
-	}
-
-	/**
-	 * Gets the activity count.
-	 * 
-	 * @return the activity count
-	 */
-	public long getActivityCount ()
-	{
-		return m_activityCount;
-	}
-
-	/**
 	 * @return the active session
 	 */
 	public Session getSession ()
@@ -524,14 +456,9 @@ public class JaqyInterpreter
 		return m_engine;
 	}
 
-	private void setupScriptEngine (ScriptContext context, VariableManager variables)
+	private void setupScriptEngine (VariableManager varManager)
 	{
-		m_globals.setupVariables (variables);
-		m_display.setupVariables (variables);
-		variables.setVariable ("interpreter", m_interpreterVar);
-		variables.setVariable ("session", m_sessionVar);
-		variables.setVariable ("activityCount", m_activityCountVar);
-		context.setBindings (variables, ScriptContext.ENGINE_SCOPE);
+		varManager.setVariable (m_interpreterVar);
 	}
 
 	/**
@@ -562,23 +489,19 @@ public class JaqyInterpreter
 				if (temp)
 				{
 					context = new SimpleScriptContext ();
-					VariableManager variables = new VariableManager (m_variables.getParent ());
-					setupScriptEngine (context, variables);
+					VariableManager varManager = new VariableManager (m_session.getVariableManager ());
+					setupScriptEngine (varManager);
+					context.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
 				}
 				else
 				{
-					context = m_scriptContext;
+					context = m_session.getVariableHandler ();
 					m_engines.put (type, engine);
 				}
 				engine.setContext (context);
 			}
 			return engine;
 		}
-	}
-
-	public VariableHandler getVariableHandler ()
-	{
-		return m_scriptContext;
 	}
 
 	public Display getDisplay ()

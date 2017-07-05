@@ -15,29 +15,48 @@
  */
 package com.teradata.jaqy.utils;
 
-import com.teradata.jaqy.interfaces.VariableHook;
+import com.teradata.jaqy.interfaces.Variable;
 
 /**
  * @author	Heng Yuan
  */
-public class FixedVariableHook implements VariableHook
+public class SimpleVariable implements Variable
 {
-	private final Object m_obj;
+	private String m_name;
+	private Object m_obj;
+	private String m_description = "User defined variable";
 
-	public FixedVariableHook (Object obj)
+	public SimpleVariable (String name)
 	{
-		m_obj = obj;
+		m_name = name;
 	}
 
 	@Override
-	public Object get (String name)
+	public Object get ()
 	{
 		return m_obj;
 	}
 
 	@Override
-	public boolean set (String name, Object value)
+	public boolean set (Object value)
 	{
-		return false;
+		m_obj = value;
+		return true;
+	}
+
+	public String getName ()
+	{
+		return m_name;
+	}
+
+	@Override
+	public String getDescription ()
+	{
+		return m_description;
+	}
+
+	public void setDescription (String description)
+	{
+		m_description = description;
 	}
 }

@@ -59,7 +59,7 @@ public interface Display
 	 * @param	variables
 	 *			the variable manager.
 	 */
-	public void setupVariables (VariableManager variables);
+	public void setupVariables (VariableManager varManager);
 
 	/**
 	 * Checking if we are running in interactive mode or

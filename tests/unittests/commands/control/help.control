@@ -35,6 +35,7 @@ Teradata Jaqy Console 1.0
 	.run - runs a Jaqy script.
 	.script - runs a script.
 	.session - session related controls.
+	.var - displays variables
 	.version - displays version information
 -- 0/1 - 0 ----------------------------------------------------------------
 .help help
