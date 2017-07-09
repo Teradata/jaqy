@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 
 import com.teradata.jaqy.Echo;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
 
 /**
  * @author	Heng Yuan
@@ -52,14 +51,6 @@ public interface Display
 	public Echo getEcho ();
 
 	public void setEcho (Echo echo);
-
-	/**
-	 * Sets up the variables.
-	 *
-	 * @param	variables
-	 *			the variable manager.
-	 */
-	public void setupVariables (VariableManager varManager);
 
 	/**
 	 * Checking if we are running in interactive mode or

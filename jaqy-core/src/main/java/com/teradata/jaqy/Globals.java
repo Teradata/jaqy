@@ -66,7 +66,7 @@ public class Globals
 	private Object m_sessionLock = new Object ();
 	private final ArrayList<Session> m_sessions = new ArrayList<Session> ();
 
-	private final VariableManager m_variables = new VariableManager (null);
+	private final VariableManager m_varManager = new VariableManager (null);
 	private final Variable m_globalsVar = new FixedVariable ("globals", this, "Global objects");
 
 	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager = new JaqyHandlerFactoryManager<JaqyPrinter> ("com.teradata.jaqy.interfaces.JaqyPrinter");
@@ -78,6 +78,7 @@ public class Globals
 
 	Globals ()
 	{
+		m_varManager.setVariable (m_globalsVar);
 	}
 
 	public void printVersion (PrintWriter pw, String defaultName, String defaultVersion)
@@ -285,14 +286,9 @@ public class Globals
 	 * Gets the variable manager.
 	 * @return	the variable manager
 	 */
-	public VariableManager getVariables ()
+	public VariableManager getVarManager ()
 	{
-		return m_variables;
-	}
-
-	public void setupVariables (VariableManager variables)
-	{
-		variables.setVariable (m_globalsVar);
+		return m_varManager;
 	}
 
 	/**

@@ -58,7 +58,7 @@ public class Session
 	{
 		m_globals = globals;
 		m_sessionId = sessionId;
-		m_varManager = new VariableManager (globals.getVariables ());
+		m_varManager = new VariableManager (globals.getVarManager ());
 
 		m_sessionVar = new FixedVariable ("session", this, "Current session object");
 
@@ -100,8 +100,6 @@ public class Session
 	private void setupScriptEngine (Display display)
 	{
 		VariableManager varManager = m_varManager;
-		m_globals.setupVariables (varManager);
-		display.setupVariables (varManager);
 		varManager.setVariable (m_sessionVar);
 		varManager.setVariable (m_activityCountVar);
 		m_scriptContext.setBindings (varManager, ScriptContext.ENGINE_SCOPE);

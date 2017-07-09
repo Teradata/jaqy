@@ -67,6 +67,9 @@ public class ConsoleDisplay implements Display
 			m_echo = Echo.auto;
 			m_colorEnabled = true;
 		}
+		VariableManager varManager = globals.getVarManager ();
+		varManager.setVariable (m_displayVar);
+		varManager.setVariable (m_escapeVar);
 	}
 
 	@Override
@@ -245,13 +248,6 @@ public class ConsoleDisplay implements Display
 		{
 			m_interpreter = interpreter;
 		}
-	}
-
-	@Override
-	public void setupVariables (VariableManager varManager)
-	{
-		varManager.setVariable (m_displayVar);
-		varManager.setVariable (m_escapeVar);
 	}
 
 	public String fill (String str)
