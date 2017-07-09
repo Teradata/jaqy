@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.lineinput;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.teradata.jaqy.interfaces.LineInput;
@@ -27,9 +28,11 @@ import jline.console.ConsoleReader;
 public class JLineConsoleLineInput implements LineInput
 {
 	private ConsoleReader m_jline;
+	private final File m_dir;
 
-	public JLineConsoleLineInput () throws IOException
+	public JLineConsoleLineInput (File dir) throws IOException
 	{
+		m_dir = dir;
 		m_jline = new ConsoleReader ();
 		m_jline.setExpandEvents (false);
 	}
@@ -50,5 +53,11 @@ public class JLineConsoleLineInput implements LineInput
 	public boolean isInteractive ()
 	{
 		return true;
+	}
+
+	@Override
+	public File getDirectory ()
+	{
+		return m_dir;
 	}
 }

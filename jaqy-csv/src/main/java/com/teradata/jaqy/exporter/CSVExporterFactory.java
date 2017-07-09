@@ -24,6 +24,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.csv.CSVFormat;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
@@ -51,7 +52,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	}
 
 	@Override
-	public JaqyExporter getHandler (CommandLine cmdLine) throws Exception
+	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		Charset charset = DEFAULT_CHARSET;
 		CSVFormat format = CSVFormat.DEFAULT;
@@ -83,7 +84,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		Writer fw = new OutputStreamWriter (new FileOutputStream (args[0]), charset);
+		Writer fw = new OutputStreamWriter (new FileOutputStream (interpreter.getFile (args[0])), charset);
 		return new CSVExporter (format, fw);
 	}
 }

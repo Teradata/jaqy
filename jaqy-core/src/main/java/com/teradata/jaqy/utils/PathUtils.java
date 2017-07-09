@@ -112,4 +112,29 @@ public class PathUtils
 		}
 		return paths;
 	}
+
+	/**
+	 * Convert relative paths specified to absolute paths.
+	 *
+	 * @param	path
+	 * 			Path string.  There can be multiple paths separated by separate char.
+	 * @param	dir
+	 * 			The current working directory.
+	 * @return	the updated path.
+	 */
+	public static String toAbsolutePath (String path, File dir)
+	{
+		String[] paths = split (path);
+		char sep = File.separatorChar;
+		StringBuilder builder = new StringBuilder ();
+		for (String p : paths)
+		{
+			File f = new File (dir, p);
+			if (builder.length () > 0)
+				builder.append (sep);
+			String newPath = f.getAbsolutePath ();
+			builder.append (newPath);
+		}
+		return builder.toString ();
+	}
 }

@@ -16,6 +16,7 @@
 package com.teradata.jaqy.lineinput;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -27,11 +28,13 @@ import com.teradata.jaqy.interfaces.LineInput;
 public class ReaderLineInput implements LineInput
 {
 	private BufferedReader m_reader;
+	private final File m_dir;
 	private final boolean m_interactive;
 
-	public ReaderLineInput (Reader reader, boolean interactive) throws IOException
+	public ReaderLineInput (Reader reader, File dir, boolean interactive) throws IOException
 	{
 		m_reader = new BufferedReader (reader);
+		m_dir = dir;
 		m_interactive = interactive;
 	}
 
@@ -62,5 +65,11 @@ public class ReaderLineInput implements LineInput
 	public boolean isInteractive ()
 	{
 		return m_interactive;
+	}
+
+	@Override
+	public File getDirectory ()
+	{
+		return m_dir;
 	}
 }

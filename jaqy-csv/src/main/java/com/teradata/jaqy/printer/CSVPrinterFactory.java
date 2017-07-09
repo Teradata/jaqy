@@ -19,6 +19,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.csv.CSVFormat;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
@@ -43,7 +44,7 @@ public class CSVPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	}
 
 	@Override
-	public JaqyPrinter getHandler (CommandLine cmdLine) throws Exception
+	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		CSVFormat format = CSVFormat.DEFAULT;
 

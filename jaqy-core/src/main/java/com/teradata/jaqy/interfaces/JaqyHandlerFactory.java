@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.interfaces;
 
+import com.teradata.jaqy.JaqyInterpreter;
+
 /**
  * @author	Heng Yuan
  */
@@ -29,11 +31,13 @@ public interface JaqyHandlerFactory<E>
 	 * Gets the handler instance.
 	 * @param	args
 	 *			command line arguments
+	 * @param	interpreter
+	 * 			the interpreter instance
 	 * @return	the handler instance.
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public E getHandler (String[] args) throws Exception;
+	public E getHandler (String[] args, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Gets the help description.
 	 * @return	the help description.

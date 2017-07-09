@@ -23,6 +23,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHandlerFactory;
 
 /**
@@ -57,10 +58,10 @@ public abstract class JaqyHandlerFactoryImpl<E> implements JaqyHandlerFactory<E>
 	}
 
 	@Override
-	public E getHandler (String[] args) throws Exception
+	public E getHandler (String[] args, JaqyInterpreter interpreter) throws Exception
 	{
-		return getHandler (new DefaultParser ().parse (m_options, args));
+		return getHandler (new DefaultParser ().parse (m_options, args), interpreter);
 	}
 
-	abstract protected E getHandler (CommandLine cmdLine) throws Exception;
+	abstract protected E getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception;
 }

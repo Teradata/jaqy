@@ -22,6 +22,8 @@ import java.io.PrintStream;
  */
 public class Debug
 {
+	public static boolean enabled = true;
+
 	private final static PrintStream os = new PrintStream (System.out)
 	{
 		@Override
@@ -46,13 +48,15 @@ public class Debug
 
 	public static boolean debug (String msg)
 	{
-		os.println (msg);
+		if (enabled)
+			os.println (msg);
 		return true;
 	}
 
 	public static boolean debug (Throwable t)
 	{
-		t.printStackTrace (os);
+		if (enabled)
+			t.printStackTrace (os);
 		return true;
 	}
 }

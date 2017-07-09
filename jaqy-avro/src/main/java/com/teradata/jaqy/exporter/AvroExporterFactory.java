@@ -21,6 +21,7 @@ import org.apache.avro.file.CodecFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
@@ -41,7 +42,7 @@ public class AvroExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	}
 
 	@Override
-	public JaqyExporter getHandler (CommandLine cmdLine) throws Exception
+	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		CodecFactory codecFactory = null;
 		for (Option option : cmdLine.getOptions ())
@@ -60,7 +61,7 @@ public class AvroExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		FileOutputStream os = new FileOutputStream (args[0]);
+		FileOutputStream os = new FileOutputStream (interpreter.getFile (args[0]));
 
 		return new AvroExporter (os, codecFactory);
 	}

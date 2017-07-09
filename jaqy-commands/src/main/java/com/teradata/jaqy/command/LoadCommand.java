@@ -18,6 +18,7 @@ package com.teradata.jaqy.command;
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.utils.PathUtils;
 
 /**
  * @author	Heng Yuan
@@ -47,6 +48,8 @@ public class LoadCommand extends JaqyCommandAdapter
 	{
 		if (args.length != 1)
 			interpreter.errorParsingArgument ();
-		globals.loadPlugin (args[0], interpreter);
+		String path = args[0];
+		path = PathUtils.toAbsolutePath (path, interpreter.getDirectory ());
+		globals.loadPlugin (path, interpreter);
 	}
 }

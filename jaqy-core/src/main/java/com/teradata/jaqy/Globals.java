@@ -16,6 +16,7 @@
 package com.teradata.jaqy;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -73,6 +74,7 @@ public class Globals
 	private final JaqyHandlerFactoryManager<JaqyImporter<?>> m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter<?>> ("com.teradata.jaqy.interfaces.JaqyImporter");
 
 	private final String m_rc = "com.teradata.jaqy.interfaces.JaqyPlugin";
+	private final File m_dir = new File (".");
 
 	Globals ()
 	{
@@ -384,5 +386,10 @@ public class Globals
 			assert Debug.debug (t);
 			interpreter.error ("invalid classpath: " + path);
 		}
+	}
+
+	public File getDirectory ()
+	{
+		return m_dir;
 	}
 }

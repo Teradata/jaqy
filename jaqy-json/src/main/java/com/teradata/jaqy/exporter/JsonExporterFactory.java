@@ -21,6 +21,7 @@ import java.nio.charset.Charset;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
@@ -57,7 +58,7 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	}
 
 	@Override
-	public JaqyExporter getHandler (CommandLine cmdLine) throws Exception
+	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		Charset charset = DEFAULT_CHARSET;
 		boolean pretty = false;
@@ -109,7 +110,7 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		FileOutputStream os = new FileOutputStream (args[0]);
+		FileOutputStream os = new FileOutputStream (interpreter.getFile (args[0]));
 
 		// In case of BSON, we use the default handling of byte array since
 		// BSON supports it natively.

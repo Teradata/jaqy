@@ -30,24 +30,19 @@ import com.teradata.jaqy.utils.FileUtils;
  */
 public class LineInputFactory
 {
-	public static LineInput getSimpleLineInput (InputStream is, boolean interactive) throws IOException
+	public static LineInput getSimpleLineInput (InputStream is, File dir, boolean interactive) throws IOException
 	{
-		return new ReaderLineInput (new InputStreamReader (is), interactive);
-	}
-
-	public static LineInput getLineInput (String file, String encoding, boolean interactive) throws IOException
-	{
-		return getLineInput (new File (file), encoding, interactive);
+		return new ReaderLineInput (new InputStreamReader (is), dir, interactive);
 	}
 
 	public static LineInput getLineInput (File file, String encoding, boolean interactive) throws IOException
 	{
-		return getLineInput (new FileInputStream (file), encoding, interactive);
+		return getLineInput (new FileInputStream (file), file.getParentFile (), encoding, interactive);
 	}
 
-	public static LineInput getLineInput (InputStream is, String encoding, boolean interactive) throws IOException
+	public static LineInput getLineInput (InputStream is, File dir, String encoding, boolean interactive) throws IOException
 	{
 		Reader reader = FileUtils.getReader (is, encoding);
-		return new ReaderLineInput (reader, interactive);
+		return new ReaderLineInput (reader, dir, interactive);
 	}
 }

@@ -18,6 +18,7 @@ package com.teradata.jaqy.printer;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 import com.teradata.jaqy.utils.OptionsUtils;
@@ -47,7 +48,7 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	}
 
 	@Override
-	public JaqyPrinter getHandler (CommandLine cmdLine) throws Exception
+	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		boolean autoSize = DEFAULT_AUTO_SIZE;
 		int scanThreshold = DEFAULT_SCAN_THRESHOLD;

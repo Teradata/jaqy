@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.lineinput;
 
+import java.io.File;
 import java.util.LinkedList;
 
 import com.teradata.jaqy.interfaces.LineInput;
@@ -45,9 +46,11 @@ public class CommandLineInput implements LineInput
 	}
 
 	private final LinkedList<String> m_lines = new LinkedList<String> ();
+	private final File m_dir;
 
-	public CommandLineInput (String[] args)
+	public CommandLineInput (String[] args, File dir)
 	{
+		m_dir = dir;
 		StringComposer comp = new StringComposer ();
 
 		for (String arg : args)
@@ -77,5 +80,11 @@ public class CommandLineInput implements LineInput
 		if (m_lines.size () > 0)
 			return m_lines.removeFirst ();
 		return null;
+	}
+
+	@Override
+	public File getDirectory ()
+	{
+		return m_dir;
 	}
 }

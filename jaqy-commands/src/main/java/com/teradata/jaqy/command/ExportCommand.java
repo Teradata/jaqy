@@ -68,7 +68,7 @@ public class ExportCommand extends JaqyCommandAdapter
 		{
 			String name = args[0];
 			args = StringUtils.shiftArgs (args);
-			JaqyExporter exporter = globals.getExporterManager ().getHandler (name, args);
+			JaqyExporter exporter = globals.getExporterManager ().getHandler (name, args, interpreter);
 			if (exporter == null)
 			{
 				interpreter.error ("invalid format name: " + name);

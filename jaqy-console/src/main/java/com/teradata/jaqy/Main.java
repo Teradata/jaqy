@@ -70,7 +70,7 @@ public class Main
 		try
 		{
 			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
-			lineInput = new ReaderLineInput (reader, false);
+			lineInput = new ReaderLineInput (reader, new File ("."), false);
 			interpreter.push (lineInput);
 			interpreter.interpret (false);
 		}
@@ -201,6 +201,7 @@ public class Main
 		// of the initiation script
 		interpreter.resetCommandCount ();
 
+		// Current dir
 		// setup the input
 		if (display.isInteractive ())
 		{
@@ -211,20 +212,20 @@ public class Main
 				// Windows have its own readline-like support for
 				// all apps, so we can just use the default system
 				// behavior.
-				interpreter.push (LineInputFactory.getSimpleLineInput (System.in, true));
+				interpreter.push (LineInputFactory.getSimpleLineInput (System.in, globals.getDirectory (), true));
 			}
 			else
 			{
 				try
 				{
 					// we use JLine other systems.
-					interpreter.push (new JLineConsoleLineInput ());
+					interpreter.push (new JLineConsoleLineInput (globals.getDirectory ()));
 				}
 				catch (IOException ex)
 				{
 					// just in case we fail with JLine,
 					// fall back to default.
-					interpreter.push (LineInputFactory.getSimpleLineInput (System.in, true));
+					interpreter.push (LineInputFactory.getSimpleLineInput (System.in, globals.getDirectory (), true));
 				}
 			}
 		}
@@ -240,14 +241,14 @@ public class Main
 					// encoding at all.  Instead, use the default.
 					encoding = Charset.defaultCharset ().displayName ();
 				}
-				interpreter.push (LineInputFactory.getLineInput (System.in, encoding, false));
+				interpreter.push (LineInputFactory.getLineInput (System.in, globals.getDirectory (), encoding, false));
 			}
 		}
 
 		// Interpret any remaining command line arguments first
 		if (args.length > 0)
 		{
-			interpreter.push (new CommandLineInput (args));
+			interpreter.push (new CommandLineInput (args, globals.getDirectory ()));
 		}
 
 		// parse the user commands

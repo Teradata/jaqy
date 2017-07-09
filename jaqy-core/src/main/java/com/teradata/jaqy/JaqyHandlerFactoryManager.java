@@ -119,7 +119,7 @@ public class JaqyHandlerFactoryManager<E>
 		}
 	}
 
-	public E getHandler (String name, String[] args) throws Exception
+	public E getHandler (String name, String[] args, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyHandlerFactory<E> factory;
 		synchronized (m_lock)
@@ -128,7 +128,7 @@ public class JaqyHandlerFactoryManager<E>
 		}
 		if (factory == null)
 			return null;
-		return factory.getHandler (args);
+		return factory.getHandler (args, interpreter);
 	}
 
 	public String[] getNames ()

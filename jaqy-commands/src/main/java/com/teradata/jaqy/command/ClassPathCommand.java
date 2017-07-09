@@ -16,6 +16,7 @@
 package com.teradata.jaqy.command;
 
 import com.teradata.jaqy.*;
+import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.PropertyTableUtils;
 
 /**
@@ -56,6 +57,9 @@ public class ClassPathCommand extends JaqyCommandAdapter
 			interpreter.error ("invalid command arguments.");
 			return;
 		}
-		driverManager.addDriverLocation (args[0], args[1]);
+		String protocol = args[0];
+		String path = args[1];
+		path = PathUtils.toAbsolutePath (path, interpreter.getDirectory ());
+		driverManager.addDriverLocation (protocol, path);
 	}
 }

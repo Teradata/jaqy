@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy;
 
+import java.io.File;
 import java.io.StringReader;
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -84,7 +85,7 @@ public class JaqyInterpreter
 
 		try
 		{
-			m_printer = globals.getPrinterManager ().getHandler ("table", new String[0]);
+			m_printer = globals.getPrinterManager ().getHandler ("table", new String[0], this);
 			assert m_printer != null;
 		}
 		catch (Exception ex)
@@ -271,7 +272,7 @@ public class JaqyInterpreter
 			alias = AliasManager.replaceArgs (alias, args);
 			try
 			{
-				push (new ReaderLineInput (new StringReader (alias), false));
+				push (new ReaderLineInput (new StringReader (alias), getDirectory (), false));
 				interpret (false);
 			}
 			catch (Throwable t)
@@ -655,5 +656,15 @@ public class JaqyInterpreter
 	public void setQueryMode (QueryMode queryMode)
 	{
 		m_queryMode = queryMode;
+	}
+
+	public File getDirectory ()
+	{
+		return m_input.getDirectory ();
+	}
+
+	public File getFile (String name)
+	{
+		return new File (getDirectory (), name);
 	}
 }

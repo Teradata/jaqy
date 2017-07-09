@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.interfaces;
 
+import java.io.File;
+
 /**
  * @author	Heng Yuan
  */
@@ -35,4 +37,11 @@ public interface LineInput
 	 * @return	a line from input.
 	 */
 	public String getLine ();
+
+	/**
+	 * Get the directory of the input.
+	 * 
+	 * @return	the directory of the input.
+	 */
+	public File getDirectory ();
 }

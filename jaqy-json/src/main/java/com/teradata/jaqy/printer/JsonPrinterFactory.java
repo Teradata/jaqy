@@ -18,6 +18,7 @@ package com.teradata.jaqy.printer;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
@@ -46,7 +47,7 @@ public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	}
 
 	@Override
-	public JaqyPrinter getHandler (CommandLine cmdLine) throws Exception
+	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		boolean pretty = true;
 		JsonBinaryFormat binaryFormat = DEFAULT_BINARY_FORMAT;

@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.lineinput;
 
+import java.io.File;
 import java.util.Stack;
 
 import com.teradata.jaqy.interfaces.LineInput;
@@ -100,5 +101,14 @@ public class StackedLineInput implements LineInput
 		if (input == null)
 			return false;
 		return input.isInteractive ();
+	}
+
+	@Override
+	public File getDirectory ()
+	{
+		LineInput input = getInput ();
+		if (input == null)
+			return new File (".");
+		return input.getDirectory ();
 	}
 }

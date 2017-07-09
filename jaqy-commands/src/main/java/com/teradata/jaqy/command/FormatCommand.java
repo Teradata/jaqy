@@ -68,7 +68,7 @@ public class FormatCommand extends JaqyCommandAdapter
 		{
 			String name = args[0];
 			args = StringUtils.shiftArgs (args);
-			JaqyPrinter printer = globals.getPrinterManager ().getHandler (name, args);
+			JaqyPrinter printer = globals.getPrinterManager ().getHandler (name, args, interpreter);
 			if (printer == null)
 			{
 				interpreter.error ("invalid format name: " + name);

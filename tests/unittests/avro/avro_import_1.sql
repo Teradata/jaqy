@@ -2,7 +2,6 @@
 -- .import json command test
 --------------------------------------------------------------------------
 .run ../common/derby_setup.sql
-.load /vagrant/jaqy-avro/target/jaqy-avro-1.0.jar
 
 .open derby:memory:myDB;create=true
 .format csv

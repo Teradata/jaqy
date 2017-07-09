@@ -19,6 +19,7 @@ import java.io.File;
 
 import org.apache.commons.cli.CommandLine;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
@@ -37,12 +38,12 @@ public class AvroImporterFactory extends JaqyHandlerFactoryImpl<AvroImporter>
 	}
 
 	@Override
-	public AvroImporter getHandler (CommandLine cmdLine) throws Exception
+	public AvroImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		File file = new File (args[0]);
+		File file = interpreter.getFile (args[0]);
 
 		return new AvroImporter (file);
 	}

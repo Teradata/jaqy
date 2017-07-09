@@ -84,7 +84,7 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 			assert Debug.debug ("running if statement");
 			assert Debug.debug (action);
 			assert Debug.debug ("end if statement");
-			interpreter.interpret (new ReaderLineInput (new StringReader (action), false), false);
+			interpreter.interpret (new ReaderLineInput (new StringReader (action), globals.getDirectory (), false), false);
 			display.echo (interpreter, ".end " + getName (), false);
 		}
 		else

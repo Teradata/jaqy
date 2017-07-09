@@ -22,13 +22,17 @@ jq="java -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.0.jar"
 
 function run ()
 {
+	INIT=
+	if [ -f initrc ]; then
+		INIT="--rcfile initrc"
+	fi
 	FILE=$1
 	BASE=${FILE%.sql}
 	CONTROL="${CONTROLDIR}/${BASE}.control"
 	OUTPUT="${OUTPUTDIR}/${BASE}.txt"
 	ERROR="${OUTPUTDIR}/${BASE}.diff"
-	echo "$jq < ${FILE} > ${OUTPUT}"
-	$jq < ${FILE} > ${OUTPUT}
+	echo "$jq $INIT < ${FILE} > ${OUTPUT}"
+	$jq $INIT < ${FILE} > ${OUTPUT}
 	if [ -f "$CONTROL" ]; then
 		diff "$CONTROL" "$OUTPUT" > $ERROR 2>/dev/null
 		if [ $? -eq 0 ]; then
