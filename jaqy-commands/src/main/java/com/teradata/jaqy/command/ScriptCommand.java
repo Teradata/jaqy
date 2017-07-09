@@ -75,7 +75,7 @@ public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		ScriptOptions scriptOptions = new ScriptOptions ();
 		scriptOptions.lang = DEFAULT_LANG;

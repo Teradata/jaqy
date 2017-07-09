@@ -122,8 +122,8 @@ public class JaqyInterpreter
 				if (line.startsWith ("."))
 				{
 					buffer.setLength (0);
-					executeCommand (line, interactive);
-					if (!isVerbatim ())
+					boolean silent = executeCommand (line, interactive);
+					if (!isVerbatim () && !silent)
 						display.showPrompt (this);
 					continue;
 				}
@@ -192,7 +192,7 @@ public class JaqyInterpreter
 		}
 	}
 
-	private void executeCommand (String cmdLine, boolean interactive)
+	private boolean executeCommand (String cmdLine, boolean interactive)
 	{
 		Display display = m_display;
 		int space = cmdLine.indexOf (' ');
@@ -215,6 +215,12 @@ public class JaqyInterpreter
 			arguments = cmdLine.substring (index + 1);
 		else
 			arguments = "";
+		boolean silent = false;
+		if (cmd.startsWith ("@"))
+		{
+			cmd = cmd.substring (1);
+			silent = true;
+		}
 
 		if (isVerbatim ())
 		{
@@ -251,12 +257,14 @@ public class JaqyInterpreter
 					break;
 				}
 			}
-			return;
+			return silent;
 		}
 
-		incCommandCount ();
-
-		display.echo (this, cmdLine, interactive);
+		if (!silent)
+		{
+			incCommandCount ();
+			display.echo (this, cmdLine, interactive);
+		}
 
 		String alias = m_aliasManager.getAlias (cmd);
 		if (alias != null)
@@ -278,15 +286,16 @@ public class JaqyInterpreter
 			catch (Throwable t)
 			{
 				display.error (this, t);
+				silent = false;
 			}
-			return;
+			return silent;
 		}
 
 		JaqyCommand call = m_commandManager.getCommand (cmd);
 		if (call == null)
 		{
 			display.error (this, "unknown command: " + cmd);
-			return;
+			return false;
 		}
 
 		try
@@ -314,12 +323,14 @@ public class JaqyInterpreter
 			}
 			if (args == null)
 				display.errorParsingArgument (this);
-			call.execute (args, m_globals, this);
+			call.execute (args, silent, m_globals, this);
 		}
 		catch (Throwable t)
 		{
 			display.error (this, t);
+			silent = false;
 		}
+		return silent;
 	}
 
 	/**

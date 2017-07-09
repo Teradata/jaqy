@@ -39,7 +39,7 @@ abstract class OnOffCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (args.length == 0)
 		{

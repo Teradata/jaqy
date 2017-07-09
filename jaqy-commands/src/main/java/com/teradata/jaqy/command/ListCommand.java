@@ -49,7 +49,7 @@ public class ListCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (!SessionUtils.checkOpen (interpreter))
 			return;

@@ -47,7 +47,7 @@ public class EchoCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
 		Display display = interpreter.getDisplay ();
 		if (args.length == 0)

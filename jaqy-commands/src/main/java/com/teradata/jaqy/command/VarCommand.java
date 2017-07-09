@@ -28,7 +28,7 @@ import com.teradata.jaqy.interfaces.Variable;
 public class VarCommand extends JaqyCommandAdapter
 {
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		Session session = interpreter.getSession ();
 		for (Map.Entry<String, Object> entry: session.getVariableManager ().entrySet ())

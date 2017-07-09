@@ -46,7 +46,7 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		ScriptEngine engine = interpreter.getScriptEngine ();
 		Boolean b = null;

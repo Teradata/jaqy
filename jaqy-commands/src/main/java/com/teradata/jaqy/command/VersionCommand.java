@@ -24,9 +24,9 @@ import com.teradata.jaqy.JaqyInterpreter;
 public class VersionCommand extends JaqyCommandAdapter
 {
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
-		globals.printVersion (interpreter.getDisplay ().getPrintWriter ());
+		globals.printVersion (interpreter.getDisplay ().getPrintWriter (), null, null);
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class DriverCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		listDrivers (interpreter);
 	}

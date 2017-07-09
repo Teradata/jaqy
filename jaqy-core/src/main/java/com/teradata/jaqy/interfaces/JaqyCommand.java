@@ -64,6 +64,7 @@ public interface JaqyCommand
 	 * Executes a command.
 	 * @param	args
 	 *			the command arguments.
+	 * @param silent TODO
 	 * @param	globals
 	 *			Global states.
 	 * @param	interpreter
@@ -71,7 +72,7 @@ public interface JaqyCommand
 	 * @throws	Exception
 	 *			in case of error.
 	 */
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter) throws Exception;
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception;
 
 	/**
 	 * Gets the command type.

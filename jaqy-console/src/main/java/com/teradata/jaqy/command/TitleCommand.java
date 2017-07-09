@@ -36,7 +36,7 @@ public class TitleCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		String argument = args[0];
 		if (argument.trim ().length () == 0)

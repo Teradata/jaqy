@@ -32,7 +32,7 @@ public class PwdCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		if (!SessionUtils.checkOpen (interpreter))
 			return;

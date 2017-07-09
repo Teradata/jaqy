@@ -80,9 +80,15 @@ public class Globals
 	{
 	}
 
-	public void printVersion (PrintWriter pw)
+	public void printVersion (PrintWriter pw, String defaultName, String defaultVersion)
 	{
-		pw.println (getName () + " " + getVersion ());
+		String name = getName ();
+		String version = getVersion ();
+		if (name == null)
+			name = defaultName;
+		if (version == null)
+			version = defaultVersion;
+		pw.println (name + " " + version);
 	}
 
 	public void addOption (JaqyOption option)

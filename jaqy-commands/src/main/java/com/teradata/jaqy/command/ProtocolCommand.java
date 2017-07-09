@@ -42,7 +42,7 @@ public class ProtocolCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		JaqyDriverManager driverManager = globals.getDriverManager ();
 		if (args.length == 0)

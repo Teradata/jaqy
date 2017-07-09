@@ -54,7 +54,7 @@ public class RunCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		CommandLine cmdLine = getCommandLine (args);
 
@@ -75,7 +75,8 @@ public class RunCommand extends JaqyCommandAdapter
 			interpreter.error ("invalid file: " + args[0]);
 			return;
 		}
-		interpreter.println ("-- Running script: " + args[0]);
+		if (!silent)
+			interpreter.println ("-- Running script: " + args[0]);
 		interpreter.push (input);
 	}
 }

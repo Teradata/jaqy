@@ -70,7 +70,8 @@ public class Main
 		try
 		{
 			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
-			lineInput = new ReaderLineInput (reader, new File ("."), false);
+			File startDir = new File (System.getProperty ("user.dir"));
+			lineInput = new ReaderLineInput (reader, startDir, false);
 			interpreter.push (lineInput);
 			interpreter.interpret (false);
 		}
@@ -98,7 +99,7 @@ public class Main
 	private static void initScreen (Globals globals, Display display)
 	{
 		// print version
-		globals.printVersion (display.getPrintWriter ());
+		globals.printVersion (display.getPrintWriter (), "Teradata Jaqy Console", "1.0");
 
 		if (display.isInteractive ())
 		{
