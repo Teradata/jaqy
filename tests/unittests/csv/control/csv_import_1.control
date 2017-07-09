@@ -50,39 +50,80 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 -- 1/9 - 0 ----------------------------------------------------------------
 
 -- test csv with header
-.import csv -h on lib\import1.csv
--- error: lib\import1.csv (No such file or directory)
+.import csv -h on lib/import1.csv
 -- 1/10 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
--- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+{a=0, b=1}
+Parameter Count                              2
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
 -- 2/10 - 0 ---------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
 A B
 - -
--- activity count = 0
+1 1
+2 2
+3 3
+4 4
+-- activity count = 4
 -- 3/10 - 0 ---------------------------------------------------------------
 DELETE FROM MyTable;
--- success. update count = 0
+-- success. update count = 4
 -- 4/10 - 0 ---------------------------------------------------------------
 
 -- test csv with header
-.import csv -h off lib\import2.csv
--- error: lib\import2.csv (No such file or directory)
+.import csv -h off lib/import2.csv
 -- 4/11 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
--- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+Parameter Count                              2
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
 -- 5/11 - 0 ---------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
 A B
 - -
--- activity count = 0
+1 1
+2 2
+3 3
+4 4
+-- activity count = 4
 -- 6/11 - 0 ---------------------------------------------------------------
 DELETE FROM MyTable;
--- success. update count = 0
+-- success. update count = 4
 -- 7/11 - 0 ---------------------------------------------------------------
 
 DROP TABLE MyTable;
@@ -94,29 +135,66 @@ CREATE TABLE MyTable(a INTEGER, b INTEGER);
 -- success. update count = 0
 -- 9/11 - 0 ---------------------------------------------------------------
 -- test csv with header
-.import csv -h on lib\import1.csv
--- error: lib\import1.csv (No such file or directory)
+.import csv -h on lib/import1.csv
 -- 9/12 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
--- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+{a=0, b=1}
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- success. update count = 1
 -- 10/12 - 0 --------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
           A           B
 ----------- -----------
--- activity count = 0
+          1           1
+          2           2
+          3           3
+          4           4
+-- activity count = 4
 -- 11/12 - 0 --------------------------------------------------------------
 DELETE FROM MyTable;
--- success. update count = 0
+-- success. update count = 4
 -- 12/12 - 0 --------------------------------------------------------------
 
 -- test csv forgetting to skip header
-.import csv -h off lib\import1.csv
--- error: lib\import1.csv (No such file or directory)
+.import csv -h off lib/import1.csv
 -- 12/13 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
--- failure 30000: [07000] At least one parameter to the current statement is uninitialized.
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- failure 20000: [22018] Invalid character string format for type INTEGER.
 -- 13/13 - 0 --------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
