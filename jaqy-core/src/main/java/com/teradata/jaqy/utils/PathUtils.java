@@ -16,6 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -125,14 +126,24 @@ public class PathUtils
 	public static String toAbsolutePath (String path, File dir)
 	{
 		String[] paths = split (path);
-		char sep = File.separatorChar;
+		char sep = File.pathSeparatorChar;
 		StringBuilder builder = new StringBuilder ();
 		for (String p : paths)
 		{
 			File f = new File (dir, p);
 			if (builder.length () > 0)
 				builder.append (sep);
-			String newPath = f.getAbsolutePath ();
+			String newPath;
+			try
+			{
+				newPath = f.getCanonicalPath ();
+			}
+			catch (IOException ex)
+			{
+				// On windows, if path is absolute, we it will not canonize with dir specified.
+				// So we will juse use path as is.
+				newPath = p;
+			}
 			builder.append (newPath);
 		}
 		return builder.toString ();

@@ -33,6 +33,7 @@ public class TypePrinterRegistry
 		s_typePrinterMap.put (Types.NCHAR, StringTypePrinter.getInstance ());
 		s_typePrinterMap.put (Types.NVARCHAR, StringTypePrinter.getInstance ());
 		s_typePrinterMap.put (Types.LONGNVARCHAR, StringTypePrinter.getInstance ());
+		s_typePrinterMap.put (Types.CLOB, ClobTypePrinter.getInstance ());
 
 		s_typePrinterMap.put (Types.BINARY, BinaryTypePrinter.getInstance ());
 		s_typePrinterMap.put (Types.VARBINARY, BinaryTypePrinter.getInstance ());
