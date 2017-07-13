@@ -39,6 +39,8 @@ public class TypePrinterRegistry
 		s_typePrinterMap.put (Types.VARBINARY, BinaryTypePrinter.getInstance ());
 		s_typePrinterMap.put (Types.LONGVARBINARY, BinaryTypePrinter.getInstance ());
 		s_typePrinterMap.put (Types.BLOB, BinaryTypePrinter.getInstance ());
+
+		s_typePrinterMap.put (Types.SQLXML, XmlTypePrinter.getInstance ());
 	}
 
 	public static TypePrinter getTypePrinter (int type)
