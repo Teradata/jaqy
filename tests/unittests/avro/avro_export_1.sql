@@ -29,3 +29,6 @@ SELECT * FROM MyTable ORDER BY a;
 SELECT * FROM MyTable ORDER BY a;
 .export avro -c unknown file6.avro
 SELECT * FROM MyTable ORDER BY a;
+
+.os rm -f file?.avro
+
