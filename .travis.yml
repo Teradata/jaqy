@@ -1,0 +1,11 @@
+language: java
+sudo: false
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+script: mvn site
+install: mvn install -DskipTests -Dgpg.skip
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
