@@ -98,20 +98,25 @@ public class OpenCommand extends JaqyCommandAdapter
 		}
 		Properties prop = new Properties ();
 		cmdLine.getOptions ();
+		boolean hasUser = false;
+		boolean hasPassword = false;
 		for (Option option : cmdLine.getOptions ())
 		{
 			if ("p".equals (option.getOpt ()))
 			{
 				prop.setProperty ("password", option.getValue ());
+				hasPassword = true;
 			}
 			else if ("f".equals (option.getOpt ()))
 			{
 				String password = display.getPassword (interpreter, "Password: ");
 				prop.setProperty ("password", password);
+				hasPassword = true;
 			}
 			else if ("u".equals (option.getOpt ()))
 			{
 				prop.setProperty ("user", option.getValue ());
+				hasUser = true;
 			}
 			else if ("D".equals (option.getOpt ()))
 			{
@@ -119,6 +124,12 @@ public class OpenCommand extends JaqyCommandAdapter
 				String value = option.getValue (1);
 				prop.setProperty (key, value);
 			}
+		}
+
+		if (hasUser && !hasPassword)
+		{
+			// use a blank password if the user is specified and password is not.
+			prop.setProperty ("password", "");
 		}
 		session.open (args[0], prop, interpreter, display);
 	}

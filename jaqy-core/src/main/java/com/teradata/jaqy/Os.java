@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy;
 
+import java.io.File;
+
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
@@ -34,7 +36,7 @@ public class Os
 		m_windows = m_os.indexOf ("Win") >= 0 || m_os.indexOf ("win") >= 0;
 	}
 
-	public void shell (String cmd) throws Exception
+	public void shell (File dir, String cmd) throws Exception
 	{
 		CommandLine commandLine;
 		if (m_windows)
@@ -50,6 +52,7 @@ public class Os
 			commandLine.addArgument (cmd, false);
 		}
 		Executor executor = new DefaultExecutor ();
+		executor.setWorkingDirectory (dir);
 		executor.setStreamHandler (new PumpStreamHandler (System.out, System.out));
 		executor.execute(commandLine);
 	}

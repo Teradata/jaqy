@@ -16,6 +16,7 @@
 package com.teradata.jaqy.command;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -31,10 +32,16 @@ public class VarCommand extends JaqyCommandAdapter
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		Session session = interpreter.getSession ();
+		TreeMap<String, String> varMap = new TreeMap<String, String> ();
 		for (Map.Entry<String, Object> entry: session.getVariableManager ().entrySet ())
 		{
 			Variable var = (Variable) entry.getValue ();
-			System.out.printf ("%-30s%s\n", var.getName (), var.getDescription ());
+			varMap.put (var.getName (), var.getDescription ());
+		}
+
+		for (Map.Entry<String, String> entry: varMap.entrySet ())
+		{
+			System.out.printf ("%-30s%s\n", entry.getKey (), entry.getValue ());
 		}
 	}
 

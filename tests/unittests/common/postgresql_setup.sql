@@ -1,2 +1,2 @@
-.classpath postgresql ../drivers/postgresql-9.4.1207.jar
-.open -u postgres -p postgres postgresql://localhost/
+.@classpath postgresql ../drivers/postgresql-42.1.1.jar
+.open -u postgres postgresql://localhost/

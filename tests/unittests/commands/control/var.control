@@ -6,35 +6,25 @@ Teradata Jaqy Console 1.0
 .run ../common/sqlite_setup.sql
 -- Running script: ../common/sqlite_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.echo off
--- 0/2 - 0 ----------------------------------------------------------------
--- 0/3 - 0 ----------------------------------------------------------------
--- 0/4 - 0 ----------------------------------------------------------------
 .help var
 No detailed help information.
--- 0/5 - 0 ----------------------------------------------------------------
+-- 0/2 - 0 ----------------------------------------------------------------
 .var
 activityCount                 The number of rows in the query result
-parent                        Parent variables
-esc                           Escape object
-session                       Current session object
-globals                       Global objects
-display                       Display object
 interpreter                   Interpreter object
--- 0/6 - 0 ----------------------------------------------------------------
+parent                        Parent variables
+session                       Current session object
+-- 0/3 - 0 ----------------------------------------------------------------
 
 .format csv
--- 0/7 - 0 ----------------------------------------------------------------
+-- 0/4 - 0 ----------------------------------------------------------------
 .open sqlite::memory:
--- 0/8 - 0 ----------------------------------------------------------------
+-- 0/5 - 0 ----------------------------------------------------------------
 
 .var
 activityCount                 The number of rows in the query result
-parent                        Parent variables
-esc                           Escape object
-session                       Current session object
-globals                       Global objects
-display                       Display object
 interpreter                   Interpreter object
--- 0/9 - 0 ----------------------------------------------------------------
+parent                        Parent variables
+session                       Current session object
+-- 0/6 - 0 ----------------------------------------------------------------
 

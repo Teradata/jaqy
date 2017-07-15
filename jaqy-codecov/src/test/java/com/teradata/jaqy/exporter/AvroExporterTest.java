@@ -1,4 +1,4 @@
-package com.teradata.jaqy.importer;
+package com.teradata.jaqy.exporter;
 
 import org.junit.Rule;
 import org.junit.Test;
