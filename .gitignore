@@ -9,4 +9,3 @@ dependency-reduced-pom.xml
 *.iml
 /.idea
 /dist
-/tests/unittests/derby/derby.log

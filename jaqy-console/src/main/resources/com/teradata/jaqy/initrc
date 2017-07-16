@@ -5,6 +5,6 @@
 .protocol sqlserver com.microsoft.sqlserver.jdbc.SQLServerDriver
 .protocol teradata com.teradata.jdbc.TeraDriver
 .alias quit
-.exit
+.@exit
 .end alias
 -- .prompt display.interactive ? (esc.color("green",null,1) + "-- " + session.id + ": " + session.sqlCount + "/" + session.commandCount + ": [ " + session.path + " ] --" + esc.reset () + "\n") : (display.fill ("-- " + session.id + ": " + session.sqlCount + "/" + session.commandCount + " ") + "\n")

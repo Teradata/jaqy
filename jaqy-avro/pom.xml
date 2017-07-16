@@ -47,14 +47,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<version>10.13.1.1</version>
+			<groupId>com.teradata.jaqy</groupId>
+			<artifactId>jaqy-console</artifactId>
+			<version>1.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
-			<artifactId>jaqy-console</artifactId>
+			<artifactId>jaqy-codecov</artifactId>
 			<version>1.0</version>
 			<scope>test</scope>
 		</dependency>

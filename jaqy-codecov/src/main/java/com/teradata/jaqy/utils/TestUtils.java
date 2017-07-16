@@ -28,7 +28,9 @@ public class TestUtils
 
 	public static void fileCompare (File f1, File f2) throws IOException
 	{
-		Assert.assertEquals (f1.length (), f2.length ());
+		boolean diff = (f1.length () != f2.length ());
+		if (diff)
+			System.exit (1);
 
 		String s1 = readFile (f1);
 		String s2 = readFile (f2);

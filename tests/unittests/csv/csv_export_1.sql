@@ -28,3 +28,7 @@ SELECT * FROM MyTable ORDER BY a;
 .os cat file3.csv
 
 SELECT * FROM MyTable ORDER BY a;
+
+.close
+.os rm -f file?.csv
+

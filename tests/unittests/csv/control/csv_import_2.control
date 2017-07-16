@@ -33,7 +33,7 @@ json type options:
 .import table
 -- 0/3 - 0 ----------------------------------------------------------------
 
-.open derby:memory:myDB;create=true
+.open derby:memory:csvDB;create=true
 -- 0/4 - 0 ----------------------------------------------------------------
 
 -- VARCHAR type
@@ -195,3 +195,7 @@ DELETE FROM MyTable;
 DROP TABLE MyTable;
 -- success. update count = 0
 -- 16/9 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 16/10 - 0 --------------------------------------------------------------
+

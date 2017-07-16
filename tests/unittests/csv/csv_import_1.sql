@@ -5,7 +5,7 @@
 .help import
 .import
 
-.open derby:memory:myDB;create=true
+.open derby:memory:csvDB;create=true
 
 -- VARCHAR type
 CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
@@ -43,3 +43,8 @@ INSERT INTO MyTable VALUES (?, ?);
 
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
+
+DROP TABLE MyTable;
+
+.close
+
