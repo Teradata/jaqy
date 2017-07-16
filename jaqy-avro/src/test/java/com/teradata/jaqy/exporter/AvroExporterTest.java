@@ -12,7 +12,7 @@ public class AvroExporterTest
 	public TemporaryFolder testFolder = new TemporaryFolder ();
 
 	@Test
-	public void testExport1 () throws Exception
+	public void test1 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/avro_export_1.sql", "../tests/unittests/avro/control/avro_export_1.control");
 	}

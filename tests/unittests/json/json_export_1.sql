@@ -28,3 +28,9 @@ SELECT * FROM MyTable ORDER BY a;
 
 .export json -f bson file4.bson
 SELECT * FROM MyTable ORDER BY a;
+
+DROP TABLE MyTable;
+.close
+
+.os rm -f file?.json file?.bson
+

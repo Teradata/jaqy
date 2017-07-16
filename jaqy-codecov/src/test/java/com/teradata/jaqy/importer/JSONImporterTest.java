@@ -6,7 +6,7 @@ import org.junit.rules.TemporaryFolder;
 
 import com.teradata.jaqy.utils.TestUtils;
 
-public class AvroImporterTest
+public class JSONImporterTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -14,6 +14,6 @@ public class AvroImporterTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/avro_import_1.sql", "../tests/unittests/avro/control/avro_import_1.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_1.sql", "../tests/unittests/json/control/json_import_1.control");
 	}
 }

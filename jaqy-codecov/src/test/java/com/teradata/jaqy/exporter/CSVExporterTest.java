@@ -6,13 +6,13 @@ import org.junit.rules.TemporaryFolder;
 
 import com.teradata.jaqy.utils.TestUtils;
 
-public class CsvExporterTest
+public class CSVExporterTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
 
 	@Test
-	public void testImport1 () throws Exception
+	public void test1 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_export_1.sql", "../tests/unittests/csv/control/csv_export_1.control");
 	}
