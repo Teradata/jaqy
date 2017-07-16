@@ -15,8 +15,10 @@
  */
 package com.teradata.jaqy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -56,7 +58,16 @@ public class VariableManager implements Bindings
 	{
 		synchronized (m_lock)
 		{
-			m_variables.put (var.getName (), var);
+			String name = var.getName ();
+			if (m_parent != null &&
+				m_parent.containsKey (name))
+			{
+				m_parent.setVariable (var);
+			}
+			else
+			{
+				m_variables.put (name, var);
+			}
 		}
 	}
 
@@ -72,6 +83,12 @@ public class VariableManager implements Bindings
 		{
 			setVariable ((Variable)value);
 			return null;
+		}
+
+		if (m_parent != null &&
+			m_parent.containsKey (name))
+		{
+			return m_parent.setVariable (name, value);
 		}
 
 		Variable var;
@@ -98,7 +115,12 @@ public class VariableManager implements Bindings
 	{
 		synchronized (m_lock)
 		{
-			return (Variable)m_variables.get (name);
+			Variable var = (Variable)m_variables.get (name);
+			if (var != null)
+				return var;
+			if (m_parent != null)
+				return m_parent.getVariable (name);
+			return null;
 		}
 	}
 
@@ -115,7 +137,10 @@ public class VariableManager implements Bindings
 	{
 		synchronized (m_lock)
 		{
-			return m_variables.size ();
+			int s = m_variables.size ();
+			if (m_parent != null)
+				s += m_parent.size ();
+			return s;
 		}
 	}
 
@@ -124,7 +149,12 @@ public class VariableManager implements Bindings
 	{
 		synchronized (m_lock)
 		{
-			return m_variables.isEmpty ();
+			boolean b = m_variables.isEmpty ();
+			if (!b)
+				return false;
+			if (m_parent != null)
+				return m_parent.isEmpty ();
+			return true;
 		}
 	}
 
@@ -133,7 +163,12 @@ public class VariableManager implements Bindings
 	{
 		synchronized (m_lock)
 		{
-			return m_variables.containsValue (value);
+			boolean b = m_variables.containsValue (value);
+			if (b)
+				return true;
+			if (m_parent != null)
+				return m_parent.containsValue (value);
+			return false;
 		}
 	}
 
@@ -149,27 +184,66 @@ public class VariableManager implements Bindings
 	@Override
 	public Set<String> keySet ()
 	{
-		synchronized (m_lock)
+		if (m_parent == null)
 		{
-			return m_variables.keySet ();
+			synchronized (m_lock)
+			{
+				return m_variables.keySet ();
+			}
+		}
+		else
+		{
+			HashSet<String> set = new HashSet<String> ();
+			set.addAll (m_parent.keySet ());
+			synchronized (m_lock)
+			{
+				set.addAll (m_variables.keySet ());
+			}
+			return set;
 		}
 	}
 
 	@Override
 	public Collection<Object> values ()
 	{
-		synchronized (m_lock)
+		if (m_parent == null)
 		{
-			return m_variables.values ();
+			synchronized (m_lock)
+			{
+				return m_variables.values ();
+			}
+		}
+		else
+		{
+			ArrayList<Object> list = new ArrayList<Object> ();
+			list.addAll (m_parent.values ());
+			synchronized (m_lock)
+			{
+				list.addAll (m_variables.values ());
+			}
+			return list;
 		}
 	}
 
 	@Override
-	public Set<java.util.Map.Entry<String, Object>> entrySet ()
+	public Set<Map.Entry<String, Object>> entrySet ()
 	{
-		synchronized (m_lock)
+		if (m_parent == null)
 		{
-			return m_variables.entrySet ();
+			synchronized (m_lock)
+			{
+				return m_variables.entrySet ();
+			}
+		}
+		else
+		{
+			HashSet<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>> ();
+			set.addAll (m_parent.entrySet ());
+			synchronized (m_lock)
+			{
+				set.addAll (m_variables.entrySet ());
+			}
+			return set;
 		}
 	}
 
@@ -199,7 +273,12 @@ public class VariableManager implements Bindings
 	{
 		synchronized (m_lock)
 		{
-			return m_variables.containsKey (key);
+			boolean b = m_variables.containsKey (key);
+			if (b)
+				return true;
+			if (m_parent != null)
+				return m_parent.containsKey (key);
+			return false;
 		}
 	}
 
@@ -208,11 +287,7 @@ public class VariableManager implements Bindings
 	{
 		if (key instanceof String)
 		{
-			Variable var;
-			synchronized (m_lock)
-			{
-				var = (Variable)m_variables.get ((String)key);
-			}
+			Variable var = getVariable ((String)key);
 			if (var == null)
 				return null;
 			return var.get ();
@@ -227,7 +302,10 @@ public class VariableManager implements Bindings
 		{
 			synchronized (m_lock)
 			{
-				return m_variables.remove (key);
+				if (m_variables.containsKey (key))
+					return m_variables.remove (key);
+				if (m_parent != null)
+					return m_parent.remove (key);
 			}
 		}
 		return null;

@@ -11,6 +11,9 @@ No detailed help information.
 -- 0/2 - 0 ----------------------------------------------------------------
 .var
 activityCount                 The number of rows in the query result
+display                       Display object
+esc                           Escape object
+globals                       Global objects
 interpreter                   Interpreter object
 parent                        Parent variables
 session                       Current session object
@@ -23,6 +26,9 @@ session                       Current session object
 
 .var
 activityCount                 The number of rows in the query result
+display                       Display object
+esc                           Escape object
+globals                       Global objects
 interpreter                   Interpreter object
 parent                        Parent variables
 session                       Current session object
