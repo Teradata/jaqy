@@ -20,7 +20,7 @@ Example:
 .debug
 -- 0/3 - 0 ----------------------------------------------------------------
 
-.open derby:memory:myDB;create=true
+.open derby:memory:debugDB;create=true
 -- 0/4 - 0 ----------------------------------------------------------------
 
 CREATE TABLE MyTable (a INTEGER, b INTEGER);
@@ -114,4 +114,10 @@ Parameter Count                              1
     Signed                                       N
 -- 8/12 - 0 ---------------------------------------------------------------
 
-.exit
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 9/12 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 9/13 - 0 ---------------------------------------------------------------
+

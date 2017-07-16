@@ -6,7 +6,7 @@ Teradata Jaqy Console 1.0
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.open -u root -p vagrant mysql://localhost/
+.open -u travis mysql://localhost/
 -- 0/2 - 0 ----------------------------------------------------------------
 .run ../common/ansi_types.sql
 -- Running script: ../common/ansi_types.sql
@@ -256,3 +256,7 @@ SELECT CAST('POINT(1 1)' AS ST_GEOMETRY) AS Test;
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ST_GEOMETRY).ST_MBR () AS Test' at line 1
 -- 46/3 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 46/4 - 0 ---------------------------------------------------------------
+

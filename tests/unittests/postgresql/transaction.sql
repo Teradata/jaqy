@@ -33,4 +33,3 @@ DROP DATABASE vagrant;
 
 .close
 
-.exit

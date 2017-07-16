@@ -357,3 +357,7 @@ SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
 -- failure 0: [42601] ERROR: syntax error at or near "."
   Position: 41
 -- 46/3 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 46/4 - 0 ---------------------------------------------------------------
+

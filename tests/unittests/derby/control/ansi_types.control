@@ -6,7 +6,7 @@ Teradata Jaqy Console 1.0
 .run ../common/derby_setup.sql
 -- Running script: ../common/derby_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.open derby:memory:myDB;create=true
+.open derby:memory:ansiDB;create=true
 -- 0/2 - 0 ----------------------------------------------------------------
 -- Because Apache Derby requires a table to be present in SELECT
 -- statements.  This test was modified a bit.
@@ -289,3 +289,11 @@ SELECT CAST('POINT(1 1)' AS ST_GEOMETRY) AS Test FROM MyTable;
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test FROM MyTable;
 -- failure 30000: [42X94] TYPE 'ST_GEOMETRY' does not exist.
 -- 48/2 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 49/2 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 49/3 - 0 ---------------------------------------------------------------
+

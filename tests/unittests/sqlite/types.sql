@@ -24,3 +24,7 @@ INSERT INTO SqliteTypes VALUES (123456789, 10.12, '你好，世界', X'DEADBEEF'
 .debug resultset on
 SELECT * FROM SqliteTypes;
 .debug resultset off
+
+DROP TABLE SqliteTypes;
+.close
+

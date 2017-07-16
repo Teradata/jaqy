@@ -5,7 +5,7 @@
 .help import
 .import
 
-.open derby:memory:myDB;create=true
+.open derby:memory:jsonDB;create=true
 
 CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
 
@@ -24,3 +24,7 @@ INSERT INTO MyTable VALUES ({{a}}, {{b}});
 SELECT * FROM MyTable ORDER BY a;
 
 DELETE FROM MyTable;
+
+DROP TABLE MyTable;
+.close
+

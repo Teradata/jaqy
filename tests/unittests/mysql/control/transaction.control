@@ -6,7 +6,7 @@ Teradata Jaqy Console 1.0
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.open -u root -p vagrant mysql://localhost/
+.open -u travis mysql://localhost/
 -- 0/2 - 0 ----------------------------------------------------------------
 CREATE DATABASE vagrant;
 -- success. update count = 1
@@ -98,4 +98,3 @@ DROP DATABASE vagrant;
 Session 0 is now closed.
 -- 18/3 - 0 ---------------------------------------------------------------
 
-.exit

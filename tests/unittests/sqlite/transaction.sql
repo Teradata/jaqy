@@ -32,4 +32,3 @@ DROP TABLE MyTable;
 
 .close
 
-.exit

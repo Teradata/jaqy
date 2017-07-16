@@ -2,7 +2,7 @@
 -- test SQL types
 --------------------------------------------------------------------------
 .run ../common/derby_setup.sql
-.open derby:memory:myDB;create=true
+.open derby:memory:ansiDB;create=true
 -- Because Apache Derby requires a table to be present in SELECT
 -- statements.  This test was modified a bit.
 
@@ -98,3 +98,7 @@ SELECT XMLELEMENT(NAME 'Customer', XMLATTRIBUTES('123' AS id), XMLFOREST('Joe' A
 --------------------------------------------------------------------------
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY) AS Test FROM MyTable;
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test FROM MyTable;
+
+DROP TABLE MyTable;
+.close
+

@@ -2,7 +2,7 @@
 -- test Apache Derby identity column behavior
 --------------------------------------------------------------------------
 .run ../common/derby_setup.sql
-.open derby:memory:myDB;create=true
+.open derby:memory:identityDB;create=true
 
 CREATE TABLE MyOrder
 (
@@ -14,3 +14,7 @@ CREATE TABLE MyOrder
 INSERT INTO MyOrder (item, time) VALUES ('Dummy', TIMESTAMP('2009-10-16 14:24:43'));
 
 SELECT * FROM MyOrder;
+
+DROP TABLE MyOrder;
+.close
+

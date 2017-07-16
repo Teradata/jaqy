@@ -30,7 +30,10 @@ public class TestUtils
 	{
 		boolean diff = (f1.length () != f2.length ());
 		if (diff)
+		{
+			System.out.println (f1 + " is different from " + f2);
 			System.exit (1);
+		}
 
 		String s1 = readFile (f1);
 		String s2 = readFile (f2);
@@ -43,10 +46,10 @@ public class TestUtils
 		File tmpFile = testFolder.newFile ();
 
 		PrintStream oldOut = System.out;
-		PrintStream oldErr = System.err;
+//		PrintStream oldErr = System.err;
 		PrintStream newOut = new PrintStream (new FileOutputStream (tmpFile));
 		System.setOut (newOut);
-		System.setErr (newOut);
+//		System.setErr (newOut);
 
 		String[] args = new String[]
 		{
@@ -58,7 +61,7 @@ public class TestUtils
 		com.teradata.jaqy.Main.main (args);
 
 		System.setOut (oldOut);
-		System.setErr (oldErr);
+//		System.setErr (oldErr);
 		newOut.close ();
 
 		fileCompare (new File (controlFile), tmpFile);

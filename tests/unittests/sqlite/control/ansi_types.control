@@ -296,3 +296,7 @@ Test
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
 -- failure 1: [SQLITE_ERROR] SQL error or missing database (near ".": syntax error)
 -- 46/4 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 46/5 - 0 ---------------------------------------------------------------
+

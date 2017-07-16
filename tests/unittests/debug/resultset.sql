@@ -20,4 +20,7 @@ SELECT a AS Test, b FROM MyTable ORDER BY a;
 .debug
 SELECT a AS Test, b FROM MyTable ORDER BY a;
 
-.exit
+DROP TABLE MyTable;
+
+.close
+

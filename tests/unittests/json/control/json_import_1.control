@@ -33,7 +33,7 @@ json type options:
 .import table
 -- 0/3 - 0 ----------------------------------------------------------------
 
-.open derby:memory:myDB;create=true
+.open derby:memory:jsonDB;create=true
 -- 0/4 - 0 ----------------------------------------------------------------
 
 CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
@@ -118,3 +118,11 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 -- success. update count = 4
 -- 7/7 - 0 ----------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 8/7 - 0 ----------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 8/8 - 0 ----------------------------------------------------------------
+
