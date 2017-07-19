@@ -6,7 +6,7 @@ Teradata Jaqy Console 1.0
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.open -u travis mysql://localhost/
+.open -u travis mysql://localhost/?useUnicode=true&characterEncoding=utf-8
 -- 0/2 - 0 ----------------------------------------------------------------
 CREATE DATABASE vagrant;
 -- success. update count = 1

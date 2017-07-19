@@ -6,7 +6,7 @@ Teradata Jaqy Console 1.0
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.open -u travis mysql://localhost/
+.open -u travis mysql://localhost/?useUnicode=true&characterEncoding=utf-8
 -- 0/2 - 0 ----------------------------------------------------------------
 .run ../common/ansi_types.sql
 -- Running script: ../common/ansi_types.sql
@@ -157,7 +157,7 @@ SELECT '你好，世界' AS Test;
 -- success --
 Test
 -----
-?????
+你好，世界
 -- activity count = 1
 -- 28/3 - 0 ---------------------------------------------------------------
 
