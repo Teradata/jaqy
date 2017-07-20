@@ -166,13 +166,9 @@ Test
 2001-02-03
 -- activity count = 1
 -- 29/2 - 0 ---------------------------------------------------------------
-SELECT CAST('12:03:04' AS TIME) AS Test;
--- success --
-Test
-----------
-12:03:04
--- activity count = 1
--- 30/2 - 0 ---------------------------------------------------------------
+-- MySQL supports TIME type, but the version differences between Vagrant VM
+-- and Travis CI prevent us from doing this test.
+-- SELECT CAST('12:03:04' AS TIME) AS Test;
 -- SELECT CAST('12:03:04.12' AS TIME(2)) AS Test;
 -- SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;
 -- SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test;
@@ -192,27 +188,27 @@ Test
 ----
    1
 -- activity count = 1
--- 31/2 - 0 ---------------------------------------------------------------
+-- 30/2 - 0 ---------------------------------------------------------------
 SELECT FALSE AS Test;
 -- success --
 Test
 ----
    0
 -- activity count = 1
--- 32/2 - 0 ---------------------------------------------------------------
+-- 31/2 - 0 ---------------------------------------------------------------
 
 -- Distinct Types
 CREATE TYPE MyInt AS INTEGER FINAL;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TYPE MyInt AS INTEGER FINAL' at line 1
--- 33/2 - 0 ---------------------------------------------------------------
+-- 32/2 - 0 ---------------------------------------------------------------
 
 SELECT CAST(123 AS MyINT) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'MyINT) AS Test' at line 1
--- 34/2 - 0 ---------------------------------------------------------------
+-- 33/2 - 0 ---------------------------------------------------------------
 
 DROP TYPE MyInt;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TYPE MyInt' at line 1
--- 35/2 - 0 ---------------------------------------------------------------
+-- 34/2 - 0 ---------------------------------------------------------------
 
 --------------------------------------------------------------------------
 -- SQL2003 types
@@ -227,7 +223,7 @@ DROP TYPE MyInt;
 --------------------------------------------------------------------------
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ST_GEOMETRY) AS Test' at line 1
--- 36/2 - 0 ---------------------------------------------------------------
+-- 35/2 - 0 ---------------------------------------------------------------
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ST_GEOMETRY).ST_MBR () AS Test' at line 1
--- 37/2 - 0 ---------------------------------------------------------------
+-- 36/2 - 0 ---------------------------------------------------------------

@@ -54,7 +54,9 @@ SELECT '你好，世界' AS Test;
 
 -- Date/Time/Timestamp
 SELECT CAST('2001-02-03' AS DATE) AS Test;
-SELECT CAST('12:03:04' AS TIME) AS Test;
+-- MySQL supports TIME type, but the version differences between Vagrant VM
+-- and Travis CI prevent us from doing this test.
+-- SELECT CAST('12:03:04' AS TIME) AS Test;
 -- SELECT CAST('12:03:04.12' AS TIME(2)) AS Test;
 -- SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;
 -- SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test;
