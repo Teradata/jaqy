@@ -5,7 +5,7 @@ jdk:
 services:
   - mysql
   - postgresql
-script: mvn cobertura:cobertura
+script: mvn clean cobertura:cobertura -Dcobertura.report.format=xml
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
