@@ -5,7 +5,7 @@ jdk:
 services:
   - mysql
   - postgresql
-script: mvn site
+script: mvn cobertura:cobertura
 install: mvn install -DskipTests -Dgpg.skip
 after_success:
   - bash <(curl -s https://codecov.io/bash)

@@ -9,3 +9,4 @@ dependency-reduced-pom.xml
 *.iml
 /.idea
 /dist
+/tests/unittests/teradata/lib/
