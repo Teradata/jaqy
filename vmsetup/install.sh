@@ -1,7 +1,15 @@
 #!/bin/bash
 
-# ---- Install Java ----
-sudo apt-get -y install openjdk-8-jre
+# ---- Install Oracle JDK 8 ----
+# add Oracle Repository
+sudo apt-add-repository -y ppa:webupd8team/java
+sudo apt-get update
+# accept license non-iteractive
+sudo echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+# install
+sudo apt-get install -y oracle-java8-installer
+# make sure Java 8 becomes default java
+sudo apt-get install -y oracle-java8-set-default
 
 # ---- Install a few different databases for testing ----
 # ==== PostgreSQL ====
@@ -39,7 +47,7 @@ sudo apt-get -y install meld
 PROFILE='
 PATH=${PATH}:/vagrant/tests/bin/
 '
-echo "$PROFILE" >> ~ubuntu/.profile
+echo "$PROFILE" >> ~vagrant/.profile
 
 # ---- Setup .bashrc ----
 BASHRC="
@@ -47,10 +55,11 @@ alias dir='ls -l'
 alias ll='dir -a'
 alias md=mkdir
 alias rd=rmdir
+alias where=which
 alias grep='grep --color=auto'
 
 alias jq='java -jar /vagrant/dist/jaqy-1.0.jar'
 
 cd /vagrant
 "
-echo "$BASHRC" >> ~ubuntu/.bashrc
+echo "$BASHRC" >> ~vagrant/.bashrc
