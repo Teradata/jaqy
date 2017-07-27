@@ -25,7 +25,7 @@ import com.teradata.jaqy.interfaces.JaqyCommand;
 public class CommandManager
 {
 	private final Globals m_globals;
-	private final Object m_cmdLock = new Object ();
+	private final Object m_lock = new Object ();
 	private final HashMap<String, JaqyCommand> m_commandMap = new HashMap<String, JaqyCommand> ();
 
 	public CommandManager (Globals globals)
@@ -36,7 +36,7 @@ public class CommandManager
 	public void addCommand (String name, JaqyCommand cmd)
 	{
 		cmd.init (name, m_globals);
-		synchronized (m_cmdLock)
+		synchronized (m_lock)
 		{
 			m_commandMap.put (name, cmd);
 		}
@@ -44,7 +44,7 @@ public class CommandManager
 
 	public JaqyCommand getCommand (String name)
 	{
-		synchronized (m_cmdLock)
+		synchronized (m_lock)
 		{
 			return m_commandMap.get (name);
 		}
@@ -52,14 +52,11 @@ public class CommandManager
 
 	public HashMap<String, JaqyCommand> getCommandMap ()
 	{
-		synchronized (m_cmdLock)
+		HashMap<String, JaqyCommand> map = new HashMap<String, JaqyCommand> ();
+		synchronized (m_lock)
 		{
-			return m_commandMap;
+			map.putAll (m_commandMap);
 		}
-	}
-
-	public static String replaceVars (String command, String[] args)
-	{
-		return command;
+		return map;
 	}
 }

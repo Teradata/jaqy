@@ -50,6 +50,8 @@ public class DebugCommand extends JaqyCommandAdapter
 
 		if (args.length == 0)
 		{
+			if (debug.isDumpPreparedStatement ())
+				interpreter.println (".debug preparedstatement on");
 			if (debug.isDumpResultSet ())
 				interpreter.println (".debug resultset on");
 			return;

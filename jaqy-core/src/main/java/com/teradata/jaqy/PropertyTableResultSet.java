@@ -41,7 +41,7 @@ import java.util.Map;
 /**
  * @author	Heng Yuan
  */
-class PropertyTableResultSet implements ResultSet
+public class PropertyTableResultSet implements ResultSet
 {
 	private final PropertyTable m_table;
 	private final ResultSetMetaData m_metaData;

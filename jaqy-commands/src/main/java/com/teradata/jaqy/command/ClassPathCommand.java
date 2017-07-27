@@ -42,7 +42,7 @@ public class ClassPathCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyDriverManager driverManager = globals.getDriverManager ();
 		if (args.length == 0)

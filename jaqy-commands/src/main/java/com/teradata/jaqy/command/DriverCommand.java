@@ -16,6 +16,7 @@
 package com.teradata.jaqy.command;
 
 import java.sql.Driver;
+import java.sql.SQLException;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JDBCWrapperDriver;
@@ -39,12 +40,12 @@ public class DriverCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		listDrivers (interpreter);
 	}
 
-	private void listDrivers (JaqyInterpreter interpreter)
+	private void listDrivers (JaqyInterpreter interpreter) throws SQLException
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Driver", "Version", "Compliant" } );
 		for (Driver driver : DriverManagerUtils.getDrivers ())

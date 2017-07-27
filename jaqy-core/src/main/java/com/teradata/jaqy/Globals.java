@@ -62,6 +62,7 @@ public class Globals
 	private final Os m_os = new Os ();
 	private final CommandManager m_commandManager = new CommandManager (this);
 	private final AliasManager m_aliasManager = new AliasManager ();
+	private final HelperManager m_helperManager = new HelperManager ();
 
 	private Object m_sessionLock = new Object ();
 	private final ArrayList<Session> m_sessions = new ArrayList<Session> ();
@@ -393,5 +394,10 @@ public class Globals
 	public File getDirectory ()
 	{
 		return m_dir;
+	}
+
+	public HelperManager getHelperManager ()
+	{
+		return m_helperManager;
 	}
 }

@@ -15,7 +15,13 @@
  */
 package com.teradata.jaqy.connection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+
+import com.teradata.jaqy.interfaces.JaqyHelper;
 
 /**
  * A wrapper to detect features supported by a JDBC connection.
@@ -24,26 +30,24 @@ import java.sql.*;
  */
 public class JaqyConnection
 {
-	public static JaqyConnection getConnection (Connection conn)
-	{
-		return new JaqyConnection (conn, null);
-	}
-
-	public static JaqyConnection getDummyConnection ()
-	{
-		return new JaqyConnection (null, null);
-	}
-
 	private final Connection m_connection;
 	private final JdbcFeatures m_features;
+	private JaqyHelper m_helper;
 
-	public JaqyConnection (Connection conn, JdbcFeatures features)
+	public JaqyConnection (Connection conn)
 	{
 		m_connection = conn;
-		if (features == null)
-			m_features = new JdbcFeatures ();
-		else
-			m_features = features;
+		m_features = new JdbcFeatures ();
+	}
+
+	public void setHelper (JaqyHelper helper)
+	{
+		m_helper = helper;
+	}
+
+	public JaqyHelper getHelper ()
+	{
+		return m_helper;
 	}
 
 	public boolean isClosed ()

@@ -59,7 +59,7 @@ public class JaqyStatement
 		{
 			ResultSet rs = m_statement.getResultSet ();
 			if (rs != null)
-				m_rs = JaqyResultSet.getResultSet (rs, m_connection);
+				m_rs = m_connection.getHelper ().getResultSet (rs);
 		}
 		return m_rs;
 	}

@@ -18,6 +18,7 @@ package com.teradata.jaqy.connection;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -26,14 +27,14 @@ import com.teradata.jaqy.utils.TypesUtils;
 public class JaqyResultSetMetaData
 {
 	private final ResultSetMetaData m_metaData;
-	private final JaqyConnection m_connection;
+	private final JaqyHelper m_helper;
 	private final JdbcFeatures m_features;
 
-	JaqyResultSetMetaData (ResultSetMetaData metaData, JaqyConnection conn)
+	JaqyResultSetMetaData (ResultSetMetaData metaData, JaqyHelper helper)
 	{
 		m_metaData = metaData;
-		m_connection = conn;
-		m_features = conn.getFeatures ();
+		m_helper = helper;
+		m_features = getConnection ().getFeatures ();
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class JaqyResultSetMetaData
 	 */
 	public JaqyConnection getConnection ()
 	{
-		return m_connection;
+		return m_helper.getConnection ();
 	}
 
 	/**

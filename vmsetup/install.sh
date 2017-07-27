@@ -35,7 +35,7 @@ FLUSH PRIVILEGES;
 EOF
 
 # Let MySQL to listen connections from all ips (not just local host)
-sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf
 
 # Restart the MySQL server
 sudo /etc/init.d/mysql restart

@@ -19,7 +19,10 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.teradata.jaqy.*;
+import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.CommandManager;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -28,17 +31,17 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 public class HelpCommand extends JaqyCommandAdapter
 {
-	private final Map<String,JaqyCommand> m_commandMap;
+	private final CommandManager m_manager;
 
 	public HelpCommand (CommandManager manager)
 	{
-		m_commandMap = manager.getCommandMap ();
+		m_manager = manager;
 	}
 
 	private void listCommands (PrintWriter pw)
 	{
 		TreeMap<String,JaqyCommand> sortedMap = new TreeMap<String,JaqyCommand> ();
-		sortedMap.putAll (m_commandMap);
+		sortedMap.putAll (m_manager.getCommandMap ());
 		for (Map.Entry<String, JaqyCommand> entry : sortedMap.entrySet ())
 		{
 			pw.println ("\t." + entry.getKey () + " - " + entry.getValue ().getDescription ());
@@ -74,7 +77,7 @@ public class HelpCommand extends JaqyCommandAdapter
 			String cmdName = args[0];
 			if (cmdName.startsWith ("."))
 				cmdName = cmdName.substring (1);
-			JaqyCommand cmd = m_commandMap.get (cmdName);
+			JaqyCommand cmd = m_manager.getCommand (cmdName);
 			if (cmd != null)
 			{
 				helpCommand (globals, pw, cmdName, cmd, StringUtils.shiftArgs (args));

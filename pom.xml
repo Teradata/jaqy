@@ -38,6 +38,7 @@
 	</developers>
 	<modules>
 		<module>jaqy-core</module>
+		<module>jaqy-helper</module>
 		<module>jaqy-commands</module>
 		<module>jaqy-console</module>
 		<module>jaqy-json</module>

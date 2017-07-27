@@ -17,7 +17,7 @@ package com.teradata.jaqy;
 
 import java.io.File;
 import java.io.StringReader;
-import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -27,12 +27,24 @@ import javax.script.SimpleScriptContext;
 
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.interfaces.*;
+import com.teradata.jaqy.helper.DummyHelper;
+import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyCommand;
+import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.JaqyPrinter;
+import com.teradata.jaqy.interfaces.LineInput;
+import com.teradata.jaqy.interfaces.ParseAction;
+import com.teradata.jaqy.interfaces.Variable;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
 import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
 import com.teradata.jaqy.printer.QuietPrinter;
-import com.teradata.jaqy.utils.*;
+import com.teradata.jaqy.utils.FixedVariable;
+import com.teradata.jaqy.utils.ResultSetUtils;
+import com.teradata.jaqy.utils.SessionUtils;
+import com.teradata.jaqy.utils.StringUtils;
+import com.teradata.jaqy.utils.VariableContext;
 
 /**
  * @author Heng Yuan
@@ -56,7 +68,6 @@ public class JaqyInterpreter
 
 	private final HashMap<String, ScriptEngine> m_engines = new HashMap<String, ScriptEngine> ();
 	private final ScriptEngine m_engine;
-	private final Variable m_interpreterVar = new FixedVariable ("interpreter", this, "Interpreter object");
 
 	private final StackedLineInput m_input = new StackedLineInput ();
 
@@ -66,6 +77,69 @@ public class JaqyInterpreter
 	private JaqyImporter<?> m_importer;
 
 	private QueryMode m_queryMode = QueryMode.Regular;
+
+	private final VariableContext m_scriptContext = new VariableContext ();
+
+	private final VariableManager m_varManager;
+	private final Variable m_interpreterVar = new FixedVariable ("interpreter", this, "Interpreter object");
+	private final Variable m_sessionVar = new Variable ()
+	{
+		@Override
+		public Object get ()
+		{
+			return getSession ();
+		}
+
+		@Override
+		public boolean set (Object value)
+		{
+			return false;
+		}
+
+		@Override
+		public String getName ()
+		{
+			return "session";
+		}
+
+		@Override
+		public String getDescription ()
+		{
+			return "Current session object";
+		}
+	};
+
+	private final Variable m_activityCountVar = new Variable ()
+	{
+		@Override
+		public Object get ()
+		{
+			return getSession ().getActivityCount ();
+		}
+
+		@Override
+		public boolean set (Object value)
+		{
+			if (value instanceof Number)
+			{
+				getSession ().setActivityCount (((Number) value).longValue ());
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public String getName ()
+		{
+			return "activityCount";
+		}
+
+		@Override
+		public String getDescription ()
+		{
+			return "The number of rows in the query result";
+		}
+	};
 
 	/**
 	 * Temporary buffer for command executor.
@@ -79,8 +153,9 @@ public class JaqyInterpreter
 		m_session = initialSession;
 		m_commandManager = globals.getCommandManager ();
 		m_aliasManager = globals.getAliasManager ();
+		m_varManager = new VariableManager (globals.getVarManager ());
 
-		setupScriptEngine (m_session.getVariableManager ());
+		setupScriptEngine (display);
 		m_engine = getScriptEngine (DEFAULT_ENGINE, false);
 
 		try
@@ -468,9 +543,13 @@ public class JaqyInterpreter
 		return m_engine;
 	}
 
-	private void setupScriptEngine (VariableManager varManager)
+	private void setupScriptEngine (Display display)
 	{
+		VariableManager varManager = m_varManager;
 		varManager.setVariable (m_interpreterVar);
+		varManager.setVariable (m_sessionVar);
+		varManager.setVariable (m_activityCountVar);
+		m_scriptContext.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
 	}
 
 	/**
@@ -501,13 +580,12 @@ public class JaqyInterpreter
 				if (temp)
 				{
 					context = new SimpleScriptContext ();
-					VariableManager varManager = new VariableManager (m_session.getVariableManager ());
-					setupScriptEngine (varManager);
+					VariableManager varManager = new VariableManager (getVariableManager ());
 					context.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
 				}
 				else
 				{
-					context = m_session.getVariableHandler ();
+					context = getVariableHandler ();
 					m_engines.put (type, engine);
 				}
 				engine.setContext (context);
@@ -529,11 +607,6 @@ public class JaqyInterpreter
 	public void println (String msg)
 	{
 		m_display.println (this, msg);
-	}
-
-	public long print (ResultSet rs)
-	{
-		return print (JaqyResultSet.getResultSet (rs));
 	}
 
 	public long print (JaqyResultSet rs)
@@ -564,10 +637,10 @@ public class JaqyInterpreter
 		}
 	}
 
-	public void print (PropertyTable pt)
+	public void print (PropertyTable pt) throws SQLException
 	{
 		PropertyTableResultSet rs = new PropertyTableResultSet (pt);
-		print (rs);
+		print (DummyHelper.getInstance ().getResultSet (rs));
 	}
 
 	/**
@@ -677,5 +750,15 @@ public class JaqyInterpreter
 	public File getFile (String name)
 	{
 		return new File (getDirectory (), name);
+	}
+
+	public VariableManager getVariableManager ()
+	{
+		return m_varManager;
+	}
+
+	public VariableContext getVariableHandler ()
+	{
+		return m_scriptContext;
 	}
 }

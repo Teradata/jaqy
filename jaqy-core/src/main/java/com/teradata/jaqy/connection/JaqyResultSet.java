@@ -19,29 +19,21 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.interfaces.JaqyHelper;
+
 /**
  * @author	Heng Yuan
  */
 public class JaqyResultSet
 {
-	public static JaqyResultSet getResultSet (ResultSet rs, JaqyConnection conn)
-	{
-		return new JaqyResultSet (rs, conn);
-	}
-
-	public static JaqyResultSet getResultSet (ResultSet rs)
-	{
-		return new JaqyResultSet (rs, JaqyConnection.getDummyConnection ());
-	}
-
 	private final ResultSet m_rs;
-	private final JaqyConnection m_connection;
+	private final JaqyHelper m_helper;
 	private JaqyResultSetMetaData m_metaData;
 
-	private JaqyResultSet (ResultSet rs, JaqyConnection conn)
+	public JaqyResultSet (ResultSet rs, JaqyHelper helper)
 	{
 		m_rs = rs;
-		m_connection = conn;
+		m_helper = helper;
 	}
 
 	/**
@@ -49,7 +41,7 @@ public class JaqyResultSet
 	 */
 	public JaqyConnection getConnection ()
 	{
-		return m_connection;
+		return m_helper.getConnection ();
 	}
 
 	public JaqyResultSetMetaData getMetaData () throws SQLException
@@ -57,7 +49,7 @@ public class JaqyResultSet
 		if (m_metaData != null)
 			return m_metaData;
 		{
-			m_metaData = new JaqyResultSetMetaData (m_rs.getMetaData (), m_connection);
+			m_metaData = new JaqyResultSetMetaData (m_rs.getMetaData (), m_helper);
 			return m_metaData;
 		}
 	}

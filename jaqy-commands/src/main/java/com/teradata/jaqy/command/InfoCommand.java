@@ -20,8 +20,13 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.teradata.jaqy.*;
+import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.PropertyTable;
+import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.SQLUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.StringUtils;
@@ -96,50 +101,51 @@ public class InfoCommand extends JaqyCommandAdapter
 			interpreter.println ("No active sessions.");
 			return;
 		}
+		JaqyHelper helper = conn.getHelper ();
 
 		DatabaseMetaData metaData = conn.getMetaData ();
 		if ("behavior".equals (type) ||
 				 "behaviors".equals (type))
-			listBehaviors (interpreter, metaData);
+			listBehaviors (interpreter, metaData, helper);
 		else if ("client".equals (type))
-			listClient (interpreter, metaData);
+			listClient (interpreter, metaData, helper);
 		else if ("feature".equals (type) ||
 				 "features".equals (type))
-			listFeatures (interpreter, metaData);
+			listFeatures (interpreter, metaData, helper);
 		else if ("function".equals (type) ||
 				 "functions".equals (type))
-			listFunctions (interpreter, metaData);
+			listFunctions (interpreter, metaData, helper);
 		else if ("keyword".equals (type) ||
 				 "keywords".equals (type))
-			listKeywords (interpreter, metaData);
+			listKeywords (interpreter, metaData, helper);
 		else if ("limit".equals (type) ||
 				 "limits".equals (type))
-			listLimits (interpreter, metaData);
+			listLimits (interpreter, metaData, helper);
 		else if ("schema".equals (type) ||
 				 "schemas".equals (type))
 			listSchemas (interpreter, args, conn);
 		else if ("server".equals (type))
-			listServer (interpreter, metaData);
+			listServer (interpreter, metaData, helper);
 		else if ("table".equals (type))
-			listTableTypes (interpreter, metaData);
+			listTableTypes (interpreter, metaData, helper);
 		else if ("type".equals (type) ||
 				 "types".equals (type))
-			listTypes (interpreter, metaData);
+			listTypes (interpreter, metaData, helper);
 		else if ("user".equals (type))
-			listUser (interpreter, metaData);
+			listUser (interpreter, metaData, helper);
 	}
 
-	private void listUser (JaqyInterpreter interpreter, DatabaseMetaData metaData) throws SQLException
+	private void listUser (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		interpreter.println (metaData.getUserName ());
 	}
 
-	private void listKeywords (JaqyInterpreter interpreter, DatabaseMetaData metaData) throws SQLException
+	private void listKeywords (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		interpreter.println (metaData.getSQLKeywords ());
 	}
 
-	private void listFunctions (JaqyInterpreter interpreter, DatabaseMetaData metaData)
+	private void listFunctions (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Value" });
 		try
@@ -156,7 +162,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		interpreter.print (pt);
 	}
 
-	private void listServer (JaqyInterpreter interpreter, DatabaseMetaData metaData)
+	private void listServer (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Value" });
 		try
@@ -179,7 +185,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		interpreter.print (pt);
 	}
 
-	private void listBehaviors (JaqyInterpreter interpreter, DatabaseMetaData metaData)
+	private void listBehaviors (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Value" });
 		try
@@ -221,7 +227,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		interpreter.print (pt);
 	}
 
-	private void listFeatures (JaqyInterpreter interpreter, DatabaseMetaData metaData)
+	private void listFeatures (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Supported" });
 		try
@@ -310,7 +316,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		interpreter.print (pt);
 	}
 
-	private void listLimits (JaqyInterpreter interpreter, DatabaseMetaData metaData)
+	private void listLimits (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Limit" });
 		try
@@ -353,6 +359,7 @@ public class InfoCommand extends JaqyCommandAdapter
 			return;
 		}
 
+		JaqyHelper helper = conn.getHelper ();
 		DatabaseMetaData metaData = conn.getMetaData ();
 		ResultSet rs = null;
 		try
@@ -367,7 +374,7 @@ public class InfoCommand extends JaqyCommandAdapter
 				String[] options = SQLUtils.getSchemaOptions (conn, args);
 				rs = metaData.getSchemas (options[0], options[1]);
 			}
-			interpreter.print (rs);
+			interpreter.print (helper.getResultSet (rs));
 		}
 		catch (SQLException ex)
 		{
@@ -388,13 +395,13 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 	}
 
-	private void listTableTypes (JaqyInterpreter interpreter, DatabaseMetaData metaData) throws SQLException
+	private void listTableTypes (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		ResultSet rs = null;
 		try
 		{
 			rs = metaData.getTableTypes ();
-			interpreter.print (rs);
+			interpreter.print (helper.getResultSet (rs));
 		}
 		catch (SQLException ex)
 		{
@@ -415,13 +422,13 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 	}
 
-	private void listTypes (JaqyInterpreter interpreter, DatabaseMetaData metaData) throws SQLException
+	private void listTypes (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		ResultSet rs = null;
 		try
 		{
 			rs = metaData.getTypeInfo ();
-			interpreter.print (rs);
+			interpreter.print (helper.getResultSet (rs));
 		}
 		catch (SQLException ex)
 		{
@@ -442,13 +449,13 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 	}
 
-	private void listClient (JaqyInterpreter interpreter, DatabaseMetaData metaData) throws SQLException
+	private void listClient (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		ResultSet rs = null;
 		try
 		{
 			rs = metaData.getClientInfoProperties ();
-			interpreter.print (rs);
+			interpreter.print (helper.getResultSet (rs));
 		}
 		catch (SQLException ex)
 		{

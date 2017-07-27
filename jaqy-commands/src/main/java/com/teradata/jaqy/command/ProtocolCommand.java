@@ -15,7 +15,11 @@
  */
 package com.teradata.jaqy.command;
 
-import com.teradata.jaqy.*;
+import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyDriverManager;
+import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.PropertyTableUtils;
 
 /**
@@ -42,7 +46,7 @@ public class ProtocolCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyDriverManager driverManager = globals.getDriverManager ();
 		if (args.length == 0)

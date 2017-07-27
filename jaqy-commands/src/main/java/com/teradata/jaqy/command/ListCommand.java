@@ -24,6 +24,7 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
@@ -120,6 +121,7 @@ public class ListCommand extends JaqyCommandAdapter
 		else
 			catalogPattern += "/";
 
+		JaqyHelper helper = conn.getHelper ();
 		ResultSet rs = null;
 		if (listType == 0)
 		{
@@ -143,7 +145,7 @@ public class ListCommand extends JaqyCommandAdapter
 			rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
 		}
 
-		interpreter.print (rs);
+		interpreter.print (helper.getResultSet (rs));
 		rs.close ();
 	}
 }

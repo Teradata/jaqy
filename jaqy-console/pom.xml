@@ -39,6 +39,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
+			<artifactId>jaqy-helper</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-commands</artifactId>
 			<version>1.0</version>
 		</dependency>
