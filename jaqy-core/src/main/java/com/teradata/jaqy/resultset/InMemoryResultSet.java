@@ -87,9 +87,10 @@ public class InMemoryResultSet implements ResultSet
 						row[i] = new InMemSQLXML (rs.getSQLXML (i + 1));
 						break;
 					default:
-						row[i] = rs.getObject (i);
+						row[i] = rs.getObject (i + 1);
 				}
 			}
+			m_rows.add (row);
 		}
 	}
 

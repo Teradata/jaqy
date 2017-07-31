@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.TypesUtils;
 
@@ -80,7 +81,17 @@ class TeradataHelper implements JaqyHelper
 					{
 						if (row[i] != null)
 						{
-							row[i] = ((String)row[i]).replace ('\r', '\n');
+							Object o = row[i];
+							if (o instanceof String)
+							{
+								row[i] = ((String)o).replace ('\r', '\n');
+							}
+							else if (o instanceof InMemClob)
+							{
+								InMemClob clob = (InMemClob)o;
+								String s = clob.getSubString (1, (int)clob.length ());
+								clob.replace (s);
+							}
 						}
 					}
 				}

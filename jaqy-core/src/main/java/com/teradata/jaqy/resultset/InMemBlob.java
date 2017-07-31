@@ -24,7 +24,7 @@ import java.sql.SQLException;
 /**
  * @author	Heng Yuan
  */
-class InMemBlob implements Blob
+public class InMemBlob implements Blob
 {
 	private byte[] m_bytes;
 

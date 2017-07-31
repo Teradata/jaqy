@@ -157,7 +157,6 @@ public class Main
 		// sets the display's active interpreter.
 		display.setInterpreter (interpreter);
 
-
 		// initiate logging
 		Logging.init ();
 
@@ -166,6 +165,9 @@ public class Main
 
 		// handle command line options
 		OptionSetup.init (globals);
+
+		// install predefined helper factories
+		HelperSetup.init (globals);
 
 		// load initiation scripts
 		File initFile = getDefaultInitFile ();

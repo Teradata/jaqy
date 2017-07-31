@@ -28,7 +28,7 @@ import java.sql.SQLException;
 /**
  * @author	Heng Yuan
  */
-class InMemClob implements Clob
+public class InMemClob implements Clob
 {
 	private String m_str;
 
@@ -39,6 +39,11 @@ class InMemClob implements Clob
 	}
 
 	InMemClob (String str)
+	{
+		m_str = str;
+	}
+
+	public void replace (String str)
 	{
 		m_str = str;
 	}
