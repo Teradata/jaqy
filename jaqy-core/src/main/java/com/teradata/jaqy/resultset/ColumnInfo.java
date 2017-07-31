@@ -13,25 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.importer;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import com.teradata.jaqy.utils.TestUtils;
+package com.teradata.jaqy.resultset;
 
 /**
  * @author	Heng Yuan
  */
-public class AvroImporterTest
+class ColumnInfo
 {
-	@Rule
-	public TemporaryFolder testFolder = new TemporaryFolder ();
+	boolean autoIncrement;
+	boolean caseSensitive;
+	boolean searchable;
+	boolean currency;
+	int nullable;
+	boolean signed;
+	int displaySize;
+	String label;
+	String name;
+	String schemaName;
+	int precision;
+	int scale;
+	String tableName;
+	String catalogName;
+	int type;
+	String typeName;
+	boolean readOnly;
+	boolean writable;
+	boolean definitelyWritable;
 
-	@Test
-	public void test1 () throws Exception
-	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/avro_import_1.sql", "../tests/unittests/avro/control/avro_import_1.control");
-	}
+	String className;
 }

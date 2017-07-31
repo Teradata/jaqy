@@ -15,9 +15,7 @@
  */
 package com.teradata.jaqy.typeprinter;
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
 
@@ -29,7 +27,6 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 class ClobTypePrinter implements TypePrinter
 {
-	private final static int BUFFER_SIZE = 4096;
 	private final static TypePrinter s_instance = new ClobTypePrinter ();
 
 	public static TypePrinter getInstance ()
@@ -48,41 +45,8 @@ class ClobTypePrinter implements TypePrinter
 		String value = null;
 		if (clob != null)
 		{
-			long length = clob.length ();
-			int buffSize = (length > BUFFER_SIZE ? BUFFER_SIZE : (int) length);
-			if (buffSize > 0)
-			{
-				Reader reader = clob.getCharacterStream ();
-				StringBuilder builder = new StringBuilder ();
-				char[] buf = new char[buffSize];
-				while (length > 0)
-				{
-					int len = (length > BUFFER_SIZE ? BUFFER_SIZE : (int) length);
-					try
-					{
-						len = reader.read (buf, 0, len);
-						builder.append (buf, 0, len);
-						length -= len;
-					}
-					catch (IOException ex)
-					{
-						throw new SQLException (ex);
-					}
-				}
-				try
-				{
-					reader.close ();
-				}
-				catch (IOException ex)
-				{
-					throw new SQLException (ex);
-				}
-				value = builder.toString ();
-			}
-			else
-			{
-				value = "";
-			}
+			value = clob.getSubString (1, (int)clob.length ());
+			clob.free ();
 		}
 		StringUtils.print (pw, value, width, leftAlign, pad);
 	}

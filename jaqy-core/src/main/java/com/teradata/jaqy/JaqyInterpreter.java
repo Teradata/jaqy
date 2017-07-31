@@ -40,6 +40,7 @@ import com.teradata.jaqy.lineinput.ReaderLineInput;
 import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
 import com.teradata.jaqy.printer.QuietPrinter;
+import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.SessionUtils;
@@ -639,7 +640,7 @@ public class JaqyInterpreter
 
 	public void print (PropertyTable pt) throws SQLException
 	{
-		PropertyTableResultSet rs = new PropertyTableResultSet (pt);
+		InMemoryResultSet rs = new InMemoryResultSet (pt);
 		print (DummyHelper.getInstance ().getResultSet (rs));
 	}
 

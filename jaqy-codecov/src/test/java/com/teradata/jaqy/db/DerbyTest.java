@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.importer;
+package com.teradata.jaqy.db;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import com.teradata.jaqy.utils.TestUtils;
 /**
  * @author	Heng Yuan
  */
-public class AvroImporterTest
+public class DerbyTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -32,6 +32,18 @@ public class AvroImporterTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/avro_import_1.sql", "../tests/unittests/avro/control/avro_import_1.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/derby/ansi_types.sql", "../tests/unittests/derby/control/ansi_types.control");
+	}
+
+	@Test
+	public void test2 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/derby/identity.sql", "../tests/unittests/derby/control/identity.control");
+	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/derby/data_types.sql", "../tests/unittests/derby/control/data_types.control");
 	}
 }

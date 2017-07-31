@@ -24,9 +24,9 @@ import java.util.ArrayList;
  */
 public class PropertyTable
 {
-	private final String[] m_titles;
-	private final ArrayList<String[]> m_rows = new ArrayList<String[]> ();
-	private final int[] m_lengths;
+	private String[] m_titles;
+	private ArrayList<Object[]> m_rows = new ArrayList<Object[]> ();
+	private int[] m_lengths;
 
 	public PropertyTable (String[] titles)
 	{
@@ -56,7 +56,7 @@ public class PropertyTable
 		return m_titles;
 	}
 
-	public ArrayList<String[]> getRows ()
+	public ArrayList<Object[]> getRows ()
 	{
 		return m_rows;
 	}
@@ -64,5 +64,12 @@ public class PropertyTable
 	public int[] getLengths ()
 	{
 		return m_lengths;
+	}
+
+	public void close ()
+	{
+		m_titles = null;
+		m_rows = null;
+		m_lengths = null;
 	}
 }

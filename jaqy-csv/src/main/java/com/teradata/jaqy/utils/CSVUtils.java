@@ -16,7 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * @author	Heng Yuan

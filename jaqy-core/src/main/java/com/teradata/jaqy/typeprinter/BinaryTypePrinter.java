@@ -18,6 +18,7 @@ package com.teradata.jaqy.typeprinter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Blob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -50,6 +51,12 @@ class BinaryTypePrinter implements TypePrinter
 		else if (obj instanceof byte[])
 		{
 			value = StringUtils.getHexString ((byte[])obj);
+		}
+		else if (obj instanceof Blob)
+		{
+			Blob blob = ((Blob)obj);
+			byte[] bytes = blob.getBytes (1, (int)blob.length ());
+			value = StringUtils.getHexString ((byte[])bytes);
 		}
 		else
 		{

@@ -43,7 +43,7 @@ public class PropertyTableUtils
 		int numCols = meta.getColumnCount ();
 		String[] titles = new String[numCols];
 		for (int i = 0; i < numCols; ++i)
-			titles[i] = meta.getColumnName (i + 1);
+			titles[i] = meta.getColumnLabel (i + 1);
 		PropertyTable pt = new PropertyTable (titles);
 		while (rs.next ())
 		{

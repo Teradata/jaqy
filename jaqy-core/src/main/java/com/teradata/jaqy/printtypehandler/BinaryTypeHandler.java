@@ -17,6 +17,7 @@ package com.teradata.jaqy.printtypehandler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -49,6 +50,13 @@ class BinaryTypeHandler implements TypeHandler
 		else if (obj instanceof byte[])
 		{
 			return StringUtils.getHexString ((byte[])obj);
+		}
+		else if (obj instanceof Blob)
+		{
+			Blob blob = (Blob)obj;
+			byte[] bytes = blob.getBytes (1, (int)blob.length ());
+			blob.free ();
+			return StringUtils.getHexString (bytes);
 		}
 		else
 		{

@@ -18,6 +18,8 @@ package com.teradata.jaqy.utils;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Array;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Struct;
@@ -42,18 +44,19 @@ public class JsonUtils
 		{
 			if (obj instanceof Boolean)
 				g.write ((Boolean)obj);
-			if (obj instanceof CharSequence)
+			else if (obj instanceof CharSequence)
 				g.write (obj.toString ());
-			if (obj instanceof Number)
+			else if (obj instanceof Number)
 			{
 				if (obj instanceof BigInteger)
 					g.write ((BigInteger)obj);
-				if (obj instanceof BigDecimal)
+				else if (obj instanceof BigDecimal)
 					g.write ((BigDecimal)obj);
-				if (obj instanceof Double ||
-					obj instanceof Float)
+				else if (obj instanceof Double ||
+						 obj instanceof Float)
 					g.write (((Number)obj).doubleValue ());
-				g.write (((Number)obj).intValue ());
+				else
+					g.write (((Number)obj).intValue ());
 			}
 			else if (obj instanceof byte[])
 				g.write ((byte[])obj);
@@ -82,12 +85,13 @@ public class JsonUtils
 			{
 				if (obj instanceof BigInteger)
 					g.write (name, (BigInteger)obj);
-				if (obj instanceof BigDecimal)
+				else if (obj instanceof BigDecimal)
 					g.write (name, (BigDecimal)obj);
-				if (obj instanceof Double ||
-					obj instanceof Float)
+				else if (obj instanceof Double ||
+						 obj instanceof Float)
 					g.write (name, ((Number)obj).doubleValue ());
-				g.write (name, ((Number)obj).intValue ());
+				else
+					g.write (name, ((Number)obj).intValue ());
 			}
 			else if (obj instanceof byte[])
 				g.write (name, (byte[])obj);
@@ -95,6 +99,20 @@ public class JsonUtils
 				print (g, name, (Array)obj);
 			else if (obj instanceof Struct)
 				print (g, name, (Struct)obj);
+			else if (obj instanceof Clob)
+			{
+				Clob clob = (Clob)obj;
+				String str = clob.getSubString (1, (int)clob.length ());
+				clob.free ();
+				g.write (name, str);
+			}
+			else if (obj instanceof Blob)
+			{
+				Blob blob = (Blob)obj;
+				byte[] bytes = blob.getBytes (1, (int)blob.length ());
+				blob.free ();
+				g.write (name, bytes);
+			}
 			else
 				g.write (name, obj.toString ());
 		}
