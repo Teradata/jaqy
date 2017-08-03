@@ -21,15 +21,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.utils.SQLUtils;
 import com.teradata.jaqy.utils.SessionUtils;
-import com.teradata.jaqy.utils.StringUtils;
 
 /**
  * @author	Heng Yuan
@@ -68,6 +67,8 @@ public class InfoCommand extends JaqyCommandAdapter
 		String type = args[0].toLowerCase ();
 		if ("behavior".equals (type) ||
 			"behaviors".equals (type) ||
+			"catalog".equals (type) ||
+			"catalogs".equals (type) ||
 			"client".equals (type) ||
 			"feature".equals (type) ||
 			"features".equals (type) ||
@@ -107,6 +108,9 @@ public class InfoCommand extends JaqyCommandAdapter
 		if ("behavior".equals (type) ||
 				 "behaviors".equals (type))
 			listBehaviors (interpreter, metaData, helper);
+		else if ("catalog".equals (type) ||
+				 "catalogs".equals (type))
+			listCatalogs (interpreter, metaData, helper);
 		else if ("client".equals (type))
 			listClient (interpreter, metaData, helper);
 		else if ("feature".equals (type) ||
@@ -123,7 +127,7 @@ public class InfoCommand extends JaqyCommandAdapter
 			listLimits (interpreter, metaData, helper);
 		else if ("schema".equals (type) ||
 				 "schemas".equals (type))
-			listSchemas (interpreter, args, conn);
+			listSchemas (interpreter, metaData, helper);
 		else if ("server".equals (type))
 			listServer (interpreter, metaData, helper);
 		else if ("table".equals (type))
@@ -173,10 +177,14 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "User", metaData.getUserName ()});
 			pt.addRow (new String[]{ "URL", metaData.getURL ()});
 			pt.addRow (new String[]{ "Ready only", metaData.isReadOnly () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Database name", metaData.getDatabaseProductName ()});
-			pt.addRow (new String[]{ "Database version", metaData.getDatabaseProductVersion ()});
+			pt.addRow (new String[]{ "Database product name", metaData.getDatabaseProductName ()});
+			pt.addRow (new String[]{ "Database product version", metaData.getDatabaseProductVersion ()});
+			pt.addRow (new String[]{ "Database major version", "" + metaData.getDatabaseMajorVersion () });
+			pt.addRow (new String[]{ "Database major version", "" + metaData.getDatabaseMinorVersion () });
 			pt.addRow (new String[]{ "Driver name", metaData.getDriverName ()});
 			pt.addRow (new String[]{ "Driver version", metaData.getDriverVersion ()});
+			pt.addRow (new String[]{ "JDBC major version", "" + metaData.getJDBCMajorVersion () });
+			pt.addRow (new String[]{ "JDBC minor version", "" + metaData.getJDBCMinorVersion () });
 		}
 		catch (Throwable t)
 		{
@@ -205,14 +213,7 @@ public class InfoCommand extends JaqyCommandAdapter
 	
 			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
 			pt.addRow (new String[]{ "Catalog separator", metaData.getCatalogSeparator () });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
-	
+
 			pt.addRow (new String[]{ "Default Transaction Isolation", getIsolationLevel (metaData.getDefaultTransactionIsolation ()) });
 			pt.addRow (new String[]{ "ResultSet holdability", getHoldability (metaData.getResultSetHoldability ()) });
 	
@@ -232,6 +233,9 @@ public class InfoCommand extends JaqyCommandAdapter
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Supported" });
 		try
 		{
+			pt.addRow (new String[]{ "All Procedures are callable", metaData.allProceduresAreCallable () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "All tables are selectable", metaData.allTablesAreSelectable () ? "Yes" : "No" });
+
 			pt.addRow (new String[]{ "ALT TABLE ADD column", metaData.supportsAlterTableWithAddColumn () ? "Yes" : "No" });
 			pt.addRow (new String[]{ "ALT TABLE DROP column", metaData.supportsAlterTableWithDropColumn () ? "Yes" : "No" });
 	
@@ -309,6 +313,16 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "SQL Function", metaData.supportsStoredFunctionsUsingCallSyntax () ? "Yes" : "No" });
 	
 			pt.addRow (new String[]{ "REF CURSOR", metaData.supportsRefCursors () ? "Yes" : "No" });
+
+			pt.addRow (new String[]{ "Supports Mixed Case Identifiers", metaData.supportsMixedCaseIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Stores Upper Case Identifiers", metaData.storesUpperCaseIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Stores Lower Case Identifiers", metaData.storesLowerCaseIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Stores Mixed Case Identifiers", metaData.storesMixedCaseIdentifiers () ? "Yes" : "No" });
+
+			pt.addRow (new String[]{ "Supports Mixed Case Quoted Identifiers", metaData.supportsMixedCaseQuotedIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Stores Upper Case Quoted Identifiers", metaData.storesUpperCaseQuotedIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Stores Lower Case Quoted Identifiers", metaData.storesLowerCaseQuotedIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Stores Mixed Case Quoted Identifiers", metaData.storesMixedCaseQuotedIdentifiers () ? "Yes" : "No" });
 		}
 		catch (Throwable t)
 		{
@@ -350,30 +364,12 @@ public class InfoCommand extends JaqyCommandAdapter
 		interpreter.print (pt);
 	}
 
-	private void listSchemas (JaqyInterpreter interpreter, String[] args, JaqyConnection conn) throws SQLException
+	private void listSchemas (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{
-		args = StringUtils.shiftArgs (args, 1);
-		if (args.length == 0)
-		{
-			interpreter.println (conn.getSchema ());
-			return;
-		}
-
-		JaqyHelper helper = conn.getHelper ();
-		DatabaseMetaData metaData = conn.getMetaData ();
 		ResultSet rs = null;
 		try
 		{
-			if (args.length == 1 &&
-				"all".equals (args[0]))
-			{
-				rs = metaData.getSchemas ();
-			}
-			else
-			{
-				String[] options = SQLUtils.getSchemaOptions (conn, args);
-				rs = metaData.getSchemas (options[0], options[1]);
-			}
+			rs = metaData.getSchemas ();
 			interpreter.print (helper.getResultSet (rs));
 		}
 		catch (SQLException ex)
@@ -382,18 +378,52 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			assert Debug.debug (t);
 		}
 		finally
 		{
 			try
 			{
-				rs.close ();
+				if (rs != null)
+					rs.close ();
 			}
 			catch (Exception ex)
 			{
+				assert Debug.debug (ex);
 			}
 		}
 	}
+
+	private void listCatalogs (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
+	{
+		ResultSet rs = null;
+		try
+		{
+			rs = metaData.getCatalogs ();
+			interpreter.print (helper.getResultSet (rs));
+		}
+		catch (SQLException ex)
+		{
+			throw ex;
+		}
+		catch (Throwable t)
+		{
+			assert Debug.debug (t);
+		}
+		finally
+		{
+			try
+			{
+				if (rs != null)
+					rs.close ();
+			}
+			catch (Exception ex)
+			{
+				assert Debug.debug (ex);
+			}
+		}
+	}
+
 
 	private void listTableTypes (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
 	{

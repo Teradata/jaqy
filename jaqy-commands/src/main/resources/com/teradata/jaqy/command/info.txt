@@ -1,11 +1,13 @@
 usage: info [type]
 type:
   behavior   database behavior
+  catalog    database catalogs
   client     client info properties
   feature    database features
   function   database functions
   keyword    SQL keywords
   limit      database limits
+  schema     database schemas
   server     database server
   table      database table types
   type       database type info

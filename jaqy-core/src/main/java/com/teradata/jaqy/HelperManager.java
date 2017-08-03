@@ -49,12 +49,17 @@ public class HelperManager
 	 */
 	public JaqyHelperFactory getHelperFactory (String protocol)
 	{
-		JaqyHelperFactory helper;
+		JaqyHelperFactory factory;
 		synchronized (m_lock)
 		{
-			helper = m_helperMap.get (protocol);
+			factory = m_helperMap.get (protocol);
+			if (factory == null)
+			{
+				factory = new DefaultHelperFactory ();
+				m_helperMap.put (protocol, factory);
+			}
 		}
-		return helper == null ? DefaultHelperFactory.getInstance () : helper;
+		return factory;
 	}
 
 	public HashMap<String, JaqyHelperFactory> getHelperFactoryMap ()

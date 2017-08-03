@@ -65,7 +65,7 @@ public class Session
 	{
 		JaqyConnection c = new JaqyConnection (conn);
 		JaqyHelperFactory helperFactory = m_globals.getHelperManager ().getHelperFactory (protocol);
-		JaqyHelper helper = helperFactory.getHelper (c);
+		JaqyHelper helper = helperFactory.getHelper (c, m_globals);
 		c.setHelper (helper);
 		synchronized (m_lock)
 		{
@@ -370,27 +370,6 @@ public class Session
 		return null;
 	}
 
-	public String getPath (String catalog, String schema)
-	{
-		if (catalog == null)
-		{
-			if (schema == null)
-				return "";
-			return schema;
-		}
-		else
-		{
-			if (schema == null)
-				return catalog;
-			return catalog + getCatalogSeparator () + schema;
-		}
-	}
-
-	public String getPath ()
-	{
-		return getPath (getCatalog (), getSchema ());
-	}
-
 	/**
 	 * @return the sessionId
 	 */
@@ -413,7 +392,7 @@ public class Session
 			}
 			else
 			{
-				buffer.append (conn.getMetaData ().getURL ());
+				buffer.append (conn.getHelper ().getPath ());
 			}
 		}
 		catch (SQLException ex)
@@ -442,5 +421,11 @@ public class Session
 	public long getActivityCount ()
 	{
 		return m_activityCount;
+	}
+
+	@Override
+	public String toString ()
+	{
+		return Integer.toString (m_sessionId);
 	}
 }

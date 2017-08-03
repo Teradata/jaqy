@@ -19,7 +19,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JaqyStatement;
+import com.teradata.jaqy.connection.JdbcFeatures;
 
 /**
  * 
@@ -27,6 +30,16 @@ import com.teradata.jaqy.connection.JaqyResultSet;
  */
 public interface JaqyHelper
 {
+	public JdbcFeatures getFeatures ();
+
+	public JaqyStatement createStatement () throws SQLException;
+	public JaqyPreparedStatement preparedStatement (String sql) throws SQLException;
+
 	public JaqyConnection getConnection ();
 	public JaqyResultSet getResultSet (ResultSet rs) throws SQLException;
+
+	public String getURL () throws SQLException;
+	public String getCatalog () throws SQLException;
+	public String getSchema () throws SQLException;
+	public String getPath () throws SQLException;
 }

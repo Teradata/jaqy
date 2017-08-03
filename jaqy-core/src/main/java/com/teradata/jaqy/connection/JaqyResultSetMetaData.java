@@ -34,7 +34,7 @@ public class JaqyResultSetMetaData
 	{
 		m_metaData = metaData;
 		m_helper = helper;
-		m_features = getConnection ().getFeatures ();
+		m_features = m_helper.getFeatures ();
 	}
 
 	/**

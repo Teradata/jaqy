@@ -15,7 +15,9 @@
  */
 package com.teradata.jaqy.helper;
 
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 
@@ -24,20 +26,15 @@ import com.teradata.jaqy.interfaces.JaqyHelperFactory;
  */
 public class DefaultHelperFactory implements JaqyHelperFactory
 {
-	private final static JaqyHelperFactory s_intance = new DefaultHelperFactory ();
+	private final JdbcFeatures m_features = new JdbcFeatures ();
 
-	public static JaqyHelperFactory getInstance ()
-	{
-		return s_intance;
-	}
-
-	private DefaultHelperFactory ()
+	public DefaultHelperFactory ()
 	{
 	}
 
 	@Override
-	public JaqyHelper getHelper (JaqyConnection conn)
+	public JaqyHelper getHelper (JaqyConnection conn, Globals globals)
 	{
-		return new DefaultHelper (conn);
+		return new DefaultHelper (m_features, conn, globals);
 	}
 }

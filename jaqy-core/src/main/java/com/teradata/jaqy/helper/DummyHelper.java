@@ -15,17 +15,15 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.sql.ResultSet;
-
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.DummyConnection;
 
 /**
  * @author	Heng Yuan
  */
-public class DummyHelper implements JaqyHelper
+public class DummyHelper extends DefaultHelper
 {
 	private final static JaqyHelper s_instance = new DummyHelper ();
 
@@ -34,21 +32,8 @@ public class DummyHelper implements JaqyHelper
 		return s_instance;
 	}
 
-	private final JaqyConnection m_connection = new JaqyConnection (new DummyConnection ());
-
 	private DummyHelper ()
 	{
-	}
-
-	@Override
-	public JaqyResultSet getResultSet (ResultSet rs)
-	{
-		return new JaqyResultSet (rs, this);
-	}
-
-	@Override
-	public JaqyConnection getConnection ()
-	{
-		return m_connection;
+		super (new JdbcFeatures (), new JaqyConnection (new DummyConnection ()), null);
 	}
 }

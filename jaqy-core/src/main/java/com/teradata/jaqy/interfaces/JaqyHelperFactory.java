@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.interfaces;
 
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 
 /**
@@ -23,5 +24,5 @@ import com.teradata.jaqy.connection.JaqyConnection;
  */
 public interface JaqyHelperFactory
 {
-	public JaqyHelper getHelper (JaqyConnection conn);
+	public JaqyHelper getHelper (JaqyConnection conn, Globals globals);
 }

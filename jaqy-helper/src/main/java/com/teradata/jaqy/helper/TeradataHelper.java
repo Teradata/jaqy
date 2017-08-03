@@ -19,9 +19,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.TypesUtils;
@@ -29,18 +31,11 @@ import com.teradata.jaqy.utils.TypesUtils;
 /**
  * @author	Heng Yuan
  */
-class TeradataHelper implements JaqyHelper
+class TeradataHelper extends DefaultHelper
 {
-	private final JaqyConnection m_conn;
-
-	public boolean isShowStmt (int activityType)
+	public TeradataHelper (JaqyConnection conn, Globals globals)
 	{
-		return activityType == 49;
-	}
-
-	public TeradataHelper (JaqyConnection conn)
-	{
-		m_conn = conn;
+		super (new JdbcFeatures (), conn, globals);
 	}
 
 	@Override
@@ -57,6 +52,7 @@ class TeradataHelper implements JaqyHelper
 			int type = meta.getColumnType (1);
 			if (TypesUtils.isString (type))
 			{
+				assert Debug.debug ("Potential SHOW ResultSet.");
 				//
 				// Teradata SHOW statements due to legacy, use '\r' instead of '\n'
 				// characters.  That can be problematic in the output.
@@ -99,11 +95,5 @@ class TeradataHelper implements JaqyHelper
 			}
 		}
 		return new JaqyResultSet (rs, this);
-	}
-
-	@Override
-	public JaqyConnection getConnection ()
-	{
-		return m_conn;
 	}
 }

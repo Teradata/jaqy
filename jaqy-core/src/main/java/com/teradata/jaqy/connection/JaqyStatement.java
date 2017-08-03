@@ -28,7 +28,7 @@ public class JaqyStatement
 	private final JaqyConnection m_connection;
 	private JaqyResultSet m_rs;
 
-	JaqyStatement (Statement stmt, JaqyConnection conn)
+	public JaqyStatement (Statement stmt, JaqyConnection conn)
 	{
 		m_statement = stmt;
 		m_connection = conn;

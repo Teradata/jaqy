@@ -17,9 +17,7 @@ package com.teradata.jaqy.connection;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 
@@ -31,13 +29,11 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 public class JaqyConnection
 {
 	private final Connection m_connection;
-	private final JdbcFeatures m_features;
 	private JaqyHelper m_helper;
 
 	public JaqyConnection (Connection conn)
 	{
 		m_connection = conn;
-		m_features = new JdbcFeatures ();
 	}
 
 	public void setHelper (JaqyHelper helper)
@@ -82,44 +78,12 @@ public class JaqyConnection
 	
 	public JaqyStatement createStatement () throws SQLException
 	{
-		if (getFeatures().forwardOnlyRS)
-			return new JaqyStatement (getConnection().createStatement (), this);
-		else
-		{
-			try
-			{
-				return new JaqyStatement (getConnection().createStatement (ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), this);
-			}
-			catch (SQLException ex)
-			{
-				// we are catching all SQLException rather than just
-				// SQLFeatureNotSupportedException because some JDBC drivers
-				// throw SQLException in all cases.
-				getFeatures().forwardOnlyRS = true;
-				return new JaqyStatement (getConnection().createStatement (), this);
-			}
-		}
+		return m_helper.createStatement ();
 	}
 
 	public JaqyPreparedStatement prepareStatement (String sql) throws SQLException
 	{
-		if (getFeatures().forwardOnlyRS)
-			return new JaqyPreparedStatement (getConnection().prepareStatement (sql), this);
-		else
-		{
-			try
-			{
-				return new JaqyPreparedStatement (getConnection().prepareStatement (sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), this);
-			}
-			catch (SQLException ex)
-			{
-				// we are catching all SQLException rather than just
-				// SQLFeatureNotSupportedException because some JDBC drivers
-				// throw SQLException in all cases.
-				getFeatures().forwardOnlyRS = true;
-				return new JaqyPreparedStatement (getConnection().prepareStatement (sql), this);
-			}
-		}
+		return m_helper.preparedStatement (sql);
 	}
 
 	public void setAutoCommit (boolean b) throws SQLException
@@ -144,55 +108,32 @@ public class JaqyConnection
 
 	public String getCatalog () throws SQLException
 	{
-		if (getFeatures().noCatalog)
-			return null;
-		try
-		{
-			return m_connection.getCatalog ();
-		}
-		catch (SQLFeatureNotSupportedException ex)
-		{
-			getFeatures().noCatalog = true;
-			return null;
-		}
-		catch (SQLException ex)
-		{
-			throw ex;
-		}
-		catch (Throwable t)
-		{
-			getFeatures().noSchema = true;
-			return null;
-		}
+		return m_helper.getCatalog ();
 	}
 
 	public String getSchema () throws SQLException
 	{
-		if (getFeatures().noSchema)
-			return null;
-		try
-		{
-			return m_connection.getSchema ();
-		}
-		catch (SQLFeatureNotSupportedException ex)
-		{
-			getFeatures().noSchema = true;
-			return null;
-		}
-		catch (SQLException ex)
-		{
-			throw ex;
-		}
-		catch (Throwable t)
-		{
-			getFeatures().noSchema = true;
-			return null;
-		}
+		return m_helper.getSchema ();
 	}
 
 	public DatabaseMetaData getMetaData () throws SQLException
 	{
 		return m_connection.getMetaData ();
+	}
+
+	public String getCatalogSeparator ()
+	{
+		try
+		{
+			if (!isClosed ())
+			{
+				return getMetaData ().getCatalogSeparator ();
+			}
+		}
+		catch (Throwable t)
+		{
+		}
+		return ".";
 	}
 
 	/**
@@ -202,13 +143,5 @@ public class JaqyConnection
 	public Connection getConnection ()
 	{
 		return m_connection;
-	}
-
-	/**
-	 * @return	the features
-	 */
-	public JdbcFeatures getFeatures ()
-	{
-		return m_features;
 	}
 }

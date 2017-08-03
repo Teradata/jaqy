@@ -26,7 +26,7 @@ public class JaqyPreparedStatement extends JaqyStatement
 	private final PreparedStatement m_statement;
 	private JaqyParameterMetaData m_parameterMetaData;
 
-	JaqyPreparedStatement (PreparedStatement stmt, JaqyConnection conn)
+	public JaqyPreparedStatement (PreparedStatement stmt, JaqyConnection conn)
 	{
 		super (stmt, conn);
 		m_statement = stmt;

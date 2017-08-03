@@ -27,13 +27,11 @@ public class JaqyParameterMetaData
 {
 	private final ParameterMetaData m_metaData;
 	private final JaqyConnection m_connection;
-	private final JdbcFeatures m_features;
 
 	JaqyParameterMetaData (ParameterMetaData metaData, JaqyConnection conn)
 	{
 		m_metaData = metaData;
 		m_connection = conn;
-		m_features = conn.getFeatures ();
 	}
 
 	/**
@@ -50,15 +48,6 @@ public class JaqyParameterMetaData
 	public JaqyConnection getConnection ()
 	{
 		return m_connection;
-	}
-
-	/**
-	 * Gets the features not supported by the JDBC driver.
-	 * @return	the features not supported by the JDBC driver.
-	 */
-	public JdbcFeatures getFeatures ()
-	{
-		return m_features;
 	}
 
 	public boolean isNumber (int parameter) throws SQLException
