@@ -185,9 +185,10 @@ public class DefaultHelper implements JaqyHelper
 
 		boolean hasHost = false;
 		String url = m_conn.getMetaData ().getURL ();
-		int start = url.indexOf ("//") + 2;
+		int start = url.indexOf ("//");
 		if (start > 0)
 		{
+			start += 2;
 			hasHost = true;
 			int end = url.indexOf ('/', start);
 			if (end < 0)
@@ -219,6 +220,8 @@ public class DefaultHelper implements JaqyHelper
 			}
 			buffer.append (path);
 		}
-		return buffer.toString ();
+		if (buffer.length () > 0)
+			return buffer.toString ();
+		return getURL ();
 	}
 }
