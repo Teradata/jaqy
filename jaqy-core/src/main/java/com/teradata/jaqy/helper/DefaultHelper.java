@@ -24,6 +24,7 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -223,5 +224,21 @@ public class DefaultHelper implements JaqyHelper
 		if (buffer.length () > 0)
 			return buffer.toString ();
 		return getURL ();
+	}
+
+	@Override
+	public boolean isJsonColumn (JaqyResultSetMetaData meta, int column) throws SQLException
+	{
+		if ("JSON".equalsIgnoreCase (meta.getColumnTypeName (column)))
+			return true;
+		return false;
+	}
+
+	@Override
+	public boolean isSpatialColumn (JaqyResultSetMetaData meta, int column) throws SQLException
+	{
+		if ("ST_GEOMETRY".equalsIgnoreCase (meta.getColumnTypeName (column)))
+			return true;
+		return false;
 	}
 }

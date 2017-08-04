@@ -15,10 +15,9 @@
  */
 package com.teradata.jaqy.typeprinter;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -27,17 +26,16 @@ import com.teradata.jaqy.utils.StringUtils;
 /**
  * @author	Heng Yuan
  */
-class BinaryTypePrinter implements TypePrinter
+class ObjectTypePrinter implements TypePrinter
 {
-	private static int MAX_LEN = 64000;
-	private final static TypePrinter s_instance = new BinaryTypePrinter ();
+	private final static TypePrinter s_instance = new ObjectTypePrinter ();
 
 	public static TypePrinter getInstance ()
 	{
 		return s_instance;
 	}
 
-	private BinaryTypePrinter ()
+	private ObjectTypePrinter ()
 	{
 	}
 
@@ -45,9 +43,13 @@ class BinaryTypePrinter implements TypePrinter
 	public void print (PrintWriter pw, JaqyResultSet rs, int columnIndex, int width, boolean leftAlign, boolean pad) throws SQLException
 	{
 		Object obj = rs.getObject (columnIndex);
-		String value;
-		if (obj == null)
-			value = null;
+		String value = null;
+		if (obj instanceof Clob)
+		{
+			Clob clob = (Clob)obj;
+			value = clob.getSubString (1, (int)clob.length ());
+			clob.free ();
+		}
 		else if (obj instanceof byte[])
 		{
 			value = StringUtils.getHexString ((byte[])obj);
@@ -61,28 +63,7 @@ class BinaryTypePrinter implements TypePrinter
 		}
 		else
 		{
-			InputStream is = rs.getBinaryStream (columnIndex);
-			byte[] bytes = new byte[4096];
-			int len;
-			try
-			{
-				value = "";
-				while ((len = is.read (bytes)) > 0)
-				{
-					value += StringUtils.getHexString (bytes, 0, len);
-					if (value.length () > width ||
-						value.length () > MAX_LEN)
-					{
-						int smaller = Math.min (width, MAX_LEN);
-						value = value.substring (0, smaller);
-						break;
-					}
-				}
-			}
-			catch (IOException ex)
-			{
-				value = ex.getMessage ();
-			}
+			value = obj.toString ();
 		}
 		StringUtils.print (pw, value, width, leftAlign, pad);
 	}

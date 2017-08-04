@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.utils;
 
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Array;
@@ -24,8 +25,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Struct;
 
-import org.yuanheng.cookjson.CookJsonGenerator;
+import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
 
+import org.yuanheng.cookjson.CookJsonGenerator;
+import org.yuanheng.cookjson.TextJsonParser;
+
+import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 
@@ -113,6 +119,10 @@ public class JsonUtils
 				blob.free ();
 				g.write (name, bytes);
 			}
+			else if (obj instanceof JsonValue)
+			{
+				g.write (name, (JsonValue)obj);
+			}
 			else
 				g.write (name, obj.toString ());
 		}
@@ -147,10 +157,12 @@ public class JsonUtils
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
 		int columns = metaData.getColumnCount ();
 		String[] headers = new String[columns];
+		boolean[] jsonCheck = new boolean[columns];
 
 		for (int i = 0; i < columns; ++i)
 		{
 			headers[i] = metaData.getColumnLabel (i + 1);
+			jsonCheck[i] = metaData.isJson (i + 1);
 		}
 
 		g.writeStartArray ();
@@ -162,6 +174,37 @@ public class JsonUtils
 			for (int i = 0; i < columns; ++i)
 			{
 				Object obj = rs.getObject (i + 1);
+				if (obj != null && jsonCheck[i])
+				{
+					String str = null;
+					// We only deal with textual form of JSON here.
+					if (obj instanceof Clob)
+					{
+						Clob clob = (Clob)obj;
+						str = clob.getSubString (1, (int)clob.length ());
+						clob.free ();
+					}
+					else if (obj instanceof CharSequence)
+					{
+						str = obj.toString ();
+					}
+
+					if (str != null)
+					{
+						// Now convert str to JsonValue
+						try
+						{
+							JsonParser p = new TextJsonParser (new StringReader (str));
+							p.next ();
+							obj = p.getValue ();
+							p.close ();
+						}
+						catch (Exception ex)
+						{
+							assert Debug.debug (ex);
+						}
+					}
+				}
 				print (g, headers[i], obj);
 			}
 			g.writeEnd ();

@@ -276,4 +276,14 @@ public class JaqyResultSetMetaData
 	{
 		return m_metaData.getPrecision (column);
 	}
+
+	public boolean isJson (int column) throws SQLException
+	{
+		return m_helper.isJsonColumn (this, column);
+	}
+
+	public boolean isSpatial (int column) throws SQLException
+	{
+		return m_helper.isSpatialColumn (this, column);
+	}
 }
