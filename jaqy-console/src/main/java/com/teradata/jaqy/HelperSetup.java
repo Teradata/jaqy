@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy;
 
+import com.teradata.jaqy.helper.PostgresHelperFactory;
 import com.teradata.jaqy.helper.TeradataHelperFactory;
 
 /**
