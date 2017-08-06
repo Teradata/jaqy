@@ -25,5 +25,6 @@ class HelperSetup
 	public static void init (Globals globals)
 	{
 		globals.getHelperManager ().addHelperFactory ("teradata", new TeradataHelperFactory ());
+		globals.getHelperManager ().addHelperFactory ("postgresql", new PostgresHelperFactory ());
 	}
 }

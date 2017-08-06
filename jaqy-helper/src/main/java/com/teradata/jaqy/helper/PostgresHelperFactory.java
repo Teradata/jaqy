@@ -13,31 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.exporter;
+package com.teradata.jaqy.helper;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import com.teradata.jaqy.utils.TestUtils;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 
 /**
  * @author	Heng Yuan
  */
-public class JSONExporterTest
+public class PostgresHelperFactory implements JaqyHelperFactory
 {
-	@Rule
-	public TemporaryFolder testFolder = new TemporaryFolder ();
-
-	@Test
-	public void test1 () throws Exception
+	@Override
+	public JaqyHelper getHelper (JaqyConnection conn, Globals globals)
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_export_1.sql", "../tests/unittests/json/control/json_export_1.control");
-	}
-
-	@Test
-	public void test2 () throws Exception
-	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_export_2.sql", "../tests/unittests/json/control/json_export_2.control");
+		return new PostgresHelper (conn, globals);
 	}
 }

@@ -2,8 +2,6 @@
 -- Transaction test
 --------------------------------------------------------------------------
 .run ../common/postgresql_setup.sql
-CREATE DATABASE vagrant;
-USE vagrant;
 
 CREATE TABLE MyTable
 (
@@ -29,7 +27,6 @@ ROLLBACK;
 SELECT * FROM MyTable ORDER BY a, b;
 
 DROP TABLE MyTable;
-DROP DATABASE vagrant;
 
 .close
 

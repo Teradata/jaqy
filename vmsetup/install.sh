@@ -21,6 +21,8 @@ ver=`/bin/ls -C1 /etc/postgresql`
 sudo cp /vagrant/vmsetup/p*.conf /etc/postgresql/${ver}/main/
 # Restart the PostgreSQL server
 sudo /etc/init.d/postgresql restart
+sudo apt-get install -y --force-yes postgis postgresql-9.3-postgis-2.1
+sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgres
 
 # ==== MySQL ====
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'

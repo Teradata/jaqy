@@ -40,4 +40,10 @@ public class PostgreSQLTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/transaction.sql", "../tests/unittests/postgresql/control/transaction.control");
 	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/json_type.sql", "../tests/unittests/postgresql/control/json_type.control");
+	}
 }

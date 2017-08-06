@@ -16,6 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Array;
@@ -29,6 +30,7 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
 import org.yuanheng.cookjson.CookJsonGenerator;
+import org.yuanheng.cookjson.TextJsonGenerator;
 import org.yuanheng.cookjson.TextJsonParser;
 
 import com.teradata.jaqy.Debug;
@@ -40,6 +42,15 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
  */
 public class JsonUtils
 {
+	public static String toString (JsonValue v)
+	{
+		StringWriter sw = new StringWriter ();
+		TextJsonGenerator g = new TextJsonGenerator (sw);
+		g.write (v);
+		g.close ();
+		return sw.toString ();
+	}
+
 	private static void print (CookJsonGenerator g, Object obj) throws SQLException
 	{
 		if (obj == null)
@@ -176,6 +187,7 @@ public class JsonUtils
 				Object obj = rs.getObject (i + 1);
 				if (obj != null && jsonCheck[i])
 				{
+					assert Debug.debug ("Column " + (i + 1) + " is a JSON column: " + obj.getClass ());
 					String str = null;
 					// We only deal with textual form of JSON here.
 					if (obj instanceof Clob)
@@ -184,7 +196,7 @@ public class JsonUtils
 						str = clob.getSubString (1, (int)clob.length ());
 						clob.free ();
 					}
-					else if (obj instanceof CharSequence)
+					else
 					{
 						str = obj.toString ();
 					}

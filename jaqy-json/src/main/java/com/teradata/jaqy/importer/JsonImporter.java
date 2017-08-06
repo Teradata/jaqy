@@ -26,7 +26,9 @@ import java.util.HashMap;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonString;
+import javax.json.JsonStructure;
 import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonParser.Event;
 
@@ -40,6 +42,7 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonFormat;
+import com.teradata.jaqy.utils.JsonUtils;
 
 /**
  * @author	Heng Yuan
@@ -164,12 +167,19 @@ class JsonImporter implements JaqyImporter<String>
 	public Object getObjectFromPath (String name, int type) throws Exception
 	{
 		JsonValue v = m_node.get (name);
+		if (v.getValueType () == ValueType.NULL) 
+			return null;
 		switch (type)
 		{
 			case Types.TINYINT:
 			case Types.SMALLINT:
 			case Types.INTEGER:
 			{
+				if (v.getValueType () == ValueType.TRUE)
+					return 1;
+				else if (v.getValueType () == ValueType.FALSE)
+					return 0;
+
 				if (v instanceof JsonString)
 				{
 					return Integer.parseInt (((JsonString)v).getString ());
@@ -234,7 +244,13 @@ class JsonImporter implements JaqyImporter<String>
 			case Types.NCLOB:
 			{
 				if (v instanceof JsonString)
-					((JsonString)v).getString ();
+				{
+					return ((JsonString)v).getString ();
+				}
+				else if (v instanceof JsonStructure)
+				{
+					return JsonUtils.toString ((JsonValue)v);
+				}
 				return v.toString ();
 			}
 			case Types.BINARY:
@@ -258,6 +274,22 @@ class JsonImporter implements JaqyImporter<String>
 					}
 				}
 				throw new IOException ("Invalid type.");
+			}
+			case Types.OTHER:
+			{
+				if (v instanceof JsonString)
+				{
+					return ((JsonString)v).getString ();
+				}
+				if (v instanceof CookJsonBinary)
+				{
+					return ((CookJsonBinary)v).getBytes ();
+				}
+				if (v instanceof JsonNumber)
+				{
+					return ((JsonNumber)v).bigDecimalValue ();
+				}
+				return JsonUtils.toString (v);
 			}
 		}
 		throw new IOException ("Invalid type.");
