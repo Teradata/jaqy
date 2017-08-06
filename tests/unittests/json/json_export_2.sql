@@ -118,5 +118,5 @@ SELECT c1, XMLSERIALIZE(c2 AS VARCHAR(100)) FROM XmlTable ORDER BY c1;
 
 DROP TABLE XmlTable;
 
-.rm *Table.json
+.os rm -f *Table.json
 .close

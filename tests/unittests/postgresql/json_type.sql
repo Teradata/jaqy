@@ -35,5 +35,6 @@ SELECT * FROM JsonTable  ORDER BY a, b;
 
 DROP TABLE JsonTable;
 
+.os rm -f test.json
 .close
 

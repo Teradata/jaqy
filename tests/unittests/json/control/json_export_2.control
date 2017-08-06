@@ -300,8 +300,7 @@ DROP TABLE XmlTable;
 -- success. update count = 0
 -- 35/16 - 0 --------------------------------------------------------------
 
-.rm *Table.json
--- error: unknown command: rm
+.os rm -f *Table.json
 -- 35/17 - 0 --------------------------------------------------------------
 .close
 Session 0 is now closed.
