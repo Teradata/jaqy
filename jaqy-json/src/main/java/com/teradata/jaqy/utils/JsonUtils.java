@@ -139,9 +139,12 @@ public class JsonUtils
 		}
 	}
 
-	private static void print (CookJsonGenerator g, Array a) throws SQLException
+	private static void print (CookJsonGenerator g, String name, Array a) throws SQLException
 	{
-		g.writeStartArray ();
+		if (name == null)
+			g.writeStartArray ();
+		else
+			g.writeStartArray (name);
 		ResultSet rs = a.getResultSet ();
 		while (rs.next ())
 		{
@@ -152,9 +155,12 @@ public class JsonUtils
 		a.free ();
 	}
 
-	private static void print (CookJsonGenerator g, Struct s) throws SQLException
+	private static void print (CookJsonGenerator g, String name, Struct s) throws SQLException
 	{
-		g.writeStartArray ();
+		if (name == null)
+			g.writeStartArray ();
+		else
+			g.writeStartArray (name);
 
 		Object[] objs = s.getAttributes ();
 		for (Object obj : objs)

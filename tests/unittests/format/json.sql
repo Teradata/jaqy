@@ -18,3 +18,7 @@ INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 SELECT * FROM MyTable ORDER BY a;
 .format json -p off
 SELECT * FROM MyTable ORDER BY a;
+
+DROP TABLE MyTable;
+.close
+

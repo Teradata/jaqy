@@ -1,0 +1,83 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .format json test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/
+-- 0/2 - 0 ----------------------------------------------------------------
+
+-- Test array
+CREATE TABLE ArrTable (a INT, b boolean, c boolean[]);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO ArrTable VALUES (1, true, NULL);
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+INSERT INTO ArrTable VALUES (2, false, '{}');
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+INSERT INTO ArrTable VALUES (3, true, '{true}');
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO ArrTable VALUES (4, null, '{true,false}');
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+INSERT INTO ArrTable VALUES (5, true, '{true,true,false}');
+-- success. update count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+
+.format json
+-- 6/3 - 0 ----------------------------------------------------------------
+SELECT * FROM ArrTable ORDER BY a;
+-- success --
+[
+	{
+		"a" : 1,
+		"b" : true,
+		"c" : null
+	},
+	{
+		"a" : 2,
+		"b" : false,
+		"c" : []
+	},
+	{
+		"a" : 3,
+		"b" : true,
+		"c" : [
+			true
+		]
+	},
+	{
+		"a" : 4,
+		"b" : null,
+		"c" : [
+			true,
+			false
+		]
+	},
+	{
+		"a" : 5,
+		"b" : true,
+		"c" : [
+			true,
+			true,
+			false
+		]
+	}
+]
+-- activity count = 5
+-- 7/3 - 0 ----------------------------------------------------------------
+
+DROP TABLE ArrTable;
+-- success. update count = 0
+-- 8/3 - 0 ----------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 8/4 - 0 ----------------------------------------------------------------
+

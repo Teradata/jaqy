@@ -30,3 +30,7 @@ SELECT * FROM MyTable ORDER BY a;
 SELECT * FROM MyTable ORDER BY a;
 .format csv -type tdf
 SELECT * FROM MyTable ORDER BY a;
+
+DROP TABLE MyTable;
+.close
+
