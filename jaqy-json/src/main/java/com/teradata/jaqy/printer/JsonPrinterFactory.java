@@ -64,6 +64,7 @@ public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 						binaryFormat = JsonBinaryFormat.Base64;
 					else
 						throw new IllegalArgumentException ("invalid binary option value: " + value);
+					break;
 				}
 				case 'p':
 				{
@@ -74,6 +75,7 @@ public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 						pretty = false;
 					else
 						throw new IllegalArgumentException ("invalid pretty option value: " + value);
+					break;
 				}
 			}
 		}

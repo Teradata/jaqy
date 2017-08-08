@@ -40,4 +40,10 @@ public class JSONExporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_export_2.sql", "../tests/unittests/json/control/json_export_2.control");
 	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_export_3.sql", "../tests/unittests/json/control/json_export_3.control");
+	}
 }
