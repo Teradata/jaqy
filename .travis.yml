@@ -11,8 +11,9 @@ addons:
 services:
   - mysql
   - postgresql
+before_install:
+  - mysql -e "CREATE DATABASE vagrant;"
 before_script:
-  - mysql -u travis --password= -e "CREATE DATABASE vagrant;"
   - psql -U postgres -c "create extension postgis"
 script: mvn clean test
 after_success:
