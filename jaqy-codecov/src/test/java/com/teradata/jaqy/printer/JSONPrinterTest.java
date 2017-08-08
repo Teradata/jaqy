@@ -46,4 +46,10 @@ public class JSONPrinterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/format/json_3.sql", "../tests/unittests/format/control/json_3.control");
 	}
+
+	@Test
+	public void test4 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/format/json_4.sql", "../tests/unittests/format/control/json_4.control");
+	}
 }

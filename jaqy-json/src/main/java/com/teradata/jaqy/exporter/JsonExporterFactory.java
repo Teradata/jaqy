@@ -77,7 +77,7 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 				{
 					String value = option.getValue ();
 					if ("text".equals (value))
-						format = JsonFormat.Bson;
+						format = JsonFormat.Text;
 					else if ("bson".equals (value))
 						format = JsonFormat.Bson;
 					else
