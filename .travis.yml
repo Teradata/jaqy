@@ -4,6 +4,9 @@ jdk:
   - oraclejdk8
 addons:
     postgresql: 9.3
+    apt:
+        packages:
+        - postgresql-9.3-postgis-2.1
 services:
   - mysql
   - postgresql
