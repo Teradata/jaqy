@@ -4,6 +4,7 @@ sudo: false
 jdk:
   - oraclejdk8
 addons:
+    mysql: 5.5
     postgresql: 9.3
     apt:
         packages:
