@@ -172,18 +172,22 @@ Test
 SELECT CAST('12:03:04' AS TIME) AS Test;
 -- success --
 Test
---------
+----------
 12:03:04
 -- activity count = 1
 -- 30/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04.12' AS TIME(2)) AS Test;
--- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(2)) AS Test' at line 1
+-- success --
+Test
+-------------
+12:03:04
+-- activity count = 1
 -- 31/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIME ZONE) AS Test' at line 1
 -- 32/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test;
--- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(2) WITH TIME ZONE) AS Test' at line 1
+-- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIME ZONE) AS Test' at line 1
 -- 33/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04' AS TIMESTAMP) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIMESTAMP) AS Test' at line 1

@@ -21,20 +21,29 @@ ver=`/bin/ls -C1 /etc/postgresql`
 sudo cp /vagrant/vmsetup/p*.conf /etc/postgresql/${ver}/main/
 # Restart the PostgreSQL server
 sudo /etc/init.d/postgresql restart
-sudo apt-get install -y --force-yes postgis postgresql-9.3-postgis-2.1
+sudo apt-get install -y --force-yes postgis postgresql-9.3-postgis-2.3
 sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgres
+
+# Create the swap file for running MySQL
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
 
 # ==== MySQL ====
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password vagrant'
-sudo apt-get -y install mysql-server
+sudo apt-get -y install mysql-server-5.6
 
 # Travis CI MySQL database user is travis, password is blank
 mysql -u root --password=vagrant <<EOF
+CREATE DATABASE vagrant;
 CREATE USER 'travis' IDENTIFIED BY '';
 GRANT ALL PRIVILEGES ON * . * TO 'travis';
 FLUSH PRIVILEGES;
 EOF
+
+mysql -u root --password=vagrant 'CREATE DATABASE vagrant;'
 
 # Let MySQL to listen connections from all ips (not just local host)
 sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf

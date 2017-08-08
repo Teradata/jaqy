@@ -4,7 +4,6 @@ sudo: false
 jdk:
   - oraclejdk8
 addons:
-    mysql: 5.5
     postgresql: 9.3
     apt:
         packages:
@@ -13,6 +12,7 @@ services:
   - mysql
   - postgresql
 before_script:
+  - mysql -e 'CREATE DATABASE vagrant;'
   - psql -U postgres -c "create extension postgis"
 script: mvn clean test
 after_success:
