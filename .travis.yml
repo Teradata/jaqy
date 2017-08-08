@@ -7,10 +7,11 @@ addons:
 services:
   - mysql
   - postgresql
+install:
+  - sudo apt-get install -y postgresql-9.3-postgis-2.1
 before_script:
   - psql -U postgres -c "create extension postgis"
 script: mvn clean test
 after_success:
   - mvn clean site -Dcobertura.report.format=xml
   - bash <(curl -s https://codecov.io/bash)
-
