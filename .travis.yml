@@ -14,7 +14,7 @@ services:
 before_install:
 before_script:
   - mysql -e 'create database IF NOT EXISTS vagrant;' -uroot
-  - mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'vagrant'@'%';" -uroot
+  - mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'%';" -uroot
   - mysql -e "FLUSH PRIVILEGES;" -uroot
   - psql -U postgres -c "create extension postgis"
 script: mvn clean test
