@@ -13,10 +13,10 @@ services:
   - postgresql
 before_install:
 before_script:
-  - mysql -e 'create database IF NOT EXISTS vagrant;' -uroot
-  - mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'%';" -uroot
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS vagrant;' -uroot
+  - mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'localhost';" -uroot
   - mysql -e "FLUSH PRIVILEGES;" -uroot
-  - psql -U postgres -c "create extension postgis"
+  - psql -U postgres -c "CREATE EXTENSION postgis"
 script: mvn clean test
 after_success:
   - mvn clean site -Dcobertura.report.format=xml
