@@ -77,14 +77,23 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 				}
 				case 'c':
 				{
-					charset = Charset.forName (option.getValue ());
+					try
+					{
+						charset = Charset.forName (option.getValue ());
+					}
+					catch (Exception ex)
+					{
+						charset = null;
+					}
+					if (charset == null)
+						throw new IllegalArgumentException ("invalid character set: " + option.getValue ());
 					break;
 				}
 				case 'f':
 				{
 					String value = option.getValue ();
 					if ("text".equals (value))
-						format = JsonFormat.Bson;
+						format = JsonFormat.Text;
 					else if ("bson".equals (value))
 						format = JsonFormat.Bson;
 					else

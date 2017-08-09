@@ -31,6 +31,8 @@ SELECT * FROM MyTable ORDER BY a;
 .format csv -type tdf
 SELECT * FROM MyTable ORDER BY a;
 
+.format csv -type dummy
+
 DROP TABLE MyTable;
 .close
 

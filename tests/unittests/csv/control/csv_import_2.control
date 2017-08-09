@@ -138,21 +138,99 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 9/8 - 0 ----------------------------------------------------------------
 
+.import csv -h off -t default lib/import2.csv
+-- 9/9 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 10/9 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+1 1
+2 2
+3 3
+4 4
+-- activity count = 4
+-- 11/9 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 12/9 - 0 ---------------------------------------------------------------
+
+.import csv -h off -t dummy lib/import2.csv
+-- error: unknown csv format: dummy
+-- 12/10 - 0 --------------------------------------------------------------
+
+.import csv -h off -d| -c utf8 lib/import3.csv
+-- 12/11 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    200
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       N
+-- success. update count = 1
+-- 13/11 - 0 --------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- -
+1 1
+2 2
+3 3
+4 4
+-- activity count = 4
+-- 14/11 - 0 --------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 15/11 - 0 --------------------------------------------------------------
+
 DROP TABLE MyTable;
 -- success. update count = 0
--- 10/8 - 0 ---------------------------------------------------------------
+-- 16/11 - 0 --------------------------------------------------------------
 
 -- test csv with more columns
 DROP TABLE MyTable;
 -- failure 30000: [42Y55] 'DROP TABLE' cannot be performed on 'MYTABLE' because it does not exist.
--- 11/8 - 0 ---------------------------------------------------------------
+-- 17/11 - 0 --------------------------------------------------------------
 
 CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200), c INTEGER);
 -- success. update count = 0
--- 12/8 - 0 ---------------------------------------------------------------
+-- 18/11 - 0 --------------------------------------------------------------
 
 .import csv -h off lib/import2.csv
--- 12/9 - 0 ---------------------------------------------------------------
+-- 18/12 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{col1}}, {{col2}}, {{col3}});
 Parameter Count                              3
   Index                                        1
@@ -180,22 +258,22 @@ Parameter Count                              3
     Nullable                                     1
     Signed                                       Y
 -- error: field not found: col2
--- 13/9 - 0 ---------------------------------------------------------------
+-- 19/12 - 0 --------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
 A B           C
 - - -----------
 -- activity count = 0
--- 14/9 - 0 ---------------------------------------------------------------
+-- 20/12 - 0 --------------------------------------------------------------
 DELETE FROM MyTable;
 -- success. update count = 0
--- 15/9 - 0 ---------------------------------------------------------------
+-- 21/12 - 0 --------------------------------------------------------------
 
 DROP TABLE MyTable;
 -- success. update count = 0
--- 16/9 - 0 ---------------------------------------------------------------
+-- 22/12 - 0 --------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 16/10 - 0 --------------------------------------------------------------
+-- 22/13 - 0 --------------------------------------------------------------
 

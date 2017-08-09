@@ -32,6 +32,20 @@ INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
+.import csv -h off -t default lib/import2.csv
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
+
+SELECT * FROM MyTable ORDER BY a;
+DELETE FROM MyTable;
+
+.import csv -h off -t dummy lib/import2.csv
+
+.import csv -h off -d| -c utf8 lib/import3.csv
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
+
+SELECT * FROM MyTable ORDER BY a;
+DELETE FROM MyTable;
+
 DROP TABLE MyTable;
 
 -- test csv with more columns

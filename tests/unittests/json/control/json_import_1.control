@@ -81,8 +81,12 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 4/6 - 0 ----------------------------------------------------------------
 
-.import json -a -f bson lib/import1.bson
+.import json -f text -c dummy lib/import1.json
+-- error: invalid character set: dummy
 -- 4/7 - 0 ----------------------------------------------------------------
+
+.import json -f text lib/import1.json
+-- 4/8 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 Parameter Count                              2
   Index                                        1
@@ -102,7 +106,7 @@ Parameter Count                              2
     Nullable                                     1
     Signed                                       Y
 -- success. update count = 1
--- 5/7 - 0 ----------------------------------------------------------------
+-- 5/8 - 0 ----------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
@@ -113,16 +117,54 @@ SELECT * FROM MyTable ORDER BY a;
           5           6
           7           8
 -- activity count = 4
--- 6/7 - 0 ----------------------------------------------------------------
+-- 6/8 - 0 ----------------------------------------------------------------
 
 DELETE FROM MyTable;
 -- success. update count = 4
--- 7/7 - 0 ----------------------------------------------------------------
+-- 7/8 - 0 ----------------------------------------------------------------
+
+.import json -a -f bson lib/import1.bson
+-- 7/9 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Precision                                    10
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+-- success. update count = 1
+-- 8/9 - 0 ----------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+          A           B
+----------- -----------
+          1           2
+          3           4
+          5           6
+          7           8
+-- activity count = 4
+-- 9/9 - 0 ----------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 10/9 - 0 ---------------------------------------------------------------
 
 DROP TABLE MyTable;
 -- success. update count = 0
--- 8/7 - 0 ----------------------------------------------------------------
+-- 11/9 - 0 ---------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 8/8 - 0 ----------------------------------------------------------------
+-- 11/10 - 0 --------------------------------------------------------------
 

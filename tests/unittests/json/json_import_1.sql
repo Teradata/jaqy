@@ -18,6 +18,15 @@ SELECT * FROM MyTable ORDER BY a;
 
 DELETE FROM MyTable;
 
+.import json -f text -c dummy lib/import1.json
+
+.import json -f text lib/import1.json
+INSERT INTO MyTable VALUES ({{a}}, {{b}});
+
+SELECT * FROM MyTable ORDER BY a;
+
+DELETE FROM MyTable;
+
 .import json -a -f bson lib/import1.bson
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 
