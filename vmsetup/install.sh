@@ -43,7 +43,8 @@ GRANT ALL PRIVILEGES ON * . * TO 'travis';
 FLUSH PRIVILEGES;
 EOF
 
-mysql -u root --password=vagrant 'CREATE DATABASE vagrant;'
+# Set the password for MySQL root to empty
+mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')"
 
 # Let MySQL to listen connections from all ips (not just local host)
 sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf
