@@ -12,6 +12,8 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 
 .debug preparedstatement on
 
+.import csv
+
 -- test csv with header
 .import csv -h on lib/import1.csv
 INSERT INTO MyTable VALUES (?, ?);

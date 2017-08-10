@@ -44,7 +44,12 @@ FLUSH PRIVILEGES;
 EOF
 
 # Set the password for MySQL root to empty
-mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')"
+mysql -u root --password=vagrant -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')"
+mysql -u root <<EOF
+CREATE USER 'root'@'%' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON * . * TO 'root'@'%';
+FLUSH PRIVILEGES;
+EOF
 
 # Let MySQL to listen connections from all ips (not just local host)
 sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf

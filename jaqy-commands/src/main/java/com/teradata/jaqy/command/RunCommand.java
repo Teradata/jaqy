@@ -32,7 +32,7 @@ public class RunCommand extends JaqyCommandAdapter
 {
 	public RunCommand ()
 	{
-		addOption ("e", "encoding", true, "file encoding");
+		addOption ("c", "charset", true, "sets the file character set");
 	}
 
 	@Override

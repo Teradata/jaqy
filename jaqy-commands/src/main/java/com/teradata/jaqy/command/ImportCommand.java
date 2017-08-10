@@ -60,9 +60,9 @@ public class ImportCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
-		if (args.length < 2)
+		if (args.length == 0)
 		{
-			interpreter.println (getCommand () + " " + interpreter.getPrinter ().getName ());
+			interpreter.println (getCommand () + ": missing importer type.");
 		}
 		else
 		{

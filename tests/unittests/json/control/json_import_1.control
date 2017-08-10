@@ -30,7 +30,7 @@ json type options:
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .import
-.import table
+.import: missing importer type.
 -- 0/3 - 0 ----------------------------------------------------------------
 
 .open derby:memory:jsonDB;create=true

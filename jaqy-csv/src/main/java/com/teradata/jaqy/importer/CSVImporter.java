@@ -89,16 +89,18 @@ class CSVImporter implements JaqyImporter<Integer>
 		else if (name.startsWith ("col"))
 		{
 			String str = name.substring (3);
+			int index = -1;
 			try
 			{
-				int index = Integer.valueOf (str) - 1;
-				if (index < 0)
-					return null;
+				index = Integer.valueOf (str) - 1;
 				return new Integer (index);
 			}
 			catch (Exception ex)
 			{
 			}
+			if (index < 0)
+				throw new IllegalArgumentException ("Invalid column name: " + name);
+			return new Integer (index);
 		}
 		return null;
 	}

@@ -15,7 +15,9 @@ INSERT INTO MyTable VALUES (5, 'a''b', 'c''d');
 INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 
-.export csv file1.csv
+.export csv
+
+.export csv -c utf-8 file1.csv
 SELECT * FROM MyTable ORDER BY a;
 .os cat file1.csv
 
@@ -27,7 +29,9 @@ SELECT * FROM MyTable ORDER BY a;
 SELECT * FROM MyTable ORDER BY a;
 .os cat file3.csv
 
+.export csv file4.csv
 SELECT * FROM MyTable ORDER BY a;
+.os cat file4.csv
 
 .close
 .os rm -f file?.csv
