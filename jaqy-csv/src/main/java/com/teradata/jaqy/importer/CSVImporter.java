@@ -93,7 +93,6 @@ class CSVImporter implements JaqyImporter<Integer>
 			try
 			{
 				index = Integer.valueOf (str) - 1;
-				return new Integer (index);
 			}
 			catch (Exception ex)
 			{
@@ -102,7 +101,7 @@ class CSVImporter implements JaqyImporter<Integer>
 				throw new IllegalArgumentException ("Invalid column name: " + name);
 			return new Integer (index);
 		}
-		return null;
+		throw new IllegalArgumentException ("Invalid column name: " + name);
 	}
 
 	@Override

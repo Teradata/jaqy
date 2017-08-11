@@ -13,6 +13,7 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 .debug preparedstatement on
 
 .import csv
+.import csv -d asdf
 
 -- test csv with header
 .import csv -h on lib/import1.csv

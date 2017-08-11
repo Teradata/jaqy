@@ -39,6 +39,12 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 .import csv -h off -t dummy lib/import2.csv
+.import csv -h off lib/import2.csv
+INSERT INTO MyTable VALUES ({{cola}}, {{col2}});
+.import csv -h off lib/import2.csv
+INSERT INTO MyTable VALUES ({{col0}}, {{col2}});
+.import csv -h off lib/import2.csv
+INSERT INTO MyTable VALUES ({{a}}, {{b}});
 
 .import csv -h off -d| -c utf8 lib/import3.csv
 INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
