@@ -15,6 +15,8 @@ INSERT INTO MyTable VALUES (5, 'a''b', 'c''d', X'deadbeef');
 INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d', X'deadbeef');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 
+.export json
+
 .export json file1.json
 SELECT * FROM MyTable ORDER BY a;
 .os cat file1.json

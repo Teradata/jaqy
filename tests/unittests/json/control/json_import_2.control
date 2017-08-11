@@ -1,0 +1,92 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test JSON binary outputs etc
+--------------------------------------------------------------------------
+
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open derby:memory:jsonDB;create=true
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE BinTable
+(
+        a       INTEGER,
+        b       LONG VARCHAR FOR BIT DATA
+);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO BinTable VALUES (1, X'DEADBEEF');
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+INSERT INTO BinTable VALUES (2, X'FACEDEAD');
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+
+.format csv
+-- 3/3 - 0 ----------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+A,B
+1,deadbeef
+2,facedead
+-- activity count = 2
+-- 4/3 - 0 ----------------------------------------------------------------
+
+.export json -f text -b base64 bin.json
+-- 4/4 - 0 ----------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 5/4 - 0 ----------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 2
+-- 6/4 - 0 ----------------------------------------------------------------
+
+.import json -f text -b base64 bin.json
+-- 6/5 - 0 ----------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{A}}, {{B}});
+-- success. update count = 1
+-- 7/5 - 0 ----------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+A,B
+1,deadbeef
+2,facedead
+-- activity count = 2
+-- 8/5 - 0 ----------------------------------------------------------------
+
+.os rm -f bin.json
+-- 8/6 - 0 ----------------------------------------------------------------
+
+.export json -f text -b hex bin.json
+-- 8/7 - 0 ----------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 9/7 - 0 ----------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 2
+-- 10/7 - 0 ---------------------------------------------------------------
+
+.import json -f text -b hex bin.json
+-- 10/8 - 0 ---------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{A}}, {{B}});
+-- success. update count = 1
+-- 11/8 - 0 ---------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+A,B
+1,deadbeef
+2,facedead
+-- activity count = 2
+-- 12/8 - 0 ---------------------------------------------------------------
+
+.os rm -f bin.json
+-- 12/9 - 0 ---------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 12/10 - 0 --------------------------------------------------------------

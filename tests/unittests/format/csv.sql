@@ -14,6 +14,8 @@ INSERT INTO MyTable VALUES (5, 'a''b', 'c''d');
 INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 
+.format csv -d asdf
+
 .format csv
 SELECT * FROM MyTable ORDER BY a;
 .format csv -type default

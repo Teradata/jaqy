@@ -11,6 +11,10 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
 
 .debug preparedstatement on
 
+.import json
+.import json -f dummy
+.import json -b dummy
+
 .import json lib/import1.json
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 

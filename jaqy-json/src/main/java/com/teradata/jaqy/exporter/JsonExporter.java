@@ -58,10 +58,7 @@ class JsonExporter implements JaqyExporter
 				m_os = os;
 				break;
 			default:
-				// should not reach here.
-				m_out = null;
-				m_os = null;
-				break;
+				throw new IllegalArgumentException ("Unknown format.");
 		}
 		m_pretty = pretty;
 		m_format = format;

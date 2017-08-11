@@ -96,7 +96,7 @@ CREATE TABLE TimeTable
         c1 INTEGER,
         c2 DATE,
         c3 TIME,
-		c4 TIMESTAMP
+	c4 TIMESTAMP
 );
 
 INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '2001-02-03 12:34:56');

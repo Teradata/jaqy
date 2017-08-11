@@ -260,7 +260,7 @@ CREATE TABLE TimeTable
         c1 INTEGER,
         c2 DATE,
         c3 TIME,
-		c4 TIMESTAMP
+	c4 TIMESTAMP
 );
 -- success. update count = 0
 -- 31/12 - 0 --------------------------------------------------------------
