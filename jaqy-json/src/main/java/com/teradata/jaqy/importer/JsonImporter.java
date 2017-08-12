@@ -133,19 +133,13 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public boolean next ()
+	public boolean next () throws IOException
 	{
 		if (m_end)
 			return false;
-		try
-		{
-			m_node = readJsonObject ();
-			if (m_node != null)
-				return true;
-		}
-		catch (Exception ex)
-		{
-		}
+		m_node = readJsonObject ();
+		if (m_node != null)
+			return true;
 		m_end = true;
 		m_parser.close ();
 		return false;

@@ -77,7 +77,7 @@ class CSVImporter implements JaqyImporter<Integer>
 		}
 		catch (ArrayIndexOutOfBoundsException ex)
 		{
-			throw new IOException ("field not found: col" + index);
+			throw new IOException ("Column " + (index + 1) + " is not found.");
 		}
 	}
 

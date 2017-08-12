@@ -272,7 +272,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
--- error: field not found: col2
+-- error: Column 3 is not found.
 -- 19/15 - 0 --------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
