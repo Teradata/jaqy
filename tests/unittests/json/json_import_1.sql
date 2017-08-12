@@ -36,8 +36,15 @@ INSERT INTO MyTable VALUES ({{a}}, {{b}});
 
 SELECT * FROM MyTable ORDER BY a;
 
-DELETE FROM MyTable;
-
 DROP TABLE MyTable;
+
+CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER, c INTEGER);
+
+.import json -a -f bson lib/import1.bson
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}});
+
+SELECT * FROM MyTable ORDER BY a;
+DROP TABLE MyTable;
+
 .close
 

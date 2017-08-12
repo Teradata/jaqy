@@ -161,7 +161,7 @@ class JsonImporter implements JaqyImporter<String>
 	public Object getObjectFromPath (String name, int type) throws Exception
 	{
 		JsonValue v = m_node.get (name);
-		if (v.getValueType () == ValueType.NULL) 
+		if (v == null || v.getValueType () == ValueType.NULL) 
 			return null;
 		switch (type)
 		{
