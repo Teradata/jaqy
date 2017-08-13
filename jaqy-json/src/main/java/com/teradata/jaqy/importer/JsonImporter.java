@@ -18,6 +18,7 @@ package com.teradata.jaqy.importer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Types;
@@ -43,6 +44,7 @@ import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonFormat;
 import com.teradata.jaqy.utils.JsonUtils;
+import com.teradata.jaqy.utils.TypesUtils;
 
 /**
  * @author	Heng Yuan
@@ -182,7 +184,24 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return ((JsonNumber)v).intValue ();
 				}
-				throw new IOException ("Invalid type.");
+				break;
+			}
+			case Types.BIGINT:
+			{
+				if (v.getValueType () == ValueType.TRUE)
+					return BigInteger.ONE;
+				else if (v.getValueType () == ValueType.FALSE)
+					return BigInteger.ZERO;
+
+				if (v instanceof JsonString)
+				{
+					return Integer.parseInt (((JsonString)v).getString ());
+				}
+				else if (v instanceof JsonNumber)
+				{
+					return ((JsonNumber)v).bigIntegerValue ();
+				}
+				break;
 			}
 			case Types.FLOAT:
 			{
@@ -194,7 +213,7 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return ((JsonNumber)v).doubleValue ();
 				}
-				throw new IOException ("Invalid type.");
+				break;
 			}
 			case Types.DOUBLE:
 			{
@@ -206,7 +225,7 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return ((JsonNumber)v).doubleValue ();
 				}
-				throw new IOException ("Invalid type.");
+				break;
 			}
 			case Types.DECIMAL:
 			{
@@ -218,7 +237,7 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return ((JsonNumber)v).bigDecimalValue ();
 				}
-				throw new IOException ("Invalid type.");
+				break;
 			}
 			case Types.DATE:
 			{
@@ -226,7 +245,7 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return Date.valueOf (((JsonString)v).getString ());
 				}
-				throw new IOException ("Invalid type.");
+				break;
 			}
 			case Types.CHAR:
 			case Types.VARCHAR:
@@ -267,9 +286,9 @@ class JsonImporter implements JaqyImporter<String>
 							return Hex.decodeHex (str.toCharArray ());
 					}
 				}
-				throw new IOException ("Invalid type.");
+				break;
 			}
-			case Types.OTHER:
+			default:
 			{
 				if (v instanceof JsonString)
 				{
@@ -286,6 +305,6 @@ class JsonImporter implements JaqyImporter<String>
 				return JsonUtils.toString (v);
 			}
 		}
-		throw new IOException ("Invalid type.");
+		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (type));
 	}
 }
