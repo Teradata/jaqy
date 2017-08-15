@@ -25,6 +25,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
+import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.typeprinter.TypePrinter;
 import com.teradata.jaqy.typeprinter.TypePrinterRegistry;
 import com.teradata.jaqy.utils.ResultSetUtils;
@@ -35,21 +36,57 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 class TablePrinter implements JaqyPrinter
 {
+	private boolean m_border;
 	private boolean m_autoShrink;
 	private int m_scanThreshold;
 	private int m_columnThreshold;
 	private int m_maxColumnSize;
 
-	public TablePrinter (boolean autoShrink, int scanThreshold, int columnThreshold, int maxColumnSize)
+	public TablePrinter (boolean border, boolean autoShrink, int scanThreshold, int columnThreshold, int maxColumnSize)
 	{
+		m_border = border;
 		m_autoShrink = autoShrink;
 		m_scanThreshold = scanThreshold;
 		m_columnThreshold = columnThreshold;
 		m_maxColumnSize = maxColumnSize;
 	}
 
+	private void printBorder (PrintWriter pw, int[] widths)
+	{
+		pw.print ("+-");
+		// print the dashes
+		for (int i = 0; i < widths.length; ++i)
+		{
+			if (i > 0)
+				pw.print ("-+-");
+			StringUtils.printRepeat (pw, '-', widths[i]);
+		}
+		pw.print ("-+");
+		pw.println ();
+	}
+
+	private void printDash (PrintWriter pw, int[] widths)
+	{
+		for (int i = 0; i < widths.length; ++i)
+		{
+			if (i > 0)
+				pw.print (' ');
+			StringUtils.printRepeat (pw, '-', widths[i]);
+		}
+		pw.println ();
+	}
+
 	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws SQLException
 	{
+		// If the ResultSet is forward only, make an in-memory which allows
+		// rewind operation.
+		if (m_autoShrink && rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
+		{
+			ResultSet newRS = new InMemoryResultSet (rs.getResultSet ());
+			rs.close ();
+			rs = new JaqyResultSet (newRS, rs.getHelper ());
+		}
+
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
 		int columns = metaData.getColumnCount ();
 
@@ -71,48 +108,77 @@ class TablePrinter implements JaqyPrinter
 			widths[i] = ResultSetUtils.getDisplayWidth (rs, i + 1);
 			if (widths[i] > m_maxColumnSize)
 				widths[i] = m_maxColumnSize;
+			String title = metaData.getColumnLabel (i + 1);
+			if (widths[i] < title.length ())
+				widths[i] = title.length ();
 		}
 
-		if (m_autoShrink && rs.getType () != ResultSet.TYPE_FORWARD_ONLY)
+		if (m_autoShrink)
 		{
 			shrink (columns, widths, rs, metaData);
 		}
 
+		// Make sure the title length is considered as well.
 		for (int i = 0; i < columns; ++i)
 		{
-			int columnIndex = i + 1;
-
-			// Print the title
-			String title = metaData.getColumnLabel (columnIndex);
+			String title = metaData.getColumnLabel (i + 1);
 			if (widths[i] < title.length ())
 				widths[i] = title.length ();
-			if (i > 0)
-				pw.print (' ');
-			StringUtils.print (pw, title, widths[i], leftAligns[i], i < (columns - 1));
 		}
+
+		if (m_border)
+			printBorder (pw, widths);
+
+		// Print the title
+		if (m_border)
+			pw.print ("| ");
+		for (int i = 0; i < columns; ++i)
+		{
+			String title = metaData.getColumnLabel (i + 1);
+			if (i > 0)
+			{
+				if (m_border)
+					pw.print (" | ");
+				else
+					pw.print (' ');
+			}
+			StringUtils.print (pw, title, widths[i], leftAligns[i], (i < (columns - 1)) || m_border);
+		}
+		if (m_border)
+			pw.print (" |");
 		pw.println ();
 
 		// print the dashes
-		for (int i = 0; i < columns; ++i)
-		{
-			if (i > 0)
-				pw.print (' ');
-			StringUtils.printRepeat (pw, '-', widths[i]);
-		}
-		pw.println ();
+		if (m_border)
+			printBorder (pw, widths);
+		else
+			printDash (pw, widths);
 
 		long count = 0;
 		while (rs.next ())
 		{
 			++count;
+			if (m_border)
+				pw.print ("| ");
 			for (int i = 0; i < columns; ++i)
 			{
 				if (i > 0)
-					pw.print (' ');
-				printers[i].print (pw, rs, i + 1, widths[i], leftAligns[i], i < (columns - 1));
+				{
+					if (m_border)
+						pw.print (" | ");
+					else
+						pw.print (' ');
+				}
+				printers[i].print (pw, rs, i + 1, widths[i], leftAligns[i], (i < (columns - 1)) || m_border);
 			}
+			if (m_border)
+				pw.print (" |");
 			pw.println ();
 		}
+
+		if (m_border)
+			printBorder (pw, widths);
+
 		return count;
 	}
 
@@ -159,7 +225,7 @@ class TablePrinter implements JaqyPrinter
 			{
 				ex.printStackTrace();
 			}
-			if (colType == Types.BINARY || colType == Types.VARBINARY)
+			if (colType == Types.BINARY || colType == Types.VARBINARY || colType == Types.BLOB)
 				binCol[i] = true;
 		}
 		// all columns are pretty small.

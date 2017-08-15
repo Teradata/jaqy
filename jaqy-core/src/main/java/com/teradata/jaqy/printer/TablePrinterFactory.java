@@ -36,6 +36,7 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	public TablePrinterFactory ()
 	{
 		addOption (OptionsUtils.getOnOffOption ("a", "autosize", "turns auto column size determination on / off."));
+		addOption (OptionsUtils.getOnOffOption ("b", "border", "turns border on / off."));
 		addOption ("r", "rowthreshold", true, "sets row threshold.  Scan up to this number of rows to determine the size of the column.");
 		addOption ("c", "columnthreshold", true, "sets column size threshold.  If a column size is less than the threshold, then no auto size.");
 		addOption ("m", "maxsize", true, "sets the maximum size of a column.");
@@ -51,6 +52,7 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		boolean autoSize = DEFAULT_AUTO_SIZE;
+		boolean border = false;
 		int scanThreshold = DEFAULT_SCAN_THRESHOLD;
 		int columnThreshold = DEFAULT_COLUMN_THRESHOLD;
 		int maxColumnSize = DEFAULT_MAX_COLUMN_SIZE;
@@ -70,6 +72,20 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 					{
 						throw new IllegalArgumentException ("invalid option value for --autosize");
 					}
+					break;
+				}
+				case 'b':
+				{
+					String value = option.getValue ();
+					if ("on".equals (value))
+						border = true;
+					else if ("off".equals (value))
+						border = false;
+					else
+					{
+						throw new IllegalArgumentException ("invalid option value for --border");
+					}
+					break;
 				}
 				case 'r':
 				{
@@ -94,6 +110,6 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 				}
 			}
 		}
-		return new TablePrinter (autoSize, scanThreshold, columnThreshold, maxColumnSize);
+		return new TablePrinter (border, autoSize, scanThreshold, columnThreshold, maxColumnSize);
 	}
 }

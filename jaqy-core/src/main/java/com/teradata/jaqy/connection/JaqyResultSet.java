@@ -44,6 +44,16 @@ public class JaqyResultSet
 		return m_helper.getConnection ();
 	}
 
+	public ResultSet getResultSet ()
+	{
+		return m_rs;
+	}
+
+	public JaqyHelper getHelper ()
+	{
+		return m_helper;
+	}
+
 	public JaqyResultSetMetaData getMetaData () throws SQLException
 	{
 		if (m_metaData != null)
