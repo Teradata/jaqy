@@ -24,6 +24,7 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLXML;
 import java.sql.Struct;
 
 import javax.json.JsonValue;
@@ -81,6 +82,29 @@ public class JsonUtils
 				print (g, (Array)obj);
 			else if (obj instanceof Struct)
 				print (g, (Struct)obj);
+			else if (obj instanceof Clob)
+			{
+				Clob clob = (Clob)obj;
+				String str = clob.getSubString (1, (int)clob.length ());
+				clob.free ();
+				g.write (str);
+			}
+			else if (obj instanceof Blob)
+			{
+				Blob blob = (Blob)obj;
+				byte[] bytes = blob.getBytes (1, (int)blob.length ());
+				blob.free ();
+				g.write (bytes);
+			}
+			else if (obj instanceof SQLXML)
+			{
+				SQLXML xml = (SQLXML)obj;
+				g.write (xml.getString ());
+			}
+			else if (obj instanceof JsonValue)
+			{
+				g.write ((JsonValue)obj);
+			}
 			else
 				g.write (obj.toString ());
 		}
@@ -129,6 +153,11 @@ public class JsonUtils
 				byte[] bytes = blob.getBytes (1, (int)blob.length ());
 				blob.free ();
 				g.write (name, bytes);
+			}
+			else if (obj instanceof SQLXML)
+			{
+				SQLXML xml = (SQLXML)obj;
+				g.write (name, xml.getString ());
 			}
 			else if (obj instanceof JsonValue)
 			{
