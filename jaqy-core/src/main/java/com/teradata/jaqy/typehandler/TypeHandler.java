@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.typeprinter;
+package com.teradata.jaqy.typehandler;
 
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -23,7 +22,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 /**
  * @author	Heng Yuan
  */
-public interface TypePrinter
+public interface TypeHandler
 {
-	public void print (PrintWriter pw, JaqyResultSet rs, int columnIndex, int width, boolean leftAlign, boolean pad) throws SQLException;
+	public String getString (JaqyResultSet rs, int column) throws SQLException;
 }

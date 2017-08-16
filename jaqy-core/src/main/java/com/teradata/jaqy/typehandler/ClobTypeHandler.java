@@ -13,34 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.typeprinter;
+package com.teradata.jaqy.typehandler;
 
-import java.io.PrintWriter;
+import java.sql.Clob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.utils.StringUtils;
 
 /**
  * @author	Heng Yuan
  */
-class StringTypePrinter implements TypePrinter
+class ClobTypeHandler implements TypeHandler
 {
-	private final static TypePrinter s_instance = new StringTypePrinter ();
+	private final static TypeHandler s_instance = new ClobTypeHandler ();
 
-	public static TypePrinter getInstance ()
+	public static TypeHandler getInstance ()
 	{
 		return s_instance;
 	}
 
-	private StringTypePrinter ()
+	private ClobTypeHandler ()
 	{
 	}
 
 	@Override
-	public void print (PrintWriter pw, JaqyResultSet rs, int columnIndex, int width, boolean leftAlign, boolean pad) throws SQLException
+	public String getString (JaqyResultSet rs, int columnIndex) throws SQLException
 	{
-		String value = rs.getString (columnIndex);
-		StringUtils.print (pw, value, width, leftAlign, pad);
+		Clob clob = (Clob) rs.getObject (columnIndex);
+		if (clob == null)
+			return null;
+		String str = clob.getSubString (1, (int)clob.length ());
+		clob.free ();
+		return str;
 	}
 }

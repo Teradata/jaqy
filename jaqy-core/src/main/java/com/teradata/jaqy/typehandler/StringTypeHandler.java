@@ -13,38 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.typeprinter;
+package com.teradata.jaqy.typehandler;
 
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.sql.SQLXML;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.utils.StringUtils;
 
 /**
  * @author	Heng Yuan
  */
-class XmlTypePrinter implements TypePrinter
+class StringTypeHandler implements TypeHandler
 {
-	private final static TypePrinter s_instance = new XmlTypePrinter ();
+	private final static TypeHandler s_instance = new StringTypeHandler ();
 
-	public static TypePrinter getInstance ()
+	public static TypeHandler getInstance ()
 	{
 		return s_instance;
 	}
 
-	private XmlTypePrinter ()
+	private StringTypeHandler ()
 	{
 	}
 
 	@Override
-	public void print (PrintWriter pw, JaqyResultSet rs, int columnIndex, int width, boolean leftAlign, boolean pad) throws SQLException
+	public String getString (JaqyResultSet rs, int column) throws SQLException
 	{
-		SQLXML xml = (SQLXML) rs.getObject (columnIndex);
-		String value = null;
-		if (xml != null)
-			value = xml.getString ();
-		StringUtils.print (pw, value, width, leftAlign, pad);
+		return rs.getString (column);
 	}
 }

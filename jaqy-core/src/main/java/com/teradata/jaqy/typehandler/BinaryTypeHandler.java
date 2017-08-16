@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.typeprinter;
+package com.teradata.jaqy.typehandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -27,63 +26,60 @@ import com.teradata.jaqy.utils.StringUtils;
 /**
  * @author	Heng Yuan
  */
-class BinaryTypePrinter implements TypePrinter
+class BinaryTypeHandler implements TypeHandler
 {
 	private static int MAX_LEN = 64000;
-	private final static TypePrinter s_instance = new BinaryTypePrinter ();
 
-	public static TypePrinter getInstance ()
+	private final static TypeHandler s_instance = new BinaryTypeHandler ();
+
+	public static TypeHandler getInstance ()
 	{
 		return s_instance;
 	}
 
-	private BinaryTypePrinter ()
+	private BinaryTypeHandler ()
 	{
 	}
 
 	@Override
-	public void print (PrintWriter pw, JaqyResultSet rs, int columnIndex, int width, boolean leftAlign, boolean pad) throws SQLException
+	public String getString (JaqyResultSet rs, int column) throws SQLException
 	{
-		Object obj = rs.getObject (columnIndex);
-		String value;
+		Object obj = rs.getObject (column);
 		if (obj == null)
-			value = null;
+			return null;
 		else if (obj instanceof byte[])
 		{
-			value = StringUtils.getHexString ((byte[])obj);
+			return StringUtils.getHexString ((byte[])obj);
 		}
 		else if (obj instanceof Blob)
 		{
-			Blob blob = ((Blob)obj);
+			Blob blob = (Blob)obj;
 			byte[] bytes = blob.getBytes (1, (int)blob.length ());
-			value = StringUtils.getHexString ((byte[])bytes);
 			blob.free ();
+			return StringUtils.getHexString (bytes);
 		}
 		else
 		{
-			InputStream is = rs.getBinaryStream (columnIndex);
+			InputStream is = rs.getBinaryStream (column);
 			byte[] bytes = new byte[4096];
 			int len;
 			try
 			{
-				value = "";
+				String value = "";
 				while ((len = is.read (bytes)) > 0)
 				{
 					value += StringUtils.getHexString (bytes, 0, len);
-					if (value.length () > width ||
-						value.length () > MAX_LEN)
+					if (value.length () > MAX_LEN)
 					{
-						int smaller = Math.min (width, MAX_LEN);
-						value = value.substring (0, smaller);
-						break;
+						return value.substring (0, MAX_LEN);
 					}
 				}
+				return value;
 			}
 			catch (IOException ex)
 			{
-				value = ex.getMessage ();
+				return ex.getMessage ();
 			}
 		}
-		StringUtils.print (pw, value, width, leftAlign, pad);
 	}
 }

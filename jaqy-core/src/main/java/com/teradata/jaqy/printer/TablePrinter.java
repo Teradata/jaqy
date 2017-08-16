@@ -26,8 +26,8 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
-import com.teradata.jaqy.typeprinter.TypePrinter;
-import com.teradata.jaqy.typeprinter.TypePrinterRegistry;
+import com.teradata.jaqy.typehandler.TypeHandler;
+import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -92,7 +92,7 @@ class TablePrinter implements JaqyPrinter
 
 		boolean[] leftAligns = new boolean[columns];
 		int[] widths = new int[columns];
-		TypePrinter[] printers = new TypePrinter[columns];
+		TypeHandler[] handlers = new TypeHandler[columns];
 
 		for (int i = 0; i < columns; ++i)
 		{
@@ -100,7 +100,7 @@ class TablePrinter implements JaqyPrinter
 			int type = metaData.getColumnType (columnIndex);
 			leftAligns[i] = isLeftAlign (type);
 
-			printers[i] = TypePrinterRegistry.getTypePrinter (type);
+			handlers[i] = TypeHandlerRegistry.getTypeHandler (type);
 		}
 
 		for (int i = 0; i < columns; ++i)
@@ -169,7 +169,7 @@ class TablePrinter implements JaqyPrinter
 					else
 						pw.print (' ');
 				}
-				printers[i].print (pw, rs, i + 1, widths[i], leftAligns[i], (i < (columns - 1)) || m_border);
+				StringUtils.print (pw, handlers[i].getString (rs, i + 1), widths[i], leftAligns[i], (i < (columns - 1)) || m_border);
 			}
 			if (m_border)
 				pw.print (" |");

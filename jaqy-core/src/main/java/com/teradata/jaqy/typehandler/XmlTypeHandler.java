@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.printtypehandler;
+package com.teradata.jaqy.typehandler;
 
 import java.sql.SQLException;
 import java.sql.SQLXML;

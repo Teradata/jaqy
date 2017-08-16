@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.printtypehandler;
+package com.teradata.jaqy.typehandler;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -26,60 +25,45 @@ import com.teradata.jaqy.utils.StringUtils;
 /**
  * @author	Heng Yuan
  */
-class BinaryTypeHandler implements TypeHandler
+class ObjectTypeHandler implements TypeHandler
 {
-	private static int MAX_LEN = 64000;
-
-	private final static TypeHandler s_instance = new BinaryTypeHandler ();
+	private final static TypeHandler s_instance = new ObjectTypeHandler ();
 
 	public static TypeHandler getInstance ()
 	{
 		return s_instance;
 	}
 
-	private BinaryTypeHandler ()
+	private ObjectTypeHandler ()
 	{
 	}
 
 	@Override
-	public String getString (JaqyResultSet rs, int column) throws SQLException
+	public String getString (JaqyResultSet rs, int columnIndex) throws SQLException
 	{
-		Object obj = rs.getObject (column);
-		if (obj == null)
-			return null;
+		Object obj = rs.getObject (columnIndex);
+		String value = null;
+		if (obj instanceof Clob)
+		{
+			Clob clob = (Clob)obj;
+			value = clob.getSubString (1, (int)clob.length ());
+			clob.free ();
+		}
 		else if (obj instanceof byte[])
 		{
-			return StringUtils.getHexString ((byte[])obj);
+			value = StringUtils.getHexString ((byte[])obj);
 		}
 		else if (obj instanceof Blob)
 		{
-			Blob blob = (Blob)obj;
+			Blob blob = ((Blob)obj);
 			byte[] bytes = blob.getBytes (1, (int)blob.length ());
+			value = StringUtils.getHexString ((byte[])bytes);
 			blob.free ();
-			return StringUtils.getHexString (bytes);
 		}
 		else
 		{
-			InputStream is = rs.getBinaryStream (column);
-			byte[] bytes = new byte[4096];
-			int len;
-			try
-			{
-				String value = "";
-				while ((len = is.read (bytes)) > 0)
-				{
-					value += StringUtils.getHexString (bytes, 0, len);
-					if (value.length () > MAX_LEN)
-					{
-						return value.substring (0, MAX_LEN);
-					}
-				}
-				return value;
-			}
-			catch (IOException ex)
-			{
-				return ex.getMessage ();
-			}
+			value = obj.toString ();
 		}
+		return value;
 	}
 }

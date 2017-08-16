@@ -26,8 +26,8 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyExporter;
-import com.teradata.jaqy.printtypehandler.TypeHandler;
-import com.teradata.jaqy.printtypehandler.TypeHandlerRegistry;
+import com.teradata.jaqy.typehandler.TypeHandler;
+import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 
 /**
  * @author	Heng Yuan
