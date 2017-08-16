@@ -28,6 +28,8 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.typehandler.TypeHandler;
+import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 
 /**
  * @author	Heng Yuan
@@ -240,5 +242,11 @@ public class DefaultHelper implements JaqyHelper
 		if ("ST_GEOMETRY".equalsIgnoreCase (meta.getColumnTypeName (column)))
 			return true;
 		return false;
+	}
+
+	@Override
+	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException
+	{
+		return TypeHandlerRegistry.getTypeHandler (rs.getMetaData ().getColumnType (column));
 	}
 }

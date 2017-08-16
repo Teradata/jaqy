@@ -24,10 +24,10 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.typehandler.TypeHandler;
-import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -78,13 +78,14 @@ class TablePrinter implements JaqyPrinter
 
 	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws SQLException
 	{
+		JaqyHelper helper = rs.getHelper ();
 		// If the ResultSet is forward only, make an in-memory which allows
 		// rewind operation.
 		if (m_autoShrink && rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
 		{
 			ResultSet newRS = new InMemoryResultSet (rs.getResultSet ());
 			rs.close ();
-			rs = new JaqyResultSet (newRS, rs.getHelper ());
+			rs = new JaqyResultSet (newRS, helper);
 		}
 
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
@@ -100,7 +101,7 @@ class TablePrinter implements JaqyPrinter
 			int type = metaData.getColumnType (columnIndex);
 			leftAligns[i] = isLeftAlign (type);
 
-			handlers[i] = TypeHandlerRegistry.getTypeHandler (type);
+			handlers[i] = helper.getTypeHandler (rs, i + 1);
 		}
 
 		for (int i = 0; i < columns; ++i)

@@ -26,8 +26,8 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.typehandler.TypeHandler;
-import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 
 /**
  * @author	Heng Yuan
@@ -57,14 +57,14 @@ class CSVExporter implements JaqyExporter
 		int columns = metaData.getColumnCount ();
 		TypeHandler[] handlers = new TypeHandler[columns];
 
+		JaqyHelper helper = rs.getHelper ();
 		CSVPrinter printer = new CSVPrinter (pw, m_format);
 		for (int i = 0; i < columns; ++i)
 		{
 			// print the header row
 			printer.print (metaData.getColumnLabel (i + 1));
 
-			int type = metaData.getColumnType (i + 1);
-			handlers[i] = TypeHandlerRegistry.getTypeHandler (type);
+			handlers[i] = helper.getTypeHandler (rs, i + 1);
 		}
 		printer.println ();
 

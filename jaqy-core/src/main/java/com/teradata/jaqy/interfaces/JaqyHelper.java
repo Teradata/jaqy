@@ -24,6 +24,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.typehandler.TypeHandler;
 
 /**
  * 
@@ -100,4 +101,16 @@ public interface JaqyHelper
 	 * 			in case of error.
 	 */
 	public boolean isSpatialColumn (JaqyResultSetMetaData meta, int column) throws SQLException;
+	/**
+	 * Get the type handler for a particular column.
+	 *
+	 * @param	rs
+	 * 			the ResultSet.
+	 * @param	column
+	 *			column index.  It should starts from 1.
+	 * @return	the type handler for the column.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException;
 }

@@ -23,9 +23,9 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.typehandler.TypeHandler;
-import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 
 /**
  * @author	Heng Yuan
@@ -48,6 +48,7 @@ class CSVPrinter implements JaqyPrinter
 	@Override
 	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws Exception
 	{
+		JaqyHelper helper = rs.getHelper ();
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
 		int columns = metaData.getColumnCount ();
 		TypeHandler[] handlers = new TypeHandler[columns];
@@ -60,8 +61,7 @@ class CSVPrinter implements JaqyPrinter
 			// print the header row
 			printer.print (metaData.getColumnLabel (i + 1));
 
-			int type = metaData.getColumnType (i + 1);
-			handlers[i] = TypeHandlerRegistry.getTypeHandler (type);
+			handlers[i] = helper.getTypeHandler (rs, i + 1);
 		}
 		printer.println ();
 
