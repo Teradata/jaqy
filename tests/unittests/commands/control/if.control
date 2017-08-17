@@ -16,8 +16,8 @@ CREATE TABLE MyTable (a INTEGER, b INTEGER);
 -- basic if test
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-         a          b
----------- ----------
+a b
+- -
 -- activity count = 0
 -- 2/2 - 0 ----------------------------------------------------------------
 .if activityCount == 0
@@ -26,9 +26,9 @@ SELECT * FROM MyTable ORDER BY a;
 -- 2/4 - 0 ----------------------------------------------------------------
 SELECT 1;
 -- success --
-         1
-----------
-         1
+1
+-
+1
 -- activity count = 1
 -- 3/4 - 0 ----------------------------------------------------------------
 .rem Test
@@ -42,9 +42,9 @@ INSERT INTO MyTable VALUES (1, 1);
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-         a          b
----------- ----------
-         1          1
+a b
+- -
+1 1
 -- activity count = 1
 -- 5/5 - 0 ----------------------------------------------------------------
 .if activityCount == 0
@@ -58,9 +58,9 @@ SELECT * FROM MyTable ORDER BY a;
 
 SELECT 3 AS Test;
 -- success --
-      Test
-----------
-         3
+Test
+----
+   3
 -- activity count = 1
 -- 6/6 - 0 ----------------------------------------------------------------
 .if activityCount == 1
@@ -73,9 +73,9 @@ SELECT 3 AS Test;
 -- 6/9 - 0 ----------------------------------------------------------------
 SELECT 5;
 -- success --
-         5
-----------
-         5
+5
+-
+5
 -- activity count = 1
 -- 7/9 - 0 ----------------------------------------------------------------
 .end if
@@ -85,9 +85,9 @@ SELECT 5;
 
 SELECT 6;
 -- success --
-         6
-----------
-         6
+6
+-
+6
 -- activity count = 1
 -- 8/9 - 0 ----------------------------------------------------------------
 

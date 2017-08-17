@@ -163,12 +163,12 @@ Parameter Count                              2
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-          A           B
------------ -----------
-          1           1
-          2           2
-          3           3
-          4           4
+A B
+- -
+1 1
+2 2
+3 3
+4 4
 -- activity count = 4
 -- 11/10 - 0 --------------------------------------------------------------
 DELETE FROM MyTable;
@@ -201,8 +201,8 @@ Parameter Count                              2
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-          A           B
------------ -----------
+A B
+- -
 -- activity count = 0
 -- 14/11 - 0 --------------------------------------------------------------
 DELETE FROM MyTable;

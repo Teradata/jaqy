@@ -38,50 +38,50 @@ SELECT CAST(B'1100' AS BIT VARYING(16)) AS Test FROM MyTable;
 -- Numerical types
 SELECT CAST(12 AS SMALLINT) AS Test FROM MyTable;
 -- success --
-  TEST
-------
-    12
+TEST
+----
+  12
 -- activity count = 1
 -- 6/2 - 0 ----------------------------------------------------------------
 SELECT CAST(123456789 AS INTEGER) AS Test FROM MyTable;
 -- success --
-       TEST
------------
-  123456789
+     TEST
+---------
+123456789
 -- activity count = 1
 -- 7/2 - 0 ----------------------------------------------------------------
 SELECT CAST(123456789 AS NUMERIC) AS Test FROM MyTable;
 -- success --
-  TEST
-------
--- failure 30000: [22003] The resulting value is outside the range for the data type DECIMAL/NUMERIC(5,0).
+TEST
+----
+-- failure 20000: [XCL16] ResultSet not open. Operation 'next' not permitted. Verify that autocommit is off.
 -- 8/2 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DEC(10,2)) AS Test FROM MyTable;
 -- success --
-        TEST
-------------
- -1234567.89
+       TEST
+-----------
+-1234567.89
 -- activity count = 1
 -- 9/2 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DECIMAL(10,2)) AS Test FROM MyTable;
 -- success --
-        TEST
-------------
- -1234567.89
+       TEST
+-----------
+-1234567.89
 -- activity count = 1
 -- 10/2 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DECIMAL) AS Test FROM MyTable;
 -- success --
-  TEST
-------
--- failure 30000: [22003] The resulting value is outside the range for the data type DECIMAL/NUMERIC(5,0).
+TEST
+----
+-- failure 20000: [XCL16] ResultSet not open. Operation 'next' not permitted. Verify that autocommit is off.
 -- 11/2 - 0 ---------------------------------------------------------------
 
 SELECT CAST(-1234567.89 AS FLOAT) AS Test FROM MyTable;
 -- success --
-                    TEST
-------------------------
-             -1234567.89
+       TEST
+-----------
+-1234567.89
 -- activity count = 1
 -- 12/2 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS FLOAT(2)) AS Test FROM MyTable;
@@ -100,9 +100,9 @@ TEST
 -- 14/2 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DOUBLE PRECISION) AS Test FROM MyTable;
 -- success --
-                    TEST
-------------------------
-             -1234567.89
+       TEST
+-----------
+-1234567.89
 -- activity count = 1
 -- 15/2 - 0 ---------------------------------------------------------------
 
@@ -147,21 +147,21 @@ A quick brown fox
 SELECT CAST('A quick brown fox' AS CHARACTER VARYING(20)) AS Test FROM MyTable;
 -- success --
 TEST
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 21/2 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS CHAR VARYING(20)) AS Test FROM MyTable;
 -- success --
 TEST
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 22/2 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS VARCHAR(20)) AS Test FROM MyTable;
 -- success --
 TEST
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 23/2 - 0 ---------------------------------------------------------------
@@ -221,7 +221,7 @@ SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test FROM MyTable;
 SELECT CAST('2001-02-03 12:03:04' AS TIMESTAMP) AS Test FROM MyTable;
 -- success --
 TEST
------------------------------
+---------------------
 2001-02-03 12:03:04.0
 -- activity count = 1
 -- 36/2 - 0 ---------------------------------------------------------------
@@ -243,7 +243,7 @@ SELECT CAST('2001-02-03 12:03:04.12-08:00' AS TIMESTAMP(2) WITH TIME ZONE) AS Te
 SELECT TRUE AS Test FROM MyTable;
 -- success --
 TEST
------
+----
 true
 -- activity count = 1
 -- 40/2 - 0 ---------------------------------------------------------------

@@ -24,9 +24,9 @@ INSERT INTO MyOrder (item, time) VALUES ('Dummy', TIMESTAMP('2009-10-16 14:24:43
 
 SELECT * FROM MyOrder;
 -- success --
-    ORDERID ITEM  TIME
------------ ----- -----------------------------
-          1 Dummy 2009-10-16 14:24:43.0
+ORDERID ITEM  TIME
+------- ----- ---------------------
+      1 Dummy 2009-10-16 14:24:43.0
 -- activity count = 1
 -- 3/2 - 0 ----------------------------------------------------------------
 

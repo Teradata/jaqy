@@ -35,7 +35,7 @@ test
 SELECT CAST(B'1100' AS BIT VARYING(16)) AS Test;
 -- success --
 test
-----------------
+----
 1100
 -- activity count = 1
 -- 3/3 - 0 ----------------------------------------------------------------
@@ -43,16 +43,16 @@ test
 -- Numerical types
 SELECT CAST(12 AS SMALLINT) AS Test;
 -- success --
-  test
-------
-    12
+test
+----
+  12
 -- activity count = 1
 -- 4/3 - 0 ----------------------------------------------------------------
 SELECT CAST(123456789 AS INTEGER) AS Test;
 -- success --
-       test
------------
-  123456789
+     test
+---------
+123456789
 -- activity count = 1
 -- 5/3 - 0 ----------------------------------------------------------------
 SELECT CAST(123456789 AS NUMERIC) AS Test;
@@ -64,16 +64,16 @@ SELECT CAST(123456789 AS NUMERIC) AS Test;
 -- 6/3 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DEC(10,2)) AS Test;
 -- success --
-        test
-------------
- -1234567.89
+       test
+-----------
+-1234567.89
 -- activity count = 1
 -- 7/3 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DECIMAL(10,2)) AS Test;
 -- success --
-        test
-------------
- -1234567.89
+       test
+-----------
+-1234567.89
 -- activity count = 1
 -- 8/3 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DECIMAL) AS Test;
@@ -86,9 +86,9 @@ SELECT CAST(-1234567.89 AS DECIMAL) AS Test;
 
 SELECT CAST(-1234567.89 AS FLOAT) AS Test;
 -- success --
-                     test
--------------------------
-      -1234567.8899999999
+               test
+-------------------
+-1234567.8899999999
 -- activity count = 1
 -- 10/3 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS FLOAT(2)) AS Test;
@@ -107,9 +107,9 @@ test
 -- 12/3 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DOUBLE PRECISION) AS Test;
 -- success --
-                     test
--------------------------
-      -1234567.8899999999
+               test
+-------------------
+-1234567.8899999999
 -- activity count = 1
 -- 13/3 - 0 ---------------------------------------------------------------
 
@@ -135,8 +135,8 @@ A quick brown fox
 SELECT X'DEADBEEF' AS Test;
 -- success --
 test
-----
-1101
+--------------------------------
+11011110101011011011111011101111
 -- activity count = 1
 -- 16/3 - 0 ---------------------------------------------------------------
 
@@ -158,21 +158,21 @@ A quick brown fox
 SELECT CAST('A quick brown fox' AS CHARACTER VARYING(20)) AS Test;
 -- success --
 test
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 19/3 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS CHAR VARYING(20)) AS Test;
 -- success --
 test
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 20/3 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS VARCHAR(20)) AS Test;
 -- success --
 test
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 21/3 - 0 ---------------------------------------------------------------
@@ -202,21 +202,21 @@ A quick brown fox
 SELECT CAST('A quick brown fox' AS NATIONAL CHARACTER VARYING(20)) AS Test;
 -- success --
 test
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 25/3 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS NATIONAL CHAR VARYING(20)) AS Test;
 -- success --
 test
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 26/3 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS NCHAR VARYING(20)) AS Test;
 -- success --
 test
---------------------
+-----------------
 A quick brown fox
 -- activity count = 1
 -- 27/3 - 0 ---------------------------------------------------------------
@@ -233,14 +233,14 @@ test
 SELECT CAST('2001-02-03' AS DATE) AS Test;
 -- success --
 test
--------------
+----------
 2001-02-03
 -- activity count = 1
 -- 29/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04' AS TIME) AS Test;
 -- success --
 test
----------------
+--------
 12:03:04
 -- activity count = 1
 -- 30/3 - 0 ---------------------------------------------------------------
@@ -254,28 +254,28 @@ test
 SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;
 -- success --
 test
----------------------
+-----------
 12:03:04-08
 -- activity count = 1
 -- 32/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test;
 -- success --
 test
------------------
+--------------
 12:03:04.12-08
 -- activity count = 1
 -- 33/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04' AS TIMESTAMP) AS Test;
 -- success --
 test
------------------------------
+-------------------
 2001-02-03 12:03:04
 -- activity count = 1
 -- 34/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04.12' AS TIMESTAMP(2)) AS Test;
 -- success --
 test
--------------------------
+----------------------
 2001-02-03 12:03:04.12
 -- activity count = 1
 -- 35/3 - 0 ---------------------------------------------------------------

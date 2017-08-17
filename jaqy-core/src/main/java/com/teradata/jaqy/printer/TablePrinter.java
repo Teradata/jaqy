@@ -104,19 +104,31 @@ class TablePrinter implements JaqyPrinter
 			handlers[i] = helper.getTypeHandler (rs, i + 1);
 		}
 
-		for (int i = 0; i < columns; ++i)
-		{
-			widths[i] = ResultSetUtils.getDisplayWidth (rs, i + 1);
-			if (widths[i] > m_maxColumnSize)
-				widths[i] = m_maxColumnSize;
-			String title = metaData.getColumnLabel (i + 1);
-			if (widths[i] < title.length ())
-				widths[i] = title.length ();
-		}
-
 		if (m_autoShrink)
 		{
-			shrink (columns, widths, rs, metaData);
+			//
+			// If we use auto shrink, we determine the maximum width of a column
+			// by scanning all the rows and cols.
+			//
+			for (int i = 0; i < columns; ++i)
+			{
+				widths[i] = 0;
+			}
+			shrink (columns, widths, rs, handlers);
+		}
+		else
+		{
+			//
+			// Without using auto shrink, we rely on the display size reported
+			// by the database.  However, a lot of them report values that are
+			// simply lies.
+			//
+			for (int i = 0; i < columns; ++i)
+			{
+				widths[i] = ResultSetUtils.getDisplayWidth (rs, i + 1);
+				if (widths[i] > m_maxColumnSize)
+					widths[i] = m_maxColumnSize;
+			}
 		}
 
 		// Make sure the title length is considered as well.
@@ -201,38 +213,8 @@ class TablePrinter implements JaqyPrinter
 		}
 	}
 
-	private void shrink (int columns, int[] widths, JaqyResultSet rs, JaqyResultSetMetaData metaData)
+	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers)
 	{
-		boolean[] skip = new boolean[columns];
-		boolean[] binCol = new boolean[columns];
-		int skipCount = 0;
-		for (int i = 0; i < columns; ++i)
-		{
-			if (widths[i] <= m_columnThreshold)
-			{
-				skip[i] = false;
-				++skipCount;
-			}
-			else
-			{
-				widths[i] = 1;
-			}
-			int colType = 0;
-			try
-			{
-				colType = metaData.getColumnType (i + 1);
-			}
-			catch (SQLException ex)
-			{
-				ex.printStackTrace();
-			}
-			if (colType == Types.BINARY || colType == Types.VARBINARY || colType == Types.BLOB)
-				binCol[i] = true;
-		}
-		// all columns are pretty small.
-		if (skipCount == columns)
-			return;
-
 		try
 		{
 			int lineCount = 0;
@@ -240,22 +222,12 @@ class TablePrinter implements JaqyPrinter
 			{
 				for (int i = 0; i < columns; ++i)
 				{
-					if (skip[i])
-						continue;
-					int w = 0;
-					if (binCol[i])
+					String str = handlers[i].getString (rs, i + 1);
+					if (str == null)
 					{
-						byte[] bytes = rs.getBytes (i + 1);
-						if (bytes != null)
-							w = bytes.length * 2;
+						str = "NULL";
 					}
-					else
-					{
-						String str = rs.getString (i + 1);
-						if (str != null)
-							w = str.length ();
-					}
-					widths[i] = Math.max (widths[i], w);
+					widths[i] = Math.max (widths[i], str.length ());
 				}
 				++lineCount;
 			}

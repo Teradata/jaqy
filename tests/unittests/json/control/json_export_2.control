@@ -196,10 +196,10 @@ INSERT INTO LobTable VALUES (2, 'B clob', CAST(X'facefeed' AS BLOB));
 -- 23/11 - 0 --------------------------------------------------------------
 SELECT * FROM LobTable ORDER BY c1;
 -- success --
-         C1 C2     C3
------------ ------ --------
-          1 A clob deadbeef
-          2 B clob facefeed
+C1 C2     C3
+-- ------ --------
+ 1 A clob deadbeef
+ 2 B clob facefeed
 -- activity count = 2
 -- 24/11 - 0 --------------------------------------------------------------
 .os cat StrTable.json

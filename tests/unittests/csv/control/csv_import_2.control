@@ -277,8 +277,8 @@ Parameter Count                              3
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-A B           C
-- - -----------
+A B C
+- - -
 -- activity count = 0
 -- 20/15 - 0 --------------------------------------------------------------
 DELETE FROM MyTable;

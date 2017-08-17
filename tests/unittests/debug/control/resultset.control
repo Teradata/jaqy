@@ -32,9 +32,9 @@ INSERT INTO MyTable VALUES (1, 1);
 
 SELECT a AS Test, b FROM MyTable ORDER BY a;
 -- success --
-      Test          b
----------- ----------
-         1          1
+Test b
+---- -
+   1 1
 -- activity count = 1
 -- 3/4 - 0 ----------------------------------------------------------------
 
@@ -86,9 +86,9 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-      Test          b
----------- ----------
-         1          1
+Test b
+---- -
+   1 1
 -- activity count = 1
 -- 4/6 - 0 ----------------------------------------------------------------
 
@@ -98,9 +98,9 @@ ResultSet Column Count                       2
 -- 4/8 - 0 ----------------------------------------------------------------
 SELECT a AS Test, b FROM MyTable ORDER BY a;
 -- success --
-      Test          b
----------- ----------
-         1          1
+Test b
+---- -
+   1 1
 -- activity count = 1
 -- 5/8 - 0 ----------------------------------------------------------------
 

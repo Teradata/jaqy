@@ -40,6 +40,24 @@ SELECT * FROM DecTable ORDER BY c1;
 
 DROP TABLE DecTable;
 
+CREATE TABLE SerialTable
+(
+	c1 SMALLSERIAL,
+	c2 SERIAL,
+	c3 BIGSERIAL,
+	c4 INTEGER
+);
+
+INSERT INTO SerialTable (C4) VALUES (1);
+INSERT INTO SerialTable (C4) VALUES (2);
+
+.format csv
+SELECT * FROM SerialTable ORDER BY c1;
+.format json -p on
+SELECT * FROM SerialTable ORDER BY c1;
+
+DROP TABLE SerialTable;
+
 CREATE TABLE StrTable
 (
 	c1 VARCHAR(255),
