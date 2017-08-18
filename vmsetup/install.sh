@@ -76,6 +76,7 @@ alias where=which
 alias grep='grep --color=auto'
 
 alias jq='java -jar /vagrant/dist/jaqy-1.0.jar'
+alias jqe='java -ea -jar /vagrant/dist/jaqy-1.0.jar'
 
 cd /vagrant
 "

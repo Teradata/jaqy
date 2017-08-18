@@ -75,4 +75,9 @@ public class JaqyPreparedStatement extends JaqyStatement
 	{
 		m_statement.setObject (parameter, obj);
 	}
+
+	public void setObject (int parameter, Object obj, int sqlType) throws SQLException
+	{
+		m_statement.setObject (parameter, obj, sqlType);
+	}
 }

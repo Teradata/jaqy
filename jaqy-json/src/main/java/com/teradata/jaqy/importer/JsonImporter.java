@@ -262,7 +262,7 @@ class JsonImporter implements JaqyImporter<String>
 				}
 				else if (v instanceof JsonStructure)
 				{
-					return JsonUtils.toString ((JsonValue)v);
+					return JsonUtils.toString (v);
 				}
 				return v.toString ();
 			}
@@ -302,7 +302,11 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return ((JsonNumber)v).bigDecimalValue ();
 				}
-				return JsonUtils.toString (v);
+				if (v instanceof JsonStructure)
+				{
+					return JsonUtils.toString (v);
+				}
+				return v.toString ();
 			}
 		}
 		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (type));

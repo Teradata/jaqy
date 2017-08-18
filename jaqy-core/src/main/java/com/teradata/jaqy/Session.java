@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Properties;
 
 import com.teradata.jaqy.connection.JaqyConnection;
@@ -244,7 +245,17 @@ public class Session
 			{
 				for (int i = 0; i < columns; ++i)
 				{
-					stmt.setObject (i + 1, importer.getObject (i, parameterTypes[i]));
+					switch (parameterTypes[i])
+					{
+						case Types.TINYINT:
+						case Types.SMALLINT:
+						case Types.INTEGER:
+						case Types.BIGINT:
+							stmt.setObject (i + 1, importer.getObject (i, parameterTypes[i]), parameterTypes[i]);
+							break;
+						default:
+							stmt.setObject (i + 1, importer.getObject (i, parameterTypes[i]));
+					}
 				}
 				stmt.addBatch ();
 			}
