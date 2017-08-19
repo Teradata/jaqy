@@ -15,9 +15,12 @@
  */
 package com.teradata.jaqy.command;
 
+import java.sql.SQLException;
+
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
@@ -37,8 +40,23 @@ public class PwdCommand extends JaqyCommandAdapter
 		if (!SessionUtils.checkOpen (interpreter))
 			return;
 		Session session = interpreter.getSession ();
-		String catalog = session.getCatalog ();
-		String schema = session.getSchema ();
+		JaqyHelper helper = session.getConnection ().getHelper ();
+		String catalog = null;
+		String schema = null;
+		try
+		{
+			catalog = helper.getCatalog ();
+		}
+		catch (SQLException ex)
+		{
+		}
+		try
+		{
+			schema = helper.getSchema ();
+		}
+		catch (SQLException ex)
+		{
+		}
 
 		interpreter.println ("Catalog: " + (catalog == null ? "" : catalog) + ", Schema: " + (schema == null ? "" : schema));
 	}

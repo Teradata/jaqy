@@ -1,0 +1,39 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .classpath command test
+--------------------------------------------------------------------------
+.help classpath
+usage: .classpath [protocol name] [classpath]
+
+protocol:   the JDBC protocol name
+classpath:  class path separated by either : or ; characters.  Both Windows
+            and Linux style paths are supported.
+
+This command specifies where to find specific drivers, but it does not load
+them until a connection corresponding the protocol is opened.
+
+Without any parameters, this command lists existing <protocol, classpath>
+pairs.
+
+Examples:
+-- List current settings
+.classpath
+
+-- Specify the jars need to load Teradata JDBC
+.classpath teradata lib\tdgssconfig.jar;lib\terajdbc4.jar
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.classpath
+Protocol Location
+-------- --------
+-- 0/2 - 0 ----------------------------------------------------------------
+.classpath dummy dummy.jar
+-- 0/3 - 0 ----------------------------------------------------------------
+.quiet on
+-- 0/4 - 0 ----------------------------------------------------------------
+.classpath
+-- 0/5 - 0 ----------------------------------------------------------------
+.quiet off
+-- 0/6 - 0 ----------------------------------------------------------------
+

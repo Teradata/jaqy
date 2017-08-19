@@ -4,6 +4,8 @@
 .run ../common/sqlite_setup.sql
 .help .debug
 .debug
+.debug dummy
+.debug dummy on
 
 .open sqlite::memory:
 

@@ -58,7 +58,10 @@ public class DebugCommand extends JaqyCommandAdapter
 		}
 
 		if (args.length != 2)
+		{
 			interpreter.errorParsingArgument ();
+			return;
+		}
 
 		if ("resultset".equals (args[0]))
 		{
@@ -67,6 +70,10 @@ public class DebugCommand extends JaqyCommandAdapter
 		else if ("preparedstatement".equals (args[0]))
 		{
 			debug.setDumpPreparedStatement (StringUtils.getOnOffState (args[1], "preparedstatement"));
+		}
+		else
+		{
+			throw new IllegalArgumentException ("Unknown debug option.");
 		}
 	}
 }

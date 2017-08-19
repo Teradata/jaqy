@@ -333,54 +333,6 @@ public class Session
 		return null;
 	}
 
-	public String getCatalog ()
-	{
-		JaqyConnection conn = getConnection ();
-		try
-		{
-			if (conn != null && !conn.isClosed ())
-			{
-				return conn.getCatalog ();
-			}
-		}
-		catch (SQLException ex)
-		{
-		}
-		return null;
-	}
-
-	public String getCatalogSeparator ()
-	{
-		JaqyConnection conn = getConnection ();
-		try
-		{
-			if (conn != null && !conn.isClosed ())
-			{
-				return conn.getMetaData ().getCatalogSeparator ();
-			}
-		}
-		catch (Throwable t)
-		{
-		}
-		return ".";
-	}
-
-	public String getSchema ()
-	{
-		JaqyConnection conn = getConnection ();
-		try
-		{
-			if (conn != null && !conn.isClosed ())
-			{
-				return conn.getSchema ();
-			}
-		}
-		catch (Throwable t)
-		{
-		}
-		return null;
-	}
-
 	/**
 	 * @return the sessionId
 	 */

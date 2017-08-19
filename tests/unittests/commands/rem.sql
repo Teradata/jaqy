@@ -1,11 +1,8 @@
 --------------------------------------------------------------------------
--- .os command test
+-- .rem command test
 --------------------------------------------------------------------------
-.help os
-.os
+.help rem
+.rem
+.rem test
+.rem aa a a a aa
 
-.if !globals.os.windows
-.os echo asdf && echo ddd > dummy.txt
-.os cat dummy.txt
-.os rm -f dummy.txt
-.end if

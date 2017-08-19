@@ -1,11 +1,5 @@
 --------------------------------------------------------------------------
--- .os command test
+-- .env command test
 --------------------------------------------------------------------------
-.help os
-.os
-
-.if !globals.os.windows
-.os echo asdf && echo ddd > dummy.txt
-.os cat dummy.txt
-.os rm -f dummy.txt
-.end if
+.help env
+.env

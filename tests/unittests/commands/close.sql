@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------
--- .os command test
+-- .close command test
 --------------------------------------------------------------------------
-.help os
-.os
+.help close
+.close
 
-.if !globals.os.windows
-.os echo asdf && echo ddd > dummy.txt
-.os cat dummy.txt
-.os rm -f dummy.txt
-.end if
+.run ../common/sqlite_setup.sql
+.open sqlite::memory:
+
+.close
+

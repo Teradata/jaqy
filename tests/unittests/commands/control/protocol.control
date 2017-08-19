@@ -1,0 +1,32 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .protocol command test
+--------------------------------------------------------------------------
+.help protocol
+usage: .protocol [protocol name] [JDBC driver name]
+-- 0/1 - 0 ----------------------------------------------------------------
+.protocol
+Protocol   Driver
+---------- --------------------------------------------
+mysql      com.mysql.jdbc.Driver
+oracle     oracle.jdbc.driver.OracleDriver
+postgresql org.postgresql.Driver
+sqlite     org.sqlite.JDBC
+sqlserver  com.microsoft.sqlserver.jdbc.SQLServerDriver
+teradata   com.teradata.jdbc.TeraDriver
+-- 0/2 - 0 ----------------------------------------------------------------
+.protocol dummy com.dummy.DummyDriver
+-- 0/3 - 0 ----------------------------------------------------------------
+.protocol
+Protocol   Driver
+---------- --------------------------------------------
+dummy      com.dummy.DummyDriver
+mysql      com.mysql.jdbc.Driver
+oracle     oracle.jdbc.driver.OracleDriver
+postgresql org.postgresql.Driver
+sqlite     org.sqlite.JDBC
+sqlserver  com.microsoft.sqlserver.jdbc.SQLServerDriver
+teradata   com.teradata.jdbc.TeraDriver
+-- 0/4 - 0 ----------------------------------------------------------------
+

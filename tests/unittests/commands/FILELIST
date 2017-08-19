@@ -1,4 +1,9 @@
 alias.sql
+classpath.sql
+close.sql
+driver.sql
+env.sql
+export.sql
 help.sql
 if.sql
 info.sql
@@ -6,7 +11,9 @@ list.sql
 os_linux.sql
 os_win.sql
 prepare.sql
+protocol.sql
 quiet.sql
+rem.sql
 script.sql
 session.sql
 var.sql

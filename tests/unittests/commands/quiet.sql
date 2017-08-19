@@ -25,3 +25,10 @@ SELECT * FROM SqliteTypes;
 
 DROP TABLE SqliteTypes;
 .close
+
+-- Tricking code coverage tool for things that cannot be run inside mvn test.
+.quiet on
+.driver
+.env
+.quiet off
+

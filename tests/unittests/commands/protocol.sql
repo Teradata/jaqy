@@ -1,11 +1,8 @@
 --------------------------------------------------------------------------
--- .os command test
+-- .protocol command test
 --------------------------------------------------------------------------
-.help os
-.os
+.help protocol
+.protocol
+.protocol dummy com.dummy.DummyDriver
+.protocol
 
-.if !globals.os.windows
-.os echo asdf && echo ddd > dummy.txt
-.os cat dummy.txt
-.os rm -f dummy.txt
-.end if
