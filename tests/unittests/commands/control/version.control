@@ -1,16 +1,9 @@
 Teradata Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
--- .os command test
+-- .version command test
 --------------------------------------------------------------------------
-.help os
-usage: .os [shell commands]
+.version
+Teradata Jaqy Console 1.0
 -- 0/1 - 0 ----------------------------------------------------------------
 
-.if globals.os.windows
--- skip: .os help help > dummy.txt
--- skip: .os more dummy.txt
--- skip: .os del dummy.txt
--- skip: .os dir /B dummy.txt
-.end if
--- 0/2 - 0 ----------------------------------------------------------------

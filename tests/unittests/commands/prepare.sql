@@ -31,4 +31,5 @@ SELECT CAST(? AS VARCHAR(200)) AS Test FROM MyTable;
 .prepare
 SELECT 1 AS Test FROM MyTable WHERE ? IS NOT NULL;
 
-.exit
+DROP TABLE MyTable;
+.close

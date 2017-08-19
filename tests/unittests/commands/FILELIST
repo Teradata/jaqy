@@ -1,10 +1,13 @@
 alias.sql
 help.sql
 if.sql
+info.sql
 list.sql
 os_linux.sql
 os_win.sql
 prepare.sql
+quiet.sql
 script.sql
 session.sql
 var.sql
+version.sql

@@ -13,7 +13,6 @@ CREATE TABLE MyTable (a INTEGER, b TEXT);
 -- creates an alias that insert two rows
 -- because comma is part of the arguments, we need to be careful
 .alias ins
-.version
 INSERT INTO $0 VALUES (${1-});
 INSERT INTO $0 VALUES (1 + ${1} ${2});
 .end alias
@@ -26,4 +25,7 @@ INSERT INTO $0 VALUES (1 + ${1} ${2});
 
 SELECT * FROM MyTable ORDER BY a;
 
-.quit
+DROP TABLE MyTable;
+
+.close
+

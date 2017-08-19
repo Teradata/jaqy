@@ -1,7 +1,7 @@
 Teradata Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
--- .list command test
+-- .var command test
 --------------------------------------------------------------------------
 .run ../common/sqlite_setup.sql
 -- Running script: ../common/sqlite_setup.sql
@@ -33,4 +33,8 @@ interpreter                   Interpreter object
 parent                        Parent variables
 session                       Current session object
 -- 0/6 - 0 ----------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 0/7 - 0 ----------------------------------------------------------------
 

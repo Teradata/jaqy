@@ -58,4 +58,9 @@ SELECT CAST(? AS VARCHAR(200)) AS Test FROM MyTable;
 SELECT 1 AS Test FROM MyTable WHERE ? IS NOT NULL;
 -- 8/10 - 0 ---------------------------------------------------------------
 
-.exit
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 9/10 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 9/11 - 0 ---------------------------------------------------------------

@@ -107,7 +107,7 @@ public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
 		}
 		else
 		{
-			File scriptFile = new File (file);
+			File scriptFile = interpreter.getFile (file);
 			if (!scriptFile.exists ())
 			{
 				interpreter.error ("file not found: " + file);

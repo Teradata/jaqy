@@ -54,3 +54,14 @@ TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAM
 ,,MyTable,TABLE,,,,,,
 ,,MyTable2,TABLE,,,,,,
 -- 2/8 - 0 ----------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 3/8 - 0 ----------------------------------------------------------------
+DROP TABLE MyTable2;
+-- success. update count = 0
+-- 4/8 - 0 ----------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 4/9 - 0 ----------------------------------------------------------------
+

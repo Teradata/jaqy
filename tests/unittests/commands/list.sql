@@ -23,3 +23,8 @@ CREATE TABLE MyTable2
 .list . . %
 .list . . MyTable
 .list . . %MyTable%
+
+DROP TABLE MyTable;
+DROP TABLE MyTable2;
+.close
+

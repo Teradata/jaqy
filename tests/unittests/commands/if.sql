@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
--- if command test
+-- .if command test
 --------------------------------------------------------------------------
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
@@ -45,3 +45,7 @@ SELECT 7;
 .if activityCount
 SELECT 8;
 .end if
+
+DROP TABLE MyTable;
+
+.close
