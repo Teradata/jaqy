@@ -23,7 +23,7 @@ Teradata Jaqy Console 1.0
 	.info - provides information for the database
 	.list - lists tables in the current catalog / schema.
 	.load - loads a Jaqy plugin
-	.log - displays / sets JDBC logging level.
+	.logging - displays / sets JDBC logging level.
 	.open - opens a new JDBC session.
 	.os - executes shell commands.
 	.prepare - prepares a sql statement.
