@@ -1,15 +1,24 @@
 Teradata Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
--- .env command test
+-- .run command test
 --------------------------------------------------------------------------
-.help env
-No detailed help information.
+.help run
+usage: .run [options] [file]
+options:
+  -c,--charset <arg>   sets the file character set
+
 -- 0/1 - 0 ----------------------------------------------------------------
-.quiet on
+.run
+-- error: missing file name.
 -- 0/2 - 0 ----------------------------------------------------------------
-.env
+.run asdf.asdf
+-- error: invalid file: asdf.asdf
 -- 0/3 - 0 ----------------------------------------------------------------
-.quiet off
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
 -- 0/4 - 0 ----------------------------------------------------------------
+.close
+Session 0 is already closed.
+-- 0/5 - 0 ----------------------------------------------------------------
 

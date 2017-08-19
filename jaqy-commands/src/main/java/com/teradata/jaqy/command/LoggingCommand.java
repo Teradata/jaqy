@@ -26,11 +26,11 @@ import com.teradata.jaqy.interfaces.Display;
 /**
  * @author	Heng Yuan
  */
-public class LogCommand extends JaqyCommandAdapter
+public class LoggingCommand extends JaqyCommandAdapter
 {
-	public LogCommand ()
+	public LoggingCommand ()
 	{
-		super ("log.txt");
+		super ("logging.txt");
 	}
 
 	@Override

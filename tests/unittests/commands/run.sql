@@ -1,8 +1,9 @@
 --------------------------------------------------------------------------
--- .env command test
+-- .run command test
 --------------------------------------------------------------------------
-.help env
-.quiet on
-.env
-.quiet off
+.help run
+.run
+.run asdf.asdf
+.run ../common/sqlite_setup.sql
+.close
 

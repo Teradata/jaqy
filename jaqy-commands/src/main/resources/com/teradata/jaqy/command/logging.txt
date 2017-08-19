@@ -1,7 +1,7 @@
-usage: .log [level]
+usage: .logging [level]
 
-This command turns on / off generic logging.  This feature is mainly for
-developers.
+This command turns on / off generic JDBC logging.  This feature is mainly
+for developers.
 
 level:
   off

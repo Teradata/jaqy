@@ -11,6 +11,7 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
 
 .debug preparedstatement on
 
+.import dummy
 .import json
 .import json -f dummy
 .import json -b dummy
