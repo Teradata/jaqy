@@ -17,9 +17,12 @@
 .info schema
 .info server
 .info table
-.info type
-.info type
 .info user
 
+.close
+
+.run ../common/sqlite_setup.sql
+.open sqlite::memory:
+.info type
 .close
 
