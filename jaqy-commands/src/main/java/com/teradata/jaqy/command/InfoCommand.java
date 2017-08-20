@@ -15,7 +15,6 @@
  */
 package com.teradata.jaqy.command;
 
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +27,7 @@ import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.utils.DatabaseMetaDataUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
@@ -214,8 +214,8 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
 			pt.addRow (new String[]{ "Catalog separator", metaData.getCatalogSeparator () });
 
-			pt.addRow (new String[]{ "Default Transaction Isolation", getIsolationLevel (metaData.getDefaultTransactionIsolation ()) });
-			pt.addRow (new String[]{ "ResultSet holdability", getHoldability (metaData.getResultSetHoldability ()) });
+			pt.addRow (new String[]{ "Default Transaction Isolation", DatabaseMetaDataUtils.getIsolationLevel (metaData.getDefaultTransactionIsolation ()) });
+			pt.addRow (new String[]{ "ResultSet holdability", DatabaseMetaDataUtils.getHoldability (metaData.getResultSetHoldability ()) });
 	
 			pt.addRow (new String[]{ "LOB update on copy", metaData.locatorsUpdateCopy () ? "Yes" : "No" });
 			pt.addRow (new String[]{ "Row ID lifetime", metaData.getRowIdLifetime ().toString () });
@@ -514,37 +514,5 @@ public class InfoCommand extends JaqyCommandAdapter
 	private static String getNumberString (long value)
 	{
 		return Long.toString (value);
-	}
-
-	private static String getIsolationLevel (int value)
-	{
-		switch (value)
-		{
-			case Connection.TRANSACTION_NONE:
-				return "None";
-			case Connection.TRANSACTION_READ_COMMITTED:
-				return "Read committed";
-			case Connection.TRANSACTION_READ_UNCOMMITTED:
-				return "Read uncommitted";
-			case Connection.TRANSACTION_REPEATABLE_READ:
-				return "Repeatable read";
-			case Connection.TRANSACTION_SERIALIZABLE:
-				return "Serializable";
-			default:
-				return "Unknown";
-		}
-	}
-
-	private static String getHoldability (int value)
-	{
-		switch (value)
-		{
-			case ResultSet.CLOSE_CURSORS_AT_COMMIT:
-				return "Close cursors at commit";
-			case ResultSet.HOLD_CURSORS_OVER_COMMIT:
-				return "Hold cursors over commit";
-			default:
-				return "Unknown";
-		}
 	}
 }
