@@ -24,7 +24,7 @@ import com.teradata.jaqy.utils.TestUtils;
 /**
  * @author	Heng Yuan
  */
-public class InfoCommandTest
+public class CommitCommandTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -32,6 +32,6 @@ public class InfoCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/info.sql", "../tests/unittests/commands/control/info.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/transaction.sql", "../tests/unittests/commands/control/transaction.control");
 	}
 }

@@ -17,6 +17,7 @@ rem.sql
 run.sql
 script.sql
 session.sql
+transaction.sql
+unalias.sql
 var.sql
 version.sql
-unalias.sql

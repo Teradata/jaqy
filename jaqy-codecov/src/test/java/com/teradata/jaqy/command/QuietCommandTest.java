@@ -32,6 +32,6 @@ public class QuietCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/var.sql", "../tests/unittests/commands/control/var.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/quiet.sql", "../tests/unittests/commands/control/quiet.control");
 	}
 }
