@@ -17,6 +17,8 @@ INSERT INTO $0 VALUES (${1-});
 INSERT INTO $0 VALUES (1 + ${1} ${2});
 .end alias
 
+.alias
+
 .ins MyTable 0, NULL
 .ins MyTable 2, 'POINT(EMPTY)'
 .ins MyTable 4, 'POINT(1 1)'

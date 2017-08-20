@@ -35,7 +35,7 @@ public class AliasManager
 		{
 			if (str == null)
 			{
-				m_aliasMap.remove (name, str);
+				m_aliasMap.remove (name);
 			}
 			else
 			{

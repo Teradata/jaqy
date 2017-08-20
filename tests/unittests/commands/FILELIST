@@ -19,3 +19,4 @@ script.sql
 session.sql
 var.sql
 version.sql
+unalias.sql

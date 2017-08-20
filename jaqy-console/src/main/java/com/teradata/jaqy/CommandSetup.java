@@ -46,6 +46,7 @@ import com.teradata.jaqy.command.RollbackCommand;
 import com.teradata.jaqy.command.RunCommand;
 import com.teradata.jaqy.command.ScriptCommand;
 import com.teradata.jaqy.command.SessionCommand;
+import com.teradata.jaqy.command.UnAliasCommand;
 import com.teradata.jaqy.command.VarCommand;
 import com.teradata.jaqy.command.VersionCommand;
 
@@ -65,6 +66,7 @@ class CommandSetup
 		manager.addCommand ("help", new HelpCommand (manager));
 
 		manager.addCommand ("alias", new AliasCommand ());
+		manager.addCommand ("unalias", new UnAliasCommand ());
 		// remark (i.e.g comment) command
 		manager.addCommand ("rem", new RemarkCommand ());
 		manager.addCommand ("list", new ListCommand ());

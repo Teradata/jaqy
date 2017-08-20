@@ -317,22 +317,6 @@ public class Session
 		}
 	}
 
-	public String getUser ()
-	{
-		JaqyConnection conn = getConnection ();
-		try
-		{
-			if (conn != null && !conn.isClosed ())
-			{
-				return conn.getMetaData ().getUserName ();
-			}
-		}
-		catch (SQLException ex)
-		{
-		}
-		return null;
-	}
-
 	/**
 	 * @return the sessionId
 	 */
