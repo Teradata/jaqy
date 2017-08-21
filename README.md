@@ -26,29 +26,6 @@ compilation purposes.  Then run the following command.
 mvn clean package -Dmaven.test.skip=true
 ```
 
-### Install JDBC Drivers
-
-Teradata Jaqy has specific optimizations for some JDBC drivers.  While
-a lot of JDBC drivers are available on Maven, some are not.  Thus, it is
-necessary to manually install these drivers.
-
-These drivers are only for compilation only; they are not required for executing
-Jaqy, unless you are trying to connect to the database that uses the JDBC drivers.
-
-#### Teradata JDBC - 16.10.
-
-Teradata JDBC is not available on Maven repositories.  You will need to download
-and install it manually.
-
-* Download link: http://downloads.teradata.com/download/connectivity/jdbc-driver .  Be sure to download the 16.10 version.
-* To install, run the following commands.
-
-```bash
-mvn install:install-file -DgroupId=com.teradata.jdbc -DartifactId=tdgssconfig -Dversion=16.10.00.00 -Dpackaging=jar -Dfile=tdgssconfig.jar
-mvn install:install-file -DgroupId=com.teradata.jdbc -DartifactId=terajdbc4 -Dversion=16.10.00.00 -Dpackaging=jar -Dfile=terajdbc4.jar
-```
-
-
 ## Test
 
 While Teradata Jaqy can be built on either Windows or Linux platforms, the

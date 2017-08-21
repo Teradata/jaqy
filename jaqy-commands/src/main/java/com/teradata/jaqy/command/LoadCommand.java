@@ -47,7 +47,10 @@ public class LoadCommand extends JaqyCommandAdapter
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		if (args.length != 1)
+		{
 			interpreter.errorParsingArgument ();
+			return;
+		}
 		String path = args[0];
 		path = PathUtils.toAbsolutePath (path, interpreter.getDirectory ());
 		globals.loadPlugin (path, interpreter);

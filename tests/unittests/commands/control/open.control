@@ -1,0 +1,31 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .open command test
+--------------------------------------------------------------------------
+.help open
+usage: .open [options] [url]
+options:
+  -D <name=value>       set a connection property
+  -f,--prompt           force password prompt
+  -p,--password <arg>   specify the password
+  -u,--user <arg>       specify the user
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.open
+-- error: invalid command arguments.
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/4 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- error: The current session already has a connection open.
+-- 0/5 - 0 ----------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 0/6 - 0 ----------------------------------------------------------------
+

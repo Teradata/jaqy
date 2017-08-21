@@ -2,12 +2,15 @@ alias.sql
 classpath.sql
 close.sql
 driver.sql
+echo.sql
 env.sql
 export.sql
 help.sql
 if.sql
 info.sql
 list.sql
+load.sql
+open.sql
 os_linux.sql
 os_win.sql
 prepare.sql

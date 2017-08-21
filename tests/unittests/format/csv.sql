@@ -1,6 +1,8 @@
 --------------------------------------------------------------------------
 -- .format csv test
 --------------------------------------------------------------------------
+.help format
+
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
 
@@ -14,9 +16,12 @@ INSERT INTO MyTable VALUES (5, 'a''b', 'c''d');
 INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 
+.format dummy
 .format csv -d asdf
 
 .format csv
+.format
+
 SELECT * FROM MyTable ORDER BY a;
 .format csv -type default
 SELECT * FROM MyTable ORDER BY a;

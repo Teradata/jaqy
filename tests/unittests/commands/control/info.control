@@ -184,7 +184,7 @@ User,postgres
 URL,jdbc:postgresql://localhost/?stringtype=unspecified
 Ready only,No
 Database product name,PostgreSQL
-Database product version,9.3.17
+Database product version,9.3.18
 Database major version,9
 Database major version,3
 Driver name,PostgreSQL JDBC Driver

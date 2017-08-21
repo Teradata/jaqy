@@ -1,6 +1,13 @@
 --------------------------------------------------------------------------
--- .version command test
+-- .echo command test
 --------------------------------------------------------------------------
-.help version
-.version
+.help echo
+.echo
+.echo asdf
+.echo auto
+.echo
+.echo on
+.echo
+.echo off
+.echo
 

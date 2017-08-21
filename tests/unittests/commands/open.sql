@@ -1,6 +1,12 @@
 --------------------------------------------------------------------------
--- .version command test
+-- .open command test
 --------------------------------------------------------------------------
-.help version
-.version
+.help open
+.open
+
+.run ../common/sqlite_setup.sql
+.open sqlite::memory:
+.open sqlite::memory:
+
+.close
 
