@@ -15,7 +15,6 @@
 .info keyword
 .info limit
 .info schema
-.info server
 .info table
 .info user
 
@@ -23,6 +22,7 @@
 
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
+.info server
 .info type
 .close
 
