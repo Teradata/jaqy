@@ -212,6 +212,17 @@ Name,Value
 Schema Term,schema
 Procedure Term,not_implemented
 Catalog Term,catalog
+User,
+URL,jdbc:sqlite::memory:
+Ready only,No
+Database product name,SQLite
+Database product version,3.8.11
+Database major version,3
+Database major version,0
+Driver name,SQLiteJDBC
+Driver version,native
+JDBC major version,2
+JDBC minor version,1
 -- 0/19 - 0 ---------------------------------------------------------------
 .info type
 TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX

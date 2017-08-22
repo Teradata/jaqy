@@ -3,6 +3,8 @@
 --------------------------------------------------------------------------
 .run ../common/sqlite_setup.sql
 .help session
+.session dummy
+.session 1234
 
 -- session 0
 .open sqlite::memory:
@@ -30,3 +32,4 @@ SELECT * FROM MyTable ORDER BY a;
 .session 1
 SELECT * FROM MyTable ORDER BY a;
 .close
+

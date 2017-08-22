@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
@@ -116,13 +117,12 @@ public class ListCommand extends JaqyCommandAdapter
 			schemaPattern = conn.getSchema ();
 		}
 
-		if (catalogPattern == null)
-			catalogPattern = "";
-		else
-			catalogPattern += "/";
-
 		JaqyHelper helper = conn.getHelper ();
 		ResultSet rs = null;
+
+		String sep = meta.getCatalogSeparator ();
+		if (sep == null)
+			sep = "/";
 		if (listType == 0)
 		{
 			interpreter.println ("-- Listing catalogs");
@@ -130,18 +130,12 @@ public class ListCommand extends JaqyCommandAdapter
 		}
 		else if (listType == 1)
 		{
-			if (schemaPattern == null)
-				schemaPattern = "";
-			interpreter.println ("-- Listing schema: " + catalogPattern + schemaPattern);
+			interpreter.println ("-- Listing schema: " + catalogPattern + sep + schemaPattern);
 			rs = meta.getSchemas (catalogPattern, schemaPattern);
 		}
 		else if (listType == 2)
 		{
-			if (schemaPattern == null)
-				schemaPattern = "";
-			else
-				schemaPattern += "/";
-			interpreter.println ("-- Listing tables: " + catalogPattern + schemaPattern + tablePattern);
+			interpreter.println ("-- Listing tables: " + catalogPattern + sep + schemaPattern + sep + tablePattern);
 			rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
 		}
 

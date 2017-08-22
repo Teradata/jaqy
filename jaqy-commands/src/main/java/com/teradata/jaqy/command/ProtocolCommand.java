@@ -58,6 +58,7 @@ public class ProtocolCommand extends JaqyCommandAdapter
 		if (args.length != 2)
 		{
 			interpreter.error ("invalid command arguments.");
+			return;
 		}
 		driverManager.addDriverProtocol (args[0], args[1]);
 	}

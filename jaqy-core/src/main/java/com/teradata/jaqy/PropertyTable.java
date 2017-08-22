@@ -44,7 +44,7 @@ public class PropertyTable
 			throw new IllegalArgumentException ("Invalid number of columns.");
 		for (int i = 0; i < row.length; ++i)
 		{
-			int l = row[i].length ();
+			int l = (row[i] == null) ? 0 : row[i].length ();
 			if (m_lengths[i] < l)
 				m_lengths[i] = l;
 		}

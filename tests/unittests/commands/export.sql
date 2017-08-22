@@ -19,6 +19,7 @@ INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d', X'deadbeef');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 
 .export
+.export dummy
 .export json
 
 .export json -b hex file1.json

@@ -1,6 +1,11 @@
 --------------------------------------------------------------------------
 -- Transaction test
 --------------------------------------------------------------------------
+.help commit
+.help rollback
+.commit
+.rollback
+
 .run ../common/mysql_setup.sql
 USE vagrant;
 

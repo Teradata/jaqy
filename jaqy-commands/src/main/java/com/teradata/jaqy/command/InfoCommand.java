@@ -161,6 +161,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			assert Debug.debug (t);
 		}
 
 		interpreter.print (pt);
@@ -188,6 +189,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			assert Debug.debug (t);
 		}
 
 		interpreter.print (pt);
@@ -224,6 +226,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			assert Debug.debug (t);
 		}
 		interpreter.print (pt);
 	}
@@ -326,6 +329,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			assert Debug.debug (t);
 		}
 		interpreter.print (pt);
 	}
@@ -360,6 +364,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			assert Debug.debug (t);
 		}
 		interpreter.print (pt);
 	}

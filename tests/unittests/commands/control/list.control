@@ -32,24 +32,24 @@ CREATE TABLE MyTable2
 -- 2/4 - 0 ----------------------------------------------------------------
 
 .list
--- Listing tables: %
+-- Listing tables: null.null.%
 TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
 ,,MyTable,TABLE,,,,,,
 ,,MyTable2,TABLE,,,,,,
 -- 2/5 - 0 ----------------------------------------------------------------
 .list . . %
--- Listing tables: %
+-- Listing tables: null.null.%
 TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
 ,,MyTable,TABLE,,,,,,
 ,,MyTable2,TABLE,,,,,,
 -- 2/6 - 0 ----------------------------------------------------------------
 .list . . MyTable
--- Listing tables: MyTable
+-- Listing tables: null.null.MyTable
 TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
 ,,MyTable,TABLE,,,,,,
 -- 2/7 - 0 ----------------------------------------------------------------
 .list . . %MyTable%
--- Listing tables: %MyTable%
+-- Listing tables: null.null.%MyTable%
 TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
 ,,MyTable,TABLE,,,,,,
 ,,MyTable2,TABLE,,,,,,
