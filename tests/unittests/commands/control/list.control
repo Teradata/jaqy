@@ -238,6 +238,9 @@ CREATE TABLE MyTable2
 		"TABLE_CAT" : "performance_schema"
 	},
 	{
+		"TABLE_CAT" : "travis"
+	},
+	{
 		"TABLE_CAT" : "vagrant"
 	}
 ]

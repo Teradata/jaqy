@@ -38,6 +38,7 @@ sudo apt-get -y install mysql-server-5.6
 # Travis CI MySQL database user is travis, password is blank
 mysql -u root --password=vagrant <<EOF
 CREATE DATABASE vagrant;
+CREATE DATABASE travis;
 CREATE USER 'travis' IDENTIFIED BY '';
 GRANT ALL PRIVILEGES ON * . * TO 'travis';
 FLUSH PRIVILEGES;
