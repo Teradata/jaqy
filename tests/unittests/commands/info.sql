@@ -1,11 +1,12 @@
 --------------------------------------------------------------------------
 -- .list command test
 --------------------------------------------------------------------------
-.run ../common/postgresql_setup.sql
-.format csv
-
 .help info
 .info
+.info dummy
+
+.run ../common/postgresql_setup.sql
+.format csv
 
 .info behavior
 .info catalog

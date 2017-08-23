@@ -9,11 +9,13 @@ Teradata Jaqy Console 1.0
 .help list
 No detailed help information.
 -- 0/2 - 0 ----------------------------------------------------------------
-
-.format csv
+.list
+-- error: Current session is closed.
 -- 0/3 - 0 ----------------------------------------------------------------
-.open sqlite::memory:
+.format json
 -- 0/4 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/5 - 0 ----------------------------------------------------------------
 
 CREATE TABLE MyTable
 (
@@ -21,7 +23,7 @@ CREATE TABLE MyTable
 	b	VARCHAR(200)
 );
 -- success. update count = 0
--- 1/4 - 0 ----------------------------------------------------------------
+-- 1/5 - 0 ----------------------------------------------------------------
 
 CREATE TABLE MyTable2
 (
@@ -29,39 +31,252 @@ CREATE TABLE MyTable2
 	b	VARCHAR(200)
 );
 -- success. update count = 0
--- 2/4 - 0 ----------------------------------------------------------------
+-- 2/5 - 0 ----------------------------------------------------------------
 
 .list
 -- Listing tables: null.null.%
-TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
-,,MyTable,TABLE,,,,,,
-,,MyTable2,TABLE,,,,,,
--- 2/5 - 0 ----------------------------------------------------------------
+[
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
+-- 2/6 - 0 ----------------------------------------------------------------
+.list .
+-- Listing schema: null.null
+-- 2/7 - 0 ----------------------------------------------------------------
+.list %
+-- Listing catalogs
+[]
+-- 2/8 - 0 ----------------------------------------------------------------
+.list . .
+-- Listing schema: null.null
+-- 2/9 - 0 ----------------------------------------------------------------
+.list % .
+-- error: Cannot specify * for catalog name when schema pattern is specified.
+-- 2/10 - 0 ---------------------------------------------------------------
+.list . %
+-- Listing schema: null.%
+-- 2/11 - 0 ---------------------------------------------------------------
 .list . . %
 -- Listing tables: null.null.%
-TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
-,,MyTable,TABLE,,,,,,
-,,MyTable2,TABLE,,,,,,
--- 2/6 - 0 ----------------------------------------------------------------
+[
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
+-- 2/12 - 0 ---------------------------------------------------------------
 .list . . MyTable
 -- Listing tables: null.null.MyTable
-TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
-,,MyTable,TABLE,,,,,,
--- 2/7 - 0 ----------------------------------------------------------------
+[
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
+-- 2/13 - 0 ---------------------------------------------------------------
 .list . . %MyTable%
 -- Listing tables: null.null.%MyTable%
-TABLE_CAT,TABLE_SCHEM,TABLE_NAME,TABLE_TYPE,REMARKS,TYPE_CAT,TYPE_SCHEM,TYPE_NAME,SELF_REFERENCING_COL_NAME,REF_GENERATION
-,,MyTable,TABLE,,,,,,
-,,MyTable2,TABLE,,,,,,
--- 2/8 - 0 ----------------------------------------------------------------
+[
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
+-- 2/14 - 0 ---------------------------------------------------------------
+.list . % %
+-- Listing tables: null.%.%
+[
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : null,
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : null,
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
+-- 2/15 - 0 ---------------------------------------------------------------
 
 DROP TABLE MyTable;
 -- success. update count = 0
--- 3/8 - 0 ----------------------------------------------------------------
+-- 3/15 - 0 ---------------------------------------------------------------
 DROP TABLE MyTable2;
 -- success. update count = 0
--- 4/8 - 0 ----------------------------------------------------------------
+-- 4/15 - 0 ---------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 4/9 - 0 ----------------------------------------------------------------
+-- 4/16 - 0 ---------------------------------------------------------------
+
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 4/17 - 0 ---------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 4/18 - 0 ---------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 5/18 - 0 ---------------------------------------------------------------
+CREATE TABLE MyTable
+(
+        a       INTEGER PRIMARY KEY,
+        b       VARCHAR(200)
+);
+-- success. update count = 0
+-- 6/18 - 0 ---------------------------------------------------------------
+
+CREATE TABLE MyTable2
+(
+        a       INTEGER PRIMARY KEY,
+        b       VARCHAR(200)
+);
+-- success. update count = 0
+-- 7/18 - 0 ---------------------------------------------------------------
+
+.list
+-- Listing tables: .null.%
+[]
+-- 7/19 - 0 ---------------------------------------------------------------
+.list .
+-- Listing schema: .null
+[]
+-- 7/20 - 0 ---------------------------------------------------------------
+.list %
+-- Listing catalogs
+[
+	{
+		"TABLE_CAT" : "information_schema"
+	},
+	{
+		"TABLE_CAT" : "mysql"
+	},
+	{
+		"TABLE_CAT" : "performance_schema"
+	},
+	{
+		"TABLE_CAT" : "vagrant"
+	}
+]
+-- 7/21 - 0 ---------------------------------------------------------------
+.list . .
+-- Listing schema: .null
+[]
+-- 7/22 - 0 ---------------------------------------------------------------
+.list % .
+-- error: Cannot specify * for catalog name when schema pattern is specified.
+-- 7/23 - 0 ---------------------------------------------------------------
+.list . %
+-- Listing schema: .%
+[]
+-- 7/24 - 0 ---------------------------------------------------------------
+.list . . %
+-- Listing tables: .null.%
+[]
+-- 7/25 - 0 ---------------------------------------------------------------
+.list . . MyTable
+-- Listing tables: .null.MyTable
+[]
+-- 7/26 - 0 ---------------------------------------------------------------
+.list . . %MyTable%
+-- Listing tables: .null.%MyTable%
+[]
+-- 7/27 - 0 ---------------------------------------------------------------
+.list . % %
+-- Listing tables: .%.%
+[]
+-- 7/28 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 8/28 - 0 ---------------------------------------------------------------
+DROP TABLE MyTable2;
+-- success. update count = 0
+-- 9/28 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 9/29 - 0 ---------------------------------------------------------------
 

@@ -15,6 +15,7 @@ os_linux.sql
 os_win.sql
 prepare.sql
 protocol.sql
+pwd.sql
 quiet.sql
 rem.sql
 run.sql

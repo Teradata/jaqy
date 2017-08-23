@@ -20,7 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
@@ -138,6 +137,8 @@ public class ListCommand extends JaqyCommandAdapter
 			interpreter.println ("-- Listing tables: " + catalogPattern + sep + schemaPattern + sep + tablePattern);
 			rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
 		}
+		if (rs == null)
+			return;
 
 		interpreter.print (helper.getResultSet (rs));
 		rs.close ();
