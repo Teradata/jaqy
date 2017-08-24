@@ -17,6 +17,7 @@ package com.teradata.jaqy;
 
 import com.teradata.jaqy.command.AliasCommand;
 import com.teradata.jaqy.command.AutoCommitCommand;
+import com.teradata.jaqy.command.BatchSizeCommand;
 import com.teradata.jaqy.command.ClassPathCommand;
 import com.teradata.jaqy.command.CloseCommand;
 import com.teradata.jaqy.command.CommitCommand;
@@ -99,6 +100,7 @@ class CommandSetup
 		manager.addCommand ("format", new FormatCommand ());
 		manager.addCommand ("export", new ExportCommand ());
 		manager.addCommand ("import", new ImportCommand ());
+		manager.addCommand ("batchsize", new BatchSizeCommand ());
 
 		// plugin
 		manager.addCommand ("load", new LoadCommand ());

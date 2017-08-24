@@ -40,6 +40,8 @@ import com.teradata.jaqy.utils.DriverManagerUtils;
  */
 public class Session
 {
+	public final static long DEFAULT_BATCH_SIZE = 5000;
+
 	private final int m_sessionId;
 	private final Globals m_globals;
 
@@ -47,6 +49,7 @@ public class Session
 
 	private long m_activityCount;
 	private final Object m_lock = new Object ();
+	private long m_batchSize = DEFAULT_BATCH_SIZE;
 
 	Session (Globals globals, int sessionId, Display display)
 	{
@@ -241,6 +244,8 @@ public class Session
 		try
 		{
 			int columns = stmt.getParameterCount ();
+			long batchCount = 0;
+			long batchSize = m_batchSize;
 			while (importer.next ())
 			{
 				for (int i = 0; i < columns; ++i)
@@ -257,11 +262,28 @@ public class Session
 							stmt.setObject (i + 1, importer.getObject (i, parameterTypes[i]));
 					}
 				}
-				stmt.addBatch ();
+				if (batchSize == 1)
+				{
+					stmt.execute ();
+					handleQueryResult (stmt, interpreter);
+				}
+				else
+				{
+					++batchCount;
+					stmt.addBatch ();
+					if (batchCount == batchSize)
+					{
+						stmt.executeBatch ();
+						handleQueryResult (stmt, interpreter);
+						batchCount = 0;
+					}
+				}
 			}
-
-			stmt.executeBatch ();
-			handleQueryResult (stmt, interpreter);
+			if (batchCount > 0)
+			{
+				stmt.executeBatch ();
+				handleQueryResult (stmt, interpreter);
+			}
 		}
 		finally
 		{
@@ -374,5 +396,17 @@ public class Session
 	public String toString ()
 	{
 		return Integer.toString (m_sessionId);
+	}
+
+	public long getBatchSize ()
+	{
+		return m_batchSize;
+	}
+
+	public void setBatchSize (long batchSize)
+	{
+		if (batchSize == 0)
+			batchSize = DEFAULT_BATCH_SIZE;
+		m_batchSize = batchSize;
 	}
 }

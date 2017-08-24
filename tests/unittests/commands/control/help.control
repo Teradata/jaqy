@@ -6,6 +6,7 @@ Teradata Jaqy Console 1.0
 .help
 	.alias - creates a command alias.
 	.autocommit - turns auto-commit on / off
+	.batchsize - sets the batch execution size limit.
 	.classpath - displays / sets the class path for a JDBC driver.
 	.close - closes the current session.
 	.commit - commits the current transaction.

@@ -1,4 +1,5 @@
 alias.sql
+batchsize.sql
 classpath.sql
 close.sql
 driver.sql
