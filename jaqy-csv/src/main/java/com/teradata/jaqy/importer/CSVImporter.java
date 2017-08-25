@@ -131,11 +131,6 @@ class CSVImporter implements JaqyImporter<Integer>
 		m_parser.close ();
 	}
 
-	public boolean isNaFilter ()
-	{
-		return m_naFilter;
-	}
-
 	public void setNaFilter (boolean naFilter)
 	{
 		m_naFilter = naFilter;

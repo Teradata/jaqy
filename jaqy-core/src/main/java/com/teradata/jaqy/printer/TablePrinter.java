@@ -260,19 +260,4 @@ class TablePrinter implements JaqyPrinter
 	{
 		return "table";
 	}
-
-	public void setAutoShrink (boolean autoShrink)
-	{
-		m_autoShrink = autoShrink;
-	}
-
-	public void setScanThreshold (int scanThreshold)
-	{
-		m_scanThreshold = scanThreshold;
-	}
-
-	public void setColumnThreshold (int columnThreshold)
-	{
-		m_columnThreshold = columnThreshold;
-	}
 }
