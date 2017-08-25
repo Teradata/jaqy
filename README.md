@@ -1,4 +1,4 @@
-# README
+# Teradata Jaqy [![Build Status](https://travis-ci.org/Teradata/jaqy.svg?branch=master)](https://travis-ci.org/Teradata/jaqy)[![codecov](https://codecov.io/gh/Teradata/jaqy/branch/master/graph/badge.svg)](https://codecov.io/gh/Teradata/jaqy)[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Teradata Jaqy is a universal JDBC client for connecting any databases with
 JDBC drivers.  It is designed with the following in mind.

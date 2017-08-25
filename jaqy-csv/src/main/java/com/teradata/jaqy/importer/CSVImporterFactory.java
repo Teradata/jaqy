@@ -43,6 +43,8 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		Option option = new Option ("t", "type", true, "sets the csv type.");
 		option.setArgName ("default | excel | rfc4180 | mysql | tdf");
 		addOption (option);
+		addOption ("f", "nanfilter", false, "enables NaN value filtering");
+		addOption ("v", "nanvalues", true, "specifies a comma delimited list of NaN values.  If it is not specified and --nanfilter is enabled, then the default list is used.");
 
 		option = new Option ("h", "header", true, "indicates the file has a header or not");
 		option.setArgName ("on | off");
@@ -60,6 +62,8 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 	{
 		Charset charset = DEFAULT_CHARSET;
 		CSVFormat format = CSVFormat.DEFAULT;
+		boolean nanFilter = false;
+		String[] nanValues = null;
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -91,12 +95,28 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 					format = CSVUtils.getFormat (option.getValue ());
 					break;
 				}
+				case 'f':
+				{
+					nanFilter = true;
+					break;
+				}
+				case 'v':
+				{
+					nanValues = option.getValue ().split (",");
+					break;
+				}
 			}
 		}
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
 		Reader reader = new InputStreamReader (new FileInputStream (interpreter.getFile (args[0])), charset);
-		return new CSVImporter (reader, format);
+		CSVImporter importer = new CSVImporter (reader, format);
+		if (nanFilter == true)
+		{
+			importer.setNaFilter (true);
+			importer.setNaValues (nanValues);
+		}
+		return importer;
 	}
 }

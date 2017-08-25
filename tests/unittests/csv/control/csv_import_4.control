@@ -1,0 +1,128 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open derby:memory:csvDB;create=true
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable (a INTEGER, b VARCHAR(100));
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+-- test csv without nan filter
+.import csv -h on lib/import4.csv
+-- 1/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+{a=0, b=1}
+-- success. update count = 1
+-- 2/3 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- ---
+1 
+2 NaN
+3 3
+4 4
+-- activity count = 4
+-- 3/3 - 0 ----------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 4/3 - 0 ----------------------------------------------------------------
+
+-- test csv with default nan filter
+.import csv -h on -f lib/import4.csv
+-- 4/4 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+{a=0, b=1}
+-- success. update count = 1
+-- 5/4 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- ----
+1 ?
+2 ?
+3 3
+4 4
+-- activity count = 4
+-- 6/4 - 0 ----------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 7/4 - 0 ----------------------------------------------------------------
+
+-- test csv with a single NaN filter
+.import csv -h on -f -v= lib/import4.csv
+-- 7/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+{a=0, b=1}
+-- success. update count = 1
+-- 8/5 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- ----
+1 ?
+2 NaN
+3 3
+4 4
+-- activity count = 4
+-- 9/5 - 0 ----------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 10/5 - 0 ---------------------------------------------------------------
+
+-- test csv with a single NaN filter.  Last comma is ignored.
+.import csv -h on -f -v=NaN, lib/import4.csv
+-- 10/6 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+{a=0, b=1}
+-- success. update count = 1
+-- 11/6 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- ----
+1 
+2 ?
+3 3
+4 4
+-- activity count = 4
+-- 12/6 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 13/6 - 0 ---------------------------------------------------------------
+
+-- test csv with multiple NaN filter.  First comma is recognized.
+.import csv -h on -f -v=,NaN lib/import4.csv
+-- 13/7 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?);
+{a=0, b=1}
+-- success. update count = 1
+-- 14/7 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B
+- ----
+1 ?
+2 ?
+3 3
+4 4
+-- activity count = 4
+-- 15/7 - 0 ---------------------------------------------------------------
+DELETE FROM MyTable;
+-- success. update count = 4
+-- 16/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 17/7 - 0 ---------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 17/8 - 0 ---------------------------------------------------------------
+

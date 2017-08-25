@@ -32,16 +32,25 @@ import com.teradata.jaqy.interfaces.JaqyImporter;
  */
 class CSVImporter implements JaqyImporter<Integer>
 {
+	private final static String[] s_defaultNaValues =
+	{
+		"-1.#IND", "1.#QNAN", "1.#IND", "-1.#QNAN", "#N/A N/A", "#N/A",
+		"N/A", "NA", "#NA", "NULL", "NaN", "-NaN", "nan", "-nan", ""
+	};
+
 	private final CSVParser m_parser;
 	private final Map<String, Integer> m_headers;
 	private final Iterator<CSVRecord> m_iterator;
 	private CSVRecord m_record;
+	private boolean m_naFilter;
+	private String[] m_naValues;
 
 	public CSVImporter (Reader reader, CSVFormat format) throws IOException
 	{
 		m_parser = format.parse (reader);
 		m_headers = m_parser.getHeaderMap ();
 		m_iterator = m_parser.iterator ();
+		m_naValues = s_defaultNaValues;
 	}
 
 	@Override
@@ -73,7 +82,13 @@ class CSVImporter implements JaqyImporter<Integer>
 	{
 		try
 		{
-			return m_record.get (index);
+			String value = m_record.get (index);
+			if (!m_naFilter)
+				return value;
+			for (String f : m_naValues)
+				if (value.equals (f))
+					return null;
+			return value;
 		}
 		catch (ArrayIndexOutOfBoundsException ex)
 		{
@@ -114,5 +129,23 @@ class CSVImporter implements JaqyImporter<Integer>
 	public void close () throws IOException
 	{
 		m_parser.close ();
+	}
+
+	public boolean isNaFilter ()
+	{
+		return m_naFilter;
+	}
+
+	public void setNaFilter (boolean naFilter)
+	{
+		m_naFilter = naFilter;
+	}
+
+	public void setNaValues (String[] naValues)
+	{
+		if (naValues == null)
+			m_naValues = s_defaultNaValues;
+		else
+			m_naValues = naValues;
 	}
 }
