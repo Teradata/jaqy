@@ -1,0 +1,1328 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test PostgreSQL various array data types
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+.debug resultset on
+-- 0/3 - 0 ----------------------------------------------------------------
+
+CREATE TABLE NumTable
+(
+	a  INTEGER,
+	c1 SMALLINT[],
+	c2 INTEGER[],
+	c3 BIGINT[],
+	c4 FLOAT[],
+	c5 DOUBLE PRECISION[]
+);
+-- success. update count = 0
+-- 1/3 - 0 ----------------------------------------------------------------
+
+INSERT INTO NumTable VALUES (1, '{-12345}', '{-123456789}', '{-1234567890}', '{-1234.5}', '{-4.5e15}');
+-- success. update count = 1
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES (2, '{12345}', '{123456789}', '{1234567890}', '{1234.5}', '{4.5e15}');
+-- success. update count = 1
+-- 3/3 - 0 ----------------------------------------------------------------
+
+.format csv
+-- 3/4 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY a;
+ResultSet Column Count                       6
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _int2
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 6
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _int8
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 20
+    Precision                                    19
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _float8
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        6
+    Name                                         c5
+    Label                                        c5
+    Type                                         ARRAY
+    SQL Type                                     _float8
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+-- success --
+a,c1,c2,c3,c4,c5
+1,{-12345},{-123456789},{-1234567890},{-1234.5},{-4500000000000000}
+2,{12345},{123456789},{1234567890},{1234.5},{4500000000000000}
+-- activity count = 2
+-- 4/4 - 0 ----------------------------------------------------------------
+.format json -p on
+-- 4/5 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY a;
+ResultSet Column Count                       6
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _int2
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 6
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _int8
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 20
+    Precision                                    19
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _float8
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        6
+    Name                                         c5
+    Label                                        c5
+    Type                                         ARRAY
+    SQL Type                                     _float8
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+-- success --
+[
+	{
+		"a" : 1,
+		"c1" : [
+			-12345
+		],
+		"c2" : [
+			-123456789
+		],
+		"c3" : [
+			-1234567890
+		],
+		"c4" : [
+			-1234.5
+		],
+		"c5" : [
+			-4500000000000000
+		]
+	},
+	{
+		"a" : 2,
+		"c1" : [
+			12345
+		],
+		"c2" : [
+			123456789
+		],
+		"c3" : [
+			1234567890
+		],
+		"c4" : [
+			1234.5
+		],
+		"c5" : [
+			4500000000000000
+		]
+	}
+]
+-- activity count = 2
+-- 5/5 - 0 ----------------------------------------------------------------
+
+DROP TABLE NumTable;
+-- success. update count = 0
+-- 6/5 - 0 ----------------------------------------------------------------
+
+CREATE TABLE DecTable
+(
+	a  INTEGER,
+	c1 DECIMAL(3,2)[],
+	c2 DECIMAL(9,2)[],
+	c3 DECIMAL(22,2)[],
+	c4 DECIMAL(31,2)[]
+);
+-- success. update count = 0
+-- 7/5 - 0 ----------------------------------------------------------------
+INSERT INTO DecTable VALUES (1, '{-1.23}', '{-1234567.89}', '{-12345678901234567890.12}', '{-12345678901234567890123456789.01}');
+-- success. update count = 1
+-- 8/5 - 0 ----------------------------------------------------------------
+INSERT INTO DecTable VALUES (2, '{1.23}', '{1234567.89}', '{12345678901234567890.12}', '{12345678901234567890123456789.01}');
+-- success. update count = 1
+-- 9/5 - 0 ----------------------------------------------------------------
+
+.format csv
+-- 9/6 - 0 ----------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 5
+    Precision                                    3
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    9
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 24
+    Precision                                    22
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 33
+    Precision                                    31
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+-- success --
+a,c1,c2,c3,c4
+1,{-1.23},{-1234567.89},{-12345678901234567890.12},{-12345678901234567890123456789.01}
+2,{1.23},{1234567.89},{12345678901234567890.12},{12345678901234567890123456789.01}
+-- activity count = 2
+-- 10/6 - 0 ---------------------------------------------------------------
+.format json -p on
+-- 10/7 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 5
+    Precision                                    3
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    9
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 24
+    Precision                                    22
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 33
+    Precision                                    31
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+-- success --
+[
+	{
+		"a" : 1,
+		"c1" : [
+			-1.23
+		],
+		"c2" : [
+			-1234567.89
+		],
+		"c3" : [
+			-12345678901234567890.12
+		],
+		"c4" : [
+			-12345678901234567890123456789.01
+		]
+	},
+	{
+		"a" : 2,
+		"c1" : [
+			1.23
+		],
+		"c2" : [
+			1234567.89
+		],
+		"c3" : [
+			12345678901234567890.12
+		],
+		"c4" : [
+			12345678901234567890123456789.01
+		]
+	}
+]
+-- activity count = 2
+-- 11/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE DecTable;
+-- success. update count = 0
+-- 12/7 - 0 ---------------------------------------------------------------
+
+CREATE TABLE StrTable
+(
+	a  INTEGER,
+	c1 VARCHAR(255)[],
+	c2 CHAR(1)[],
+	c3 CHAR(5)[],
+	c4 TEXT[]
+);
+-- success. update count = 0
+-- 13/7 - 0 ---------------------------------------------------------------
+
+INSERT INTO StrTable VALUES (1, '{aa}', '{A}', '{abcde}', '{aaaaa}');
+-- success. update count = 1
+-- 14/7 - 0 ---------------------------------------------------------------
+INSERT INTO StrTable VALUES (2, '{bbb}', '{B}', '{fghij}', '{bbbbb}');
+-- success. update count = 1
+-- 15/7 - 0 ---------------------------------------------------------------
+
+.format csv
+-- 15/8 - 0 ---------------------------------------------------------------
+SELECT * FROM StrTable ORDER BY a;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _varchar
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 255
+    Precision                                    255
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _bpchar
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 1
+    Precision                                    1
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _bpchar
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 5
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _text
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a,c1,c2,c3,c4
+1,{aa},{A},{abcde},{aaaaa}
+2,{bbb},{B},{fghij},{bbbbb}
+-- activity count = 2
+-- 16/8 - 0 ---------------------------------------------------------------
+.format json -p on
+-- 16/9 - 0 ---------------------------------------------------------------
+SELECT * FROM StrTable ORDER BY a;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _varchar
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 255
+    Precision                                    255
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _bpchar
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 1
+    Precision                                    1
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _bpchar
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 5
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _text
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+[
+	{
+		"a" : 1,
+		"c1" : [
+			"aa"
+		],
+		"c2" : [
+			"A"
+		],
+		"c3" : [
+			"abcde"
+		],
+		"c4" : [
+			"aaaaa"
+		]
+	},
+	{
+		"a" : 2,
+		"c1" : [
+			"bbb"
+		],
+		"c2" : [
+			"B"
+		],
+		"c3" : [
+			"fghij"
+		],
+		"c4" : [
+			"bbbbb"
+		]
+	}
+]
+-- activity count = 2
+-- 17/9 - 0 ---------------------------------------------------------------
+
+DROP TABLE StrTable;
+-- success. update count = 0
+-- 18/9 - 0 ---------------------------------------------------------------
+
+CREATE TABLE BinTable
+(
+	c1 INTEGER,
+	c2 BYTEA[]
+);
+-- success. update count = 0
+-- 19/9 - 0 ---------------------------------------------------------------
+
+INSERT INTO BinTable VALUES (1, '{\\xdeadbeef}');
+-- success. update count = 1
+-- 20/9 - 0 ---------------------------------------------------------------
+INSERT INTO BinTable VALUES (2, '{\\xfacefeed}');
+-- success. update count = 1
+-- 21/9 - 0 ---------------------------------------------------------------
+
+.format csv
+-- 21/10 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _bytea
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+c1,c2
+1,"{""\\xdeadbeef""}"
+2,"{""\\xfacefeed""}"
+-- activity count = 2
+-- 22/10 - 0 --------------------------------------------------------------
+.format json -p on
+-- 22/11 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _bytea
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+[
+	{
+		"c1" : 1,
+		"c2" : [
+			"3q2+7w=="
+		]
+	},
+	{
+		"c1" : 2,
+		"c2" : [
+			"+s7+7Q=="
+		]
+	}
+]
+-- activity count = 2
+-- 23/11 - 0 --------------------------------------------------------------
+
+DROP TABLE BinTable;
+-- success. update count = 0
+-- 24/11 - 0 --------------------------------------------------------------
+
+CREATE TABLE TimeTable
+(
+	c1 INTEGER,
+	c2 DATE[],
+	c3 TIME[],
+	c4 TIME WITH TIME ZONE[],
+	c5 TIMESTAMP[],
+	c6 TIMESTAMP WITH TIME ZONE[]
+);
+-- success. update count = 0
+-- 25/11 - 0 --------------------------------------------------------------
+
+INSERT INTO TimeTable VALUES (1, '{2001-02-03}', '{12:34:56}', '{12:34:56-08:00}', '{2001-02-03 12:34:56}', '{2001-02-03 12:34:56-08:00}');
+-- success. update count = 1
+-- 26/11 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (2, '{2001-03-04}', '{12:34:56}', '{12:34:56+08:00}', '{2001-03-04 12:34:56}', '{2001-02-03 12:34:56+08:00}');
+-- success. update count = 1
+-- 27/11 - 0 --------------------------------------------------------------
+
+.format csv
+-- 27/12 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY c1;
+ResultSet Column Count                       6
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _date
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 13
+    Precision                                    13
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _time
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 15
+    Precision                                    15
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _timetz
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 21
+    Precision                                    21
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         ARRAY
+    SQL Type                                     _timestamp
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 29
+    Precision                                    29
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         ARRAY
+    SQL Type                                     _timestamptz
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 35
+    Precision                                    35
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+c1,c2,c3,c4,c5,c6
+1,{2001-02-03},{12:34:56},{12:34:56-08},"{""2001-02-03 12:34:56""}","{""2001-02-03 20:34:56+00""}"
+2,{2001-03-04},{12:34:56},{12:34:56+08},"{""2001-03-04 12:34:56""}","{""2001-02-03 04:34:56+00""}"
+-- activity count = 2
+-- 28/12 - 0 --------------------------------------------------------------
+.format json -p on
+-- 28/13 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY c1;
+ResultSet Column Count                       6
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _date
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 13
+    Precision                                    13
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _time
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 15
+    Precision                                    15
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _timetz
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 21
+    Precision                                    21
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         ARRAY
+    SQL Type                                     _timestamp
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 29
+    Precision                                    29
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         ARRAY
+    SQL Type                                     _timestamptz
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 35
+    Precision                                    35
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+[
+	{
+		"c1" : 1,
+		"c2" : [
+			"2001-02-03"
+		],
+		"c3" : [
+			"12:34:56"
+		],
+		"c4" : [
+			"20:34:56"
+		],
+		"c5" : [
+			"2001-02-03 12:34:56.0"
+		],
+		"c6" : [
+			"2001-02-03 20:34:56.0"
+		]
+	},
+	{
+		"c1" : 2,
+		"c2" : [
+			"2001-03-04"
+		],
+		"c3" : [
+			"12:34:56"
+		],
+		"c4" : [
+			"04:34:56"
+		],
+		"c5" : [
+			"2001-03-04 12:34:56.0"
+		],
+		"c6" : [
+			"2001-02-03 04:34:56.0"
+		]
+	}
+]
+-- activity count = 2
+-- 29/13 - 0 --------------------------------------------------------------
+
+DROP TABLE TimeTable;
+-- success. update count = 0
+-- 30/13 - 0 --------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 30/14 - 0 --------------------------------------------------------------

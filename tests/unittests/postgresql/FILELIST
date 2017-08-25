@@ -1,4 +1,5 @@
 ansi_types.sql
-transaction.sql
-json_type.sql
+array_types.sql
 data_types.sql
+json_type.sql
+transaction.sql
