@@ -31,7 +31,7 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	public static int DEFAULT_MAX_COLUMN_SIZE = 100;
 	public static boolean DEFAULT_AUTO_SIZE = true;
 	public static int DEFAULT_SCAN_THRESHOLD = 1000;
-	public static int DEFAULT_COLUMN_THRESHOLD = 30;
+	public static int DEFAULT_COLUMN_THRESHOLD = 1;
 
 	public TablePrinterFactory ()
 	{

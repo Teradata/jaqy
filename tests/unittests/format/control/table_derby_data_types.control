@@ -1,0 +1,332 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test table format
+--------------------------------------------------------------------------
+.help format
+usage: .format [type] [type options]
+type:
+  csv
+  json
+  table
+
+csv type options:
+  -d,--delimiter <arg>                                  specifies the
+                                                        delimiter
+  -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
+
+json type options:
+  -b,--binary <base64 | hex>   sets the binary format.
+  -p,--pretty <on | off>       turns pretty print on / off.
+
+table type options:
+  -a,--autosize <on | off>     turns auto column size determination on / off.
+  -b,--border <on | off>       turns border on / off.
+  -c,--columnthreshold <arg>   sets column size threshold.  If a column size
+                               is less than the threshold, then no auto size.
+  -m,--maxsize <arg>           sets the maximum size of a column.
+  -r,--rowthreshold <arg>      sets row threshold.  Scan up to this number of
+                               rows to determine the size of the column.
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/2 - 0 ----------------------------------------------------------------
+.open derby:memory:typesDB;create=true
+-- 0/3 - 0 ----------------------------------------------------------------
+.format table
+-- 0/4 - 0 ----------------------------------------------------------------
+.format
+.format table
+-- 0/5 - 0 ----------------------------------------------------------------
+.format table -r asdf
+-- error: For input string: "asdf"
+-- 0/6 - 0 ----------------------------------------------------------------
+.format table -c asdf
+-- error: For input string: "asdf"
+-- 0/7 - 0 ----------------------------------------------------------------
+.format table -m asdf
+-- error: For input string: "asdf"
+-- 0/8 - 0 ----------------------------------------------------------------
+.format table -r -1
+-- 0/9 - 0 ----------------------------------------------------------------
+.format table -r 1000
+-- 0/10 - 0 ---------------------------------------------------------------
+
+CREATE TABLE NumTable
+(
+	t1 SMALLINT,
+	t2 INTEGER,
+	t3 BIGINT,
+	t4 FLOAT
+);
+-- success. update count = 0
+-- 1/10 - 0 ---------------------------------------------------------------
+
+INSERT INTO NumTable VALUES (-12345, -123456789, -1234567890, -1234.5);
+-- success. update count = 1
+-- 2/10 - 0 ---------------------------------------------------------------
+INSERT INTO NumTable VALUES (12345, 123456789, 1234567890, 1234.5);
+-- success. update count = 1
+-- 3/10 - 0 ---------------------------------------------------------------
+
+.format table -a off
+-- 3/11 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+    T1          T2                   T3                       T4
+------ ----------- -------------------- ------------------------
+-12345  -123456789          -1234567890                  -1234.5
+ 12345   123456789           1234567890                   1234.5
+-- activity count = 2
+-- 4/11 - 0 ---------------------------------------------------------------
+.format table -a on
+-- 4/12 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+    T1         T2          T3      T4
+------ ---------- ----------- -------
+-12345 -123456789 -1234567890 -1234.5
+ 12345  123456789  1234567890  1234.5
+-- activity count = 2
+-- 5/12 - 0 ---------------------------------------------------------------
+.format table -b on
+-- 5/13 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
++--------+------------+-------------+---------+
+|     T1 |         T2 |          T3 |      T4 |
++--------+------------+-------------+---------+
+| -12345 | -123456789 | -1234567890 | -1234.5 |
+|  12345 |  123456789 |  1234567890 |  1234.5 |
++--------+------------+-------------+---------+
+-- activity count = 2
+-- 6/13 - 0 ---------------------------------------------------------------
+.format table -b off
+-- 6/14 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+    T1         T2          T3      T4
+------ ---------- ----------- -------
+-12345 -123456789 -1234567890 -1234.5
+ 12345  123456789  1234567890  1234.5
+-- activity count = 2
+-- 7/14 - 0 ---------------------------------------------------------------
+.format table -a on -c -1
+-- 7/15 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+    T1         T2          T3      T4
+------ ---------- ----------- -------
+-12345 -123456789 -1234567890 -1234.5
+ 12345  123456789  1234567890  1234.5
+-- activity count = 2
+-- 8/15 - 0 ---------------------------------------------------------------
+.format table -a on -c 20
+-- 8/16 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+    T1          T2                   T3      T4
+------ ----------- -------------------- -------
+-12345  -123456789          -1234567890 -1234.5
+ 12345   123456789           1234567890  1234.5
+-- activity count = 2
+-- 9/16 - 0 ---------------------------------------------------------------
+.format table -a off -m -1
+-- 9/17 - 0 ---------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+    T1          T2                   T3                       T4
+------ ----------- -------------------- ------------------------
+-12345  -123456789          -1234567890                  -1234.5
+ 12345   123456789           1234567890                   1234.5
+-- activity count = 2
+-- 10/17 - 0 --------------------------------------------------------------
+.format table -a off -m 4
+-- 10/18 - 0 --------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY t1;
+-- success --
+  T1   T2   T3   T4
+---- ---- ---- ----
+-123 -123 -123 -123
+1234 1234 1234 1234
+-- activity count = 2
+-- 11/18 - 0 --------------------------------------------------------------
+DROP TABLE NumTable;
+-- success. update count = 0
+-- 12/18 - 0 --------------------------------------------------------------
+
+.format table
+-- 12/19 - 0 --------------------------------------------------------------
+-- Derby supports DECIMAL precision up to 31.
+CREATE TABLE DecTable
+(
+	d1 DECIMAL(3,2),
+	d2 DECIMAL(9,2),
+	d3 DECIMAL(22,2),
+	d4 DECIMAL(31,2)
+);
+-- success. update count = 0
+-- 13/19 - 0 --------------------------------------------------------------
+INSERT INTO DecTable VALUES (-1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
+-- success. update count = 1
+-- 14/19 - 0 --------------------------------------------------------------
+INSERT INTO DecTable VALUES (1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
+-- success. update count = 1
+-- 15/19 - 0 --------------------------------------------------------------
+
+SELECT * FROM DecTable ORDER BY d1;
+-- success --
+   D1          D2                       D3                                D4
+----- ----------- ------------------------ ---------------------------------
+-1.23 -1234567.89 -12345678901234567890.12 -12345678901234567890123456789.01
+ 1.23  1234567.89  12345678901234567890.12  12345678901234567890123456789.01
+-- activity count = 2
+-- 16/19 - 0 --------------------------------------------------------------
+DROP TABLE DecTable;
+-- success. update count = 0
+-- 17/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE StrTable
+(
+	s1 VARCHAR(255),
+	s2 CHAR(1),
+	s3 CHAR(5)
+);
+-- success. update count = 0
+-- 18/19 - 0 --------------------------------------------------------------
+
+INSERT INTO StrTable VALUES ('aa', 'A', 'abcde');
+-- success. update count = 1
+-- 19/19 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij');
+-- success. update count = 1
+-- 20/19 - 0 --------------------------------------------------------------
+
+SELECT * FROM StrTable ORDER BY s1;
+-- success --
+S1  S2 S3
+--- -- -----
+aa  A  abcde
+bbb B  fghij
+-- activity count = 2
+-- 21/19 - 0 --------------------------------------------------------------
+DROP TABLE StrTable;
+-- success. update count = 0
+-- 22/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE BinTable
+(
+	c1 INTEGER,
+	c2 LONG VARCHAR,
+	c3 LONG VARCHAR FOR BIT DATA
+);
+-- success. update count = 0
+-- 23/19 - 0 --------------------------------------------------------------
+
+INSERT INTO BinTable VALUES (1, 'A str', X'deadbeef');
+-- success. update count = 1
+-- 24/19 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES (2, 'B str', X'facefeed');
+-- success. update count = 1
+-- 25/19 - 0 --------------------------------------------------------------
+
+SELECT * FROM BinTable ORDER BY c1;
+-- success --
+C1 C2    C3
+-- ----- --------
+ 1 A str deadbeef
+ 2 B str facefeed
+-- activity count = 2
+-- 26/19 - 0 --------------------------------------------------------------
+DROP TABLE BinTable;
+-- success. update count = 0
+-- 27/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE LobTable
+(
+	c1 INTEGER,
+	c2 CLOB(1K),
+	c3 BLOB(1K)
+);
+-- success. update count = 0
+-- 28/19 - 0 --------------------------------------------------------------
+
+INSERT INTO LobTable VALUES (1, 'A clob', CAST(X'deadbeef' AS BLOB));
+-- success. update count = 1
+-- 29/19 - 0 --------------------------------------------------------------
+INSERT INTO LobTable VALUES (2, 'B clob', CAST(X'facefeed' AS BLOB));
+-- success. update count = 1
+-- 30/19 - 0 --------------------------------------------------------------
+
+SELECT * FROM LobTable ORDER BY c1;
+-- success --
+C1 C2     C3
+-- ------ --------
+ 1 A clob deadbeef
+ 2 B clob facefeed
+-- activity count = 2
+-- 31/19 - 0 --------------------------------------------------------------
+DROP TABLE LobTable;
+-- success. update count = 0
+-- 32/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE TimeTable
+(
+	c1 INTEGER,
+	c2 DATE,
+	c3 TIME,
+	c4 TIMESTAMP
+);
+-- success. update count = 0
+-- 33/19 - 0 --------------------------------------------------------------
+
+INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '2001-02-03 12:34:56');
+-- success. update count = 1
+-- 34/19 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '2001-03-04 12:34:56');
+-- success. update count = 1
+-- 35/19 - 0 --------------------------------------------------------------
+
+SELECT * FROM TimeTable ORDER BY c1;
+-- success --
+C1 C2         C3       C4
+-- ---------- -------- ---------------------
+ 1 2001-02-03 12:34:56 2001-02-03 12:34:56.0
+ 2 2001-03-04 12:34:56 2001-03-04 12:34:56.0
+-- activity count = 2
+-- 36/19 - 0 --------------------------------------------------------------
+DROP TABLE TimeTable;
+-- success. update count = 0
+-- 37/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE XmlTable
+(
+	c1 INTEGER,
+	c2 XML
+);
+-- success. update count = 0
+-- 38/19 - 0 --------------------------------------------------------------
+
+INSERT INTO XmlTable VALUES (1, XMLPARSE(DOCUMENT '<abc>1234</abc>' PRESERVE WHITESPACE));
+-- success. update count = 1
+-- 39/19 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES (2, XMLPARSE(DOCUMENT '<abc>2345</abc>' PRESERVE WHITESPACE));
+-- success. update count = 1
+-- 40/19 - 0 --------------------------------------------------------------
+
+SELECT c1, XMLSERIALIZE(c2 AS VARCHAR(100)) AS c2 FROM XmlTable ORDER BY c1;
+-- success --
+C1 C2
+-- ---------------
+ 1 <abc>1234</abc>
+ 2 <abc>2345</abc>
+-- activity count = 2
+-- 41/19 - 0 --------------------------------------------------------------
+DROP TABLE XmlTable;
+-- success. update count = 0
+-- 42/19 - 0 --------------------------------------------------------------
+
+.close
+Session 0 is now closed.
+-- 42/20 - 0 --------------------------------------------------------------

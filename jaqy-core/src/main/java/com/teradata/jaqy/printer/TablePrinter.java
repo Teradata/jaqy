@@ -113,6 +113,10 @@ class TablePrinter implements JaqyPrinter
 			for (int i = 0; i < columns; ++i)
 			{
 				widths[i] = 0;
+
+				int dispSize = ResultSetUtils.getDisplayWidth (rs, i + 1);
+				if (dispSize <= m_columnThreshold)
+					widths[i] = dispSize;
 			}
 			shrink (columns, widths, rs, handlers);
 		}
@@ -215,6 +219,17 @@ class TablePrinter implements JaqyPrinter
 
 	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers)
 	{
+		boolean[] skipShrink = new boolean[columns];
+		boolean doScan = false;
+		for (int i = 0; i < columns; ++i)
+		{
+			skipShrink[i] = (widths[i] != 0);
+			if (!skipShrink[i])
+				doScan = true;
+		}
+		if (!doScan)
+			return;
+
 		try
 		{
 			int lineCount = 0;
@@ -222,6 +237,8 @@ class TablePrinter implements JaqyPrinter
 			{
 				for (int i = 0; i < columns; ++i)
 				{
+					if (skipShrink[i])
+						continue;
 					String str = handlers[i].getString (rs, i + 1);
 					if (str == null)
 					{
@@ -244,29 +261,14 @@ class TablePrinter implements JaqyPrinter
 		return "table";
 	}
 
-	public boolean isAutoShrink ()
-	{
-		return m_autoShrink;
-	}
-
 	public void setAutoShrink (boolean autoShrink)
 	{
 		m_autoShrink = autoShrink;
 	}
 
-	public int getScanThreshold ()
-	{
-		return m_scanThreshold;
-	}
-
 	public void setScanThreshold (int scanThreshold)
 	{
 		m_scanThreshold = scanThreshold;
-	}
-
-	public int getColumnThreshold ()
-	{
-		return m_columnThreshold;
 	}
 
 	public void setColumnThreshold (int columnThreshold)

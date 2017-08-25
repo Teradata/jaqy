@@ -1,5 +1,7 @@
 csv.sql
-json.sql
 json_2.sql
 json_3.sql
 json_4.sql
+json.sql
+table_derby_data_types.sql
+table_postgresql_data_types.sql
