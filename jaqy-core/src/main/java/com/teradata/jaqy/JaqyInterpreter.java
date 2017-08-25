@@ -750,6 +750,8 @@ public class JaqyInterpreter
 
 	public File getFile (String name)
 	{
+		if ('/' == File.separatorChar && name.startsWith ("/"))
+			return new File (name);
 		return new File (getDirectory (), name);
 	}
 

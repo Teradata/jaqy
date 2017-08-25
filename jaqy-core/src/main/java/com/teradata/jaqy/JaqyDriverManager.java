@@ -173,7 +173,7 @@ public class JaqyDriverManager
 			}
 			catch (Exception ex)
 			{
-				ex.printStackTrace (display.getPrintWriter ());
+				assert Debug.debug (ex);
 				interpreter.error ("invalid jar file path: " + path);
 				return false;
 			}

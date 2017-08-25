@@ -130,7 +130,11 @@ public class PathUtils
 		StringBuilder builder = new StringBuilder ();
 		for (String p : paths)
 		{
-			File f = new File (dir, p);
+			File f;
+			if (p.startsWith ("/") && '/' == File.separatorChar)
+				f = new File (p);
+			else
+				f = new File (dir, p);
 			if (builder.length () > 0)
 				builder.append (sep);
 			String newPath;
