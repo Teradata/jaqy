@@ -34,4 +34,16 @@ public class JSONImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_1.sql", "../tests/unittests/json/control/json_import_1.control");
 	}
+
+	@Test
+	public void test2 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_2.sql", "../tests/unittests/json/control/json_import_2.control");
+	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_3.sql", "../tests/unittests/json/control/json_import_3.control");
+	}
 }

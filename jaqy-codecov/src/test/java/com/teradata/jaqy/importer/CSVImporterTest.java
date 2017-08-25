@@ -40,4 +40,16 @@ public class CSVImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_import_2.sql", "../tests/unittests/csv/control/csv_import_2.control");
 	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_import_3.sql", "../tests/unittests/csv/control/csv_import_3.control");
+	}
+
+	@Test
+	public void test4 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_import_4.sql", "../tests/unittests/csv/control/csv_import_4.control");
+	}
 }
