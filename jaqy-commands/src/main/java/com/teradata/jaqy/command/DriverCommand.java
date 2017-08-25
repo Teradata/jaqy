@@ -50,9 +50,15 @@ public class DriverCommand extends JaqyCommandAdapter
 		PropertyTable pt = new PropertyTable (new String[] { "Driver", "Version", "Compliant" } );
 		for (Driver driver : DriverManagerUtils.getDrivers ())
 		{
+			String name;
 			if (driver instanceof JDBCWrapperDriver)
-				driver = ((JDBCWrapperDriver)driver).getInternalDriver ();
-			String name = driver.getClass ().getCanonicalName ();
+			{
+				name = ((JDBCWrapperDriver)driver).getInternalDriver ().getClass ().getCanonicalName ();
+			}
+			else
+			{
+				name = driver.getClass ().getCanonicalName ();
+			}
 			String version = "";
 			if (driver.getMajorVersion () < 10)
 				version = " ";

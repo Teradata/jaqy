@@ -130,12 +130,12 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	private void checkColumnIndex (int column) throws SQLException
 	{
 		if (column < 1 || column > m_columnInfos.length)
-			throw new SQLException ("Invalid column index " + column + ".");
+			throw ExceptionUtils.getInvalidColumnIndex (column);
 	}
 
 	private void notImplemented () throws SQLException
 	{
-		throw new SQLException ("Not implemented.");
+		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	@Override

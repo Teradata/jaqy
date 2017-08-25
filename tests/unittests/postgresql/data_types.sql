@@ -120,6 +120,7 @@ CREATE TABLE XmlTable
 
 INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
 INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
+INSERT INTO XmlTable VALUES (3, NULL);
 
 .format csv
 SELECT * FROM XmlTable ORDER BY c1;
@@ -136,6 +137,7 @@ CREATE TABLE JsonTable
 
 INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
 INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
+INSERT INTO JsonTable VALUES (3, NULL);
 
 .format csv
 SELECT * FROM JsonTable ORDER BY c1;
@@ -196,6 +198,7 @@ CREATE TABLE RangeTable
 
 INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
 INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
+INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 
 .format csv
 SELECT * FROM RangeTable ORDER BY c1;
@@ -215,6 +218,7 @@ CREATE TABLE MiscTable1
 
 INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
+INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
 
 .format csv
 SELECT * FROM MiscTable1 ORDER BY c1;
@@ -232,6 +236,7 @@ CREATE TABLE MiscTable2
 
 INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
+INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
 
 .format csv
 SELECT * FROM MiscTable2 ORDER BY c1;

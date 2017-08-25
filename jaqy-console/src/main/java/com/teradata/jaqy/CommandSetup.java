@@ -35,7 +35,6 @@ import com.teradata.jaqy.command.ImportCommand;
 import com.teradata.jaqy.command.InfoCommand;
 import com.teradata.jaqy.command.ListCommand;
 import com.teradata.jaqy.command.LoadCommand;
-import com.teradata.jaqy.command.LoggingCommand;
 import com.teradata.jaqy.command.OpenCommand;
 import com.teradata.jaqy.command.OsCommand;
 import com.teradata.jaqy.command.PrepareCommand;
@@ -90,7 +89,6 @@ class CommandSetup
 		manager.addCommand ("echo", new EchoCommand ());
 		manager.addCommand ("env", new EnvCommand ());
 		manager.addCommand ("info", new InfoCommand ());
-		manager.addCommand ("logging", new LoggingCommand ());
 		manager.addCommand ("os", new OsCommand ());
 		manager.addCommand ("quiet", new QuietCommand ());
 		manager.addCommand ("run", new RunCommand ());

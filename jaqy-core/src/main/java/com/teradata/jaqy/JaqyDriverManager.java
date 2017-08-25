@@ -226,7 +226,6 @@ public class JaqyDriverManager
 
 	private void registerDriver (String protocolName, Driver driver)
 	{
-		Logging.setDriverLog (driver);
 		synchronized (m_drivers)
 		{
 			m_drivers.put (protocolName, new WeakReference<Driver> (driver));

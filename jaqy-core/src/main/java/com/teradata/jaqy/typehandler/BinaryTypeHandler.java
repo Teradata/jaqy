@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.typehandler;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -28,8 +26,6 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 class BinaryTypeHandler implements TypeHandler
 {
-	private static int MAX_LEN = 64000;
-
 	private final static TypeHandler s_instance = new BinaryTypeHandler ();
 
 	public static TypeHandler getInstance ()
@@ -58,28 +54,6 @@ class BinaryTypeHandler implements TypeHandler
 			blob.free ();
 			return StringUtils.getHexString (bytes);
 		}
-		else
-		{
-			InputStream is = rs.getBinaryStream (column);
-			byte[] bytes = new byte[4096];
-			int len;
-			try
-			{
-				String value = "";
-				while ((len = is.read (bytes)) > 0)
-				{
-					value += StringUtils.getHexString (bytes, 0, len);
-					if (value.length () > MAX_LEN)
-					{
-						return value.substring (0, MAX_LEN);
-					}
-				}
-				return value;
-			}
-			catch (IOException ex)
-			{
-				return ex.getMessage ();
-			}
-		}
+		return "Unable to handle " + obj.getClass ();
 	}
 }

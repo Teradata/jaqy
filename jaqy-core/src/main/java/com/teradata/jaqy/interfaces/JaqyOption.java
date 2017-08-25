@@ -43,19 +43,9 @@ public abstract class JaqyOption
 		return m_option;
 	}
 
-	public void setOption (String option)
-	{
-		m_option = option;
-	}
-
 	public String getLongOption ()
 	{
 		return m_longOption;
-	}
-
-	public void setLongOption (String longOption)
-	{
-		m_longOption = longOption;
 	}
 
 	public boolean isHasArg ()
@@ -63,19 +53,9 @@ public abstract class JaqyOption
 		return m_hasArg;
 	}
 
-	public void setHasArg (boolean hasArg)
-	{
-		m_hasArg = hasArg;
-	}
-
 	public String getDescription ()
 	{
 		return m_description;
-	}
-
-	public void setDescription (String description)
-	{
-		m_description = description;
 	}
 
 	public String getArgName ()

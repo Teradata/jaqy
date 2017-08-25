@@ -157,9 +157,6 @@ public class Main
 		// sets the display's active interpreter.
 		display.setInterpreter (interpreter);
 
-		// initiate logging
-		Logging.init ();
-
 		// initiate commands
 		CommandSetup.init (globals);
 
