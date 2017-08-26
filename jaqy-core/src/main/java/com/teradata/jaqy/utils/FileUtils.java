@@ -15,62 +15,17 @@
  */
 package com.teradata.jaqy.utils;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PushbackInputStream;
+import java.io.Reader;
 
 /**
  * @author	Heng Yuan
  */
 public class FileUtils
 {
-	public static void printEncoding (PrintWriter pw)
-	{
-		Charset charset = getCharset ();
-		if (charset == null)
-		{
-			pw.println ("Output encoding is unknown.");
-		}
-		else
-		{
-			pw.println ("Output encoding is " + charset);
-		}
-	}
-
-	public static Charset getCharset ()
-	{
-		try
-		{
-			String encoding = System.getProperty ("file.encoding");
-			return Charset.forName (encoding);
-		}
-		catch (Exception ex)
-		{
-			return null;
-		}
-	}
-
-	public static byte[] getBOM ()
-	{
-		return null;
-	}
-
-	public static PrintWriter getPrintStream (File file, boolean append, boolean bom) throws IOException
-	{
-		// We do not generate BOM if we are appending an existing file
-		if (bom && append && file.exists ())
-			bom = false;
-
-		if (bom)
-		{
-			return null;
-		}
-		else
-		{
-			FileWriter fw = new FileWriter (file, append);
-			return new PrintWriter (fw);
-		}
-	}
-
 	public static Reader getReader (InputStream is, String encoding) throws IOException
 	{
 		if (encoding != null)

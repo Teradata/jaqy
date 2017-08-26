@@ -31,6 +31,9 @@ public class CommandParserTest
 		CommandParser parser = CommandParser.getSQLParser ();
 
 		String[] args;
+		// simple test
+		args = parser.parse (null);
+		Assert.assertArrayEquals (new String[0], args);
 
 		// simple test
 		args = parser.parse ("This is a test.");
@@ -59,6 +62,10 @@ public class CommandParserTest
 		// mixed quotes
 		args = parser.parse ("This \"is' a\" test.");
 		Assert.assertArrayEquals (new String[] { "This", "\"is' a\"", "test." }, args);
+
+		// escapes
+		args = parser.parse ("This C:\\Test\\Temp");
+		Assert.assertArrayEquals (new String[] { "This", "C:\\Test\\Temp" }, args);
 
 		// quote parsing failure
 		args = parser.parse ("This\"is \\a test.");

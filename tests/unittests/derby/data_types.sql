@@ -3,6 +3,7 @@
 --------------------------------------------------------------------------
 .run ../common/derby_setup.sql
 .open derby:memory:typesDB;create=true
+.debug resultset on
 
 CREATE TABLE NumTable
 (
