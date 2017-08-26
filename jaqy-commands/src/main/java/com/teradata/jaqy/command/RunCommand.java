@@ -58,7 +58,7 @@ public class RunCommand extends JaqyCommandAdapter
 	{
 		CommandLine cmdLine = getCommandLine (args);
 
-		String encoding = cmdLine.getOptionValue ('e');
+		String encoding = cmdLine.getOptionValue ('c');
 		args = cmdLine.getArgs ();
 		if (args.length == 0)
 		{

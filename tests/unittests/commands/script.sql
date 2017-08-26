@@ -4,9 +4,9 @@
 .help script
 
 -- test running a script from a file
-.script -f -t lib/print.js
+.script -t lib/print.js
 -- test running a script from a file, with language specified.
-.script -l t javascript -f lib/print.js
+.script -l javascript lib/print.js
 
 -- test running a script inline
 .script

@@ -5,6 +5,7 @@ close.sql
 driver.sql
 echo.sql
 env.sql
+exec.sql
 export.sql
 help.sql
 if.sql

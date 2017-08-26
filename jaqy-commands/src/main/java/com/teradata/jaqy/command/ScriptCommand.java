@@ -51,9 +51,8 @@ public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
 	public ScriptCommand ()
 	{
 		addOption ("l", "lang", true, "specifies the language");
-		addOption ("f", "file", true, "specifies the file");
 		addOption ("t", "temporary", false, "specifies the script engine is temporary");
-		addOption ("e", "encoding", true, "specifies the file encoding");
+		addOption ("c", "charset", true, "specifies the file character set");
 	}
 
 	@Override
@@ -65,7 +64,7 @@ public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
 	@Override
 	protected String getSyntax ()
 	{
-		return getCommand () + " [options]";
+		return getCommand () + " [options] [file]";
 	}
 
 	@Override
@@ -79,28 +78,27 @@ public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
 	{
 		ScriptOptions scriptOptions = new ScriptOptions ();
 		scriptOptions.lang = DEFAULT_LANG;
-		String file = null;
 
 		CommandLine cmdLine = getCommandLine (args);
+		args = cmdLine.getArgs ();
 		for (Option option : cmdLine.getOptions ())
 		{
-			if ("l".equals (option.getOpt ()))
+			switch (option.getOpt ().charAt (0))
 			{
-				scriptOptions.lang = option.getValue ();
-			}
-			else if ("f".equals (option.getOpt ()))
-			{
-				file = option.getValue ();
-			}
-			else if ("e".equals (option.getOpt ()))
-			{
-				scriptOptions.encoding = option.getValue ();
-			}
-			else if ("t".equals (option.getOpt ()))
-			{
-				scriptOptions.temp = true;
+				case 'l':
+					scriptOptions.lang = option.getValue ();
+					break;
+				case 'c':
+					scriptOptions.encoding = option.getValue ();
+					break;
+				case 't':
+					scriptOptions.temp = true;
+					break;
 			}
 		}
+		String file = null;
+		if (args.length > 0)
+			file = args[0];
 		if (file == null)
 		{
 			interpreter.setParseAction (this, scriptOptions);

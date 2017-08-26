@@ -1,0 +1,89 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .exec command test
+--------------------------------------------------------------------------
+.help exec
+usage: .exec [options] [file]
+options:
+  -c,--charset <arg>   sets the file character set
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.exec lib/count.spl
+-- error: Current session is closed.
+-- 0/2 - 0 ----------------------------------------------------------------
+.exec dummy.sql
+-- error: file not found: ./dummy.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 0/4 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 0/5 - 0 ----------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 1/5 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable
+(
+	a	INTEGER PRIMARY KEY,
+	b	VARCHAR(200)
+);
+-- success. update count = 0
+-- 2/5 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, '1');
+-- success. update count = 1
+-- 3/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, '2');
+-- success. update count = 1
+-- 4/5 - 0 ----------------------------------------------------------------
+
+.exec -c utf-8 lib/count.spl
+-- success. update count = 0
+-- 5/6 - 0 ----------------------------------------------------------------
+
+CALL simpleproc(@a);
+-- success. update count = 1
+-- 6/6 - 0 ----------------------------------------------------------------
+SELECT @a;
+-- success --
+@a
+--
+ 2
+-- activity count = 1
+-- 7/6 - 0 ----------------------------------------------------------------
+DROP PROCEDURE simpleproc;
+-- success. update count = 0
+-- 8/6 - 0 ----------------------------------------------------------------
+
+.exec
+CREATE PROCEDURE simpleproc (OUT c INT)
+BEGIN
+        SELECT COUNT(*) INTO c FROM MyTable;
+END;
+-- success. update count = 0
+-- 9/7 - 0 ----------------------------------------------------------------
+
+CALL simpleproc(@a);
+-- success. update count = 1
+-- 10/7 - 0 ---------------------------------------------------------------
+SELECT @a;
+-- success --
+@a
+--
+ 2
+-- activity count = 1
+-- 11/7 - 0 ---------------------------------------------------------------
+DROP PROCEDURE simpleproc;
+-- success. update count = 0
+-- 12/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 13/7 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 13/8 - 0 ---------------------------------------------------------------
+

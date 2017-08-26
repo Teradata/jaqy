@@ -15,6 +15,7 @@ Teradata Jaqy Console 1.0
 	.echo - turns echo on / off
 	.end - ends a multi-line command.
 	.env - displays the execution environment.
+	.exec - executes a block of SQL.
 	.exit - exits the program
 	.export - exports a ResultSet.
 	.format - chooses the ResultSet output format.

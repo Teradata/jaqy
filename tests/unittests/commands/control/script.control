@@ -4,22 +4,21 @@ Teradata Jaqy Console 1.0
 -- .script command test
 --------------------------------------------------------------------------
 .help script
-usage: .script [options]
+usage: .script [options] [file]
 options:
-  -e,--encoding <arg>   specifies the file encoding
-  -f,--file <arg>       specifies the file
-  -l,--lang <arg>       specifies the language
-  -t,--temporary        specifies the script engine is temporary
+  -c,--charset <arg>   specifies the file character set
+  -l,--lang <arg>      specifies the language
+  -t,--temporary       specifies the script engine is temporary
 
 -- 0/1 - 0 ----------------------------------------------------------------
 
 -- test running a script from a file
-.script -f -t lib/print.js
--- error: Missing argument for option: f
+.script -t lib/print.js
+你好，世界
 -- 0/2 - 0 ----------------------------------------------------------------
 -- test running a script from a file, with language specified.
-.script -l t javascript -f lib/print.js
--- error: unknown language: t
+.script -l javascript lib/print.js
+你好，世界
 -- 0/3 - 0 ----------------------------------------------------------------
 
 -- test running a script inline

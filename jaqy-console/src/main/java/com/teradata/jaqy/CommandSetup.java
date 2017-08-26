@@ -26,6 +26,7 @@ import com.teradata.jaqy.command.DriverCommand;
 import com.teradata.jaqy.command.EchoCommand;
 import com.teradata.jaqy.command.EndCommand;
 import com.teradata.jaqy.command.EnvCommand;
+import com.teradata.jaqy.command.ExecCommand;
 import com.teradata.jaqy.command.ExitCommand;
 import com.teradata.jaqy.command.ExportCommand;
 import com.teradata.jaqy.command.FormatCommand;
@@ -71,6 +72,7 @@ class CommandSetup
 		manager.addCommand ("rem", new RemarkCommand ());
 		manager.addCommand ("list", new ListCommand ());
 		manager.addCommand ("pwd", new PwdCommand ());
+		manager.addCommand ("exec", new ExecCommand ());
 
 		// session control
 		manager.addCommand ("session", new SessionCommand ());
