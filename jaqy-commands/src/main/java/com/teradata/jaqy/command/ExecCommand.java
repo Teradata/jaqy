@@ -86,7 +86,7 @@ public class ExecCommand extends JaqyCommandAdapter implements ParseAction
 				File file = interpreter.getFile (args[0]);
 				if (!file.exists ())
 				{
-					interpreter.error ("file not found: " + file);
+					interpreter.error ("file not found: " + args[0]);
 					return;
 				}
 				if (!SessionUtils.checkOpen (interpreter))

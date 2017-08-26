@@ -13,7 +13,7 @@ options:
 -- error: Current session is closed.
 -- 0/2 - 0 ----------------------------------------------------------------
 .exec dummy.sql
--- error: file not found: ./dummy.sql
+-- error: file not found: dummy.sql
 -- 0/3 - 0 ----------------------------------------------------------------
 
 .run ../common/mysql_setup.sql
