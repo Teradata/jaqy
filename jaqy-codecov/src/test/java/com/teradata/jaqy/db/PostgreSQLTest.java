@@ -52,4 +52,10 @@ public class PostgreSQLTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/array_types.sql", "../tests/unittests/postgresql/control/array_types.control");
 	}
+
+	@Test
+	public void test5 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/composite_types.sql", "../tests/unittests/postgresql/control/composite_types.control");
+	}
 }
