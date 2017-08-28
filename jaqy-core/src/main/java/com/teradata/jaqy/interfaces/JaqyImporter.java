@@ -17,6 +17,8 @@ package com.teradata.jaqy.interfaces;
 
 import java.io.Closeable;
 
+import com.teradata.jaqy.utils.ParameterInfo;
+
 /**
  * @author	Heng Yuan
  */
@@ -47,13 +49,13 @@ public interface JaqyImporter<P> extends Closeable
 	 * The object obtained is directly passed to a {@link java.sql.PreparedStatement}.
 	 * @param	index
 	 *			object index
-	 * @param	type
-	 * 			JDBC parameter type
+	 * @param	paramInfo
+	 * 			JDBC parameter information
 	 * @return	the object at the index.
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public Object getObject (int index, int type) throws Exception;
+	public Object getObject (int index, ParameterInfo paramInfo) throws Exception;
 
 	/**
 	 * Gets a Path object based on a name.
@@ -76,11 +78,11 @@ public interface JaqyImporter<P> extends Closeable
 	 * The object obtained is directly passed to a {@link java.sql.PreparedStatement}.
 	 * @param	path
 	 *			the path object obtained from {@link #getPath(String)}.
-	 * @param	type
-	 * 			JDBC parameter type
+	 * @param	paramInfo
+	 * 			JDBC parameter information
 	 * @return	the object at the path.
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public Object getObjectFromPath (P path, int type) throws Exception;
+	public Object getObjectFromPath (P path, ParameterInfo paramInfo) throws Exception;
 }

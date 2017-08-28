@@ -67,6 +67,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -75,6 +76,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
 -- success. update count = 1
 -- 2/6 - 0 ----------------------------------------------------------------
 
@@ -122,6 +124,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -130,6 +133,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
 -- success. update count = 1
 -- 7/8 - 0 ----------------------------------------------------------------
 
@@ -159,6 +163,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -167,6 +172,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
 -- success. update count = 1
 -- 10/9 - 0 ---------------------------------------------------------------
 
@@ -215,6 +221,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -223,6 +230,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
 -- success. update count = 1
 -- 13/14 - 0 --------------------------------------------------------------
 
@@ -265,6 +273,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -273,6 +282,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        3
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -281,6 +291,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- error: Column 3 is not found.
 -- 19/15 - 0 --------------------------------------------------------------
 

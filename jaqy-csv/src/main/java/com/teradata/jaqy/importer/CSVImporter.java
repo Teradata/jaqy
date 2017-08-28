@@ -26,6 +26,7 @@ import org.apache.commons.csv.CSVRecord;
 
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * @author	Heng Yuan
@@ -78,7 +79,7 @@ class CSVImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public Object getObject (int index, int type) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
 	{
 		try
 		{
@@ -120,9 +121,9 @@ class CSVImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public Object getObjectFromPath (Integer path, int type) throws Exception
+	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo) throws Exception
 	{
-		return getObject ((int)path, type);
+		return getObject ((int)path, paramInfo);
 	}
 
 	@Override

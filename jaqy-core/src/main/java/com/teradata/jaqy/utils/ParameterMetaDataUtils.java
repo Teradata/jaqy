@@ -27,6 +27,8 @@ import com.teradata.jaqy.interfaces.Display;
  */
 public class ParameterMetaDataUtils
 {
+	private final static String[] MODES = { "Unknown", "IN", "IN/OUT", null, "OUT" };
+
 	private static void dumpColumn (PrintWriter pw, JaqyParameterMetaData metaData, int column)
 	{
 //		JdbcFeatures features = metaData.getFeatures ();
@@ -40,6 +42,7 @@ public class ParameterMetaDataUtils
 			AttributeUtils.print (pw, 2, "Scale", metaData.getScale (column));
 			AttributeUtils.print (pw, 2, "Nullable", metaData.isNullable (column));
 			AttributeUtils.print (pw, 2, "Signed", metaData.isSigned (column));
+			AttributeUtils.print (pw, 2, "Mode", MODES[metaData.getParameterMode (column)]);
 		}
 		catch (Throwable t)
 		{
@@ -55,5 +58,24 @@ public class ParameterMetaDataUtils
 		{
 			dumpColumn (pw, metaData, i);
 		}
+	}
+
+	public static ParameterInfo[] getParameterInfos (JaqyParameterMetaData meta) throws SQLException
+	{
+		int count = meta.getParameterCount ();
+		ParameterInfo[] parameterInfos = new ParameterInfo[count];
+		for (int i = 0; i < count; ++i)
+		{
+			parameterInfos[i] = new ParameterInfo ();
+			parameterInfos[i].type = meta.getParameterType (i + 1);
+			parameterInfos[i].typeName = meta.getParameterTypeName (i + 1);
+			parameterInfos[i].className = meta.getParameterClassName (i + 1);
+			parameterInfos[i].precision = meta.getPrecision (i + 1);
+			parameterInfos[i].scale = meta.getScale (i + 1);
+			parameterInfos[i].nullable = meta.isNullable (i + 1);
+			parameterInfos[i].signed = meta.isSigned (i + 1);
+			parameterInfos[i].mode = meta.getParameterMode (i + 1);
+		}
+		return parameterInfos;
 	}
 }

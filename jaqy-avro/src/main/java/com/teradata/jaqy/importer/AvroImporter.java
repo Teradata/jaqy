@@ -29,6 +29,7 @@ import org.apache.avro.io.DatumReader;
 
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * @author Heng Yuan
@@ -87,7 +88,7 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObject (int index, int type) throws IOException
+	public Object getObject (int index, ParameterInfo paramInfo) throws IOException
 	{
 		throw new IOException ("AVRO data has to be accessed via field.");
 	}
@@ -99,13 +100,13 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObjectFromPath (String name, int type) throws Exception
+	public Object getObjectFromPath (String name, ParameterInfo paramInfo) throws Exception
 	{
 		Object v = m_record.get (name);
 		if (v == null)
 			return null;
 
-		switch (type)
+		switch (paramInfo.type)
 		{
 			case Types.TINYINT:
 			case Types.SMALLINT:

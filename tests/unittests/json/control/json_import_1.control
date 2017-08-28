@@ -77,6 +77,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        2
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -85,6 +86,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- success. update count = 1
 -- 2/10 - 0 ---------------------------------------------------------------
 
@@ -119,6 +121,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        2
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -127,6 +130,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- success. update count = 1
 -- 5/12 - 0 ---------------------------------------------------------------
 
@@ -157,6 +161,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        2
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -165,6 +170,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- success. update count = 1
 -- 8/13 - 0 ---------------------------------------------------------------
 
@@ -199,6 +205,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        2
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -207,6 +214,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        3
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -215,6 +223,7 @@ Parameter Count                              3
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- success. update count = 1
 -- 12/14 - 0 --------------------------------------------------------------
 

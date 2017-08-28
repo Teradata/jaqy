@@ -74,6 +74,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -82,6 +83,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
 -- success. update count = 1
 -- 2/8 - 0 ----------------------------------------------------------------
 
@@ -112,6 +114,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
   Index                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
@@ -120,6 +123,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       N
+    Mode                                         IN
 -- success. update count = 1
 -- 5/9 - 0 ----------------------------------------------------------------
 
@@ -159,6 +163,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        2
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -167,6 +172,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- success. update count = 1
 -- 10/10 - 0 --------------------------------------------------------------
 
@@ -197,6 +203,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
   Index                                        2
     Type                                         INTEGER
     SQL Type                                     INTEGER
@@ -205,6 +212,7 @@ Parameter Count                              2
     Scale                                        0
     Nullable                                     1
     Signed                                       Y
+    Mode                                         IN
 -- failure 20000: [22018] Invalid character string format for type INTEGER.
 -- 13/11 - 0 --------------------------------------------------------------
 

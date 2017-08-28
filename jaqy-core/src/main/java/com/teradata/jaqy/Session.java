@@ -34,6 +34,8 @@ import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.parser.VariableParser;
 import com.teradata.jaqy.utils.DriverManagerUtils;
+import com.teradata.jaqy.utils.ParameterInfo;
+import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 
 /**
  * @author Heng Yuan
@@ -235,12 +237,9 @@ public class Session
 
 		JaqyPreparedStatement stmt = prepareQuery (sql, interpreter);
 		JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
-		int count = metaData.getParameterCount ();
-		if (count == 0)
+		ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData);
+		if (parameterInfos.length == 0)
 			throw new IOException ("no parameters detected.");
-		int[] parameterTypes = new int[count];
-		for (int i = 0; i < count; ++i)
-			parameterTypes[i] = metaData.getParameterType (i + 1);
 		try
 		{
 			int columns = stmt.getParameterCount ();
@@ -250,16 +249,16 @@ public class Session
 			{
 				for (int i = 0; i < columns; ++i)
 				{
-					switch (parameterTypes[i])
+					switch (parameterInfos[i].type)
 					{
 						case Types.TINYINT:
 						case Types.SMALLINT:
 						case Types.INTEGER:
 						case Types.BIGINT:
-							stmt.setObject (i + 1, importer.getObject (i, parameterTypes[i]), parameterTypes[i]);
+							stmt.setObject (i + 1, importer.getObject (i, parameterInfos[i]), parameterInfos[i].type);
 							break;
 						default:
-							stmt.setObject (i + 1, importer.getObject (i, parameterTypes[i]));
+							stmt.setObject (i + 1, importer.getObject (i, parameterInfos[i]));
 					}
 				}
 				if (batchSize == 1)

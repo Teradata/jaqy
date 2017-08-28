@@ -22,6 +22,7 @@ import java.util.HashSet;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * @author	Heng Yuan
@@ -54,6 +55,7 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	@Override
 	public void showSchema (Display display)
 	{
+		m_importer.showSchema (display);
 	}
 
 	@Override
@@ -63,10 +65,10 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	}
 
 	@Override
-	public Object getObject (int index, int type) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
 	{
 		Object path = m_pathMap.get (new Integer (index));
-		return m_importer.getObjectFromPath (path, type);
+		return m_importer.getObjectFromPath (path, paramInfo);
 	}
 
 	/**
@@ -82,7 +84,7 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	 * Dummy since it will not be called.
 	 */
 	@Override
-	public Object getObjectFromPath (Object path, int type) throws Exception
+	public Object getObjectFromPath (Object path, ParameterInfo paramInfo) throws Exception
 	{
 		return null;
 	}

@@ -44,6 +44,7 @@ import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonFormat;
 import com.teradata.jaqy.utils.JsonUtils;
+import com.teradata.jaqy.utils.ParameterInfo;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -148,7 +149,7 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObject (int index, int type) throws IOException
+	public Object getObject (int index, ParameterInfo paramInfo) throws IOException
 	{
 		throw new IOException ("json data has to be accessed via field.");
 	}
@@ -160,12 +161,12 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObjectFromPath (String name, int type) throws Exception
+	public Object getObjectFromPath (String name, ParameterInfo paramInfo) throws Exception
 	{
 		JsonValue v = m_node.get (name);
 		if (v == null || v.getValueType () == ValueType.NULL) 
 			return null;
-		switch (type)
+		switch (paramInfo.type)
 		{
 			case Types.TINYINT:
 			case Types.SMALLINT:
@@ -309,6 +310,6 @@ class JsonImporter implements JaqyImporter<String>
 				return v.toString ();
 			}
 		}
-		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (type));
+		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (paramInfo.type));
 	}
 }
