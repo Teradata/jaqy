@@ -27,7 +27,6 @@ import java.util.HashMap;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonString;
-import javax.json.JsonStructure;
 import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 import javax.json.spi.JsonProvider;
@@ -37,8 +36,11 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.CookJsonProvider;
+import org.yuanheng.cookjson.value.CookJsonArray;
 import org.yuanheng.cookjson.value.CookJsonBinary;
 
+import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
@@ -57,9 +59,11 @@ class JsonImporter implements JaqyImporter<String>
 	private boolean m_rootIsArray;
 	private boolean m_end;
 	private final JsonBinaryFormat m_binaryFormat;
+	private JaqyConnection m_conn;
 
-	public JsonImporter (InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, boolean rootAsArray) throws IOException
+	public JsonImporter (JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, boolean rootAsArray) throws IOException
 	{
+		m_conn = conn;
 		m_binaryFormat = binaryFormat;
 
 		JsonProvider provider = new CookJsonProvider ();
@@ -122,6 +126,7 @@ class JsonImporter implements JaqyImporter<String>
 	public void close () throws IOException
 	{
 		m_parser.close ();
+		m_conn = null;
 	}
 
 	@Override
@@ -257,15 +262,7 @@ class JsonImporter implements JaqyImporter<String>
 			case Types.CLOB:
 			case Types.NCLOB:
 			{
-				if (v instanceof JsonString)
-				{
-					return ((JsonString)v).getString ();
-				}
-				else if (v instanceof JsonStructure)
-				{
-					return JsonUtils.toString (v);
-				}
-				return v.toString ();
+				return JsonUtils.toString (v);
 			}
 			case Types.BINARY:
 			case Types.VARBINARY:
@@ -289,12 +286,31 @@ class JsonImporter implements JaqyImporter<String>
 				}
 				break;
 			}
+			case Types.ARRAY:
+			{
+				if (v instanceof CookJsonArray)
+				{
+					try
+					{
+						int size = ((CookJsonArray)v).size ();
+						Object[] elements = new Object[size];
+						for (int i = 0; i < size; ++i)
+						{
+							JsonValue av = ((CookJsonArray)v).get (i);
+							elements[i] = JsonUtils.toString (av);
+						}
+						return m_conn.getHelper ().createArrayOf (paramInfo, elements);
+					}
+					catch (Exception ex)
+					{
+						assert Debug.debug (ex);
+					}
+				}
+				// Okay, we give up, just return some kind of string
+				return JsonUtils.toString (v);
+			}
 			default:
 			{
-				if (v instanceof JsonString)
-				{
-					return ((JsonString)v).getString ();
-				}
 				if (v instanceof CookJsonBinary)
 				{
 					return ((CookJsonBinary)v).getBytes ();
@@ -303,11 +319,7 @@ class JsonImporter implements JaqyImporter<String>
 				{
 					return ((JsonNumber)v).bigDecimalValue ();
 				}
-				if (v instanceof JsonStructure)
-				{
-					return JsonUtils.toString (v);
-				}
-				return v.toString ();
+				return JsonUtils.toString (v);
 			}
 		}
 		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (paramInfo.type));

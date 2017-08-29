@@ -15,12 +15,14 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.sql.Array;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * @author	Heng Yuan
@@ -30,6 +32,15 @@ class PostgresHelper extends DefaultHelper
 	public PostgresHelper (JaqyConnection conn, Globals globals)
 	{
 		super (new JdbcFeatures (), conn, globals);
+	}
+
+	@Override
+	public Array createArrayOf (ParameterInfo paramInfo, Object[] elements) throws SQLException
+	{
+		String name = paramInfo.typeName;
+		if (name.startsWith ("_"))
+			name = name.substring (1);
+		return getConnection ().createArrayOf (name, elements);
 	}
 
 	@Override

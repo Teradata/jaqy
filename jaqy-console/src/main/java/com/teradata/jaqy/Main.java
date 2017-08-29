@@ -146,7 +146,7 @@ public class Main
 		if (!globals.getOs ().isWindows ())
 		{
 			// The signal handler only works on Linux
-			new ConsoleSignalHandler (display).register ();
+//			new ConsoleSignalHandler (display).register ();
 		}
 
 		// now create an initial session and set the session to it.

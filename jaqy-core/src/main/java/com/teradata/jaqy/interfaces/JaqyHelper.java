@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.interfaces;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -25,6 +26,7 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.typehandler.TypeHandler;
+import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * 
@@ -113,4 +115,15 @@ public interface JaqyHelper
 	 * 			in case of error.
 	 */
 	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException;
+	/**
+	 * Create the Array object.
+	 * @param	paramInfo
+	 * 			the parameter information.
+	 * @param	elements
+	 * 			an array of objects for creating the array.
+	 * @return	an array object if it is created successfully.
+	 * @throws	SQLException
+	 * 			if the creation failed.
+	 */
+	public Array createArrayOf (ParameterInfo paramInfo, Object[] elements) throws SQLException;
 }

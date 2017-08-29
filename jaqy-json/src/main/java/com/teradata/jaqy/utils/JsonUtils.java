@@ -27,6 +27,8 @@ import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Struct;
 
+import javax.json.JsonString;
+import javax.json.JsonStructure;
 import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
@@ -45,11 +47,19 @@ public class JsonUtils
 {
 	public static String toString (JsonValue v)
 	{
-		StringWriter sw = new StringWriter ();
-		TextJsonGenerator g = new TextJsonGenerator (sw);
-		g.write (v);
-		g.close ();
-		return sw.toString ();
+		if (v instanceof JsonString)
+		{
+			return ((JsonString)v).getString ();
+		}
+		else if (v instanceof JsonStructure)
+		{
+			StringWriter sw = new StringWriter ();
+			TextJsonGenerator g = new TextJsonGenerator (sw);
+			g.write (v);
+			g.close ();
+			return sw.toString ();
+		}
+		return v.toString ();
 	}
 
 	private static void print (CookJsonGenerator g, Object obj) throws SQLException

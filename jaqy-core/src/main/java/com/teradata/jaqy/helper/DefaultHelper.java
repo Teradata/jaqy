@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
+import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * @author	Heng Yuan
@@ -248,5 +250,11 @@ public class DefaultHelper implements JaqyHelper
 	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException
 	{
 		return TypeHandlerRegistry.getTypeHandler (rs.getMetaData ().getColumnType (column));
+	}
+
+	@Override
+	public Array createArrayOf (ParameterInfo paramInfo, Object[] elements) throws SQLException
+	{
+		return m_conn.createArrayOf ("VARCHAR", elements);
 	}
 }

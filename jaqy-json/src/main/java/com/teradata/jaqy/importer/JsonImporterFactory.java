@@ -123,6 +123,6 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 		if (format == JsonFormat.Bson)
 			binaryFormat = JsonBinaryFormat.Base64;
 
-		return new JsonImporter (is, charset, format, binaryFormat, rootAsArray);
+		return new JsonImporter (interpreter.getSession ().getConnection (), is, charset, format, binaryFormat, rootAsArray);
 	}
 }
