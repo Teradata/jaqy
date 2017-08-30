@@ -30,7 +30,6 @@ import com.teradata.jaqy.lineinput.CommandLineInput;
 import com.teradata.jaqy.lineinput.JLineConsoleLineInput;
 import com.teradata.jaqy.lineinput.LineInputFactory;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
-import com.teradata.jaqy.utils.ConsoleSignalHandler;
 import com.teradata.jaqy.utils.JaqyShutdownHook;
 import com.teradata.jaqy.utils.StringUtils;
 

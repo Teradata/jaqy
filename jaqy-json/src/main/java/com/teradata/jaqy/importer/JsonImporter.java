@@ -309,6 +309,29 @@ class JsonImporter implements JaqyImporter<String>
 				// Okay, we give up, just return some kind of string
 				return JsonUtils.toString (v);
 			}
+			case Types.STRUCT:
+			{
+				if (v instanceof CookJsonArray)
+				{
+					try
+					{
+						int size = ((CookJsonArray)v).size ();
+						Object[] elements = new Object[size];
+						for (int i = 0; i < size; ++i)
+						{
+							JsonValue av = ((CookJsonArray)v).get (i);
+							elements[i] = JsonUtils.toString (av);
+						}
+						return m_conn.getHelper ().createStruct (paramInfo, elements);
+					}
+					catch (Exception ex)
+					{
+						assert Debug.debug (ex);
+					}
+				}
+				// Okay, we give up, just return some kind of string
+				return JsonUtils.toString (v);
+			}
 			default:
 			{
 				if (v instanceof CookJsonBinary)

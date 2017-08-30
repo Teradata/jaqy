@@ -18,6 +18,7 @@ package com.teradata.jaqy.interfaces;
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Struct;
 
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
@@ -126,4 +127,15 @@ public interface JaqyHelper
 	 * 			if the creation failed.
 	 */
 	public Array createArrayOf (ParameterInfo paramInfo, Object[] elements) throws SQLException;
+	/**
+	 * Create the Struct object.
+	 * @param	paramInfo
+	 * 			the parameter information.
+	 * @param	elements
+	 * 			an array of objects for creating the struct.
+	 * @return	a Struct object if it is created successfully.
+	 * @throws	SQLException
+	 * 			if the creation failed.
+	 */
+	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException;
 }

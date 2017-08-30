@@ -249,16 +249,22 @@ public class Session
 			{
 				for (int i = 0; i < columns; ++i)
 				{
+					Object o = importer.getObject (i, parameterInfos[i]);
+					if (o == null)
+					{
+						stmt.setNull (i + 1, parameterInfos[i].type, parameterInfos[i].typeName);
+						continue;
+					}
 					switch (parameterInfos[i].type)
 					{
 						case Types.TINYINT:
 						case Types.SMALLINT:
 						case Types.INTEGER:
 						case Types.BIGINT:
-							stmt.setObject (i + 1, importer.getObject (i, parameterInfos[i]), parameterInfos[i].type);
+							stmt.setObject (i + 1, o, parameterInfos[i].type);
 							break;
 						default:
-							stmt.setObject (i + 1, importer.getObject (i, parameterInfos[i]));
+							stmt.setObject (i + 1, o);
 					}
 				}
 				if (batchSize == 1)

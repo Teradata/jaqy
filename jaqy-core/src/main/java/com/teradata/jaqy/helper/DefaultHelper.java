@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.sql.Struct;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
@@ -256,5 +257,11 @@ public class DefaultHelper implements JaqyHelper
 	public Array createArrayOf (ParameterInfo paramInfo, Object[] elements) throws SQLException
 	{
 		return m_conn.createArrayOf ("VARCHAR", elements);
+	}
+
+	@Override
+	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException
+	{
+		return m_conn.createStruct (paramInfo.typeName, elements);
 	}
 }

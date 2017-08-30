@@ -80,4 +80,9 @@ public class JaqyPreparedStatement extends JaqyStatement
 	{
 		m_statement.setObject (parameter, obj, sqlType);
 	}
+
+    public void setNull (int parameterIndex, int sqlType, String typeName) throws SQLException
+    {
+    	m_statement.setNull (parameterIndex, sqlType, typeName);
+    }
 }

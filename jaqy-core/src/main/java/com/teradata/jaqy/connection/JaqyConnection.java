@@ -19,6 +19,7 @@ import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.sql.Struct;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 
@@ -149,5 +150,10 @@ public class JaqyConnection
 	public Array createArrayOf (String typeName, Object[] elements) throws SQLException
 	{
 		return m_connection.createArrayOf (typeName, elements);
+	}
+
+	public Struct createStruct (String typeName, Object[] elements) throws SQLException
+	{
+		return m_connection.createStruct (typeName, elements);
 	}
 }

@@ -15,9 +15,13 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Struct;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
@@ -26,6 +30,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.utils.ParameterInfo;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -95,5 +100,41 @@ class TeradataHelper extends DefaultHelper
 			}
 		}
 		return new JaqyResultSet (rs, this);
+	}
+
+	@Override
+	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException
+	{
+		/*
+		 * Handle Teradata PERIOD data types here. 
+		 */
+		String typeName = paramInfo.typeName;
+		if (elements.length == 2 &&
+			typeName.startsWith ("PERIOD") &&
+			elements[0] != null &&
+			elements[0] instanceof String &&
+			elements[1] != null &&
+			elements[1] instanceof String)
+		{
+			if ("PERIOD(DATE)".equals (typeName))
+			{
+				elements[0] = Date.valueOf ((String) elements[0]);
+				elements[1] = Date.valueOf ((String) elements[1]);
+			}
+			else if ("PERIOD(TIME)".equals (typeName) ||
+					 "PERIOD(TIME WITH TIME ZONE)".equals (typeName))
+			{
+				elements[0] = Time.valueOf ((String) elements[0]);
+				elements[1] = Time.valueOf ((String) elements[1]);
+			}
+			else if ("PERIOD(TIMESTAMP)".equals (typeName) ||
+					 "PERIOD(TIMESTAMP WITH TIME ZONE)".equals (typeName))
+			{
+				elements[0] = Timestamp.valueOf ((String) elements[0]);
+				elements[1] = Timestamp.valueOf ((String) elements[1]);
+			}
+		}
+
+		return getConnection ().createStruct (typeName, elements);
 	}
 }
