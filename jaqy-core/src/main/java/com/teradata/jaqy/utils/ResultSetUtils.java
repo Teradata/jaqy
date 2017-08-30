@@ -16,7 +16,6 @@
 package com.teradata.jaqy.utils;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -28,25 +27,6 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
  */
 public class ResultSetUtils
 {
-	public static String getDisplayString (ResultSet rs, int column) throws SQLException
-	{
-		ResultSetMetaData meta = rs.getMetaData ();
-		int type = meta.getColumnType (column);
-		switch (type)
-		{
-			case Types.BINARY:
-			case Types.VARBINARY:
-			{
-				byte[] bytes = (byte[])rs.getObject (column);
-				if (bytes == null)
-					return null;
-				return StringUtils.getHexString (bytes);
-			}
-			default:
-				return rs.getString (column);
-		}
-	}
-
 	public static int getDisplayWidth (JaqyResultSet rs, int column) throws SQLException
 	{
 		JaqyResultSetMetaData meta = rs.getMetaData ();

@@ -35,6 +35,11 @@ import com.teradata.jaqy.utils.SessionUtils;
  */
 public class InfoCommand extends JaqyCommandAdapter
 {
+	private final static String getYesNo (boolean b)
+	{
+		return b ? "Yes" : "No";
+	}
+
 	public InfoCommand ()
 	{
 		super ("info.txt");
@@ -177,7 +182,7 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "Catalog Term", metaData.getCatalogTerm ()});
 			pt.addRow (new String[]{ "User", metaData.getUserName ()});
 			pt.addRow (new String[]{ "URL", metaData.getURL ()});
-			pt.addRow (new String[]{ "Ready only", metaData.isReadOnly () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Ready only", getYesNo (metaData.isReadOnly ()) });
 			pt.addRow (new String[]{ "Database product name", metaData.getDatabaseProductName ()});
 			pt.addRow (new String[]{ "Database product version", metaData.getDatabaseProductVersion ()});
 			pt.addRow (new String[]{ "Database major version", "" + metaData.getDatabaseMajorVersion () });
@@ -200,29 +205,29 @@ public class InfoCommand extends JaqyCommandAdapter
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Value" });
 		try
 		{
-			pt.addRow (new String[]{ "NULLs are sorted high", metaData.nullsAreSortedHigh () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "NULLs are sorted low", metaData.nullsAreSortedLow () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "NULLs are sorted at start", metaData.nullsAreSortedAtStart () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "NULLs are sorted at end", metaData.nullsAreSortedAtEnd () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "NULL + non-null is NULL", metaData.nullPlusNonNullIsNull () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "NULLs are sorted high", getYesNo (metaData.nullsAreSortedHigh ()) });
+			pt.addRow (new String[]{ "NULLs are sorted low", getYesNo (metaData.nullsAreSortedLow ()) });
+			pt.addRow (new String[]{ "NULLs are sorted at start", getYesNo (metaData.nullsAreSortedAtStart ()) });
+			pt.addRow (new String[]{ "NULLs are sorted at end", getYesNo (metaData.nullsAreSortedAtEnd ()) });
+			pt.addRow (new String[]{ "NULL + non-null is NULL", getYesNo (metaData.nullPlusNonNullIsNull ()) });
 	
-			pt.addRow (new String[]{ "Use local files", metaData.usesLocalFiles () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Use local file per table", metaData.usesLocalFilePerTable () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Use local files", getYesNo (metaData.usesLocalFiles ()) });
+			pt.addRow (new String[]{ "Use local file per table", getYesNo (metaData.usesLocalFilePerTable ()) });
 	
 			pt.addRow (new String[]{ "Identifier quote string", metaData.getIdentifierQuoteString () });
 			pt.addRow (new String[]{ "Search string escape", metaData.getSearchStringEscape () });
 			pt.addRow (new String[]{ "Extra name characters", metaData.getExtraNameCharacters () });
 	
-			pt.addRow (new String[]{ "Is catalog at start", metaData.isCatalogAtStart () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Is catalog at start", getYesNo (metaData.isCatalogAtStart ()) });
 			pt.addRow (new String[]{ "Catalog separator", metaData.getCatalogSeparator () });
 
 			pt.addRow (new String[]{ "Default Transaction Isolation", DatabaseMetaDataUtils.getIsolationLevel (metaData.getDefaultTransactionIsolation ()) });
 			pt.addRow (new String[]{ "ResultSet holdability", DatabaseMetaDataUtils.getHoldability (metaData.getResultSetHoldability ()) });
 	
-			pt.addRow (new String[]{ "LOB update on copy", metaData.locatorsUpdateCopy () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "LOB update on copy", getYesNo (metaData.locatorsUpdateCopy ()) });
 			pt.addRow (new String[]{ "Row ID lifetime", metaData.getRowIdLifetime ().toString () });
-			pt.addRow (new String[]{ "Auto-commit failure closes all ResultSets", metaData.autoCommitFailureClosesAllResultSets () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Auto-generated key always return", metaData.generatedKeyAlwaysReturned () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Auto-commit failure closes all ResultSets", getYesNo (metaData.autoCommitFailureClosesAllResultSets ()) });
+			pt.addRow (new String[]{ "Auto-generated key always return", getYesNo (metaData.generatedKeyAlwaysReturned ()) });
 		}
 		catch (Throwable t)
 		{
@@ -236,96 +241,96 @@ public class InfoCommand extends JaqyCommandAdapter
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Supported" });
 		try
 		{
-			pt.addRow (new String[]{ "All Procedures are callable", metaData.allProceduresAreCallable () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "All tables are selectable", metaData.allTablesAreSelectable () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "All Procedures are callable", getYesNo (metaData.allProceduresAreCallable ()) });
+			pt.addRow (new String[]{ "All tables are selectable", getYesNo (metaData.allTablesAreSelectable ()) });
 
-			pt.addRow (new String[]{ "ALT TABLE ADD column", metaData.supportsAlterTableWithAddColumn () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "ALT TABLE DROP column", metaData.supportsAlterTableWithDropColumn () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "ALT TABLE ADD column", getYesNo (metaData.supportsAlterTableWithAddColumn ()) });
+			pt.addRow (new String[]{ "ALT TABLE DROP column", getYesNo (metaData.supportsAlterTableWithDropColumn ()) });
 	
-			pt.addRow (new String[]{ "Column aliasing", metaData.supportsColumnAliasing () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "CONVERT", metaData.supportsConvert () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Table correlation names", metaData.supportsTableCorrelationNames () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Different table correlation names", metaData.supportsDifferentTableCorrelationNames () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Column aliasing", getYesNo (metaData.supportsColumnAliasing ()) });
+			pt.addRow (new String[]{ "CONVERT", getYesNo (metaData.supportsConvert ()) });
+			pt.addRow (new String[]{ "Table correlation names", getYesNo (metaData.supportsTableCorrelationNames ()) });
+			pt.addRow (new String[]{ "Different table correlation names", getYesNo (metaData.supportsDifferentTableCorrelationNames ()) });
 	
-			pt.addRow (new String[]{ "Expression in ORDER BY", metaData.supportsExpressionsInOrderBy () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "ORDER BY unrelated", metaData.supportsOrderByUnrelated () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Expression in ORDER BY", getYesNo (metaData.supportsExpressionsInOrderBy ()) });
+			pt.addRow (new String[]{ "ORDER BY unrelated", getYesNo (metaData.supportsOrderByUnrelated ()) });
 			
-			pt.addRow (new String[]{ "GROUP BY", metaData.supportsGroupBy () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "GROUP BY unrelated", metaData.supportsGroupByUnrelated () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "GROUP BY beyond select", metaData.supportsGroupByBeyondSelect () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "GROUP BY", getYesNo (metaData.supportsGroupBy ()) });
+			pt.addRow (new String[]{ "GROUP BY unrelated", getYesNo (metaData.supportsGroupByUnrelated ()) });
+			pt.addRow (new String[]{ "GROUP BY beyond select", getYesNo (metaData.supportsGroupByBeyondSelect ()) });
 	
-			pt.addRow (new String[]{ "LIKE escape clause", metaData.supportsLikeEscapeClause () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "LIKE escape clause", getYesNo (metaData.supportsLikeEscapeClause ()) });
 	
-			pt.addRow (new String[]{ "Multiple result set", metaData.supportsMultipleResultSets () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Multple transactions", metaData.supportsMultipleTransactions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Non-nullable columns", metaData.supportsNonNullableColumns () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Multiple result set", getYesNo (metaData.supportsMultipleResultSets ()) });
+			pt.addRow (new String[]{ "Multple transactions", getYesNo (metaData.supportsMultipleTransactions ()) });
+			pt.addRow (new String[]{ "Non-nullable columns", getYesNo (metaData.supportsNonNullableColumns ()) });
 	
-			pt.addRow (new String[]{ "Minimum SQL grammar", metaData.supportsMinimumSQLGrammar () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Core SQL grammar", metaData.supportsCoreSQLGrammar () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Extended SQL grammar", metaData.supportsExtendedSQLGrammar () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Minimum SQL grammar", getYesNo (metaData.supportsMinimumSQLGrammar ()) });
+			pt.addRow (new String[]{ "Core SQL grammar", getYesNo (metaData.supportsCoreSQLGrammar ()) });
+			pt.addRow (new String[]{ "Extended SQL grammar", getYesNo (metaData.supportsExtendedSQLGrammar ()) });
 	
-			pt.addRow (new String[]{ "SQL92 entry", metaData.supportsANSI92EntryLevelSQL () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "SQL92 intermediate", metaData.supportsANSI92IntermediateSQL () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "SQL92 full", metaData.supportsANSI92FullSQL () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "SQL92 entry", getYesNo (metaData.supportsANSI92EntryLevelSQL ()) });
+			pt.addRow (new String[]{ "SQL92 intermediate", getYesNo (metaData.supportsANSI92IntermediateSQL ()) });
+			pt.addRow (new String[]{ "SQL92 full", getYesNo (metaData.supportsANSI92FullSQL ()) });
 	
-			pt.addRow (new String[]{ "Integrity Enhancement Facility", metaData.supportsIntegrityEnhancementFacility () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "OUTER JOIN", metaData.supportsOuterJoins () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Full OUTER JOIN", metaData.supportsFullOuterJoins () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Limited OUTER JOIN", metaData.supportsLimitedOuterJoins () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Integrity Enhancement Facility", getYesNo (metaData.supportsIntegrityEnhancementFacility ()) });
+			pt.addRow (new String[]{ "OUTER JOIN", getYesNo (metaData.supportsOuterJoins ()) });
+			pt.addRow (new String[]{ "Full OUTER JOIN", getYesNo (metaData.supportsFullOuterJoins ()) });
+			pt.addRow (new String[]{ "Limited OUTER JOIN", getYesNo (metaData.supportsLimitedOuterJoins ()) });
 	
-			pt.addRow (new String[]{ "Schemas in DML", metaData.supportsSchemasInDataManipulation () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Schemas in procedure calls", metaData.supportsSchemasInProcedureCalls () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Schemas in table DDL", metaData.supportsSchemasInTableDefinitions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Schemas in index DDL", metaData.supportsSchemasInIndexDefinitions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Schemas in privilege definitions", metaData.supportsSchemasInPrivilegeDefinitions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Catalog in DML", metaData.supportsCatalogsInDataManipulation () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Catalog in procedure calls", metaData.supportsCatalogsInProcedureCalls () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Catalog in table DDL", metaData.supportsCatalogsInTableDefinitions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Catalog in index DDL", metaData.supportsCatalogsInIndexDefinitions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Catalog in privilege definitions", metaData.supportsCatalogsInPrivilegeDefinitions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Positioned DELETE", metaData.supportsPositionedDelete () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Positioned UPDATE", metaData.supportsPositionedUpdate () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "SELECT FOR UPDATE", metaData.supportsSelectForUpdate () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stored Procedure", metaData.supportsStoredProcedures () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Subqueries in comparisons", metaData.supportsSubqueriesInComparisons () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Subqueries in EXISTS", metaData.supportsSubqueriesInExists () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Subqueries in IN", metaData.supportsSubqueriesInIns () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Subqueries in quantified expressions", metaData.supportsSubqueriesInQuantifieds () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Correlated subqueries", metaData.supportsCorrelatedSubqueries () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "UNION", metaData.supportsUnion () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "UNION ALL", metaData.supportsUnionAll () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Open cursor across commits", metaData.supportsOpenCursorsAcrossCommit () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Open cursor across rollbacks", metaData.supportsOpenCursorsAcrossRollback () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Open statement across commits", metaData.supportsOpenStatementsAcrossCommit () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Open statement across rollbacks", metaData.supportsOpenStatementsAcrossRollback () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Schemas in DML", getYesNo (metaData.supportsSchemasInDataManipulation ()) });
+			pt.addRow (new String[]{ "Schemas in procedure calls", getYesNo (metaData.supportsSchemasInProcedureCalls ()) });
+			pt.addRow (new String[]{ "Schemas in table DDL", getYesNo (metaData.supportsSchemasInTableDefinitions ()) });
+			pt.addRow (new String[]{ "Schemas in index DDL", getYesNo (metaData.supportsSchemasInIndexDefinitions ()) });
+			pt.addRow (new String[]{ "Schemas in privilege definitions", getYesNo (metaData.supportsSchemasInPrivilegeDefinitions ()) });
+			pt.addRow (new String[]{ "Catalog in DML", getYesNo (metaData.supportsCatalogsInDataManipulation ()) });
+			pt.addRow (new String[]{ "Catalog in procedure calls", getYesNo (metaData.supportsCatalogsInProcedureCalls ()) });
+			pt.addRow (new String[]{ "Catalog in table DDL", getYesNo (metaData.supportsCatalogsInTableDefinitions ()) });
+			pt.addRow (new String[]{ "Catalog in index DDL", getYesNo (metaData.supportsCatalogsInIndexDefinitions ()) });
+			pt.addRow (new String[]{ "Catalog in privilege definitions", getYesNo (metaData.supportsCatalogsInPrivilegeDefinitions ()) });
+			pt.addRow (new String[]{ "Positioned DELETE", getYesNo (metaData.supportsPositionedDelete ()) });
+			pt.addRow (new String[]{ "Positioned UPDATE", getYesNo (metaData.supportsPositionedUpdate ()) });
+			pt.addRow (new String[]{ "SELECT FOR UPDATE", getYesNo (metaData.supportsSelectForUpdate ()) });
+			pt.addRow (new String[]{ "Stored Procedure", getYesNo (metaData.supportsStoredProcedures ()) });
+			pt.addRow (new String[]{ "Subqueries in comparisons", getYesNo (metaData.supportsSubqueriesInComparisons ()) });
+			pt.addRow (new String[]{ "Subqueries in EXISTS", getYesNo (metaData.supportsSubqueriesInExists ()) });
+			pt.addRow (new String[]{ "Subqueries in IN", getYesNo (metaData.supportsSubqueriesInIns ()) });
+			pt.addRow (new String[]{ "Subqueries in quantified expressions", getYesNo (metaData.supportsSubqueriesInQuantifieds ()) });
+			pt.addRow (new String[]{ "Correlated subqueries", getYesNo (metaData.supportsCorrelatedSubqueries ()) });
+			pt.addRow (new String[]{ "UNION", getYesNo (metaData.supportsUnion ()) });
+			pt.addRow (new String[]{ "UNION ALL", getYesNo (metaData.supportsUnionAll ()) });
+			pt.addRow (new String[]{ "Open cursor across commits", getYesNo (metaData.supportsOpenCursorsAcrossCommit ()) });
+			pt.addRow (new String[]{ "Open cursor across rollbacks", getYesNo (metaData.supportsOpenCursorsAcrossRollback ()) });
+			pt.addRow (new String[]{ "Open statement across commits", getYesNo (metaData.supportsOpenStatementsAcrossCommit ()) });
+			pt.addRow (new String[]{ "Open statement across rollbacks", getYesNo (metaData.supportsOpenStatementsAcrossRollback ()) });
 	
-			pt.addRow (new String[]{ "Transactions", metaData.supportsTransactions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "DDL and DML in one transaction", metaData.supportsDataDefinitionAndDataManipulationTransactions () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Only DML in one transaction", metaData.supportsDataManipulationTransactionsOnly () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "DDL causes transaction commit", metaData.dataDefinitionCausesTransactionCommit () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "DDL ignored in transactions", metaData.dataDefinitionIgnoredInTransactions () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Transactions", getYesNo (metaData.supportsTransactions ()) });
+			pt.addRow (new String[]{ "DDL and DML in one transaction", getYesNo (metaData.supportsDataDefinitionAndDataManipulationTransactions ()) });
+			pt.addRow (new String[]{ "Only DML in one transaction", getYesNo (metaData.supportsDataManipulationTransactionsOnly ()) });
+			pt.addRow (new String[]{ "DDL causes transaction commit", getYesNo (metaData.dataDefinitionCausesTransactionCommit ()) });
+			pt.addRow (new String[]{ "DDL ignored in transactions", getYesNo (metaData.dataDefinitionIgnoredInTransactions ()) });
 	
-			pt.addRow (new String[]{ "Batch updates", metaData.supportsBatchUpdates () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Save points", metaData.supportsSavepoints () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Named parameters", metaData.supportsNamedParameters () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Multiple open results", metaData.supportsMultipleOpenResults () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Get auto-generated keys", metaData.supportsGetGeneratedKeys () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Batch updates", getYesNo (metaData.supportsBatchUpdates ()) });
+			pt.addRow (new String[]{ "Save points", getYesNo (metaData.supportsSavepoints ()) });
+			pt.addRow (new String[]{ "Named parameters", getYesNo (metaData.supportsNamedParameters ()) });
+			pt.addRow (new String[]{ "Multiple open results", getYesNo (metaData.supportsMultipleOpenResults ()) });
+			pt.addRow (new String[]{ "Get auto-generated keys", getYesNo (metaData.supportsGetGeneratedKeys ()) });
 	
-			pt.addRow (new String[]{ "Statement pooling", metaData.supportsStatementPooling () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Statement pooling", getYesNo (metaData.supportsStatementPooling ()) });
 	
-			pt.addRow (new String[]{ "SQL Function", metaData.supportsStoredFunctionsUsingCallSyntax () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "SQL Function", getYesNo (metaData.supportsStoredFunctionsUsingCallSyntax ()) });
 	
-			pt.addRow (new String[]{ "REF CURSOR", metaData.supportsRefCursors () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "REF CURSOR", getYesNo (metaData.supportsRefCursors ()) });
 
-			pt.addRow (new String[]{ "Supports Mixed Case Identifiers", metaData.supportsMixedCaseIdentifiers () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stores Upper Case Identifiers", metaData.storesUpperCaseIdentifiers () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stores Lower Case Identifiers", metaData.storesLowerCaseIdentifiers () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stores Mixed Case Identifiers", metaData.storesMixedCaseIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Supports Mixed Case Identifiers", getYesNo (metaData.supportsMixedCaseIdentifiers ()) });
+			pt.addRow (new String[]{ "Stores Upper Case Identifiers", getYesNo (metaData.storesUpperCaseIdentifiers ()) });
+			pt.addRow (new String[]{ "Stores Lower Case Identifiers", getYesNo (metaData.storesLowerCaseIdentifiers ()) });
+			pt.addRow (new String[]{ "Stores Mixed Case Identifiers", getYesNo (metaData.storesMixedCaseIdentifiers ()) });
 
-			pt.addRow (new String[]{ "Supports Mixed Case Quoted Identifiers", metaData.supportsMixedCaseQuotedIdentifiers () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stores Upper Case Quoted Identifiers", metaData.storesUpperCaseQuotedIdentifiers () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stores Lower Case Quoted Identifiers", metaData.storesLowerCaseQuotedIdentifiers () ? "Yes" : "No" });
-			pt.addRow (new String[]{ "Stores Mixed Case Quoted Identifiers", metaData.storesMixedCaseQuotedIdentifiers () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Supports Mixed Case Quoted Identifiers", getYesNo (metaData.supportsMixedCaseQuotedIdentifiers ()) });
+			pt.addRow (new String[]{ "Stores Upper Case Quoted Identifiers", getYesNo (metaData.storesUpperCaseQuotedIdentifiers ()) });
+			pt.addRow (new String[]{ "Stores Lower Case Quoted Identifiers", getYesNo (metaData.storesLowerCaseQuotedIdentifiers ()) });
+			pt.addRow (new String[]{ "Stores Mixed Case Quoted Identifiers", getYesNo (metaData.storesMixedCaseQuotedIdentifiers ()) });
 		}
 		catch (Throwable t)
 		{
@@ -354,7 +359,7 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "Max procedure name length", getNumberString (metaData.getMaxProcedureNameLength ()) });
 			pt.addRow (new String[]{ "Max catalog name length", getNumberString (metaData.getMaxCatalogNameLength ()) });
 			pt.addRow (new String[]{ "Max row size", getNumberString (metaData.getMaxRowSize ()) });
-			pt.addRow (new String[]{ "Max row size include BLOB", metaData.doesMaxRowSizeIncludeBlobs () ? "Yes" : "No" });
+			pt.addRow (new String[]{ "Max row size include BLOB", getYesNo (metaData.doesMaxRowSizeIncludeBlobs ()) });
 			pt.addRow (new String[]{ "Max statement length", getNumberString (metaData.getMaxStatementLength ()) });
 			pt.addRow (new String[]{ "Max statements", getNumberString (metaData.getMaxStatements ()) });
 			pt.addRow (new String[]{ "Max table name length", getNumberString (metaData.getMaxTableNameLength ()) });
