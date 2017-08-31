@@ -53,4 +53,17 @@ class PostgresHelper extends DefaultHelper
 			return true;
 		return false;
 	}
+
+	@Override
+	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException
+	{
+		String type = meta.getColumnTypeName (column);
+		if ("numeric".equals (type))
+		{
+			int precision = meta.getPrecision (column);
+			int scale = meta.getScale (column);
+			return type + "(" + precision + "," + scale + ")";
+		}
+		return super.getColumnType (meta, column);
+	}
 }

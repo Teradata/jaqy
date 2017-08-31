@@ -18,11 +18,13 @@ package com.teradata.jaqy.helper;
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Struct;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -30,6 +32,7 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ParameterInfo;
@@ -39,6 +42,11 @@ import com.teradata.jaqy.utils.ParameterInfo;
  */
 public class DefaultHelper implements JaqyHelper
 {
+	public final static String getYesNo (boolean b)
+	{
+		return b ? "Yes" : "No";
+	}
+
 	private final JaqyConnection m_conn;
 	private final Globals m_globals;
 	private final JdbcFeatures m_features;
@@ -263,5 +271,123 @@ public class DefaultHelper implements JaqyHelper
 	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException
 	{
 		return m_conn.createStruct (paramInfo.typeName, elements);
+	}
+
+	/**
+	 * Guess the column type based on the ResultSetMetaData.
+	 */
+	@Override
+	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException
+	{
+		String type = meta.getColumnTypeName (column);
+		String upperType = type.toUpperCase ();
+		if ("VARCHAR".equals (upperType) ||
+			"CHAR".equals (upperType) ||
+			"BYTE".equals (upperType) ||
+			"VARBYTE".equals (upperType) ||
+			"CLOB".equals (upperType) ||
+			"BLOB".equals (upperType))
+		{
+			int size = meta.getPrecision (column);
+			return type + "(" + size + ")";
+		}
+		if ("DECIMAL".equals (upperType))
+		{
+			int precision = meta.getPrecision (column);
+			int scale = meta.getScale (column);
+			return type + "(" + precision + "," + scale + ")";
+		}
+		return type;
+	}
+
+	/**
+	 * Guess the schema for a table.
+	 */
+	@Override
+	public String getSchema (String tableName) throws Exception
+	{
+		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
+		JaqyStatement stmt = null;
+		try
+		{
+			stmt = createStatement ();
+			stmt.execute (query);
+			JaqyResultSet rs = stmt.getResultSet ();
+			if (rs == null)
+				throw new RuntimeException ("Table not found.");
+			JaqyResultSetMetaData meta = rs.getMetaData ();
+			int count = meta.getColumnCount ();
+
+			StringBuilder schema = new StringBuilder ();
+			schema.append ("CREATE TABLE ").append (tableName).append (" (");
+			for (int i = 0; i < count; ++i)
+			{
+				String columnName = meta.getColumnName (i + 1);
+				String columnType = getColumnType (meta, i + 1);
+				if (i == 0)
+					schema.append ('\n');
+				else
+					schema.append (",\n");
+				schema.append ('\t');
+				schema.append (columnName).append (" ").append (columnType);
+				if (meta.isNullable (i + 1) == ResultSetMetaData.columnNoNulls)
+					schema.append (" NOT NULL");
+			}
+			schema.append ("\n)");
+			rs.close ();
+
+			return schema.toString ();
+		}
+		finally
+		{
+			try
+			{
+				stmt.close ();
+			}
+			catch (Exception ex)
+			{
+			}
+		}
+	}
+
+	@Override
+	public JaqyResultSet getColumns (String tableName) throws Exception
+	{
+		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
+		JaqyStatement stmt = null;
+		try
+		{
+			stmt = createStatement ();
+			stmt.execute (query);
+			JaqyResultSet rs = stmt.getResultSet ();
+			if (rs == null)
+				throw new RuntimeException ("Table not found.");
+			JaqyResultSetMetaData meta = rs.getMetaData ();
+			int count = meta.getColumnCount ();
+
+			PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
+			for (int i = 0; i < count; ++i)
+			{
+				String columnName = meta.getColumnName (i + 1);
+				String columnType = getColumnType (meta, i + 1);
+				int nullableInt = meta.isNullable (i + 1);
+				String nullable = (nullableInt == ResultSetMetaData.columnNoNulls) ? "No" : (nullableInt == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
+				pt.addRow (new String[]{ columnName, columnType, nullable });
+			}
+			rs.close ();
+
+			InMemoryResultSet columnRS = new InMemoryResultSet (pt);
+			return DummyHelper.getInstance ().getResultSet (columnRS);
+		}
+		finally
+		{
+			try
+			{
+				stmt.close ();
+			}
+			catch (Exception ex)
+			{
+			}
+		}
 	}
 }

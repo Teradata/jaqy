@@ -1,0 +1,66 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .schema command test
+--------------------------------------------------------------------------
+.help schema
+No detailed help information.
+-- 0/1 - 0 ----------------------------------------------------------------
+.schema
+-- error: Current session is closed.
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/4 - 0 ----------------------------------------------------------------
+
+CREATE TABLE SqliteTypes
+(
+	a	INTEGER,
+	b	REAL,
+	c	TEXT,
+	d	BLOB
+);
+-- success. update count = 0
+-- 1/4 - 0 ----------------------------------------------------------------
+.schema dummy
+-- error: Table not found.
+-- 1/5 - 0 ----------------------------------------------------------------
+.schema SqliteTypes
+CREATE TABLE SqliteTypes
+(
+	a	INTEGER,
+	b	REAL,
+	c	TEXT,
+	d	BLOB
+)
+-- 1/6 - 0 ----------------------------------------------------------------
+
+CREATE TABLE SqliteTypes2
+(
+        a       INTEGER,
+        b       DECIMAL(10,2),
+        c       VARCHAR(100),
+        d       BLOB(100)
+);
+-- success. update count = 0
+-- 2/6 - 0 ----------------------------------------------------------------
+.schema SqliteTypes2
+CREATE TABLE SqliteTypes2
+(
+        a       INTEGER,
+        b       DECIMAL(10,2),
+        c       VARCHAR(100),
+        d       BLOB(100)
+)
+-- 2/7 - 0 ----------------------------------------------------------------
+
+DROP TABLE SqliteTypes;
+-- success. update count = 0
+-- 3/7 - 0 ----------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 3/8 - 0 ----------------------------------------------------------------
+

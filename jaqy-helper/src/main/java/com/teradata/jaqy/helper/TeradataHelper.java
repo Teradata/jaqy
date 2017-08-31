@@ -27,6 +27,7 @@ import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
@@ -136,5 +137,66 @@ class TeradataHelper extends DefaultHelper
 		}
 
 		return getConnection ().createStruct (typeName, elements);
+	}
+
+	@Override
+	public String getSchema (String tableName) throws Exception
+	{
+		String query = "SHOW TABLE " + tableName;
+		JaqyStatement stmt = null;
+		try
+		{
+			stmt = createStatement ();
+			stmt.execute (query);
+			JaqyResultSet rs = stmt.getResultSet ();
+			if (rs == null)
+				throw new RuntimeException ("Table was not found.");
+
+			StringBuilder schema = new StringBuilder ();
+			while (rs.next ())
+			{
+				schema.append (rs.getString (1));
+			}
+			rs.close ();
+			return schema.toString ();
+		}
+		finally
+		{
+			try
+			{
+				stmt.close ();
+			}
+			catch (Exception ex)
+			{
+			}
+		}
+	}
+
+	@Override
+	public JaqyResultSet getColumns (String tableName) throws Exception
+	{
+		String query = "HELP TABLE " + tableName;
+		JaqyStatement stmt = null;
+		try
+		{
+			stmt = createStatement ();
+			stmt.execute (query);
+			JaqyResultSet rs = stmt.getResultSet ();
+			if (rs == null)
+				throw new RuntimeException ("Table was not found.");
+
+			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet ());
+			return DummyHelper.getInstance ().getResultSet (columnRS);
+		}
+		finally
+		{
+			try
+			{
+				stmt.close ();
+			}
+			catch (Exception ex)
+			{
+			}
+		}
 	}
 }

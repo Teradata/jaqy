@@ -15,7 +15,9 @@
  */
 package com.teradata.jaqy;
 
+import com.teradata.jaqy.helper.MySQLHelperFactory;
 import com.teradata.jaqy.helper.PostgresHelperFactory;
+import com.teradata.jaqy.helper.SQLiteHelperFactory;
 import com.teradata.jaqy.helper.TeradataHelperFactory;
 
 /**
@@ -25,7 +27,9 @@ class HelperSetup
 {
 	public static void init (Globals globals)
 	{
-		globals.getHelperManager ().addHelperFactory ("teradata", new TeradataHelperFactory ());
+		globals.getHelperManager ().addHelperFactory ("mysql", new MySQLHelperFactory ());
 		globals.getHelperManager ().addHelperFactory ("postgresql", new PostgresHelperFactory ());
+		globals.getHelperManager ().addHelperFactory ("sqlite", new SQLiteHelperFactory ());
+		globals.getHelperManager ().addHelperFactory ("teradata", new TeradataHelperFactory ());
 	}
 }

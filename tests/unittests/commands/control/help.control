@@ -11,6 +11,7 @@ Teradata Jaqy Console 1.0
 	.close - closes the current session.
 	.commit - commits the current transaction.
 	.debug - debug dump.
+	.desc - describes the columns in a table.
 	.driver - displays currently loaded JDBC drivers.
 	.echo - turns echo on / off
 	.end - ends a multi-line command.
@@ -34,6 +35,7 @@ Teradata Jaqy Console 1.0
 	.rem - does nothing.
 	.rollback - rolls back the current transaction.
 	.run - runs a Jaqy script.
+	.schema - displays the schema for a table.
 	.script - runs a script.
 	.session - session related controls.
 	.unalias - removes a command alias.

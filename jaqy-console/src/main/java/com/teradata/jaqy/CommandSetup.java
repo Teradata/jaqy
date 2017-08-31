@@ -22,6 +22,7 @@ import com.teradata.jaqy.command.ClassPathCommand;
 import com.teradata.jaqy.command.CloseCommand;
 import com.teradata.jaqy.command.CommitCommand;
 import com.teradata.jaqy.command.DebugCommand;
+import com.teradata.jaqy.command.DescribeCommand;
 import com.teradata.jaqy.command.DriverCommand;
 import com.teradata.jaqy.command.EchoCommand;
 import com.teradata.jaqy.command.EndCommand;
@@ -45,6 +46,7 @@ import com.teradata.jaqy.command.QuietCommand;
 import com.teradata.jaqy.command.RemarkCommand;
 import com.teradata.jaqy.command.RollbackCommand;
 import com.teradata.jaqy.command.RunCommand;
+import com.teradata.jaqy.command.SchemaCommand;
 import com.teradata.jaqy.command.ScriptCommand;
 import com.teradata.jaqy.command.SessionCommand;
 import com.teradata.jaqy.command.UnAliasCommand;
@@ -73,6 +75,8 @@ class CommandSetup
 		manager.addCommand ("list", new ListCommand ());
 		manager.addCommand ("pwd", new PwdCommand ());
 		manager.addCommand ("exec", new ExecCommand ());
+		manager.addCommand ("desc", new DescribeCommand ());
+		manager.addCommand ("schema", new SchemaCommand ());
 
 		// session control
 		manager.addCommand ("session", new SessionCommand ());

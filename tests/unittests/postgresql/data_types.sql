@@ -12,6 +12,8 @@ CREATE TABLE NumTable
 	c4 FLOAT,
 	c5 DOUBLE PRECISION
 );
+.format table
+.desc NumTable
 
 INSERT INTO NumTable VALUES (-12345, -123456789, -1234567890, -1234.5, -4.5e15);
 INSERT INTO NumTable VALUES (12345, 123456789, 1234567890, 1234.5, 4.5e15);
@@ -30,6 +32,9 @@ CREATE TABLE DecTable
 	c3 DECIMAL(22,2),
 	c4 DECIMAL(31,2)
 );
+.format table
+.desc DecTable
+
 INSERT INTO DecTable VALUES (-1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
 INSERT INTO DecTable VALUES (1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
 
@@ -47,6 +52,8 @@ CREATE TABLE SerialTable
 	c3 BIGSERIAL,
 	c4 INTEGER
 );
+.format table
+.desc SerialTable
 
 INSERT INTO SerialTable (C4) VALUES (1);
 INSERT INTO SerialTable (C4) VALUES (2);
@@ -65,6 +72,8 @@ CREATE TABLE StrTable
 	c3 CHAR(5),
 	c4 TEXT
 );
+.format table
+.desc StrTable
 
 INSERT INTO StrTable VALUES ('aa', 'A', 'abcde', 'aaaaa');
 INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij', 'bbbbb');
@@ -81,6 +90,8 @@ CREATE TABLE BinTable
 	c1 INTEGER,
 	c2 BYTEA
 );
+.format table
+.desc BinTable
 
 INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
 INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
@@ -101,6 +112,8 @@ CREATE TABLE TimeTable
 	c5 TIMESTAMP,
 	c6 TIMESTAMP WITH TIME ZONE
 );
+.format table
+.desc TimeTable
 
 INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '12:34:56-08:00', '2001-02-03 12:34:56', '2001-02-03 12:34:56-08:00');
 INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '12:34:56+08:00', '2001-03-04 12:34:56', '2001-02-03 12:34:56+08:00');
@@ -117,6 +130,8 @@ CREATE TABLE XmlTable
 	c1 INTEGER,
 	c2 XML
 );
+.format table
+.desc XmlTable
 
 INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
 INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
@@ -134,6 +149,8 @@ CREATE TABLE JsonTable
 	c1 INTEGER,
 	c2 JSON
 );
+.format table
+.desc JsonTable
 
 INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
 INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
@@ -156,6 +173,8 @@ CREATE TABLE GeoTable
 	c6 POLYGON,
 	c7 CIRCLE
 );
+.format table
+.desc GeoTable
 
 INSERT INTO GeoTable VALUES (1, '(1,2)', '((1,1),(2,2))', '((1,1),(2,2))', '((1,1),(2,2))', '((0,0),(0,1),(1,1),(1,0))','<(0,0),1>');
 INSERT INTO GeoTable VALUES (2, '(2,2)', '((2,2),(3,3))', '((2,2),(3,3))', '((0,0),(0,1),(1,1),(1,0),(0,0))', '((0,0),(0,1),(1,1),(1,0),(0,0))','<(0,0),1>');
@@ -174,6 +193,8 @@ CREATE TABLE NetTable
 	c3 INET,
 	c4 MACADDR
 );
+.format table
+.desc NetTable
 
 INSERT INTO NetTable VALUES (1, '192.168.100.128/25', '127.0.0.1', '08:00:2b:01:02:03');
 INSERT INTO NetTable VALUES (2, '192.168/24', '192.168.1.1', '08-00-2b-01-02-03');
@@ -195,6 +216,8 @@ CREATE TABLE RangeTable
 	c6 TSTZRANGE,
 	c7 DATERANGE
 );
+.format table
+.desc RangeTable
 
 INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
 INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
@@ -215,6 +238,8 @@ CREATE TABLE MiscTable1
 	c4 UUID,
 	c5 MONEY
 );
+.format table
+.desc MiscTable1
 
 INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
@@ -233,6 +258,8 @@ CREATE TABLE MiscTable2
 	c2 TSVECTOR,
 	c3 TSQUERY
 );
+.format table
+.desc MiscTable2
 
 INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');

@@ -138,4 +138,33 @@ public interface JaqyHelper
 	 * 			if the creation failed.
 	 */
 	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException;
+	/**
+	 * Based on the ResultSetMetaData, infer the original type.
+	 * @param	meta
+	 * 			the ResultSetMetaData
+	 * @param	column
+	 * 			the column to be checked.
+	 * @return	the inferred SQL name.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException;
+	/**
+	 * Get the SQL schema for the given table.
+	 * @param	tableName
+	 * 			the table to retrieve the SQL schema.
+	 * @return	the SQL schema
+	 * @throws	Exception
+	 * 			in case of error.
+	 */
+	public String getSchema (String tableName) throws Exception;
+	/**
+	 * Get the column description of the given table.
+	 * @param	tableName
+	 * 			the table to retrieve the column information.
+	 * @return	a ResultSet describing the columns
+	 * @throws	Exception
+	 * 			in case of error.
+	 */
+	public JaqyResultSet getColumns (String tableName) throws Exception;
 }
