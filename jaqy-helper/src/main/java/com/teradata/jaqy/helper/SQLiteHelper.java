@@ -52,7 +52,7 @@ class SQLiteHelper extends DefaultHelper
 			}
 			rs.close ();
 			if (schema.length () == 0)
-				throw new RuntimeException ("Table not found.");
+				throw new RuntimeException ("Table was not found.");
 			return schema.toString ();
 		}
 		finally

@@ -26,7 +26,7 @@ CREATE TABLE SqliteTypes
 -- success. update count = 0
 -- 1/4 - 0 ----------------------------------------------------------------
 .schema dummy
--- error: Table not found.
+-- error: Table was not found.
 -- 1/5 - 0 ----------------------------------------------------------------
 .schema SqliteTypes
 CREATE TABLE SqliteTypes

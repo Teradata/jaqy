@@ -314,7 +314,7 @@ public class DefaultHelper implements JaqyHelper
 			stmt.execute (query);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)
-				throw new RuntimeException ("Table not found.");
+				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
 			int count = meta.getColumnCount ();
 
@@ -361,7 +361,7 @@ public class DefaultHelper implements JaqyHelper
 			stmt.execute (query);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)
-				throw new RuntimeException ("Table not found.");
+				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
 			int count = meta.getColumnCount ();
 
