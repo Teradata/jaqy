@@ -42,6 +42,8 @@ class TeradataHelper extends DefaultHelper
 	public TeradataHelper (JaqyConnection conn, Globals globals)
 	{
 		super (new JdbcFeatures (), conn, globals);
+		JdbcFeatures features = getFeatures ();
+		features.noCatalog = true;
 	}
 
 	@Override
@@ -140,7 +142,14 @@ class TeradataHelper extends DefaultHelper
 	}
 
 	@Override
-	public String getSchema (String tableName) throws Exception
+	public String getSchema () throws SQLException
+	{
+		String sql = "SELECT DATABASE";
+		return QueryUtils.getQueryString (getConnection(), sql, 1);
+	}
+
+	@Override
+	public String getTableSchema (String tableName) throws Exception
 	{
 		String sql = "SHOW TABLE " + tableName;
 		return QueryUtils.getQueryString (getConnection(), sql, 2);

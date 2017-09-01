@@ -32,7 +32,7 @@ class SQLiteHelper extends DefaultHelper
 	}
 
 	@Override
-	public String getSchema (String tableName) throws Exception
+	public String getTableSchema (String tableName) throws Exception
 	{
 		String sql = "SELECT sql FROM SQLITE_MASTER WHERE NAME ='" + tableName + "' COLLATE NOCASE";
 		String result = QueryUtils.getQueryString (getConnection(), sql, 1);

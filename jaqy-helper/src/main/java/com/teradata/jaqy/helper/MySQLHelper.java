@@ -31,6 +31,8 @@ class MySQLHelper extends DefaultHelper
 	public MySQLHelper (JaqyConnection conn, Globals globals)
 	{
 		super (new JdbcFeatures (), conn, globals);
+		JdbcFeatures features = getFeatures ();
+		features.noSchema = true;
 	}
 
 	@Override
@@ -41,7 +43,7 @@ class MySQLHelper extends DefaultHelper
 	}
 
 	@Override
-	public String getSchema (String tableName) throws Exception
+	public String getTableSchema (String tableName) throws Exception
 	{
 		String sql = "SHOW CREATE TABLE " + tableName;
 		return QueryUtils.getQueryString (getConnection(), sql, 2);

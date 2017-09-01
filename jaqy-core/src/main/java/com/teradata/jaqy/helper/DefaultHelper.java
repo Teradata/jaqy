@@ -315,7 +315,7 @@ public class DefaultHelper implements JaqyHelper
 	 * Guess the schema for a table.
 	 */
 	@Override
-	public String getSchema (String tableName) throws Exception
+	public String getTableSchema (String tableName) throws Exception
 	{
 		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
 		JaqyStatement stmt = null;

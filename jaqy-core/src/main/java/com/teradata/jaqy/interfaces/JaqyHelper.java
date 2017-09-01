@@ -157,7 +157,7 @@ public interface JaqyHelper
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public String getSchema (String tableName) throws Exception;
+	public String getTableSchema (String tableName) throws Exception;
 	/**
 	 * Get the column description of the given table.
 	 * @param	tableName

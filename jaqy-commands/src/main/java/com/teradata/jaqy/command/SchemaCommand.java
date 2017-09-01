@@ -60,7 +60,7 @@ public class SchemaCommand extends JaqyCommandAdapter
 		String tableName = args[0];
 		for (int i = 1; i < args.length; ++i)
 			tableName += args[i];
-		String schema = interpreter.getSession ().getConnection ().getHelper ().getSchema (tableName);
+		String schema = interpreter.getSession ().getConnection ().getHelper ().getTableSchema (tableName);
 		interpreter.println (schema);
 	}
 }
