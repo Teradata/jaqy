@@ -218,11 +218,36 @@ CREATE TABLE MyTable2
 -- 7/18 - 0 ---------------------------------------------------------------
 
 .list
--- Listing tables: .null.%
-[]
+-- Listing tables: vagrant.null.%
+[
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
 -- 7/19 - 0 ---------------------------------------------------------------
 .list .
--- Listing schema: .null
+-- Listing schema: vagrant.null
 []
 -- 7/20 - 0 ---------------------------------------------------------------
 .list %
@@ -246,31 +271,119 @@ CREATE TABLE MyTable2
 ]
 -- 7/21 - 0 ---------------------------------------------------------------
 .list . .
--- Listing schema: .null
+-- Listing schema: vagrant.null
 []
 -- 7/22 - 0 ---------------------------------------------------------------
 .list % .
 -- error: Cannot specify * for catalog name when schema pattern is specified.
 -- 7/23 - 0 ---------------------------------------------------------------
 .list . %
--- Listing schema: .%
+-- Listing schema: vagrant.%
 []
 -- 7/24 - 0 ---------------------------------------------------------------
 .list . . %
--- Listing tables: .null.%
-[]
+-- Listing tables: vagrant.null.%
+[
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
 -- 7/25 - 0 ---------------------------------------------------------------
 .list . . MyTable
--- Listing tables: .null.MyTable
-[]
+-- Listing tables: vagrant.null.MyTable
+[
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
 -- 7/26 - 0 ---------------------------------------------------------------
 .list . . %MyTable%
--- Listing tables: .null.%MyTable%
-[]
+-- Listing tables: vagrant.null.%MyTable%
+[
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
 -- 7/27 - 0 ---------------------------------------------------------------
 .list . % %
--- Listing tables: .%.%
-[]
+-- Listing tables: vagrant.%.%
+[
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	},
+	{
+		"TABLE_CAT" : "vagrant",
+		"TABLE_SCHEM" : null,
+		"TABLE_NAME" : "MyTable2",
+		"TABLE_TYPE" : "TABLE",
+		"REMARKS" : "",
+		"TYPE_CAT" : null,
+		"TYPE_SCHEM" : null,
+		"TYPE_NAME" : null,
+		"SELF_REFERENCING_COL_NAME" : null,
+		"REF_GENERATION" : null
+	}
+]
 -- 7/28 - 0 ---------------------------------------------------------------
 
 DROP TABLE MyTable;

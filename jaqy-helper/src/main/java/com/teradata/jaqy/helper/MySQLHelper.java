@@ -15,12 +15,13 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.sql.SQLException;
+
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.utils.QueryUtils;
 
 /**
  * @author	Heng Yuan
@@ -33,65 +34,23 @@ class MySQLHelper extends DefaultHelper
 	}
 
 	@Override
+	public String getCatalog () throws SQLException
+	{
+		String sql = "SELECT DATABASE()";
+		return QueryUtils.getQueryString (getConnection(), sql, 1);
+	}
+
+	@Override
 	public String getSchema (String tableName) throws Exception
 	{
-		String query = "SHOW CREATE TABLE " + tableName;
-		JaqyStatement stmt = null;
-		try
-		{
-			stmt = createStatement ();
-			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet ();
-			if (rs == null)
-				throw new RuntimeException ("Table was not found.");
-
-			StringBuilder schema = new StringBuilder ();
-			while (rs.next ())
-			{
-				schema.append (rs.getString (2));
-			}
-			rs.close ();
-			if (schema.length () == 0)
-				throw new RuntimeException ("Table was not found.");
-			return schema.toString ();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
+		String sql = "SHOW CREATE TABLE " + tableName;
+		return QueryUtils.getQueryString (getConnection(), sql, 2);
 	}
 
 	@Override
 	public JaqyResultSet getColumns (String tableName) throws Exception
 	{
-		String query = "DESCRIBE " + tableName;
-		JaqyStatement stmt = null;
-		try
-		{
-			stmt = createStatement ();
-			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet ();
-			if (rs == null)
-				throw new RuntimeException ("Table was not found.");
-
-			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet ());
-			return DummyHelper.getInstance ().getResultSet (columnRS);
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
+		String sql = "DESCRIBE " + tableName;
+		return QueryUtils.getResultSet (getConnection(), sql);
 	}
 }

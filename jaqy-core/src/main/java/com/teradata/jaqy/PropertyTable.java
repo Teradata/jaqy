@@ -65,11 +65,4 @@ public class PropertyTable
 	{
 		return m_lengths;
 	}
-
-	public void close ()
-	{
-		m_titles = null;
-		m_rows = null;
-		m_lengths = null;
-	}
 }

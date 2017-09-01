@@ -15,11 +15,13 @@
  */
 package com.teradata.jaqy.command;
 
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
+import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.SessionUtils;
 
@@ -35,21 +37,40 @@ public class PwdCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		if (!SessionUtils.checkOpen (interpreter))
 			return;
 		Session session = interpreter.getSession ();
-		JaqyHelper helper = session.getConnection ().getHelper ();
+		JaqyConnection conn = session.getConnection ();
+		JaqyHelper helper = conn.getHelper ();
 		String catalog = null;
 		String schema = null;
+		DatabaseMetaData meta = conn.getMetaData ();
+		String catalogName = "CATALOG";
+		String schemaName = "SCHEMA";
+
+		StringBuilder builder = new StringBuilder ();
+
 		try
 		{
-			catalog = helper.getCatalog ();
+			catalog = conn.getCatalog ();
 		}
 		catch (SQLException ex)
 		{
 		}
+		if (catalog != null && catalog.length () != 0)
+		{
+			try
+			{
+				catalogName = meta.getCatalogTerm ();
+			}
+			catch (SQLException ex)
+			{
+			}
+			builder.append (catalogName).append (" : ").append (catalog);
+		}
+
 		try
 		{
 			schema = helper.getSchema ();
@@ -57,7 +78,18 @@ public class PwdCommand extends JaqyCommandAdapter
 		catch (SQLException ex)
 		{
 		}
+		if (schema != null && schema.length () != 0)
+		{
+			try
+			{
+				schemaName = meta.getSchemaTerm ();
+			}
+			catch (SQLException ex)
+			{
+			}
+			builder.append (schemaName).append (" : ").append (schema);
+		}
 
-		interpreter.println ("Catalog: " + (catalog == null ? "" : catalog) + ", Schema: " + (schema == null ? "" : schema));
+		interpreter.println (builder.toString ());
 	}
 }

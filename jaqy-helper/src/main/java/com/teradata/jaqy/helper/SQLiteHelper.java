@@ -18,9 +18,8 @@ package com.teradata.jaqy.helper;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.utils.QueryUtils;
 
 /**
  * @author	Heng Yuan
@@ -35,63 +34,20 @@ class SQLiteHelper extends DefaultHelper
 	@Override
 	public String getSchema (String tableName) throws Exception
 	{
-		String query = "SELECT sql FROM SQLITE_MASTER WHERE NAME ='" + tableName + "' COLLATE NOCASE";
-		JaqyStatement stmt = null;
-		try
-		{
-			stmt = createStatement ();
-			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet ();
-			if (rs == null)
-				throw new RuntimeException ("Table was not found.");
-
-			StringBuilder schema = new StringBuilder ();
-			while (rs.next ())
-			{
-				schema.append (rs.getString (1));
-			}
-			rs.close ();
-			if (schema.length () == 0)
-				throw new RuntimeException ("Table was not found.");
-			return schema.toString ();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
+		String sql = "SELECT sql FROM SQLITE_MASTER WHERE NAME ='" + tableName + "' COLLATE NOCASE";
+		String result = QueryUtils.getQueryString (getConnection(), sql, 1);
+		if (result.length () == 0)
+			throw new RuntimeException ("Table was not found.");
+		return result;
 	}
 
 	@Override
 	public JaqyResultSet getColumns (String tableName) throws Exception
 	{
-		String query = "PRAGMA table_info([" + tableName + "])";
-		JaqyStatement stmt = null;
-		try
-		{
-			stmt = createStatement ();
-			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet ();
-			if (rs == null)
-				throw new RuntimeException ("Table was not found.");
-
-			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet ());
-			return DummyHelper.getInstance ().getResultSet (columnRS);
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
+		String sql = "PRAGMA table_info([" + tableName + "])";
+		JaqyResultSet rs = QueryUtils.getResultSet (getConnection(), sql);
+		if (rs == null)
+			throw new RuntimeException ("Table was not found.");
+		return rs;
 	}
 }

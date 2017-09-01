@@ -126,8 +126,7 @@ public class DefaultHelper implements JaqyHelper
 		}
 	}
 
-	@Override
-	public String getCatalog () throws SQLException
+	private String getCatalogInternal () throws SQLException
 	{
 		if (m_features.noCatalog)
 			return null;
@@ -151,8 +150,7 @@ public class DefaultHelper implements JaqyHelper
 		}
 	}
 
-	@Override
-	public String getSchema () throws SQLException
+	private String getSchemaInternal () throws SQLException
 	{
 		if (m_features.noSchema)
 			return null;
@@ -174,6 +172,18 @@ public class DefaultHelper implements JaqyHelper
 			m_features.noSchema = true;
 			return null;
 		}
+	}
+
+	@Override
+	public String getCatalog () throws SQLException
+	{
+		return getCatalogInternal ();
+	}
+
+	@Override
+	public String getSchema () throws SQLException
+	{
+		return getSchemaInternal ();
 	}
 
 	@Override
@@ -214,8 +224,8 @@ public class DefaultHelper implements JaqyHelper
 		}
 
 		String path = null;
-		String catalog = getCatalog ();
-		String schema = getSchema ();
+		String catalog = getCatalogInternal ();
+		String schema = getSchemaInternal ();
 		if (catalog == null || catalog.length () == 0)
 		{
 			path = schema; 
@@ -224,7 +234,8 @@ public class DefaultHelper implements JaqyHelper
 		{
 			if (schema == null || schema.length () == 0)
 				path = catalog;
-			path = catalog + m_conn.getCatalogSeparator () + schema;
+			else
+				path = catalog + m_conn.getCatalogSeparator () + schema;
 		}
 		if (path != null)
 		{
