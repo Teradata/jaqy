@@ -44,17 +44,23 @@ public class PostgreSQLTest
 	@Test
 	public void test3 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/json_type.sql", "../tests/unittests/postgresql/control/json_type.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/data_types.sql", "../tests/unittests/postgresql/control/data_types.control");
 	}
 
 	@Test
 	public void test4 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/array_types.sql", "../tests/unittests/postgresql/control/array_types.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/json_type.sql", "../tests/unittests/postgresql/control/json_type.control");
 	}
 
 	@Test
 	public void test5 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/array_types.sql", "../tests/unittests/postgresql/control/array_types.control");
+	}
+
+	@Test
+	public void test6 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/composite_types.sql", "../tests/unittests/postgresql/control/composite_types.control");
 	}

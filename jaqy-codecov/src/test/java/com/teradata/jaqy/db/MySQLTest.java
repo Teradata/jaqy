@@ -40,4 +40,10 @@ public class MySQLTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/mysql/transaction.sql", "../tests/unittests/mysql/control/transaction.control");
 	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/mysql/data_types.sql", "../tests/unittests/mysql/control/data_types.control");
+	}
 }
