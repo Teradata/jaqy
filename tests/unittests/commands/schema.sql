@@ -14,6 +14,7 @@ CREATE TABLE SqliteTypes
 	c	TEXT,
 	d	BLOB
 );
+.schema
 .schema dummy
 .schema SqliteTypes
 

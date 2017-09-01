@@ -37,7 +37,7 @@ public class DescribeCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	protected String getSyntax ()
+	public String getLongDescription ()
 	{
 		return getCommand () + " [table name]";
 	}

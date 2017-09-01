@@ -36,7 +36,7 @@ public class SchemaCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	protected String getSyntax ()
+	public String getLongDescription ()
 	{
 		return getCommand () + " [table name]";
 	}
