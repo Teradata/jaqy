@@ -30,9 +30,9 @@ import java.sql.Struct;
 import javax.json.JsonString;
 import javax.json.JsonStructure;
 import javax.json.JsonValue;
-import javax.json.stream.JsonParser;
 
 import org.yuanheng.cookjson.CookJsonGenerator;
+import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.TextJsonGenerator;
 import org.yuanheng.cookjson.TextJsonParser;
 
@@ -251,7 +251,7 @@ public class JsonUtils
 						// Now convert str to JsonValue
 						try
 						{
-							JsonParser p = new TextJsonParser (new StringReader (str));
+							CookJsonParser p = new TextJsonParser (new StringReader (str));
 							p.next ();
 							obj = p.getValue ();
 							p.close ();
