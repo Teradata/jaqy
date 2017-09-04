@@ -1,2 +1,4 @@
 avro_export_1.sql
 avro_import_1.sql
+postgresql_array_types.sql
+postgresql_data_types.sql

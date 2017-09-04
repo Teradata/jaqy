@@ -277,6 +277,11 @@ public class JaqyResultSetMetaData
 		return m_metaData.getPrecision (column);
 	}
 
+	public String getColumnClassName (int column) throws SQLException
+	{
+		return m_metaData.getColumnClassName (column);
+	}
+
 	public boolean isJson (int column) throws SQLException
 	{
 		return m_helper.isJsonColumn (this, column);

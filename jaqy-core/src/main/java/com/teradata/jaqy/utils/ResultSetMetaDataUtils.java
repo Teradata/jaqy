@@ -16,6 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import java.io.PrintWriter;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.Session;
@@ -28,6 +29,39 @@ import com.teradata.jaqy.interfaces.Display;
  */
 public class ResultSetMetaDataUtils
 {
+	public static ColumnInfo[] getColumnInfo (ResultSetMetaData meta) throws SQLException
+	{
+		int columnCount = meta.getColumnCount ();
+		ColumnInfo[] columnInfos = new ColumnInfo[columnCount];
+		for (int i = 0; i < columnCount; ++i)
+		{
+			ColumnInfo columnInfo = new ColumnInfo ();
+			columnInfos[i] = columnInfo;
+
+			columnInfo.autoIncrement = meta.isAutoIncrement (i + 1);
+			columnInfo.caseSensitive = meta.isCaseSensitive (i + 1);
+			columnInfo.searchable = meta.isSearchable (i + 1);
+			columnInfo.currency = meta.isCurrency (i + 1);
+			columnInfo.nullable = meta.isNullable (i + 1);
+			columnInfo.signed = meta.isSigned (i + 1);
+			columnInfo.displaySize = meta.getColumnDisplaySize (i + 1);
+			columnInfo.label = meta.getColumnLabel (i + 1);
+			columnInfo.name = meta.getColumnName (i + 1);
+			columnInfo.schemaName = meta.getSchemaName (i + 1);
+			columnInfo.precision = meta.getPrecision (i + 1);
+			columnInfo.scale = meta.getScale (i + 1);
+			columnInfo.tableName = meta.getTableName (i + 1);
+			columnInfo.catalogName = meta.getCatalogName (i + 1);
+			columnInfo.type = meta.getColumnType (i + 1);
+			columnInfo.typeName = meta.getColumnTypeName (i + 1);
+			columnInfo.className = meta.getColumnClassName (i + 1);
+			columnInfo.readOnly = meta.isReadOnly (i + 1);
+			columnInfo.writable = meta.isWritable (i + 1);
+			columnInfo.definitelyWritable= meta.isDefinitelyWritable (i + 1);
+		}
+		return columnInfos;
+	}
+
 	private static void dumpColumn (PrintWriter pw, JaqyResultSetMetaData metaData, int column)
 	{
 		JdbcFeatures features = metaData.getFeatures ();
@@ -38,6 +72,7 @@ public class ResultSetMetaDataUtils
 			AttributeUtils.print (pw, 2, "Label", metaData.getColumnLabel (column));
 			AttributeUtils.print (pw, 2, "Type", TypesUtils.getTypeName (metaData.getColumnType (column)));
 			AttributeUtils.print (pw, 2, "SQL Type", metaData.getColumnTypeName (column));
+			AttributeUtils.print (pw, 2, "Java Class", metaData.getColumnClassName (column));
 			AttributeUtils.print (pw, 2, "Catalog", metaData.getCatalogName (column), features.noRSMDCatalog);
 			AttributeUtils.print (pw, 2, "Schema", metaData.getSchemaName (column), features.noRSMDSchema);
 			AttributeUtils.print (pw, 2, "Table Name", metaData.getTableName (column), features.noRSMDTable);

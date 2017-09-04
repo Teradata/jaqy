@@ -58,6 +58,7 @@ ResultSet Column Count                       4
     Label                                        T1
     Type                                         SMALLINT
     SQL Type                                     SMALLINT
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -78,6 +79,7 @@ ResultSet Column Count                       4
     Label                                        T2
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -98,6 +100,7 @@ ResultSet Column Count                       4
     Label                                        T3
     Type                                         BIGINT
     SQL Type                                     BIGINT
+    Java Class                                   java.lang.Long
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -118,6 +121,7 @@ ResultSet Column Count                       4
     Label                                        T4
     Type                                         DOUBLE
     SQL Type                                     DOUBLE
+    Java Class                                   java.lang.Double
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -149,6 +153,7 @@ ResultSet Column Count                       4
     Label                                        T1
     Type                                         SMALLINT
     SQL Type                                     SMALLINT
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -169,6 +174,7 @@ ResultSet Column Count                       4
     Label                                        T2
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -189,6 +195,7 @@ ResultSet Column Count                       4
     Label                                        T3
     Type                                         BIGINT
     SQL Type                                     BIGINT
+    Java Class                                   java.lang.Long
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -209,6 +216,7 @@ ResultSet Column Count                       4
     Label                                        T4
     Type                                         DOUBLE
     SQL Type                                     DOUBLE
+    Java Class                                   java.lang.Double
     Catalog                                      
     Schema                                       APP
     Table Name                                   NUMTABLE
@@ -300,6 +308,7 @@ ResultSet Column Count                       4
     Label                                        D1
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -320,6 +329,7 @@ ResultSet Column Count                       4
     Label                                        D2
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -340,6 +350,7 @@ ResultSet Column Count                       4
     Label                                        D3
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -360,6 +371,7 @@ ResultSet Column Count                       4
     Label                                        D4
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -391,6 +403,7 @@ ResultSet Column Count                       4
     Label                                        D1
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -411,6 +424,7 @@ ResultSet Column Count                       4
     Label                                        D2
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -431,6 +445,7 @@ ResultSet Column Count                       4
     Label                                        D3
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -451,6 +466,7 @@ ResultSet Column Count                       4
     Label                                        D4
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      
     Schema                                       APP
     Table Name                                   DECTABLE
@@ -538,6 +554,7 @@ ResultSet Column Count                       3
     Label                                        S1
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   STRTABLE
@@ -558,6 +575,7 @@ ResultSet Column Count                       3
     Label                                        S2
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   STRTABLE
@@ -578,6 +596,7 @@ ResultSet Column Count                       3
     Label                                        S3
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   STRTABLE
@@ -609,6 +628,7 @@ ResultSet Column Count                       3
     Label                                        S1
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   STRTABLE
@@ -629,6 +649,7 @@ ResultSet Column Count                       3
     Label                                        S2
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   STRTABLE
@@ -649,6 +670,7 @@ ResultSet Column Count                       3
     Label                                        S3
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   STRTABLE
@@ -733,6 +755,7 @@ ResultSet Column Count                       3
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
@@ -753,6 +776,7 @@ ResultSet Column Count                       3
     Label                                        C2
     Type                                         LONGVARCHAR
     SQL Type                                     LONG VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
@@ -773,6 +797,7 @@ ResultSet Column Count                       3
     Label                                        C3
     Type                                         LONGVARBINARY
     SQL Type                                     LONG VARCHAR FOR BIT DATA
+    Java Class                                   byte[]
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
@@ -804,6 +829,7 @@ ResultSet Column Count                       3
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
@@ -824,6 +850,7 @@ ResultSet Column Count                       3
     Label                                        C2
     Type                                         LONGVARCHAR
     SQL Type                                     LONG VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
@@ -844,6 +871,7 @@ ResultSet Column Count                       3
     Label                                        C3
     Type                                         LONGVARBINARY
     SQL Type                                     LONG VARCHAR FOR BIT DATA
+    Java Class                                   byte[]
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
@@ -928,6 +956,7 @@ ResultSet Column Count                       3
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   LOBTABLE
@@ -948,6 +977,7 @@ ResultSet Column Count                       3
     Label                                        C2
     Type                                         Type 2005
     SQL Type                                     CLOB
+    Java Class                                   java.sql.Clob
     Catalog                                      
     Schema                                       APP
     Table Name                                   LOBTABLE
@@ -968,6 +998,7 @@ ResultSet Column Count                       3
     Label                                        C3
     Type                                         BLOB
     SQL Type                                     BLOB
+    Java Class                                   java.sql.Blob
     Catalog                                      
     Schema                                       APP
     Table Name                                   LOBTABLE
@@ -999,6 +1030,7 @@ ResultSet Column Count                       3
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   LOBTABLE
@@ -1019,6 +1051,7 @@ ResultSet Column Count                       3
     Label                                        C2
     Type                                         Type 2005
     SQL Type                                     CLOB
+    Java Class                                   java.sql.Clob
     Catalog                                      
     Schema                                       APP
     Table Name                                   LOBTABLE
@@ -1039,6 +1072,7 @@ ResultSet Column Count                       3
     Label                                        C3
     Type                                         BLOB
     SQL Type                                     BLOB
+    Java Class                                   java.sql.Blob
     Catalog                                      
     Schema                                       APP
     Table Name                                   LOBTABLE
@@ -1126,6 +1160,7 @@ ResultSet Column Count                       4
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1146,6 +1181,7 @@ ResultSet Column Count                       4
     Label                                        C2
     Type                                         DATE
     SQL Type                                     DATE
+    Java Class                                   java.sql.Date
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1166,6 +1202,7 @@ ResultSet Column Count                       4
     Label                                        C3
     Type                                         TIME
     SQL Type                                     TIME
+    Java Class                                   java.sql.Time
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1186,6 +1223,7 @@ ResultSet Column Count                       4
     Label                                        C4
     Type                                         TIMESTAMP
     SQL Type                                     TIMESTAMP
+    Java Class                                   java.sql.Timestamp
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1217,6 +1255,7 @@ ResultSet Column Count                       4
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1237,6 +1276,7 @@ ResultSet Column Count                       4
     Label                                        C2
     Type                                         DATE
     SQL Type                                     DATE
+    Java Class                                   java.sql.Date
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1257,6 +1297,7 @@ ResultSet Column Count                       4
     Label                                        C3
     Type                                         TIME
     SQL Type                                     TIME
+    Java Class                                   java.sql.Time
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1277,6 +1318,7 @@ ResultSet Column Count                       4
     Label                                        C4
     Type                                         TIMESTAMP
     SQL Type                                     TIMESTAMP
+    Java Class                                   java.sql.Timestamp
     Catalog                                      
     Schema                                       APP
     Table Name                                   TIMETABLE
@@ -1355,6 +1397,7 @@ ResultSet Column Count                       2
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   XMLTABLE
@@ -1375,6 +1418,7 @@ ResultSet Column Count                       2
     Label                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   
@@ -1406,6 +1450,7 @@ ResultSet Column Count                       2
     Label                                        C1
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       APP
     Table Name                                   XMLTABLE
@@ -1426,6 +1471,7 @@ ResultSet Column Count                       2
     Label                                        2
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   

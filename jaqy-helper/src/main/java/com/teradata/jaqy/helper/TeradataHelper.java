@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Struct;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 
 import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
@@ -30,6 +31,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.utils.ColumnInfo;
 import com.teradata.jaqy.utils.ParameterInfo;
 import com.teradata.jaqy.utils.QueryUtils;
 import com.teradata.jaqy.utils.TypesUtils;
@@ -160,5 +162,56 @@ class TeradataHelper extends DefaultHelper
 	{
 		String sql = "HELP TABLE " + tableName;
 		return QueryUtils.getResultSet (getConnection(), sql);
+	}
+
+	@Override
+	public void fixColumnInfo (ColumnInfo info)
+	{
+		if (info.type == Types.STRUCT &&
+			info.typeName != null &&
+			info.typeName.startsWith ("PERIOD"))
+		{
+			if ("PERIOD(DATE)".equals (info.typeName))
+			{
+				ColumnInfo[] childrenInfo = new ColumnInfo[2];
+				childrenInfo[0] = new ColumnInfo ();
+				childrenInfo[0].label = "BEGIN";
+				childrenInfo[1] = new ColumnInfo ();
+				childrenInfo[1].label = "END";
+				for (int i = 0; i < 2; ++i)
+				{
+					childrenInfo[i].type = Types.DATE;
+					childrenInfo[i].typeName = "DATE";
+				}
+			}
+			else if ("PERIOD(TIME)".equals (info.typeName) ||
+					 "PERIOD(TIME WITH TIME ZONE)".equals (info.typeName))
+			{
+				ColumnInfo[] childrenInfo = new ColumnInfo[2];
+				childrenInfo[0] = new ColumnInfo ();
+				childrenInfo[0].label = "BEGIN";
+				childrenInfo[1] = new ColumnInfo ();
+				childrenInfo[1].label = "END";
+				for (int i = 0; i < 2; ++i)
+				{
+					childrenInfo[i].type = Types.TIME;
+					childrenInfo[i].typeName = "TIME";
+				}
+			}
+			else if ("PERIOD(TIMESTAMP)".equals (info.typeName) ||
+					 "PERIOD(TIMESTAMP WITH TIME ZONE)".equals (info.typeName))
+			{
+				ColumnInfo[] childrenInfo = new ColumnInfo[2];
+				childrenInfo[0] = new ColumnInfo ();
+				childrenInfo[0].label = "BEGIN";
+				childrenInfo[1] = new ColumnInfo ();
+				childrenInfo[1].label = "END";
+				for (int i = 0; i < 2; ++i)
+				{
+					childrenInfo[i].type = Types.TIMESTAMP;
+					childrenInfo[i].typeName = "TIMESTAMP";
+				}
+			}
+		}
 	}
 }

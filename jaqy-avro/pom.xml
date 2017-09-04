@@ -41,6 +41,11 @@
 			<version>1.8.2</version>
 		</dependency>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
@@ -89,8 +94,10 @@
 						<configuration>
 							<artifactSet>
 								<excludes>
+									<exclude>org.yuanheng.cookcc:cookcc</exclude>
 									<exclude>com.teradata.jaqy:jaqy-core</exclude>
-									<exclude>commons-cli</exclude>
+									<exclude>commons-cli:*</exclude>
+									<exclude>org.apache.commons:commons-exec</exclude>
 								</excludes>
 							</artifactSet>
 							<transformers>

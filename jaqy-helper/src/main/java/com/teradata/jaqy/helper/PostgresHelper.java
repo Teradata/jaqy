@@ -17,11 +17,13 @@ package com.teradata.jaqy.helper;
 
 import java.sql.Array;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.utils.ColumnInfo;
 import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
@@ -65,5 +67,27 @@ class PostgresHelper extends DefaultHelper
 			return type + "(" + precision + "," + scale + ")";
 		}
 		return super.getColumnType (meta, column);
+	}
+
+	@Override
+	public void fixColumnInfo (ColumnInfo info)
+	{
+		if (info.type == Types.STRUCT)
+		{
+			// PostgreSQL JDBC only transmit composite types as strings
+			info.type = Types.VARCHAR;
+		}
+		else if (info.type == Types.DOUBLE &&
+				 "money".equals (info.typeName))
+		{
+			// PostgreSQL JDBC money handling is a pain.  Let's just
+			// treat it as a string type.
+			info.type = Types.VARCHAR;
+			info.precision = 26;		// rough estimate
+		}
+		else
+		{
+			super.fixColumnInfo (info);
+		}
 	}
 }

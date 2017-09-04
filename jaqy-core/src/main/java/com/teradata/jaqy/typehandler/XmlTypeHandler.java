@@ -42,6 +42,8 @@ class XmlTypeHandler implements TypeHandler
 		SQLXML xml = (SQLXML) rs.getObject (column);
 		if (xml  == null)
 			return null;
-		return xml.getString ();
+		String value = xml.getString ();
+		xml.free ();
+		return value;
 	}
 }

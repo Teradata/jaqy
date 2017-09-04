@@ -18,31 +18,36 @@ package com.teradata.jaqy.importer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.sql.Date;
 import java.sql.Types;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 
+import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.ParameterInfo;
+import com.teradata.jaqy.utils.TypesUtils;
 
 /**
  * @author Heng Yuan
  */
 class AvroImporter implements JaqyImporter<String>
 {
+	private final JaqyConnection m_conn;
 	private DataFileReader<GenericRecord> m_dataFileReader;
 	private boolean m_end;
 	private Iterator<GenericRecord> m_iter;
 	private GenericRecord m_record;
 
-	public AvroImporter (File file) throws IOException
+	public AvroImporter (JaqyConnection conn, File file) throws IOException
 	{
+		m_conn = conn;
 		DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord> ();
 		m_dataFileReader = new DataFileReader<GenericRecord> (file, reader);
 
@@ -106,25 +111,38 @@ class AvroImporter implements JaqyImporter<String>
 		if (v == null)
 			return null;
 
+		JaqyHelper helper = m_conn.getHelper ();
 		switch (paramInfo.type)
 		{
+			case Types.BIT:
+			case Types.BOOLEAN:
+			{
+				if (v instanceof Boolean)
+					return v;
+				if (v instanceof Number)
+					return v;
+				if (v instanceof CharSequence)
+					return v.toString ();
+				break;
+			}
 			case Types.TINYINT:
 			case Types.SMALLINT:
 			case Types.INTEGER:
+			case Types.BIGINT:
 			case Types.FLOAT:
 			case Types.DOUBLE:
 			case Types.DECIMAL:
+			case Types.NUMERIC:
 			{
 				if (v instanceof Number)
 					return v;
-				throw new IOException ("Invalid type.");
+				if (v instanceof CharSequence)
+					return v.toString ();
+				break;
 			}
 			case Types.DATE:
-			{
-				if (v instanceof Date)
-					return v;
-				throw new IOException ("Invalid type.");
-			}
+			case Types.TIME:
+			case Types.TIMESTAMP:
 			case Types.CHAR:
 			case Types.VARCHAR:
 			case Types.NCHAR:
@@ -133,10 +151,11 @@ class AvroImporter implements JaqyImporter<String>
 			case Types.LONGVARCHAR:
 			case Types.CLOB:
 			case Types.NCLOB:
+			case Types.SQLXML:
 			{
-				if (v instanceof String)
-					return v;
-				return v.toString ();
+				if (v instanceof CharSequence)
+					return v.toString ();
+				break;
 			}
 			case Types.BINARY:
 			case Types.VARBINARY:
@@ -154,9 +173,42 @@ class AvroImporter implements JaqyImporter<String>
 					bb.get (bytes);
 					return bytes;
 				}
-				throw new IOException ("Invalid type.");
+				break;
+			}
+			case Types.ARRAY:
+			{
+				if (v instanceof List)
+				{
+					Object[] objs = new Object[((List<?>)v).size ()];
+					((List<?>) v).toArray (objs);
+					return helper.createArrayOf (paramInfo, objs);
+				}
+				break;
+			}
+			case Types.STRUCT:
+			{
+				if (v instanceof List)
+				{
+					Object[] objs = new Object[((List<?>)v).size ()];
+					((List<?>) v).toArray (objs);
+					return helper.createStruct (paramInfo, objs);
+				}
+				break;
+			}
+			case Types.OTHER:
+			{
+				if (v instanceof CharSequence)
+					return v.toString ();
+				if (v instanceof ByteBuffer)
+				{
+					ByteBuffer bb = (ByteBuffer) v;
+					byte[] bytes = new byte[bb.remaining ()];
+					bb.get (bytes);
+					return bytes;
+				}
+				break;
 			}
 		}
-		throw new IOException ("Invalid type.");
+		throw new IOException ("Type mismatch: object is " + v.getClass () + ", target type is " + TypesUtils.getTypeName (paramInfo.type));
 	}
 }

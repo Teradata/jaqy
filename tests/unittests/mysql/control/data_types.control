@@ -79,6 +79,7 @@ ResultSet Column Count                       10
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -99,6 +100,7 @@ ResultSet Column Count                       10
     Label                                        c1
     Type                                         VARBINARY
     SQL Type                                     BIT
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -119,6 +121,7 @@ ResultSet Column Count                       10
     Label                                        c2
     Type                                         TINYINT
     SQL Type                                     TINYINT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -139,6 +142,7 @@ ResultSet Column Count                       10
     Label                                        c3
     Type                                         BIT
     SQL Type                                     TINYINT
+    Java Class                                   java.lang.Boolean
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -159,6 +163,7 @@ ResultSet Column Count                       10
     Label                                        c4
     Type                                         SMALLINT
     SQL Type                                     SMALLINT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -179,6 +184,7 @@ ResultSet Column Count                       10
     Label                                        c5
     Type                                         INTEGER
     SQL Type                                     MEDIUMINT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -199,6 +205,7 @@ ResultSet Column Count                       10
     Label                                        c6
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -219,6 +226,7 @@ ResultSet Column Count                       10
     Label                                        c7
     Type                                         BIGINT
     SQL Type                                     BIGINT
+    Java Class                                   java.lang.Long
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -239,6 +247,7 @@ ResultSet Column Count                       10
     Label                                        c8
     Type                                         REAL
     SQL Type                                     FLOAT
+    Java Class                                   java.lang.Float
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -259,6 +268,7 @@ ResultSet Column Count                       10
     Label                                        c9
     Type                                         DOUBLE
     SQL Type                                     DOUBLE
+    Java Class                                   java.lang.Double
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -290,6 +300,7 @@ ResultSet Column Count                       10
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -310,6 +321,7 @@ ResultSet Column Count                       10
     Label                                        c1
     Type                                         VARBINARY
     SQL Type                                     BIT
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -330,6 +342,7 @@ ResultSet Column Count                       10
     Label                                        c2
     Type                                         TINYINT
     SQL Type                                     TINYINT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -350,6 +363,7 @@ ResultSet Column Count                       10
     Label                                        c3
     Type                                         BIT
     SQL Type                                     TINYINT
+    Java Class                                   java.lang.Boolean
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -370,6 +384,7 @@ ResultSet Column Count                       10
     Label                                        c4
     Type                                         SMALLINT
     SQL Type                                     SMALLINT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -390,6 +405,7 @@ ResultSet Column Count                       10
     Label                                        c5
     Type                                         INTEGER
     SQL Type                                     MEDIUMINT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -410,6 +426,7 @@ ResultSet Column Count                       10
     Label                                        c6
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -430,6 +447,7 @@ ResultSet Column Count                       10
     Label                                        c7
     Type                                         BIGINT
     SQL Type                                     BIGINT
+    Java Class                                   java.lang.Long
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -450,6 +468,7 @@ ResultSet Column Count                       10
     Label                                        c8
     Type                                         REAL
     SQL Type                                     FLOAT
+    Java Class                                   java.lang.Float
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -470,6 +489,7 @@ ResultSet Column Count                       10
     Label                                        c9
     Type                                         DOUBLE
     SQL Type                                     DOUBLE
+    Java Class                                   java.lang.Double
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -581,6 +601,7 @@ ResultSet Column Count                       5
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -601,6 +622,7 @@ ResultSet Column Count                       5
     Label                                        c1
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -621,6 +643,7 @@ ResultSet Column Count                       5
     Label                                        c2
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -641,6 +664,7 @@ ResultSet Column Count                       5
     Label                                        c3
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -661,6 +685,7 @@ ResultSet Column Count                       5
     Label                                        c4
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -692,6 +717,7 @@ ResultSet Column Count                       5
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -712,6 +738,7 @@ ResultSet Column Count                       5
     Label                                        c1
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -732,6 +759,7 @@ ResultSet Column Count                       5
     Label                                        c2
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -752,6 +780,7 @@ ResultSet Column Count                       5
     Label                                        c3
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -772,6 +801,7 @@ ResultSet Column Count                       5
     Label                                        c4
     Type                                         DECIMAL
     SQL Type                                     DECIMAL
+    Java Class                                   java.math.BigDecimal
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
@@ -871,6 +901,7 @@ ResultSet Column Count                       6
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -891,6 +922,7 @@ ResultSet Column Count                       6
     Label                                        c1
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -911,6 +943,7 @@ ResultSet Column Count                       6
     Label                                        c2
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -931,6 +964,7 @@ ResultSet Column Count                       6
     Label                                        c3
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -951,6 +985,7 @@ ResultSet Column Count                       6
     Label                                        c4
     Type                                         LONGVARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -971,6 +1006,7 @@ ResultSet Column Count                       6
     Label                                        c5
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1002,6 +1038,7 @@ ResultSet Column Count                       6
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1022,6 +1059,7 @@ ResultSet Column Count                       6
     Label                                        c1
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1042,6 +1080,7 @@ ResultSet Column Count                       6
     Label                                        c2
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1062,6 +1101,7 @@ ResultSet Column Count                       6
     Label                                        c3
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1082,6 +1122,7 @@ ResultSet Column Count                       6
     Label                                        c4
     Type                                         LONGVARCHAR
     SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1102,6 +1143,7 @@ ResultSet Column Count                       6
     Label                                        c5
     Type                                         CHAR
     SQL Type                                     CHAR
+    Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
@@ -1201,6 +1243,7 @@ ResultSet Column Count                       5
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1221,6 +1264,7 @@ ResultSet Column Count                       5
     Label                                        c1
     Type                                         BINARY
     SQL Type                                     BINARY
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1241,6 +1285,7 @@ ResultSet Column Count                       5
     Label                                        c2
     Type                                         VARBINARY
     SQL Type                                     VARBINARY
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1261,6 +1306,7 @@ ResultSet Column Count                       5
     Label                                        c3
     Type                                         LONGVARBINARY
     SQL Type                                     BLOB
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1281,6 +1327,7 @@ ResultSet Column Count                       5
     Label                                        c4
     Type                                         BINARY
     SQL Type                                     BINARY
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1312,6 +1359,7 @@ ResultSet Column Count                       5
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1332,6 +1380,7 @@ ResultSet Column Count                       5
     Label                                        c1
     Type                                         BINARY
     SQL Type                                     BINARY
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1352,6 +1401,7 @@ ResultSet Column Count                       5
     Label                                        c2
     Type                                         VARBINARY
     SQL Type                                     VARBINARY
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1372,6 +1422,7 @@ ResultSet Column Count                       5
     Label                                        c3
     Type                                         LONGVARBINARY
     SQL Type                                     BLOB
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1392,6 +1443,7 @@ ResultSet Column Count                       5
     Label                                        c4
     Type                                         BINARY
     SQL Type                                     BINARY
+    Java Class                                   [B
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
@@ -1481,6 +1533,7 @@ ResultSet Column Count                       6
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1501,6 +1554,7 @@ ResultSet Column Count                       6
     Label                                        c1
     Type                                         DATE
     SQL Type                                     DATE
+    Java Class                                   java.sql.Date
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1521,6 +1575,7 @@ ResultSet Column Count                       6
     Label                                        c2
     Type                                         TIME
     SQL Type                                     TIME
+    Java Class                                   java.sql.Time
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1541,6 +1596,7 @@ ResultSet Column Count                       6
     Label                                        c3
     Type                                         TIMESTAMP
     SQL Type                                     DATETIME
+    Java Class                                   java.sql.Timestamp
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1561,6 +1617,7 @@ ResultSet Column Count                       6
     Label                                        c4
     Type                                         TIMESTAMP
     SQL Type                                     TIMESTAMP
+    Java Class                                   java.sql.Timestamp
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1581,6 +1638,7 @@ ResultSet Column Count                       6
     Label                                        c5
     Type                                         DATE
     SQL Type                                     YEAR
+    Java Class                                   java.sql.Date
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1612,6 +1670,7 @@ ResultSet Column Count                       6
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INT
+    Java Class                                   java.lang.Integer
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1632,6 +1691,7 @@ ResultSet Column Count                       6
     Label                                        c1
     Type                                         DATE
     SQL Type                                     DATE
+    Java Class                                   java.sql.Date
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1652,6 +1712,7 @@ ResultSet Column Count                       6
     Label                                        c2
     Type                                         TIME
     SQL Type                                     TIME
+    Java Class                                   java.sql.Time
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1672,6 +1733,7 @@ ResultSet Column Count                       6
     Label                                        c3
     Type                                         TIMESTAMP
     SQL Type                                     DATETIME
+    Java Class                                   java.sql.Timestamp
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1692,6 +1754,7 @@ ResultSet Column Count                       6
     Label                                        c4
     Type                                         TIMESTAMP
     SQL Type                                     TIMESTAMP
+    Java Class                                   java.sql.Timestamp
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1712,6 +1775,7 @@ ResultSet Column Count                       6
     Label                                        c5
     Type                                         DATE
     SQL Type                                     YEAR
+    Java Class                                   java.sql.Date
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable

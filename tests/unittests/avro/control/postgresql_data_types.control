@@ -10,6 +10,10 @@ Teradata Jaqy Console 1.0
 -- 0/2 - 0 ----------------------------------------------------------------
 .debug resultset on
 -- 0/3 - 0 ----------------------------------------------------------------
+.debug preparedstatement on
+-- 0/4 - 0 ----------------------------------------------------------------
+.format json -p on -b hex
+-- 0/5 - 0 ----------------------------------------------------------------
 
 CREATE TABLE NumTable
 (
@@ -20,17 +24,6 @@ CREATE TABLE NumTable
 	c5 DOUBLE PRECISION
 );
 -- success. update count = 0
--- 1/3 - 0 ----------------------------------------------------------------
-.format table
--- 1/4 - 0 ----------------------------------------------------------------
-.desc NumTable
-Column Type   Nullable
------- ------ --------
-c1     int2   Yes
-c2     int4   Yes
-c3     int8   Yes
-c4     float8 Yes
-c5     float8 Yes
 -- 1/5 - 0 ----------------------------------------------------------------
 
 INSERT INTO NumTable VALUES (-12345, -123456789, -1234567890, -1234.5, -4.5e15);
@@ -40,7 +33,7 @@ INSERT INTO NumTable VALUES (12345, 123456789, 1234567890, 1234.5, 4.5e15);
 -- success. update count = 1
 -- 3/5 - 0 ----------------------------------------------------------------
 
-.format csv
+.export avro num.avro
 -- 3/6 - 0 ----------------------------------------------------------------
 SELECT * FROM NumTable ORDER BY c1;
 ResultSet Column Count                       5
@@ -150,13 +143,61 @@ ResultSet Column Count                       5
     Signed                                       Y
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5
-"-12345",-123456789,-1234567890,-1234.5,-4500000000000000
-12345,123456789,1234567890,1234.5,4500000000000000
 -- activity count = 2
 -- 4/6 - 0 ----------------------------------------------------------------
-.format json -p on
--- 4/7 - 0 ----------------------------------------------------------------
+DELETE FROM NumTable;
+-- success. update count = 2
+-- 5/6 - 0 ----------------------------------------------------------------
+.import avro num.avro
+-- 5/7 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
+Parameter Count                              5
+  Index                                        1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        5
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 6/7 - 0 ----------------------------------------------------------------
 SELECT * FROM NumTable ORDER BY c1;
 ResultSet Column Count                       5
   Index                                        1
@@ -282,11 +323,11 @@ ResultSet Column Count                       5
 	}
 ]
 -- activity count = 2
--- 5/7 - 0 ----------------------------------------------------------------
+-- 7/7 - 0 ----------------------------------------------------------------
 
 DROP TABLE NumTable;
 -- success. update count = 0
--- 6/7 - 0 ----------------------------------------------------------------
+-- 8/7 - 0 ----------------------------------------------------------------
 
 CREATE TABLE DecTable
 (
@@ -296,27 +337,16 @@ CREATE TABLE DecTable
 	c4 DECIMAL(31,2)
 );
 -- success. update count = 0
--- 7/7 - 0 ----------------------------------------------------------------
-.format table
--- 7/8 - 0 ----------------------------------------------------------------
-.desc DecTable
-Column Type          Nullable
------- ------------- --------
-c1     numeric(3,2)  Yes
-c2     numeric(9,2)  Yes
-c3     numeric(22,2) Yes
-c4     numeric(31,2) Yes
--- 7/9 - 0 ----------------------------------------------------------------
-
+-- 9/7 - 0 ----------------------------------------------------------------
 INSERT INTO DecTable VALUES (-1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
 -- success. update count = 1
--- 8/9 - 0 ----------------------------------------------------------------
+-- 10/7 - 0 ---------------------------------------------------------------
 INSERT INTO DecTable VALUES (1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
 -- success. update count = 1
--- 9/9 - 0 ----------------------------------------------------------------
+-- 11/7 - 0 ---------------------------------------------------------------
 
-.format csv
--- 9/10 - 0 ---------------------------------------------------------------
+.export avro dec.avro
+-- 11/8 - 0 ---------------------------------------------------------------
 SELECT * FROM DecTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -404,13 +434,52 @@ ResultSet Column Count                       4
     Signed                                       Y
     Writable                                     Y
 -- success --
-c1,c2,c3,c4
-"-1.23",-1234567.89,-12345678901234567890.12,-12345678901234567890123456789.01
-1.23,1234567.89,12345678901234567890.12,12345678901234567890123456789.01
 -- activity count = 2
--- 10/10 - 0 --------------------------------------------------------------
-.format json -p on
--- 10/11 - 0 --------------------------------------------------------------
+-- 12/8 - 0 ---------------------------------------------------------------
+DELETE FROM DecTable;
+-- success. update count = 2
+-- 13/8 - 0 ---------------------------------------------------------------
+.import avro dec.avro
+-- 13/9 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 14/9 - 0 ---------------------------------------------------------------
 SELECT * FROM DecTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -513,11 +582,11 @@ ResultSet Column Count                       4
 	}
 ]
 -- activity count = 2
--- 11/11 - 0 --------------------------------------------------------------
+-- 15/9 - 0 ---------------------------------------------------------------
 
 DROP TABLE DecTable;
 -- success. update count = 0
--- 12/11 - 0 --------------------------------------------------------------
+-- 16/9 - 0 ---------------------------------------------------------------
 
 CREATE TABLE SerialTable
 (
@@ -527,27 +596,17 @@ CREATE TABLE SerialTable
 	c4 INTEGER
 );
 -- success. update count = 0
--- 13/11 - 0 --------------------------------------------------------------
-.format table
--- 13/12 - 0 --------------------------------------------------------------
-.desc SerialTable
-Column Type      Nullable
------- --------- --------
-c1     int2      No
-c2     serial    No
-c3     bigserial No
-c4     int4      Yes
--- 13/13 - 0 --------------------------------------------------------------
+-- 17/9 - 0 ---------------------------------------------------------------
 
 INSERT INTO SerialTable (C4) VALUES (1);
 -- success. update count = 1
--- 14/13 - 0 --------------------------------------------------------------
+-- 18/9 - 0 ---------------------------------------------------------------
 INSERT INTO SerialTable (C4) VALUES (2);
 -- success. update count = 1
--- 15/13 - 0 --------------------------------------------------------------
+-- 19/9 - 0 ---------------------------------------------------------------
 
-.format csv
--- 15/14 - 0 --------------------------------------------------------------
+.export avro serial.avro
+-- 19/10 - 0 --------------------------------------------------------------
 SELECT * FROM SerialTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -635,13 +694,52 @@ ResultSet Column Count                       4
     Signed                                       Y
     Writable                                     Y
 -- success --
-c1,c2,c3,c4
-1,1,1,1
-2,2,2,2
 -- activity count = 2
--- 16/14 - 0 --------------------------------------------------------------
-.format json -p on
--- 16/15 - 0 --------------------------------------------------------------
+-- 20/10 - 0 --------------------------------------------------------------
+DELETE FROM SerialTable;
+-- success. update count = 2
+-- 21/10 - 0 --------------------------------------------------------------
+.import avro serial.avro
+-- 21/11 - 0 --------------------------------------------------------------
+INSERT INTO SerialTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 22/11 - 0 --------------------------------------------------------------
 SELECT * FROM SerialTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -744,11 +842,11 @@ ResultSet Column Count                       4
 	}
 ]
 -- activity count = 2
--- 17/15 - 0 --------------------------------------------------------------
+-- 23/11 - 0 --------------------------------------------------------------
 
 DROP TABLE SerialTable;
 -- success. update count = 0
--- 18/15 - 0 --------------------------------------------------------------
+-- 24/11 - 0 --------------------------------------------------------------
 
 CREATE TABLE StrTable
 (
@@ -758,27 +856,17 @@ CREATE TABLE StrTable
 	c4 TEXT
 );
 -- success. update count = 0
--- 19/15 - 0 --------------------------------------------------------------
-.format table
--- 19/16 - 0 --------------------------------------------------------------
-.desc StrTable
-Column Type         Nullable
------- ------------ --------
-c1     varchar(255) Yes
-c2     bpchar       Yes
-c3     bpchar       Yes
-c4     text         Yes
--- 19/17 - 0 --------------------------------------------------------------
+-- 25/11 - 0 --------------------------------------------------------------
 
 INSERT INTO StrTable VALUES ('aa', 'A', 'abcde', 'aaaaa');
 -- success. update count = 1
--- 20/17 - 0 --------------------------------------------------------------
+-- 26/11 - 0 --------------------------------------------------------------
 INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij', 'bbbbb');
 -- success. update count = 1
--- 21/17 - 0 --------------------------------------------------------------
+-- 27/11 - 0 --------------------------------------------------------------
 
-.format csv
--- 21/18 - 0 --------------------------------------------------------------
+.export avro src.avro
+-- 27/12 - 0 --------------------------------------------------------------
 SELECT * FROM StrTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -866,13 +954,52 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4
-aa,A,abcde,aaaaa
-bbb,B,fghij,bbbbb
 -- activity count = 2
--- 22/18 - 0 --------------------------------------------------------------
-.format json -p on
--- 22/19 - 0 --------------------------------------------------------------
+-- 28/12 - 0 --------------------------------------------------------------
+DELETE FROM StrTable;
+-- success. update count = 2
+-- 29/12 - 0 --------------------------------------------------------------
+.import avro src.avro
+-- 29/13 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     varchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        2
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 30/13 - 0 --------------------------------------------------------------
 SELECT * FROM StrTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -975,11 +1102,11 @@ ResultSet Column Count                       4
 	}
 ]
 -- activity count = 2
--- 23/19 - 0 --------------------------------------------------------------
+-- 31/13 - 0 --------------------------------------------------------------
 
 DROP TABLE StrTable;
 -- success. update count = 0
--- 24/19 - 0 --------------------------------------------------------------
+-- 32/13 - 0 --------------------------------------------------------------
 
 CREATE TABLE BinTable
 (
@@ -987,25 +1114,17 @@ CREATE TABLE BinTable
 	c2 BYTEA
 );
 -- success. update count = 0
--- 25/19 - 0 --------------------------------------------------------------
-.format table
--- 25/20 - 0 --------------------------------------------------------------
-.desc BinTable
-Column Type  Nullable
------- ----- --------
-c1     int4  Yes
-c2     bytea Yes
--- 25/21 - 0 --------------------------------------------------------------
+-- 33/13 - 0 --------------------------------------------------------------
 
 INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
 -- success. update count = 1
--- 26/21 - 0 --------------------------------------------------------------
+-- 34/13 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
 -- success. update count = 1
--- 27/21 - 0 --------------------------------------------------------------
+-- 35/13 - 0 --------------------------------------------------------------
 
-.format csv
--- 27/22 - 0 --------------------------------------------------------------
+.export avro bin.avro
+-- 35/14 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
@@ -1051,13 +1170,34 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2
-1,deadbeef
-2,facefeed
 -- activity count = 2
--- 28/22 - 0 --------------------------------------------------------------
-.format json -p on
--- 28/23 - 0 --------------------------------------------------------------
+-- 36/14 - 0 --------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 2
+-- 37/14 - 0 --------------------------------------------------------------
+.import avro bin.avro
+-- 37/15 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{c1}}, {{c2}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 38/15 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
@@ -1106,19 +1246,152 @@ ResultSet Column Count                       2
 [
 	{
 		"c1" : 1,
-		"c2" : "3q2+7w=="
+		"c2" : "deadbeef"
 	},
 	{
 		"c1" : 2,
-		"c2" : "+s7+7Q=="
+		"c2" : "facefeed"
 	}
 ]
 -- activity count = 2
--- 29/23 - 0 --------------------------------------------------------------
+-- 39/15 - 0 --------------------------------------------------------------
+
+.export avro bin.avro
+-- 39/16 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+-- activity count = 2
+-- 40/16 - 0 --------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 2
+-- 41/16 - 0 --------------------------------------------------------------
+.import avro bin.avro
+-- 41/17 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{c1}}, {{c2}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 42/17 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+[
+	{
+		"c1" : 1,
+		"c2" : "deadbeef"
+	},
+	{
+		"c1" : 2,
+		"c2" : "facefeed"
+	}
+]
+-- activity count = 2
+-- 43/17 - 0 --------------------------------------------------------------
 
 DROP TABLE BinTable;
 -- success. update count = 0
--- 30/23 - 0 --------------------------------------------------------------
+-- 44/17 - 0 --------------------------------------------------------------
 
 CREATE TABLE TimeTable
 (
@@ -1130,29 +1403,17 @@ CREATE TABLE TimeTable
 	c6 TIMESTAMP WITH TIME ZONE
 );
 -- success. update count = 0
--- 31/23 - 0 --------------------------------------------------------------
-.format table
--- 31/24 - 0 --------------------------------------------------------------
-.desc TimeTable
-Column Type        Nullable
------- ----------- --------
-c1     int4        Yes
-c2     date        Yes
-c3     time        Yes
-c4     timetz      Yes
-c5     timestamp   Yes
-c6     timestamptz Yes
--- 31/25 - 0 --------------------------------------------------------------
+-- 45/17 - 0 --------------------------------------------------------------
 
 INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '12:34:56-08:00', '2001-02-03 12:34:56', '2001-02-03 12:34:56-08:00');
 -- success. update count = 1
--- 32/25 - 0 --------------------------------------------------------------
+-- 46/17 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '12:34:56+08:00', '2001-03-04 12:34:56', '2001-02-03 12:34:56+08:00');
 -- success. update count = 1
--- 33/25 - 0 --------------------------------------------------------------
+-- 47/17 - 0 --------------------------------------------------------------
 
-.format csv
--- 33/26 - 0 --------------------------------------------------------------
+.export avro time.avro
+-- 47/18 - 0 --------------------------------------------------------------
 SELECT * FROM TimeTable ORDER BY c1;
 ResultSet Column Count                       6
   Index                                        1
@@ -1282,13 +1543,70 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5,c6
-1,2001-02-03,12:34:56,12:34:56-08,2001-02-03 12:34:56,2001-02-03 20:34:56+00
-2,2001-03-04,12:34:56,12:34:56+08,2001-03-04 12:34:56,2001-02-03 04:34:56+00
 -- activity count = 2
--- 34/26 - 0 --------------------------------------------------------------
-.format json -p on
--- 34/27 - 0 --------------------------------------------------------------
+-- 48/18 - 0 --------------------------------------------------------------
+DELETE FROM TimeTable;
+-- success. update count = 2
+-- 49/18 - 0 --------------------------------------------------------------
+.import avro time.avro
+-- 49/19 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
+Parameter Count                              6
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         DATE
+    SQL Type                                     date
+    Java Class                                   java.sql.Date
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         TIME
+    SQL Type                                     time
+    Java Class                                   java.sql.Time
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         TIME
+    SQL Type                                     timetz
+    Java Class                                   java.sql.Time
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamp
+    Java Class                                   java.sql.Timestamp
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamptz
+    Java Class                                   java.sql.Timestamp
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 50/19 - 0 --------------------------------------------------------------
 SELECT * FROM TimeTable ORDER BY c1;
 ResultSet Column Count                       6
   Index                                        1
@@ -1437,11 +1755,11 @@ ResultSet Column Count                       6
 	}
 ]
 -- activity count = 2
--- 35/27 - 0 --------------------------------------------------------------
+-- 51/19 - 0 --------------------------------------------------------------
 
 DROP TABLE TimeTable;
 -- success. update count = 0
--- 36/27 - 0 --------------------------------------------------------------
+-- 52/19 - 0 --------------------------------------------------------------
 
 CREATE TABLE XmlTable
 (
@@ -1449,28 +1767,17 @@ CREATE TABLE XmlTable
 	c2 XML
 );
 -- success. update count = 0
--- 37/27 - 0 --------------------------------------------------------------
-.format table
--- 37/28 - 0 --------------------------------------------------------------
-.desc XmlTable
-Column Type Nullable
------- ---- --------
-c1     int4 Yes
-c2     xml  Yes
--- 37/29 - 0 --------------------------------------------------------------
+-- 53/19 - 0 --------------------------------------------------------------
 
 INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
 -- success. update count = 1
--- 38/29 - 0 --------------------------------------------------------------
+-- 54/19 - 0 --------------------------------------------------------------
 INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
 -- success. update count = 1
--- 39/29 - 0 --------------------------------------------------------------
-INSERT INTO XmlTable VALUES (3, NULL);
--- success. update count = 1
--- 40/29 - 0 --------------------------------------------------------------
+-- 55/19 - 0 --------------------------------------------------------------
 
-.format csv
--- 40/30 - 0 --------------------------------------------------------------
+.export avro xml.avro
+-- 55/20 - 0 --------------------------------------------------------------
 SELECT * FROM XmlTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
@@ -1516,14 +1823,34 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2
-1,<abc>1234</abc>
-2,<abc>2345</abc>
-3,
--- activity count = 3
--- 41/30 - 0 --------------------------------------------------------------
-.format json -p on
--- 41/31 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 56/20 - 0 --------------------------------------------------------------
+DELETE FROM XmlTable;
+-- success. update count = 2
+-- 57/20 - 0 --------------------------------------------------------------
+.import avro xml.avro
+-- 57/21 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES ({{c1}}, {{c2}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         SQLXML
+    SQL Type                                     xml
+    Java Class                                   java.sql.SQLXML
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 58/21 - 0 --------------------------------------------------------------
 SELECT * FROM XmlTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
@@ -1577,18 +1904,14 @@ ResultSet Column Count                       2
 	{
 		"c1" : 2,
 		"c2" : "<abc>2345</abc>"
-	},
-	{
-		"c1" : 3,
-		"c2" : null
 	}
 ]
--- activity count = 3
--- 42/31 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 59/21 - 0 --------------------------------------------------------------
 
 DROP TABLE XmlTable;
 -- success. update count = 0
--- 43/31 - 0 --------------------------------------------------------------
+-- 60/21 - 0 --------------------------------------------------------------
 
 CREATE TABLE JsonTable
 (
@@ -1596,28 +1919,17 @@ CREATE TABLE JsonTable
 	c2 JSON
 );
 -- success. update count = 0
--- 44/31 - 0 --------------------------------------------------------------
-.format table
--- 44/32 - 0 --------------------------------------------------------------
-.desc JsonTable
-Column Type Nullable
------- ---- --------
-c1     int4 Yes
-c2     json Yes
--- 44/33 - 0 --------------------------------------------------------------
+-- 61/21 - 0 --------------------------------------------------------------
 
 INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
 -- success. update count = 1
--- 45/33 - 0 --------------------------------------------------------------
+-- 62/21 - 0 --------------------------------------------------------------
 INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
 -- success. update count = 1
--- 46/33 - 0 --------------------------------------------------------------
-INSERT INTO JsonTable VALUES (3, NULL);
--- success. update count = 1
--- 47/33 - 0 --------------------------------------------------------------
+-- 63/21 - 0 --------------------------------------------------------------
 
-.format csv
--- 47/34 - 0 --------------------------------------------------------------
+.export avro j.avro
+-- 63/22 - 0 --------------------------------------------------------------
 SELECT * FROM JsonTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
@@ -1663,14 +1975,34 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2
-1,"{""abc"":""def""}"
-2,"[123, 456, true, null, ""hello""]"
-3,
--- activity count = 3
--- 48/34 - 0 --------------------------------------------------------------
-.format json -p on
--- 48/35 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 64/22 - 0 --------------------------------------------------------------
+DELETE FROM JsonTable;
+-- success. update count = 2
+-- 65/22 - 0 --------------------------------------------------------------
+.import avro j.avro
+-- 65/23 - 0 --------------------------------------------------------------
+INSERT INTO JsonTable VALUES ({{c1}}, {{c2}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     json
+    Java Class                                   org.postgresql.util.PGobject
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 66/23 - 0 --------------------------------------------------------------
 SELECT * FROM JsonTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
@@ -1732,18 +2064,14 @@ ResultSet Column Count                       2
 			null,
 			"hello"
 		]
-	},
-	{
-		"c1" : 3,
-		"c2" : null
 	}
 ]
--- activity count = 3
--- 49/35 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 67/23 - 0 --------------------------------------------------------------
 
 DROP TABLE JsonTable;
 -- success. update count = 0
--- 50/35 - 0 --------------------------------------------------------------
+-- 68/23 - 0 --------------------------------------------------------------
 
 CREATE TABLE GeoTable
 (
@@ -1756,30 +2084,17 @@ CREATE TABLE GeoTable
 	c7 CIRCLE
 );
 -- success. update count = 0
--- 51/35 - 0 --------------------------------------------------------------
-.format table
--- 51/36 - 0 --------------------------------------------------------------
-.desc GeoTable
-Column Type    Nullable
------- ------- --------
-c1     int4    Yes
-c2     point   Yes
-c3     lseg    Yes
-c4     box     Yes
-c5     path    Yes
-c6     polygon Yes
-c7     circle  Yes
--- 51/37 - 0 --------------------------------------------------------------
+-- 69/23 - 0 --------------------------------------------------------------
 
 INSERT INTO GeoTable VALUES (1, '(1,2)', '((1,1),(2,2))', '((1,1),(2,2))', '((1,1),(2,2))', '((0,0),(0,1),(1,1),(1,0))','<(0,0),1>');
 -- success. update count = 1
--- 52/37 - 0 --------------------------------------------------------------
+-- 70/23 - 0 --------------------------------------------------------------
 INSERT INTO GeoTable VALUES (2, '(2,2)', '((2,2),(3,3))', '((2,2),(3,3))', '((0,0),(0,1),(1,1),(1,0),(0,0))', '((0,0),(0,1),(1,1),(1,0),(0,0))','<(0,0),1>');
 -- success. update count = 1
--- 53/37 - 0 --------------------------------------------------------------
+-- 71/23 - 0 --------------------------------------------------------------
 
-.format csv
--- 53/38 - 0 --------------------------------------------------------------
+.export avro geo.avro
+-- 71/24 - 0 --------------------------------------------------------------
 SELECT * FROM GeoTable ORDER BY c1;
 ResultSet Column Count                       7
   Index                                        1
@@ -1930,13 +2245,79 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5,c6,c7
-1,"(1,2)","[(1,1),(2,2)]","(2,2),(1,1)","((1,1),(2,2))","((0,0),(0,1),(1,1),(1,0))","<(0,0),1>"
-2,"(2,2)","[(2,2),(3,3)]","(3,3),(2,2)","((0,0),(0,1),(1,1),(1,0),(0,0))","((0,0),(0,1),(1,1),(1,0),(0,0))","<(0,0),1>"
 -- activity count = 2
--- 54/38 - 0 --------------------------------------------------------------
-.format json -p on
--- 54/39 - 0 --------------------------------------------------------------
+-- 72/24 - 0 --------------------------------------------------------------
+DELETE FROM GeoTable;
+-- success. update count = 2
+-- 73/24 - 0 --------------------------------------------------------------
+.import avro geo.avro
+-- 73/25 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}}, {{c7}});
+Parameter Count                              7
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     point
+    Java Class                                   org.postgresql.geometric.PGpoint
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     lseg
+    Java Class                                   org.postgresql.geometric.PGlseg
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     box
+    Java Class                                   org.postgresql.geometric.PGbox
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         OTHER
+    SQL Type                                     path
+    Java Class                                   org.postgresql.geometric.PGpath
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         OTHER
+    SQL Type                                     polygon
+    Java Class                                   org.postgresql.geometric.PGpolygon
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        7
+    Type                                         OTHER
+    SQL Type                                     circle
+    Java Class                                   org.postgresql.geometric.PGcircle
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 74/25 - 0 --------------------------------------------------------------
 SELECT * FROM GeoTable ORDER BY c1;
 ResultSet Column Count                       7
   Index                                        1
@@ -2108,11 +2489,11 @@ ResultSet Column Count                       7
 	}
 ]
 -- activity count = 2
--- 55/39 - 0 --------------------------------------------------------------
+-- 75/25 - 0 --------------------------------------------------------------
 
 DROP TABLE GeoTable;
 -- success. update count = 0
--- 56/39 - 0 --------------------------------------------------------------
+-- 76/25 - 0 --------------------------------------------------------------
 
 CREATE TABLE NetTable
 (
@@ -2122,27 +2503,17 @@ CREATE TABLE NetTable
 	c4 MACADDR
 );
 -- success. update count = 0
--- 57/39 - 0 --------------------------------------------------------------
-.format table
--- 57/40 - 0 --------------------------------------------------------------
-.desc NetTable
-Column Type    Nullable
------- ------- --------
-c1     int4    Yes
-c2     cidr    Yes
-c3     inet    Yes
-c4     macaddr Yes
--- 57/41 - 0 --------------------------------------------------------------
+-- 77/25 - 0 --------------------------------------------------------------
 
 INSERT INTO NetTable VALUES (1, '192.168.100.128/25', '127.0.0.1', '08:00:2b:01:02:03');
 -- success. update count = 1
--- 58/41 - 0 --------------------------------------------------------------
+-- 78/25 - 0 --------------------------------------------------------------
 INSERT INTO NetTable VALUES (2, '192.168/24', '192.168.1.1', '08-00-2b-01-02-03');
 -- success. update count = 1
--- 59/41 - 0 --------------------------------------------------------------
+-- 79/25 - 0 --------------------------------------------------------------
 
-.format csv
--- 59/42 - 0 --------------------------------------------------------------
+.export avro net.avro
+-- 79/26 - 0 --------------------------------------------------------------
 SELECT * FROM NetTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -2230,13 +2601,52 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4
-1,192.168.100.128/25,127.0.0.1,08:00:2b:01:02:03
-2,192.168.0.0/24,192.168.1.1,08:00:2b:01:02:03
 -- activity count = 2
--- 60/42 - 0 --------------------------------------------------------------
-.format json -p on
--- 60/43 - 0 --------------------------------------------------------------
+-- 80/26 - 0 --------------------------------------------------------------
+DELETE FROM NetTable;
+-- success. update count = 2
+-- 81/26 - 0 --------------------------------------------------------------
+.import avro net.avro
+-- 81/27 - 0 --------------------------------------------------------------
+INSERT INTO NetTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     cidr
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     inet
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     macaddr
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 82/27 - 0 --------------------------------------------------------------
 SELECT * FROM NetTable ORDER BY c1;
 ResultSet Column Count                       4
   Index                                        1
@@ -2339,11 +2749,11 @@ ResultSet Column Count                       4
 	}
 ]
 -- activity count = 2
--- 61/43 - 0 --------------------------------------------------------------
+-- 83/27 - 0 --------------------------------------------------------------
 
 DROP TABLE NetTable;
 -- success. update count = 0
--- 62/43 - 0 --------------------------------------------------------------
+-- 84/27 - 0 --------------------------------------------------------------
 
 CREATE TABLE RangeTable
 (
@@ -2356,33 +2766,17 @@ CREATE TABLE RangeTable
 	c7 DATERANGE
 );
 -- success. update count = 0
--- 63/43 - 0 --------------------------------------------------------------
-.format table
--- 63/44 - 0 --------------------------------------------------------------
-.desc RangeTable
-Column Type      Nullable
------- --------- --------
-c1     int4      Yes
-c2     int4range Yes
-c3     int8range Yes
-c4     numrange  Yes
-c5     tsrange   Yes
-c6     tstzrange Yes
-c7     daterange Yes
--- 63/45 - 0 --------------------------------------------------------------
+-- 85/27 - 0 --------------------------------------------------------------
 
 INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
 -- success. update count = 1
--- 64/45 - 0 --------------------------------------------------------------
+-- 86/27 - 0 --------------------------------------------------------------
 INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
 -- success. update count = 1
--- 65/45 - 0 --------------------------------------------------------------
-INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
--- success. update count = 1
--- 66/45 - 0 --------------------------------------------------------------
+-- 87/27 - 0 --------------------------------------------------------------
 
-.format csv
--- 66/46 - 0 --------------------------------------------------------------
+.export avro range.avro
+-- 87/28 - 0 --------------------------------------------------------------
 SELECT * FROM RangeTable ORDER BY c1;
 ResultSet Column Count                       7
   Index                                        1
@@ -2533,14 +2927,79 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5,c6,c7
-1,"[1,3)","[12345,67891)","[123.45,678.90]","[""2010-01-01 14:30:00"",""2010-01-01 15:30:00""]","[""2010-01-01 22:30:00+00"",""2010-01-01 23:30:00+00""]","[2001-02-03,2002-03-05)"
-2,"[1,2)","[12345,67890)","[123.45,678.90)","[""2010-01-01 14:30:00"",""2010-01-01 15:30:00"")","[""2010-01-01 22:30:00+00"",""2010-01-01 23:30:00+00"")","[2001-02-03,2002-03-04)"
-3,,,,,,
--- activity count = 3
--- 67/46 - 0 --------------------------------------------------------------
-.format json -p on
--- 67/47 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 88/28 - 0 --------------------------------------------------------------
+DELETE FROM RangeTable;
+-- success. update count = 2
+-- 89/28 - 0 --------------------------------------------------------------
+.import avro range.avro
+-- 89/29 - 0 --------------------------------------------------------------
+INSERT INTO RangeTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}}, {{c7}});
+Parameter Count                              7
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     int4range
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     int8range
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     numrange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         OTHER
+    SQL Type                                     tsrange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         OTHER
+    SQL Type                                     tstzrange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        7
+    Type                                         OTHER
+    SQL Type                                     daterange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 90/29 - 0 --------------------------------------------------------------
 SELECT * FROM RangeTable ORDER BY c1;
 ResultSet Column Count                       7
   Index                                        1
@@ -2709,23 +3168,14 @@ ResultSet Column Count                       7
 		"c5" : "[\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")",
 		"c6" : "[\"2010-01-01 22:30:00+00\",\"2010-01-01 23:30:00+00\")",
 		"c7" : "[2001-02-03,2002-03-04)"
-	},
-	{
-		"c1" : 3,
-		"c2" : null,
-		"c3" : null,
-		"c4" : null,
-		"c5" : null,
-		"c6" : null,
-		"c7" : null
 	}
 ]
--- activity count = 3
--- 68/47 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 91/29 - 0 --------------------------------------------------------------
 
 DROP TABLE RangeTable;
 -- success. update count = 0
--- 69/47 - 0 --------------------------------------------------------------
+-- 92/29 - 0 --------------------------------------------------------------
 
 CREATE TABLE MiscTable1
 (
@@ -2736,31 +3186,17 @@ CREATE TABLE MiscTable1
 	c5 MONEY
 );
 -- success. update count = 0
--- 70/47 - 0 --------------------------------------------------------------
-.format table
--- 70/48 - 0 --------------------------------------------------------------
-.desc MiscTable1
-Column Type   Nullable
------- ------ --------
-c1     int4   Yes
-c2     bool   Yes
-c3     varbit Yes
-c4     uuid   Yes
-c5     money  Yes
--- 70/49 - 0 --------------------------------------------------------------
+-- 93/29 - 0 --------------------------------------------------------------
 
 INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
 -- success. update count = 1
--- 71/49 - 0 --------------------------------------------------------------
+-- 94/29 - 0 --------------------------------------------------------------
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
 -- success. update count = 1
--- 72/49 - 0 --------------------------------------------------------------
-INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
--- success. update count = 1
--- 73/49 - 0 --------------------------------------------------------------
+-- 95/29 - 0 --------------------------------------------------------------
 
-.format csv
--- 73/50 - 0 --------------------------------------------------------------
+.export avro misc1.avro
+-- 95/30 - 0 --------------------------------------------------------------
 SELECT * FROM MiscTable1 ORDER BY c1;
 ResultSet Column Count                       5
   Index                                        1
@@ -2869,14 +3305,63 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5
-1,t,101,a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11,$12.34
-2,f,1010,a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11,$23.45
-2,,,,
--- activity count = 3
--- 74/50 - 0 --------------------------------------------------------------
-.format json -p on
--- 74/51 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 96/30 - 0 --------------------------------------------------------------
+DELETE FROM MiscTable1;
+-- success. update count = 2
+-- 97/30 - 0 --------------------------------------------------------------
+-- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
+-- TEXT and then MONEY.
+.import avro misc1.avro
+-- 97/31 - 0 --------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}::text::money);
+Parameter Count                              5
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         BIT
+    SQL Type                                     bool
+    Java Class                                   java.lang.Boolean
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     varbit
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     uuid
+    Java Class                                   java.util.UUID
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 98/31 - 0 --------------------------------------------------------------
 SELECT * FROM MiscTable1 ORDER BY c1;
 ResultSet Column Count                       5
   Index                                        1
@@ -2999,21 +3484,14 @@ ResultSet Column Count                       5
 		"c3" : "1010",
 		"c4" : "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
 		"c5" : 23.45
-	},
-	{
-		"c1" : 2,
-		"c2" : null,
-		"c3" : null,
-		"c4" : null,
-		"c5" : null
 	}
 ]
--- activity count = 3
--- 75/51 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 99/31 - 0 --------------------------------------------------------------
 
 DROP TABLE MiscTable1;
 -- success. update count = 0
--- 76/51 - 0 --------------------------------------------------------------
+-- 100/31 - 0 -------------------------------------------------------------
 
 CREATE TABLE MiscTable2
 (
@@ -3022,29 +3500,17 @@ CREATE TABLE MiscTable2
 	c3 TSQUERY
 );
 -- success. update count = 0
--- 77/51 - 0 --------------------------------------------------------------
-.format table
--- 77/52 - 0 --------------------------------------------------------------
-.desc MiscTable2
-Column Type     Nullable
------- -------- --------
-c1     int4     Yes
-c2     tsvector Yes
-c3     tsquery  Yes
--- 77/53 - 0 --------------------------------------------------------------
+-- 101/31 - 0 -------------------------------------------------------------
 
 INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
--- 78/53 - 0 --------------------------------------------------------------
+-- 102/31 - 0 -------------------------------------------------------------
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
--- 79/53 - 0 --------------------------------------------------------------
-INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
--- success. update count = 1
--- 80/53 - 0 --------------------------------------------------------------
+-- 103/31 - 0 -------------------------------------------------------------
 
-.format csv
--- 80/54 - 0 --------------------------------------------------------------
+.export avro misc2.avro
+-- 103/32 - 0 -------------------------------------------------------------
 SELECT * FROM MiscTable2 ORDER BY c1;
 ResultSet Column Count                       3
   Index                                        1
@@ -3111,14 +3577,43 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3
-1,'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat','fat' & 'rat'
-2,'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat','fat' & 'rat'
-2,,
--- activity count = 3
--- 81/54 - 0 --------------------------------------------------------------
-.format json -p on
--- 81/55 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 104/32 - 0 -------------------------------------------------------------
+DELETE FROM MiscTable2;
+-- success. update count = 2
+-- 105/32 - 0 -------------------------------------------------------------
+.import avro misc2.avro
+-- 105/33 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES ({{c1}}, {{c2}}, {{c3}});
+Parameter Count                              3
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     tsvector
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     tsquery
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 106/33 - 0 -------------------------------------------------------------
 SELECT * FROM MiscTable2 ORDER BY c1;
 ResultSet Column Count                       3
   Index                                        1
@@ -3195,20 +3690,17 @@ ResultSet Column Count                       3
 		"c1" : 2,
 		"c2" : "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
 		"c3" : "'fat' & 'rat'"
-	},
-	{
-		"c1" : 2,
-		"c2" : null,
-		"c3" : null
 	}
 ]
--- activity count = 3
--- 82/55 - 0 --------------------------------------------------------------
+-- activity count = 2
+-- 107/33 - 0 -------------------------------------------------------------
 
 DROP TABLE MiscTable2;
 -- success. update count = 0
--- 83/55 - 0 --------------------------------------------------------------
+-- 108/33 - 0 -------------------------------------------------------------
 
+.os rm -f *.avro
+-- 108/34 - 0 -------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 83/56 - 0 --------------------------------------------------------------
+-- 108/35 - 0 -------------------------------------------------------------

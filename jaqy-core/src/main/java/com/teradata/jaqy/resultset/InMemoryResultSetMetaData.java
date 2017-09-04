@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import com.teradata.jaqy.PropertyTable;
+import com.teradata.jaqy.utils.ColumnInfo;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
  * This class keeps a copy of ResultSetMetaData for in-memory ResultSet.
@@ -39,49 +41,7 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	 */
 	InMemoryResultSetMetaData (ResultSetMetaData meta) throws SQLException
 	{
-		int columnCount = meta.getColumnCount ();
-		ColumnInfo[] columnInfos = new ColumnInfo[columnCount];
-		m_columnInfos = columnInfos;
-
-		for (int i = 0; i < columnCount; ++i)
-		{
-			ColumnInfo columnInfo = new ColumnInfo ();
-			columnInfos[i] = columnInfo;
-
-			columnInfo.autoIncrement = meta.isAutoIncrement (i + 1);
-			columnInfo.caseSensitive = meta.isCaseSensitive (i + 1);
-			columnInfo.searchable = meta.isSearchable (i + 1);
-			columnInfo.currency = meta.isCurrency (i + 1);
-			columnInfo.nullable = meta.isNullable (i + 1);
-			columnInfo.signed = meta.isSigned (i + 1);
-			columnInfo.displaySize = meta.getColumnDisplaySize (i + 1);
-			columnInfo.label = meta.getColumnLabel (i + 1);
-			columnInfo.name = meta.getColumnName (i + 1);
-			columnInfo.schemaName = meta.getSchemaName (i + 1);
-			columnInfo.precision = meta.getPrecision (i + 1);
-			columnInfo.scale = meta.getScale (i + 1);
-			columnInfo.tableName = meta.getTableName (i + 1);
-			columnInfo.catalogName = meta.getCatalogName (i + 1);
-			columnInfo.type = meta.getColumnType (i + 1);
-			columnInfo.typeName = meta.getColumnTypeName (i + 1);
-			columnInfo.readOnly = meta.isReadOnly (i + 1);
-			columnInfo.writable = meta.isWritable (i + 1);
-			columnInfo.definitelyWritable= meta.isDefinitelyWritable (i + 1);
-		}
-
-		// We need to be careful with calling the new functions which
-		// may not be implemented in older versions of JDBC drivers.
-		try
-		{
-			for (int i = 0; i < columnCount; ++i)
-			{
-				ColumnInfo columnInfo = columnInfos[i];
-				columnInfo.className = meta.getColumnClassName (i + 1);
-			}
-		}
-		catch (Throwable t)
-		{
-		}
+		m_columnInfos = ResultSetMetaDataUtils.getColumnInfo (meta);
 	}
 
 	/**

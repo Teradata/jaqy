@@ -113,6 +113,11 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>org.yuanheng.cookcc:cookcc</exclude>
+								</excludes>
+							</artifactSet>
 							<outputDirectory>${project.basedir}/../dist/</outputDirectory>
 							<finalName>jaqy-${project.version}</finalName>
 							<transformer

@@ -22,6 +22,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Struct;
+import java.sql.Types;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.PropertyTable;
@@ -35,6 +36,7 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
+import com.teradata.jaqy.utils.ColumnInfo;
 import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
@@ -399,6 +401,64 @@ public class DefaultHelper implements JaqyHelper
 			catch (Exception ex)
 			{
 			}
+		}
+	}
+
+	private int guessType (String className)
+	{
+		if ("java.lang.Integer".equals (className))
+			return Types.INTEGER;
+		if ("java.lang.String".equals (className))
+			return Types.VARCHAR;
+		// Can't guess it
+		return Types.OTHER;
+	}
+
+	private void setVarCharType (ColumnInfo info)
+	{
+		info.type = Types.VARCHAR;
+		info.nullable = ResultSetMetaData.columnNullableUnknown;
+		info.displaySize = Integer.MAX_VALUE;
+		info.precision = Integer.MAX_VALUE;
+		info.className = "java.lang.String";
+	}
+
+	@Override
+	public void fixColumnInfo (ColumnInfo info)
+	{
+		if (info.type == Types.OTHER &&
+			info.className != null &&
+			info.className.startsWith ("java.lang."))
+		{
+			info.type = guessType (info.className);
+		}
+		else if (info.type == Types.STRUCT ||
+				 info.type == Types.ARRAY)
+		{
+			/* By default, we have no way of knowing the Array / Struct
+			 * element types.  JDBC API unfortunately relies on actually
+			 * getting an instance of Array to get more information.
+			 * And there is basically nothing in JDBC API for getting the
+			 * child data.
+			 *
+			 * So the simplest approach is to treat Struct / Array
+			 * as array of string. 
+			 */
+			info.type = Types.ARRAY;
+			info.children = new ColumnInfo[1];
+			info.children[0] = new ColumnInfo ();
+			setVarCharType (info.children[0]);
+		}
+	}
+
+	@Override
+	public void fixParameterInfo (ParameterInfo info)
+	{
+		if (info.type == Types.OTHER &&
+			info.className != null &&
+			info.className.startsWith ("java.lang."))
+		{
+			info.type = guessType (info.className);
 		}
 	}
 }

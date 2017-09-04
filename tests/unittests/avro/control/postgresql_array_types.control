@@ -10,6 +10,8 @@ Teradata Jaqy Console 1.0
 -- 0/2 - 0 ----------------------------------------------------------------
 .debug resultset on
 -- 0/3 - 0 ----------------------------------------------------------------
+.debug preparedstatement on
+-- 0/4 - 0 ----------------------------------------------------------------
 
 CREATE TABLE NumTable
 (
@@ -21,17 +23,17 @@ CREATE TABLE NumTable
 	c5 DOUBLE PRECISION[]
 );
 -- success. update count = 0
--- 1/3 - 0 ----------------------------------------------------------------
+-- 1/4 - 0 ----------------------------------------------------------------
 
 INSERT INTO NumTable VALUES (1, '{-12345}', '{-123456789}', '{-1234567890}', '{-1234.5}', '{-4.5e15}');
 -- success. update count = 1
--- 2/3 - 0 ----------------------------------------------------------------
+-- 2/4 - 0 ----------------------------------------------------------------
 INSERT INTO NumTable VALUES (2, '{12345}', '{123456789}', '{1234567890}', '{1234.5}', '{4.5e15}');
 -- success. update count = 1
--- 3/3 - 0 ----------------------------------------------------------------
-
-.format csv
 -- 3/4 - 0 ----------------------------------------------------------------
+
+.export avro t.avro
+-- 3/5 - 0 ----------------------------------------------------------------
 SELECT * FROM NumTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
@@ -161,13 +163,70 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
 -- success --
-a,c1,c2,c3,c4,c5
-1,{-12345},{-123456789},{-1234567890},{-1234.5},{-4500000000000000}
-2,{12345},{123456789},{1234567890},{1234.5},{4500000000000000}
 -- activity count = 2
--- 4/4 - 0 ----------------------------------------------------------------
-.format json -p on
 -- 4/5 - 0 ----------------------------------------------------------------
+DELETE FROM NumTable;
+-- success. update count = 2
+-- 5/5 - 0 ----------------------------------------------------------------
+.import avro t.avro
+-- 5/6 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
+Parameter Count                              6
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         ARRAY
+    SQL Type                                     _int2
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         ARRAY
+    SQL Type                                     _int4
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         ARRAY
+    SQL Type                                     _int8
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        5
+    Type                                         ARRAY
+    SQL Type                                     _float8
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        6
+    Type                                         ARRAY
+    SQL Type                                     _float8
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 6/6 - 0 ----------------------------------------------------------------
 SELECT * FROM NumTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
@@ -297,50 +356,16 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
 -- success --
-[
-	{
-		"a" : 1,
-		"c1" : [
-			-12345
-		],
-		"c2" : [
-			-123456789
-		],
-		"c3" : [
-			-1234567890
-		],
-		"c4" : [
-			-1234.5
-		],
-		"c5" : [
-			-4500000000000000
-		]
-	},
-	{
-		"a" : 2,
-		"c1" : [
-			12345
-		],
-		"c2" : [
-			123456789
-		],
-		"c3" : [
-			1234567890
-		],
-		"c4" : [
-			1234.5
-		],
-		"c5" : [
-			4500000000000000
-		]
-	}
-]
+a c1       c2           c3            c4        c5
+- -------- ------------ ------------- --------- -------------------
+1 {-12345} {-123456789} {-1234567890} {-1234.5} {-4500000000000000}
+2 {12345}  {123456789}  {1234567890}  {1234.5}  {4500000000000000}
 -- activity count = 2
--- 5/5 - 0 ----------------------------------------------------------------
+-- 7/6 - 0 ----------------------------------------------------------------
 
 DROP TABLE NumTable;
 -- success. update count = 0
--- 6/5 - 0 ----------------------------------------------------------------
+-- 8/6 - 0 ----------------------------------------------------------------
 
 CREATE TABLE DecTable
 (
@@ -351,277 +376,297 @@ CREATE TABLE DecTable
 	c4 DECIMAL(31,2)[]
 );
 -- success. update count = 0
--- 7/5 - 0 ----------------------------------------------------------------
+-- 9/6 - 0 ----------------------------------------------------------------
 INSERT INTO DecTable VALUES (1, '{-1.23}', '{-1234567.89}', '{-12345678901234567890.12}', '{-12345678901234567890123456789.01}');
 -- success. update count = 1
--- 8/5 - 0 ----------------------------------------------------------------
+-- 10/6 - 0 ---------------------------------------------------------------
 INSERT INTO DecTable VALUES (2, '{1.23}', '{1234567.89}', '{12345678901234567890.12}', '{12345678901234567890123456789.01}');
 -- success. update count = 1
--- 9/5 - 0 ----------------------------------------------------------------
+-- 11/6 - 0 ---------------------------------------------------------------
 
-.format csv
--- 9/6 - 0 ----------------------------------------------------------------
-SELECT * FROM DecTable ORDER BY a;
-ResultSet Column Count                       5
-  Index                                        1
-    Name                                         a
-    Label                                        a
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         c1
-    Label                                        c1
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 5
-    Precision                                    3
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        3
-    Name                                         c2
-    Label                                        c2
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 11
-    Precision                                    9
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        4
-    Name                                         c3
-    Label                                        c3
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 24
-    Precision                                    22
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        5
-    Name                                         c4
-    Label                                        c4
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 33
-    Precision                                    31
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
--- success --
-a,c1,c2,c3,c4
-1,{-1.23},{-1234567.89},{-12345678901234567890.12},{-12345678901234567890123456789.01}
-2,{1.23},{1234567.89},{12345678901234567890.12},{12345678901234567890123456789.01}
--- activity count = 2
--- 10/6 - 0 ---------------------------------------------------------------
-.format json -p on
--- 10/7 - 0 ---------------------------------------------------------------
-SELECT * FROM DecTable ORDER BY a;
-ResultSet Column Count                       5
-  Index                                        1
-    Name                                         a
-    Label                                        a
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         c1
-    Label                                        c1
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 5
-    Precision                                    3
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        3
-    Name                                         c2
-    Label                                        c2
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 11
-    Precision                                    9
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        4
-    Name                                         c3
-    Label                                        c3
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 24
-    Precision                                    22
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        5
-    Name                                         c4
-    Label                                        c4
-    Type                                         ARRAY
-    SQL Type                                     _numeric
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   dectable
-    Display Size                                 33
-    Precision                                    31
-    Scale                                        2
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
--- success --
-[
-	{
-		"a" : 1,
-		"c1" : [
-			-1.23
-		],
-		"c2" : [
-			-1234567.89
-		],
-		"c3" : [
-			-12345678901234567890.12
-		],
-		"c4" : [
-			-12345678901234567890123456789.01
-		]
-	},
-	{
-		"a" : 2,
-		"c1" : [
-			1.23
-		],
-		"c2" : [
-			1234567.89
-		],
-		"c3" : [
-			12345678901234567890.12
-		],
-		"c4" : [
-			12345678901234567890123456789.01
-		]
-	}
-]
--- activity count = 2
+.export avro t.avro
 -- 11/7 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 5
+    Precision                                    3
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    9
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 24
+    Precision                                    22
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 33
+    Precision                                    31
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+-- success --
+-- activity count = 2
+-- 12/7 - 0 ---------------------------------------------------------------
+DELETE FROM DecTable;
+-- success. update count = 2
+-- 13/7 - 0 ---------------------------------------------------------------
+.import avro t.avro
+-- 13/8 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              5
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        5
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 14/8 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 5
+    Precision                                    3
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c2
+    Label                                        c2
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    9
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c3
+    Label                                        c3
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 24
+    Precision                                    22
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c4
+    Label                                        c4
+    Type                                         ARRAY
+    SQL Type                                     _numeric
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 33
+    Precision                                    31
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+-- success --
+a c1      c2            c3                         c4
+- ------- ------------- -------------------------- -----------------------------------
+1 {-1.23} {-1234567.89} {-12345678901234567890.12} {-12345678901234567890123456789.01}
+2 {1.23}  {1234567.89}  {12345678901234567890.12}  {12345678901234567890123456789.01}
+-- activity count = 2
+-- 15/8 - 0 ---------------------------------------------------------------
 
 DROP TABLE DecTable;
 -- success. update count = 0
--- 12/7 - 0 ---------------------------------------------------------------
+-- 16/8 - 0 ---------------------------------------------------------------
 
 CREATE TABLE StrTable
 (
@@ -632,17 +677,17 @@ CREATE TABLE StrTable
 	c4 TEXT[]
 );
 -- success. update count = 0
--- 13/7 - 0 ---------------------------------------------------------------
+-- 17/8 - 0 ---------------------------------------------------------------
 
 INSERT INTO StrTable VALUES (1, '{aa}', '{A}', '{abcde}', '{aaaaa}');
 -- success. update count = 1
--- 14/7 - 0 ---------------------------------------------------------------
+-- 18/8 - 0 ---------------------------------------------------------------
 INSERT INTO StrTable VALUES (2, '{bbb}', '{B}', '{fghij}', '{bbbbb}');
 -- success. update count = 1
--- 15/7 - 0 ---------------------------------------------------------------
+-- 19/8 - 0 ---------------------------------------------------------------
 
-.format csv
--- 15/8 - 0 ---------------------------------------------------------------
+.export avro t.avro
+-- 19/9 - 0 ---------------------------------------------------------------
 SELECT * FROM StrTable ORDER BY a;
 ResultSet Column Count                       5
   Index                                        1
@@ -751,13 +796,61 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
 -- success --
-a,c1,c2,c3,c4
-1,{aa},{A},{abcde},{aaaaa}
-2,{bbb},{B},{fghij},{bbbbb}
 -- activity count = 2
--- 16/8 - 0 ---------------------------------------------------------------
-.format json -p on
--- 16/9 - 0 ---------------------------------------------------------------
+-- 20/9 - 0 ---------------------------------------------------------------
+DELETE FROM StrTable;
+-- success. update count = 2
+-- 21/9 - 0 ---------------------------------------------------------------
+.import avro t.avro
+-- 21/10 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              5
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         ARRAY
+    SQL Type                                     _varchar
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         ARRAY
+    SQL Type                                     _bpchar
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         ARRAY
+    SQL Type                                     _bpchar
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         ARRAY
+    SQL Type                                     _text
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 22/10 - 0 --------------------------------------------------------------
 SELECT * FROM StrTable ORDER BY a;
 ResultSet Column Count                       5
   Index                                        1
@@ -866,67 +959,39 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
 -- success --
-[
-	{
-		"a" : 1,
-		"c1" : [
-			"aa"
-		],
-		"c2" : [
-			"A"
-		],
-		"c3" : [
-			"abcde"
-		],
-		"c4" : [
-			"aaaaa"
-		]
-	},
-	{
-		"a" : 2,
-		"c1" : [
-			"bbb"
-		],
-		"c2" : [
-			"B"
-		],
-		"c3" : [
-			"fghij"
-		],
-		"c4" : [
-			"bbbbb"
-		]
-	}
-]
+a c1    c2 c3      c4
+- ----- -- ------- -------
+1 {aa}  {A {abcde} {aaaaa}
+2 {bbb} {B {fghij} {bbbbb}
 -- activity count = 2
--- 17/9 - 0 ---------------------------------------------------------------
+-- 23/10 - 0 --------------------------------------------------------------
 
 DROP TABLE StrTable;
 -- success. update count = 0
--- 18/9 - 0 ---------------------------------------------------------------
+-- 24/10 - 0 --------------------------------------------------------------
 
 CREATE TABLE BinTable
 (
-	c1 INTEGER,
-	c2 BYTEA[]
+	a  INTEGER,
+	c1 BYTEA[]
 );
 -- success. update count = 0
--- 19/9 - 0 ---------------------------------------------------------------
+-- 25/10 - 0 --------------------------------------------------------------
 
 INSERT INTO BinTable VALUES (1, '{\\xdeadbeef}');
 -- success. update count = 1
--- 20/9 - 0 ---------------------------------------------------------------
+-- 26/10 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES (2, '{\\xfacefeed}');
 -- success. update count = 1
--- 21/9 - 0 ---------------------------------------------------------------
+-- 27/10 - 0 --------------------------------------------------------------
 
-.format csv
--- 21/10 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY c1;
+.export avro t.avro
+-- 27/11 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -946,8 +1011,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _bytea
     Java Class                                   java.sql.Array
@@ -967,18 +1032,39 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2
-1,"{""\\xdeadbeef""}"
-2,"{""\\xfacefeed""}"
 -- activity count = 2
--- 22/10 - 0 --------------------------------------------------------------
-.format json -p on
--- 22/11 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY c1;
+-- 28/11 - 0 --------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 2
+-- 29/11 - 0 --------------------------------------------------------------
+.import avro t.avro
+-- 29/12 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{a}}, {{c1}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         ARRAY
+    SQL Type                                     _bytea
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 30/12 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -998,8 +1084,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _bytea
     Java Class                                   java.sql.Array
@@ -1019,53 +1105,43 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-[
-	{
-		"c1" : 1,
-		"c2" : [
-			"3q2+7w=="
-		]
-	},
-	{
-		"c1" : 2,
-		"c2" : [
-			"+s7+7Q=="
-		]
-	}
-]
+a c1
+- -----------------------------
+1 {"\\x5b42403136396536313830"}
+2 {"\\x5b42403335616561303439"}
 -- activity count = 2
--- 23/11 - 0 --------------------------------------------------------------
+-- 31/12 - 0 --------------------------------------------------------------
 
 DROP TABLE BinTable;
 -- success. update count = 0
--- 24/11 - 0 --------------------------------------------------------------
+-- 32/12 - 0 --------------------------------------------------------------
 
 CREATE TABLE TimeTable
 (
-	c1 INTEGER,
-	c2 DATE[],
-	c3 TIME[],
-	c4 TIME WITH TIME ZONE[],
-	c5 TIMESTAMP[],
-	c6 TIMESTAMP WITH TIME ZONE[]
+	a  INTEGER,
+	c1 DATE[],
+	c2 TIME[],
+	c3 TIME WITH TIME ZONE[],
+	c4 TIMESTAMP[],
+	c5 TIMESTAMP WITH TIME ZONE[]
 );
 -- success. update count = 0
--- 25/11 - 0 --------------------------------------------------------------
+-- 33/12 - 0 --------------------------------------------------------------
 
 INSERT INTO TimeTable VALUES (1, '{2001-02-03}', '{12:34:56}', '{12:34:56-08:00}', '{2001-02-03 12:34:56}', '{2001-02-03 12:34:56-08:00}');
 -- success. update count = 1
--- 26/11 - 0 --------------------------------------------------------------
+-- 34/12 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES (2, '{2001-03-04}', '{12:34:56}', '{12:34:56+08:00}', '{2001-03-04 12:34:56}', '{2001-02-03 12:34:56+08:00}');
 -- success. update count = 1
--- 27/11 - 0 --------------------------------------------------------------
+-- 35/12 - 0 --------------------------------------------------------------
 
-.format csv
--- 27/12 - 0 --------------------------------------------------------------
-SELECT * FROM TimeTable ORDER BY c1;
+.export avro t.avro
+-- 35/13 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1085,8 +1161,8 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _date
     Java Class                                   java.sql.Array
@@ -1106,8 +1182,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         ARRAY
     SQL Type                                     _time
     Java Class                                   java.sql.Array
@@ -1127,8 +1203,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         ARRAY
     SQL Type                                     _timetz
     Java Class                                   java.sql.Array
@@ -1148,8 +1224,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         ARRAY
     SQL Type                                     _timestamp
     Java Class                                   java.sql.Array
@@ -1169,8 +1245,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         ARRAY
     SQL Type                                     _timestamptz
     Java Class                                   java.sql.Array
@@ -1190,18 +1266,75 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5,c6
-1,{2001-02-03},{12:34:56},{12:34:56-08},"{""2001-02-03 12:34:56""}","{""2001-02-03 20:34:56+00""}"
-2,{2001-03-04},{12:34:56},{12:34:56+08},"{""2001-03-04 12:34:56""}","{""2001-02-03 04:34:56+00""}"
 -- activity count = 2
--- 28/12 - 0 --------------------------------------------------------------
-.format json -p on
--- 28/13 - 0 --------------------------------------------------------------
-SELECT * FROM TimeTable ORDER BY c1;
+-- 36/13 - 0 --------------------------------------------------------------
+DELETE FROM TimeTable;
+-- success. update count = 2
+-- 37/13 - 0 --------------------------------------------------------------
+.import avro t.avro
+-- 37/14 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
+Parameter Count                              6
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         ARRAY
+    SQL Type                                     _date
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         ARRAY
+    SQL Type                                     _time
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         ARRAY
+    SQL Type                                     _timetz
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         ARRAY
+    SQL Type                                     _timestamp
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         ARRAY
+    SQL Type                                     _timestamptz
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 38/14 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1221,8 +1354,8 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _date
     Java Class                                   java.sql.Array
@@ -1242,8 +1375,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         ARRAY
     SQL Type                                     _time
     Java Class                                   java.sql.Array
@@ -1263,8 +1396,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         ARRAY
     SQL Type                                     _timetz
     Java Class                                   java.sql.Array
@@ -1284,8 +1417,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         ARRAY
     SQL Type                                     _timestamp
     Java Class                                   java.sql.Array
@@ -1305,8 +1438,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         ARRAY
     SQL Type                                     _timestamptz
     Java Class                                   java.sql.Array
@@ -1326,51 +1459,18 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
 -- success --
-[
-	{
-		"c1" : 1,
-		"c2" : [
-			"2001-02-03"
-		],
-		"c3" : [
-			"12:34:56"
-		],
-		"c4" : [
-			"20:34:56"
-		],
-		"c5" : [
-			"2001-02-03 12:34:56.0"
-		],
-		"c6" : [
-			"2001-02-03 20:34:56.0"
-		]
-	},
-	{
-		"c1" : 2,
-		"c2" : [
-			"2001-03-04"
-		],
-		"c3" : [
-			"12:34:56"
-		],
-		"c4" : [
-			"04:34:56"
-		],
-		"c5" : [
-			"2001-03-04 12:34:56.0"
-		],
-		"c6" : [
-			"2001-02-03 04:34:56.0"
-		]
-	}
-]
+a c1           c2         c3            c4                      c5
+- ------------ ---------- ------------- ----------------------- --------------------------
+1 {2001-02-03} {12:34:56} {20:34:56+00} {"2001-02-03 12:34:56"} {"2001-02-03 20:34:56+00"}
+2 {2001-03-04} {12:34:56} {04:34:56+00} {"2001-03-04 12:34:56"} {"2001-02-03 04:34:56+00"}
 -- activity count = 2
--- 29/13 - 0 --------------------------------------------------------------
+-- 39/14 - 0 --------------------------------------------------------------
 
+.os rm -f t.avro
+-- 39/15 - 0 --------------------------------------------------------------
 DROP TABLE TimeTable;
 -- success. update count = 0
--- 30/13 - 0 --------------------------------------------------------------
-
+-- 40/15 - 0 --------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 30/14 - 0 --------------------------------------------------------------
+-- 40/16 - 0 --------------------------------------------------------------

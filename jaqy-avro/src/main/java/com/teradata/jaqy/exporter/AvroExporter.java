@@ -28,7 +28,10 @@ import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.AvroUtils;
+import com.teradata.jaqy.utils.ColumnInfo;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
  * @author Heng Yuan
@@ -53,7 +56,13 @@ class AvroExporter implements JaqyExporter
 	@Override
 	public long export (JaqyResultSet rs, Globals globals) throws Exception
 	{
-		Schema schema = AvroUtils.getSchema (rs.getMetaData ());
+		ColumnInfo[] columnInfos = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData ());
+		JaqyHelper helper = rs.getHelper ();
+		for (ColumnInfo info : columnInfos)
+		{
+			helper.fixColumnInfo (info);
+		}
+		Schema schema = AvroUtils.getSchema (columnInfos, helper);
 		assert Debug.debug ("schema is " + schema.toString (true));
 
 		DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord> (schema);
@@ -63,7 +72,7 @@ class AvroExporter implements JaqyExporter
 
 		dataFileWriter.create (schema, m_os);
 
-		long count = AvroUtils.print (dataFileWriter, schema, rs);
+		long count = AvroUtils.print (dataFileWriter, schema, rs, columnInfos);
 		dataFileWriter.close ();
 		return count;
 	}

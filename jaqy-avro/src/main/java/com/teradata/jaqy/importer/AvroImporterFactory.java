@@ -45,6 +45,6 @@ public class AvroImporterFactory extends JaqyHandlerFactoryImpl<AvroImporter>
 			throw new IllegalArgumentException ("missing file name.");
 		File file = interpreter.getFile (args[0]);
 
-		return new AvroImporter (file);
+		return new AvroImporter (interpreter.getSession ().getConnection (), file);
 	}
 }
