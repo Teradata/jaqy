@@ -2,6 +2,7 @@
 -- test PostgreSQL various array data types
 --------------------------------------------------------------------------
 .run ../common/postgresql_setup.sql
+.debug resultset on
 .debug preparedstatement on
 
 CREATE TABLE NumTable

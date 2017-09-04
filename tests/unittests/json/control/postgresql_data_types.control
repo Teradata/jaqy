@@ -8,8 +8,12 @@ Teradata Jaqy Console 1.0
 -- 0/1 - 0 ----------------------------------------------------------------
 .open -u postgres postgresql://localhost/?stringtype=unspecified
 -- 0/2 - 0 ----------------------------------------------------------------
-.format json -p on -b hex
+.debug resultset on
 -- 0/3 - 0 ----------------------------------------------------------------
+.debug preparedstatement on
+-- 0/4 - 0 ----------------------------------------------------------------
+.format json -p on -b hex
+-- 0/5 - 0 ----------------------------------------------------------------
 
 CREATE TABLE NumTable
 (
@@ -20,29 +24,287 @@ CREATE TABLE NumTable
 	c5 DOUBLE PRECISION
 );
 -- success. update count = 0
--- 1/3 - 0 ----------------------------------------------------------------
+-- 1/5 - 0 ----------------------------------------------------------------
 
 INSERT INTO NumTable VALUES (-12345, -123456789, -1234567890, -1234.5, -4.5e15);
 -- success. update count = 1
--- 2/3 - 0 ----------------------------------------------------------------
+-- 2/5 - 0 ----------------------------------------------------------------
 INSERT INTO NumTable VALUES (12345, 123456789, 1234567890, 1234.5, 4.5e15);
 -- success. update count = 1
--- 3/3 - 0 ----------------------------------------------------------------
+-- 3/5 - 0 ----------------------------------------------------------------
 
 .export json num.json
--- 3/4 - 0 ----------------------------------------------------------------
+-- 3/6 - 0 ----------------------------------------------------------------
 SELECT * FROM NumTable ORDER BY c1;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 6
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 20
+    Precision                                    19
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 4/4 - 0 ----------------------------------------------------------------
+-- 4/6 - 0 ----------------------------------------------------------------
 DELETE FROM NumTable;
 -- success. update count = 2
--- 5/4 - 0 ----------------------------------------------------------------
+-- 5/6 - 0 ----------------------------------------------------------------
 .import json num.json
--- 5/5 - 0 ----------------------------------------------------------------
+-- 5/7 - 0 ----------------------------------------------------------------
 INSERT INTO NumTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
--- 6/5 - 0 ----------------------------------------------------------------
+Parameter Count                              5
+  Index                                        1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        5
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 6/7 - 0 ----------------------------------------------------------------
 SELECT * FROM NumTable ORDER BY c1;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 6
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 20
+    Precision                                    19
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 25
+    Precision                                    17
+    Scale                                        17
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
 -- success --
 [
 	{
@@ -61,11 +323,11 @@ SELECT * FROM NumTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 7/5 - 0 ----------------------------------------------------------------
+-- 7/7 - 0 ----------------------------------------------------------------
 
 DROP TABLE NumTable;
 -- success. update count = 0
--- 8/5 - 0 ----------------------------------------------------------------
+-- 8/7 - 0 ----------------------------------------------------------------
 
 CREATE TABLE DecTable
 (
@@ -75,28 +337,235 @@ CREATE TABLE DecTable
 	c4 DECIMAL(31,2)
 );
 -- success. update count = 0
--- 9/5 - 0 ----------------------------------------------------------------
+-- 9/7 - 0 ----------------------------------------------------------------
 INSERT INTO DecTable VALUES (-1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
 -- success. update count = 1
--- 10/5 - 0 ---------------------------------------------------------------
+-- 10/7 - 0 ---------------------------------------------------------------
 INSERT INTO DecTable VALUES (1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
 -- success. update count = 1
--- 11/5 - 0 ---------------------------------------------------------------
+-- 11/7 - 0 ---------------------------------------------------------------
 
 .export json dec.json
--- 11/6 - 0 ---------------------------------------------------------------
+-- 11/8 - 0 ---------------------------------------------------------------
 SELECT * FROM DecTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 5
+    Precision                                    3
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    9
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 24
+    Precision                                    22
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 33
+    Precision                                    31
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 12/6 - 0 ---------------------------------------------------------------
+-- 12/8 - 0 ---------------------------------------------------------------
 DELETE FROM DecTable;
 -- success. update count = 2
--- 13/6 - 0 ---------------------------------------------------------------
+-- 13/8 - 0 ---------------------------------------------------------------
 .import json dec.json
--- 13/7 - 0 ---------------------------------------------------------------
+-- 13/9 - 0 ---------------------------------------------------------------
 INSERT INTO DecTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
--- 14/7 - 0 ---------------------------------------------------------------
+Parameter Count                              4
+  Index                                        1
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 14/9 - 0 ---------------------------------------------------------------
 SELECT * FROM DecTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 5
+    Precision                                    3
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    9
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 24
+    Precision                                    22
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 33
+    Precision                                    31
+    Scale                                        2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
 -- success --
 [
 	{
@@ -113,11 +582,11 @@ SELECT * FROM DecTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 15/7 - 0 ---------------------------------------------------------------
+-- 15/9 - 0 ---------------------------------------------------------------
 
 DROP TABLE DecTable;
 -- success. update count = 0
--- 16/7 - 0 ---------------------------------------------------------------
+-- 16/9 - 0 ---------------------------------------------------------------
 
 CREATE TABLE SerialTable
 (
@@ -127,29 +596,236 @@ CREATE TABLE SerialTable
 	c4 INTEGER
 );
 -- success. update count = 0
--- 17/7 - 0 ---------------------------------------------------------------
+-- 17/9 - 0 ---------------------------------------------------------------
 
 INSERT INTO SerialTable (C4) VALUES (1);
 -- success. update count = 1
--- 18/7 - 0 ---------------------------------------------------------------
+-- 18/9 - 0 ---------------------------------------------------------------
 INSERT INTO SerialTable (C4) VALUES (2);
 -- success. update count = 1
--- 19/7 - 0 ---------------------------------------------------------------
+-- 19/9 - 0 ---------------------------------------------------------------
 
 .export json serial.json
--- 19/8 - 0 ---------------------------------------------------------------
+-- 19/10 - 0 --------------------------------------------------------------
 SELECT * FROM SerialTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 6
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               Y
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     0
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         INTEGER
+    SQL Type                                     serial
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               Y
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     0
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         BIGINT
+    SQL Type                                     bigserial
+    Java Class                                   java.lang.Long
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 20
+    Precision                                    19
+    Scale                                        0
+    Auto Increment                               Y
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     0
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 20/8 - 0 ---------------------------------------------------------------
+-- 20/10 - 0 --------------------------------------------------------------
 DELETE FROM SerialTable;
 -- success. update count = 2
--- 21/8 - 0 ---------------------------------------------------------------
+-- 21/10 - 0 --------------------------------------------------------------
 .import json serial.json
--- 21/9 - 0 ---------------------------------------------------------------
+-- 21/11 - 0 --------------------------------------------------------------
 INSERT INTO SerialTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
--- 22/9 - 0 ---------------------------------------------------------------
+Parameter Count                              4
+  Index                                        1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        4
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 22/11 - 0 --------------------------------------------------------------
 SELECT * FROM SerialTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 6
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               Y
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     0
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         INTEGER
+    SQL Type                                     serial
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               Y
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     0
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         BIGINT
+    SQL Type                                     bigserial
+    Java Class                                   java.lang.Long
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 20
+    Precision                                    19
+    Scale                                        0
+    Auto Increment                               Y
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     0
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
 -- success --
 [
 	{
@@ -166,11 +842,11 @@ SELECT * FROM SerialTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 23/9 - 0 ---------------------------------------------------------------
+-- 23/11 - 0 --------------------------------------------------------------
 
 DROP TABLE SerialTable;
 -- success. update count = 0
--- 24/9 - 0 ---------------------------------------------------------------
+-- 24/11 - 0 --------------------------------------------------------------
 
 CREATE TABLE StrTable
 (
@@ -180,29 +856,236 @@ CREATE TABLE StrTable
 	c4 TEXT
 );
 -- success. update count = 0
--- 25/9 - 0 ---------------------------------------------------------------
+-- 25/11 - 0 --------------------------------------------------------------
 
 INSERT INTO StrTable VALUES ('aa', 'A', 'abcde', 'aaaaa');
 -- success. update count = 1
--- 26/9 - 0 ---------------------------------------------------------------
+-- 26/11 - 0 --------------------------------------------------------------
 INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij', 'bbbbb');
 -- success. update count = 1
--- 27/9 - 0 ---------------------------------------------------------------
+-- 27/11 - 0 --------------------------------------------------------------
 
 .export json src.json
--- 27/10 - 0 --------------------------------------------------------------
+-- 27/12 - 0 --------------------------------------------------------------
 SELECT * FROM StrTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         VARCHAR
+    SQL Type                                     varchar
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 255
+    Precision                                    255
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 1
+    Precision                                    1
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 5
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 28/10 - 0 --------------------------------------------------------------
+-- 28/12 - 0 --------------------------------------------------------------
 DELETE FROM StrTable;
 -- success. update count = 2
--- 29/10 - 0 --------------------------------------------------------------
+-- 29/12 - 0 --------------------------------------------------------------
 .import json src.json
--- 29/11 - 0 --------------------------------------------------------------
+-- 29/13 - 0 --------------------------------------------------------------
 INSERT INTO StrTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
--- 30/11 - 0 --------------------------------------------------------------
+Parameter Count                              4
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     varchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        2
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 30/13 - 0 --------------------------------------------------------------
 SELECT * FROM StrTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         VARCHAR
+    SQL Type                                     varchar
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 255
+    Precision                                    255
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 1
+    Precision                                    1
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 5
+    Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -219,11 +1102,11 @@ SELECT * FROM StrTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 31/11 - 0 --------------------------------------------------------------
+-- 31/13 - 0 --------------------------------------------------------------
 
 DROP TABLE StrTable;
 -- success. update count = 0
--- 32/11 - 0 --------------------------------------------------------------
+-- 32/13 - 0 --------------------------------------------------------------
 
 CREATE TABLE BinTable
 (
@@ -231,29 +1114,134 @@ CREATE TABLE BinTable
 	c2 BYTEA
 );
 -- success. update count = 0
--- 33/11 - 0 --------------------------------------------------------------
+-- 33/13 - 0 --------------------------------------------------------------
 
 INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
 -- success. update count = 1
--- 34/11 - 0 --------------------------------------------------------------
+-- 34/13 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
 -- success. update count = 1
--- 35/11 - 0 --------------------------------------------------------------
+-- 35/13 - 0 --------------------------------------------------------------
 
 .export json -b hex bin.json
--- 35/12 - 0 --------------------------------------------------------------
+-- 35/14 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 36/12 - 0 --------------------------------------------------------------
+-- 36/14 - 0 --------------------------------------------------------------
 DELETE FROM BinTable;
 -- success. update count = 2
--- 37/12 - 0 --------------------------------------------------------------
+-- 37/14 - 0 --------------------------------------------------------------
 .import json -b hex bin.json
--- 37/13 - 0 --------------------------------------------------------------
+-- 37/15 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES ({{c1}}, {{c2}});
--- 38/13 - 0 --------------------------------------------------------------
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 38/15 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -266,22 +1254,127 @@ SELECT * FROM BinTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 39/13 - 0 --------------------------------------------------------------
+-- 39/15 - 0 --------------------------------------------------------------
 
 .export json -b base64 bin.json
--- 39/14 - 0 --------------------------------------------------------------
+-- 39/16 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 40/14 - 0 --------------------------------------------------------------
+-- 40/16 - 0 --------------------------------------------------------------
 DELETE FROM BinTable;
 -- success. update count = 2
--- 41/14 - 0 --------------------------------------------------------------
+-- 41/16 - 0 --------------------------------------------------------------
 .import json -b base64 bin.json
--- 41/15 - 0 --------------------------------------------------------------
+-- 41/17 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES ({{c1}}, {{c2}});
--- 42/15 - 0 --------------------------------------------------------------
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 42/17 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BINARY
+    SQL Type                                     bytea
+    Java Class                                   [B
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -294,11 +1387,11 @@ SELECT * FROM BinTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 43/15 - 0 --------------------------------------------------------------
+-- 43/17 - 0 --------------------------------------------------------------
 
 DROP TABLE BinTable;
 -- success. update count = 0
--- 44/15 - 0 --------------------------------------------------------------
+-- 44/17 - 0 --------------------------------------------------------------
 
 CREATE TABLE TimeTable
 (
@@ -310,29 +1403,338 @@ CREATE TABLE TimeTable
 	c6 TIMESTAMP WITH TIME ZONE
 );
 -- success. update count = 0
--- 45/15 - 0 --------------------------------------------------------------
+-- 45/17 - 0 --------------------------------------------------------------
 
 INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '12:34:56-08:00', '2001-02-03 12:34:56', '2001-02-03 12:34:56-08:00');
 -- success. update count = 1
--- 46/15 - 0 --------------------------------------------------------------
+-- 46/17 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '12:34:56+08:00', '2001-03-04 12:34:56', '2001-02-03 12:34:56+08:00');
 -- success. update count = 1
--- 47/15 - 0 --------------------------------------------------------------
+-- 47/17 - 0 --------------------------------------------------------------
 
 .export json time.json
--- 47/16 - 0 --------------------------------------------------------------
+-- 47/18 - 0 --------------------------------------------------------------
 SELECT * FROM TimeTable ORDER BY c1;
+ResultSet Column Count                       6
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         DATE
+    SQL Type                                     date
+    Java Class                                   java.sql.Date
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 13
+    Precision                                    13
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         TIME
+    SQL Type                                     time
+    Java Class                                   java.sql.Time
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 15
+    Precision                                    15
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         TIME
+    SQL Type                                     timetz
+    Java Class                                   java.sql.Time
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 21
+    Precision                                    21
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamp
+    Java Class                                   java.sql.Timestamp
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 29
+    Precision                                    29
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamptz
+    Java Class                                   java.sql.Timestamp
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 35
+    Precision                                    35
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 48/16 - 0 --------------------------------------------------------------
+-- 48/18 - 0 --------------------------------------------------------------
 DELETE FROM TimeTable;
 -- success. update count = 2
--- 49/16 - 0 --------------------------------------------------------------
+-- 49/18 - 0 --------------------------------------------------------------
 .import json time.json
--- 49/17 - 0 --------------------------------------------------------------
+-- 49/19 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
--- 50/17 - 0 --------------------------------------------------------------
+Parameter Count                              6
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         DATE
+    SQL Type                                     date
+    Java Class                                   java.sql.Date
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         TIME
+    SQL Type                                     time
+    Java Class                                   java.sql.Time
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         TIME
+    SQL Type                                     timetz
+    Java Class                                   java.sql.Time
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamp
+    Java Class                                   java.sql.Timestamp
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamptz
+    Java Class                                   java.sql.Timestamp
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 50/19 - 0 --------------------------------------------------------------
 SELECT * FROM TimeTable ORDER BY c1;
+ResultSet Column Count                       6
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         DATE
+    SQL Type                                     date
+    Java Class                                   java.sql.Date
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 13
+    Precision                                    13
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         TIME
+    SQL Type                                     time
+    Java Class                                   java.sql.Time
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 15
+    Precision                                    15
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         TIME
+    SQL Type                                     timetz
+    Java Class                                   java.sql.Time
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 21
+    Precision                                    21
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamp
+    Java Class                                   java.sql.Timestamp
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 29
+    Precision                                    29
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         TIMESTAMP
+    SQL Type                                     timestamptz
+    Java Class                                   java.sql.Timestamp
+    Catalog                                      
+    Schema                                       
+    Table Name                                   timetable
+    Display Size                                 35
+    Precision                                    35
+    Scale                                        6
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -353,11 +1755,11 @@ SELECT * FROM TimeTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 51/17 - 0 --------------------------------------------------------------
+-- 51/19 - 0 --------------------------------------------------------------
 
 DROP TABLE TimeTable;
 -- success. update count = 0
--- 52/17 - 0 --------------------------------------------------------------
+-- 52/19 - 0 --------------------------------------------------------------
 
 CREATE TABLE XmlTable
 (
@@ -365,29 +1767,134 @@ CREATE TABLE XmlTable
 	c2 XML
 );
 -- success. update count = 0
--- 53/17 - 0 --------------------------------------------------------------
+-- 53/19 - 0 --------------------------------------------------------------
 
 INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
 -- success. update count = 1
--- 54/17 - 0 --------------------------------------------------------------
+-- 54/19 - 0 --------------------------------------------------------------
 INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
 -- success. update count = 1
--- 55/17 - 0 --------------------------------------------------------------
+-- 55/19 - 0 --------------------------------------------------------------
 
 .export json xml.json
--- 55/18 - 0 --------------------------------------------------------------
+-- 55/20 - 0 --------------------------------------------------------------
 SELECT * FROM XmlTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   xmltable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         SQLXML
+    SQL Type                                     xml
+    Java Class                                   java.sql.SQLXML
+    Catalog                                      
+    Schema                                       
+    Table Name                                   xmltable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 56/18 - 0 --------------------------------------------------------------
+-- 56/20 - 0 --------------------------------------------------------------
 DELETE FROM XmlTable;
 -- success. update count = 2
--- 57/18 - 0 --------------------------------------------------------------
+-- 57/20 - 0 --------------------------------------------------------------
 .import json xml.json
--- 57/19 - 0 --------------------------------------------------------------
+-- 57/21 - 0 --------------------------------------------------------------
 INSERT INTO XmlTable VALUES ({{c1}}, {{c2}});
--- 58/19 - 0 --------------------------------------------------------------
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         SQLXML
+    SQL Type                                     xml
+    Java Class                                   java.sql.SQLXML
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 58/21 - 0 --------------------------------------------------------------
 SELECT * FROM XmlTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   xmltable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         SQLXML
+    SQL Type                                     xml
+    Java Class                                   java.sql.SQLXML
+    Catalog                                      
+    Schema                                       
+    Table Name                                   xmltable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -400,11 +1907,11 @@ SELECT * FROM XmlTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 59/19 - 0 --------------------------------------------------------------
+-- 59/21 - 0 --------------------------------------------------------------
 
 DROP TABLE XmlTable;
 -- success. update count = 0
--- 60/19 - 0 --------------------------------------------------------------
+-- 60/21 - 0 --------------------------------------------------------------
 
 CREATE TABLE JsonTable
 (
@@ -412,29 +1919,134 @@ CREATE TABLE JsonTable
 	c2 JSON
 );
 -- success. update count = 0
--- 61/19 - 0 --------------------------------------------------------------
+-- 61/21 - 0 --------------------------------------------------------------
 
 INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
 -- success. update count = 1
--- 62/19 - 0 --------------------------------------------------------------
+-- 62/21 - 0 --------------------------------------------------------------
 INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
 -- success. update count = 1
--- 63/19 - 0 --------------------------------------------------------------
+-- 63/21 - 0 --------------------------------------------------------------
 
 .export json j.json
--- 63/20 - 0 --------------------------------------------------------------
+-- 63/22 - 0 --------------------------------------------------------------
 SELECT * FROM JsonTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   jsontable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     json
+    Java Class                                   org.postgresql.util.PGobject
+    Catalog                                      
+    Schema                                       
+    Table Name                                   jsontable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 64/20 - 0 --------------------------------------------------------------
+-- 64/22 - 0 --------------------------------------------------------------
 DELETE FROM JsonTable;
 -- success. update count = 2
--- 65/20 - 0 --------------------------------------------------------------
+-- 65/22 - 0 --------------------------------------------------------------
 .import json j.json
--- 65/21 - 0 --------------------------------------------------------------
+-- 65/23 - 0 --------------------------------------------------------------
 INSERT INTO JsonTable VALUES ({{c1}}, {{c2}});
--- 66/21 - 0 --------------------------------------------------------------
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     json
+    Java Class                                   org.postgresql.util.PGobject
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 66/23 - 0 --------------------------------------------------------------
 SELECT * FROM JsonTable ORDER BY c1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   jsontable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     json
+    Java Class                                   org.postgresql.util.PGobject
+    Catalog                                      
+    Schema                                       
+    Table Name                                   jsontable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -455,11 +2067,11 @@ SELECT * FROM JsonTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 67/21 - 0 --------------------------------------------------------------
+-- 67/23 - 0 --------------------------------------------------------------
 
 DROP TABLE JsonTable;
 -- success. update count = 0
--- 68/21 - 0 --------------------------------------------------------------
+-- 68/23 - 0 --------------------------------------------------------------
 
 CREATE TABLE GeoTable
 (
@@ -472,29 +2084,389 @@ CREATE TABLE GeoTable
 	c7 CIRCLE
 );
 -- success. update count = 0
--- 69/21 - 0 --------------------------------------------------------------
+-- 69/23 - 0 --------------------------------------------------------------
 
 INSERT INTO GeoTable VALUES (1, '(1,2)', '((1,1),(2,2))', '((1,1),(2,2))', '((1,1),(2,2))', '((0,0),(0,1),(1,1),(1,0))','<(0,0),1>');
 -- success. update count = 1
--- 70/21 - 0 --------------------------------------------------------------
+-- 70/23 - 0 --------------------------------------------------------------
 INSERT INTO GeoTable VALUES (2, '(2,2)', '((2,2),(3,3))', '((2,2),(3,3))', '((0,0),(0,1),(1,1),(1,0),(0,0))', '((0,0),(0,1),(1,1),(1,0),(0,0))','<(0,0),1>');
 -- success. update count = 1
--- 71/21 - 0 --------------------------------------------------------------
+-- 71/23 - 0 --------------------------------------------------------------
 
 .export json geo.json
--- 71/22 - 0 --------------------------------------------------------------
+-- 71/24 - 0 --------------------------------------------------------------
 SELECT * FROM GeoTable ORDER BY c1;
+ResultSet Column Count                       7
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     point
+    Java Class                                   org.postgresql.geometric.PGpoint
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     lseg
+    Java Class                                   org.postgresql.geometric.PGlseg
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     box
+    Java Class                                   org.postgresql.geometric.PGbox
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         OTHER
+    SQL Type                                     path
+    Java Class                                   org.postgresql.geometric.PGpath
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         OTHER
+    SQL Type                                     polygon
+    Java Class                                   org.postgresql.geometric.PGpolygon
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        7
+    Name                                         c7
+    Label                                        c7
+    Type                                         OTHER
+    SQL Type                                     circle
+    Java Class                                   org.postgresql.geometric.PGcircle
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 72/22 - 0 --------------------------------------------------------------
+-- 72/24 - 0 --------------------------------------------------------------
 DELETE FROM GeoTable;
 -- success. update count = 2
--- 73/22 - 0 --------------------------------------------------------------
+-- 73/24 - 0 --------------------------------------------------------------
 .import json geo.json
--- 73/23 - 0 --------------------------------------------------------------
+-- 73/25 - 0 --------------------------------------------------------------
 INSERT INTO GeoTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}}, {{c7}});
--- 74/23 - 0 --------------------------------------------------------------
+Parameter Count                              7
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     point
+    Java Class                                   org.postgresql.geometric.PGpoint
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     lseg
+    Java Class                                   org.postgresql.geometric.PGlseg
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     box
+    Java Class                                   org.postgresql.geometric.PGbox
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         OTHER
+    SQL Type                                     path
+    Java Class                                   org.postgresql.geometric.PGpath
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         OTHER
+    SQL Type                                     polygon
+    Java Class                                   org.postgresql.geometric.PGpolygon
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        7
+    Type                                         OTHER
+    SQL Type                                     circle
+    Java Class                                   org.postgresql.geometric.PGcircle
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 74/25 - 0 --------------------------------------------------------------
 SELECT * FROM GeoTable ORDER BY c1;
+ResultSet Column Count                       7
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     point
+    Java Class                                   org.postgresql.geometric.PGpoint
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     lseg
+    Java Class                                   org.postgresql.geometric.PGlseg
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     box
+    Java Class                                   org.postgresql.geometric.PGbox
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         OTHER
+    SQL Type                                     path
+    Java Class                                   org.postgresql.geometric.PGpath
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         OTHER
+    SQL Type                                     polygon
+    Java Class                                   org.postgresql.geometric.PGpolygon
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        7
+    Name                                         c7
+    Label                                        c7
+    Type                                         OTHER
+    SQL Type                                     circle
+    Java Class                                   org.postgresql.geometric.PGcircle
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -517,11 +2489,11 @@ SELECT * FROM GeoTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 75/23 - 0 --------------------------------------------------------------
+-- 75/25 - 0 --------------------------------------------------------------
 
 DROP TABLE GeoTable;
 -- success. update count = 0
--- 76/23 - 0 --------------------------------------------------------------
+-- 76/25 - 0 --------------------------------------------------------------
 
 CREATE TABLE NetTable
 (
@@ -531,29 +2503,236 @@ CREATE TABLE NetTable
 	c4 MACADDR
 );
 -- success. update count = 0
--- 77/23 - 0 --------------------------------------------------------------
+-- 77/25 - 0 --------------------------------------------------------------
 
 INSERT INTO NetTable VALUES (1, '192.168.100.128/25', '127.0.0.1', '08:00:2b:01:02:03');
 -- success. update count = 1
--- 78/23 - 0 --------------------------------------------------------------
+-- 78/25 - 0 --------------------------------------------------------------
 INSERT INTO NetTable VALUES (2, '192.168/24', '192.168.1.1', '08-00-2b-01-02-03');
 -- success. update count = 1
--- 79/23 - 0 --------------------------------------------------------------
+-- 79/25 - 0 --------------------------------------------------------------
 
 .export json net.json
--- 79/24 - 0 --------------------------------------------------------------
+-- 79/26 - 0 --------------------------------------------------------------
 SELECT * FROM NetTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     cidr
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     inet
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     macaddr
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 80/24 - 0 --------------------------------------------------------------
+-- 80/26 - 0 --------------------------------------------------------------
 DELETE FROM NetTable;
 -- success. update count = 2
--- 81/24 - 0 --------------------------------------------------------------
+-- 81/26 - 0 --------------------------------------------------------------
 .import json net.json
--- 81/25 - 0 --------------------------------------------------------------
+-- 81/27 - 0 --------------------------------------------------------------
 INSERT INTO NetTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
--- 82/25 - 0 --------------------------------------------------------------
+Parameter Count                              4
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     cidr
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     inet
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     macaddr
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 82/27 - 0 --------------------------------------------------------------
 SELECT * FROM NetTable ORDER BY c1;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     cidr
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     inet
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     macaddr
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   nettable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -570,11 +2749,11 @@ SELECT * FROM NetTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 83/25 - 0 --------------------------------------------------------------
+-- 83/27 - 0 --------------------------------------------------------------
 
 DROP TABLE NetTable;
 -- success. update count = 0
--- 84/25 - 0 --------------------------------------------------------------
+-- 84/27 - 0 --------------------------------------------------------------
 
 CREATE TABLE RangeTable
 (
@@ -587,29 +2766,389 @@ CREATE TABLE RangeTable
 	c7 DATERANGE
 );
 -- success. update count = 0
--- 85/25 - 0 --------------------------------------------------------------
+-- 85/27 - 0 --------------------------------------------------------------
 
 INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
 -- success. update count = 1
--- 86/25 - 0 --------------------------------------------------------------
+-- 86/27 - 0 --------------------------------------------------------------
 INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
 -- success. update count = 1
--- 87/25 - 0 --------------------------------------------------------------
+-- 87/27 - 0 --------------------------------------------------------------
 
 .export json range.json
--- 87/26 - 0 --------------------------------------------------------------
+-- 87/28 - 0 --------------------------------------------------------------
 SELECT * FROM RangeTable ORDER BY c1;
+ResultSet Column Count                       7
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     int4range
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     int8range
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     numrange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         OTHER
+    SQL Type                                     tsrange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         OTHER
+    SQL Type                                     tstzrange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        7
+    Name                                         c7
+    Label                                        c7
+    Type                                         OTHER
+    SQL Type                                     daterange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 88/26 - 0 --------------------------------------------------------------
+-- 88/28 - 0 --------------------------------------------------------------
 DELETE FROM RangeTable;
 -- success. update count = 2
--- 89/26 - 0 --------------------------------------------------------------
+-- 89/28 - 0 --------------------------------------------------------------
 .import json range.json
--- 89/27 - 0 --------------------------------------------------------------
+-- 89/29 - 0 --------------------------------------------------------------
 INSERT INTO RangeTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}}, {{c7}});
--- 90/27 - 0 --------------------------------------------------------------
+Parameter Count                              7
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     int4range
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     int8range
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     numrange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         OTHER
+    SQL Type                                     tsrange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        6
+    Type                                         OTHER
+    SQL Type                                     tstzrange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        7
+    Type                                         OTHER
+    SQL Type                                     daterange
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 90/29 - 0 --------------------------------------------------------------
 SELECT * FROM RangeTable ORDER BY c1;
+ResultSet Column Count                       7
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     int4range
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     int8range
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     numrange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         OTHER
+    SQL Type                                     tsrange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        6
+    Name                                         c6
+    Label                                        c6
+    Type                                         OTHER
+    SQL Type                                     tstzrange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        7
+    Name                                         c7
+    Label                                        c7
+    Type                                         OTHER
+    SQL Type                                     daterange
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   rangetable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -632,11 +3171,11 @@ SELECT * FROM RangeTable ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 91/27 - 0 --------------------------------------------------------------
+-- 91/29 - 0 --------------------------------------------------------------
 
 DROP TABLE RangeTable;
 -- success. update count = 0
--- 92/27 - 0 --------------------------------------------------------------
+-- 92/29 - 0 --------------------------------------------------------------
 
 CREATE TABLE MiscTable1
 (
@@ -647,31 +3186,289 @@ CREATE TABLE MiscTable1
 	c5 MONEY
 );
 -- success. update count = 0
--- 93/27 - 0 --------------------------------------------------------------
+-- 93/29 - 0 --------------------------------------------------------------
 
 INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
 -- success. update count = 1
--- 94/27 - 0 --------------------------------------------------------------
+-- 94/29 - 0 --------------------------------------------------------------
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
 -- success. update count = 1
--- 95/27 - 0 --------------------------------------------------------------
+-- 95/29 - 0 --------------------------------------------------------------
 
 .export json misc1.json
--- 95/28 - 0 --------------------------------------------------------------
+-- 95/30 - 0 --------------------------------------------------------------
 SELECT * FROM MiscTable1 ORDER BY c1;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BIT
+    SQL Type                                     bool
+    Java Class                                   java.lang.Boolean
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 1
+    Precision                                    1
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     varbit
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 8
+    Precision                                    8
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     uuid
+    Java Class                                   java.util.UUID
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         DOUBLE
+    SQL Type                                     money
+    Java Class                                   org.postgresql.util.PGmoney
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     Y
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 96/28 - 0 --------------------------------------------------------------
+-- 96/30 - 0 --------------------------------------------------------------
 DELETE FROM MiscTable1;
 -- success. update count = 2
--- 97/28 - 0 --------------------------------------------------------------
+-- 97/30 - 0 --------------------------------------------------------------
 -- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
 -- TEXT and then MONEY.
 .import json misc1.json
--- 97/29 - 0 --------------------------------------------------------------
+-- 97/31 - 0 --------------------------------------------------------------
 INSERT INTO MiscTable1 VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}::text::money);
--- 98/29 - 0 --------------------------------------------------------------
+Parameter Count                              5
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         BIT
+    SQL Type                                     bool
+    Java Class                                   java.lang.Boolean
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     varbit
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        4
+    Type                                         OTHER
+    SQL Type                                     uuid
+    Java Class                                   java.util.UUID
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 98/31 - 0 --------------------------------------------------------------
 SELECT * FROM MiscTable1 ORDER BY c1;
+ResultSet Column Count                       5
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         BIT
+    SQL Type                                     bool
+    Java Class                                   java.lang.Boolean
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 1
+    Precision                                    1
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     varbit
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 8
+    Precision                                    8
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        4
+    Name                                         c4
+    Label                                        c4
+    Type                                         OTHER
+    SQL Type                                     uuid
+    Java Class                                   java.util.UUID
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        5
+    Name                                         c5
+    Label                                        c5
+    Type                                         DOUBLE
+    SQL Type                                     money
+    Java Class                                   org.postgresql.util.PGmoney
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable1
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     Y
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -690,11 +3487,11 @@ SELECT * FROM MiscTable1 ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 99/29 - 0 --------------------------------------------------------------
+-- 99/31 - 0 --------------------------------------------------------------
 
 DROP TABLE MiscTable1;
 -- success. update count = 0
--- 100/29 - 0 -------------------------------------------------------------
+-- 100/31 - 0 -------------------------------------------------------------
 
 CREATE TABLE MiscTable2
 (
@@ -703,29 +3500,185 @@ CREATE TABLE MiscTable2
 	c3 TSQUERY
 );
 -- success. update count = 0
--- 101/29 - 0 -------------------------------------------------------------
+-- 101/31 - 0 -------------------------------------------------------------
 
 INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
--- 102/29 - 0 -------------------------------------------------------------
+-- 102/31 - 0 -------------------------------------------------------------
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
--- 103/29 - 0 -------------------------------------------------------------
+-- 103/31 - 0 -------------------------------------------------------------
 
 .export json misc2.json
--- 103/30 - 0 -------------------------------------------------------------
+-- 103/32 - 0 -------------------------------------------------------------
 SELECT * FROM MiscTable2 ORDER BY c1;
+ResultSet Column Count                       3
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable2
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     tsvector
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable2
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     tsquery
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable2
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 -- activity count = 2
--- 104/30 - 0 -------------------------------------------------------------
+-- 104/32 - 0 -------------------------------------------------------------
 DELETE FROM MiscTable2;
 -- success. update count = 2
--- 105/30 - 0 -------------------------------------------------------------
+-- 105/32 - 0 -------------------------------------------------------------
 .import json misc2.json
--- 105/31 - 0 -------------------------------------------------------------
+-- 105/33 - 0 -------------------------------------------------------------
 INSERT INTO MiscTable2 VALUES ({{c1}}, {{c2}}, {{c3}});
--- 106/31 - 0 -------------------------------------------------------------
+Parameter Count                              3
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         OTHER
+    SQL Type                                     tsvector
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        3
+    Type                                         OTHER
+    SQL Type                                     tsquery
+    Java Class                                   
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+-- 106/33 - 0 -------------------------------------------------------------
 SELECT * FROM MiscTable2 ORDER BY c1;
+ResultSet Column Count                       3
+  Index                                        1
+    Name                                         c1
+    Label                                        c1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable2
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c2
+    Label                                        c2
+    Type                                         OTHER
+    SQL Type                                     tsvector
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable2
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c3
+    Label                                        c3
+    Type                                         OTHER
+    SQL Type                                     tsquery
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   misctable2
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
 -- success --
 [
 	{
@@ -740,14 +3693,14 @@ SELECT * FROM MiscTable2 ORDER BY c1;
 	}
 ]
 -- activity count = 2
--- 107/31 - 0 -------------------------------------------------------------
+-- 107/33 - 0 -------------------------------------------------------------
 
 DROP TABLE MiscTable2;
 -- success. update count = 0
--- 108/31 - 0 -------------------------------------------------------------
+-- 108/33 - 0 -------------------------------------------------------------
 
 .os rm -f *.json
--- 108/32 - 0 -------------------------------------------------------------
+-- 108/34 - 0 -------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 108/33 - 0 -------------------------------------------------------------
+-- 108/35 - 0 -------------------------------------------------------------
