@@ -9,8 +9,12 @@ Teradata Jaqy Console 1.0
 .help import
 usage: .import [type] [type options] [file]
 type:
+  avro
   csv
   json
+
+avro type options:
+
 
 csv type options:
   -c,--charset <arg>                                    sets the file

@@ -82,3 +82,5 @@ alias jqe='java -ea -jar /vagrant/dist/jaqy-1.0.jar'
 cd /vagrant
 "
 echo "$BASHRC" >> ~vagrant/.bashrc
+echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.0.jar" > ~vagrant/.jqrc
+

@@ -6,8 +6,12 @@ Teradata Jaqy Console 1.0
 .help export
 .export [type] [type options] [file]
 type:
+  avro
   csv
   json
+
+avro type options:
+  -c,--compression <arg>   sets the compression codec
 
 csv type options:
   -c,--charset <arg>                                    sets the file
