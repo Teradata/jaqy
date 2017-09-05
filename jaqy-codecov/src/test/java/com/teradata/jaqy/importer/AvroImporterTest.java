@@ -34,4 +34,22 @@ public class AvroImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/avro_import_1.sql", "../tests/unittests/avro/control/avro_import_1.control");
 	}
+
+	@Test
+	public void test2 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/postgresql_data_types.sql", "../tests/unittests/avro/control/postgresql_data_types.control");
+	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/postgresql_array_types.sql", "../tests/unittests/avro/control/postgresql_array_types.control");
+	}
+
+	@Test
+	public void test4 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/postgresql_composite_types.sql", "../tests/unittests/avro/control/postgresql_composite_types.control");
+	}
 }

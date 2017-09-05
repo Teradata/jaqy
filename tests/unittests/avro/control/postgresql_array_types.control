@@ -985,81 +985,6 @@ INSERT INTO BinTable VALUES (2, '{\\xfacefeed}');
 -- success. update count = 1
 -- 27/10 - 0 --------------------------------------------------------------
 
-.export avro t.avro
--- 27/11 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY a;
-ResultSet Column Count                       2
-  Index                                        1
-    Name                                         a
-    Label                                        a
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   bintable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         c1
-    Label                                        c1
-    Type                                         ARRAY
-    SQL Type                                     _bytea
-    Java Class                                   java.sql.Array
-    Catalog                                      
-    Schema                                       
-    Table Name                                   bintable
-    Display Size                                 2147483647
-    Precision                                    2147483647
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               Y
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
--- success --
--- activity count = 2
--- 28/11 - 0 --------------------------------------------------------------
-DELETE FROM BinTable;
--- success. update count = 2
--- 29/11 - 0 --------------------------------------------------------------
-.import avro t.avro
--- 29/12 - 0 --------------------------------------------------------------
-INSERT INTO BinTable VALUES ({{a}}, {{c1}});
-Parameter Count                              2
-  Index                                        1
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Precision                                    0
-    Scale                                        0
-    Nullable                                     2
-    Signed                                       Y
-    Mode                                         IN
-  Index                                        2
-    Type                                         ARRAY
-    SQL Type                                     _bytea
-    Java Class                                   java.sql.Array
-    Precision                                    0
-    Scale                                        0
-    Nullable                                     2
-    Signed                                       N
-    Mode                                         IN
--- 30/12 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
@@ -1106,15 +1031,141 @@ ResultSet Column Count                       2
     Writable                                     Y
 -- success --
 a c1
-- -----------------------------
-1 {"\\x5b42403732303537363562"}
-2 {"\\x5b42403437393837333536"}
+- ---------------
+1 {"\\xdeadbeef"}
+2 {"\\xfacefeed"}
 -- activity count = 2
+-- 28/10 - 0 --------------------------------------------------------------
+.export avro t.avro
+-- 28/11 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _bytea
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+-- activity count = 2
+-- 29/11 - 0 --------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 2
+-- 30/11 - 0 --------------------------------------------------------------
+.import avro t.avro
+-- 30/12 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{a}}, {{c1}});
+Parameter Count                              2
+  Index                                        1
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         ARRAY
+    SQL Type                                     _bytea
+    Java Class                                   java.sql.Array
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
 -- 31/12 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         ARRAY
+    SQL Type                                     _bytea
+    Java Class                                   java.sql.Array
+    Catalog                                      
+    Schema                                       
+    Table Name                                   bintable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a c1
+- ---------------------------------------------------
+1 {{"\\x2d3334","\\x2d3833","\\x2d3636","\\x2d3137"}}
+2 {{"\\x2d36","\\x2d3530","\\x2d32","\\x2d3139"}}
+-- activity count = 2
+-- 32/12 - 0 --------------------------------------------------------------
 
 DROP TABLE BinTable;
 -- success. update count = 0
--- 32/12 - 0 --------------------------------------------------------------
+-- 33/12 - 0 --------------------------------------------------------------
 
 CREATE TABLE TimeTable
 (
@@ -1126,17 +1177,17 @@ CREATE TABLE TimeTable
 	c5 TIMESTAMP WITH TIME ZONE[]
 );
 -- success. update count = 0
--- 33/12 - 0 --------------------------------------------------------------
+-- 34/12 - 0 --------------------------------------------------------------
 
 INSERT INTO TimeTable VALUES (1, '{2001-02-03}', '{12:34:56}', '{12:34:56-08:00}', '{2001-02-03 12:34:56}', '{2001-02-03 12:34:56-08:00}');
 -- success. update count = 1
--- 34/12 - 0 --------------------------------------------------------------
+-- 35/12 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES (2, '{2001-03-04}', '{12:34:56}', '{12:34:56+08:00}', '{2001-03-04 12:34:56}', '{2001-02-03 12:34:56+08:00}');
 -- success. update count = 1
--- 35/12 - 0 --------------------------------------------------------------
+-- 36/12 - 0 --------------------------------------------------------------
 
 .export avro t.avro
--- 35/13 - 0 --------------------------------------------------------------
+-- 36/13 - 0 --------------------------------------------------------------
 SELECT * FROM TimeTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
@@ -1267,12 +1318,12 @@ ResultSet Column Count                       6
     Writable                                     Y
 -- success --
 -- activity count = 2
--- 36/13 - 0 --------------------------------------------------------------
+-- 37/13 - 0 --------------------------------------------------------------
 DELETE FROM TimeTable;
 -- success. update count = 2
--- 37/13 - 0 --------------------------------------------------------------
+-- 38/13 - 0 --------------------------------------------------------------
 .import avro t.avro
--- 37/14 - 0 --------------------------------------------------------------
+-- 38/14 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
 Parameter Count                              6
   Index                                        1
@@ -1329,7 +1380,7 @@ Parameter Count                              6
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 38/14 - 0 --------------------------------------------------------------
+-- 39/14 - 0 --------------------------------------------------------------
 SELECT * FROM TimeTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
@@ -1464,13 +1515,13 @@ a c1           c2         c3            c4                      c5
 1 {2001-02-03} {12:34:56} {20:34:56+00} {"2001-02-03 12:34:56"} {"2001-02-03 20:34:56+00"}
 2 {2001-03-04} {12:34:56} {04:34:56+00} {"2001-03-04 12:34:56"} {"2001-02-03 04:34:56+00"}
 -- activity count = 2
--- 39/14 - 0 --------------------------------------------------------------
+-- 40/14 - 0 --------------------------------------------------------------
 
 .os rm -f t.avro
--- 39/15 - 0 --------------------------------------------------------------
+-- 40/15 - 0 --------------------------------------------------------------
 DROP TABLE TimeTable;
 -- success. update count = 0
--- 40/15 - 0 --------------------------------------------------------------
+-- 41/15 - 0 --------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 40/16 - 0 --------------------------------------------------------------
+-- 41/16 - 0 --------------------------------------------------------------

@@ -58,4 +58,10 @@ public class JSONImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/postgresql_array_types.sql", "../tests/unittests/json/control/postgresql_array_types.control");
 	}
+
+	@Test
+	public void test6 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/postgresql_composite_types.sql", "../tests/unittests/json/control/postgresql_composite_types.control");
+	}
 }

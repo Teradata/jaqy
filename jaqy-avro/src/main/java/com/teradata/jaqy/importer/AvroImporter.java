@@ -27,8 +27,8 @@ import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.ParameterInfo;
@@ -39,6 +39,20 @@ import com.teradata.jaqy.utils.TypesUtils;
  */
 class AvroImporter implements JaqyImporter<String>
 {
+	private static Object unwrapAvroObject (Object v)
+	{
+		if (v instanceof CharSequence)
+			return v.toString ();
+		if (v instanceof ByteBuffer)
+		{
+			ByteBuffer bb = (ByteBuffer)v;
+			byte[] bytes = new byte[bb.remaining ()];
+			bb.get (bytes);
+			return bytes;
+		}
+		return v;
+	}
+
 	private final JaqyConnection m_conn;
 	private DataFileReader<GenericRecord> m_dataFileReader;
 	private boolean m_end;
@@ -67,8 +81,10 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public void showSchema (Display display)
+	public void showSchema (JaqyInterpreter interpreter)
 	{
+//		Schema schema = m_dataFileReader.getSchema ();
+//		display.println (null, schema.toString ());
 	}
 
 	@Override
@@ -181,6 +197,10 @@ class AvroImporter implements JaqyImporter<String>
 				{
 					Object[] objs = new Object[((List<?>)v).size ()];
 					((List<?>) v).toArray (objs);
+					for (int i = 0; i < objs.length; ++i)
+					{
+						objs[i] = unwrapAvroObject (objs[i]);
+					}
 					return helper.createArrayOf (paramInfo, objs);
 				}
 				break;
@@ -191,6 +211,10 @@ class AvroImporter implements JaqyImporter<String>
 				{
 					Object[] objs = new Object[((List<?>)v).size ()];
 					((List<?>) v).toArray (objs);
+					for (int i = 0; i < objs.length; ++i)
+					{
+						objs[i] = unwrapAvroObject (objs[i]);
+					}
 					return helper.createStruct (paramInfo, objs);
 				}
 				break;

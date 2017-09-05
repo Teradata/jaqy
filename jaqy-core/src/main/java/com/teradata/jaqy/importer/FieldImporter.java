@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.VariableHandler;
 import com.teradata.jaqy.utils.ParameterInfo;
@@ -53,9 +53,9 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	}
 
 	@Override
-	public void showSchema (Display display)
+	public void showSchema (JaqyInterpreter interpreter)
 	{
-		m_importer.showSchema (display);
+		m_importer.showSchema (interpreter);
 	}
 
 	@Override

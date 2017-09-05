@@ -228,7 +228,6 @@ public class Session
 	{
 		JaqyImporter<?> importer = interpreter.getImporter ();
 		assert Debug.debug ("importQuery: " + importer);
-		importer.showSchema (interpreter.getDisplay ());
 		FieldImporter fieldImporter = new FieldImporter (importer);
 		sql = VariableParser.getString (sql, interpreter.getVariableHandler (), fieldImporter);
 		assert Debug.debug ("field sql: " + sql);

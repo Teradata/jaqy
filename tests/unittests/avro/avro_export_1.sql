@@ -15,6 +15,7 @@ INSERT INTO MyTable VALUES (5, 'a''b', 'c''d', X'deadbeef');
 INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d', X'deadbeef');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 
+.export avro
 .export avro file1.avro
 SELECT * FROM MyTable ORDER BY a;
 .export avro -c null file2.avro

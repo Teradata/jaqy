@@ -17,6 +17,7 @@ package com.teradata.jaqy.interfaces;
 
 import java.io.Closeable;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
@@ -32,10 +33,9 @@ public interface JaqyImporter<P> extends Closeable
 
 	/**
 	 * Shows the schema of the data being imported.
-	 * @param	display
-	 *			the display
+	 * @param interpreter TODO
 	 */
-	public void showSchema (Display display);
+	public void showSchema (JaqyInterpreter interpreter);
 
 	/**
 	 * Move the data to the next row.

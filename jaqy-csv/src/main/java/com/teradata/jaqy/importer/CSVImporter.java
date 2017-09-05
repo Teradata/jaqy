@@ -24,7 +24,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.ParameterInfo;
 
@@ -61,10 +61,10 @@ class CSVImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public void showSchema (Display display)
+	public void showSchema (JaqyInterpreter interpreter)
 	{
 		if (m_headers != null)
-			display.println (null, m_headers.toString ());
+			interpreter.println (m_headers.toString ());
 	}
 
 	@Override

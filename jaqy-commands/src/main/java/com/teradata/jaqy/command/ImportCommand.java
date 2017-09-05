@@ -74,6 +74,7 @@ public class ImportCommand extends JaqyCommandAdapter
 				interpreter.error ("importer type not found: " + name);
 				return;
 			}
+			importer.showSchema (interpreter);
 			interpreter.setImporter (importer);
 		}
 	}

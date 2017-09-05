@@ -16,6 +16,7 @@
 package com.teradata.jaqy.helper;
 
 import java.sql.Array;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -76,6 +77,23 @@ class PostgresHelper extends DefaultHelper
 		{
 			// PostgreSQL JDBC only transmit composite types as strings
 			info.type = Types.VARCHAR;
+		}
+		else if (info.type == Types.ARRAY)
+		{
+			String elementType = info.typeName.substring (1);
+			if ("bytea".equals (elementType))
+			{
+				info.children = new ColumnInfo[1];
+				info.children[0] = new ColumnInfo ();
+				info.children[0].type = Types.VARBINARY;
+				info.children[0].typeName = elementType;
+				info.children[0].precision = Integer.MAX_VALUE;
+				info.children[0].nullable = ResultSetMetaData.columnNullable;
+			}
+			else
+			{
+				super.fixColumnInfo (info);
+			}
 		}
 		else if (info.type == Types.DOUBLE &&
 				 "money".equals (info.typeName))

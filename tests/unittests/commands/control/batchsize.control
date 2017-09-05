@@ -62,9 +62,9 @@ DELETE FROM MyTable;
 .batchsize 1
 -- 9/6 - 0 ----------------------------------------------------------------
 .import csv -h on batch.csv
+{A=0, B=1}
 -- 9/7 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
-{A=0, B=1}
 -- success. update count = 1
 -- success. update count = 1
 -- success. update count = 1
@@ -95,9 +95,9 @@ DELETE FROM MyTable;
 .batchsize 2
 -- 12/8 - 0 ---------------------------------------------------------------
 .import csv -h on batch.csv
+{A=0, B=1}
 -- 12/9 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
-{A=0, B=1}
 -- success. update count = 1
 -- success. update count = 1
 -- success. update count = 1
@@ -124,9 +124,9 @@ DELETE FROM MyTable;
 .batchsize 10000
 -- 15/10 - 0 --------------------------------------------------------------
 .import csv -h on batch.csv
+{A=0, B=1}
 -- 15/11 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
-{A=0, B=1}
 -- success. update count = 1
 -- 16/11 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;

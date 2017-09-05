@@ -66,9 +66,9 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 
 -- test csv with header
 .import csv -h on lib/import1.csv
+{a=0, b=1}
 -- 1/8 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
-{a=0, b=1}
 Parameter Count                              2
   Index                                        1
     Type                                         VARCHAR
@@ -155,9 +155,9 @@ CREATE TABLE MyTable(a INTEGER, b INTEGER);
 -- 9/9 - 0 ----------------------------------------------------------------
 -- test csv with header
 .import csv -h on lib/import1.csv
+{a=0, b=1}
 -- 9/10 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
-{a=0, b=1}
 Parameter Count                              2
   Index                                        1
     Type                                         INTEGER

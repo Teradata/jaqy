@@ -77,6 +77,7 @@ CREATE TABLE BinTable
 INSERT INTO BinTable VALUES (1, '{\\xdeadbeef}');
 INSERT INTO BinTable VALUES (2, '{\\xfacefeed}');
 
+SELECT * FROM BinTable ORDER BY a;
 .export avro t.avro
 SELECT * FROM BinTable ORDER BY a;
 DELETE FROM BinTable;

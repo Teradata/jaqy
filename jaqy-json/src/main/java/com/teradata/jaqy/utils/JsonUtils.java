@@ -89,9 +89,9 @@ public class JsonUtils
 			else if (obj instanceof byte[])
 				g.write ((byte[])obj);
 			else if (obj instanceof Array)
-				print (g, (Array)obj);
+				print (g, null, (Array)obj);
 			else if (obj instanceof Struct)
-				print (g, (Struct)obj);
+				print (g, null, (Struct)obj);
 			else if (obj instanceof Clob)
 			{
 				Clob clob = (Clob)obj;

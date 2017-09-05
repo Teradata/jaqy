@@ -40,8 +40,8 @@ import org.yuanheng.cookjson.value.CookJsonArray;
 import org.yuanheng.cookjson.value.CookJsonBinary;
 
 import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonFormat;
@@ -136,7 +136,7 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public void showSchema (Display display)
+	public void showSchema (JaqyInterpreter interpreter)
 	{
 	}
 
