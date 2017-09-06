@@ -70,7 +70,7 @@ class BinaryTypeHandler implements TypeHandler
 		else if (obj instanceof Blob)
 		{
 			Blob blob = (Blob)obj;
-			return (int)blob.length ();
+			return (int)blob.length () * 2;
 		}
 		throw new RuntimeException ("Unable to handle " + obj.getClass ());
 	}

@@ -42,6 +42,8 @@ class ObjectTypeHandler implements TypeHandler
 	public String getString (JaqyResultSet rs, int columnIndex) throws SQLException
 	{
 		Object obj = rs.getObject (columnIndex);
+		if (obj == null)
+			return null;
 		String value = null;
 		if (obj instanceof Clob)
 		{
