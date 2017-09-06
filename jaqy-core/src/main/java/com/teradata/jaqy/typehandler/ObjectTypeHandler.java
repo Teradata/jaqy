@@ -72,7 +72,7 @@ class ObjectTypeHandler implements TypeHandler
 	{
 		Object obj = rs.getObject (column);
 		if (obj == null)
-			return 0;
+			return -1;
 		if (obj instanceof Clob)
 		{
 			return (int)((Clob)obj).length ();

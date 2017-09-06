@@ -62,7 +62,7 @@ class BinaryTypeHandler implements TypeHandler
 	{
 		Object obj = rs.getObject (column);
 		if (obj == null)
-			return 0;
+			return -1;
 		else if (obj instanceof byte[])
 		{
 			return ((byte[])obj).length * 2;

@@ -46,7 +46,7 @@ class StringTypeHandler implements TypeHandler
 	{
 		String str = rs.getString (column);
 		if (str == null)
-			return 0;
+			return -1;
 		return str.length ();
 	}
 }

@@ -52,7 +52,7 @@ class XmlTypeHandler implements TypeHandler
 	{
 		SQLXML xml = (SQLXML) rs.getObject (column);
 		if (xml  == null)
-			return 0;
+			return -1;
 		return xml.getString ().length ();
 	}
 }

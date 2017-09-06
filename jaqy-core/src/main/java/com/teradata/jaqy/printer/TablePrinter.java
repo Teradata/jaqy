@@ -240,7 +240,7 @@ class TablePrinter implements JaqyPrinter
 					if (skipShrink[i])
 						continue;
 					int len = handlers[i].getLength (rs, i + 1);
-					if (len == 0)
+					if (len == -1)
 					{
 						len = 4;
 					}
