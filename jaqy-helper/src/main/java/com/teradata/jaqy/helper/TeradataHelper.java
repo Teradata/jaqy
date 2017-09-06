@@ -154,7 +154,7 @@ class TeradataHelper extends DefaultHelper
 	public String getTableSchema (String tableName) throws Exception
 	{
 		String sql = "SHOW TABLE " + tableName;
-		return QueryUtils.getQueryString (getConnection(), sql, 2);
+		return QueryUtils.getQueryString (getConnection(), sql, 1);
 	}
 
 	@Override

@@ -40,4 +40,13 @@ class StringTypeHandler implements TypeHandler
 	{
 		return rs.getString (column);
 	}
+
+	@Override
+	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	{
+		String str = rs.getString (column);
+		if (str == null)
+			return 0;
+		return str.length ();
+	}
 }

@@ -41,6 +41,7 @@ public class TypeHandlerRegistry
 		s_typePrinterMap.put (Types.BLOB, BinaryTypeHandler.getInstance ());
 
 		s_typePrinterMap.put (Types.SQLXML, XmlTypeHandler.getInstance ());
+		s_typePrinterMap.put (Types.OTHER, ObjectTypeHandler.getInstance ());
 	}
 
 	public static TypeHandler getTypeHandler (int type)

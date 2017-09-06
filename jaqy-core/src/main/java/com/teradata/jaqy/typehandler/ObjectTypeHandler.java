@@ -46,7 +46,7 @@ class ObjectTypeHandler implements TypeHandler
 		if (obj instanceof Clob)
 		{
 			Clob clob = (Clob)obj;
-			value = clob.getSubString (1, (int)clob.length ());
+			value = clob.getSubString (1, (int) clob.length ());
 			clob.free ();
 		}
 		else if (obj instanceof byte[])
@@ -65,5 +65,29 @@ class ObjectTypeHandler implements TypeHandler
 			value = obj.toString ();
 		}
 		return value;
+	}
+
+	@Override
+	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	{
+		Object obj = rs.getObject (column);
+		if (obj == null)
+			return 0;
+		if (obj instanceof Clob)
+		{
+			return (int)((Clob)obj).length ();
+		}
+		else if (obj instanceof byte[])
+		{
+			return ((byte[])obj).length * 2;
+		}
+		else if (obj instanceof Blob)
+		{
+			return (int)((Blob)obj).length () * 2;
+		}
+		else
+		{
+			return obj.toString ().length ();
+		}
 	}
 }

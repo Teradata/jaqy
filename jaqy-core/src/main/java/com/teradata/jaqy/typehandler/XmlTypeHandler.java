@@ -46,4 +46,13 @@ class XmlTypeHandler implements TypeHandler
 		xml.free ();
 		return value;
 	}
+
+	@Override
+	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	{
+		SQLXML xml = (SQLXML) rs.getObject (column);
+		if (xml  == null)
+			return 0;
+		return xml.getString ().length ();
+	}
 }

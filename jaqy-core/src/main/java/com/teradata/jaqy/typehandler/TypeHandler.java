@@ -25,4 +25,5 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 public interface TypeHandler
 {
 	public String getString (JaqyResultSet rs, int column) throws SQLException;
+	public int getLength (JaqyResultSet rs, int column) throws SQLException;
 }

@@ -56,4 +56,22 @@ class BinaryTypeHandler implements TypeHandler
 		}
 		return "Unable to handle " + obj.getClass ();
 	}
+
+	@Override
+	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	{
+		Object obj = rs.getObject (column);
+		if (obj == null)
+			return 0;
+		else if (obj instanceof byte[])
+		{
+			return ((byte[])obj).length * 2;
+		}
+		else if (obj instanceof Blob)
+		{
+			Blob blob = (Blob)obj;
+			return (int)blob.length ();
+		}
+		throw new RuntimeException ("Unable to handle " + obj.getClass ());
+	}
 }

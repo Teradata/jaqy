@@ -239,12 +239,12 @@ class TablePrinter implements JaqyPrinter
 				{
 					if (skipShrink[i])
 						continue;
-					String str = handlers[i].getString (rs, i + 1);
-					if (str == null)
+					int len = handlers[i].getLength (rs, i + 1);
+					if (len == 0)
 					{
-						str = "NULL";
+						len = 4;
 					}
-					widths[i] = Math.max (widths[i], str.length ());
+					widths[i] = Math.max (widths[i], len);
 				}
 				++lineCount;
 			}

@@ -46,4 +46,11 @@ class ClobTypeHandler implements TypeHandler
 		clob.free ();
 		return str;
 	}
+
+	@Override
+	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	{
+		Clob clob = (Clob) rs.getObject (column);
+		return (int)clob.length ();
+	}
 }
