@@ -19,9 +19,6 @@ pretty well.
 
 ## Build
 
-To make the build, you will need to install some required JDBC drivers for
-compilation purposes.  Then run the following command.
-
 ```bash
 mvn clean package -Dmaven.test.skip=true
 ```
