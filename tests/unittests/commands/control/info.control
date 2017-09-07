@@ -177,6 +177,7 @@ table_schem,table_catalog
 information_schema,
 pg_catalog,
 public,
+topology,
 -- 0/14 - 0 ---------------------------------------------------------------
 .info table
 TABLE_TYPE

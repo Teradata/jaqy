@@ -93,19 +93,6 @@ public interface JaqyHelper
 	 */
 	public boolean isJsonColumn (JaqyResultSetMetaData meta, int column)  throws SQLException;
 	/**
-	 * Check if a ResultSet column is a geospatial column (i.e. ST_GEOMETRY).
-	 * Until JDBC has ST_GEOMETRY built-in, we need a way to recognizes it.
-	 *
-	 * @param	meta
-	 * @param	column
-	 * 			the column index, starting from 1.
-	 * @return	true if the column is a JSON column.
-	 * 			false otherwise.
-	 * @throws	SQLException
-	 * 			in case of error.
-	 */
-	public boolean isSpatialColumn (JaqyResultSetMetaData meta, int column) throws SQLException;
-	/**
 	 * Get the type handler for a particular column.
 	 *
 	 * @param	rs

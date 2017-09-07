@@ -261,14 +261,6 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public boolean isSpatialColumn (JaqyResultSetMetaData meta, int column) throws SQLException
-	{
-		if ("ST_GEOMETRY".equalsIgnoreCase (meta.getColumnTypeName (column)))
-			return true;
-		return false;
-	}
-
-	@Override
 	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException
 	{
 		return TypeHandlerRegistry.getTypeHandler (rs.getMetaData ().getColumnType (column));
@@ -414,6 +406,15 @@ public class DefaultHelper implements JaqyHelper
 		return Types.OTHER;
 	}
 
+	protected ColumnInfo[] createElementType (int type, String typeName)
+	{
+		ColumnInfo[] infos = new ColumnInfo[1];
+		infos[0] = new ColumnInfo ();
+		infos[0].type = type;
+		infos[0].typeName = typeName;
+		return infos;
+	}
+
 	private void setVarCharType (ColumnInfo info)
 	{
 		info.type = Types.VARCHAR;
@@ -445,8 +446,7 @@ public class DefaultHelper implements JaqyHelper
 			 * as array of string. 
 			 */
 			info.type = Types.ARRAY;
-			info.children = new ColumnInfo[1];
-			info.children[0] = new ColumnInfo ();
+			info.children = createElementType (Types.VARCHAR, "varchar");
 			setVarCharType (info.children[0]);
 		}
 	}

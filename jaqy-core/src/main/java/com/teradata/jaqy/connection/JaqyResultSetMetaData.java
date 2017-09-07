@@ -286,9 +286,4 @@ public class JaqyResultSetMetaData
 	{
 		return m_helper.isJsonColumn (this, column);
 	}
-
-	public boolean isSpatial (int column) throws SQLException
-	{
-		return m_helper.isSpatialColumn (this, column);
-	}
 }

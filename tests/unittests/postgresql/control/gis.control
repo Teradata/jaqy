@@ -1,0 +1,219 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test PostGIS data type
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+.debug resultset on
+-- 0/3 - 0 ----------------------------------------------------------------
+
+CREATE TABLE GeoTable
+(
+	a  INTEGER,
+	c1 Geography
+);
+-- success. update count = 0
+-- 1/3 - 0 ----------------------------------------------------------------
+.format table
+-- 1/4 - 0 ----------------------------------------------------------------
+.desc GeoTable
+Column Type      Nullable
+------ --------- --------
+a      int4      Yes
+c1     geography Yes
+-- 1/5 - 0 ----------------------------------------------------------------
+.schema GeoTable
+CREATE TABLE GeoTable (
+	a int4,
+	c1 geography
+)
+-- 1/6 - 0 ----------------------------------------------------------------
+
+INSERT INTO GeoTable VALUES (1, 'POINT(0 0)');
+-- success. update count = 1
+-- 2/6 - 0 ----------------------------------------------------------------
+INSERT INTO GeoTable VALUES (2, 'POINT(1 1 1)');
+-- success. update count = 1
+-- 3/6 - 0 ----------------------------------------------------------------
+INSERT INTO GeoTable VALUES (3, 'POINT EMPTY');
+-- success. update count = 1
+-- 4/6 - 0 ----------------------------------------------------------------
+INSERT INTO GeoTable VALUES (4, 'LINESTRING(0 0,1 1)');
+-- success. update count = 1
+-- 5/6 - 0 ----------------------------------------------------------------
+INSERT INTO GeoTable VALUES (5, 'SRID=4269;POINT(1.5 1.5)');
+-- success. update count = 1
+-- 6/6 - 0 ----------------------------------------------------------------
+
+.format csv
+-- 6/7 - 0 ----------------------------------------------------------------
+SELECT * FROM GeoTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         OTHER
+    SQL Type                                     geography
+    Java Class                                   java.lang.Object
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a,c1
+1,0101000020E610000000000000000000000000000000000000
+2,01010000A0E6100000000000000000F03F000000000000F03F000000000000F03F
+3,0101000020E6100000000000000000F87F000000000000F87F
+4,0102000020E61000000200000000000000000000000000000000000000000000000000F03F000000000000F03F
+5,0101000020AD100000000000000000F83F000000000000F83F
+-- activity count = 5
+-- 7/7 - 0 ----------------------------------------------------------------
+SELECT a, ST_AsText(c1) FROM GeoTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         st_astext
+    Label                                        st_astext
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     2
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a,st_astext
+1,POINT(0 0)
+2,POINT Z (1 1 1)
+3,POINT EMPTY
+4,"LINESTRING(0 0,1 1)"
+5,POINT(1.5 1.5)
+-- activity count = 5
+-- 8/7 - 0 ----------------------------------------------------------------
+SELECT a, ST_AsEWKT(c1) FROM GeoTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   geotable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         st_asewkt
+    Label                                        st_asewkt
+    Type                                         VARCHAR
+    SQL Type                                     text
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     2
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a,st_asewkt
+1,SRID=4326;POINT(0 0)
+2,SRID=4326;POINT(1 1 1)
+3,SRID=4326;POINT EMPTY
+4,"SRID=4326;LINESTRING(0 0,1 1)"
+5,SRID=4269;POINT(1.5 1.5)
+-- activity count = 5
+-- 9/7 - 0 ----------------------------------------------------------------
+
+DROP TABLE GeoTable;
+-- success. update count = 0
+-- 10/7 - 0 ---------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 10/8 - 0 ---------------------------------------------------------------

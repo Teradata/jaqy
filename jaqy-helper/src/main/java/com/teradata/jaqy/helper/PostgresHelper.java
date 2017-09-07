@@ -47,17 +47,6 @@ class PostgresHelper extends DefaultHelper
 	}
 
 	@Override
-	public boolean isSpatialColumn (JaqyResultSetMetaData meta, int column) throws SQLException
-	{
-		/* PostGIS uses Geosgraphy instead of ST_GEOMETRY which is in the
-		 * SQL-MM standard.
-		 */
-		if ("geography".equalsIgnoreCase (meta.getColumnTypeName (column)))
-			return true;
-		return false;
-	}
-
-	@Override
 	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException
 	{
 		String type = meta.getColumnTypeName (column);
@@ -83,12 +72,31 @@ class PostgresHelper extends DefaultHelper
 			String elementType = info.typeName.substring (1);
 			if ("bytea".equals (elementType))
 			{
-				info.children = new ColumnInfo[1];
-				info.children[0] = new ColumnInfo ();
-				info.children[0].type = Types.VARBINARY;
-				info.children[0].typeName = elementType;
+				info.children = createElementType (Types.VARBINARY, elementType);
 				info.children[0].precision = Integer.MAX_VALUE;
 				info.children[0].nullable = ResultSetMetaData.columnNullable;
+			}
+			else if ("int2".equals (elementType))
+			{
+				info.children = createElementType (Types.SMALLINT, elementType);
+			}
+			else if ("int4".equals (elementType) ||
+					 "serial".equals (elementType))
+			{
+				info.children = createElementType (Types.INTEGER, elementType);
+			}
+			else if ("int8".equals (elementType) ||
+					 "bigserial".equals (elementType))
+			{
+				info.children = createElementType (Types.BIGINT, elementType);
+			}
+			else if ("float8".equals (elementType))
+			{
+				info.children = createElementType (Types.DOUBLE, elementType);
+			}
+			else if ("numeric".equals (elementType))
+			{
+				info.children = createElementType (Types.NUMERIC, elementType);
 			}
 			else
 			{
