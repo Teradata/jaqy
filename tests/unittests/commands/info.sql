@@ -4,26 +4,28 @@
 .help info
 .info
 .info dummy
-
-.run ../common/postgresql_setup.sql
 .format csv
 
+.run ../common/postgresql_setup.sql
 .info behavior
 .info client
 .info feature
 .info function
 .info keyword
 .info limit
-.info schema
 .info table
 .info user
+.close
 
+.run ../common/mysql_setup.sql
+.open sqlite::memory:
+.info catalog
+.info schema
 .close
 
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
 .info server
-.info catalog
 .info type
 .close
 
