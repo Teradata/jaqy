@@ -9,7 +9,6 @@
 .format csv
 
 .info behavior
-.info catalog
 .info client
 .info feature
 .info function
@@ -24,6 +23,7 @@
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
 .info server
+.info catalog
 .info type
 .close
 
