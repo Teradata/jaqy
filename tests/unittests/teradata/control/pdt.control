@@ -3,21 +3,19 @@ Teradata Jaqy Console 1.0
 --------------------------------------------------------------------------
 -- PERIOD data type test
 --------------------------------------------------------------------------
-.format json
--- 0/1 - 0 ----------------------------------------------------------------
 .run setup.sql
 -- Running script: setup.sql
--- 0/2 - 0 ----------------------------------------------------------------
+-- 0/1 - 0 ----------------------------------------------------------------
 .classpath teradata lib/tdgssconfig.jar:lib/terajdbc4.jar
--- 0/3 - 0 ----------------------------------------------------------------
+-- 0/2 - 0 ----------------------------------------------------------------
 .open -u dbc -p dbc teradata://127.0.0.1/CHARSET=UTF8
--- 0/4 - 0 ----------------------------------------------------------------
+-- 0/3 - 0 ----------------------------------------------------------------
 CREATE DATABASE vagrant AS PERM=1e8;
 -- success. update count = 0
--- 1/4 - 0 ----------------------------------------------------------------
+-- 1/3 - 0 ----------------------------------------------------------------
 DATABASE vagrant;
 -- success. update count = 0
--- 2/4 - 0 ----------------------------------------------------------------
+-- 2/3 - 0 ----------------------------------------------------------------
 
 CREATE TABLE pdtTable
 (
@@ -29,141 +27,28 @@ CREATE TABLE pdtTable
 	p5 PERIOD(TIMESTAMP(6) WITH TIME ZONE)
 );
 -- success. update count = 0
--- 3/4 - 0 ----------------------------------------------------------------
+-- 3/3 - 0 ----------------------------------------------------------------
 
 INSERT INTO pdtTable VALUES (1, PERIOD(DATE'2001-02-03', DATE'2002-03-04'), PERIOD(TIME'01:02:03.123456', TIME'02:03:04.123456'), PERIOD(TIME'01:02:03.123456-08:00', TIME'02:03:04.123456-08:00'), PERIOD(TIMESTAMP'2001-02-03 01:02:03.123456', TIMESTAMP'2002-03-04 02:03:04.123456'), PERIOD(TIMESTAMP'2001-02-03 01:02:03.123456-08:00', TIMESTAMP'2002-03-04 02:03:04.123456-08:00'));
 -- success. update count = 1
--- 4/4 - 0 ----------------------------------------------------------------
+-- 4/3 - 0 ----------------------------------------------------------------
 INSERT INTO pdtTable VALUES (2, NULL, NULL, NULL, NULL, NULL);
 -- success. update count = 1
--- 5/4 - 0 ----------------------------------------------------------------
+-- 5/3 - 0 ----------------------------------------------------------------
 
-.debug resultset on
--- 5/5 - 0 ----------------------------------------------------------------
-.debug preparedstatement on
--- 5/6 - 0 ----------------------------------------------------------------
+.format table
+-- 5/4 - 0 ----------------------------------------------------------------
 SELECT * FROM pdtTable ORDER BY a;
-ResultSet Column Count                       6
-  Index                                        1
-    Name                                         a
-    Label                                        a
-    Type                                         INTEGER
-    SQL Type                                     INTEGER
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         p1
-    Label                                        p1
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(DATE)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        3
-    Name                                         p2
-    Label                                        p2
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIME)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        4
-    Name                                         p3
-    Label                                        p3
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIME WITH TIME ZONE)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        5
-    Name                                         p4
-    Label                                        p4
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIMESTAMP)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        6
-    Name                                         p5
-    Label                                        p5
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIMESTAMP WITH TIME ZONE)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
+-- success --
+a p1                      p2                  p3                  p4                                                      p5
+- ----------------------- ------------------- ------------------- ------------------------------------------------------- -------------------------------------------------------
+1 (2001-02-03,2002-03-04) (01:02:03,02:03:04) (01:02:03,02:03:04) (2001-02-03 01:02:03.123456,2002-03-04 02:03:04.123456) (2001-02-03 01:02:03.123456,2002-03-04 02:03:04.123456)
+2 ?                       ?                   ?                   ?                                                       ?
+-- activity count = 2
+-- 6/4 - 0 ----------------------------------------------------------------
+.format json
+-- 6/5 - 0 ----------------------------------------------------------------
+SELECT * FROM pdtTable ORDER BY a;
 -- success --
 [
 	{
@@ -199,10 +84,14 @@ ResultSet Column Count                       6
 	}
 ]
 -- activity count = 2
--- 6/6 - 0 ----------------------------------------------------------------
+-- 7/5 - 0 ----------------------------------------------------------------
 
+.debug resultset on
+-- 7/6 - 0 ----------------------------------------------------------------
+.debug preparedstatement on
+-- 7/7 - 0 ----------------------------------------------------------------
 .export json t.json
--- 6/7 - 0 ----------------------------------------------------------------
+-- 7/8 - 0 ----------------------------------------------------------------
 SELECT * FROM pdtTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
@@ -210,6 +99,7 @@ ResultSet Column Count                       6
     Label                                        a
     Type                                         INTEGER
     SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       vagrant
     Table Name                                   pdtTable
@@ -230,6 +120,7 @@ ResultSet Column Count                       6
     Label                                        p1
     Type                                         STRUCT
     SQL Type                                     PERIOD(DATE)
+    Java Class                                   java.sql.Struct
     Catalog                                      
     Schema                                       vagrant
     Table Name                                   pdtTable
@@ -250,6 +141,7 @@ ResultSet Column Count                       6
     Label                                        p2
     Type                                         STRUCT
     SQL Type                                     PERIOD(TIME)
+    Java Class                                   java.sql.Struct
     Catalog                                      
     Schema                                       vagrant
     Table Name                                   pdtTable
@@ -270,6 +162,7 @@ ResultSet Column Count                       6
     Label                                        p3
     Type                                         STRUCT
     SQL Type                                     PERIOD(TIME WITH TIME ZONE)
+    Java Class                                   java.sql.Struct
     Catalog                                      
     Schema                                       vagrant
     Table Name                                   pdtTable
@@ -290,6 +183,7 @@ ResultSet Column Count                       6
     Label                                        p4
     Type                                         STRUCT
     SQL Type                                     PERIOD(TIMESTAMP)
+    Java Class                                   java.sql.Struct
     Catalog                                      
     Schema                                       vagrant
     Table Name                                   pdtTable
@@ -310,6 +204,7 @@ ResultSet Column Count                       6
     Label                                        p5
     Type                                         STRUCT
     SQL Type                                     PERIOD(TIMESTAMP WITH TIME ZONE)
+    Java Class                                   java.sql.Struct
     Catalog                                      
     Schema                                       vagrant
     Table Name                                   pdtTable
@@ -327,12 +222,12 @@ ResultSet Column Count                       6
     Writable                                     Y
 -- success --
 -- activity count = 2
--- 7/7 - 0 ----------------------------------------------------------------
+-- 8/8 - 0 ----------------------------------------------------------------
 DELETE FROM pdtTable;
 -- success. update count = 2
--- 8/7 - 0 ----------------------------------------------------------------
+-- 9/8 - 0 ----------------------------------------------------------------
 .import json t.json
--- 8/8 - 0 ----------------------------------------------------------------
+-- 9/9 - 0 ----------------------------------------------------------------
 INSERT INTO pdtTable VALUES ({{a}}, {{p1}}, {{p2}}, {{p3}}, {{p4}}, {{p5}});
 Parameter Count                              6
   Index                                        1
@@ -389,129 +284,12 @@ Parameter Count                              6
     Nullable                                     1
     Signed                                       N
     Mode                                         Unknown
--- 9/8 - 0 ----------------------------------------------------------------
+-- 10/9 - 0 ---------------------------------------------------------------
+.debug resultset off
+-- 10/10 - 0 --------------------------------------------------------------
+.debug preparedstatement off
+-- 10/11 - 0 --------------------------------------------------------------
 SELECT * FROM pdtTable ORDER BY a;
-ResultSet Column Count                       6
-  Index                                        1
-    Name                                         a
-    Label                                        a
-    Type                                         INTEGER
-    SQL Type                                     INTEGER
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         p1
-    Label                                        p1
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(DATE)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        3
-    Name                                         p2
-    Label                                        p2
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIME)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        4
-    Name                                         p3
-    Label                                        p3
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIME WITH TIME ZONE)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        5
-    Name                                         p4
-    Label                                        p4
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIMESTAMP)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
-  Index                                        6
-    Name                                         p5
-    Label                                        p5
-    Type                                         STRUCT
-    SQL Type                                     PERIOD(TIMESTAMP WITH TIME ZONE)
-    Catalog                                      
-    Schema                                       vagrant
-    Table Name                                   pdtTable
-    Display Size                                 0
-    Precision                                    0
-    Scale                                        6
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          Y
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
 -- success --
 [
 	{
@@ -547,16 +325,68 @@ ResultSet Column Count                       6
 	}
 ]
 -- activity count = 2
--- 10/8 - 0 ---------------------------------------------------------------
+-- 11/11 - 0 --------------------------------------------------------------
+
+.export csv t.csv
+-- 11/12 - 0 --------------------------------------------------------------
+SELECT * FROM pdtTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 12/12 - 0 --------------------------------------------------------------
+.import csv t.csv
+-- 12/13 - 0 --------------------------------------------------------------
+INSERT INTO pdtTable VALUES ({{a}}, {{p1}}, {{p2}}, {{p3}}, {{p4}}, {{p5}});
+-- error: Invalid column name: a
+-- 12/13 - 0 --------------------------------------------------------------
+SELECT * FROM pdtTable ORDER BY a;
+-- success --
+[
+	{
+		"a" : 1,
+		"p1" : [
+			"2001-02-03",
+			"2002-03-04"
+		],
+		"p2" : [
+			"01:02:03",
+			"02:03:04"
+		],
+		"p3" : [
+			"01:02:03",
+			"02:03:04"
+		],
+		"p4" : [
+			"2001-02-03 01:02:03.123456",
+			"2002-03-04 02:03:04.123456"
+		],
+		"p5" : [
+			"2001-02-03 01:02:03.123456",
+			"2002-03-04 02:03:04.123456"
+		]
+	},
+	{
+		"a" : 2,
+		"p1" : null,
+		"p2" : null,
+		"p3" : null,
+		"p4" : null,
+		"p5" : null
+	}
+]
+-- activity count = 2
+-- 13/13 - 0 --------------------------------------------------------------
 
 DELETE DATABASE vagrant;
 -- success. update count = 0
--- 11/8 - 0 ---------------------------------------------------------------
+-- 14/13 - 0 --------------------------------------------------------------
 DROP DATABASE vagrant;
 -- success. update count = 0
--- 12/8 - 0 ---------------------------------------------------------------
+-- 15/13 - 0 --------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 12/9 - 0 ---------------------------------------------------------------
+-- 15/14 - 0 --------------------------------------------------------------
 .os rm -f t.json
--- 12/10 - 0 --------------------------------------------------------------
+-- 15/15 - 0 --------------------------------------------------------------
+.os rm -f t.csv
+-- 15/16 - 0 --------------------------------------------------------------
+

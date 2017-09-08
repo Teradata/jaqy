@@ -31,6 +31,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.ColumnInfo;
 import com.teradata.jaqy.utils.ParameterInfo;
 import com.teradata.jaqy.utils.QueryUtils;
@@ -41,6 +42,42 @@ import com.teradata.jaqy.utils.TypesUtils;
  */
 class TeradataHelper extends DefaultHelper
 {
+	private final static TypeHandler s_pdtHandler = new TypeHandler ()
+	{
+		@Override
+		public String getString (JaqyResultSet rs, int column) throws SQLException
+		{
+			Struct str = (Struct)rs.getObject (column);
+			if (str == null)
+				return null;
+			StringBuilder builder = new StringBuilder ();
+			builder.append ('(');
+			for (Object obj : str.getAttributes ())
+			{
+				if (builder.length () > 1)
+					builder.append (',');
+				builder.append (obj);
+			}
+			builder.append (')');
+			return builder.toString ();
+		}
+
+		@Override
+		public int getLength (JaqyResultSet rs, int column) throws SQLException
+		{
+			Struct str = (Struct)rs.getObject (column);
+			if (str == null)
+				return -1;
+			int len = 3;
+			for (Object obj : str.getAttributes ())
+			{
+				if (obj != null)
+					len += obj.toString ().length ();
+			}
+			return len;
+		}
+	};
+
 	public TeradataHelper (JaqyConnection conn, Globals globals)
 	{
 		super (new JdbcFeatures (), conn, globals);
@@ -105,6 +142,20 @@ class TeradataHelper extends DefaultHelper
 			}
 		}
 		return new JaqyResultSet (rs, this);
+	}
+
+	@Override
+	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException
+	{
+		if (rs.getMetaData ().getColumnType (column) == Types.STRUCT)
+		{
+			String typeName = rs.getMetaData ().getColumnTypeName (column);
+			if (typeName != null && typeName.startsWith ("PERIOD("))
+			{
+				return s_pdtHandler;
+			}
+		}
+		return super.getTypeHandler (rs, column);
 	}
 
 	@Override
