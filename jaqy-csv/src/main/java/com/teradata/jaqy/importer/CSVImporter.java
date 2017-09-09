@@ -17,6 +17,7 @@ package com.teradata.jaqy.importer;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.Types;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.ParameterInfo;
 
@@ -143,5 +145,11 @@ class CSVImporter implements JaqyImporter<Integer>
 			m_naValues = s_defaultNaValues;
 		else
 			m_naValues = naValues;
+	}
+
+	@Override
+	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
+	{
+		stmt.setNull (column, Types.VARCHAR, "VARCHAR");
 	}
 }

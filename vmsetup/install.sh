@@ -28,6 +28,7 @@ sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo
 sudo apt-get update
 sudo apt-get install -y --force-yes postgis postgresql-9.3-postgis-2.3
 sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgres
+sudo /etc/init.d/postgresql restart
 
 # Create the swap file for running MySQL
 sudo fallocate -l 4G /swapfile

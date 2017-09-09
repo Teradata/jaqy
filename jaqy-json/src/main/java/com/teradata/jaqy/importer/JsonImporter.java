@@ -42,6 +42,7 @@ import org.yuanheng.cookjson.value.CookJsonBinary;
 import com.teradata.jaqy.Debug;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonFormat;
@@ -346,5 +347,11 @@ class JsonImporter implements JaqyImporter<String>
 			}
 		}
 		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (paramInfo.type));
+	}
+
+	@Override
+	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
+	{
+		stmt.setNull (column, paramInfo.type, paramInfo.typeName);
 	}
 }

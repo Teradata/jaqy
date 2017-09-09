@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.VariableHandler;
 import com.teradata.jaqy.utils.ParameterInfo;
@@ -122,5 +123,11 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 
 		// simply return a parameter marker
 		return "?";
+	}
+
+	@Override
+	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
+	{
+		m_importer.setNull (stmt, column, paramInfo);
 	}
 }

@@ -51,14 +51,14 @@ class TeradataHelper extends DefaultHelper
 			if (str == null)
 				return null;
 			StringBuilder builder = new StringBuilder ();
-			builder.append ('(');
+			builder.append ("('");
 			for (Object obj : str.getAttributes ())
 			{
-				if (builder.length () > 1)
-					builder.append (',');
+				if (builder.length () > 2)
+					builder.append ("', '");
 				builder.append (obj);
 			}
-			builder.append (')');
+			builder.append ("')");
 			return builder.toString ();
 		}
 
@@ -68,7 +68,7 @@ class TeradataHelper extends DefaultHelper
 			Struct str = (Struct)rs.getObject (column);
 			if (str == null)
 				return -1;
-			int len = 3;
+			int len = 8;
 			for (Object obj : str.getAttributes ())
 			{
 				if (obj != null)

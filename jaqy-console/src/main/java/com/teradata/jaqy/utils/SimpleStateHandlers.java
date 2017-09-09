@@ -139,6 +139,10 @@ public class SimpleStateHandlers
 				String state = ex.getSQLState ();
 				state = (state == null) ? "" : "[" + state + "] ";
 				buffer.append ("-- failure " + ex.getErrorCode () + ": " + state + ex.getMessage ());
+				while ((ex = ex.getNextException ()) != null)
+				{
+					buffer.append ("\n-- cause   " + ex.getErrorCode () + ": " + state + ex.getMessage ());
+				}
 			}
 			else
 			{

@@ -18,6 +18,8 @@ package com.teradata.jaqy.connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.interfaces.JaqyHelper;
+
 /**
  * @author Heng Yuan
  */
@@ -30,6 +32,11 @@ public class JaqyPreparedStatement extends JaqyStatement
 	{
 		super (stmt, conn);
 		m_statement = stmt;
+	}
+
+	public JaqyHelper getHelper ()
+	{
+		return getConnection ().getHelper ();
 	}
 
 	public JaqyParameterMetaData getParameterMetaData () throws SQLException

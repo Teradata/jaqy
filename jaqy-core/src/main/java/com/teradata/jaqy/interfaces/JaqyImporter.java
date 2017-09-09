@@ -18,6 +18,7 @@ package com.teradata.jaqy.interfaces;
 import java.io.Closeable;
 
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
@@ -85,4 +86,6 @@ public interface JaqyImporter<P> extends Closeable
 	 * 			in case of error.
 	 */
 	public Object getObjectFromPath (P path, ParameterInfo paramInfo) throws Exception;
+
+	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception;
 }

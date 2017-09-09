@@ -251,7 +251,8 @@ public class Session
 					Object o = importer.getObject (i, parameterInfos[i]);
 					if (o == null)
 					{
-						stmt.setNull (i + 1, parameterInfos[i].type, parameterInfos[i].typeName);
+						//stmt.setNull (i + 1, parameterInfos[i].type, parameterInfos[i].typeName);
+						importer.setNull (stmt, i + 1, parameterInfos[i]);
 						continue;
 					}
 					switch (parameterInfos[i].type)

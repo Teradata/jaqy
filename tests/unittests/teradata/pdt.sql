@@ -36,8 +36,9 @@ SELECT * FROM pdtTable ORDER BY a;
 
 .export csv t.csv
 SELECT * FROM pdtTable ORDER BY a;
-.import csv t.csv
-INSERT INTO pdtTable VALUES ({{a}}, {{p1}}, {{p2}}, {{p3}}, {{p4}}, {{p5}});
+DELETE FROM pdtTable;
+.import csv -h on -f t.csv
+INSERT INTO pdtTable VALUES (?, ?, ?, ?, ?, ?);
 SELECT * FROM pdtTable ORDER BY a;
 
 DELETE DATABASE vagrant;
