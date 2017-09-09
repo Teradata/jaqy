@@ -24,8 +24,8 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.utils.ColumnInfo;
-import com.teradata.jaqy.utils.ParameterInfo;
+import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.ParameterInfo;
 
 /**
  * @author	Heng Yuan

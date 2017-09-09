@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import com.teradata.jaqy.PropertyTable;
-import com.teradata.jaqy.utils.ColumnInfo;
+import com.teradata.jaqy.schema.ColumnInfo;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
@@ -41,7 +41,7 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	 */
 	InMemoryResultSetMetaData (ResultSetMetaData meta) throws SQLException
 	{
-		m_columnInfos = ResultSetMetaDataUtils.getColumnInfo (meta);
+		m_columnInfos = ResultSetMetaDataUtils.getColumnInfo (meta).columns;
 	}
 
 	/**

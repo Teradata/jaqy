@@ -19,7 +19,7 @@ import java.io.Closeable;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.utils.ParameterInfo;
+import com.teradata.jaqy.schema.ParameterInfo;
 
 /**
  * @author	Heng Yuan

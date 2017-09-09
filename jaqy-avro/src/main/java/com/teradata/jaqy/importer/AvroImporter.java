@@ -32,7 +32,7 @@ import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
-import com.teradata.jaqy.utils.ParameterInfo;
+import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**

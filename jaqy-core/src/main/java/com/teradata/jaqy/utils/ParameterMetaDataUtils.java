@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.schema.ParameterInfo;
 
 /**
  * @author	Heng Yuan

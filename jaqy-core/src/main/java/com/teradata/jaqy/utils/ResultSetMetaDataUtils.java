@@ -23,13 +23,15 @@ import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
  * @author	Heng Yuan
  */
 public class ResultSetMetaDataUtils
 {
-	public static ColumnInfo[] getColumnInfo (ResultSetMetaData meta) throws SQLException
+	public static SchemaInfo getColumnInfo (ResultSetMetaData meta) throws SQLException
 	{
 		int columnCount = meta.getColumnCount ();
 		ColumnInfo[] columnInfos = new ColumnInfo[columnCount];
@@ -59,7 +61,7 @@ public class ResultSetMetaDataUtils
 			columnInfo.writable = meta.isWritable (i + 1);
 			columnInfo.definitelyWritable= meta.isDefinitelyWritable (i + 1);
 		}
-		return columnInfos;
+		return new SchemaInfo (columnInfos);
 	}
 
 	private static void dumpColumn (PrintWriter pw, JaqyResultSetMetaData metaData, int column)

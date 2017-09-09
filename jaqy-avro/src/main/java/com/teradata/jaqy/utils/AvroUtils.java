@@ -36,6 +36,8 @@ import org.apache.avro.generic.GenericRecord;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
  * @author Heng Yuan
@@ -143,8 +145,9 @@ public class AvroUtils
 		return Schema.createRecord (childrenSchema);
 	}
 
-	public static Schema getSchema (ColumnInfo[] columnInfos, JaqyHelper helper) throws SQLException
+	public static Schema getSchema (SchemaInfo schemaInfo, JaqyHelper helper) throws SQLException
 	{
+		ColumnInfo[] columnInfos = schemaInfo.columns;
 		int columns = columnInfos.length;
 		ArrayList<Schema.Field> fields = new ArrayList<Schema.Field> (columns);
 
@@ -270,8 +273,9 @@ public class AvroUtils
 		throw new IllegalArgumentException ("Cannot convert " + obj.getClass () + " to " + avroType);
 	}
 
-	public static long print (DataFileWriter<GenericRecord> writer, Schema schema, JaqyResultSet rs, ColumnInfo[] columnInfos) throws Exception
+	public static long print (DataFileWriter<GenericRecord> writer, Schema schema, JaqyResultSet rs, SchemaInfo schemaInfo) throws Exception
 	{
+		ColumnInfo[] columnInfos = schemaInfo.columns;
 		int columns = columnInfos.length;
 		Schema.Type[] avroTypes = new Schema.Type[columns];
 		Schema[] avroSchemas = new Schema[columns];

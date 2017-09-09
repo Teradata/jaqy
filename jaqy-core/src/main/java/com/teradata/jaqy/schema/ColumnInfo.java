@@ -13,30 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.utils;
+package com.teradata.jaqy.schema;
 
 /**
  * @author	Heng Yuan
  */
 public class ColumnInfo
 {
+	public int type;
+	public String typeName;
+	public String className;
+	public int precision;
+	public int scale;
+	public int nullable;
+	public boolean signed;
+
 	public boolean autoIncrement;
 	public boolean caseSensitive;
 	public boolean searchable;
 	public boolean currency;
-	public int nullable;
-	public boolean signed;
 	public int displaySize;
 	public String label;
 	public String name;
 	public String schemaName;
-	public int precision;
-	public int scale;
 	public String tableName;
 	public String catalogName;
-	public int type;
-	public String typeName;
-	public String className;
 	public boolean readOnly;
 	public boolean writable;
 	public boolean definitelyWritable;

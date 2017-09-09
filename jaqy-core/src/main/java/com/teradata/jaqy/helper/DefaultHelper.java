@@ -34,10 +34,10 @@ import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
-import com.teradata.jaqy.utils.ColumnInfo;
-import com.teradata.jaqy.utils.ParameterInfo;
 
 /**
  * @author	Heng Yuan

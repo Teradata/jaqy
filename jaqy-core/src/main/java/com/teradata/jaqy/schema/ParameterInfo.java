@@ -1,4 +1,4 @@
-package com.teradata.jaqy.utils;
+package com.teradata.jaqy.schema;
 
 public class ParameterInfo
 {

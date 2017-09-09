@@ -33,8 +33,8 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.parser.VariableParser;
+import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.DriverManagerUtils;
-import com.teradata.jaqy.utils.ParameterInfo;
 import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 
 /**
