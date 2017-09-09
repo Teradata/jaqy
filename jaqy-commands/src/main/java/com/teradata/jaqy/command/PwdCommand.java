@@ -87,6 +87,8 @@ public class PwdCommand extends JaqyCommandAdapter
 			catch (SQLException ex)
 			{
 			}
+			if (builder.length () > 0)
+				builder.append (", ");
 			builder.append (schemaName).append (" : ").append (schema);
 		}
 

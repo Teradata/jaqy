@@ -80,22 +80,12 @@ public class ListCommand extends JaqyCommandAdapter
 		}
 		else if (args.length == 2)
 		{
-			if ("%".equals (args[0]))
-			{
-				interpreter.error ("Cannot specify * for catalog name when schema pattern is specified.");
-				return;
-			}
 			catalogPattern = args[0];
 			schemaPattern = args[1];
 			listType = 1;
 		}
 		else if (args.length >= 3)
 		{
-			if ("%".equals (args[0]))
-			{
-				interpreter.error ("Cannot specify * for catalog name when schema pattern is specified.");
-				return;
-			}
 			catalogPattern = args[0];
 			schemaPattern = args[1];
 			tablePattern = args[2];

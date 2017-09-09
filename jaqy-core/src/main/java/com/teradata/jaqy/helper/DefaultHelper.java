@@ -216,10 +216,15 @@ public class DefaultHelper implements JaqyHelper
 		{
 			start += 2;
 			hasHost = true;
-			int end = url.indexOf ('/', start);
+			int end = url.indexOf (':', start);
+			if (end > 0)
+				url = url.substring (start, end);
+			else
+				url = url.substring (start);
+			end = url.indexOf ('/');
 			if (end < 0)
 				end = url.length ();
-			String host = url.substring (start, end);
+			String host = url.substring (0, end);
 			if (hasUser)
 				buffer.append (" @ ");
 			buffer.append (host);

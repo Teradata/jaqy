@@ -73,7 +73,7 @@ CREATE TABLE MyTable2
 -- Listing schema: null.null
 -- 2/9 - 0 ----------------------------------------------------------------
 .list % .
--- error: Cannot specify * for catalog name when schema pattern is specified.
+-- Listing schema: %.null
 -- 2/10 - 0 ---------------------------------------------------------------
 .list . %
 -- Listing schema: null.%
@@ -275,7 +275,8 @@ CREATE TABLE MyTable2
 []
 -- 7/22 - 0 ---------------------------------------------------------------
 .list % .
--- error: Cannot specify * for catalog name when schema pattern is specified.
+-- Listing schema: %.null
+[]
 -- 7/23 - 0 ---------------------------------------------------------------
 .list . %
 -- Listing schema: vagrant.%
