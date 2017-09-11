@@ -39,12 +39,17 @@ class ClobTypeHandler implements TypeHandler
 	@Override
 	public String getString (JaqyResultSet rs, int columnIndex) throws SQLException
 	{
-		Clob clob = (Clob) rs.getObject (columnIndex);
-		if (clob == null)
+		Object o = rs.getObject (columnIndex);
+		if (o == null)
 			return null;
-		String str = clob.getSubString (1, (int)clob.length ());
-		clob.free ();
-		return str;
+		if (o instanceof Clob)
+		{
+			Clob clob = (Clob)o;
+			String value = clob.getSubString (1, (int)clob.length ());
+			clob.free ();
+			return value;
+		}
+		return o.toString ();
 	}
 
 	@Override

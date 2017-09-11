@@ -23,7 +23,7 @@ import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.Display;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
@@ -34,10 +34,10 @@ public class ResultSetMetaDataUtils
 	public static SchemaInfo getColumnInfo (ResultSetMetaData meta) throws SQLException
 	{
 		int columnCount = meta.getColumnCount ();
-		ColumnInfo[] columnInfos = new ColumnInfo[columnCount];
+		FullColumnInfo[] columnInfos = new FullColumnInfo[columnCount];
 		for (int i = 0; i < columnCount; ++i)
 		{
-			ColumnInfo columnInfo = new ColumnInfo ();
+			FullColumnInfo columnInfo = new FullColumnInfo ();
 			columnInfos[i] = columnInfo;
 
 			columnInfo.autoIncrement = meta.isAutoIncrement (i + 1);

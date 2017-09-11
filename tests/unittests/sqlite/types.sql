@@ -4,7 +4,6 @@
 --------------------------------------------------------------------------
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
-.format csv
 
 -- Null Type
 .debug resultset on

@@ -17,17 +17,16 @@ package com.teradata.jaqy.helper;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.interfaces.JaqyHelperFactory;
+import com.teradata.jaqy.connection.JdbcFeatures;
 
 /**
  * @author	Heng Yuan
  */
-public class PostgresHelperFactory implements JaqyHelperFactory
+public class PostgresHelperFactory extends DefaultHelperFactory
 {
 	@Override
-	public JaqyHelper getHelper (JaqyConnection conn, Globals globals)
+	public DefaultHelper createHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
-		return new PostgresHelper (conn, globals);
+		return new PostgresHelper (features, conn, globals);
 	}
 }

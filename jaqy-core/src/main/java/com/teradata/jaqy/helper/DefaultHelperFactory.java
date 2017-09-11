@@ -15,26 +15,61 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
+import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
  * @author	Heng Yuan
  */
 public class DefaultHelperFactory implements JaqyHelperFactory
 {
-	private final JdbcFeatures m_features = new JdbcFeatures ();
+	private Hashtable<String,SimpleQuery> m_sqlMap = new Hashtable<String,SimpleQuery> ();
+	private JdbcFeatures m_features = new JdbcFeatures ();
 
 	public DefaultHelperFactory ()
 	{
 	}
 
+	protected DefaultHelper createHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
+	{
+		return new DefaultHelper (getFeatures(), conn, globals);
+	}
+
 	@Override
 	public JaqyHelper getHelper (JaqyConnection conn, Globals globals)
 	{
-		return new DefaultHelper (m_features, conn, globals);
+		DefaultHelper helper = createHelper (getFeatures (), conn, globals);
+		setupHelper (helper);
+		return helper;
+	}
+
+	protected void setupHelper (DefaultHelper helper)
+	{
+		helper.setCatalogQuery (m_sqlMap.get ("catalogSQL"));
+		helper.setSchemaQuery (m_sqlMap.get ("schemaSQL"));
+		helper.setTableColumnQuery (m_sqlMap.get ("tableColumnSQL"));
+		helper.setTableSchemaQuery (m_sqlMap.get ("tableSchemaSQL"));
+	}
+
+	public JdbcFeatures getFeatures ()
+	{
+		return m_features;
+	}
+
+	public void setFeatures (JdbcFeatures features)
+	{
+		m_features = features;
+	}
+
+	public void setSQLMap (HashMap<String,SimpleQuery> sqls)
+	{
+		m_sqlMap.putAll (sqls);
 	}
 }

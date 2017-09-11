@@ -25,6 +25,8 @@ import java.nio.charset.Charset;
 import java.sql.Clob;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.utils.ExceptionUtils;
+
 /**
  * @author	Heng Yuan
  */

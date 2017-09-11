@@ -36,7 +36,7 @@ import org.apache.avro.generic.GenericRecord;
 
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
@@ -82,9 +82,9 @@ public class AvroUtils
 		}
 	}
 
-	private static Schema getArraySchema (ColumnInfo columnInfo)
+	private static Schema getArraySchema (FullColumnInfo columnInfo)
 	{
-		ColumnInfo[] childrenInfos = columnInfo.children;
+		FullColumnInfo[] childrenInfos = columnInfo.children;
 		if (childrenInfos == null ||
 			childrenInfos.length != 1)
 		{
@@ -111,16 +111,16 @@ public class AvroUtils
 		return Schema.createArray (childSchema);
 	}
 
-	private static Schema getStructSchema (ColumnInfo columnInfo)
+	private static Schema getStructSchema (FullColumnInfo columnInfo)
 	{
-		ColumnInfo[] childrenInfos = columnInfo.children;
+		FullColumnInfo[] childrenInfos = columnInfo.children;
 		if (childrenInfos == null)
 		{
 			// We cannot handle this case.
 			throw new RuntimeException ("Cannot handle column " + columnInfo.label + " type.");
 		}
 		List<Schema.Field> childrenSchema = new ArrayList<Schema.Field> ();
-		for (ColumnInfo child : childrenInfos)
+		for (FullColumnInfo child : childrenInfos)
 		{
 			Schema.Type childAvroType = getAvroType (child.type);
 			if (childAvroType == Schema.Type.ARRAY ||
@@ -147,7 +147,7 @@ public class AvroUtils
 
 	public static Schema getSchema (SchemaInfo schemaInfo, JaqyHelper helper) throws SQLException
 	{
-		ColumnInfo[] columnInfos = schemaInfo.columns;
+		FullColumnInfo[] columnInfos = schemaInfo.columns;
 		int columns = columnInfos.length;
 		ArrayList<Schema.Field> fields = new ArrayList<Schema.Field> (columns);
 
@@ -191,7 +191,7 @@ public class AvroUtils
 		return schema;
 	}
 
-	public static Object getAvroObject (Object obj, Schema.Type avroType, ColumnInfo columnInfo, Schema childSchema) throws SQLException
+	public static Object getAvroObject (Object obj, Schema.Type avroType, FullColumnInfo columnInfo, Schema childSchema) throws SQLException
 	{
 		switch (avroType)
 		{
@@ -275,7 +275,7 @@ public class AvroUtils
 
 	public static long print (DataFileWriter<GenericRecord> writer, Schema schema, JaqyResultSet rs, SchemaInfo schemaInfo) throws Exception
 	{
-		ColumnInfo[] columnInfos = schemaInfo.columns;
+		FullColumnInfo[] columnInfos = schemaInfo.columns;
 		int columns = columnInfos.length;
 		Schema.Type[] avroTypes = new Schema.Type[columns];
 		Schema[] avroSchemas = new Schema[columns];

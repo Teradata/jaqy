@@ -20,7 +20,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import com.teradata.jaqy.PropertyTable;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
+import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
@@ -30,7 +31,7 @@ import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
  */
 class InMemoryResultSetMetaData implements ResultSetMetaData
 {
-	private final ColumnInfo[] m_columnInfos;
+	private final FullColumnInfo[] m_columnInfos;
 
 	/**
 	 * Make a copy of the ResultSetMetaData
@@ -55,13 +56,13 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	{
 		String[] titles = pt.getTitles ();
 		int columnCount = titles.length;
-		ColumnInfo[] columnInfos = new ColumnInfo[columnCount];
+		FullColumnInfo[] columnInfos = new FullColumnInfo[columnCount];
 		m_columnInfos = columnInfos;
 		int lengths[] = pt.getLengths ();
 
 		for (int i = 0; i < columnCount; ++i)
 		{
-			ColumnInfo columnInfo = new ColumnInfo ();
+			FullColumnInfo columnInfo = new FullColumnInfo ();
 			columnInfos[i] = columnInfo;
 
 			columnInfo.autoIncrement = false;

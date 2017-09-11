@@ -24,7 +24,7 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 
 /**
@@ -32,9 +32,9 @@ import com.teradata.jaqy.schema.ParameterInfo;
  */
 class PostgresHelper extends DefaultHelper
 {
-	public PostgresHelper (JaqyConnection conn, Globals globals)
+	public PostgresHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
-		super (new JdbcFeatures (), conn, globals);
+		super (features, conn, globals);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ class PostgresHelper extends DefaultHelper
 	}
 
 	@Override
-	public void fixColumnInfo (ColumnInfo info)
+	public void fixColumnInfo (FullColumnInfo info)
 	{
 		if (info.type == Types.STRUCT)
 		{

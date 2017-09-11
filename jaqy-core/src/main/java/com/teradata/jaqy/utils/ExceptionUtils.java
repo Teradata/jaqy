@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.resultset;
+package com.teradata.jaqy.utils;
 
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -21,35 +21,40 @@ import java.sql.SQLFeatureNotSupportedException;
 /**
  * @author	Heng Yuan
  */
-class ExceptionUtils
+public class ExceptionUtils
 {
-	static SQLException getInvalidColumnIndex (int column)
+	public static SQLException getInvalidColumnIndex (int column)
 	{
 		return new SQLException ("Invalid column index " + column + ".");
 	}
 
-	static SQLException getInvalidRow ()
+	public static SQLException getInvalidRow ()
 	{
 		return new SQLException ("Invalid row.");
 	}
 
-	static SQLException getNotImplemented ()
+	public static SQLException getNotImplemented ()
 	{
 		return new SQLFeatureNotSupportedException ("Not implemented.");
 	}
 
-	static SQLException getClosed ()
+	public static SQLException getClosed ()
 	{
 		return new SQLException ("ResultSet was already closed.");
 	}
 
-	static SQLException getCannotCast ()
+	public static SQLException getCannotCast ()
 	{
 		return new SQLException ("Cannot cast to the data type requested.");
 	}
 
-	static SQLException getIllegalArgument ()
+	public static SQLException getIllegalArgument ()
 	{
 		return new SQLException ("Illegal argument.");
+	}
+
+	public static RuntimeException getTableNotFound ()
+	{
+		return new RuntimeException ("Table was not found.");
 	}
 }

@@ -34,6 +34,7 @@ public class TypeHandlerRegistry
 		s_typePrinterMap.put (Types.NVARCHAR, StringTypeHandler.getInstance ());
 		s_typePrinterMap.put (Types.LONGNVARCHAR, StringTypeHandler.getInstance ());
 		s_typePrinterMap.put (Types.CLOB, ClobTypeHandler.getInstance ());
+		s_typePrinterMap.put (Types.NCLOB, ClobTypeHandler.getInstance ());
 
 		s_typePrinterMap.put (Types.BINARY, BinaryTypeHandler.getInstance ());
 		s_typePrinterMap.put (Types.VARBINARY, BinaryTypeHandler.getInstance ());

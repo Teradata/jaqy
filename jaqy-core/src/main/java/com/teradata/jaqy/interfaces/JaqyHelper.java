@@ -26,7 +26,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
 
@@ -154,7 +154,7 @@ public interface JaqyHelper
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public JaqyResultSet getColumns (String tableName) throws Exception;
+	public JaqyResultSet getTableColumns (String tableName) throws Exception;
 	/**
 	 * Do a client side fix of the column metadata information.  The fix
 	 * is to get rid of incorrect or ambiguous type informations.
@@ -162,7 +162,7 @@ public interface JaqyHelper
 	 * @param	info
 	 * 			column metadata
 	 */
-	public void fixColumnInfo (ColumnInfo info);
+	public void fixColumnInfo (FullColumnInfo info);
 	/**
 	 * Do a client side fix of the column metadata information.  The fix
 	 * is to get rid of incorrect or ambiguous type informations.

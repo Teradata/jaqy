@@ -18,32 +18,11 @@ package com.teradata.jaqy.schema;
 /**
  * @author	Heng Yuan
  */
-public class ColumnInfo
+public class BasicTypeInfo
 {
 	public int type;
 	public String typeName;
 	public String className;
 	public int precision;
 	public int scale;
-	public int nullable;
-	public boolean signed;
-
-	public boolean autoIncrement;
-	public boolean caseSensitive;
-	public boolean searchable;
-	public boolean currency;
-	public int displaySize;
-	public String label;
-	public String name;
-	public String schemaName;
-	public String tableName;
-	public String catalogName;
-	public boolean readOnly;
-	public boolean writable;
-	public boolean definitelyWritable;
-
-	/**
-	 * For ARRAY / STRUCT types, obtain the children types.
-	 */
-	public ColumnInfo[] children;
 }

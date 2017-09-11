@@ -21,6 +21,8 @@ import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.utils.ExceptionUtils;
+
 /**
  * @author	Heng Yuan
  */

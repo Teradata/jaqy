@@ -13,21 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.helper;
-
-import com.teradata.jaqy.Globals;
-import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.interfaces.JaqyHelperFactory;
+package com.teradata.jaqy.schema;
 
 /**
  * @author	Heng Yuan
  */
-public class MySQLHelperFactory implements JaqyHelperFactory
+public class FullColumnInfo extends BasicTypeInfo
 {
-	@Override
-	public JaqyHelper getHelper (JaqyConnection conn, Globals globals)
-	{
-		return new MySQLHelper (conn, globals);
-	}
+	public int nullable;
+	public boolean signed;
+
+	public boolean autoIncrement;
+	public boolean caseSensitive;
+	public boolean searchable;
+	public boolean currency;
+	public int displaySize;
+	public String label;
+	public String name;
+	public String schemaName;
+	public String tableName;
+	public String catalogName;
+	public boolean readOnly;
+	public boolean writable;
+	public boolean definitelyWritable;
+
+	/**
+	 * For ARRAY / STRUCT types, obtain the children types.
+	 */
+	public FullColumnInfo[] children;
 }

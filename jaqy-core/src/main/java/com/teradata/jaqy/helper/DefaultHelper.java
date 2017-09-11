@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Struct;
 import java.sql.Types;
+import java.text.MessageFormat;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.PropertyTable;
@@ -34,10 +35,14 @@ import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.BasicTypeInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
+import com.teradata.jaqy.utils.ExceptionUtils;
+import com.teradata.jaqy.utils.QueryUtils;
+import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
  * @author	Heng Yuan
@@ -52,6 +57,12 @@ public class DefaultHelper implements JaqyHelper
 	private final JaqyConnection m_conn;
 	private final Globals m_globals;
 	private final JdbcFeatures m_features;
+
+	private SimpleQuery m_catalogQuery;
+	private SimpleQuery m_schemaQuery;
+	private SimpleQuery m_tableSchemaQuery;
+	private MessageFormat m_tableSchemaFormat;
+	private MessageFormat m_tableColumnFormat;
 
 	public DefaultHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
@@ -179,13 +190,17 @@ public class DefaultHelper implements JaqyHelper
 	@Override
 	public String getCatalog () throws SQLException
 	{
-		return getCatalogInternal ();
+		if (m_catalogQuery == null)
+			return getCatalogInternal ();
+		return QueryUtils.getQueryString (m_conn, m_catalogQuery.sql, m_catalogQuery.columnIndex);
 	}
 
 	@Override
 	public String getSchema () throws SQLException
 	{
-		return getSchemaInternal ();
+		if (m_schemaQuery == null)
+			return getSchemaInternal ();
+		return QueryUtils.getQueryString (m_conn, m_schemaQuery.sql, m_schemaQuery.columnIndex);
 	}
 
 	@Override
@@ -286,6 +301,32 @@ public class DefaultHelper implements JaqyHelper
 	/**
 	 * Guess the column type based on the ResultSetMetaData.
 	 */
+	public String getTypeName (BasicTypeInfo info) throws SQLException
+	{
+		String type = info.typeName;
+		String upperType = type.toUpperCase ();
+		if ("VARCHAR".equals (upperType) ||
+			"CHAR".equals (upperType) ||
+			"BYTE".equals (upperType) ||
+			"VARBYTE".equals (upperType) ||
+			"CLOB".equals (upperType) ||
+			"BLOB".equals (upperType))
+		{
+			int size = info.precision;
+			return type + "(" + size + ")";
+		}
+		if ("DECIMAL".equals (upperType))
+		{
+			int precision = info.precision;
+			int scale = info.scale;
+			return type + "(" + precision + "," + scale + ")";
+		}
+		return type;
+	}
+
+	/**
+	 * Guess the column type based on the ResultSetMetaData.
+	 */
 	@Override
 	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException
 	{
@@ -316,6 +357,14 @@ public class DefaultHelper implements JaqyHelper
 	@Override
 	public String getTableSchema (String tableName) throws Exception
 	{
+		if (m_tableSchemaQuery != null)
+		{
+			String value = QueryUtils.getQueryString (m_conn, m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex);
+			if (value == null || value.length () == 0)
+				throw ExceptionUtils.getTableNotFound ();
+			return value;
+		}
+
 		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
 		JaqyStatement stmt = null;
 		try
@@ -361,8 +410,19 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public JaqyResultSet getColumns (String tableName) throws Exception
+	public JaqyResultSet getTableColumns (String tableName) throws Exception
 	{
+		if (m_tableColumnFormat != null)
+		{
+			JaqyResultSet rs = QueryUtils.getResultSet (m_conn, m_tableColumnFormat.format (new Object[]{ tableName }));
+			if (rs == null)
+				throw ExceptionUtils.getTableNotFound ();
+			InMemoryResultSet inmemrs = (InMemoryResultSet) rs.getResultSet ();
+			if (inmemrs.getRows ().size () == 0)
+				throw ExceptionUtils.getTableNotFound ();
+			return rs;
+		}
+
 		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
 		JaqyStatement stmt = null;
 		try
@@ -371,7 +431,7 @@ public class DefaultHelper implements JaqyHelper
 			stmt.execute (query);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)
-				throw new RuntimeException ("Table was not found.");
+				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
 			int count = meta.getColumnCount ();
 
@@ -411,16 +471,16 @@ public class DefaultHelper implements JaqyHelper
 		return Types.OTHER;
 	}
 
-	protected ColumnInfo[] createElementType (int type, String typeName)
+	protected FullColumnInfo[] createElementType (int type, String typeName)
 	{
-		ColumnInfo[] infos = new ColumnInfo[1];
-		infos[0] = new ColumnInfo ();
+		FullColumnInfo[] infos = new FullColumnInfo[1];
+		infos[0] = new FullColumnInfo ();
 		infos[0].type = type;
 		infos[0].typeName = typeName;
 		return infos;
 	}
 
-	private void setVarCharType (ColumnInfo info)
+	private void setVarCharType (FullColumnInfo info)
 	{
 		info.type = Types.VARCHAR;
 		info.nullable = ResultSetMetaData.columnNullableUnknown;
@@ -430,7 +490,7 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public void fixColumnInfo (ColumnInfo info)
+	public void fixColumnInfo (FullColumnInfo info)
 	{
 		if (info.type == Types.OTHER &&
 			info.className != null &&
@@ -465,5 +525,36 @@ public class DefaultHelper implements JaqyHelper
 		{
 			info.type = guessType (info.className);
 		}
+	}
+
+	public void setCatalogQuery (SimpleQuery catalogQuery)
+	{
+		m_catalogQuery = catalogQuery;
+	}
+
+	public void setSchemaQuery (SimpleQuery schemaQuery)
+	{
+		m_schemaQuery = schemaQuery;
+	}
+
+	public void setTableSchemaQuery (SimpleQuery tableSchemaQuery)
+	{
+		m_tableSchemaQuery = tableSchemaQuery;
+		if (tableSchemaQuery == null)
+		{
+			m_tableSchemaFormat = null;
+		}
+		else
+		{
+			m_tableSchemaFormat = new MessageFormat (tableSchemaQuery.sql);
+		}
+	}
+
+	public void setTableColumnQuery (SimpleQuery tableSchemaQuery)
+	{
+		if (tableSchemaQuery == null)
+			m_tableColumnFormat = null;
+		else
+			m_tableColumnFormat = new MessageFormat (tableSchemaQuery.sql);
 	}
 }

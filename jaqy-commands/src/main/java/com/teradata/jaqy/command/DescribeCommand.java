@@ -61,7 +61,7 @@ public class DescribeCommand extends JaqyCommandAdapter
 		String tableName = args[0];
 		for (int i = 1; i < args.length; ++i)
 			tableName += args[i];
-		JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getColumns (tableName);
+		JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName);
 		interpreter.print (rs);
 		rs.close ();
 	}

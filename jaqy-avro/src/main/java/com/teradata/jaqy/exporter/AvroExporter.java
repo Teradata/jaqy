@@ -29,7 +29,7 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
@@ -59,7 +59,7 @@ class AvroExporter implements JaqyExporter
 	{
 		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData ());
 		JaqyHelper helper = rs.getHelper ();
-		for (ColumnInfo info : schemaInfo.columns)
+		for (FullColumnInfo info : schemaInfo.columns)
 		{
 			helper.fixColumnInfo (info);
 		}

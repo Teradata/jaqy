@@ -28,6 +28,8 @@ import java.sql.SQLXML;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
+import com.teradata.jaqy.utils.ExceptionUtils;
+
 /**
  * @author	Heng Yuan
  */

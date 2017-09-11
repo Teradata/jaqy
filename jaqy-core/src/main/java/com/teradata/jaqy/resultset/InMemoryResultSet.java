@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.util.Map;
 
 import com.teradata.jaqy.PropertyTable;
+import com.teradata.jaqy.utils.ExceptionUtils;
 
 /**
  * This class keeps a copy of ResultSet passed in.
@@ -71,23 +72,26 @@ public class InMemoryResultSet implements ResultSet
 			Object[] row = new Object[m_columnCount];
 			for (int i = 0; i < m_columnCount; ++i)
 			{
-				int type = m_meta.getColumnType (i + 1);
-				switch (type)
+				Object o = rs.getObject (i + 1);
+				if (o instanceof Blob)
 				{
-					case Types.BLOB:
-						row[i] = new InMemBlob (rs.getBlob (i + 1));
-						break;
-					case Types.NCLOB:
-						row[i] = new InMemNClob (rs.getNClob (i + 1));
-						break;
-					case Types.CLOB:
-						row[i] = new InMemClob (rs.getClob (i + 1));
-						break;
-					case Types.SQLXML:
-						row[i] = new InMemSQLXML (rs.getSQLXML (i + 1));
-						break;
-					default:
-						row[i] = rs.getObject (i + 1);
+					row[i] = new InMemBlob ((Blob)o);
+				}
+				else if (o instanceof NClob)
+				{
+					row[i] = new InMemNClob ((NClob)o);
+				}
+				else if (o instanceof Clob)
+				{
+					row[i] = new InMemClob ((Clob)o);
+				}
+				else if (o instanceof SQLXML)
+				{
+					row[i] = new InMemSQLXML ((SQLXML)o);
+				}
+				else
+				{
+					row[i] = o;
 				}
 			}
 			m_rows.add (row);

@@ -31,10 +31,10 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.resultset.InMemClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
-import com.teradata.jaqy.schema.ColumnInfo;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
-import com.teradata.jaqy.utils.QueryUtils;
+import com.teradata.jaqy.utils.SimpleQuery;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -78,11 +78,13 @@ class TeradataHelper extends DefaultHelper
 		}
 	};
 
-	public TeradataHelper (JaqyConnection conn, Globals globals)
+	public TeradataHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
-		super (new JdbcFeatures (), conn, globals);
-		JdbcFeatures features = getFeatures ();
+		super (features, conn, globals);
 		features.noCatalog = true;
+		setSchemaQuery (new SimpleQuery ("SELECT DATABASE", 1));
+		setTableSchemaQuery (new SimpleQuery ("SHOW TABLE {0}", 1));
+		setTableColumnQuery (new SimpleQuery ("HELP TABLE {0}", 1));
 	}
 
 	@Override
@@ -195,28 +197,7 @@ class TeradataHelper extends DefaultHelper
 	}
 
 	@Override
-	public String getSchema () throws SQLException
-	{
-		String sql = "SELECT DATABASE";
-		return QueryUtils.getQueryString (getConnection(), sql, 1);
-	}
-
-	@Override
-	public String getTableSchema (String tableName) throws Exception
-	{
-		String sql = "SHOW TABLE " + tableName;
-		return QueryUtils.getQueryString (getConnection(), sql, 1);
-	}
-
-	@Override
-	public JaqyResultSet getColumns (String tableName) throws Exception
-	{
-		String sql = "HELP TABLE " + tableName;
-		return QueryUtils.getResultSet (getConnection(), sql);
-	}
-
-	@Override
-	public void fixColumnInfo (ColumnInfo info)
+	public void fixColumnInfo (FullColumnInfo info)
 	{
 		if (info.type == Types.STRUCT &&
 			info.typeName != null &&
@@ -224,10 +205,10 @@ class TeradataHelper extends DefaultHelper
 		{
 			if ("PERIOD(DATE)".equals (info.typeName))
 			{
-				ColumnInfo[] childrenInfo = new ColumnInfo[2];
-				childrenInfo[0] = new ColumnInfo ();
+				FullColumnInfo[] childrenInfo = new FullColumnInfo[2];
+				childrenInfo[0] = new FullColumnInfo ();
 				childrenInfo[0].label = "BEGIN";
-				childrenInfo[1] = new ColumnInfo ();
+				childrenInfo[1] = new FullColumnInfo ();
 				childrenInfo[1].label = "END";
 				for (int i = 0; i < 2; ++i)
 				{
@@ -238,10 +219,10 @@ class TeradataHelper extends DefaultHelper
 			else if ("PERIOD(TIME)".equals (info.typeName) ||
 					 "PERIOD(TIME WITH TIME ZONE)".equals (info.typeName))
 			{
-				ColumnInfo[] childrenInfo = new ColumnInfo[2];
-				childrenInfo[0] = new ColumnInfo ();
+				FullColumnInfo[] childrenInfo = new FullColumnInfo[2];
+				childrenInfo[0] = new FullColumnInfo ();
 				childrenInfo[0].label = "BEGIN";
-				childrenInfo[1] = new ColumnInfo ();
+				childrenInfo[1] = new FullColumnInfo ();
 				childrenInfo[1].label = "END";
 				for (int i = 0; i < 2; ++i)
 				{
@@ -252,10 +233,10 @@ class TeradataHelper extends DefaultHelper
 			else if ("PERIOD(TIMESTAMP)".equals (info.typeName) ||
 					 "PERIOD(TIMESTAMP WITH TIME ZONE)".equals (info.typeName))
 			{
-				ColumnInfo[] childrenInfo = new ColumnInfo[2];
-				childrenInfo[0] = new ColumnInfo ();
+				FullColumnInfo[] childrenInfo = new FullColumnInfo[2];
+				childrenInfo[0] = new FullColumnInfo ();
 				childrenInfo[0].label = "BEGIN";
-				childrenInfo[1] = new ColumnInfo ();
+				childrenInfo[1] = new FullColumnInfo ();
 				childrenInfo[1].label = "END";
 				for (int i = 0; i < 2; ++i)
 				{
