@@ -30,6 +30,11 @@ import com.teradata.jaqy.utils.SimpleQuery;
  */
 public class DefaultHelperFactory implements JaqyHelperFactory
 {
+	public final static String CATALOG = "catalogSQL";
+	public final static String SCHEMA = "schemaSQL";
+	public final static String TABLE_SCHEMA = "tableSchemaSQL";
+	public final static String TABLE_COLUMN = "tableColumnSQL";
+
 	private Hashtable<String,SimpleQuery> m_sqlMap = new Hashtable<String,SimpleQuery> ();
 	private JdbcFeatures m_features = new JdbcFeatures ();
 
@@ -52,10 +57,10 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 
 	protected void setupHelper (DefaultHelper helper)
 	{
-		helper.setCatalogQuery (m_sqlMap.get ("catalogSQL"));
-		helper.setSchemaQuery (m_sqlMap.get ("schemaSQL"));
-		helper.setTableColumnQuery (m_sqlMap.get ("tableColumnSQL"));
-		helper.setTableSchemaQuery (m_sqlMap.get ("tableSchemaSQL"));
+		helper.setCatalogQuery (m_sqlMap.get (CATALOG));
+		helper.setSchemaQuery (m_sqlMap.get (SCHEMA));
+		helper.setTableSchemaQuery (m_sqlMap.get (TABLE_SCHEMA));
+		helper.setTableColumnQuery (m_sqlMap.get (TABLE_COLUMN));
 	}
 
 	public JdbcFeatures getFeatures ()

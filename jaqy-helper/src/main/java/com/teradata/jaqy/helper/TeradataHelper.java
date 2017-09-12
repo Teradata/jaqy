@@ -34,7 +34,6 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
-import com.teradata.jaqy.utils.SimpleQuery;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -81,10 +80,6 @@ class TeradataHelper extends DefaultHelper
 	public TeradataHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
 		super (features, conn, globals);
-		features.noCatalog = true;
-		setSchemaQuery (new SimpleQuery ("SELECT DATABASE", 1));
-		setTableSchemaQuery (new SimpleQuery ("SHOW TABLE {0}", 1));
-		setTableColumnQuery (new SimpleQuery ("HELP TABLE {0}", 1));
 	}
 
 	@Override
