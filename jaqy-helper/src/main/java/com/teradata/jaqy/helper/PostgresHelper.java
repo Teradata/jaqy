@@ -22,8 +22,8 @@ import java.sql.Types;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.schema.BasicTypeInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 
@@ -47,16 +47,13 @@ class PostgresHelper extends DefaultHelper
 	}
 
 	@Override
-	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException
+	public String getTypeName (BasicTypeInfo typeInfo) throws SQLException
 	{
-		String type = meta.getColumnTypeName (column);
-		if ("numeric".equals (type))
+		if (typeInfo.type == Types.NUMERIC)
 		{
-			int precision = meta.getPrecision (column);
-			int scale = meta.getScale (column);
-			return type + "(" + precision + "," + scale + ")";
+			return typeInfo.typeName + "(" + typeInfo.precision + "," + typeInfo.scale + ")";
 		}
-		return super.getColumnType (meta, column);
+		return super.getTypeName (typeInfo);
 	}
 
 	@Override

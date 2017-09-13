@@ -26,6 +26,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.schema.BasicTypeInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
@@ -127,16 +128,13 @@ public interface JaqyHelper
 	 */
 	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException;
 	/**
-	 * Based on the ResultSetMetaData, infer the original type.
-	 * @param	meta
-	 * 			the ResultSetMetaData
-	 * @param	column
-	 * 			the column to be checked.
-	 * @return	the inferred SQL name.
+	 * Based on the typeInfo, infer the SQL type.
+	 * @param	typeInfo
+	 * 			the basic type information.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException;
+	public String getTypeName (BasicTypeInfo typeInfo) throws SQLException;
 	/**
 	 * Get the SQL schema for the given table.
 	 * @param	tableName

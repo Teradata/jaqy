@@ -38,10 +38,13 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.BasicTypeInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.schema.SchemaUtils;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.QueryUtils;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
@@ -298,40 +301,10 @@ public class DefaultHelper implements JaqyHelper
 		return m_conn.createStruct (paramInfo.typeName, elements);
 	}
 
-	/**
-	 * Guess the column type based on the ResultSetMetaData.
-	 */
-	public String getTypeName (BasicTypeInfo info) throws SQLException
-	{
-		String type = info.typeName;
-		String upperType = type.toUpperCase ();
-		if ("VARCHAR".equals (upperType) ||
-			"CHAR".equals (upperType) ||
-			"BYTE".equals (upperType) ||
-			"VARBYTE".equals (upperType) ||
-			"CLOB".equals (upperType) ||
-			"BLOB".equals (upperType))
-		{
-			int size = info.precision;
-			return type + "(" + size + ")";
-		}
-		if ("DECIMAL".equals (upperType))
-		{
-			int precision = info.precision;
-			int scale = info.scale;
-			return type + "(" + precision + "," + scale + ")";
-		}
-		return type;
-	}
-
-	/**
-	 * Guess the column type based on the ResultSetMetaData.
-	 */
 	@Override
-	public String getColumnType (JaqyResultSetMetaData meta, int column) throws SQLException
+	public String getTypeName (BasicTypeInfo typeInfo) throws SQLException
 	{
-		String type = meta.getColumnTypeName (column);
-		String upperType = type.toUpperCase ();
+		String upperType = typeInfo.typeName.toUpperCase ();
 		if ("VARCHAR".equals (upperType) ||
 			"CHAR".equals (upperType) ||
 			"BYTE".equals (upperType) ||
@@ -339,16 +312,13 @@ public class DefaultHelper implements JaqyHelper
 			"CLOB".equals (upperType) ||
 			"BLOB".equals (upperType))
 		{
-			int size = meta.getPrecision (column);
-			return type + "(" + size + ")";
+			return typeInfo.typeName + "(" + typeInfo.precision + ")";
 		}
 		if ("DECIMAL".equals (upperType))
 		{
-			int precision = meta.getPrecision (column);
-			int scale = meta.getScale (column);
-			return type + "(" + precision + "," + scale + ")";
+			return typeInfo.typeName + "(" + typeInfo.precision + "," + typeInfo.scale + ")";
 		}
-		return type;
+		return typeInfo.typeName;
 	}
 
 	/**
@@ -365,6 +335,10 @@ public class DefaultHelper implements JaqyHelper
 			return value;
 		}
 
+		/*
+		 * Creates a dummy query that gets no actual results.  We just need
+		 * the resulting ResultSetMetaData to infer the table schema.
+		 */
 		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
 		JaqyStatement stmt = null;
 		try
@@ -375,27 +349,11 @@ public class DefaultHelper implements JaqyHelper
 			if (rs == null)
 				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
-			int count = meta.getColumnCount ();
-
-			StringBuilder schema = new StringBuilder ();
-			schema.append ("CREATE TABLE ").append (tableName).append (" (");
-			for (int i = 0; i < count; ++i)
-			{
-				String columnName = meta.getColumnName (i + 1);
-				String columnType = getColumnType (meta, i + 1);
-				if (i == 0)
-					schema.append ('\n');
-				else
-					schema.append (",\n");
-				schema.append ('\t');
-				schema.append (columnName).append (" ").append (columnType);
-				if (meta.isNullable (i + 1) == ResultSetMetaData.columnNoNulls)
-					schema.append (" NOT NULL");
-			}
-			schema.append ("\n)");
+			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData ());
+			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName);
 			rs.close ();
 
-			return schema.toString ();
+			return schema;
 		}
 		finally
 		{
@@ -433,15 +391,15 @@ public class DefaultHelper implements JaqyHelper
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
-			int count = meta.getColumnCount ();
+			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData ());
+			int count = schemaInfo.columns.length;
 
 			PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
 			for (int i = 0; i < count; ++i)
 			{
-				String columnName = meta.getColumnName (i + 1);
-				String columnType = getColumnType (meta, i + 1);
-				int nullableInt = meta.isNullable (i + 1);
-				String nullable = (nullableInt == ResultSetMetaData.columnNoNulls) ? "No" : (nullableInt == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
+				String columnName = schemaInfo.columns[i].name;
+				String columnType = getTypeName (schemaInfo.columns[i]);
+				String nullable = (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNoNulls) ? "No" : (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
 				pt.addRow (new String[]{ columnName, columnType, nullable });
 			}
 			rs.close ();
