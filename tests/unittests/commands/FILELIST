@@ -22,7 +22,6 @@ pwd.sql
 quiet.sql
 rem.sql
 run.sql
-schema.sql
 script.sql
 session.sql
 transaction.sql

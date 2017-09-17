@@ -15,6 +15,9 @@
  */
 package com.teradata.jaqy.command;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -28,18 +31,19 @@ public class DescribeCommand extends JaqyCommandAdapter
 {
 	public DescribeCommand ()
 	{
+		addOption ("s", "sql", false, "display schema in SQL");
 	}
 
 	@Override
 	public String getDescription ()
 	{
-		return "describes the columns in a table.";
+		return "describes a table schema.";
 	}
 
 	@Override
-	public String getLongDescription ()
+	protected String getSyntax ()
 	{
-		return getCommand () + " [table name]";
+		return "usage: " + getCommand () + " [options] [table name]";
 	}
 
 	@Override
@@ -53,16 +57,38 @@ public class DescribeCommand extends JaqyCommandAdapter
 	{
 		if (!SessionUtils.checkOpen (interpreter))
 			return;
+		CommandLine cmdLine = getCommandLine (args);
+		args = cmdLine.getArgs ();
 		if (args.length == 0)
 		{
 			interpreter.error ("Missing table name.");
 			return;
 		}
+		boolean displaySQL = false;
+		for (Option option : cmdLine.getOptions ())
+		{
+			switch (option.getOpt ().charAt (0))
+			{
+				case 's':
+				{
+					displaySQL = true;
+					break;
+				}
+			}
+		}
 		String tableName = args[0];
 		for (int i = 1; i < args.length; ++i)
 			tableName += args[i];
-		JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName);
-		interpreter.print (rs);
-		rs.close ();
+		if (displaySQL)
+		{
+			String schema = interpreter.getSession ().getConnection ().getHelper ().getTableSchema (tableName);
+			interpreter.println (schema);
+		}
+		else
+		{
+			JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName);
+			interpreter.print (rs);
+			rs.close ();
+		}
 	}
 }

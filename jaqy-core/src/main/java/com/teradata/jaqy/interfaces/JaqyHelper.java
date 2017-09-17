@@ -26,9 +26,10 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.schema.BasicTypeInfo;
+import com.teradata.jaqy.schema.BasicColumnInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.schema.TypeMap;
 import com.teradata.jaqy.typehandler.TypeHandler;
 
 /**
@@ -46,6 +47,7 @@ public interface JaqyHelper
 
 	public String getURL () throws SQLException;
 
+	public TypeMap getTypeMap () throws SQLException;
 	/**
 	 * Utility function for getting catalog.
 	 * @return	The database catalog string if it is support catalog.
@@ -134,7 +136,7 @@ public interface JaqyHelper
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public String getTypeName (BasicTypeInfo typeInfo) throws SQLException;
+	public String getTypeName (BasicColumnInfo typeInfo) throws SQLException;
 	/**
 	 * Get the SQL schema for the given table.
 	 * @param	tableName

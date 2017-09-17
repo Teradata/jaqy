@@ -30,7 +30,7 @@ T2     INTEGER  Yes
 T3     BIGINT   Yes
 T4     DOUBLE   Yes
 -- 1/5 - 0 ----------------------------------------------------------------
-.schema NumTable
+.desc -s NumTable
 CREATE TABLE NumTable (
 	T1 SMALLINT,
 	T2 INTEGER,
@@ -280,7 +280,7 @@ D2     DECIMAL(9,2)  Yes
 D3     DECIMAL(22,2) Yes
 D4     DECIMAL(31,2) Yes
 -- 8/10 - 0 ---------------------------------------------------------------
-.schema DecTable
+.desc -s DecTable
 CREATE TABLE DecTable (
 	D1 DECIMAL(3,2),
 	D2 DECIMAL(9,2),
@@ -527,7 +527,7 @@ S1     VARCHAR(255) Yes
 S2     CHAR(1)      Yes
 S3     CHAR(5)      Yes
 -- 15/15 - 0 --------------------------------------------------------------
-.schema StrTable
+.desc -s StrTable
 CREATE TABLE StrTable (
 	S1 VARCHAR(255),
 	S2 CHAR(1),
@@ -728,7 +728,7 @@ C1     INTEGER                   Yes
 C2     LONG VARCHAR              Yes
 C3     LONG VARCHAR FOR BIT DATA Yes
 -- 22/20 - 0 --------------------------------------------------------------
-.schema BinTable
+.desc -s BinTable
 CREATE TABLE BinTable (
 	C1 INTEGER,
 	C2 LONG VARCHAR,
@@ -929,7 +929,7 @@ C1     INTEGER    Yes
 C2     CLOB(1024) Yes
 C3     BLOB(1024) Yes
 -- 29/25 - 0 --------------------------------------------------------------
-.schema LobTable
+.desc -s LobTable
 CREATE TABLE LobTable (
 	C1 INTEGER,
 	C2 CLOB(1024),
@@ -1132,7 +1132,7 @@ C2     DATE      Yes
 C3     TIME      Yes
 C4     TIMESTAMP Yes
 -- 36/30 - 0 --------------------------------------------------------------
-.schema TimeTable
+.desc -s TimeTable
 CREATE TABLE TimeTable (
 	C1 INTEGER,
 	C2 DATE,
@@ -1374,7 +1374,7 @@ CREATE TABLE XmlTable
 .desc XmlTable
 -- failure 30000: [42Z71] XML values are not allowed in top-level result sets; try using XMLSERIALIZE.
 -- 43/35 - 0 --------------------------------------------------------------
-.schema XmlTable
+.desc -s XmlTable
 -- failure 30000: [42Z71] XML values are not allowed in top-level result sets; try using XMLSERIALIZE.
 -- 43/36 - 0 --------------------------------------------------------------
 

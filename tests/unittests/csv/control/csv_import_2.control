@@ -59,7 +59,6 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 
 -- test csv with header
 .import csv -h on lib/import1.csv
-{a=0, b=1}
 -- 1/6 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 Parameter Count                              2
@@ -99,7 +98,6 @@ DELETE FROM MyTable;
 -- 4/6 - 0 ----------------------------------------------------------------
 
 .import csv -h on lib/import1.csv
-{a=0, b=1}
 -- 4/7 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{c}});
 -- error: field not found: c

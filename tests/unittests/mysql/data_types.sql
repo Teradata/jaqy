@@ -20,7 +20,7 @@ CREATE TABLE NumTable
 );
 .format table
 .desc NumTable
-.schema NumTable
+.desc -s NumTable
 
 INSERT INTO NumTable VALUES (1, 12, -127, true, -12345, -123456, -123456789, -1234567890, -1234.5, -4.5e15);
 INSERT INTO NumTable VALUES (2, 80, 127, false, 12345, 1234567, 123456789, 1234567890, 1234.5, 4.5e15);
@@ -43,7 +43,7 @@ CREATE TABLE DecTable
 );
 .format table
 .desc DecTable
-.schema DecTable
+.desc -s DecTable
 
 INSERT INTO DecTable VALUES (1, -1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
 INSERT INTO DecTable VALUES (2, 1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
@@ -67,7 +67,7 @@ CREATE TABLE StrTable
 );
 .format table
 .desc StrTable
-.schema StrTable
+.desc -s StrTable
 
 INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa', 'one');
 INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb', 'two');
@@ -90,7 +90,7 @@ CREATE TABLE BinTable
 );
 .format table
 .desc BinTable
-.schema BinTable
+.desc -s BinTable
 
 INSERT INTO BinTable VALUES (1, X'deadbeef', X'deadbeef', X'deadbeef', 'a');
 INSERT INTO BinTable VALUES (2, X'facefeed', X'facefeed', X'facefeed', 'b');

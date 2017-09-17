@@ -19,11 +19,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.VariableHandler;
 import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
  * @author	Heng Yuan
@@ -54,9 +54,9 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	}
 
 	@Override
-	public void showSchema (JaqyInterpreter interpreter)
+	public SchemaInfo getSchema () throws Exception
 	{
-		m_importer.showSchema (interpreter);
+		return m_importer.getSchema ();
 	}
 
 	@Override

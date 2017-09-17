@@ -8,6 +8,7 @@ CREATE TABLE MyTable (a INTEGER, b VARCHAR(100));
 
 -- test csv without nan filter
 .import csv -h on lib/import4.csv
+.importschema
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;

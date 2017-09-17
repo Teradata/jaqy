@@ -11,7 +11,7 @@ CREATE TABLE GeoTable
 );
 .format table
 .desc GeoTable
-.schema GeoTable
+.desc -s GeoTable
 
 INSERT INTO GeoTable VALUES (1, 'POINT(0 0)');
 INSERT INTO GeoTable VALUES (2, 'POINT(1 1 1)');

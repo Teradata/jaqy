@@ -34,6 +34,7 @@ import com.teradata.jaqy.command.FormatCommand;
 import com.teradata.jaqy.command.HelpCommand;
 import com.teradata.jaqy.command.IfCommand;
 import com.teradata.jaqy.command.ImportCommand;
+import com.teradata.jaqy.command.ImportSchemaCommand;
 import com.teradata.jaqy.command.InfoCommand;
 import com.teradata.jaqy.command.ListCommand;
 import com.teradata.jaqy.command.LoadCommand;
@@ -46,7 +47,6 @@ import com.teradata.jaqy.command.QuietCommand;
 import com.teradata.jaqy.command.RemarkCommand;
 import com.teradata.jaqy.command.RollbackCommand;
 import com.teradata.jaqy.command.RunCommand;
-import com.teradata.jaqy.command.SchemaCommand;
 import com.teradata.jaqy.command.ScriptCommand;
 import com.teradata.jaqy.command.SessionCommand;
 import com.teradata.jaqy.command.UnAliasCommand;
@@ -76,7 +76,6 @@ class CommandSetup
 		manager.addCommand ("pwd", new PwdCommand ());
 		manager.addCommand ("exec", new ExecCommand ());
 		manager.addCommand ("desc", new DescribeCommand ());
-		manager.addCommand ("schema", new SchemaCommand ());
 
 		// session control
 		manager.addCommand ("session", new SessionCommand ());
@@ -104,6 +103,7 @@ class CommandSetup
 		manager.addCommand ("format", new FormatCommand ());
 		manager.addCommand ("export", new ExportCommand ());
 		manager.addCommand ("import", new ImportCommand ());
+		manager.addCommand ("importschema", new ImportSchemaCommand ());
 		manager.addCommand ("batchsize", new BatchSizeCommand ());
 
 		// plugin

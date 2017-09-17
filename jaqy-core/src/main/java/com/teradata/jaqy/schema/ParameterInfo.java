@@ -18,7 +18,7 @@ package com.teradata.jaqy.schema;
 /**
  * @author	Heng Yuan
  */
-public class ParameterInfo extends BasicTypeInfo
+public class ParameterInfo extends BasicColumnInfo
 {
 	public int nullable;
 	public boolean signed;

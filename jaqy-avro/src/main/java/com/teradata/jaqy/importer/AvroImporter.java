@@ -27,12 +27,12 @@ import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 
-import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -82,10 +82,11 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public void showSchema (JaqyInterpreter interpreter)
+	public SchemaInfo getSchema ()
 	{
 //		Schema schema = m_dataFileReader.getSchema ();
 //		display.println (null, schema.toString ());
+		return null;
 	}
 
 	@Override

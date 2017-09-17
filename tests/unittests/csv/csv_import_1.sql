@@ -17,6 +17,8 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 
 -- test csv with header
 .import csv -h on lib/import1.csv
+.importschema
+.importschema -s
 INSERT INTO MyTable VALUES (?, ?);
 
 SELECT * FROM MyTable ORDER BY a;

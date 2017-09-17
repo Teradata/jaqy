@@ -23,7 +23,6 @@ import java.sql.Types;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.schema.BasicTypeInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 
@@ -44,16 +43,6 @@ class PostgresHelper extends DefaultHelper
 		if (name.startsWith ("_"))
 			name = name.substring (1);
 		return getConnection ().createArrayOf (name, elements);
-	}
-
-	@Override
-	public String getTypeName (BasicTypeInfo typeInfo) throws SQLException
-	{
-		if (typeInfo.type == Types.NUMERIC)
-		{
-			return typeInfo.typeName + "(" + typeInfo.precision + "," + typeInfo.scale + ")";
-		}
-		return super.getTypeName (typeInfo);
 	}
 
 	@Override

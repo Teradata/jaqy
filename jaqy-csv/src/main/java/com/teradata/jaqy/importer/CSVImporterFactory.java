@@ -15,9 +15,6 @@
  */
 package com.teradata.jaqy.importer;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.charset.Charset;
 
 import org.apache.commons.cli.CommandLine;
@@ -110,8 +107,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		Reader reader = new InputStreamReader (new FileInputStream (interpreter.getFile (args[0])), charset);
-		CSVImporter importer = new CSVImporter (reader, format);
+		CSVImporter importer = new CSVImporter (interpreter.getFile (args[0]), charset, format);
 		if (nanFilter == true)
 		{
 			importer.setNaFilter (true);

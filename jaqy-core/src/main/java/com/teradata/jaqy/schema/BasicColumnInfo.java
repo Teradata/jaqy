@@ -18,7 +18,7 @@ package com.teradata.jaqy.schema;
 /**
  * @author	Heng Yuan
  */
-public class BasicTypeInfo
+public class BasicColumnInfo
 {
 	public int type;
 	public String typeName;

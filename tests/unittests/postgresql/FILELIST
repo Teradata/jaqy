@@ -2,6 +2,5 @@ ansi_types.sql
 array_types.sql
 composite_types.sql
 data_types.sql
-gis.sql
 json_type.sql
 transaction.sql

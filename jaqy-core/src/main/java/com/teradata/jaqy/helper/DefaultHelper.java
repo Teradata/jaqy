@@ -35,11 +35,13 @@ import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
-import com.teradata.jaqy.schema.BasicTypeInfo;
+import com.teradata.jaqy.schema.BasicColumnInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.schema.SchemaUtils;
+import com.teradata.jaqy.schema.TypeInfo;
+import com.teradata.jaqy.schema.TypeMap;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ExceptionUtils;
@@ -66,6 +68,8 @@ public class DefaultHelper implements JaqyHelper
 	private SimpleQuery m_tableSchemaQuery;
 	private MessageFormat m_tableSchemaFormat;
 	private MessageFormat m_tableColumnFormat;
+
+	private TypeMap m_typeMap;
 
 	public DefaultHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
@@ -140,6 +144,15 @@ public class DefaultHelper implements JaqyHelper
 				return new JaqyPreparedStatement (conn.prepareStatement (sql), m_conn);
 			}
 		}
+	}
+
+	@Override
+	public TypeMap getTypeMap () throws SQLException
+	{
+		if (m_typeMap != null)
+			return m_typeMap;
+		m_typeMap = SchemaUtils.getTypeMap (m_conn);
+		return m_typeMap;
 	}
 
 	private String getCatalogInternal () throws SQLException
@@ -302,23 +315,42 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public String getTypeName (BasicTypeInfo typeInfo) throws SQLException
+	public String getTypeName (BasicColumnInfo columnInfo) throws SQLException
 	{
-		String upperType = typeInfo.typeName.toUpperCase ();
-		if ("VARCHAR".equals (upperType) ||
-			"CHAR".equals (upperType) ||
-			"BYTE".equals (upperType) ||
-			"VARBYTE".equals (upperType) ||
-			"CLOB".equals (upperType) ||
-			"BLOB".equals (upperType))
+		if (columnInfo.typeName == null)
 		{
-			return typeInfo.typeName + "(" + typeInfo.precision + ")";
+			TypeMap typeMap = getTypeMap ();
+			if (typeMap == null)
+				return null;
+			TypeInfo typeInfo = typeMap.getType (columnInfo.type);
+			if (typeInfo == null)
+				return null;
+			columnInfo.typeName = typeInfo.typeName;
 		}
-		if ("DECIMAL".equals (upperType))
+
+		switch (columnInfo.type)
 		{
-			return typeInfo.typeName + "(" + typeInfo.precision + "," + typeInfo.scale + ")";
+			case Types.VARCHAR:
+			case Types.CHAR:
+			case Types.NVARCHAR:
+			case Types.NCHAR:
+			case Types.BINARY:
+			case Types.VARBINARY:
+			case Types.CLOB:
+			case Types.NCLOB:
+			case Types.BLOB:
+				/* If the size is quite big, it may be the default size.
+				 * In that case, just return the type name itself.
+				 */
+				if (columnInfo.precision < 0x7fff0000)
+					return columnInfo.typeName + "(" + columnInfo.precision + ")";
+				return columnInfo.typeName;
+			case Types.DECIMAL:
+			case Types.NUMERIC:
+				return columnInfo.typeName + "(" + columnInfo.precision + "," + columnInfo.scale + ")";
+			default:
+				return columnInfo.typeName;
 		}
-		return typeInfo.typeName;
 	}
 
 	/**

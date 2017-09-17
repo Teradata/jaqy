@@ -65,9 +65,11 @@ public class PostgreSQLTest
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/composite_types.sql", "../tests/unittests/postgresql/control/composite_types.control");
 	}
 
+	/*
 	@Test
 	public void test7 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/postgresql/gis.sql", "../tests/unittests/postgresql/control/gis.control");
 	}
+	*/
 }

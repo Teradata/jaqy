@@ -17,6 +17,7 @@ CREATE TABLE SqliteTypes
 .desc
 .desc dummy
 .desc SqliteTypes
+.desc -s SqliteTypes
 
 CREATE TABLE SqliteTypes2
 (
@@ -26,6 +27,7 @@ CREATE TABLE SqliteTypes2
         d       BLOB(100)
 );
 .desc SqliteTypes2
+.desc -s SqliteTypes2
 
 DROP TABLE SqliteTypes;
 .close

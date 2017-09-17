@@ -15,9 +15,14 @@
  */
 package com.teradata.jaqy.importer;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.sql.Types;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -25,35 +30,49 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.utils.CSVUtils;
 
 /**
  * @author	Heng Yuan
  */
-class CSVImporter implements JaqyImporter<Integer>
+public class CSVImporter implements JaqyImporter<Integer>
 {
-	private final static String[] s_defaultNaValues =
+	public final static String[] DEFAULT_NA_VALUES =
 	{
 		"-1.#IND", "1.#QNAN", "1.#IND", "-1.#QNAN", "#N/A N/A", "#N/A",
 		"N/A", "NA", "#NA", "NULL", "NaN", "-NaN", "nan", "-nan", ""
 	};
 
-	private final CSVParser m_parser;
-	private final Map<String, Integer> m_headers;
-	private final Iterator<CSVRecord> m_iterator;
+	private final File m_file;
+	private final Charset m_charset;
+	private final CSVFormat m_format;
+	private CSVParser m_parser;
+	private Map<String, Integer> m_headers;
+	private Iterator<CSVRecord> m_iterator;
 	private CSVRecord m_record;
 	private boolean m_naFilter;
 	private String[] m_naValues;
+	private SchemaInfo m_schemaInfo;
 
-	public CSVImporter (Reader reader, CSVFormat format) throws IOException
+	public CSVImporter (File file, Charset charset, CSVFormat format) throws IOException
 	{
+		m_file = file;
+		m_charset = charset;
+		m_format = format;
+		openFile (file, charset, format);
+	}
+
+	private void openFile (File file, Charset charset, CSVFormat format) throws IOException
+	{
+		Reader reader = new InputStreamReader (new FileInputStream (file), charset);
 		m_parser = format.parse (reader);
 		m_headers = m_parser.getHeaderMap ();
 		m_iterator = m_parser.iterator ();
-		m_naValues = s_defaultNaValues;
+		m_naValues = DEFAULT_NA_VALUES;
 	}
 
 	@Override
@@ -63,10 +82,30 @@ class CSVImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public void showSchema (JaqyInterpreter interpreter)
+	public SchemaInfo getSchema () throws Exception
 	{
+		if (m_schemaInfo != null)
+			return m_schemaInfo;
+		String[] headers = null;
 		if (m_headers != null)
-			interpreter.println (m_headers.toString ());
+		{
+			HashMap<Integer, String> map = new HashMap<Integer, String> ();
+			for (Map.Entry<String, Integer> entry : m_headers.entrySet ())
+			{
+				map.put (entry.getValue (), entry.getKey ());
+			}
+			int size = map.size ();
+			headers = new String[size];
+			for (int i = 0; i < size; ++i)
+			{
+				headers[i] = map.get (i);
+			}
+		}
+		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator);
+		m_parser.close ();
+		// reopen the file since we just did the scan
+		openFile (m_file, m_charset, m_format);
+		return m_schemaInfo;
 	}
 
 	@Override
@@ -142,7 +181,7 @@ class CSVImporter implements JaqyImporter<Integer>
 	public void setNaValues (String[] naValues)
 	{
 		if (naValues == null)
-			m_naValues = s_defaultNaValues;
+			m_naValues = DEFAULT_NA_VALUES;
 		else
 			m_naValues = naValues;
 	}

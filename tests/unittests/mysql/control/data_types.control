@@ -45,7 +45,7 @@ c7    bigint(20)   YES      ?
 c8    float        YES      ?       
 c9    double       YES      ?       
 -- 2/5 - 0 ----------------------------------------------------------------
-.schema NumTable
+.desc -s NumTable
 CREATE TABLE `NumTable` (
   `a` int(11) DEFAULT NULL,
   `c1` bit(64) DEFAULT NULL,
@@ -572,7 +572,7 @@ c2    decimal(9,2)  YES      ?
 c3    decimal(22,2) YES      ?       
 c4    decimal(31,2) YES      ?       
 -- 9/10 - 0 ---------------------------------------------------------------
-.schema DecTable
+.desc -s DecTable
 CREATE TABLE `DecTable` (
   `a` int(11) DEFAULT NULL,
   `c1` decimal(3,2) DEFAULT NULL,
@@ -871,7 +871,7 @@ c3    char(5)          YES      ?
 c4    text             YES      ?       
 c5    set('one','two') YES      ?       
 -- 16/15 - 0 --------------------------------------------------------------
-.schema StrTable
+.desc -s StrTable
 CREATE TABLE `StrTable` (
   `a` int(11) DEFAULT NULL,
   `c1` varchar(255) DEFAULT NULL,
@@ -1214,7 +1214,7 @@ c2    varbinary(10)     YES      ?
 c3    blob              YES      ?       
 c4    enum('a','b','c') YES      ?       
 -- 23/20 - 0 --------------------------------------------------------------
-.schema BinTable
+.desc -s BinTable
 CREATE TABLE `BinTable` (
   `a` int(11) DEFAULT NULL,
   `c1` binary(10) DEFAULT NULL,

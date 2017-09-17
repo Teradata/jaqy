@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import com.teradata.jaqy.utils.TestUtils;
+package com.teradata.jaqy.schema;
 
 /**
  * @author	Heng Yuan
  */
-public class SchemaCommandTest
+public class TypeInfo
 {
-	@Rule
-	public TemporaryFolder testFolder = new TemporaryFolder ();
-
-	@Test
-	public void test1 () throws Exception
-	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/schema.sql", "../tests/unittests/commands/control/schema.control");
-	}
+	public String typeName;
+	public int type;
+	public int maxPrecision;
+	public String literalPrefix;
+	public String literalSuffix;
+	public String createParams;
+	public short nullable;
+	public boolean caseSensitive;
+	public short searchable;
+	public boolean signed;
+	public boolean money;
+	public boolean autoIncrement;
+	public String localType;
+	public short minScale;
+	public short maxScale;
+	public int radix;
 }

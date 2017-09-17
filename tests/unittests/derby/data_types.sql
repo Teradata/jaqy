@@ -14,7 +14,7 @@ CREATE TABLE NumTable
 );
 .format table
 .desc NumTable
-.schema NumTable
+.desc -s NumTable
 
 INSERT INTO NumTable VALUES (-12345, -123456789, -1234567890, -1234.5);
 INSERT INTO NumTable VALUES (12345, 123456789, 1234567890, 1234.5);
@@ -37,7 +37,7 @@ CREATE TABLE DecTable
 );
 .format table
 .desc DecTable
-.schema DecTable
+.desc -s DecTable
 
 INSERT INTO DecTable VALUES (-1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
 INSERT INTO DecTable VALUES (1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
@@ -58,7 +58,7 @@ CREATE TABLE StrTable
 );
 .format table
 .desc StrTable
-.schema StrTable
+.desc -s StrTable
 
 INSERT INTO StrTable VALUES ('aa', 'A', 'abcde');
 INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij');
@@ -79,7 +79,7 @@ CREATE TABLE BinTable
 );
 .format table
 .desc BinTable
-.schema BinTable
+.desc -s BinTable
 
 INSERT INTO BinTable VALUES (1, 'A str', X'deadbeef');
 INSERT INTO BinTable VALUES (2, 'B str', X'facefeed');
@@ -100,7 +100,7 @@ CREATE TABLE LobTable
 );
 .format table
 .desc LobTable
-.schema LobTable
+.desc -s LobTable
 
 INSERT INTO LobTable VALUES (1, 'A clob', CAST(X'deadbeef' AS BLOB));
 INSERT INTO LobTable VALUES (2, 'B clob', CAST(X'facefeed' AS BLOB));
@@ -122,7 +122,7 @@ CREATE TABLE TimeTable
 );
 .format table
 .desc TimeTable
-.schema TimeTable
+.desc -s TimeTable
 
 INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '2001-02-03 12:34:56');
 INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '2001-03-04 12:34:56');
@@ -142,7 +142,7 @@ CREATE TABLE XmlTable
 );
 .format table
 .desc XmlTable
-.schema XmlTable
+.desc -s XmlTable
 
 INSERT INTO XmlTable VALUES (1, XMLPARSE(DOCUMENT '<abc>1234</abc>' PRESERVE WHITESPACE));
 INSERT INTO XmlTable VALUES (2, XMLPARSE(DOCUMENT '<abc>2345</abc>' PRESERVE WHITESPACE));
