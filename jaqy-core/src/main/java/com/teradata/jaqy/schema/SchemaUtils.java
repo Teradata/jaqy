@@ -18,6 +18,7 @@ package com.teradata.jaqy.schema;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 
 import com.teradata.jaqy.PropertyTable;
@@ -96,7 +97,28 @@ public class SchemaUtils
 				info.maxScale = rs.getShort ("MAXIMUM_SCALE");
 				info.radix = rs.getInt ("NUM_PREC_RADIX");
 
-				map.put (info.type, info);
+				TypeInfo oldInfo = map.get (info.type);
+				if (oldInfo == null )
+					map.put (info.type, info);
+				else
+				{
+					switch (info.type)
+					{
+						case Types.VARCHAR:
+						case Types.CHAR:
+						case Types.NVARCHAR:
+						case Types.NCHAR:
+						case Types.BINARY:
+						case Types.VARBINARY:
+						case Types.CLOB:
+						case Types.NCLOB:
+						case Types.BLOB:
+							// for these types, pick the one that has maximum precision
+							if (info.maxPrecision > 0)
+								map.put (info.type, info);
+							break;
+					}
+				}
 			}
 			return new TypeMap (map);
 		}

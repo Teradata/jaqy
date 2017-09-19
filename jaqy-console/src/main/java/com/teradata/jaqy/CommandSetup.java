@@ -35,6 +35,7 @@ import com.teradata.jaqy.command.HelpCommand;
 import com.teradata.jaqy.command.IfCommand;
 import com.teradata.jaqy.command.ImportCommand;
 import com.teradata.jaqy.command.ImportSchemaCommand;
+import com.teradata.jaqy.command.ImportTableCommand;
 import com.teradata.jaqy.command.InfoCommand;
 import com.teradata.jaqy.command.ListCommand;
 import com.teradata.jaqy.command.LoadCommand;
@@ -104,6 +105,7 @@ class CommandSetup
 		manager.addCommand ("export", new ExportCommand ());
 		manager.addCommand ("import", new ImportCommand ());
 		manager.addCommand ("importschema", new ImportSchemaCommand ());
+		manager.addCommand ("importtable", new ImportTableCommand ());
 		manager.addCommand ("batchsize", new BatchSizeCommand ());
 
 		// plugin

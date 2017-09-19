@@ -101,7 +101,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 				headers[i] = map.get (i);
 			}
 		}
-		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator);
+		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues);
 		m_parser.close ();
 		// reopen the file since we just did the scan
 		openFile (m_file, m_charset, m_format);

@@ -45,7 +45,7 @@ public class TypeMap
 		}
 		for (int i = index; i < castArray.length; ++i)
 		{
-			TypeInfo typeInfo = m_map.get (i);
+			TypeInfo typeInfo = m_map.get (castArray[i]);
 			if (typeInfo != null)
 			{
 				m_map.put (target, typeInfo);
@@ -54,7 +54,7 @@ public class TypeMap
 		}
 		for (int i = index; i >= 0; --i)
 		{
-			TypeInfo typeInfo = m_map.get (i);
+			TypeInfo typeInfo = m_map.get (castArray[i]);
 			if (typeInfo != null)
 			{
 				m_map.put (target, typeInfo);

@@ -907,8 +907,8 @@ DROP TABLE StrTable;
 
 CREATE TABLE BinTable
 (
-	c1 INTEGER,
-	c2 BYTEA[]
+	a  INTEGER,
+	c1 BYTEA[]
 );
 -- success. update count = 0
 -- 19/9 - 0 ---------------------------------------------------------------
@@ -925,8 +925,8 @@ INSERT INTO BinTable VALUES (2, '{\\xfacefeed}');
 SELECT * FROM BinTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -946,8 +946,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _bytea
     Java Class                                   java.sql.Array
@@ -967,7 +967,7 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2
+a,c1
 1,"{""\\xdeadbeef""}"
 2,"{""\\xfacefeed""}"
 -- activity count = 2
@@ -977,8 +977,8 @@ c1,c2
 SELECT * FROM BinTable ORDER BY c1;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -998,8 +998,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _bytea
     Java Class                                   java.sql.Array
@@ -1021,14 +1021,14 @@ ResultSet Column Count                       2
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : [
+		"a" : 1,
+		"c1" : [
 			"3q2+7w=="
 		]
 	},
 	{
-		"c1" : 2,
-		"c2" : [
+		"a" : 2,
+		"c1" : [
 			"+s7+7Q=="
 		]
 	}
@@ -1042,12 +1042,12 @@ DROP TABLE BinTable;
 
 CREATE TABLE TimeTable
 (
-	c1 INTEGER,
-	c2 DATE[],
-	c3 TIME[],
-	c4 TIME WITH TIME ZONE[],
-	c5 TIMESTAMP[],
-	c6 TIMESTAMP WITH TIME ZONE[]
+	a  INTEGER,
+	c1 DATE[],
+	c2 TIME[],
+	c3 TIME WITH TIME ZONE[],
+	c4 TIMESTAMP[],
+	c5 TIMESTAMP WITH TIME ZONE[]
 );
 -- success. update count = 0
 -- 25/11 - 0 --------------------------------------------------------------
@@ -1064,8 +1064,8 @@ INSERT INTO TimeTable VALUES (2, '{2001-03-04}', '{12:34:56}', '{12:34:56+08:00}
 SELECT * FROM TimeTable ORDER BY c1;
 ResultSet Column Count                       6
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1085,8 +1085,8 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _date
     Java Class                                   java.sql.Array
@@ -1106,8 +1106,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         ARRAY
     SQL Type                                     _time
     Java Class                                   java.sql.Array
@@ -1127,8 +1127,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         ARRAY
     SQL Type                                     _timetz
     Java Class                                   java.sql.Array
@@ -1148,8 +1148,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         ARRAY
     SQL Type                                     _timestamp
     Java Class                                   java.sql.Array
@@ -1169,8 +1169,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         ARRAY
     SQL Type                                     _timestamptz
     Java Class                                   java.sql.Array
@@ -1190,7 +1190,7 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
 -- success --
-c1,c2,c3,c4,c5,c6
+a,c1,c2,c3,c4,c5
 1,{2001-02-03},{12:34:56},{12:34:56-08},"{""2001-02-03 12:34:56""}","{""2001-02-03 20:34:56+00""}"
 2,{2001-03-04},{12:34:56},{12:34:56+08},"{""2001-03-04 12:34:56""}","{""2001-02-03 04:34:56+00""}"
 -- activity count = 2
@@ -1200,8 +1200,8 @@ c1,c2,c3,c4,c5,c6
 SELECT * FROM TimeTable ORDER BY c1;
 ResultSet Column Count                       6
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1221,8 +1221,8 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         ARRAY
     SQL Type                                     _date
     Java Class                                   java.sql.Array
@@ -1242,8 +1242,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         ARRAY
     SQL Type                                     _time
     Java Class                                   java.sql.Array
@@ -1263,8 +1263,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         ARRAY
     SQL Type                                     _timetz
     Java Class                                   java.sql.Array
@@ -1284,8 +1284,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         ARRAY
     SQL Type                                     _timestamp
     Java Class                                   java.sql.Array
@@ -1305,8 +1305,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         ARRAY
     SQL Type                                     _timestamptz
     Java Class                                   java.sql.Array
@@ -1328,38 +1328,38 @@ ResultSet Column Count                       6
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : [
+		"a" : 1,
+		"c1" : [
 			"2001-02-03"
 		],
-		"c3" : [
+		"c2" : [
 			"12:34:56"
 		],
-		"c4" : [
+		"c3" : [
 			"20:34:56"
 		],
-		"c5" : [
+		"c4" : [
 			"2001-02-03 12:34:56.0"
 		],
-		"c6" : [
+		"c5" : [
 			"2001-02-03 20:34:56.0"
 		]
 	},
 	{
-		"c1" : 2,
-		"c2" : [
+		"a" : 2,
+		"c1" : [
 			"2001-03-04"
 		],
-		"c3" : [
+		"c2" : [
 			"12:34:56"
 		],
-		"c4" : [
+		"c3" : [
 			"04:34:56"
 		],
-		"c5" : [
+		"c4" : [
 			"2001-03-04 12:34:56.0"
 		],
-		"c6" : [
+		"c5" : [
 			"2001-02-03 04:34:56.0"
 		]
 	}

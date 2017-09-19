@@ -24,6 +24,7 @@ Teradata Jaqy Console 1.0
 	.if - conditional statement
 	.import - imports data into database.
 	.importschema - displays the schema of the current import.
+	.importtable - creates a staging table and imports data into it.
 	.info - provides information for the database
 	.list - lists tables in the current catalog / schema.
 	.load - loads a Jaqy plugin

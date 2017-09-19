@@ -17,6 +17,7 @@ Teradata Jaqy Console 1.0
 
 CREATE TABLE NumTable
 (
+	a  INTEGER,
 	c1 SMALLINT,
 	c2 INTEGER,
 	c3 BIGINT,
@@ -26,18 +27,42 @@ CREATE TABLE NumTable
 -- success. update count = 0
 -- 1/5 - 0 ----------------------------------------------------------------
 
-INSERT INTO NumTable VALUES (-12345, -123456789, -1234567890, -1234.5, -4.5e15);
+INSERT INTO NumTable VALUES (1, -12345, -123456789, -1234567890, -1234.5, -4.5e15);
 -- success. update count = 1
 -- 2/5 - 0 ----------------------------------------------------------------
-INSERT INTO NumTable VALUES (12345, 123456789, 1234567890, 1234.5, 4.5e15);
+INSERT INTO NumTable VALUES (2, 12345, 123456789, 1234567890, 1234.5, 4.5e15);
 -- success. update count = 1
 -- 3/5 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 4/5 - 0 ----------------------------------------------------------------
 
 .export avro num.avro
--- 3/6 - 0 ----------------------------------------------------------------
-SELECT * FROM NumTable ORDER BY c1;
-ResultSet Column Count                       5
+-- 4/6 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY a;
+ResultSet Column Count                       6
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         SMALLINT
@@ -58,7 +83,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         INTEGER
@@ -79,7 +104,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         BIGINT
@@ -100,7 +125,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        4
+  Index                                        5
     Name                                         c4
     Label                                        c4
     Type                                         DOUBLE
@@ -121,7 +146,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        5
+  Index                                        6
     Name                                         c5
     Label                                        c5
     Type                                         DOUBLE
@@ -143,25 +168,16 @@ ResultSet Column Count                       5
     Signed                                       Y
     Writable                                     Y
 -- success --
--- activity count = 2
--- 4/6 - 0 ----------------------------------------------------------------
-DELETE FROM NumTable;
--- success. update count = 2
+-- activity count = 3
 -- 5/6 - 0 ----------------------------------------------------------------
+DELETE FROM NumTable;
+-- success. update count = 3
+-- 6/6 - 0 ----------------------------------------------------------------
 .import avro num.avro
--- 5/7 - 0 ----------------------------------------------------------------
-INSERT INTO NumTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
-Parameter Count                              5
+-- 6/7 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
+Parameter Count                              6
   Index                                        1
-    Type                                         SMALLINT
-    SQL Type                                     int2
-    Java Class                                   java.lang.Integer
-    Precision                                    0
-    Scale                                        0
-    Nullable                                     2
-    Signed                                       Y
-    Mode                                         IN
-  Index                                        2
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -170,19 +186,28 @@ Parameter Count                              5
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
+  Index                                        2
+    Type                                         SMALLINT
+    SQL Type                                     int2
+    Java Class                                   java.lang.Integer
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
   Index                                        3
-    Type                                         BIGINT
-    SQL Type                                     int8
-    Java Class                                   java.lang.Long
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
     Precision                                    0
     Scale                                        0
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
   Index                                        4
-    Type                                         DOUBLE
-    SQL Type                                     float8
-    Java Class                                   java.lang.Double
+    Type                                         BIGINT
+    SQL Type                                     int8
+    Java Class                                   java.lang.Long
     Precision                                    0
     Scale                                        0
     Nullable                                     2
@@ -197,10 +222,40 @@ Parameter Count                              5
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
--- 6/7 - 0 ----------------------------------------------------------------
-SELECT * FROM NumTable ORDER BY c1;
-ResultSet Column Count                       5
+  Index                                        6
+    Type                                         DOUBLE
+    SQL Type                                     float8
+    Java Class                                   java.lang.Double
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 7/7 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY a;
+ResultSet Column Count                       6
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   numtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         SMALLINT
@@ -221,7 +276,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         INTEGER
@@ -242,7 +297,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         BIGINT
@@ -263,7 +318,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        4
+  Index                                        5
     Name                                         c4
     Label                                        c4
     Type                                         DOUBLE
@@ -284,7 +339,7 @@ ResultSet Column Count                       5
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        5
+  Index                                        6
     Name                                         c5
     Label                                        c5
     Type                                         DOUBLE
@@ -308,6 +363,7 @@ ResultSet Column Count                       5
 -- success --
 [
 	{
+		"a" : 1,
 		"c1" : -12345,
 		"c2" : -123456789,
 		"c3" : -1234567890,
@@ -315,41 +371,75 @@ ResultSet Column Count                       5
 		"c5" : -4500000000000000
 	},
 	{
+		"a" : 2,
 		"c1" : 12345,
 		"c2" : 123456789,
 		"c3" : 1234567890,
 		"c4" : 1234.5,
 		"c5" : 4500000000000000
+	},
+	{
+		"a" : 3,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null,
+		"c5" : null
 	}
 ]
--- activity count = 2
--- 7/7 - 0 ----------------------------------------------------------------
+-- activity count = 3
+-- 8/7 - 0 ----------------------------------------------------------------
 
 DROP TABLE NumTable;
 -- success. update count = 0
--- 8/7 - 0 ----------------------------------------------------------------
+-- 9/7 - 0 ----------------------------------------------------------------
 
 CREATE TABLE DecTable
 (
+	a  INTEGER,
 	c1 DECIMAL(3,2),
 	c2 DECIMAL(9,2),
 	c3 DECIMAL(22,2),
 	c4 DECIMAL(31,2)
 );
 -- success. update count = 0
--- 9/7 - 0 ----------------------------------------------------------------
-INSERT INTO DecTable VALUES (-1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
--- success. update count = 1
 -- 10/7 - 0 ---------------------------------------------------------------
-INSERT INTO DecTable VALUES (1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
+INSERT INTO DecTable VALUES (1, -1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
 -- success. update count = 1
 -- 11/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (2, 1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
+-- success. update count = 1
+-- 12/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (3, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 13/7 - 0 ---------------------------------------------------------------
 
 .export avro dec.avro
--- 11/8 - 0 ---------------------------------------------------------------
-SELECT * FROM DecTable ORDER BY c1;
-ResultSet Column Count                       4
+-- 13/8 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+ResultSet Column Count                       5
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         NUMERIC
@@ -370,7 +460,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         NUMERIC
@@ -391,7 +481,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         NUMERIC
@@ -412,7 +502,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        4
+  Index                                        5
     Name                                         c4
     Label                                        c4
     Type                                         NUMERIC
@@ -434,19 +524,19 @@ ResultSet Column Count                       4
     Signed                                       Y
     Writable                                     Y
 -- success --
--- activity count = 2
--- 12/8 - 0 ---------------------------------------------------------------
+-- activity count = 3
+-- 14/8 - 0 ---------------------------------------------------------------
 DELETE FROM DecTable;
--- success. update count = 2
--- 13/8 - 0 ---------------------------------------------------------------
+-- success. update count = 3
+-- 15/8 - 0 ---------------------------------------------------------------
 .import avro dec.avro
--- 13/9 - 0 ---------------------------------------------------------------
-INSERT INTO DecTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
-Parameter Count                              4
+-- 15/9 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              5
   Index                                        1
-    Type                                         NUMERIC
-    SQL Type                                     numeric
-    Java Class                                   java.math.BigDecimal
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
     Precision                                    0
     Scale                                        0
     Nullable                                     2
@@ -479,10 +569,40 @@ Parameter Count                              4
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
--- 14/9 - 0 ---------------------------------------------------------------
-SELECT * FROM DecTable ORDER BY c1;
-ResultSet Column Count                       4
+  Index                                        5
+    Type                                         NUMERIC
+    SQL Type                                     numeric
+    Java Class                                   java.math.BigDecimal
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       Y
+    Mode                                         IN
+-- 16/9 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+ResultSet Column Count                       5
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   dectable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         NUMERIC
@@ -503,7 +623,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         NUMERIC
@@ -524,7 +644,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         NUMERIC
@@ -545,7 +665,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        4
+  Index                                        5
     Name                                         c4
     Label                                        c4
     Type                                         NUMERIC
@@ -569,47 +689,77 @@ ResultSet Column Count                       4
 -- success --
 [
 	{
+		"a" : 1,
 		"c1" : -1.23,
 		"c2" : -1234567.89,
 		"c3" : -12345678901234567890.12,
 		"c4" : -12345678901234567890123456789.01
 	},
 	{
+		"a" : 2,
 		"c1" : 1.23,
 		"c2" : 1234567.89,
 		"c3" : 12345678901234567890.12,
 		"c4" : 12345678901234567890123456789.01
+	},
+	{
+		"a" : 3,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null
 	}
 ]
--- activity count = 2
--- 15/9 - 0 ---------------------------------------------------------------
+-- activity count = 3
+-- 17/9 - 0 ---------------------------------------------------------------
 
 DROP TABLE DecTable;
 -- success. update count = 0
--- 16/9 - 0 ---------------------------------------------------------------
+-- 18/9 - 0 ---------------------------------------------------------------
 
 CREATE TABLE SerialTable
 (
+	a  INTEGER,
 	c1 SMALLSERIAL,
 	c2 SERIAL,
-	c3 BIGSERIAL,
-	c4 INTEGER
+	c3 BIGSERIAL
 );
 -- success. update count = 0
--- 17/9 - 0 ---------------------------------------------------------------
-
-INSERT INTO SerialTable (C4) VALUES (1);
--- success. update count = 1
--- 18/9 - 0 ---------------------------------------------------------------
-INSERT INTO SerialTable (C4) VALUES (2);
--- success. update count = 1
 -- 19/9 - 0 ---------------------------------------------------------------
 
+INSERT INTO SerialTable (a) VALUES (1);
+-- success. update count = 1
+-- 20/9 - 0 ---------------------------------------------------------------
+INSERT INTO SerialTable (a) VALUES (2);
+-- success. update count = 1
+-- 21/9 - 0 ---------------------------------------------------------------
+
 .export avro serial.avro
--- 19/10 - 0 --------------------------------------------------------------
-SELECT * FROM SerialTable ORDER BY c1;
+-- 21/10 - 0 --------------------------------------------------------------
+SELECT * FROM SerialTable ORDER BY a;
 ResultSet Column Count                       4
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         SMALLINT
@@ -630,7 +780,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         INTEGER
@@ -651,7 +801,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         BIGINT
@@ -672,38 +822,26 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        4
-    Name                                         c4
-    Label                                        c4
+-- success --
+-- activity count = 2
+-- 22/10 - 0 --------------------------------------------------------------
+DELETE FROM SerialTable;
+-- success. update count = 2
+-- 23/10 - 0 --------------------------------------------------------------
+.import avro serial.avro
+-- 23/11 - 0 --------------------------------------------------------------
+INSERT INTO SerialTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
+Parameter Count                              4
+  Index                                        1
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   serialtable
-    Display Size                                 11
-    Precision                                    10
+    Precision                                    0
     Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
+    Nullable                                     2
     Signed                                       Y
-    Writable                                     Y
--- success --
--- activity count = 2
--- 20/10 - 0 --------------------------------------------------------------
-DELETE FROM SerialTable;
--- success. update count = 2
--- 21/10 - 0 --------------------------------------------------------------
-.import avro serial.avro
--- 21/11 - 0 --------------------------------------------------------------
-INSERT INTO SerialTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
-Parameter Count                              4
-  Index                                        1
+    Mode                                         IN
+  Index                                        2
     Type                                         SMALLINT
     SQL Type                                     int2
     Java Class                                   java.lang.Integer
@@ -712,7 +850,7 @@ Parameter Count                              4
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
-  Index                                        2
+  Index                                        3
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -721,7 +859,7 @@ Parameter Count                              4
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
-  Index                                        3
+  Index                                        4
     Type                                         BIGINT
     SQL Type                                     int8
     Java Class                                   java.lang.Long
@@ -730,19 +868,31 @@ Parameter Count                              4
     Nullable                                     2
     Signed                                       Y
     Mode                                         IN
-  Index                                        4
+-- 24/11 - 0 --------------------------------------------------------------
+SELECT * FROM SerialTable ORDER BY a;
+ResultSet Column Count                       4
+  Index                                        1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
-    Precision                                    0
+    Catalog                                      
+    Schema                                       
+    Table Name                                   serialtable
+    Display Size                                 11
+    Precision                                    10
     Scale                                        0
-    Nullable                                     2
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
     Signed                                       Y
-    Mode                                         IN
--- 22/11 - 0 --------------------------------------------------------------
-SELECT * FROM SerialTable ORDER BY c1;
-ResultSet Column Count                       4
-  Index                                        1
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         SMALLINT
@@ -763,7 +913,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         INTEGER
@@ -784,7 +934,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         BIGINT
@@ -805,71 +955,75 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       Y
     Writable                                     Y
-  Index                                        4
-    Name                                         c4
-    Label                                        c4
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   serialtable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
 -- success --
 [
 	{
+		"a" : 1,
 		"c1" : 1,
 		"c2" : 1,
-		"c3" : 1,
-		"c4" : 1
+		"c3" : 1
 	},
 	{
+		"a" : 2,
 		"c1" : 2,
 		"c2" : 2,
-		"c3" : 2,
-		"c4" : 2
+		"c3" : 2
 	}
 ]
 -- activity count = 2
--- 23/11 - 0 --------------------------------------------------------------
+-- 25/11 - 0 --------------------------------------------------------------
 
 DROP TABLE SerialTable;
 -- success. update count = 0
--- 24/11 - 0 --------------------------------------------------------------
+-- 26/11 - 0 --------------------------------------------------------------
 
 CREATE TABLE StrTable
 (
+	a  INTEGER,
 	c1 VARCHAR(255),
 	c2 CHAR(1),
 	c3 CHAR(5),
 	c4 TEXT
 );
 -- success. update count = 0
--- 25/11 - 0 --------------------------------------------------------------
-
-INSERT INTO StrTable VALUES ('aa', 'A', 'abcde', 'aaaaa');
--- success. update count = 1
--- 26/11 - 0 --------------------------------------------------------------
-INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij', 'bbbbb');
--- success. update count = 1
 -- 27/11 - 0 --------------------------------------------------------------
 
+INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa');
+-- success. update count = 1
+-- 28/11 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb');
+-- success. update count = 1
+-- 29/11 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES (2, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 30/11 - 0 --------------------------------------------------------------
+
 .export avro src.avro
--- 27/12 - 0 --------------------------------------------------------------
-SELECT * FROM StrTable ORDER BY c1;
-ResultSet Column Count                       4
+-- 30/12 - 0 --------------------------------------------------------------
+SELECT * FROM StrTable ORDER BY a;
+ResultSet Column Count                       5
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         VARCHAR
@@ -890,7 +1044,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       N
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         CHAR
@@ -911,7 +1065,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       N
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         CHAR
@@ -932,7 +1086,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       N
     Writable                                     Y
-  Index                                        4
+  Index                                        5
     Name                                         c4
     Label                                        c4
     Type                                         VARCHAR
@@ -954,27 +1108,27 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 28/12 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 31/12 - 0 --------------------------------------------------------------
 DELETE FROM StrTable;
--- success. update count = 2
--- 29/12 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 32/12 - 0 --------------------------------------------------------------
 .import avro src.avro
--- 29/13 - 0 --------------------------------------------------------------
-INSERT INTO StrTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
-Parameter Count                              4
+-- 32/13 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
+Parameter Count                              5
   Index                                        1
-    Type                                         VARCHAR
-    SQL Type                                     varchar
-    Java Class                                   java.lang.String
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
     Precision                                    0
     Scale                                        0
     Nullable                                     2
-    Signed                                       N
+    Signed                                       Y
     Mode                                         IN
   Index                                        2
-    Type                                         CHAR
-    SQL Type                                     bpchar
+    Type                                         VARCHAR
+    SQL Type                                     varchar
     Java Class                                   java.lang.String
     Precision                                    0
     Scale                                        0
@@ -991,6 +1145,15 @@ Parameter Count                              4
     Signed                                       N
     Mode                                         IN
   Index                                        4
+    Type                                         CHAR
+    SQL Type                                     bpchar
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     2
+    Signed                                       N
+    Mode                                         IN
+  Index                                        5
     Type                                         VARCHAR
     SQL Type                                     text
     Java Class                                   java.lang.String
@@ -999,10 +1162,31 @@ Parameter Count                              4
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 30/13 - 0 --------------------------------------------------------------
-SELECT * FROM StrTable ORDER BY c1;
-ResultSet Column Count                       4
+-- 33/13 - 0 --------------------------------------------------------------
+SELECT * FROM StrTable ORDER BY a;
+ResultSet Column Count                       5
   Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   strtable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
     Name                                         c1
     Label                                        c1
     Type                                         VARCHAR
@@ -1023,7 +1207,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       N
     Writable                                     Y
-  Index                                        2
+  Index                                        3
     Name                                         c2
     Label                                        c2
     Type                                         CHAR
@@ -1044,7 +1228,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       N
     Writable                                     Y
-  Index                                        3
+  Index                                        4
     Name                                         c3
     Label                                        c3
     Type                                         CHAR
@@ -1065,7 +1249,7 @@ ResultSet Column Count                       4
     Searchable                                   Y
     Signed                                       N
     Writable                                     Y
-  Index                                        4
+  Index                                        5
     Name                                         c4
     Label                                        c4
     Type                                         VARCHAR
@@ -1089,47 +1273,59 @@ ResultSet Column Count                       4
 -- success --
 [
 	{
+		"a" : 1,
 		"c1" : "aa",
 		"c2" : "A",
 		"c3" : "abcde",
 		"c4" : "aaaaa"
 	},
 	{
+		"a" : 2,
 		"c1" : "bbb",
 		"c2" : "B",
 		"c3" : "fghij",
 		"c4" : "bbbbb"
+	},
+	{
+		"a" : 2,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null
 	}
 ]
--- activity count = 2
--- 31/13 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 34/13 - 0 --------------------------------------------------------------
 
 DROP TABLE StrTable;
 -- success. update count = 0
--- 32/13 - 0 --------------------------------------------------------------
+-- 35/13 - 0 --------------------------------------------------------------
 
 CREATE TABLE BinTable
 (
-	c1 INTEGER,
-	c2 BYTEA
+	a  INTEGER,
+	c1 BYTEA
 );
 -- success. update count = 0
--- 33/13 - 0 --------------------------------------------------------------
+-- 36/13 - 0 --------------------------------------------------------------
 
 INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
 -- success. update count = 1
--- 34/13 - 0 --------------------------------------------------------------
+-- 37/13 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
 -- success. update count = 1
--- 35/13 - 0 --------------------------------------------------------------
+-- 38/13 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES (3, NULL);
+-- success. update count = 1
+-- 39/13 - 0 --------------------------------------------------------------
 
 .export avro bin.avro
--- 35/14 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY c1;
+-- 39/14 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1149,8 +1345,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         BINARY
     SQL Type                                     bytea
     Java Class                                   [B
@@ -1170,14 +1366,14 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 36/14 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 40/14 - 0 --------------------------------------------------------------
 DELETE FROM BinTable;
--- success. update count = 2
--- 37/14 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 41/14 - 0 --------------------------------------------------------------
 .import avro bin.avro
--- 37/15 - 0 --------------------------------------------------------------
-INSERT INTO BinTable VALUES ({{c1}}, {{c2}});
+-- 41/15 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES ({{a}}, {{c1}});
 Parameter Count                              2
   Index                                        1
     Type                                         INTEGER
@@ -1197,12 +1393,12 @@ Parameter Count                              2
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 38/15 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY c1;
+-- 42/15 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1222,8 +1418,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         BINARY
     SQL Type                                     bytea
     Java Class                                   [B
@@ -1245,180 +1441,54 @@ ResultSet Column Count                       2
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "deadbeef"
+		"a" : 1,
+		"c1" : "deadbeef"
 	},
 	{
-		"c1" : 2,
-		"c2" : "facefeed"
-	}
-]
--- activity count = 2
--- 39/15 - 0 --------------------------------------------------------------
-
-.export avro bin.avro
--- 39/16 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY c1;
-ResultSet Column Count                       2
-  Index                                        1
-    Name                                         c1
-    Label                                        c1
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   bintable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         c2
-    Label                                        c2
-    Type                                         BINARY
-    SQL Type                                     bytea
-    Java Class                                   [B
-    Catalog                                      
-    Schema                                       
-    Table Name                                   bintable
-    Display Size                                 2147483647
-    Precision                                    2147483647
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               Y
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
--- success --
--- activity count = 2
--- 40/16 - 0 --------------------------------------------------------------
-DELETE FROM BinTable;
--- success. update count = 2
--- 41/16 - 0 --------------------------------------------------------------
-.import avro bin.avro
--- 41/17 - 0 --------------------------------------------------------------
-INSERT INTO BinTable VALUES ({{c1}}, {{c2}});
-Parameter Count                              2
-  Index                                        1
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Precision                                    0
-    Scale                                        0
-    Nullable                                     2
-    Signed                                       Y
-    Mode                                         IN
-  Index                                        2
-    Type                                         BINARY
-    SQL Type                                     bytea
-    Java Class                                   [B
-    Precision                                    0
-    Scale                                        0
-    Nullable                                     2
-    Signed                                       N
-    Mode                                         IN
--- 42/17 - 0 --------------------------------------------------------------
-SELECT * FROM BinTable ORDER BY c1;
-ResultSet Column Count                       2
-  Index                                        1
-    Name                                         c1
-    Label                                        c1
-    Type                                         INTEGER
-    SQL Type                                     int4
-    Java Class                                   java.lang.Integer
-    Catalog                                      
-    Schema                                       
-    Table Name                                   bintable
-    Display Size                                 11
-    Precision                                    10
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               N
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       Y
-    Writable                                     Y
-  Index                                        2
-    Name                                         c2
-    Label                                        c2
-    Type                                         BINARY
-    SQL Type                                     bytea
-    Java Class                                   [B
-    Catalog                                      
-    Schema                                       
-    Table Name                                   bintable
-    Display Size                                 2147483647
-    Precision                                    2147483647
-    Scale                                        0
-    Auto Increment                               N
-    Case Sensitive                               Y
-    Currency                                     N
-    Definitely Writable                          N
-    Nullable                                     1
-    Read Only                                    N
-    Searchable                                   Y
-    Signed                                       N
-    Writable                                     Y
--- success --
-[
-	{
-		"c1" : 1,
-		"c2" : "deadbeef"
+		"a" : 2,
+		"c1" : "facefeed"
 	},
 	{
-		"c1" : 2,
-		"c2" : "facefeed"
+		"a" : 3,
+		"c1" : null
 	}
 ]
--- activity count = 2
--- 43/17 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 43/15 - 0 --------------------------------------------------------------
 
 DROP TABLE BinTable;
 -- success. update count = 0
--- 44/17 - 0 --------------------------------------------------------------
+-- 44/15 - 0 --------------------------------------------------------------
 
 CREATE TABLE TimeTable
 (
-	c1 INTEGER,
-	c2 DATE,
-	c3 TIME,
-	c4 TIME WITH TIME ZONE,
-	c5 TIMESTAMP,
-	c6 TIMESTAMP WITH TIME ZONE
+	a  INTEGER,
+	c1 DATE,
+	c2 TIME,
+	c3 TIME WITH TIME ZONE,
+	c4 TIMESTAMP,
+	c5 TIMESTAMP WITH TIME ZONE
 );
 -- success. update count = 0
--- 45/17 - 0 --------------------------------------------------------------
+-- 45/15 - 0 --------------------------------------------------------------
 
 INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '12:34:56-08:00', '2001-02-03 12:34:56', '2001-02-03 12:34:56-08:00');
 -- success. update count = 1
--- 46/17 - 0 --------------------------------------------------------------
+-- 46/15 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '12:34:56+08:00', '2001-03-04 12:34:56', '2001-02-03 12:34:56+08:00');
 -- success. update count = 1
--- 47/17 - 0 --------------------------------------------------------------
+-- 47/15 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 48/15 - 0 --------------------------------------------------------------
 
 .export avro time.avro
--- 47/18 - 0 --------------------------------------------------------------
-SELECT * FROM TimeTable ORDER BY c1;
+-- 48/16 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1438,8 +1508,8 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         DATE
     SQL Type                                     date
     Java Class                                   java.sql.Date
@@ -1459,8 +1529,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         TIME
     SQL Type                                     time
     Java Class                                   java.sql.Time
@@ -1480,8 +1550,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         TIME
     SQL Type                                     timetz
     Java Class                                   java.sql.Time
@@ -1501,8 +1571,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         TIMESTAMP
     SQL Type                                     timestamp
     Java Class                                   java.sql.Timestamp
@@ -1522,8 +1592,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         TIMESTAMP
     SQL Type                                     timestamptz
     Java Class                                   java.sql.Timestamp
@@ -1543,14 +1613,14 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 48/18 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 49/16 - 0 --------------------------------------------------------------
 DELETE FROM TimeTable;
--- success. update count = 2
--- 49/18 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 50/16 - 0 --------------------------------------------------------------
 .import avro time.avro
--- 49/19 - 0 --------------------------------------------------------------
-INSERT INTO TimeTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
+-- 50/17 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
 Parameter Count                              6
   Index                                        1
     Type                                         INTEGER
@@ -1606,12 +1676,12 @@ Parameter Count                              6
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 50/19 - 0 --------------------------------------------------------------
-SELECT * FROM TimeTable ORDER BY c1;
+-- 51/17 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY a;
 ResultSet Column Count                       6
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1631,8 +1701,8 @@ ResultSet Column Count                       6
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         DATE
     SQL Type                                     date
     Java Class                                   java.sql.Date
@@ -1652,8 +1722,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         TIME
     SQL Type                                     time
     Java Class                                   java.sql.Time
@@ -1673,8 +1743,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         TIME
     SQL Type                                     timetz
     Java Class                                   java.sql.Time
@@ -1694,8 +1764,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         TIMESTAMP
     SQL Type                                     timestamp
     Java Class                                   java.sql.Timestamp
@@ -1715,8 +1785,8 @@ ResultSet Column Count                       6
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         TIMESTAMP
     SQL Type                                     timestamptz
     Java Class                                   java.sql.Timestamp
@@ -1738,51 +1808,62 @@ ResultSet Column Count                       6
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "2001-02-03",
-		"c3" : "12:34:56",
-		"c4" : "20:34:56",
-		"c5" : "2001-02-03 12:34:56.0",
-		"c6" : "2001-02-03 20:34:56.0"
+		"a" : 1,
+		"c1" : "2001-02-03",
+		"c2" : "12:34:56",
+		"c3" : "20:34:56",
+		"c4" : "2001-02-03 12:34:56.0",
+		"c5" : "2001-02-03 20:34:56.0"
 	},
 	{
-		"c1" : 2,
-		"c2" : "2001-03-04",
-		"c3" : "12:34:56",
-		"c4" : "04:34:56",
-		"c5" : "2001-03-04 12:34:56.0",
-		"c6" : "2001-02-03 04:34:56.0"
+		"a" : 2,
+		"c1" : "2001-03-04",
+		"c2" : "12:34:56",
+		"c3" : "04:34:56",
+		"c4" : "2001-03-04 12:34:56.0",
+		"c5" : "2001-02-03 04:34:56.0"
+	},
+	{
+		"a" : 3,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null,
+		"c5" : null
 	}
 ]
--- activity count = 2
--- 51/19 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 52/17 - 0 --------------------------------------------------------------
 
 DROP TABLE TimeTable;
 -- success. update count = 0
--- 52/19 - 0 --------------------------------------------------------------
+-- 53/17 - 0 --------------------------------------------------------------
 
 CREATE TABLE XmlTable
 (
-	c1 INTEGER,
-	c2 XML
+	a  INTEGER,
+	c1 XML
 );
 -- success. update count = 0
--- 53/19 - 0 --------------------------------------------------------------
+-- 54/17 - 0 --------------------------------------------------------------
 
 INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
 -- success. update count = 1
--- 54/19 - 0 --------------------------------------------------------------
+-- 55/17 - 0 --------------------------------------------------------------
 INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
 -- success. update count = 1
--- 55/19 - 0 --------------------------------------------------------------
+-- 56/17 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES (3, NULL);
+-- success. update count = 1
+-- 57/17 - 0 --------------------------------------------------------------
 
 .export avro xml.avro
--- 55/20 - 0 --------------------------------------------------------------
-SELECT * FROM XmlTable ORDER BY c1;
+-- 57/18 - 0 --------------------------------------------------------------
+SELECT * FROM XmlTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1802,8 +1883,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         SQLXML
     SQL Type                                     xml
     Java Class                                   java.sql.SQLXML
@@ -1823,14 +1904,14 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 56/20 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 58/18 - 0 --------------------------------------------------------------
 DELETE FROM XmlTable;
--- success. update count = 2
--- 57/20 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 59/18 - 0 --------------------------------------------------------------
 .import avro xml.avro
--- 57/21 - 0 --------------------------------------------------------------
-INSERT INTO XmlTable VALUES ({{c1}}, {{c2}});
+-- 59/19 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES ({{a}}, {{c1}});
 Parameter Count                              2
   Index                                        1
     Type                                         INTEGER
@@ -1850,12 +1931,12 @@ Parameter Count                              2
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 58/21 - 0 --------------------------------------------------------------
-SELECT * FROM XmlTable ORDER BY c1;
+-- 60/19 - 0 --------------------------------------------------------------
+SELECT * FROM XmlTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1875,8 +1956,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         SQLXML
     SQL Type                                     xml
     Java Class                                   java.sql.SQLXML
@@ -1898,43 +1979,47 @@ ResultSet Column Count                       2
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "<abc>1234</abc>"
+		"a" : 1,
+		"c1" : "<abc>1234</abc>"
 	},
 	{
-		"c1" : 2,
-		"c2" : "<abc>2345</abc>"
+		"a" : 2,
+		"c1" : "<abc>2345</abc>"
+	},
+	{
+		"a" : 3,
+		"c1" : null
 	}
 ]
--- activity count = 2
--- 59/21 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 61/19 - 0 --------------------------------------------------------------
 
 DROP TABLE XmlTable;
 -- success. update count = 0
--- 60/21 - 0 --------------------------------------------------------------
+-- 62/19 - 0 --------------------------------------------------------------
 
 CREATE TABLE JsonTable
 (
-	c1 INTEGER,
-	c2 JSON
+	a  INTEGER,
+	c1 JSON
 );
 -- success. update count = 0
--- 61/21 - 0 --------------------------------------------------------------
+-- 63/19 - 0 --------------------------------------------------------------
 
 INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
 -- success. update count = 1
--- 62/21 - 0 --------------------------------------------------------------
+-- 64/19 - 0 --------------------------------------------------------------
 INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
 -- success. update count = 1
--- 63/21 - 0 --------------------------------------------------------------
+-- 65/19 - 0 --------------------------------------------------------------
 
 .export avro j.avro
--- 63/22 - 0 --------------------------------------------------------------
-SELECT * FROM JsonTable ORDER BY c1;
+-- 65/20 - 0 --------------------------------------------------------------
+SELECT * FROM JsonTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -1954,8 +2039,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     json
     Java Class                                   org.postgresql.util.PGobject
@@ -1976,13 +2061,13 @@ ResultSet Column Count                       2
     Writable                                     Y
 -- success --
 -- activity count = 2
--- 64/22 - 0 --------------------------------------------------------------
+-- 66/20 - 0 --------------------------------------------------------------
 DELETE FROM JsonTable;
 -- success. update count = 2
--- 65/22 - 0 --------------------------------------------------------------
+-- 67/20 - 0 --------------------------------------------------------------
 .import avro j.avro
--- 65/23 - 0 --------------------------------------------------------------
-INSERT INTO JsonTable VALUES ({{c1}}, {{c2}});
+-- 67/21 - 0 --------------------------------------------------------------
+INSERT INTO JsonTable VALUES ({{a}}, {{c1}});
 Parameter Count                              2
   Index                                        1
     Type                                         INTEGER
@@ -2002,12 +2087,12 @@ Parameter Count                              2
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 66/23 - 0 --------------------------------------------------------------
-SELECT * FROM JsonTable ORDER BY c1;
+-- 68/21 - 0 --------------------------------------------------------------
+SELECT * FROM JsonTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -2027,8 +2112,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     json
     Java Class                                   org.postgresql.util.PGobject
@@ -2050,14 +2135,14 @@ ResultSet Column Count                       2
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : {
+		"a" : 1,
+		"c1" : {
 			"abc" : "def"
 		}
 	},
 	{
-		"c1" : 2,
-		"c2" : [
+		"a" : 2,
+		"c1" : [
 			123,
 			456,
 			true,
@@ -2067,39 +2152,42 @@ ResultSet Column Count                       2
 	}
 ]
 -- activity count = 2
--- 67/23 - 0 --------------------------------------------------------------
+-- 69/21 - 0 --------------------------------------------------------------
 
 DROP TABLE JsonTable;
 -- success. update count = 0
--- 68/23 - 0 --------------------------------------------------------------
+-- 70/21 - 0 --------------------------------------------------------------
 
 CREATE TABLE GeoTable
 (
-	c1 INTEGER,
-	c2 POINT,
-	c3 LSEG,
-	c4 BOX,
-	c5 PATH,
-	c6 POLYGON,
-	c7 CIRCLE
+	a  INTEGER,
+	c1 POINT,
+	c2 LSEG,
+	c3 BOX,
+	c4 PATH,
+	c5 POLYGON,
+	c6 CIRCLE
 );
 -- success. update count = 0
--- 69/23 - 0 --------------------------------------------------------------
+-- 71/21 - 0 --------------------------------------------------------------
 
 INSERT INTO GeoTable VALUES (1, '(1,2)', '((1,1),(2,2))', '((1,1),(2,2))', '((1,1),(2,2))', '((0,0),(0,1),(1,1),(1,0))','<(0,0),1>');
 -- success. update count = 1
--- 70/23 - 0 --------------------------------------------------------------
+-- 72/21 - 0 --------------------------------------------------------------
 INSERT INTO GeoTable VALUES (2, '(2,2)', '((2,2),(3,3))', '((2,2),(3,3))', '((0,0),(0,1),(1,1),(1,0),(0,0))', '((0,0),(0,1),(1,1),(1,0),(0,0))','<(0,0),1>');
 -- success. update count = 1
--- 71/23 - 0 --------------------------------------------------------------
+-- 73/21 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 74/21 - 0 --------------------------------------------------------------
 
 .export avro geo.avro
--- 71/24 - 0 --------------------------------------------------------------
-SELECT * FROM GeoTable ORDER BY c1;
+-- 74/22 - 0 --------------------------------------------------------------
+SELECT * FROM GeoTable ORDER BY a;
 ResultSet Column Count                       7
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -2119,8 +2207,8 @@ ResultSet Column Count                       7
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     point
     Java Class                                   org.postgresql.geometric.PGpoint
@@ -2140,8 +2228,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     lseg
     Java Class                                   org.postgresql.geometric.PGlseg
@@ -2161,8 +2249,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     box
     Java Class                                   org.postgresql.geometric.PGbox
@@ -2182,8 +2270,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         OTHER
     SQL Type                                     path
     Java Class                                   org.postgresql.geometric.PGpath
@@ -2203,8 +2291,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         OTHER
     SQL Type                                     polygon
     Java Class                                   org.postgresql.geometric.PGpolygon
@@ -2224,8 +2312,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        7
-    Name                                         c7
-    Label                                        c7
+    Name                                         c6
+    Label                                        c6
     Type                                         OTHER
     SQL Type                                     circle
     Java Class                                   org.postgresql.geometric.PGcircle
@@ -2245,14 +2333,14 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 72/24 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 75/22 - 0 --------------------------------------------------------------
 DELETE FROM GeoTable;
--- success. update count = 2
--- 73/24 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 76/22 - 0 --------------------------------------------------------------
 .import avro geo.avro
--- 73/25 - 0 --------------------------------------------------------------
-INSERT INTO GeoTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}}, {{c7}});
+-- 76/23 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
 Parameter Count                              7
   Index                                        1
     Type                                         INTEGER
@@ -2317,12 +2405,12 @@ Parameter Count                              7
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 74/25 - 0 --------------------------------------------------------------
-SELECT * FROM GeoTable ORDER BY c1;
+-- 77/23 - 0 --------------------------------------------------------------
+SELECT * FROM GeoTable ORDER BY a;
 ResultSet Column Count                       7
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -2342,8 +2430,8 @@ ResultSet Column Count                       7
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     point
     Java Class                                   org.postgresql.geometric.PGpoint
@@ -2363,8 +2451,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     lseg
     Java Class                                   org.postgresql.geometric.PGlseg
@@ -2384,8 +2472,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     box
     Java Class                                   org.postgresql.geometric.PGbox
@@ -2405,8 +2493,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         OTHER
     SQL Type                                     path
     Java Class                                   org.postgresql.geometric.PGpath
@@ -2426,8 +2514,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         OTHER
     SQL Type                                     polygon
     Java Class                                   org.postgresql.geometric.PGpolygon
@@ -2447,8 +2535,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        7
-    Name                                         c7
-    Label                                        c7
+    Name                                         c6
+    Label                                        c6
     Type                                         OTHER
     SQL Type                                     circle
     Java Class                                   org.postgresql.geometric.PGcircle
@@ -2470,55 +2558,67 @@ ResultSet Column Count                       7
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "(1.0,2.0)",
-		"c3" : "[(1.0,1.0),(2.0,2.0)]",
-		"c4" : "(2.0,2.0),(1.0,1.0)",
-		"c5" : "((1.0,1.0),(2.0,2.0))",
-		"c6" : "((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0))",
-		"c7" : "<(0.0,0.0),1.0>"
+		"a" : 1,
+		"c1" : "(1.0,2.0)",
+		"c2" : "[(1.0,1.0),(2.0,2.0)]",
+		"c3" : "(2.0,2.0),(1.0,1.0)",
+		"c4" : "((1.0,1.0),(2.0,2.0))",
+		"c5" : "((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0))",
+		"c6" : "<(0.0,0.0),1.0>"
 	},
 	{
-		"c1" : 2,
-		"c2" : "(2.0,2.0)",
-		"c3" : "[(2.0,2.0),(3.0,3.0)]",
-		"c4" : "(3.0,3.0),(2.0,2.0)",
+		"a" : 2,
+		"c1" : "(2.0,2.0)",
+		"c2" : "[(2.0,2.0),(3.0,3.0)]",
+		"c3" : "(3.0,3.0),(2.0,2.0)",
+		"c4" : "((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0))",
 		"c5" : "((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0))",
-		"c6" : "((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0))",
-		"c7" : "<(0.0,0.0),1.0>"
+		"c6" : "<(0.0,0.0),1.0>"
+	},
+	{
+		"a" : 3,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null,
+		"c5" : null,
+		"c6" : null
 	}
 ]
--- activity count = 2
--- 75/25 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 78/23 - 0 --------------------------------------------------------------
 
 DROP TABLE GeoTable;
 -- success. update count = 0
--- 76/25 - 0 --------------------------------------------------------------
+-- 79/23 - 0 --------------------------------------------------------------
 
 CREATE TABLE NetTable
 (
-	c1 INTEGER,
-	c2 CIDR,
-	c3 INET,
-	c4 MACADDR
+	a  INTEGER,
+	c1 CIDR,
+	c2 INET,
+	c3 MACADDR
 );
 -- success. update count = 0
--- 77/25 - 0 --------------------------------------------------------------
+-- 80/23 - 0 --------------------------------------------------------------
 
 INSERT INTO NetTable VALUES (1, '192.168.100.128/25', '127.0.0.1', '08:00:2b:01:02:03');
 -- success. update count = 1
--- 78/25 - 0 --------------------------------------------------------------
+-- 81/23 - 0 --------------------------------------------------------------
 INSERT INTO NetTable VALUES (2, '192.168/24', '192.168.1.1', '08-00-2b-01-02-03');
 -- success. update count = 1
--- 79/25 - 0 --------------------------------------------------------------
+-- 82/23 - 0 --------------------------------------------------------------
+INSERT INTO NetTable VALUES (3, NULL, NULL, NULL);
+-- success. update count = 1
+-- 83/23 - 0 --------------------------------------------------------------
 
 .export avro net.avro
--- 79/26 - 0 --------------------------------------------------------------
-SELECT * FROM NetTable ORDER BY c1;
+-- 83/24 - 0 --------------------------------------------------------------
+SELECT * FROM NetTable ORDER BY a;
 ResultSet Column Count                       4
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -2538,8 +2638,8 @@ ResultSet Column Count                       4
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     cidr
     Java Class                                   java.lang.Object
@@ -2559,8 +2659,8 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     inet
     Java Class                                   java.lang.Object
@@ -2580,8 +2680,8 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     macaddr
     Java Class                                   java.lang.Object
@@ -2601,14 +2701,14 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 80/26 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 84/24 - 0 --------------------------------------------------------------
 DELETE FROM NetTable;
--- success. update count = 2
--- 81/26 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 85/24 - 0 --------------------------------------------------------------
 .import avro net.avro
--- 81/27 - 0 --------------------------------------------------------------
-INSERT INTO NetTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}});
+-- 85/25 - 0 --------------------------------------------------------------
+INSERT INTO NetTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
 Parameter Count                              4
   Index                                        1
     Type                                         INTEGER
@@ -2646,12 +2746,12 @@ Parameter Count                              4
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 82/27 - 0 --------------------------------------------------------------
-SELECT * FROM NetTable ORDER BY c1;
+-- 86/25 - 0 --------------------------------------------------------------
+SELECT * FROM NetTable ORDER BY a;
 ResultSet Column Count                       4
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -2671,8 +2771,8 @@ ResultSet Column Count                       4
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     cidr
     Java Class                                   java.lang.Object
@@ -2692,8 +2792,8 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     inet
     Java Class                                   java.lang.Object
@@ -2713,8 +2813,8 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     macaddr
     Java Class                                   java.lang.Object
@@ -2736,52 +2836,61 @@ ResultSet Column Count                       4
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "192.168.100.128/25",
-		"c3" : "127.0.0.1",
-		"c4" : "08:00:2b:01:02:03"
+		"a" : 1,
+		"c1" : "192.168.100.128/25",
+		"c2" : "127.0.0.1",
+		"c3" : "08:00:2b:01:02:03"
 	},
 	{
-		"c1" : 2,
-		"c2" : "192.168.0.0/24",
-		"c3" : "192.168.1.1",
-		"c4" : "08:00:2b:01:02:03"
+		"a" : 2,
+		"c1" : "192.168.0.0/24",
+		"c2" : "192.168.1.1",
+		"c3" : "08:00:2b:01:02:03"
+	},
+	{
+		"a" : 3,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null
 	}
 ]
--- activity count = 2
--- 83/27 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 87/25 - 0 --------------------------------------------------------------
 
 DROP TABLE NetTable;
 -- success. update count = 0
--- 84/27 - 0 --------------------------------------------------------------
+-- 88/25 - 0 --------------------------------------------------------------
 
 CREATE TABLE RangeTable
 (
-	c1 INTEGER,
-	c2 INT4RANGE,
-	c3 INT8RANGE,
-	c4 NUMRANGE,
-	c5 TSRANGE,
-	c6 TSTZRANGE,
-	c7 DATERANGE
+	a  INTEGER,
+	c1 INT4RANGE,
+	c2 INT8RANGE,
+	c3 NUMRANGE,
+	c4 TSRANGE,
+	c5 TSTZRANGE,
+	c6 DATERANGE
 );
 -- success. update count = 0
--- 85/27 - 0 --------------------------------------------------------------
+-- 89/25 - 0 --------------------------------------------------------------
 
 INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
 -- success. update count = 1
--- 86/27 - 0 --------------------------------------------------------------
+-- 90/25 - 0 --------------------------------------------------------------
 INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
 -- success. update count = 1
--- 87/27 - 0 --------------------------------------------------------------
+-- 91/25 - 0 --------------------------------------------------------------
+INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 92/25 - 0 --------------------------------------------------------------
 
 .export avro range.avro
--- 87/28 - 0 --------------------------------------------------------------
-SELECT * FROM RangeTable ORDER BY c1;
+-- 92/26 - 0 --------------------------------------------------------------
+SELECT * FROM RangeTable ORDER BY a;
 ResultSet Column Count                       7
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -2801,8 +2910,8 @@ ResultSet Column Count                       7
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     int4range
     Java Class                                   java.lang.Object
@@ -2822,8 +2931,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     int8range
     Java Class                                   java.lang.Object
@@ -2843,8 +2952,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     numrange
     Java Class                                   java.lang.Object
@@ -2864,8 +2973,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         OTHER
     SQL Type                                     tsrange
     Java Class                                   java.lang.Object
@@ -2885,8 +2994,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         OTHER
     SQL Type                                     tstzrange
     Java Class                                   java.lang.Object
@@ -2906,8 +3015,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        7
-    Name                                         c7
-    Label                                        c7
+    Name                                         c6
+    Label                                        c6
     Type                                         OTHER
     SQL Type                                     daterange
     Java Class                                   java.lang.Object
@@ -2927,14 +3036,14 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 88/28 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 93/26 - 0 --------------------------------------------------------------
 DELETE FROM RangeTable;
--- success. update count = 2
--- 89/28 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 94/26 - 0 --------------------------------------------------------------
 .import avro range.avro
--- 89/29 - 0 --------------------------------------------------------------
-INSERT INTO RangeTable VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}}, {{c7}});
+-- 94/27 - 0 --------------------------------------------------------------
+INSERT INTO RangeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
 Parameter Count                              7
   Index                                        1
     Type                                         INTEGER
@@ -2999,12 +3108,12 @@ Parameter Count                              7
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 90/29 - 0 --------------------------------------------------------------
-SELECT * FROM RangeTable ORDER BY c1;
+-- 95/27 - 0 --------------------------------------------------------------
+SELECT * FROM RangeTable ORDER BY a;
 ResultSet Column Count                       7
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -3024,8 +3133,8 @@ ResultSet Column Count                       7
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     int4range
     Java Class                                   java.lang.Object
@@ -3045,8 +3154,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     int8range
     Java Class                                   java.lang.Object
@@ -3066,8 +3175,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     numrange
     Java Class                                   java.lang.Object
@@ -3087,8 +3196,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         OTHER
     SQL Type                                     tsrange
     Java Class                                   java.lang.Object
@@ -3108,8 +3217,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        6
-    Name                                         c6
-    Label                                        c6
+    Name                                         c5
+    Label                                        c5
     Type                                         OTHER
     SQL Type                                     tstzrange
     Java Class                                   java.lang.Object
@@ -3129,8 +3238,8 @@ ResultSet Column Count                       7
     Signed                                       N
     Writable                                     Y
   Index                                        7
-    Name                                         c7
-    Label                                        c7
+    Name                                         c6
+    Label                                        c6
     Type                                         OTHER
     SQL Type                                     daterange
     Java Class                                   java.lang.Object
@@ -3152,56 +3261,68 @@ ResultSet Column Count                       7
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "[1,3)",
-		"c3" : "[12345,67891)",
-		"c4" : "[123.45,678.90]",
-		"c5" : "[\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\"]",
-		"c6" : "[\"2010-01-01 22:30:00+00\",\"2010-01-01 23:30:00+00\"]",
-		"c7" : "[2001-02-03,2002-03-05)"
+		"a" : 1,
+		"c1" : "[1,3)",
+		"c2" : "[12345,67891)",
+		"c3" : "[123.45,678.90]",
+		"c4" : "[\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\"]",
+		"c5" : "[\"2010-01-01 22:30:00+00\",\"2010-01-01 23:30:00+00\"]",
+		"c6" : "[2001-02-03,2002-03-05)"
 	},
 	{
-		"c1" : 2,
-		"c2" : "[1,2)",
-		"c3" : "[12345,67890)",
-		"c4" : "[123.45,678.90)",
-		"c5" : "[\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")",
-		"c6" : "[\"2010-01-01 22:30:00+00\",\"2010-01-01 23:30:00+00\")",
-		"c7" : "[2001-02-03,2002-03-04)"
+		"a" : 2,
+		"c1" : "[1,2)",
+		"c2" : "[12345,67890)",
+		"c3" : "[123.45,678.90)",
+		"c4" : "[\"2010-01-01 14:30:00\",\"2010-01-01 15:30:00\")",
+		"c5" : "[\"2010-01-01 22:30:00+00\",\"2010-01-01 23:30:00+00\")",
+		"c6" : "[2001-02-03,2002-03-04)"
+	},
+	{
+		"a" : 3,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null,
+		"c5" : null,
+		"c6" : null
 	}
 ]
--- activity count = 2
--- 91/29 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 96/27 - 0 --------------------------------------------------------------
 
 DROP TABLE RangeTable;
 -- success. update count = 0
--- 92/29 - 0 --------------------------------------------------------------
+-- 97/27 - 0 --------------------------------------------------------------
 
 CREATE TABLE MiscTable1
 (
-	c1 INTEGER,
-	c2 BOOLEAN,
-	c3 BIT VARYING(8),
-	c4 UUID,
-	c5 MONEY
+	a  INTEGER,
+	c1 BOOLEAN,
+	c2 BIT VARYING(8),
+	c3 UUID,
+	c4 MONEY
 );
 -- success. update count = 0
--- 93/29 - 0 --------------------------------------------------------------
+-- 98/27 - 0 --------------------------------------------------------------
 
 INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
 -- success. update count = 1
--- 94/29 - 0 --------------------------------------------------------------
+-- 99/27 - 0 --------------------------------------------------------------
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
 -- success. update count = 1
--- 95/29 - 0 --------------------------------------------------------------
+-- 100/27 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 101/27 - 0 -------------------------------------------------------------
 
 .export avro misc1.avro
--- 95/30 - 0 --------------------------------------------------------------
-SELECT * FROM MiscTable1 ORDER BY c1;
+-- 101/28 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable1 ORDER BY a;
 ResultSet Column Count                       5
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -3221,8 +3342,8 @@ ResultSet Column Count                       5
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         BIT
     SQL Type                                     bool
     Java Class                                   java.lang.Boolean
@@ -3242,8 +3363,8 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     varbit
     Java Class                                   java.lang.Object
@@ -3263,8 +3384,8 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     uuid
     Java Class                                   java.util.UUID
@@ -3284,8 +3405,8 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         DOUBLE
     SQL Type                                     money
     Java Class                                   org.postgresql.util.PGmoney
@@ -3305,16 +3426,16 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 96/30 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 102/28 - 0 -------------------------------------------------------------
 DELETE FROM MiscTable1;
--- success. update count = 2
--- 97/30 - 0 --------------------------------------------------------------
+-- success. update count = 3
+-- 103/28 - 0 -------------------------------------------------------------
 -- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
 -- TEXT and then MONEY.
 .import avro misc1.avro
--- 97/31 - 0 --------------------------------------------------------------
-INSERT INTO MiscTable1 VALUES ({{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}::text::money);
+-- 103/29 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}::text::money);
 Parameter Count                              5
   Index                                        1
     Type                                         INTEGER
@@ -3361,12 +3482,12 @@ Parameter Count                              5
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 98/31 - 0 --------------------------------------------------------------
-SELECT * FROM MiscTable1 ORDER BY c1;
+-- 104/29 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable1 ORDER BY a;
 ResultSet Column Count                       5
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -3386,8 +3507,8 @@ ResultSet Column Count                       5
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         BIT
     SQL Type                                     bool
     Java Class                                   java.lang.Boolean
@@ -3407,8 +3528,8 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     varbit
     Java Class                                   java.lang.Object
@@ -3428,8 +3549,8 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
   Index                                        4
-    Name                                         c4
-    Label                                        c4
+    Name                                         c3
+    Label                                        c3
     Type                                         OTHER
     SQL Type                                     uuid
     Java Class                                   java.util.UUID
@@ -3449,8 +3570,8 @@ ResultSet Column Count                       5
     Signed                                       N
     Writable                                     Y
   Index                                        5
-    Name                                         c5
-    Label                                        c5
+    Name                                         c4
+    Label                                        c4
     Type                                         DOUBLE
     SQL Type                                     money
     Java Class                                   org.postgresql.util.PGmoney
@@ -3472,50 +3593,60 @@ ResultSet Column Count                       5
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : true,
-		"c3" : "101",
-		"c4" : "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-		"c5" : 12.34
+		"a" : 1,
+		"c1" : true,
+		"c2" : "101",
+		"c3" : "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+		"c4" : 12.34
 	},
 	{
-		"c1" : 2,
-		"c2" : false,
-		"c3" : "1010",
-		"c4" : "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-		"c5" : 23.45
+		"a" : 2,
+		"c1" : false,
+		"c2" : "1010",
+		"c3" : "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+		"c4" : 23.45
+	},
+	{
+		"a" : 2,
+		"c1" : null,
+		"c2" : null,
+		"c3" : null,
+		"c4" : null
 	}
 ]
--- activity count = 2
--- 99/31 - 0 --------------------------------------------------------------
+-- activity count = 3
+-- 105/29 - 0 -------------------------------------------------------------
 
 DROP TABLE MiscTable1;
 -- success. update count = 0
--- 100/31 - 0 -------------------------------------------------------------
+-- 106/29 - 0 -------------------------------------------------------------
 
 CREATE TABLE MiscTable2
 (
-	c1 INTEGER,
-	c2 TSVECTOR,
-	c3 TSQUERY
+	a  INTEGER,
+	c1 TSVECTOR,
+	c2 TSQUERY
 );
 -- success. update count = 0
--- 101/31 - 0 -------------------------------------------------------------
+-- 107/29 - 0 -------------------------------------------------------------
 
 INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
--- 102/31 - 0 -------------------------------------------------------------
+-- 108/29 - 0 -------------------------------------------------------------
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
--- 103/31 - 0 -------------------------------------------------------------
+-- 109/29 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
+-- success. update count = 1
+-- 110/29 - 0 -------------------------------------------------------------
 
 .export avro misc2.avro
--- 103/32 - 0 -------------------------------------------------------------
-SELECT * FROM MiscTable2 ORDER BY c1;
+-- 110/30 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable2 ORDER BY a;
 ResultSet Column Count                       3
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -3535,8 +3666,8 @@ ResultSet Column Count                       3
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     tsvector
     Java Class                                   java.lang.Object
@@ -3556,8 +3687,8 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     tsquery
     Java Class                                   java.lang.Object
@@ -3577,14 +3708,14 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     Y
 -- success --
--- activity count = 2
--- 104/32 - 0 -------------------------------------------------------------
+-- activity count = 3
+-- 111/30 - 0 -------------------------------------------------------------
 DELETE FROM MiscTable2;
--- success. update count = 2
--- 105/32 - 0 -------------------------------------------------------------
+-- success. update count = 3
+-- 112/30 - 0 -------------------------------------------------------------
 .import avro misc2.avro
--- 105/33 - 0 -------------------------------------------------------------
-INSERT INTO MiscTable2 VALUES ({{c1}}, {{c2}}, {{c3}});
+-- 112/31 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES ({{a}}, {{c1}}, {{c2}});
 Parameter Count                              3
   Index                                        1
     Type                                         INTEGER
@@ -3613,12 +3744,12 @@ Parameter Count                              3
     Nullable                                     2
     Signed                                       N
     Mode                                         IN
--- 106/33 - 0 -------------------------------------------------------------
-SELECT * FROM MiscTable2 ORDER BY c1;
+-- 113/31 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable2 ORDER BY a;
 ResultSet Column Count                       3
   Index                                        1
-    Name                                         c1
-    Label                                        c1
+    Name                                         a
+    Label                                        a
     Type                                         INTEGER
     SQL Type                                     int4
     Java Class                                   java.lang.Integer
@@ -3638,8 +3769,8 @@ ResultSet Column Count                       3
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         OTHER
     SQL Type                                     tsvector
     Java Class                                   java.lang.Object
@@ -3659,8 +3790,8 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     Y
   Index                                        3
-    Name                                         c3
-    Label                                        c3
+    Name                                         c2
+    Label                                        c2
     Type                                         OTHER
     SQL Type                                     tsquery
     Java Class                                   java.lang.Object
@@ -3682,25 +3813,30 @@ ResultSet Column Count                       3
 -- success --
 [
 	{
-		"c1" : 1,
-		"c2" : "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
-		"c3" : "'fat' & 'rat'"
+		"a" : 1,
+		"c1" : "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
+		"c2" : "'fat' & 'rat'"
 	},
 	{
-		"c1" : 2,
-		"c2" : "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
-		"c3" : "'fat' & 'rat'"
+		"a" : 2,
+		"c1" : "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'",
+		"c2" : "'fat' & 'rat'"
+	},
+	{
+		"a" : 2,
+		"c1" : null,
+		"c2" : null
 	}
 ]
--- activity count = 2
--- 107/33 - 0 -------------------------------------------------------------
+-- activity count = 3
+-- 114/31 - 0 -------------------------------------------------------------
 
 DROP TABLE MiscTable2;
 -- success. update count = 0
--- 108/33 - 0 -------------------------------------------------------------
+-- 115/31 - 0 -------------------------------------------------------------
 
 .os rm -f *.avro
--- 108/34 - 0 -------------------------------------------------------------
+-- 115/32 - 0 -------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 108/35 - 0 -------------------------------------------------------------
+-- 115/33 - 0 -------------------------------------------------------------

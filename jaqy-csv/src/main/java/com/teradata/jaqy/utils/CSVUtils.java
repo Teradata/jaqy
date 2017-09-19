@@ -24,7 +24,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.text.StringEscapeUtils;
 
-import com.teradata.jaqy.importer.CSVImporter;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
@@ -66,11 +65,10 @@ public class CSVUtils
 		throw new IllegalArgumentException ("unknown csv format: " + format);
 	}
 
-	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator)
+	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues)
 	{
 		int count = -1;
 		ScanColumnType[] columns = null;
-		String[] naValues = CSVImporter.DEFAULT_NA_VALUES;
 		int rowCount = 0;
 		while (iterator.hasNext ())
 		{
@@ -94,12 +92,15 @@ public class CSVUtils
 			{
 				String s = record.get (i);
 				boolean isNa = false;
-				for (String na : naValues)
+				if (naValues != null)
 				{
-					if (s.equals (na))
+					for (String na : naValues)
 					{
-						isNa = true;
-						break;
+						if (s.equals (na))
+						{
+							isNa = true;
+							break;
+						}
 					}
 				}
 				if (isNa)

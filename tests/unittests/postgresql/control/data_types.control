@@ -1156,7 +1156,7 @@ DROP TABLE StrTable;
 CREATE TABLE BinTable
 (
 	a  INTEGER,
-	c2 BYTEA
+	c1 BYTEA
 );
 -- success. update count = 0
 -- 28/19 - 0 --------------------------------------------------------------
@@ -1166,7 +1166,7 @@ CREATE TABLE BinTable
 Column Type  Nullable
 ------ ----- --------
 a      int4  Yes
-c2     bytea Yes
+c1     bytea Yes
 -- 28/21 - 0 --------------------------------------------------------------
 
 INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
@@ -1205,8 +1205,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         BINARY
     SQL Type                                     bytea
     Java Class                                   [B
@@ -1226,7 +1226,7 @@ ResultSet Column Count                       2
     Signed                                       N
     Writable                                     Y
 -- success --
-a,c2
+a,c1
 1,deadbeef
 2,facefeed
 3,
@@ -1258,8 +1258,8 @@ ResultSet Column Count                       2
     Signed                                       Y
     Writable                                     Y
   Index                                        2
-    Name                                         c2
-    Label                                        c2
+    Name                                         c1
+    Label                                        c1
     Type                                         BINARY
     SQL Type                                     bytea
     Java Class                                   [B
@@ -1282,15 +1282,15 @@ ResultSet Column Count                       2
 [
 	{
 		"a" : 1,
-		"c2" : "3q2+7w=="
+		"c1" : "3q2+7w=="
 	},
 	{
 		"a" : 2,
-		"c2" : "+s7+7Q=="
+		"c1" : "+s7+7Q=="
 	},
 	{
 		"a" : 3,
-		"c2" : null
+		"c1" : null
 	}
 ]
 -- activity count = 3

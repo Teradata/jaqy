@@ -94,7 +94,7 @@ DROP TABLE StrTable;
 CREATE TABLE BinTable
 (
 	a  INTEGER,
-	c2 BYTEA
+	c1 BYTEA
 );
 .format table
 .desc BinTable

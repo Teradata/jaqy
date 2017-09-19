@@ -1,0 +1,821 @@
+Teradata Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test PostgreSQL various data types
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE NumTable
+(
+	a  INTEGER,
+	c1 SMALLINT,
+	c2 INTEGER,
+	c3 BIGINT,
+	c4 FLOAT,
+	c5 DOUBLE PRECISION
+);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO NumTable VALUES (1, -12345, -123456789, -1234567890, -1234.5, -4.5e15);
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES (2, 12345, 123456789, 1234567890, 1234.5, 4.5e15);
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+
+.export csv num.csv
+-- 4/3 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 5/3 - 0 ----------------------------------------------------------------
+DELETE FROM NumTable;
+-- success. update count = 3
+-- 6/3 - 0 ----------------------------------------------------------------
+.import csv -h on -f num.csv
+-- 6/4 - 0 ----------------------------------------------------------------
+.importschema
+Column Type          Nullable
+------ ------------- --------
+a      int4          No
+c1     int4          Yes
+c2     int4          Yes
+c3     int4          Yes
+c4     numeric(5,1)  Yes
+c5     numeric(16,0) Yes
+-- 6/5 - 0 ----------------------------------------------------------------
+.importschema -s
+CREATE TABLE TABLENAME (
+	a int4 NOT NULL,
+	c1 int4,
+	c2 int4,
+	c3 int4,
+	c4 numeric(5,1),
+	c5 numeric(16,0)
+)
+-- 6/6 - 0 ----------------------------------------------------------------
+.importtable NumTable2
+-- Table Schema --
+CREATE TABLE NumTable2 (
+	a int4 NOT NULL,
+	c1 int4,
+	c2 int4,
+	c3 int4,
+	c4 numeric(5,1),
+	c5 numeric(16,0)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO NumTable2 VALUES (?,?,?,?,?,?)
+-- 8/7 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable2 ORDER BY a;
+-- success --
+a     c1         c2          c3      c4                c5
+- ------ ---------- ----------- ------- -----------------
+1 -12345 -123456789 -1234567890 -1234.5 -4500000000000000
+2  12345  123456789  1234567890  1234.5  4500000000000000
+3      ?          ?           ?       ?                 ?
+-- activity count = 3
+-- 9/7 - 0 ----------------------------------------------------------------
+
+DROP TABLE NumTable;
+-- success. update count = 0
+-- 10/7 - 0 ---------------------------------------------------------------
+DROP TABLE NumTable2;
+-- success. update count = 0
+-- 11/7 - 0 ---------------------------------------------------------------
+
+CREATE TABLE DecTable
+(
+	a  INTEGER,
+	c1 DECIMAL(3,2),
+	c2 DECIMAL(9,2),
+	c3 DECIMAL(22,2),
+	c4 DECIMAL(31,2)
+);
+-- success. update count = 0
+-- 12/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (1, -1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
+-- success. update count = 1
+-- 13/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (2, 1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
+-- success. update count = 1
+-- 14/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (3, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 15/7 - 0 ---------------------------------------------------------------
+
+.export csv dec.csv
+-- 15/8 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 16/8 - 0 ---------------------------------------------------------------
+DELETE FROM DecTable;
+-- success. update count = 3
+-- 17/8 - 0 ---------------------------------------------------------------
+.import csv -h on -f dec.csv
+-- 17/9 - 0 ---------------------------------------------------------------
+.importtable DecTable2
+-- Table Schema --
+CREATE TABLE DecTable2 (
+	a int4 NOT NULL,
+	c1 numeric(3,2),
+	c2 numeric(9,2),
+	c3 numeric(22,2),
+	c4 numeric(31,2)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO DecTable2 VALUES (?,?,?,?,?)
+-- 19/10 - 0 --------------------------------------------------------------
+SELECT * FROM DecTable2 ORDER BY a;
+-- success --
+a    c1          c2                       c3                                c4
+- ----- ----------- ------------------------ ---------------------------------
+1 -1.23 -1234567.89 -12345678901234567890.12 -12345678901234567890123456789.01
+2  1.23  1234567.89  12345678901234567890.12  12345678901234567890123456789.01
+3     ?           ?                        ?                                 ?
+-- activity count = 3
+-- 20/10 - 0 --------------------------------------------------------------
+
+DROP TABLE DecTable;
+-- success. update count = 0
+-- 21/10 - 0 --------------------------------------------------------------
+DROP TABLE DecTable2;
+-- success. update count = 0
+-- 22/10 - 0 --------------------------------------------------------------
+
+CREATE TABLE SerialTable
+(
+	a  INTEGER,
+	c1 SMALLSERIAL,
+	c2 SERIAL,
+	c3 BIGSERIAL
+);
+-- success. update count = 0
+-- 23/10 - 0 --------------------------------------------------------------
+
+INSERT INTO SerialTable (a) VALUES (1);
+-- success. update count = 1
+-- 24/10 - 0 --------------------------------------------------------------
+INSERT INTO SerialTable (a) VALUES (2);
+-- success. update count = 1
+-- 25/10 - 0 --------------------------------------------------------------
+
+.export csv serial.csv
+-- 25/11 - 0 --------------------------------------------------------------
+SELECT * FROM SerialTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 26/11 - 0 --------------------------------------------------------------
+DELETE FROM SerialTable;
+-- success. update count = 2
+-- 27/11 - 0 --------------------------------------------------------------
+.import csv -h on -f serial.csv
+-- 27/12 - 0 --------------------------------------------------------------
+.importtable SerialTable2
+-- Table Schema --
+CREATE TABLE SerialTable2 (
+	a int4 NOT NULL,
+	c1 int4 NOT NULL,
+	c2 int4 NOT NULL,
+	c3 int4 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO SerialTable2 VALUES (?,?,?,?)
+-- 29/13 - 0 --------------------------------------------------------------
+SELECT * FROM SerialTable2 ORDER BY a;
+-- success --
+a c1 c2 c3
+- -- -- --
+1  1  1  1
+2  2  2  2
+-- activity count = 2
+-- 30/13 - 0 --------------------------------------------------------------
+
+DROP TABLE SerialTable;
+-- success. update count = 0
+-- 31/13 - 0 --------------------------------------------------------------
+DROP TABLE SerialTable2;
+-- success. update count = 0
+-- 32/13 - 0 --------------------------------------------------------------
+
+CREATE TABLE StrTable
+(
+	a  INTEGER,
+	c1 VARCHAR(255),
+	c2 CHAR(1),
+	c3 CHAR(5),
+	c4 TEXT
+);
+-- success. update count = 0
+-- 33/13 - 0 --------------------------------------------------------------
+
+INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa');
+-- success. update count = 1
+-- 34/13 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb');
+-- success. update count = 1
+-- 35/13 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES (2, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 36/13 - 0 --------------------------------------------------------------
+
+.export csv src.csv
+-- 36/14 - 0 --------------------------------------------------------------
+SELECT * FROM StrTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 37/14 - 0 --------------------------------------------------------------
+DELETE FROM StrTable;
+-- success. update count = 3
+-- 38/14 - 0 --------------------------------------------------------------
+.import csv -h on -f src.csv
+-- 38/15 - 0 --------------------------------------------------------------
+.importtable StrTable2
+-- Table Schema --
+CREATE TABLE StrTable2 (
+	a int4 NOT NULL,
+	c1 varchar(3),
+	c2 bpchar(1),
+	c3 bpchar(5),
+	c4 bpchar(5)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO StrTable2 VALUES (?,?,?,?,?)
+-- 40/16 - 0 --------------------------------------------------------------
+SELECT * FROM StrTable2 ORDER BY a;
+-- success --
+a c1   c2 c3    c4
+- ---- -- ----- -----
+1 aa   A  abcde aaaaa
+2 bbb  B  fghij bbbbb
+2 ?    ?  ?     ?
+-- activity count = 3
+-- 41/16 - 0 --------------------------------------------------------------
+
+DROP TABLE StrTable;
+-- success. update count = 0
+-- 42/16 - 0 --------------------------------------------------------------
+DROP TABLE StrTable2;
+-- success. update count = 0
+-- 43/16 - 0 --------------------------------------------------------------
+
+CREATE TABLE BinTable
+(
+	a  INTEGER,
+	c1 BYTEA
+);
+-- success. update count = 0
+-- 44/16 - 0 --------------------------------------------------------------
+
+INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
+-- success. update count = 1
+-- 45/16 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
+-- success. update count = 1
+-- 46/16 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES (3, NULL);
+-- success. update count = 1
+-- 47/16 - 0 --------------------------------------------------------------
+
+.export csv bin.csv
+-- 47/17 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 48/17 - 0 --------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 3
+-- 49/17 - 0 --------------------------------------------------------------
+.import csv -h on -f bin.csv
+-- 49/18 - 0 --------------------------------------------------------------
+.importtable BinTable2
+-- Table Schema --
+CREATE TABLE BinTable2 (
+	a int4 NOT NULL,
+	c1 bpchar(8)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO BinTable2 VALUES (?,?)
+-- 51/19 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable2 ORDER BY a;
+-- success --
+a c1
+- --------
+1 deadbeef
+2 facefeed
+3 ?
+-- activity count = 3
+-- 52/19 - 0 --------------------------------------------------------------
+
+DROP TABLE BinTable;
+-- success. update count = 0
+-- 53/19 - 0 --------------------------------------------------------------
+DROP TABLE BinTable2;
+-- success. update count = 0
+-- 54/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE TimeTable
+(
+	a  INTEGER,
+	c1 DATE,
+	c2 TIME,
+	c3 TIME WITH TIME ZONE,
+	c4 TIMESTAMP,
+	c5 TIMESTAMP WITH TIME ZONE
+);
+-- success. update count = 0
+-- 55/19 - 0 --------------------------------------------------------------
+
+INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '12:34:56-08:00', '2001-02-03 12:34:56', '2001-02-03 12:34:56-08:00');
+-- success. update count = 1
+-- 56/19 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '12:34:56+08:00', '2001-03-04 12:34:56', '2001-02-03 12:34:56+08:00');
+-- success. update count = 1
+-- 57/19 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 58/19 - 0 --------------------------------------------------------------
+
+.export csv time.csv
+-- 58/20 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 59/20 - 0 --------------------------------------------------------------
+DELETE FROM TimeTable;
+-- success. update count = 3
+-- 60/20 - 0 --------------------------------------------------------------
+.import csv -h on -f time.csv
+-- 60/21 - 0 --------------------------------------------------------------
+.importtable TimeTable2
+-- Table Schema --
+CREATE TABLE TimeTable2 (
+	a int4 NOT NULL,
+	c1 bpchar(10),
+	c2 bpchar(8),
+	c3 bpchar(11),
+	c4 bpchar(19),
+	c5 bpchar(22)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO TimeTable2 VALUES (?,?,?,?,?,?)
+-- 62/22 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable2 ORDER BY a;
+-- success --
+a c1         c2       c3          c4                  c5
+- ---------- -------- ----------- ------------------- ----------------------
+1 2001-02-03 12:34:56 12:34:56-08 2001-02-03 12:34:56 2001-02-03 20:34:56+00
+2 2001-03-04 12:34:56 12:34:56+08 2001-03-04 12:34:56 2001-02-03 04:34:56+00
+3 ?          ?        ?           ?                   ?
+-- activity count = 3
+-- 63/22 - 0 --------------------------------------------------------------
+
+DROP TABLE TimeTable;
+-- success. update count = 0
+-- 64/22 - 0 --------------------------------------------------------------
+DROP TABLE TimeTable2;
+-- success. update count = 0
+-- 65/22 - 0 --------------------------------------------------------------
+
+CREATE TABLE XmlTable
+(
+	a  INTEGER,
+	c1 XML
+);
+-- success. update count = 0
+-- 66/22 - 0 --------------------------------------------------------------
+
+INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
+-- success. update count = 1
+-- 67/22 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
+-- success. update count = 1
+-- 68/22 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES (3, NULL);
+-- success. update count = 1
+-- 69/22 - 0 --------------------------------------------------------------
+
+.export csv xml.csv
+-- 69/23 - 0 --------------------------------------------------------------
+SELECT * FROM XmlTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 70/23 - 0 --------------------------------------------------------------
+DELETE FROM XmlTable;
+-- success. update count = 3
+-- 71/23 - 0 --------------------------------------------------------------
+.import csv -h on -f xml.csv
+-- 71/24 - 0 --------------------------------------------------------------
+.importtable XmlTable2
+-- Table Schema --
+CREATE TABLE XmlTable2 (
+	a int4 NOT NULL,
+	c1 bpchar(15)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO XmlTable2 VALUES (?,?)
+-- 73/25 - 0 --------------------------------------------------------------
+SELECT * FROM XmlTable2 ORDER BY a;
+-- success --
+a c1
+- ---------------
+1 <abc>1234</abc>
+2 <abc>2345</abc>
+3 ?
+-- activity count = 3
+-- 74/25 - 0 --------------------------------------------------------------
+
+DROP TABLE XmlTable;
+-- success. update count = 0
+-- 75/25 - 0 --------------------------------------------------------------
+DROP TABLE XmlTable2;
+-- success. update count = 0
+-- 76/25 - 0 --------------------------------------------------------------
+
+CREATE TABLE JsonTable
+(
+	a  INTEGER,
+	c1 JSON
+);
+-- success. update count = 0
+-- 77/25 - 0 --------------------------------------------------------------
+
+INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
+-- success. update count = 1
+-- 78/25 - 0 --------------------------------------------------------------
+INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
+-- success. update count = 1
+-- 79/25 - 0 --------------------------------------------------------------
+
+.export csv j.csv
+-- 79/26 - 0 --------------------------------------------------------------
+SELECT * FROM JsonTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 80/26 - 0 --------------------------------------------------------------
+DELETE FROM JsonTable;
+-- success. update count = 2
+-- 81/26 - 0 --------------------------------------------------------------
+.import csv -h on -f j.csv
+-- 81/27 - 0 --------------------------------------------------------------
+.importtable JsonTable2
+-- Table Schema --
+CREATE TABLE JsonTable2 (
+	a int4 NOT NULL,
+	c1 varchar(31) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO JsonTable2 VALUES (?,?)
+-- 83/28 - 0 --------------------------------------------------------------
+SELECT * FROM JsonTable2 ORDER BY a;
+-- success --
+a c1
+- -------------------------------
+1 {"abc":"def"}
+2 [123, 456, true, null, "hello"]
+-- activity count = 2
+-- 84/28 - 0 --------------------------------------------------------------
+
+DROP TABLE JsonTable;
+-- success. update count = 0
+-- 85/28 - 0 --------------------------------------------------------------
+DROP TABLE JsonTable2;
+-- success. update count = 0
+-- 86/28 - 0 --------------------------------------------------------------
+
+CREATE TABLE GeoTable
+(
+	a  INTEGER,
+	c1 POINT,
+	c2 LSEG,
+	c3 BOX,
+	c4 PATH,
+	c5 POLYGON,
+	c6 CIRCLE
+);
+-- success. update count = 0
+-- 87/28 - 0 --------------------------------------------------------------
+
+INSERT INTO GeoTable VALUES (1, '(1,2)', '((1,1),(2,2))', '((1,1),(2,2))', '((1,1),(2,2))', '((0,0),(0,1),(1,1),(1,0))','<(0,0),1>');
+-- success. update count = 1
+-- 88/28 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES (2, '(2,2)', '((2,2),(3,3))', '((2,2),(3,3))', '((0,0),(0,1),(1,1),(1,0),(0,0))', '((0,0),(0,1),(1,1),(1,0),(0,0))','<(0,0),1>');
+-- success. update count = 1
+-- 89/28 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 90/28 - 0 --------------------------------------------------------------
+
+.export csv geo.csv
+-- 90/29 - 0 --------------------------------------------------------------
+SELECT * FROM GeoTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 91/29 - 0 --------------------------------------------------------------
+DELETE FROM GeoTable;
+-- success. update count = 3
+-- 92/29 - 0 --------------------------------------------------------------
+.import csv -h on -f geo.csv
+-- 92/30 - 0 --------------------------------------------------------------
+.importtable GeoTable2
+-- Table Schema --
+CREATE TABLE GeoTable2 (
+	a int4 NOT NULL,
+	c1 bpchar(9),
+	c2 bpchar(21),
+	c3 bpchar(19),
+	c4 varchar(51),
+	c5 varchar(51),
+	c6 bpchar(15)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO GeoTable2 VALUES (?,?,?,?,?,?,?)
+-- 94/31 - 0 --------------------------------------------------------------
+SELECT * FROM GeoTable2 ORDER BY a;
+-- success --
+a c1        c2                    c3                  c4                                                  c5                                                  c6
+- --------- --------------------- ------------------- --------------------------------------------------- --------------------------------------------------- ---------------
+1 (1.0,2.0) [(1.0,1.0),(2.0,2.0)] (2.0,2.0),(1.0,1.0) ((1.0,1.0),(2.0,2.0))                               ((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0))           <(0.0,0.0),1.0>
+2 (2.0,2.0) [(2.0,2.0),(3.0,3.0)] (3.0,3.0),(2.0,2.0) ((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0)) ((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0)) <(0.0,0.0),1.0>
+3 ?         ?                     ?                   ?                                                   ?                                                   ?
+-- activity count = 3
+-- 95/31 - 0 --------------------------------------------------------------
+
+DROP TABLE GeoTable;
+-- success. update count = 0
+-- 96/31 - 0 --------------------------------------------------------------
+DROP TABLE GeoTable2;
+-- success. update count = 0
+-- 97/31 - 0 --------------------------------------------------------------
+
+CREATE TABLE NetTable
+(
+	a  INTEGER,
+	c1 CIDR,
+	c2 INET,
+	c3 MACADDR
+);
+-- success. update count = 0
+-- 98/31 - 0 --------------------------------------------------------------
+
+INSERT INTO NetTable VALUES (1, '192.168.100.128/25', '127.0.0.1', '08:00:2b:01:02:03');
+-- success. update count = 1
+-- 99/31 - 0 --------------------------------------------------------------
+INSERT INTO NetTable VALUES (2, '192.168/24', '192.168.1.1', '08-00-2b-01-02-03');
+-- success. update count = 1
+-- 100/31 - 0 -------------------------------------------------------------
+INSERT INTO NetTable VALUES (3, NULL, NULL, NULL);
+-- success. update count = 1
+-- 101/31 - 0 -------------------------------------------------------------
+
+.export csv net.csv
+-- 101/32 - 0 -------------------------------------------------------------
+SELECT * FROM NetTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 102/32 - 0 -------------------------------------------------------------
+DELETE FROM NetTable;
+-- success. update count = 3
+-- 103/32 - 0 -------------------------------------------------------------
+.import csv -h on -f net.csv
+-- 103/33 - 0 -------------------------------------------------------------
+.importtable NetTable2
+-- Table Schema --
+CREATE TABLE NetTable2 (
+	a int4 NOT NULL,
+	c1 varchar(18),
+	c2 varchar(11),
+	c3 bpchar(17)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO NetTable2 VALUES (?,?,?,?)
+-- 105/34 - 0 -------------------------------------------------------------
+SELECT * FROM NetTable2 ORDER BY a;
+-- success --
+a c1                 c2          c3
+- ------------------ ----------- -----------------
+1 192.168.100.128/25 127.0.0.1   08:00:2b:01:02:03
+2 192.168.0.0/24     192.168.1.1 08:00:2b:01:02:03
+3 ?                  ?           ?
+-- activity count = 3
+-- 106/34 - 0 -------------------------------------------------------------
+
+DROP TABLE NetTable;
+-- success. update count = 0
+-- 107/34 - 0 -------------------------------------------------------------
+DROP TABLE NetTable2;
+-- success. update count = 0
+-- 108/34 - 0 -------------------------------------------------------------
+
+CREATE TABLE RangeTable
+(
+	a  INTEGER,
+	c1 INT4RANGE,
+	c2 INT8RANGE,
+	c3 NUMRANGE,
+	c4 TSRANGE,
+	c5 TSTZRANGE,
+	c6 DATERANGE
+);
+-- success. update count = 0
+-- 109/34 - 0 -------------------------------------------------------------
+
+INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
+-- success. update count = 1
+-- 110/34 - 0 -------------------------------------------------------------
+INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
+-- success. update count = 1
+-- 111/34 - 0 -------------------------------------------------------------
+INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 112/34 - 0 -------------------------------------------------------------
+
+.export csv range.csv
+-- 112/35 - 0 -------------------------------------------------------------
+SELECT * FROM RangeTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 113/35 - 0 -------------------------------------------------------------
+DELETE FROM RangeTable;
+-- success. update count = 3
+-- 114/35 - 0 -------------------------------------------------------------
+.import csv -h on -f range.csv
+-- 114/36 - 0 -------------------------------------------------------------
+.importtable RangeTable2
+-- Table Schema --
+CREATE TABLE RangeTable2 (
+	a int4 NOT NULL,
+	c1 bpchar(5),
+	c2 bpchar(13),
+	c3 bpchar(15),
+	c4 bpchar(45),
+	c5 bpchar(51),
+	c6 bpchar(23)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO RangeTable2 VALUES (?,?,?,?,?,?,?)
+-- 116/37 - 0 -------------------------------------------------------------
+SELECT * FROM RangeTable2 ORDER BY a;
+-- success --
+a c1    c2            c3              c4                                            c5                                                  c6
+- ----- ------------- --------------- --------------------------------------------- --------------------------------------------------- -----------------------
+1 [1,3) [12345,67891) [123.45,678.90] ["2010-01-01 14:30:00","2010-01-01 15:30:00"] ["2010-01-01 22:30:00+00","2010-01-01 23:30:00+00"] [2001-02-03,2002-03-05)
+2 [1,2) [12345,67890) [123.45,678.90) ["2010-01-01 14:30:00","2010-01-01 15:30:00") ["2010-01-01 22:30:00+00","2010-01-01 23:30:00+00") [2001-02-03,2002-03-04)
+3 ?     ?             ?               ?                                             ?                                                   ?
+-- activity count = 3
+-- 117/37 - 0 -------------------------------------------------------------
+
+DROP TABLE RangeTable;
+-- success. update count = 0
+-- 118/37 - 0 -------------------------------------------------------------
+DROP TABLE RangeTable2;
+-- success. update count = 0
+-- 119/37 - 0 -------------------------------------------------------------
+
+CREATE TABLE MiscTable1
+(
+	a  INTEGER,
+	c1 BOOLEAN,
+	c2 BIT VARYING(8),
+	c3 UUID,
+	c4 MONEY
+);
+-- success. update count = 0
+-- 120/37 - 0 -------------------------------------------------------------
+
+INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
+-- success. update count = 1
+-- 121/37 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
+-- success. update count = 1
+-- 122/37 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 123/37 - 0 -------------------------------------------------------------
+
+.export csv misc1.csv
+-- 123/38 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable1 ORDER BY a;
+-- success --
+-- activity count = 3
+-- 124/38 - 0 -------------------------------------------------------------
+DELETE FROM MiscTable1;
+-- success. update count = 3
+-- 125/38 - 0 -------------------------------------------------------------
+-- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
+-- TEXT and then MONEY.
+.import csv -h on -f misc1.csv
+-- 125/39 - 0 -------------------------------------------------------------
+.importtable MiscTable12
+-- Table Schema --
+CREATE TABLE MiscTable12 (
+	a int4 NOT NULL,
+	c1 bpchar(1),
+	c2 int4,
+	c3 bpchar(36),
+	c4 bpchar(6)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MiscTable12 VALUES (?,?,?,?,?)
+-- 127/40 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable12 ORDER BY a;
+-- success --
+a c1   c2 c3                                   c4
+- -- ---- ------------------------------------ ------
+1 t   101 a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 $12.34
+2 f  1010 a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 $23.45
+2 ?     ? ?                                    ?
+-- activity count = 3
+-- 128/40 - 0 -------------------------------------------------------------
+
+DROP TABLE MiscTable1;
+-- success. update count = 0
+-- 129/40 - 0 -------------------------------------------------------------
+DROP TABLE MiscTable12;
+-- success. update count = 0
+-- 130/40 - 0 -------------------------------------------------------------
+
+CREATE TABLE MiscTable2
+(
+	a  INTEGER,
+	c1 TSVECTOR,
+	c2 TSQUERY
+);
+-- success. update count = 0
+-- 131/40 - 0 -------------------------------------------------------------
+
+INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
+-- success. update count = 1
+-- 132/40 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
+-- success. update count = 1
+-- 133/40 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
+-- success. update count = 1
+-- 134/40 - 0 -------------------------------------------------------------
+
+.export csv misc2.csv
+-- 134/41 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable2 ORDER BY a;
+-- success --
+-- activity count = 3
+-- 135/41 - 0 -------------------------------------------------------------
+DELETE FROM MiscTable2;
+-- success. update count = 3
+-- 136/41 - 0 -------------------------------------------------------------
+.import csv -h on -f misc2.csv
+-- 136/42 - 0 -------------------------------------------------------------
+.importtable MiscTable22
+-- Table Schema --
+CREATE TABLE MiscTable22 (
+	a int4 NOT NULL,
+	c1 bpchar(50),
+	c2 bpchar(13)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MiscTable22 VALUES (?,?,?)
+-- 138/43 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable22 ORDER BY a;
+-- success --
+a c1                                                 c2
+- -------------------------------------------------- -------------
+1 'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat' 'fat' & 'rat'
+2 'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat' 'fat' & 'rat'
+2 ?                                                  ?
+-- activity count = 3
+-- 139/43 - 0 -------------------------------------------------------------
+
+DROP TABLE MiscTable2;
+-- success. update count = 0
+-- 140/43 - 0 -------------------------------------------------------------
+DROP TABLE MiscTable22;
+-- success. update count = 0
+-- 141/43 - 0 -------------------------------------------------------------
+
+.os rm -f *.csv
+-- 141/44 - 0 -------------------------------------------------------------
+.close
+Session 0 is now closed.
+-- 141/45 - 0 -------------------------------------------------------------

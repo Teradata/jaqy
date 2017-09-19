@@ -52,4 +52,16 @@ public class CSVImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_import_4.sql", "../tests/unittests/csv/control/csv_import_4.control");
 	}
+
+	@Test
+	public void test5 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/postgresql_data_types.sql", "../tests/unittests/csv/control/postgresql_data_types.control");
+	}
+
+	@Test
+	public void test6 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/postgresql_data_types_schema.sql", "../tests/unittests/csv/control/postgresql_data_types_schema.control");
+	}
 }

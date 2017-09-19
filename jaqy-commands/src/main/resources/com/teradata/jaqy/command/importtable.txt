@@ -1,0 +1,9 @@
+usage: .importtable [table name]
+
+This command first tries to obtain a schema from the input.  It then
+creates a staging table matching the schema of the input.  Lastly, it
+imports the data into the staging table.
+
+This command can fail in multiple places.  Failure obtain the input
+schema, failure to create the table using the inferred data type, or
+failure to import the data for whatever the reason all can happen.

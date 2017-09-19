@@ -3,3 +3,5 @@ csv_import_1.sql
 csv_import_2.sql
 csv_import_3.sql
 csv_import_4.sql
+postgresql_data_types_schema.sql
+postgresql_data_types.sql

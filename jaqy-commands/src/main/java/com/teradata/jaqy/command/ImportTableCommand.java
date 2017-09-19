@@ -15,14 +15,12 @@
  */
 package com.teradata.jaqy.command;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
-
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.QueryMode;
 import com.teradata.jaqy.Session;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.SchemaInfo;
@@ -32,29 +30,22 @@ import com.teradata.jaqy.utils.SessionUtils;
 /**
  * @author	Heng Yuan
  */
-public class ImportSchemaCommand extends JaqyCommandAdapter
+public class ImportTableCommand extends JaqyCommandAdapter
 {
-	public ImportSchemaCommand ()
+	public ImportTableCommand ()
 	{
-		addOption ("s", "sql", false, "display schema in SQL");
-	}
-
-	@Override
-	protected String getSyntax ()
-	{
-		return "usage: " + getCommand () + " [options]";
 	}
 
 	@Override
 	public String getDescription ()
 	{
-		return "displays the schema of the current import.";
+		return "creates a staging table and imports data into it.";
 	}
 
 	@Override
 	public CommandArgumentType getArgumentType ()
 	{
-		return CommandArgumentType.file;
+		return CommandArgumentType.sql;
 	}
 
 	@Override
@@ -72,32 +63,44 @@ public class ImportSchemaCommand extends JaqyCommandAdapter
 			interpreter.error ("Current import schema is not available.");
 			return;
 		}
-		boolean displaySQL = false;
-		CommandLine cmdLine = getCommandLine (args);
-		for (Option option : cmdLine.getOptions ())
+		if (args.length == 0)
 		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 's':
-				{
-					displaySQL = true;
-					break;
-				}
-			}
+			interpreter.error ("Staging table name is not specified.");
 		}
+		StringBuilder buffer = new StringBuilder ();
+		for (String arg : args)
+			buffer.append (arg);
+		String tableName = buffer.toString ();
+
 		SessionUtils.checkOpen (interpreter);
 		Session session = interpreter.getSession ();
-		JaqyHelper helper = session.getConnection ().getHelper ();
-		if (displaySQL)
+		JaqyConnection conn = session.getConnection ();
+		JaqyHelper helper = conn.getHelper ();
+		String sql = SchemaUtils.getTableSchema (helper, schemaInfo, tableName);
+
+		boolean prevCommit = conn.getAutoCommit ();
+		if (!prevCommit)
+			conn.setAutoCommit (true);
+		interpreter.println ("-- Table Schema --");
+		interpreter.println (sql);
+		session.executeQuery (sql, interpreter);
+		sql = null;
+		if (!prevCommit)
+			conn.setAutoCommit (false);
+		buffer.setLength (0);
+		buffer.append ("INSERT INTO ").append (tableName).append (" VALUES (");
+		int columnCount = schemaInfo.columns.length;
+		for (int i = 0; i < columnCount; ++i)
 		{
-			String sql = SchemaUtils.getTableSchema (helper, schemaInfo, "TABLENAME");
-			interpreter.println (sql);
+			if (i > 0)
+				buffer.append (',');
+			buffer.append ('?');
 		}
-		else
-		{
-			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo);
-			interpreter.print (rs);
-			rs.close ();
-		}
+		buffer.append (')');
+		sql = buffer.toString ();
+		interpreter.println ("-- INSERTION --");
+		interpreter.println (sql);
+		session.importQuery (sql, interpreter);
+		interpreter.setQueryMode (QueryMode.Regular);
 	}
 }

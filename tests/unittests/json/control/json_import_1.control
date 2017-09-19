@@ -21,18 +21,18 @@ csv type options:
                                                         character set
   -d,--delimiter <arg>                                  specifies the
                                                         delimiter
-  -f,--nanfilter                                        enables NaN value
+  -f,--nafilter                                         enables N/A value
                                                         filtering
   -h,--header <on | off>                                indicates the file has
                                                         a header or not
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
-  -v,--nanvalues <arg>                                  specifies a comma
-                                                        delimited list of NaN
+  -v,--navalues <arg>                                   specifies a comma
+                                                        delimited list of N/A
                                                         values.  If it is not
                                                         specified and
-                                                        --nanfilter is
-                                                        enabled, then the
-                                                        default list is used.
+                                                        --nafilter is enabled,
+                                                        then the default list
+                                                        is used.
 
 json type options:
   -a,--array                   treats BSON root document as array.
