@@ -52,10 +52,28 @@ Default Transaction Isolation,Read committed
 ResultSet holdability,Hold cursors over commit
 LOB update on copy,Yes
 -- 0/7 - 0 ----------------------------------------------------------------
+.info behaviors
+Name,Value
+NULLs are sorted high,Yes
+NULLs are sorted low,No
+NULLs are sorted at start,No
+NULLs are sorted at end,No
+NULL + non-null is NULL,Yes
+Use local files,No
+Use local file per table,No
+Identifier quote string,""""
+Search string escape,\
+Extra name characters,
+Is catalog at start,Yes
+Catalog separator,.
+Default Transaction Isolation,Read committed
+ResultSet holdability,Hold cursors over commit
+LOB update on copy,Yes
+-- 0/8 - 0 ----------------------------------------------------------------
 .info client
 NAME,MAX_LEN,DEFAULT_VALUE,DESCRIPTION
 ApplicationName,63,,The name of the application currently utilizing the connection.
--- 0/8 - 0 ----------------------------------------------------------------
+-- 0/9 - 0 ----------------------------------------------------------------
 .info feature
 Name,Supported
 All Procedures are callable,Yes
@@ -131,17 +149,103 @@ Supports Mixed Case Quoted Identifiers,Yes
 Stores Upper Case Quoted Identifiers,No
 Stores Lower Case Quoted Identifiers,No
 Stores Mixed Case Quoted Identifiers,No
--- 0/9 - 0 ----------------------------------------------------------------
+-- 0/10 - 0 ---------------------------------------------------------------
+.info features
+Name,Supported
+All Procedures are callable,Yes
+All tables are selectable,Yes
+ALT TABLE ADD column,Yes
+ALT TABLE DROP column,Yes
+Column aliasing,Yes
+CONVERT,No
+Table correlation names,Yes
+Different table correlation names,No
+Expression in ORDER BY,Yes
+ORDER BY unrelated,Yes
+GROUP BY,Yes
+GROUP BY unrelated,Yes
+GROUP BY beyond select,Yes
+LIKE escape clause,Yes
+Multiple result set,Yes
+Multple transactions,Yes
+Non-nullable columns,Yes
+Minimum SQL grammar,Yes
+Core SQL grammar,No
+Extended SQL grammar,No
+SQL92 entry,Yes
+SQL92 intermediate,No
+SQL92 full,No
+Integrity Enhancement Facility,Yes
+OUTER JOIN,Yes
+Full OUTER JOIN,Yes
+Limited OUTER JOIN,Yes
+Schemas in DML,Yes
+Schemas in procedure calls,Yes
+Schemas in table DDL,Yes
+Schemas in index DDL,Yes
+Schemas in privilege definitions,Yes
+Catalog in DML,No
+Catalog in procedure calls,No
+Catalog in table DDL,No
+Catalog in index DDL,No
+Catalog in privilege definitions,No
+Positioned DELETE,No
+Positioned UPDATE,No
+SELECT FOR UPDATE,Yes
+Stored Procedure,Yes
+Subqueries in comparisons,Yes
+Subqueries in EXISTS,Yes
+Subqueries in IN,Yes
+Subqueries in quantified expressions,Yes
+Correlated subqueries,Yes
+UNION,Yes
+UNION ALL,Yes
+Open cursor across commits,No
+Open cursor across rollbacks,No
+Open statement across commits,Yes
+Open statement across rollbacks,Yes
+Transactions,Yes
+DDL and DML in one transaction,Yes
+Only DML in one transaction,No
+DDL causes transaction commit,No
+DDL ignored in transactions,No
+Batch updates,Yes
+Save points,Yes
+Named parameters,No
+Multiple open results,No
+Get auto-generated keys,Yes
+Statement pooling,No
+SQL Function,Yes
+REF CURSOR,Yes
+Supports Mixed Case Identifiers,No
+Stores Upper Case Identifiers,No
+Stores Lower Case Identifiers,Yes
+Stores Mixed Case Identifiers,No
+Supports Mixed Case Quoted Identifiers,Yes
+Stores Upper Case Quoted Identifiers,No
+Stores Lower Case Quoted Identifiers,No
+Stores Mixed Case Quoted Identifiers,No
+-- 0/11 - 0 ---------------------------------------------------------------
 .info function
 Name,Value
 Numeric functions,"abs,acos,asin,atan,atan2,ceiling,cos,cot,degrees,exp,floor,log,log10,mod,pi,power,radians,round,sign,sin,sqrt,tan,truncate"
 String functions,"ascii,char,concat,lcase,left,length,ltrim,repeat,rtrim,space,substring,ucase,replace"
 System functions,"database,ifnull,user"
 Date/Time functions,"curdate,curtime,dayname,dayofmonth,dayofweek,dayofyear,hour,minute,month,monthname,now,quarter,second,week,year,timestampadd"
--- 0/10 - 0 ---------------------------------------------------------------
+-- 0/12 - 0 ---------------------------------------------------------------
+.info functions
+Name,Value
+Numeric functions,"abs,acos,asin,atan,atan2,ceiling,cos,cot,degrees,exp,floor,log,log10,mod,pi,power,radians,round,sign,sin,sqrt,tan,truncate"
+String functions,"ascii,char,concat,lcase,left,length,ltrim,repeat,rtrim,space,substring,ucase,replace"
+System functions,"database,ifnull,user"
+Date/Time functions,"curdate,curtime,dayname,dayofmonth,dayofweek,dayofyear,hour,minute,month,monthname,now,quarter,second,week,year,timestampadd"
+-- 0/13 - 0 ---------------------------------------------------------------
 .info keyword
 abort,acl,add,aggregate,append,archive,arch_store,backward,binary,boolean,change,cluster,copy,database,delimiter,delimiters,do,extend,explain,forward,heavy,index,inherits,isnull,light,listen,load,merge,nothing,notify,notnull,oids,purge,rename,replace,retrieve,returns,rule,recipe,setof,stdin,stdout,store,vacuum,verbose,version
--- 0/11 - 0 ---------------------------------------------------------------
+-- 0/14 - 0 ---------------------------------------------------------------
+.info keywords
+abort,acl,add,aggregate,append,archive,arch_store,backward,binary,boolean,change,cluster,copy,database,delimiter,delimiters,do,extend,explain,forward,heavy,index,inherits,isnull,light,listen,load,merge,nothing,notify,notnull,oids,purge,rename,replace,retrieve,returns,rule,recipe,setof,stdin,stdout,store,vacuum,verbose,version
+-- 0/15 - 0 ---------------------------------------------------------------
 .info limit
 Name,Limit
 Max binary literal length,0
@@ -166,7 +270,32 @@ Max table name length,63
 Max tables in SELECT,0
 Max user name length,63
 Max logical LOB size,0
--- 0/12 - 0 ---------------------------------------------------------------
+-- 0/16 - 0 ---------------------------------------------------------------
+.info limits
+Name,Limit
+Max binary literal length,0
+Max character literal length,0
+Max column name length,63
+Max columns in GROUP BY,0
+Max columns in an index,32
+Max columns in ORDER BY,0
+Max columns in SELECT,0
+Max columns in a table,1600
+Max connections,8192
+Max cursor name length,63
+Max index length,0
+Max schema name length,63
+Max procedure name length,63
+Max catalog name length,63
+Max row size,1073741824
+Max row size include BLOB,No
+Max statement length,0
+Max statements,0
+Max table name length,63
+Max tables in SELECT,0
+Max user name length,63
+Max logical LOB size,0
+-- 0/17 - 0 ---------------------------------------------------------------
 .info table
 TABLE_TYPE
 FOREIGN TABLE
@@ -185,22 +314,22 @@ TEMPORARY TABLE
 TEMPORARY VIEW
 TYPE
 VIEW
--- 0/13 - 0 ---------------------------------------------------------------
+-- 0/18 - 0 ---------------------------------------------------------------
 .info user
 postgres
--- 0/14 - 0 ---------------------------------------------------------------
+-- 0/19 - 0 ---------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 0/15 - 0 ---------------------------------------------------------------
+-- 0/20 - 0 ---------------------------------------------------------------
 
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
--- 0/16 - 0 ---------------------------------------------------------------
+-- 0/21 - 0 ---------------------------------------------------------------
 .open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
--- 0/17 - 0 ---------------------------------------------------------------
+-- 0/22 - 0 ---------------------------------------------------------------
 .open sqlite::memory:
 -- error: The current session already has a connection open.
--- 0/18 - 0 ---------------------------------------------------------------
+-- 0/23 - 0 ---------------------------------------------------------------
 .info catalog
 TABLE_CAT
 information_schema
@@ -208,19 +337,30 @@ mysql
 performance_schema
 travis
 vagrant
--- 0/19 - 0 ---------------------------------------------------------------
+-- 0/24 - 0 ---------------------------------------------------------------
+.info catalogs
+TABLE_CAT
+information_schema
+mysql
+performance_schema
+travis
+vagrant
+-- 0/25 - 0 ---------------------------------------------------------------
 .info schema
 TABLE_SCHEM,TABLE_CATALOG
--- 0/20 - 0 ---------------------------------------------------------------
+-- 0/26 - 0 ---------------------------------------------------------------
+.info schemas
+TABLE_SCHEM,TABLE_CATALOG
+-- 0/27 - 0 ---------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 0/21 - 0 ---------------------------------------------------------------
+-- 0/28 - 0 ---------------------------------------------------------------
 
 .run ../common/sqlite_setup.sql
 -- Running script: ../common/sqlite_setup.sql
--- 0/22 - 0 ---------------------------------------------------------------
+-- 0/29 - 0 ---------------------------------------------------------------
 .open sqlite::memory:
--- 0/23 - 0 ---------------------------------------------------------------
+-- 0/30 - 0 ---------------------------------------------------------------
 .info server
 Name,Value
 Schema Term,schema
@@ -237,7 +377,7 @@ Driver name,SQLiteJDBC
 Driver version,native
 JDBC major version,2
 JDBC minor version,1
--- 0/24 - 0 ---------------------------------------------------------------
+-- 0/31 - 0 ---------------------------------------------------------------
 .info type
 TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
 BLOB,2004,0,,,,1,1,3,0,0,0,,0,0,0,0,10
@@ -245,8 +385,16 @@ INTEGER,4,0,,,,1,1,3,0,0,0,,0,0,0,0,10
 NULL,0,0,,,,1,1,3,0,0,0,,0,0,0,0,10
 REAL,7,0,,,,1,1,3,0,0,0,,0,0,0,0,10
 TEXT,12,0,,,,1,1,3,0,0,0,,0,0,0,0,10
--- 0/25 - 0 ---------------------------------------------------------------
+-- 0/32 - 0 ---------------------------------------------------------------
+.info types
+TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
+BLOB,2004,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+INTEGER,4,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+NULL,0,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+REAL,7,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+TEXT,12,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+-- 0/33 - 0 ---------------------------------------------------------------
 .close
 Session 0 is now closed.
--- 0/26 - 0 ---------------------------------------------------------------
+-- 0/34 - 0 ---------------------------------------------------------------
 

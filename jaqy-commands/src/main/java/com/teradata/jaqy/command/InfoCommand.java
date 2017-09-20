@@ -70,43 +70,8 @@ public class InfoCommand extends JaqyCommandAdapter
 			return;
 			
 		String type = args[0].toLowerCase ();
-		if ("behavior".equals (type) ||
-			"behaviors".equals (type) ||
-			"catalog".equals (type) ||
-			"catalogs".equals (type) ||
-			"client".equals (type) ||
-			"feature".equals (type) ||
-			"features".equals (type) ||
-			"function".equals (type) ||
-			"functions".equals (type) ||
-			"keyword".equals (type) ||
-			"keywords".equals (type) ||
-			"limit".equals (type) ||
-			"limits".equals (type) ||
-			"schema".equals (type) ||
-			"schemas".equals (type) ||
-			"server".equals (type) ||
-			"table".equals (type) ||
-			"type".equals (type) ||
-			"types".equals (type) ||
-			"user".equals (type))
-		{
-			// dummy
-		}
-		else
-		{
-			interpreter.error ("invalid information type: " + args[0]);
-			return;
-		}
-
 		Session session = interpreter.getSession ();
 		JaqyConnection conn = session.getConnection ();
-		if (conn == null ||
-			conn.isClosed ())
-		{
-			interpreter.println ("No active sessions.");
-			return;
-		}
 		JaqyHelper helper = conn.getHelper ();
 
 		DatabaseMetaData metaData = conn.getMetaData ();
@@ -142,6 +107,11 @@ public class InfoCommand extends JaqyCommandAdapter
 			listTypes (interpreter, metaData, helper);
 		else if ("user".equals (type))
 			listUser (interpreter, metaData, helper);
+		else
+		{
+			interpreter.error ("invalid information type: " + args[0]);
+			return;
+		}
 	}
 
 	private void listUser (JaqyInterpreter interpreter, DatabaseMetaData metaData, JaqyHelper helper) throws SQLException
