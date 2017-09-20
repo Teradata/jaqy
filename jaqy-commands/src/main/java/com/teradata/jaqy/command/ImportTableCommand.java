@@ -66,6 +66,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("Staging table name is not specified.");
+			return;
 		}
 		StringBuilder buffer = new StringBuilder ();
 		for (String arg : args)
