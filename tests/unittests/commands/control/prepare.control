@@ -9,9 +9,10 @@ Teradata Jaqy Console 1.0
 .help .prepare
 .prepare
 SQL statement
-.end prepare
 
-This command is mostly for checking the parameter types required.
+This command is mostly for checking the parameter types required.  It works
+in conjunction with .debug preparedstatement on
+
 -- 0/2 - 0 ----------------------------------------------------------------
 
 .open sqlite::memory:
