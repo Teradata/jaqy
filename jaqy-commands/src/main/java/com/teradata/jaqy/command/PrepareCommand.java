@@ -15,7 +15,6 @@
  */
 package com.teradata.jaqy.command;
 
-import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.QueryMode;
@@ -34,12 +33,6 @@ public class PrepareCommand extends JaqyCommandAdapter
 	public String getDescription ()
 	{
 		return "prepares a sql statement.";
-	}
-
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
 	}
 
 	@Override
