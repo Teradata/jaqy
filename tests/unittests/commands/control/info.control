@@ -36,6 +36,9 @@ type:
 -- 0/6 - 0 ----------------------------------------------------------------
 .info behavior
 Name,Value
+Schema Term,schema
+Procedure Term,function
+Catalog Term,database
 NULLs are sorted high,Yes
 NULLs are sorted low,No
 NULLs are sorted at start,No
@@ -54,6 +57,9 @@ LOB update on copy,Yes
 -- 0/7 - 0 ----------------------------------------------------------------
 .info behaviors
 Name,Value
+Schema Term,schema
+Procedure Term,function
+Catalog Term,database
 NULLs are sorted high,Yes
 NULLs are sorted low,No
 NULLs are sorted at start,No
@@ -363,9 +369,6 @@ Session 0 is now closed.
 -- 0/30 - 0 ---------------------------------------------------------------
 .info server
 Name,Value
-Schema Term,schema
-Procedure Term,not_implemented
-Catalog Term,catalog
 User,
 URL,jdbc:sqlite::memory:
 Ready only,No
