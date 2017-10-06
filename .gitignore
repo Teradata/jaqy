@@ -11,3 +11,5 @@ pom.xml.versionsBackup
 /.idea
 /dist
 /tests/unittests/teradata/lib/
+/doc/_build
+

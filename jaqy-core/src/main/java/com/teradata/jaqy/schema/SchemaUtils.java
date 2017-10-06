@@ -37,10 +37,17 @@ public class SchemaUtils
 	{
 		int count = schemaInfo.columns.length;
 		StringBuilder buffer = new StringBuilder ();
-		buffer.append ("CREATE TABLE ").append (tableName).append (" (");
+		buffer.append ("CREATE TABLE ").append (tableName).append ("\n(");
 		for (int i = 0; i < count; ++i)
 		{
 			String columnName = schemaInfo.columns[i].name;
+			// The schema column type is undefined.  Let's make it an
+			// integer type which is nullable.
+			if (schemaInfo.columns[i].type == Types.NULL)
+			{
+				schemaInfo.columns[i].type = Types.INTEGER;
+				schemaInfo.columns[i].nullable = ResultSetMetaData.columnNullable;
+			}
 			String columnType = helper.getTypeName (schemaInfo.columns[i]);
 			if (i == 0)
 				buffer.append ('\n');

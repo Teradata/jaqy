@@ -16,6 +16,7 @@
 package com.teradata.jaqy;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
@@ -87,7 +88,7 @@ public class DebugManager
 			}
 			catch (SQLException ex)
 			{
-				assert Debug.debug (ex);
+				Log.log (Level.INFO, ex);
 			}
 		}
 	}
@@ -120,7 +121,7 @@ public class DebugManager
 			}
 			catch (SQLException ex)
 			{
-				assert Debug.debug (ex);
+				Log.log (Level.INFO, ex);
 			}
 			try
 			{
@@ -130,7 +131,7 @@ public class DebugManager
 			}
 			catch (SQLException ex)
 			{
-				assert Debug.debug (ex);
+				Log.log (Level.INFO, ex);
 			}
 		}
 	}

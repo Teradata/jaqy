@@ -23,6 +23,7 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.logging.Level;
 
 import com.teradata.jaqy.interfaces.JaqyHandlerFactory;
 
@@ -51,7 +52,7 @@ public class JaqyHandlerFactoryManager<E>
 	public void loadRC (ClassLoader cl) throws IOException
 	{
 		String name = "META-INF/services/" + m_rc;
-		assert Debug.debug ("loading service: " + name);
+		Log.log (Level.INFO, "loading service: " + name);
 		Enumeration<URL> e;
 		if (cl instanceof URLClassLoader)
 			e = ((URLClassLoader) cl).findResources (name);
@@ -60,7 +61,7 @@ public class JaqyHandlerFactoryManager<E>
 		for (; e.hasMoreElements ();)
 		{
 			URL url = e.nextElement ();
-			assert Debug.debug ("load service url: " + url);
+			Log.log (Level.INFO, "load service url: " + url);
 			loadURL (cl, url);
 		}
 	}
@@ -74,7 +75,7 @@ public class JaqyHandlerFactoryManager<E>
 			line = line.trim ();
 			if (line.length () == 0)
 				continue;
-			assert Debug.debug ("load service class: " + line);
+			Log.log (Level.INFO, "load service class: " + line);
 			loadClass (cl, line);
 		}
 		reader.close ();
@@ -91,7 +92,7 @@ public class JaqyHandlerFactoryManager<E>
 		}
 		catch (Exception ex)
 		{
-			assert Debug.debug (ex);
+			Log.log (Level.INFO, ex);
 		}
 	}
 

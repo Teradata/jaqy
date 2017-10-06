@@ -1,4 +1,4 @@
-Teradata Jaqy Console 1.0
+Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
 -- test PostgreSQL various data types
@@ -53,7 +53,8 @@ c4     numeric(5,1)  Yes
 c5     numeric(16,0) Yes
 -- 6/5 - 0 ----------------------------------------------------------------
 .importschema -s
-CREATE TABLE TABLENAME (
+CREATE TABLE TABLENAME
+(
 	a int4 NOT NULL,
 	c1 int4,
 	c2 int4,
@@ -64,7 +65,8 @@ CREATE TABLE TABLENAME (
 -- 6/6 - 0 ----------------------------------------------------------------
 .importtable NumTable2
 -- Table Schema --
-CREATE TABLE NumTable2 (
+CREATE TABLE NumTable2
+(
 	a int4 NOT NULL,
 	c1 int4,
 	c2 int4,
@@ -126,7 +128,8 @@ DELETE FROM DecTable;
 -- 17/9 - 0 ---------------------------------------------------------------
 .importtable DecTable2
 -- Table Schema --
-CREATE TABLE DecTable2 (
+CREATE TABLE DecTable2
+(
 	a int4 NOT NULL,
 	c1 numeric(3,2),
 	c2 numeric(9,2),
@@ -184,7 +187,8 @@ DELETE FROM SerialTable;
 -- 27/12 - 0 --------------------------------------------------------------
 .importtable SerialTable2
 -- Table Schema --
-CREATE TABLE SerialTable2 (
+CREATE TABLE SerialTable2
+(
 	a int4 NOT NULL,
 	c1 int4 NOT NULL,
 	c2 int4 NOT NULL,
@@ -244,7 +248,8 @@ DELETE FROM StrTable;
 -- 38/15 - 0 --------------------------------------------------------------
 .importtable StrTable2
 -- Table Schema --
-CREATE TABLE StrTable2 (
+CREATE TABLE StrTable2
+(
 	a int4 NOT NULL,
 	c1 varchar(3),
 	c2 bpchar(1),
@@ -303,7 +308,8 @@ DELETE FROM BinTable;
 -- 49/18 - 0 --------------------------------------------------------------
 .importtable BinTable2
 -- Table Schema --
-CREATE TABLE BinTable2 (
+CREATE TABLE BinTable2
+(
 	a int4 NOT NULL,
 	c1 bpchar(8)
 )
@@ -363,7 +369,8 @@ DELETE FROM TimeTable;
 -- 60/21 - 0 --------------------------------------------------------------
 .importtable TimeTable2
 -- Table Schema --
-CREATE TABLE TimeTable2 (
+CREATE TABLE TimeTable2
+(
 	a int4 NOT NULL,
 	c1 bpchar(10),
 	c2 bpchar(8),
@@ -423,7 +430,8 @@ DELETE FROM XmlTable;
 -- 71/24 - 0 --------------------------------------------------------------
 .importtable XmlTable2
 -- Table Schema --
-CREATE TABLE XmlTable2 (
+CREATE TABLE XmlTable2
+(
 	a int4 NOT NULL,
 	c1 bpchar(15)
 )
@@ -476,7 +484,8 @@ DELETE FROM JsonTable;
 -- 81/27 - 0 --------------------------------------------------------------
 .importtable JsonTable2
 -- Table Schema --
-CREATE TABLE JsonTable2 (
+CREATE TABLE JsonTable2
+(
 	a int4 NOT NULL,
 	c1 varchar(31) NOT NULL
 )
@@ -536,7 +545,8 @@ DELETE FROM GeoTable;
 -- 92/30 - 0 --------------------------------------------------------------
 .importtable GeoTable2
 -- Table Schema --
-CREATE TABLE GeoTable2 (
+CREATE TABLE GeoTable2
+(
 	a int4 NOT NULL,
 	c1 bpchar(9),
 	c2 bpchar(21),
@@ -599,7 +609,8 @@ DELETE FROM NetTable;
 -- 103/33 - 0 -------------------------------------------------------------
 .importtable NetTable2
 -- Table Schema --
-CREATE TABLE NetTable2 (
+CREATE TABLE NetTable2
+(
 	a int4 NOT NULL,
 	c1 varchar(18),
 	c2 varchar(11),
@@ -662,7 +673,8 @@ DELETE FROM RangeTable;
 -- 114/36 - 0 -------------------------------------------------------------
 .importtable RangeTable2
 -- Table Schema --
-CREATE TABLE RangeTable2 (
+CREATE TABLE RangeTable2
+(
 	a int4 NOT NULL,
 	c1 bpchar(5),
 	c2 bpchar(13),
@@ -728,7 +740,8 @@ DELETE FROM MiscTable1;
 -- 125/39 - 0 -------------------------------------------------------------
 .importtable MiscTable12
 -- Table Schema --
-CREATE TABLE MiscTable12 (
+CREATE TABLE MiscTable12
+(
 	a int4 NOT NULL,
 	c1 bpchar(1),
 	c2 int4,
@@ -788,7 +801,8 @@ DELETE FROM MiscTable2;
 -- 136/42 - 0 -------------------------------------------------------------
 .importtable MiscTable22
 -- Table Schema --
-CREATE TABLE MiscTable22 (
+CREATE TABLE MiscTable22
+(
 	a int4 NOT NULL,
 	c1 bpchar(50),
 	c2 bpchar(13)

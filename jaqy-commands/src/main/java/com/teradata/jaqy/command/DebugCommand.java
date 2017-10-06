@@ -15,7 +15,12 @@
  */
 package com.teradata.jaqy.command;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.DebugManager;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -26,9 +31,105 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 public class DebugCommand extends JaqyCommandAdapter
 {
+	/**
+	 * A a debug option handler interface.
+	 */
+	public static interface DebugOptionHandler
+	{
+		public String getName ();
+		public String getSyntax ();
+		public void handleOption (Globals globals, JaqyInterpreter interpreter, String[] args);
+		public String getOption (Globals globals, JaqyInterpreter interpreter);
+	}
+
+	private HashMap<String, DebugOptionHandler> m_optionMap = new HashMap<String, DebugOptionHandler> ();
+
 	public DebugCommand ()
 	{
-		super ("debug.txt");
+		addOption (new DebugOptionHandler ()
+		{
+			public String getName ()
+			{
+				return "resultset";
+			}
+
+			public String getSyntax ()
+			{
+				return getName () + " [on | off]";
+			}
+
+			@Override
+			public void handleOption (Globals globals, JaqyInterpreter interpreter, String[] args)
+			{
+				DebugManager debug = globals.getDebugManager ();
+				debug.setDumpResultSet (StringUtils.getOnOffState (args[0], getName ()));
+			}
+
+			@Override
+			public String getOption (Globals globals, JaqyInterpreter interpreter)
+			{
+				DebugManager debug = globals.getDebugManager ();
+				if (!debug.isDumpResultSet ())
+					return null;
+				return getCommand () + " " + getName () + " on";
+			}
+		});
+
+		addOption (new DebugOptionHandler ()
+		{
+			public String getName ()
+			{
+				return "preparedstatement";
+			}
+
+			public String getSyntax ()
+			{
+				return getName () + " [on | off]";
+			}
+
+			@Override
+			public void handleOption (Globals globals, JaqyInterpreter interpreter, String[] args)
+			{
+				DebugManager debug = globals.getDebugManager ();
+				debug.setDumpPreparedStatement (StringUtils.getOnOffState (args[0], getName ()));
+			}
+
+			@Override
+			public String getOption (Globals globals, JaqyInterpreter interpreter)
+			{
+				DebugManager debug = globals.getDebugManager ();
+				if (!debug.isDumpPreparedStatement ())
+					return null;
+				return getCommand () + " " + getName () + " on";
+			}
+		});
+
+		addOption (new DebugOptionHandler ()
+		{
+			public String getName ()
+			{
+				return "log";
+			}
+
+			public String getSyntax ()
+			{
+				return getName () + " [info | warning | all | off]";
+			}
+
+			@Override
+			public void handleOption (Globals globals, JaqyInterpreter interpreter, String[] args)
+			{
+				Log.setLevel (args[0]);
+			}
+
+			@Override
+			public String getOption (Globals globals, JaqyInterpreter interpreter)
+			{
+				if ("off".equals (Log.getLevel ()))
+					return null;
+				return getCommand () + " " + getName () + " " + Log.getLevel ();
+			}
+		});
 	}
 
 	@Override
@@ -46,34 +147,75 @@ public class DebugCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
-		DebugManager debug = globals.getDebugManager ();
-
 		if (args.length == 0)
 		{
-			if (debug.isDumpPreparedStatement ())
-				interpreter.println (".debug preparedstatement on");
-			if (debug.isDumpResultSet ())
-				interpreter.println (".debug resultset on");
+			interpreter.println (getCurrentOptions (globals, interpreter));
 			return;
 		}
 
-		if (args.length != 2)
+		if (args.length < 2)
 		{
 			interpreter.errorParsingArgument ();
 			return;
 		}
 
-		if ("resultset".equals (args[0]))
+		DebugOptionHandler handler = m_optionMap.get (args[0]);
+		if (handler == null)
 		{
-			debug.setDumpResultSet (StringUtils.getOnOffState (args[1], "resultset"));
+			interpreter.error ("Unknown debug option: " + args[0]);
+			return;
 		}
-		else if ("preparedstatement".equals (args[0]))
+		handler.handleOption (globals, interpreter, StringUtils.shiftArgs (args));
+	}
+
+	@Override
+	public String getLongDescription ()
+	{
+		TreeMap<String, DebugOptionHandler> map = new TreeMap<String, DebugOptionHandler> ();
+		synchronized (m_optionMap)
 		{
-			debug.setDumpPreparedStatement (StringUtils.getOnOffState (args[1], "preparedstatement"));
+			map.putAll (m_optionMap);
 		}
-		else
+		StringBuilder builder = new StringBuilder ();
+		builder.append ("usage:\n");
+		for (Map.Entry<String, DebugOptionHandler> entry : map.entrySet ())
 		{
-			throw new IllegalArgumentException ("Unknown debug option.");
+			builder.append ("    ").append (getCommand ()).append (' ').append (entry.getValue ().getSyntax ()).append ('\n');
 		}
+		return builder.toString ();
+	}
+
+	/**
+	 * Gets the current active debug options
+	 */
+	private String getCurrentOptions (Globals globals, JaqyInterpreter interpreter)
+	{
+		TreeMap<String, DebugOptionHandler> map = new TreeMap<String, DebugOptionHandler> ();
+		synchronized (m_optionMap)
+		{
+			map.putAll (m_optionMap);
+		}
+		StringBuilder builder = new StringBuilder ();
+		for (Map.Entry<String, DebugOptionHandler> entry : map.entrySet ())
+		{
+			String value = entry.getValue ().getOption (globals, interpreter);
+			if (value == null)
+				continue;
+			if (builder.length () > 0)
+				builder.append ('\n');
+			builder.append (value);
+		}
+		return builder.toString ();
+	}
+
+	/**
+	 * Add a new debug option
+	 *
+	 * @param	option
+	 *			a DebugOption handler
+	 */
+	public void addOption (DebugOptionHandler option)
+	{
+		m_optionMap.put (option.getName (), option);
 	}
 }

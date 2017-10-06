@@ -25,8 +25,8 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>jaqy-console</artifactId>
-	<name>Teradata Jaqy Console</name>
-	<description>Teradata Jaqy Console</description>
+	<name>Jaqy Console</name>
+	<description>Jaqy Console</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

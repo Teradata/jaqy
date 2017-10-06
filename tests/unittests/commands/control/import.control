@@ -1,4 +1,4 @@
-Teradata Jaqy Console 1.0
+Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
 -- .import related commands test
@@ -109,7 +109,8 @@ SELECT * FROM MyTable ORDER BY a;
 -- 9/13 - 0 ---------------------------------------------------------------
 .importtable MyTable2
 -- Table Schema --
-CREATE TABLE MyTable2 (
+CREATE TABLE MyTable2
+(
 	a INTEGER NOT NULL,
 	b TEXT(5) NOT NULL,
 	c TEXT(5) NOT NULL,
@@ -145,7 +146,8 @@ c      TEXT(5) No
 d      TEXT(8) Yes
 -- 12/16 - 0 --------------------------------------------------------------
 .importschema -s
-CREATE TABLE TABLENAME (
+CREATE TABLE TABLENAME
+(
 	a INTEGER NOT NULL,
 	b TEXT(5) NOT NULL,
 	c TEXT(5) NOT NULL,
@@ -157,7 +159,8 @@ CREATE TABLE TABLENAME (
 -- 12/18 - 0 --------------------------------------------------------------
 .importtable MyTable3
 -- Table Schema --
-CREATE TABLE MyTable3 (
+CREATE TABLE MyTable3
+(
 	a INTEGER NOT NULL,
 	b TEXT(5) NOT NULL,
 	c TEXT(5) NOT NULL,

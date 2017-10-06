@@ -18,7 +18,9 @@ package com.teradata.jaqy.utils;
 import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
@@ -94,6 +96,7 @@ public class ResultSetMetaDataUtils
 		}
 		catch (Throwable t)
 		{
+			Log.log (Level.INFO, t);
 		}
 	}
 

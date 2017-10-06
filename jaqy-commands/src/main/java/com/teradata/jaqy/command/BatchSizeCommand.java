@@ -38,6 +38,12 @@ public class BatchSizeCommand extends JaqyCommandAdapter
 	}
 
 	@Override
+	public String getLongDescription ()
+	{
+		return "usage: " + getCommand () + " [size]";
+	}
+
+	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (args.length == 0)

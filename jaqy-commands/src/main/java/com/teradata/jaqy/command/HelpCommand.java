@@ -40,12 +40,16 @@ public class HelpCommand extends JaqyCommandAdapter
 
 	private void listCommands (PrintWriter pw)
 	{
+		pw.println ("Currently available commands are the following.");
+		pw.println ();
 		TreeMap<String,JaqyCommand> sortedMap = new TreeMap<String,JaqyCommand> ();
 		sortedMap.putAll (m_manager.getCommandMap ());
 		for (Map.Entry<String, JaqyCommand> entry : sortedMap.entrySet ())
 		{
 			pw.println ("\t." + entry.getKey () + " - " + entry.getValue ().getDescription ());
 		}
+		pw.println ();
+		pw.println ("Use .help [command] to know more about a command.");
 	}
 
 	private void helpCommand (Globals globals, PrintWriter pw, String name, JaqyCommand command, String[] args)

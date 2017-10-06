@@ -1,4 +1,4 @@
-Teradata Jaqy Console 1.0
+Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
 -- .debug preparedstatement on command test
@@ -7,17 +7,14 @@ Teradata Jaqy Console 1.0
 -- Running script: ../common/derby_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
 .help .debug
-usage: .debug type [on | off]
-
-type:
-    preparedstatement
-    resultset
-
-Example:
-.debug resultset on
+usage:
+    .debug log [info | warning | all | off]
+    .debug preparedstatement [on | off]
+    .debug resultset [on | off]
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .debug
+
 -- 0/3 - 0 ----------------------------------------------------------------
 
 .open derby:memory:debugDB;create=true

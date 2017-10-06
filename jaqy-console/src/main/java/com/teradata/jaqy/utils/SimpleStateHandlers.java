@@ -69,7 +69,7 @@ public class SimpleStateHandlers
 		{
 			Session session = interpreter.getSession ();
 			if (session == null)
-				return "Teradata Jaqy Console";
+				return "Jaqy Console";
 			return "jaqy - " + session.getDescription ();
 		}
 	};

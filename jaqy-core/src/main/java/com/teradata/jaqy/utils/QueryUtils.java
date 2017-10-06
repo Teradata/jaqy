@@ -1,8 +1,9 @@
 package com.teradata.jaqy.utils;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
 
-import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyStatement;
@@ -28,7 +29,7 @@ public class QueryUtils
 	public static String getQueryString (JaqyConnection conn, String sql, int column) throws SQLException
 	{
 		JaqyStatement stmt = null;
-		assert Debug.debug ("SQL: " + sql);
+		Log.log (Level.INFO, "SQL: " + sql);
 		try
 		{
 			stmt = conn.createStatement ();
@@ -71,7 +72,7 @@ public class QueryUtils
 	public static JaqyResultSet getResultSet (JaqyConnection conn, String sql) throws SQLException
 	{
 		JaqyStatement stmt = null;
-		assert Debug.debug ("SQL: " + sql);
+		Log.log (Level.INFO, "SQL: " + sql);
 		try
 		{
 			stmt = conn.createStatement ();

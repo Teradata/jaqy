@@ -17,7 +17,9 @@ package com.teradata.jaqy.utils;
 
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
 import com.teradata.jaqy.interfaces.Display;
@@ -30,7 +32,7 @@ public class ParameterMetaDataUtils
 {
 	private final static String[] MODES = { "Unknown", "IN", "IN/OUT", null, "OUT" };
 
-	private static void dumpColumn (PrintWriter pw, JaqyParameterMetaData metaData, int column)
+	private static void dumpColumn (PrintWriter pw, JaqyParameterMetaData metaData, int column, Display display)
 	{
 //		JdbcFeatures features = metaData.getFeatures ();
 		try
@@ -47,6 +49,7 @@ public class ParameterMetaDataUtils
 		}
 		catch (Throwable t)
 		{
+			Log.log (Level.INFO, t);
 		}
 	}
 
@@ -57,7 +60,7 @@ public class ParameterMetaDataUtils
 		AttributeUtils.print (pw, 0, "Parameter Count", columnCount);
 		for (int i = 1; i <= columnCount; ++i)
 		{
-			dumpColumn (pw, metaData, i);
+			dumpColumn (pw, metaData, i, display);
 		}
 	}
 

@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.logging.Level;
 
 import org.junit.Assert;
 import org.junit.rules.TemporaryFolder;
@@ -73,7 +74,7 @@ public class TestUtils
 			"--norc",
 			".@run", srcFile
 		};
-		com.teradata.jaqy.Debug.enabled = false;
+		com.teradata.jaqy.Log.setLevel (Level.OFF);
 		com.teradata.jaqy.Main.skipStdin = true;
 		com.teradata.jaqy.Main.main (args);
 

@@ -20,6 +20,7 @@ import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
 
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -190,9 +191,9 @@ public class JaqyInterpreter
 		StringBuffer buffer = new StringBuffer ();
 		while ((line = input.getLine ()) != null)
 		{
-			assert Debug.debug ("interpret: " + line);
+			Log.log (Level.INFO, "interpret: " + line);
 			interactive = input.isInteractive ();
-			assert Debug.debug ("flags: first = " + first + ", isVerbatim() = " + isVerbatim ());
+			Log.log (Level.INFO, "flags: first = " + first + ", isVerbatim() = " + isVerbatim ());
 			if (first)
 			{
 				if (line.startsWith ("."))
@@ -308,7 +309,7 @@ public class JaqyInterpreter
 			else
 			{
 				call = m_commandManager.getCommand (cmd);
-				assert Debug.debug ("call = " + call);
+				Log.log (Level.INFO, "call = " + call);
 
 				// unknown commands are not parse actions either
 				if (call == null)
@@ -316,7 +317,7 @@ public class JaqyInterpreter
 				else
 					type = call.getType (arguments);
 			}
-			assert Debug.debug ("CommandType: " + type);
+			Log.log (Level.INFO, "CommandType: " + type);
 			switch (type)
 			{
 				case none:
@@ -345,9 +346,9 @@ public class JaqyInterpreter
 		String alias = m_aliasManager.getAlias (cmd);
 		if (alias != null)
 		{
-			assert Debug.debug ("Run alias for " + cmd);
-			assert Debug.debug (alias);
-			assert Debug.debug ("End alias for " + cmd);
+			Log.log (Level.INFO, "Run alias for " + cmd);
+			Log.log (Level.INFO, alias);
+			Log.log (Level.INFO, "End alias for " + cmd);
 			// okay, we are dealing with an alias. Let's run it
 			CommandParser parser = CommandParser.getFileParser ();
 			String[] args = parser.parse (arguments);
@@ -424,7 +425,7 @@ public class JaqyInterpreter
 		StringBuffer buffer = m_verbatimBuffer;
 		if (buffer.length () > 0)
 			buffer.append ('\n');
-		assert Debug.debug ("append verbatim: " + line);
+		Log.log (Level.INFO, "append verbatim: " + line);
 		buffer.append (line);
 	}
 
@@ -436,14 +437,14 @@ public class JaqyInterpreter
 
 	private void pushParseAction (String type, String cmdLine)
 	{
-		assert Debug.debug ("push ParseAction " + type);
+		Log.log (Level.INFO, "push ParseAction " + type);
 		appendVerbatimBuffer (cmdLine);
 		m_actionStack.push (type);
 	}
 
 	public void popParseAction (Session session, String type, String cmdLine)
 	{
-		assert Debug.debug ("pop ParseAction " + type);
+		Log.log (Level.INFO, "pop ParseAction " + type);
 		Display display = m_display;
 		if (m_actionStack.isEmpty ())
 		{
@@ -457,10 +458,10 @@ public class JaqyInterpreter
 				m_parseActionValue = null;
 				try
 				{
-					assert Debug.debug ("run ParseAction " + type);
-					assert Debug.debug ("[");
-					assert Debug.debug (action);
-					assert Debug.debug ("]");
+					Log.log (Level.INFO, "run ParseAction " + type);
+					Log.log (Level.INFO, "[");
+					Log.log (Level.INFO, action);
+					Log.log (Level.INFO, "]");
 					parseAction.parse (action, value, m_globals, this);
 				}
 				catch (Throwable t)
@@ -615,7 +616,7 @@ public class JaqyInterpreter
 		Display display = m_display;
 		try
 		{
-			assert Debug.debug ("ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
+			Log.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
 			JaqyExporter exporter = getExporter ();
 			if (exporter != null)
 			{

@@ -1,4 +1,4 @@
-Teradata Jaqy Console 1.0
+Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
 -- .import csv command test
@@ -74,7 +74,8 @@ a      INTEGER No
 b      INTEGER No
 -- 1/9 - 0 ----------------------------------------------------------------
 .importschema -s
-CREATE TABLE TABLENAME (
+CREATE TABLE TABLENAME
+(
 	a INTEGER NOT NULL,
 	b INTEGER NOT NULL
 )

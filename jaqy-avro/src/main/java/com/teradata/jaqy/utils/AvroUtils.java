@@ -26,6 +26,7 @@ import java.sql.SQLXML;
 import java.sql.Struct;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.avro.Schema;
@@ -74,7 +75,7 @@ public class AvroUtils
 			case Types.NULL:
 				return Schema.Type.NULL;
 			case Types.STRUCT:
-				return Schema.Type.RECORD;
+				return Schema.Type.ARRAY;
 			case Types.ARRAY:
 				return Schema.Type.ARRAY;
 			default:
@@ -313,5 +314,160 @@ public class AvroUtils
 			writer.append (r);
 		}
 		return count;
+	}
+
+	/**
+	 * Convert AVRO schema to database type.
+	 *
+	 * @param	fieldSchema
+	 * 			the AVRO column schema.
+	 * @param	typeInfo (OUT)
+	 * 			the type info to be updated.
+	 * @return	true if we need to scan rows for variable length data.
+	 */
+	private static boolean updateType (Schema fieldSchema, FullColumnInfo typeInfo)
+	{
+		switch (fieldSchema.getType ())
+		{
+		    case STRING:
+		    {
+		    	if (typeInfo.type != 0 &&
+		    		typeInfo.type != Types.NVARCHAR)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.NVARCHAR;
+		    	return true;
+		    }
+		    case BYTES:
+		    {
+		    	if (typeInfo.type != 0 &&
+		    		typeInfo.type != Types.VARBINARY)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.VARBINARY;
+		    	return true;
+		    }
+		    case INT:
+		    {
+		    	if (typeInfo.type != 0 &&
+	    			typeInfo.type != Types.INTEGER)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.INTEGER;
+		    	break;
+		    }
+		    case LONG:
+		    {
+		    	if (typeInfo.type != 0 &&
+	    			typeInfo.type != Types.BIGINT)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.BIGINT;
+		    	break;
+		    }
+		    case FLOAT:
+		    {
+		    	if (typeInfo.type != 0 &&
+	    			typeInfo.type != Types.FLOAT)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.FLOAT;
+		    	break;
+		    }
+		    case DOUBLE:
+		    {
+		    	if (typeInfo.type != 0 &&
+	    			typeInfo.type != Types.DOUBLE)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.DOUBLE;
+		    	break;
+		    }
+		    case BOOLEAN:
+		    {
+		    	if (typeInfo.type != 0 &&
+	    			typeInfo.type != Types.BOOLEAN)
+		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
+		    	typeInfo.type = Types.BOOLEAN;
+		    	break;
+		    }
+		    case NULL:
+		    {
+		    	typeInfo.nullable = ResultSetMetaData.columnNullable;
+		    	break;
+		    }
+			case UNION:
+			{
+				for (Schema s : fieldSchema.getTypes ())
+				{
+					updateType (s, typeInfo);
+				}
+				break;
+			}
+			default:
+			{
+	    		throw new RuntimeException ("Cannot generate the schema.");
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Get the database schema from AVRO schema
+	 * @param	avroSchema
+	 * 			the AVRO schema
+	 * @return	database schema
+	 */
+	public static SchemaInfo getSchema (Schema avroSchema, Iterator<GenericRecord> iter)
+	{
+		List<Schema.Field> fields = avroSchema.getFields ();
+		int numCols = fields.size ();
+		FullColumnInfo[] columnInfos = new FullColumnInfo[numCols];
+		int i = 0;
+		boolean doScan = false;
+		for (Schema.Field field  : fields)
+		{
+			FullColumnInfo typeInfo = new FullColumnInfo ();
+			columnInfos[i++] = typeInfo;
+
+			typeInfo.name = field.schema ().getFullName ();
+			typeInfo.label = typeInfo.name;
+			doScan |= updateType (field.schema (), typeInfo);
+		}
+
+		if (doScan)
+		{
+			// We have variable length data to check the maximum length.
+			while (iter.hasNext ())
+			{
+				GenericRecord record = iter.next ();
+				i = 0;
+				for (Schema.Field field  : fields)
+				{
+					FullColumnInfo typeInfo = columnInfos[i++];
+					switch (field.schema ().getType ())
+					{
+						case STRING:
+						{
+							CharSequence o = (CharSequence)record.get (i);
+							if (o == null)
+								continue;
+							int len = o.length ();
+							if (typeInfo.precision < len)
+								typeInfo.precision = len;
+							break;
+						}
+					    case BYTES:
+					    {
+							ByteBuffer bb = (ByteBuffer)record.get (i);
+							int len = bb.remaining ();
+							if (typeInfo.precision < len)
+								typeInfo.precision = len;
+					    	break;
+					    }
+					    default:
+					    {
+					    	break;
+					    }
+					}
+				}
+			}
+		}
+
+		return new SchemaInfo (columnInfos);
 	}
 }

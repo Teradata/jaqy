@@ -21,7 +21,7 @@
 	<artifactId>jaqy-parent</artifactId>
 	<version>1.0</version>
 	<name>jaqy-parent</name>
-	<description>Teradata Jaqy</description>
+	<description>Jaqy</description>
 	<packaging>pom</packaging>
 	<licenses>
 		<license>

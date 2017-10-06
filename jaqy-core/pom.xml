@@ -26,7 +26,7 @@
 	</parent>
 	<artifactId>jaqy-core</artifactId>
 	<name>jaqy-core</name>
-	<description>Teradata Jaqy Core Module</description>
+	<description>Jaqy Core Module</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

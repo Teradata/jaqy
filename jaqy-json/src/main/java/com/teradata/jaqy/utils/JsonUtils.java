@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Struct;
+import java.util.logging.Level;
 
 import javax.json.JsonString;
 import javax.json.JsonStructure;
@@ -36,7 +37,7 @@ import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.TextJsonGenerator;
 import org.yuanheng.cookjson.TextJsonParser;
 
-import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 
@@ -232,7 +233,7 @@ public class JsonUtils
 				Object obj = rs.getObject (i + 1);
 				if (obj != null && jsonCheck[i])
 				{
-					assert Debug.debug ("Column " + (i + 1) + " is a JSON column: " + obj.getClass ());
+					Log.log (Level.INFO, "Column " + (i + 1) + " is a JSON column: " + obj.getClass ());
 					String str = null;
 					// We only deal with textual form of JSON here.
 					if (obj instanceof Clob)
@@ -258,7 +259,7 @@ public class JsonUtils
 						}
 						catch (Exception ex)
 						{
-							assert Debug.debug (ex);
+							Log.log (Level.INFO, ex);
 						}
 					}
 				}

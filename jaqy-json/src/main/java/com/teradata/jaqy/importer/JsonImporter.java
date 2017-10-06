@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Types;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
@@ -39,7 +40,7 @@ import org.yuanheng.cookjson.CookJsonProvider;
 import org.yuanheng.cookjson.value.CookJsonArray;
 import org.yuanheng.cookjson.value.CookJsonBinary;
 
-import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
@@ -305,7 +306,7 @@ class JsonImporter implements JaqyImporter<String>
 					}
 					catch (Exception ex)
 					{
-						assert Debug.debug (ex);
+						Log.log (Level.INFO, ex);
 					}
 				}
 				// Okay, we give up, just return some kind of string
@@ -328,7 +329,7 @@ class JsonImporter implements JaqyImporter<String>
 					}
 					catch (Exception ex)
 					{
-						assert Debug.debug (ex);
+						Log.log (Level.INFO, ex);
 					}
 				}
 				// Okay, we give up, just return some kind of string

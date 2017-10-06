@@ -27,7 +27,7 @@
 
 	<artifactId>jaqy-codecov</artifactId>
 	<name>jaqy-codecov</name>
-	<description>Teradata Jaqy Code Coverage Module</description>
+	<description>Jaqy Code Coverage Module</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

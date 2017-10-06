@@ -33,6 +33,7 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.utils.AvroUtils;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -54,6 +55,7 @@ class AvroImporter implements JaqyImporter<String>
 		return v;
 	}
 
+	private final File m_file;
 	private final JaqyConnection m_conn;
 	private DataFileReader<GenericRecord> m_dataFileReader;
 	private boolean m_end;
@@ -63,6 +65,12 @@ class AvroImporter implements JaqyImporter<String>
 	public AvroImporter (JaqyConnection conn, File file) throws IOException
 	{
 		m_conn = conn;
+		m_file = file;
+		openFile (file);
+	}
+
+	private void openFile (File file) throws IOException
+	{
 		DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord> ();
 		m_dataFileReader = new DataFileReader<GenericRecord> (file, reader);
 
@@ -82,11 +90,12 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public SchemaInfo getSchema ()
+	public SchemaInfo getSchema () throws IOException
 	{
-//		Schema schema = m_dataFileReader.getSchema ();
-//		display.println (null, schema.toString ());
-		return null;
+		SchemaInfo schema = AvroUtils.getSchema (m_dataFileReader.getSchema (), m_iter);
+		m_dataFileReader.close ();
+		openFile (m_file);
+		return schema;
 	}
 
 	@Override

@@ -16,6 +16,7 @@
 package com.teradata.jaqy;
 
 import java.io.PrintWriter;
+import java.util.logging.Level;
 
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.ErrorStateHandler;
@@ -107,7 +108,7 @@ public class ConsoleDisplay implements Display
 	@Override
 	public void error (JaqyInterpreter interpreter, Throwable t)
 	{
-		assert Debug.debug (t);
+		Log.log (Level.INFO, t);
 		String msg = getErrorHandler().getString (t, null, interpreter);
 		m_pw.println (msg);
 	}

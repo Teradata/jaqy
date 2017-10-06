@@ -18,9 +18,10 @@ package com.teradata.jaqy.command;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
@@ -136,7 +137,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 
 		interpreter.print (pt);
@@ -161,7 +162,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 
 		interpreter.print (pt);
@@ -201,7 +202,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 		interpreter.print (pt);
 	}
@@ -304,7 +305,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 		interpreter.print (pt);
 	}
@@ -339,7 +340,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 		interpreter.print (pt);
 	}
@@ -358,7 +359,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 		finally
 		{
@@ -369,7 +370,6 @@ public class InfoCommand extends JaqyCommandAdapter
 			}
 			catch (Exception ex)
 			{
-				assert Debug.debug (ex);
 			}
 		}
 	}
@@ -388,7 +388,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 		}
 		finally
 		{
@@ -399,7 +399,6 @@ public class InfoCommand extends JaqyCommandAdapter
 			}
 			catch (Exception ex)
 			{
-				assert Debug.debug (ex);
 			}
 		}
 	}
@@ -419,12 +418,14 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			Log.log (Level.INFO, t);
 		}
 		finally
 		{
 			try
 			{
-				rs.close ();
+				if (rs != null)
+					rs.close ();
 			}
 			catch (Exception ex)
 			{
@@ -446,12 +447,14 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			Log.log (Level.INFO, t);
 		}
 		finally
 		{
 			try
 			{
-				rs.close ();
+				if (rs != null)
+					rs.close ();
 			}
 			catch (Exception ex)
 			{
@@ -473,12 +476,14 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
+			Log.log (Level.INFO, t);
 		}
 		finally
 		{
 			try
 			{
-				rs.close ();
+				if (rs != null)
+					rs.close ();
 			}
 			catch (Exception ex)
 			{

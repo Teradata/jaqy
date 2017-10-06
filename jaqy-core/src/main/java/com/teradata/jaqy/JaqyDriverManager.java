@@ -23,6 +23,7 @@ import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
 
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.utils.DriverManagerUtils;
@@ -173,7 +174,7 @@ public class JaqyDriverManager
 			}
 			catch (Exception ex)
 			{
-				assert Debug.debug (ex);
+				Log.log (Level.INFO, ex);
 				interpreter.error ("invalid jar file path: " + path);
 				return false;
 			}

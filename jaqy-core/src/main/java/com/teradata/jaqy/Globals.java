@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
 
@@ -319,7 +320,7 @@ public class Globals
 	private void loadRC (ClassLoader cl, JaqyInterpreter interpreter) throws IOException
 	{
 		String name = "META-INF/services/" + m_rc;
-		assert Debug.debug ("loading service: " + name);
+		Log.log (Level.INFO, "loading service: " + name);
 		Enumeration<URL> e;
 		if (cl instanceof URLClassLoader)
 			e = ((URLClassLoader) cl).findResources (name);
@@ -328,7 +329,7 @@ public class Globals
 		for (; e.hasMoreElements ();)
 		{
 			URL url = e.nextElement ();
-			assert Debug.debug ("load service url: " + url);
+			Log.log (Level.INFO, "load service url: " + url);
 			loadURL (cl, url, interpreter);
 		}
 	}
@@ -342,7 +343,7 @@ public class Globals
 			line = line.trim ();
 			if (line.length () == 0)
 				continue;
-			assert Debug.debug ("load service class: " + line);
+			Log.log (Level.INFO, "load service class: " + line);
 			loadClass (cl, line, interpreter);
 		}
 		reader.close ();
@@ -358,7 +359,7 @@ public class Globals
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 			interpreter.error (t);
 		}
 	}
@@ -386,7 +387,7 @@ public class Globals
 		}
 		catch (Throwable t)
 		{
-			assert Debug.debug (t);
+			Log.log (Level.INFO, t);
 			interpreter.error ("invalid classpath: " + path);
 		}
 	}

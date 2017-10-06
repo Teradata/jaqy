@@ -1,6 +1,6 @@
-# Teradata Jaqy [![Build Status](https://travis-ci.org/Teradata/jaqy.svg?branch=master)](https://travis-ci.org/Teradata/jaqy)[![codecov](https://codecov.io/gh/Teradata/jaqy/branch/master/graph/badge.svg)](https://codecov.io/gh/Teradata/jaqy)[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+# Jaqy [![Build Status](https://travis-ci.org/Teradata/jaqy.svg?branch=master)](https://travis-ci.org/Teradata/jaqy)[![codecov](https://codecov.io/gh/Teradata/jaqy/branch/master/graph/badge.svg)](https://codecov.io/gh/Teradata/jaqy)[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
-Teradata Jaqy is a universal JDBC client for connecting any databases with
+Jaqy is a universal JDBC client for connecting any databases with
 JDBC drivers.  It is designed with the following in mind.
 
 * Zero installation.  Nor does not require administrative privileges.
@@ -12,7 +12,7 @@ JDBC drivers.  It is designed with the following in mind.
 * Interactive and scripting support.
 * Support data transfer to and from database in various formats (CSV, JSON, AVRO, etc).
 
-Teradata Jaqy is mainly tested against SQLite, Derby, MySQL and PostgreSQL,
+Jaqy is mainly tested against SQLite, Derby, MySQL and PostgreSQL,
 since they can be easily made available as part of CI process.  Brief testing
 on Teradata, HIVE, Presto, Teradata Aster, etc were done, and it worked
 pretty well.
@@ -25,7 +25,7 @@ mvn clean package -Dmaven.test.skip=true
 
 ## Test
 
-While Teradata Jaqy can be built on either Windows or Linux platforms, the
+While Jaqy can be built on either Windows or Linux platforms, the
 tests are designed for Linux platforms only, due to the fact that the EOL
 for Windows and Linux are different.
 

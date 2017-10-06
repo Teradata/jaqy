@@ -16,6 +16,7 @@
 package com.teradata.jaqy.exporter;
 
 import java.io.OutputStream;
+import java.util.logging.Level;
 
 import org.apache.avro.Schema;
 import org.apache.avro.file.CodecFactory;
@@ -24,7 +25,7 @@ import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumWriter;
 
-import com.teradata.jaqy.Debug;
+import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
@@ -64,7 +65,7 @@ class AvroExporter implements JaqyExporter
 			helper.fixColumnInfo (info);
 		}
 		Schema schema = AvroUtils.getSchema (schemaInfo, helper);
-		assert Debug.debug ("schema is " + schema.toString (true));
+		Log.log (Level.INFO, "schema is " + schema.toString (true));
 
 		DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord> (schema);
 		DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord> (writer);

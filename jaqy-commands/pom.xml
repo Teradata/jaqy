@@ -26,7 +26,7 @@
 	</parent>
 	<artifactId>jaqy-commands</artifactId>
 	<name>jaqy-commands</name>
-	<description>Teradata Jaqy Commands</description>
+	<description>Jaqy Commands</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

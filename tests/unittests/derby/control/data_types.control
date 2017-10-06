@@ -1,4 +1,4 @@
-Teradata Jaqy Console 1.0
+Jaqy Console 1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
 -- test Apache Derby various data types
@@ -31,7 +31,8 @@ T3     BIGINT   Yes
 T4     DOUBLE   Yes
 -- 1/5 - 0 ----------------------------------------------------------------
 .desc -s NumTable
-CREATE TABLE NumTable (
+CREATE TABLE NumTable
+(
 	T1 SMALLINT,
 	T2 INTEGER,
 	T3 BIGINT,
@@ -281,7 +282,8 @@ D3     DECIMAL(22,2) Yes
 D4     DECIMAL(31,2) Yes
 -- 8/10 - 0 ---------------------------------------------------------------
 .desc -s DecTable
-CREATE TABLE DecTable (
+CREATE TABLE DecTable
+(
 	D1 DECIMAL(3,2),
 	D2 DECIMAL(9,2),
 	D3 DECIMAL(22,2),
@@ -528,7 +530,8 @@ S2     CHAR(1)      Yes
 S3     CHAR(5)      Yes
 -- 15/15 - 0 --------------------------------------------------------------
 .desc -s StrTable
-CREATE TABLE StrTable (
+CREATE TABLE StrTable
+(
 	S1 VARCHAR(255),
 	S2 CHAR(1),
 	S3 CHAR(5)
@@ -729,7 +732,8 @@ C2     LONG VARCHAR              Yes
 C3     LONG VARCHAR FOR BIT DATA Yes
 -- 22/20 - 0 --------------------------------------------------------------
 .desc -s BinTable
-CREATE TABLE BinTable (
+CREATE TABLE BinTable
+(
 	C1 INTEGER,
 	C2 LONG VARCHAR,
 	C3 LONG VARCHAR FOR BIT DATA
@@ -930,7 +934,8 @@ C2     CLOB(1024) Yes
 C3     BLOB(1024) Yes
 -- 29/25 - 0 --------------------------------------------------------------
 .desc -s LobTable
-CREATE TABLE LobTable (
+CREATE TABLE LobTable
+(
 	C1 INTEGER,
 	C2 CLOB(1024),
 	C3 BLOB(1024)
@@ -1133,7 +1138,8 @@ C3     TIME      Yes
 C4     TIMESTAMP Yes
 -- 36/30 - 0 --------------------------------------------------------------
 .desc -s TimeTable
-CREATE TABLE TimeTable (
+CREATE TABLE TimeTable
+(
 	C1 INTEGER,
 	C2 DATE,
 	C3 TIME,

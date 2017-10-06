@@ -21,6 +21,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
@@ -209,7 +210,7 @@ public class Session
 
 	public JaqyPreparedStatement prepareQuery (String sql, JaqyInterpreter interpreter) throws SQLException
 	{
-		assert Debug.debug ("prepareQuery: " + sql);
+		Log.log (Level.INFO, "prepareQuery: " + sql);
 		interpreter.incSqlCount ();
 		if (isClosed ())
 		{
@@ -227,10 +228,10 @@ public class Session
 	public void importQuery (String sql, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyImporter<?> importer = interpreter.getImporter ();
-		assert Debug.debug ("importQuery: " + importer);
+		Log.log (Level.INFO, "importQuery: " + importer);
 		FieldImporter fieldImporter = new FieldImporter (importer);
 		sql = VariableParser.getString (sql, interpreter.getVariableHandler (), fieldImporter);
-		assert Debug.debug ("field sql: " + sql);
+		Log.log (Level.INFO, "field sql: " + sql);
 		if (fieldImporter.hasFields ())
 			importer = fieldImporter;
 
@@ -306,14 +307,14 @@ public class Session
 			}
 			catch (Exception ex)
 			{
-				assert Debug.debug (ex);
+				Log.log (Level.INFO, ex);
 			}
 		}
 	}
 
 	public void executeQuery (String sql, JaqyInterpreter interpreter) throws SQLException
 	{
-		assert Debug.debug ("executeQuery: " + sql);
+		Log.log (Level.INFO, "executeQuery: " + sql);
 		interpreter.incSqlCount ();
 		if (isClosed ())
 		{
