@@ -34,16 +34,15 @@ import com.teradata.jaqy.lineinput.ReaderLineInput;
  */
 public class IfCommand extends JaqyCommandAdapter implements ParseAction
 {
+	public IfCommand ()
+	{
+		super ("if.txt");
+	}
+
 	@Override
 	public String getDescription ()
 	{
 		return "conditional statement";
-	}
-
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [expression] then .goto [label]";
 	}
 
 	@Override

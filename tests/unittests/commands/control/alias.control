@@ -7,16 +7,17 @@ Jaqy Console 1.0
 -- Running script: ../common/sqlite_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
 .help alias
-usage: .alias name
-string
-.end alias
+usage:
+    .alias name
+    string
+    .end alias
 
 This command creates an alias for a series commands or SQL queries.  The
 alias is run like a command.  It also has a limited support for alias
 arguments.
 
 Arguments:
-$1 $2 etc corresponds to n-th argument passed to the alias.
+$0, $1 $2 etc corresponds to n-th argument passed to the alias.
 ${1-} corresponds to all arguments after 1 (including 1).
 ${2-3} corresponds to all arguments between 2 and 3 (inclusive).
 

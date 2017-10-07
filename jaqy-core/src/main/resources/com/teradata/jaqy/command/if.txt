@@ -1,0 +1,17 @@
+usage:
+    .if [expression]
+    string
+    .end if
+
+This command conditionally executes a block of script if and only if the
+expression is evaluated using JavaScript to true.
+
+Examples:
+
+SELECT * FROM MyTable ORDER BY a;
+-- Check the number of rows returned from a query
+.if activityCount == 0
+.rem Test
+SELECT 2;
+.rem Test
+.end if
