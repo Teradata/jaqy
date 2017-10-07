@@ -40,4 +40,10 @@ public class DebugCommandTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/debug/resultset.sql", "../tests/unittests/debug/control/resultset.control");
 	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/debug/log.sql", "../tests/unittests/debug/control/log.control");
+	}
 }

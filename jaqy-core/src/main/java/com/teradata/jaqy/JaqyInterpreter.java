@@ -191,9 +191,9 @@ public class JaqyInterpreter
 		StringBuffer buffer = new StringBuffer ();
 		while ((line = input.getLine ()) != null)
 		{
-			Log.log (Level.INFO, "interpret: " + line);
+//			Log.log (Level.INFO, "interpret: " + line);
 			interactive = input.isInteractive ();
-			Log.log (Level.INFO, "flags: first = " + first + ", isVerbatim() = " + isVerbatim ());
+//			Log.log (Level.INFO, "flags: first = " + first + ", isVerbatim() = " + isVerbatim ());
 			if (first)
 			{
 				if (line.startsWith ("."))
