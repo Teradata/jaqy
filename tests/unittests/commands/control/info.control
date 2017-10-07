@@ -36,9 +36,9 @@ type:
 -- 0/6 - 0 ----------------------------------------------------------------
 .info behavior
 Name,Value
+Catalog Term,database
 Schema Term,schema
 Procedure Term,function
-Catalog Term,database
 NULLs are sorted high,Yes
 NULLs are sorted low,No
 NULLs are sorted at start,No
@@ -57,9 +57,9 @@ LOB update on copy,Yes
 -- 0/7 - 0 ----------------------------------------------------------------
 .info behaviors
 Name,Value
+Catalog Term,database
 Schema Term,schema
 Procedure Term,function
-Catalog Term,database
 NULLs are sorted high,Yes
 NULLs are sorted low,No
 NULLs are sorted at start,No

@@ -1,0 +1,14 @@
+usage: .list [catalog] [schema] [table]
+
+For catalog, schema, use . to represent the current one.  Use % to represent
+any.
+
+If nothing is specified, it list the tables in the current catalog / schema.
+
+Examples:
+
+.list
+.list %
+.list . %
+.list . . %
+.list . % %

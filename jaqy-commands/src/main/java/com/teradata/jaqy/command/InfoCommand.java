@@ -173,9 +173,9 @@ public class InfoCommand extends JaqyCommandAdapter
 		PropertyTable pt = new PropertyTable (new String[] { "Name", "Value" });
 		try
 		{
+			pt.addRow (new String[]{ "Catalog Term", metaData.getCatalogTerm ()});
 			pt.addRow (new String[]{ "Schema Term", metaData.getSchemaTerm ()});
 			pt.addRow (new String[]{ "Procedure Term", metaData.getProcedureTerm ()});
-			pt.addRow (new String[]{ "Catalog Term", metaData.getCatalogTerm ()});
 			pt.addRow (new String[]{ "NULLs are sorted high", getYesNo (metaData.nullsAreSortedHigh ()) });
 			pt.addRow (new String[]{ "NULLs are sorted low", getYesNo (metaData.nullsAreSortedLow ()) });
 			pt.addRow (new String[]{ "NULLs are sorted at start", getYesNo (metaData.nullsAreSortedAtStart ()) });

@@ -34,7 +34,7 @@ public class ListCommand extends JaqyCommandAdapter
 {
 	public ListCommand ()
 	{
-//		super ("list.txt");
+		super ("list.txt");
 	}
 
 	@Override
