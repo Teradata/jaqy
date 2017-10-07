@@ -31,6 +31,12 @@ public class UnAliasCommand extends JaqyCommandAdapter
 	}
 
 	@Override
+	public String getLongDescription ()
+	{
+		return "usage: " + getCommand () + " [name]";
+	}
+
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.file;

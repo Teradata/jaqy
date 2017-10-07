@@ -4,7 +4,7 @@ Jaqy Console 1.0
 -- .unalias command test
 --------------------------------------------------------------------------
 .help unalias
-No detailed help information.
+usage: .unalias [name]
 -- 0/1 - 0 ----------------------------------------------------------------
 .unalias
 -- error: missing argument.
