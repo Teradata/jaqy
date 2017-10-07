@@ -43,6 +43,12 @@ public class ImportTableCommand extends JaqyCommandAdapter
 	}
 
 	@Override
+	public String getLongDescription ()
+	{
+		return "usage: " + getCommand () + " [tablename]";
+	}
+
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.sql;

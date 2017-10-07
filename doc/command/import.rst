@@ -104,6 +104,21 @@ Batch Loading
 Jaqy by default, uses batch loading which can improve the loading speed.
 See `.batchsize <batchsize.html>`__ for more information.
 
+
+NULL and N/A Handling
+^^^^^^^^^^^^^^^^^^^^^
+
+Since JSON and AVRO have native NULL handling, the issue here is CSV.
+There are many possible ways to store NULL and N/A values in CSV.  CSV
+format provides a ``--nafilter`` and ``--navalues`` options to specify
+the list.  If ``--nafilter`` is specified, the default N/A value list
+are the following, which
+`pandas.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`__
+uses.
+
+		"-1.#IND", "1.#QNAN", "1.#IND", "-1.#QNAN", "#N/A N/A", "#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN", "nan", "-nan", ""
+
+
 Example
 ~~~~~~~
 

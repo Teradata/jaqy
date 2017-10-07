@@ -40,13 +40,13 @@ json type options:
 
 -- 0/1 - 0 ----------------------------------------------------------------
 .help importschema
-usage: usage: .importschema [options]
+usage: .importschema [options]
 options:
   -s,--sql   display schema in SQL
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .help importtable
-No detailed help information.
+usage: .importtable [tablename]
 -- 0/3 - 0 ----------------------------------------------------------------
 .import
 .import: missing importer type.

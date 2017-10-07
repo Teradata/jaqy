@@ -1,7 +1,7 @@
 .debug
 ------
 
-Turns on / off various debugging options.
+``.debug`` turns on / off various debugging options.
 
 Syntax
 ~~~~~~

@@ -42,7 +42,7 @@ public class ImportSchemaCommand extends JaqyCommandAdapter
 	@Override
 	protected String getSyntax ()
 	{
-		return "usage: " + getCommand () + " [options]";
+		return getCommand () + " [options]";
 	}
 
 	@Override
