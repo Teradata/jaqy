@@ -210,7 +210,7 @@ public class Session
 
 	public JaqyPreparedStatement prepareQuery (String sql, JaqyInterpreter interpreter) throws SQLException
 	{
-		Log.log (Level.INFO, "prepareQuery: " + sql);
+		m_globals.log (Level.INFO, "prepareQuery: " + sql);
 		interpreter.incSqlCount ();
 		if (isClosed ())
 		{
@@ -228,10 +228,10 @@ public class Session
 	public void importQuery (String sql, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyImporter<?> importer = interpreter.getImporter ();
-		Log.log (Level.INFO, "importQuery: " + importer);
+		m_globals.log (Level.INFO, "importQuery: " + importer);
 		FieldImporter fieldImporter = new FieldImporter (importer);
 		sql = VariableParser.getString (sql, interpreter.getVariableHandler (), fieldImporter);
-		Log.log (Level.INFO, "field sql: " + sql);
+		m_globals.log (Level.INFO, "field sql: " + sql);
 		if (fieldImporter.hasFields ())
 			importer = fieldImporter;
 
@@ -307,14 +307,14 @@ public class Session
 			}
 			catch (Exception ex)
 			{
-				Log.log (Level.INFO, ex);
+				m_globals.log (Level.INFO, ex);
 			}
 		}
 	}
 
 	public void executeQuery (String sql, JaqyInterpreter interpreter) throws SQLException
 	{
-		Log.log (Level.INFO, "executeQuery: " + sql);
+		m_globals.log (Level.INFO, "executeQuery: " + sql);
 		interpreter.incSqlCount ();
 		if (isClosed ())
 		{

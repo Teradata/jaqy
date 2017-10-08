@@ -174,7 +174,7 @@ public class JaqyDriverManager
 			}
 			catch (Exception ex)
 			{
-				Log.log (Level.INFO, ex);
+				display.getGlobals ().log (Level.INFO, ex);
 				interpreter.error ("invalid jar file path: " + path);
 				return false;
 			}

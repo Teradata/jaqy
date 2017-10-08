@@ -88,7 +88,7 @@ public class DebugManager
 			}
 			catch (SQLException ex)
 			{
-				Log.log (Level.INFO, ex);
+				display.getGlobals ().log (Level.INFO, ex);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class DebugManager
 			}
 			catch (SQLException ex)
 			{
-				Log.log (Level.INFO, ex);
+				display.getGlobals ().log (Level.INFO, ex);
 			}
 			try
 			{
@@ -131,7 +131,7 @@ public class DebugManager
 			}
 			catch (SQLException ex)
 			{
-				Log.log (Level.INFO, ex);
+				display.getGlobals ().log (Level.INFO, ex);
 			}
 		}
 	}

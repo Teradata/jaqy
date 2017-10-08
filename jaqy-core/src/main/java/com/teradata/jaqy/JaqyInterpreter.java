@@ -171,6 +171,11 @@ public class JaqyInterpreter
 		}
 	}
 
+	public Globals getGlobals ()
+	{
+		return m_globals;
+	}
+
 	public void push (LineInput input)
 	{
 		m_input.push (input);
@@ -309,7 +314,7 @@ public class JaqyInterpreter
 			else
 			{
 				call = m_commandManager.getCommand (cmd);
-				Log.log (Level.INFO, "call = " + call);
+				m_globals.log (Level.INFO, "call = " + call);
 
 				// unknown commands are not parse actions either
 				if (call == null)
@@ -317,7 +322,7 @@ public class JaqyInterpreter
 				else
 					type = call.getType (arguments);
 			}
-			Log.log (Level.INFO, "CommandType: " + type);
+			m_globals.log (Level.INFO, "CommandType: " + type);
 			switch (type)
 			{
 				case none:
@@ -346,9 +351,9 @@ public class JaqyInterpreter
 		String alias = m_aliasManager.getAlias (cmd);
 		if (alias != null)
 		{
-			Log.log (Level.INFO, "Run alias for " + cmd);
-			Log.log (Level.INFO, alias);
-			Log.log (Level.INFO, "End alias for " + cmd);
+			m_globals.log (Level.INFO, "Run alias for " + cmd);
+			m_globals.log (Level.INFO, alias);
+			m_globals.log (Level.INFO, "End alias for " + cmd);
 			// okay, we are dealing with an alias. Let's run it
 			CommandParser parser = CommandParser.getFileParser ();
 			String[] args = parser.parse (arguments);
@@ -425,7 +430,7 @@ public class JaqyInterpreter
 		StringBuffer buffer = m_verbatimBuffer;
 		if (buffer.length () > 0)
 			buffer.append ('\n');
-		Log.log (Level.INFO, "append verbatim: " + line);
+//		m_globals.log (Level.INFO, "append verbatim: " + line);
 		buffer.append (line);
 	}
 
@@ -437,14 +442,14 @@ public class JaqyInterpreter
 
 	private void pushParseAction (String type, String cmdLine)
 	{
-		Log.log (Level.INFO, "push ParseAction " + type);
+		m_globals.log (Level.INFO, "push ParseAction " + type);
 		appendVerbatimBuffer (cmdLine);
 		m_actionStack.push (type);
 	}
 
 	public void popParseAction (Session session, String type, String cmdLine)
 	{
-		Log.log (Level.INFO, "pop ParseAction " + type);
+		m_globals.log (Level.INFO, "pop ParseAction " + type);
 		Display display = m_display;
 		if (m_actionStack.isEmpty ())
 		{
@@ -458,10 +463,10 @@ public class JaqyInterpreter
 				m_parseActionValue = null;
 				try
 				{
-					Log.log (Level.INFO, "run ParseAction " + type);
-					Log.log (Level.INFO, "[");
-					Log.log (Level.INFO, action);
-					Log.log (Level.INFO, "]");
+					m_globals.log (Level.INFO, "run ParseAction " + type);
+					m_globals.log (Level.INFO, "[");
+					m_globals.log (Level.INFO, action);
+					m_globals.log (Level.INFO, "]");
 					parseAction.parse (action, value, m_globals, this);
 				}
 				catch (Throwable t)
@@ -616,7 +621,7 @@ public class JaqyInterpreter
 		Display display = m_display;
 		try
 		{
-			Log.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
+			m_globals.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
 			JaqyExporter exporter = getExporter ();
 			if (exporter != null)
 			{

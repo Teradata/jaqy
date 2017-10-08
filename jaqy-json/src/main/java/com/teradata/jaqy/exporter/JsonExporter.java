@@ -103,7 +103,7 @@ class JsonExporter implements JaqyExporter
 				break;
 		}
 
-		long count = JsonUtils.print (g, rs);
+		long count = JsonUtils.print (globals, g, rs);
 		g.close ();
 
 		return count;

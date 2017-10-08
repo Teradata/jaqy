@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Log;
 import com.teradata.jaqy.DebugManager;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -119,15 +118,15 @@ public class DebugCommand extends JaqyCommandAdapter
 			@Override
 			public void handleOption (Globals globals, JaqyInterpreter interpreter, String[] args)
 			{
-				Log.setLevel (args[0]);
+				globals.setLevel (args[0]);
 			}
 
 			@Override
 			public String getOption (Globals globals, JaqyInterpreter interpreter)
 			{
-				if ("off".equals (Log.getLevel ()))
+				if ("off".equals (globals.getLevel ()))
 					return null;
-				return getCommand () + " " + getName () + " " + Log.getLevel ();
+				return getCommand () + " " + getName () + " " + globals.getLevel ();
 			}
 		});
 	}

@@ -21,7 +21,6 @@ import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
 
-import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
@@ -64,7 +63,7 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 			interpreter.error ("invalid condition");
 			b = Boolean.FALSE;
 		}
-		Log.log (Level.INFO, "if condition = " + b);
+		globals.log (Level.INFO, "if condition = " + b);
 		interpreter.setParseAction (this, b);
 	}
 
@@ -77,13 +76,13 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 	@Override
 	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws IOException
 	{
-		Log.log (Level.INFO, "if condition = " + value);
+		globals.log (Level.INFO, "if condition = " + value);
 		Display display = interpreter.getDisplay ();
 		if ((Boolean)value)
 		{
-			Log.log (Level.INFO, "running if statement");
-			Log.log (Level.INFO, action);
-			Log.log (Level.INFO, "end if statement");
+			globals.log (Level.INFO, "running if statement");
+			globals.log (Level.INFO, action);
+			globals.log (Level.INFO, "end if statement");
 			interpreter.interpret (new ReaderLineInput (new StringReader (action), globals.getDirectory (), false), false);
 			display.echo (interpreter, ".end " + getName (), false);
 		}

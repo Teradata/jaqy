@@ -18,6 +18,7 @@ package com.teradata.jaqy.interfaces;
 import java.io.PrintWriter;
 
 import com.teradata.jaqy.Echo;
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
@@ -25,6 +26,7 @@ import com.teradata.jaqy.JaqyInterpreter;
  */
 public interface Display
 {
+	public Globals getGlobals ();
 	// Input Functions
 	public String getPassword (JaqyInterpreter interpreter, String prompt);
 

@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
@@ -137,7 +136,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 
 		interpreter.print (pt);
@@ -162,7 +161,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 
 		interpreter.print (pt);
@@ -202,7 +201,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		interpreter.print (pt);
 	}
@@ -305,7 +304,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		interpreter.print (pt);
 	}
@@ -340,7 +339,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		interpreter.print (pt);
 	}
@@ -359,7 +358,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		finally
 		{
@@ -388,7 +387,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		finally
 		{
@@ -418,7 +417,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		finally
 		{
@@ -447,7 +446,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		finally
 		{
@@ -476,7 +475,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			interpreter.getGlobals ().log (Level.INFO, t);
 		}
 		finally
 		{

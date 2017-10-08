@@ -37,7 +37,7 @@ import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.TextJsonGenerator;
 import org.yuanheng.cookjson.TextJsonParser;
 
-import com.teradata.jaqy.Log;
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 
@@ -209,7 +209,7 @@ public class JsonUtils
 		g.writeEnd ();
 	}
 
-	public static long print (CookJsonGenerator g, JaqyResultSet rs) throws SQLException
+	public static long print (Globals globals, CookJsonGenerator g, JaqyResultSet rs) throws SQLException
 	{
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
 		int columns = metaData.getColumnCount ();
@@ -233,7 +233,7 @@ public class JsonUtils
 				Object obj = rs.getObject (i + 1);
 				if (obj != null && jsonCheck[i])
 				{
-					Log.log (Level.INFO, "Column " + (i + 1) + " is a JSON column: " + obj.getClass ());
+					globals.log (Level.INFO, "Column " + (i + 1) + " is a JSON column: " + obj.getClass ());
 					String str = null;
 					// We only deal with textual form of JSON here.
 					if (obj instanceof Clob)
@@ -259,7 +259,7 @@ public class JsonUtils
 						}
 						catch (Exception ex)
 						{
-							Log.log (Level.INFO, ex);
+							globals.log (Level.INFO, ex);
 						}
 					}
 				}

@@ -32,12 +32,14 @@ import com.teradata.jaqy.interfaces.JaqyHandlerFactory;
  */
 public class JaqyHandlerFactoryManager<E>
 {
+	private final Globals m_globals;
 	private final HashMap<String, JaqyHandlerFactory<E>> m_factoryMap = new HashMap<String, JaqyHandlerFactory<E>> ();
 	private final Object m_lock = new Object ();
 	private final String m_rc;
 
-	public JaqyHandlerFactoryManager (String rc)
+	public JaqyHandlerFactoryManager (Globals globals, String rc)
 	{
+		m_globals = globals;
 		m_rc = rc;
 		try
 		{
@@ -52,7 +54,7 @@ public class JaqyHandlerFactoryManager<E>
 	public void loadRC (ClassLoader cl) throws IOException
 	{
 		String name = "META-INF/services/" + m_rc;
-		Log.log (Level.INFO, "loading service: " + name);
+		m_globals.log (Level.INFO, "loading service: " + name);
 		Enumeration<URL> e;
 		if (cl instanceof URLClassLoader)
 			e = ((URLClassLoader) cl).findResources (name);
@@ -61,7 +63,7 @@ public class JaqyHandlerFactoryManager<E>
 		for (; e.hasMoreElements ();)
 		{
 			URL url = e.nextElement ();
-			Log.log (Level.INFO, "load service url: " + url);
+			m_globals.log (Level.INFO, "load service url: " + url);
 			loadURL (cl, url);
 		}
 	}
@@ -75,7 +77,7 @@ public class JaqyHandlerFactoryManager<E>
 			line = line.trim ();
 			if (line.length () == 0)
 				continue;
-			Log.log (Level.INFO, "load service class: " + line);
+			m_globals.log (Level.INFO, "load service class: " + line);
 			loadClass (cl, line);
 		}
 		reader.close ();
@@ -92,7 +94,7 @@ public class JaqyHandlerFactoryManager<E>
 		}
 		catch (Exception ex)
 		{
-			Log.log (Level.INFO, ex);
+			m_globals.log (Level.INFO, ex);
 		}
 	}
 

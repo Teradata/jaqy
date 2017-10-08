@@ -3,7 +3,7 @@ package com.teradata.jaqy.utils;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import com.teradata.jaqy.Log;
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyStatement;
@@ -15,6 +15,8 @@ public class QueryUtils
 	/**
 	 * Get the string result from a query.
 	 *
+	 * @param	globals
+	 *			global variables
 	 * @param	conn
 	 * 			The JDBC connection
 	 * @param	sql
@@ -26,10 +28,10 @@ public class QueryUtils
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public static String getQueryString (JaqyConnection conn, String sql, int column) throws SQLException
+	public static String getQueryString (Globals globals, JaqyConnection conn, String sql, int column) throws SQLException
 	{
 		JaqyStatement stmt = null;
-		Log.log (Level.INFO, "SQL: " + sql);
+		globals.log (Level.INFO, "SQL: " + sql);
 		try
 		{
 			stmt = conn.createStatement ();
@@ -61,6 +63,8 @@ public class QueryUtils
 	/**
 	 * Get the ResultSet from a query.
 	 *
+	 * @param	globals
+	 *			global variables
 	 * @param	conn
 	 * 			The JDBC connection
 	 * @param	sql
@@ -69,10 +73,10 @@ public class QueryUtils
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public static JaqyResultSet getResultSet (JaqyConnection conn, String sql) throws SQLException
+	public static JaqyResultSet getResultSet (Globals globals, JaqyConnection conn, String sql) throws SQLException
 	{
 		JaqyStatement stmt = null;
-		Log.log (Level.INFO, "SQL: " + sql);
+		globals.log (Level.INFO, "SQL: " + sql);
 		try
 		{
 			stmt = conn.createStatement ();

@@ -10,6 +10,7 @@
 CREATE TABLE MyTable (a INTEGER, b INTEGER);
 
 .debug preparedstatement on
+.debug resultset on
 .debug
 
 .prepare

@@ -40,7 +40,7 @@ import org.yuanheng.cookjson.CookJsonProvider;
 import org.yuanheng.cookjson.value.CookJsonArray;
 import org.yuanheng.cookjson.value.CookJsonBinary;
 
-import com.teradata.jaqy.Log;
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
@@ -56,6 +56,7 @@ import com.teradata.jaqy.utils.TypesUtils;
  */
 class JsonImporter implements JaqyImporter<String>
 {
+	private final Globals m_globals;
 	private final CookJsonParser m_parser;
 	private JsonObject m_node;
 	private boolean m_rootIsArray;
@@ -63,8 +64,9 @@ class JsonImporter implements JaqyImporter<String>
 	private final JsonBinaryFormat m_binaryFormat;
 	private JaqyConnection m_conn;
 
-	public JsonImporter (JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, boolean rootAsArray) throws IOException
+	public JsonImporter (Globals globals, JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, boolean rootAsArray) throws IOException
 	{
+		m_globals = globals;
 		m_conn = conn;
 		m_binaryFormat = binaryFormat;
 
@@ -306,7 +308,7 @@ class JsonImporter implements JaqyImporter<String>
 					}
 					catch (Exception ex)
 					{
-						Log.log (Level.INFO, ex);
+						m_globals.log (Level.INFO, ex);
 					}
 				}
 				// Okay, we give up, just return some kind of string
@@ -329,7 +331,7 @@ class JsonImporter implements JaqyImporter<String>
 					}
 					catch (Exception ex)
 					{
-						Log.log (Level.INFO, ex);
+						m_globals.log (Level.INFO, ex);
 					}
 				}
 				// Okay, we give up, just return some kind of string

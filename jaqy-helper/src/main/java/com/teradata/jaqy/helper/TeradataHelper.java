@@ -25,7 +25,6 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.logging.Level;
 
-import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -97,7 +96,7 @@ class TeradataHelper extends DefaultHelper
 			int type = meta.getColumnType (1);
 			if (TypesUtils.isString (type))
 			{
-				Log.log (Level.INFO, "Potential SHOW ResultSet.");
+				getGlobals ().log (Level.INFO, "Potential SHOW ResultSet.");
 				//
 				// Teradata SHOW statements due to legacy, use '\r' instead of '\n'
 				// characters.  That can be problematic in the output.

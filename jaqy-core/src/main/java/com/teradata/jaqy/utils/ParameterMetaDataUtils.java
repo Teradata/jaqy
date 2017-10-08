@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
 import com.teradata.jaqy.interfaces.Display;
@@ -49,7 +48,7 @@ public class ParameterMetaDataUtils
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			display.getGlobals ().log (Level.INFO, t);
 		}
 	}
 

@@ -72,7 +72,7 @@ class JsonPrinter implements JaqyPrinter
 
 		CookJsonGenerator g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (pw);
 
-		long count = JsonUtils.print (g, rs);
+		long count = JsonUtils.print (globals, g, rs);
 		pw.println ();
 		return count;
 	}

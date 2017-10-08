@@ -108,7 +108,7 @@ public class ConsoleDisplay implements Display
 	@Override
 	public void error (JaqyInterpreter interpreter, Throwable t)
 	{
-		Log.log (Level.INFO, t);
+		m_globals.log (Level.INFO, t);
 		String msg = getErrorHandler().getString (t, null, interpreter);
 		m_pw.println (msg);
 	}
@@ -339,5 +339,11 @@ public class ConsoleDisplay implements Display
 	public void showActivityCount (JaqyInterpreter interpreter)
 	{
 		m_pw.println (m_activityCountHandler.getString (interpreter));
+	}
+
+	@Override
+	public Globals getGlobals ()
+	{
+		return m_globals;
 	}
 }

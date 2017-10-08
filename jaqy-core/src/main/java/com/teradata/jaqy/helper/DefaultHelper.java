@@ -208,7 +208,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_catalogQuery == null)
 			return getCatalogInternal ();
-		return QueryUtils.getQueryString (m_conn, m_catalogQuery.sql, m_catalogQuery.columnIndex);
+		return QueryUtils.getQueryString (getGlobals (), m_conn, m_catalogQuery.sql, m_catalogQuery.columnIndex);
 	}
 
 	@Override
@@ -216,7 +216,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_schemaQuery == null)
 			return getSchemaInternal ();
-		return QueryUtils.getQueryString (m_conn, m_schemaQuery.sql, m_schemaQuery.columnIndex);
+		return QueryUtils.getQueryString (getGlobals (), m_conn, m_schemaQuery.sql, m_schemaQuery.columnIndex);
 	}
 
 	@Override
@@ -361,7 +361,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_tableSchemaQuery != null)
 		{
-			String value = QueryUtils.getQueryString (m_conn, m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex);
+			String value = QueryUtils.getQueryString (getGlobals (), m_conn, m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex);
 			if (value == null || value.length () == 0)
 				throw ExceptionUtils.getTableNotFound ();
 			return value;
@@ -404,7 +404,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_tableColumnFormat != null)
 		{
-			JaqyResultSet rs = QueryUtils.getResultSet (m_conn, m_tableColumnFormat.format (new Object[]{ tableName }));
+			JaqyResultSet rs = QueryUtils.getResultSet (getGlobals (), m_conn, m_tableColumnFormat.format (new Object[]{ tableName }));
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			InMemoryResultSet inmemrs = (InMemoryResultSet) rs.getResultSet ();

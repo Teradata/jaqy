@@ -26,7 +26,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
 
 import javax.script.ScriptEngine;
 
@@ -71,16 +76,52 @@ public class Globals
 	private final VariableManager m_varManager = new VariableManager (null);
 	private final Variable m_globalsVar = new FixedVariable ("globals", this, "Global objects");
 
-	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager = new JaqyHandlerFactoryManager<JaqyPrinter> ("com.teradata.jaqy.interfaces.JaqyPrinter");
-	private final JaqyHandlerFactoryManager<JaqyExporter> m_exporterManager = new JaqyHandlerFactoryManager<JaqyExporter> ("com.teradata.jaqy.interfaces.JaqyExporter");
-	private final JaqyHandlerFactoryManager<JaqyImporter<?>> m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter<?>> ("com.teradata.jaqy.interfaces.JaqyImporter");
+	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager;
+	private final JaqyHandlerFactoryManager<JaqyExporter> m_exporterManager;
+	private final JaqyHandlerFactoryManager<JaqyImporter<?>> m_importerManager;
 
 	private final String m_rc = "com.teradata.jaqy.interfaces.JaqyPlugin";
 	private final File m_dir = new File (".");
 
+	private final Logger m_logger = Logger.getAnonymousLogger ();
+	private final Formatter m_formatter = new Formatter ()
+	{
+		@Override
+		public String format (LogRecord record)
+		{
+			StringBuilder builder = new StringBuilder ();
+			final String prefix = builder.append ('[').append (record.getLevel ()).append ("]: ").toString ();
+			String msg = record.getMessage ();
+			if (msg != null)
+			{
+				builder.append (msg).append ('\n');
+			}
+			Throwable t = record.getThrown ();
+			if (t != null)
+			{
+				builder.append (t).append ('\n');
+				for (Object o : t.getStackTrace ())
+				{
+					builder.append (prefix).append ("\tat ").append (o).append ('\n');
+				}
+			}
+			return builder.toString ();
+		}
+	};
+
 	Globals ()
 	{
 		m_varManager.setVariable (m_globalsVar);
+
+		m_logger.setUseParentHandlers (false);
+		Handler handler = new StreamHandler (System.out, m_formatter);
+		handler.setLevel (Level.OFF);
+		m_logger.addHandler (handler);
+		m_logger.setLevel (Level.OFF);
+
+		m_printerManager = new JaqyHandlerFactoryManager<JaqyPrinter> (this, "com.teradata.jaqy.interfaces.JaqyPrinter");
+		m_exporterManager = new JaqyHandlerFactoryManager<JaqyExporter> (this, "com.teradata.jaqy.interfaces.JaqyExporter");
+		m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter<?>> (this, "com.teradata.jaqy.interfaces.JaqyImporter");
 	}
 
 	public void printVersion (PrintWriter pw, String defaultName, String defaultVersion)
@@ -320,7 +361,7 @@ public class Globals
 	private void loadRC (ClassLoader cl, JaqyInterpreter interpreter) throws IOException
 	{
 		String name = "META-INF/services/" + m_rc;
-		Log.log (Level.INFO, "loading service: " + name);
+		log (Level.INFO, "loading service: " + name);
 		Enumeration<URL> e;
 		if (cl instanceof URLClassLoader)
 			e = ((URLClassLoader) cl).findResources (name);
@@ -329,7 +370,7 @@ public class Globals
 		for (; e.hasMoreElements ();)
 		{
 			URL url = e.nextElement ();
-			Log.log (Level.INFO, "load service url: " + url);
+			log (Level.INFO, "load service url: " + url);
 			loadURL (cl, url, interpreter);
 		}
 	}
@@ -343,7 +384,7 @@ public class Globals
 			line = line.trim ();
 			if (line.length () == 0)
 				continue;
-			Log.log (Level.INFO, "load service class: " + line);
+			log (Level.INFO, "load service class: " + line);
 			loadClass (cl, line, interpreter);
 		}
 		reader.close ();
@@ -359,7 +400,7 @@ public class Globals
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			log (Level.INFO, t);
 			interpreter.error (t);
 		}
 	}
@@ -387,7 +428,7 @@ public class Globals
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			log (Level.INFO, t);
 			interpreter.error ("invalid classpath: " + path);
 		}
 	}
@@ -400,5 +441,55 @@ public class Globals
 	public HelperManager getHelperManager ()
 	{
 		return m_helperManager;
+	}
+
+	public void setLevel (String levelStr)
+	{
+		Level level;
+		if ("info".equals (levelStr))
+			level = Level.INFO;
+		else if ("warning".equals (levelStr))
+			level = Level.WARNING;
+		else if ("all".equals (levelStr))
+			level = Level.ALL;
+		else if ("off".equals (levelStr))
+			level = Level.OFF;
+		else
+			throw new IllegalArgumentException ("Unknown logging level: " + levelStr);
+		setLevel (level);
+	}
+
+	public String getLevel ()
+	{
+		Level level = m_logger.getLevel ();
+		if (level == Level.ALL)
+			return "all";
+		if (level == Level.INFO)
+			return "info";
+		if (level == Level.WARNING)
+			return "warning";
+		if (level == Level.OFF)
+			return "off";
+		return "off";
+	}
+
+	private void setLevel (Level level)
+	{
+		m_logger.setLevel (level);
+		m_logger.getHandlers ()[0].setLevel (level);
+	}
+
+	public boolean log (Level level, String msg)
+	{
+		m_logger.log (level, msg);
+		m_logger.getHandlers ()[0].flush ();
+		return true;
+	}
+
+	public boolean log (Level level, Throwable t)
+	{
+		m_logger.log (level, null, t);
+		m_logger.getHandlers ()[0].flush ();
+		return true;
 	}
 }

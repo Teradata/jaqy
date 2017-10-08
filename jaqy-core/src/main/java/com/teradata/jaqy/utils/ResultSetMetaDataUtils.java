@@ -20,7 +20,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import com.teradata.jaqy.Log;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
@@ -66,7 +65,7 @@ public class ResultSetMetaDataUtils
 		return new SchemaInfo (columnInfos);
 	}
 
-	private static void dumpColumn (PrintWriter pw, JaqyResultSetMetaData metaData, int column)
+	private static void dumpColumn (Display display, PrintWriter pw, JaqyResultSetMetaData metaData, int column)
 	{
 		JdbcFeatures features = metaData.getFeatures ();
 		try
@@ -96,7 +95,7 @@ public class ResultSetMetaDataUtils
 		}
 		catch (Throwable t)
 		{
-			Log.log (Level.INFO, t);
+			display.getGlobals ().log (Level.INFO, t);
 		}
 	}
 
@@ -107,7 +106,7 @@ public class ResultSetMetaDataUtils
 		AttributeUtils.print (pw, 0, "ResultSet Column Count", columnCount);
 		for (int i = 1; i <= columnCount; ++i)
 		{
-			dumpColumn (pw, metaData, i);
+			dumpColumn (display, pw, metaData, i);
 		}
 	}
 }
