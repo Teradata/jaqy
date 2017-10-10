@@ -112,9 +112,9 @@ SELECT * FROM MyTable ORDER BY a;
 CREATE TABLE MyTable2
 (
 	a INTEGER NOT NULL,
-	b TEXT(5) NOT NULL,
-	c TEXT(5) NOT NULL,
-	d TEXT(8)
+	b TEXT NOT NULL,
+	c TEXT NOT NULL,
+	d TEXT
 )
 -- success. update count = 1
 -- INSERTION --
@@ -141,9 +141,9 @@ a b     c     d
 Column Type    Nullable
 ------ ------- --------
 a      INTEGER No
-b      TEXT(5) No
-c      TEXT(5) No
-d      TEXT(8) Yes
+b      TEXT    No
+c      TEXT    No
+d      TEXT    Yes
 -- 12/16 - 0 --------------------------------------------------------------
 .importschema -s
 CREATE TABLE TABLENAME
