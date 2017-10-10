@@ -81,7 +81,7 @@ CREATE TABLE StrTable
 
 INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa');
 INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb');
-INSERT INTO StrTable VALUES (2, NULL, NULL, NULL, NULL);
+INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
 
 .export csv src.csv
 SELECT * FROM StrTable ORDER BY a;
@@ -251,7 +251,7 @@ CREATE TABLE MiscTable1
 
 INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
-INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
+INSERT INTO MiscTable1 VALUES (3, NULL, NULL, NULL, NULL);
 
 .export csv misc1.csv
 SELECT * FROM MiscTable1 ORDER BY a;
@@ -273,7 +273,7 @@ CREATE TABLE MiscTable2
 
 INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
-INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
+INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
 
 .export csv misc2.csv
 SELECT * FROM MiscTable2 ORDER BY a;

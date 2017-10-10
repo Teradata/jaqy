@@ -23,7 +23,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLXML;
-import java.sql.Struct;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -74,8 +73,6 @@ public class AvroUtils
 				return Schema.Type.BYTES;
 			case Types.NULL:
 				return Schema.Type.NULL;
-			case Types.STRUCT:
-				return Schema.Type.ARRAY;
 			case Types.ARRAY:
 				return Schema.Type.ARRAY;
 			default:
@@ -93,8 +90,7 @@ public class AvroUtils
 			throw new RuntimeException ("Cannot handle column " + columnInfo.label + " type.");
 		}
 		Schema.Type childAvroType = getAvroType (childrenInfos[0].type);
-		if (childAvroType == Schema.Type.ARRAY ||
-			childAvroType == Schema.Type.RECORD)
+		if (childAvroType == Schema.Type.ARRAY)
 		{
 			// We cannot handle this case.
 			throw new RuntimeException ("Cannot handle column " + columnInfo.label + " type.");
@@ -112,40 +108,6 @@ public class AvroUtils
 		return Schema.createArray (childSchema);
 	}
 
-	private static Schema getStructSchema (FullColumnInfo columnInfo)
-	{
-		FullColumnInfo[] childrenInfos = columnInfo.children;
-		if (childrenInfos == null)
-		{
-			// We cannot handle this case.
-			throw new RuntimeException ("Cannot handle column " + columnInfo.label + " type.");
-		}
-		List<Schema.Field> childrenSchema = new ArrayList<Schema.Field> ();
-		for (FullColumnInfo child : childrenInfos)
-		{
-			Schema.Type childAvroType = getAvroType (child.type);
-			if (childAvroType == Schema.Type.ARRAY ||
-				childAvroType == Schema.Type.RECORD)
-			{
-				// We cannot handle this case.
-				throw new RuntimeException ("Cannot handle column " + columnInfo.label + " type.");
-			}
-			Schema childSchema = Schema.create (childAvroType);
-			if (child.nullable != ResultSetMetaData.columnNoNulls)
-			{
-				// In order to include NULLs in the record, we have to include
-				// NULL as part of field schema for the column.
-				ArrayList<Schema> list = new ArrayList<Schema> ();
-				list.add (Schema.create (Schema.Type.NULL));
-				list.add (childSchema);
-				childSchema = Schema.createUnion (list);
-			}
-			Schema.Field childField = new Schema.Field (child.label, childSchema, null, (Object)null);
-			childrenSchema.add (childField);
-		}
-		return Schema.createRecord (childrenSchema);
-	}
-
 	public static Schema getSchema (SchemaInfo schemaInfo, JaqyHelper helper) throws SQLException
 	{
 		FullColumnInfo[] columnInfos = schemaInfo.columns;
@@ -161,10 +123,6 @@ public class AvroUtils
 			if (avroType == Schema.Type.ARRAY)
 			{
 				fieldSchema = getArraySchema (columnInfos[i]);
-			}
-			else if (avroType == Schema.Type.RECORD)
-			{
-				fieldSchema = getStructSchema (columnInfos[i]);
 			}
 			else
 			{
@@ -251,21 +209,6 @@ public class AvroUtils
 				rs.close ();
 				return arr;
 			}
-			case RECORD:
-			{
-				if (!(obj instanceof Struct))
-					break;
-				Object[] attrs = ((Struct)obj).getAttributes ();
-				GenericRecord r = new GenericData.Record (childSchema);
-				for (int i = 0; i < attrs.length; ++i)
-				{
-					if (attrs[i] == null)
-						r.put (i, null);
-					else
-						r.put (i, getAvroObject (attrs[i], getAvroType (columnInfo.children[i].type), columnInfo.children[i], null));
-				}
-				return r;
-			}
 			default:
 			{
 				return obj;
@@ -287,10 +230,6 @@ public class AvroUtils
 			if (avroTypes[i] == Schema.Type.ARRAY)
 			{
 				avroSchemas[i] = getArraySchema (columnInfos[i]);
-			}
-			else if (avroTypes[i] == Schema.Type.RECORD)
-			{
-				avroSchemas[i] = getStructSchema (columnInfos[i]);
 			}
 		}
 
@@ -329,78 +268,79 @@ public class AvroUtils
 	{
 		switch (fieldSchema.getType ())
 		{
-		    case STRING:
-		    {
-		    	if (typeInfo.type != 0 &&
-		    		typeInfo.type != Types.NVARCHAR)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.NVARCHAR;
-		    	return true;
-		    }
-		    case BYTES:
-		    {
-		    	if (typeInfo.type != 0 &&
-		    		typeInfo.type != Types.VARBINARY)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.VARBINARY;
-		    	return true;
-		    }
-		    case INT:
-		    {
-		    	if (typeInfo.type != 0 &&
-	    			typeInfo.type != Types.INTEGER)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.INTEGER;
-		    	break;
-		    }
-		    case LONG:
-		    {
-		    	if (typeInfo.type != 0 &&
-	    			typeInfo.type != Types.BIGINT)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.BIGINT;
-		    	break;
-		    }
-		    case FLOAT:
-		    {
-		    	if (typeInfo.type != 0 &&
-	    			typeInfo.type != Types.FLOAT)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.FLOAT;
-		    	break;
-		    }
-		    case DOUBLE:
-		    {
-		    	if (typeInfo.type != 0 &&
-	    			typeInfo.type != Types.DOUBLE)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.DOUBLE;
-		    	break;
-		    }
-		    case BOOLEAN:
-		    {
-		    	if (typeInfo.type != 0 &&
-	    			typeInfo.type != Types.BOOLEAN)
-		    		throw new RuntimeException ("Cannot handle the AVRO schema.");
-		    	typeInfo.type = Types.BOOLEAN;
-		    	break;
-		    }
-		    case NULL:
-		    {
-		    	typeInfo.nullable = ResultSetMetaData.columnNullable;
-		    	break;
-		    }
+			case STRING:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.NVARCHAR)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.NVARCHAR;
+				return true;
+			}
+			case BYTES:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.VARBINARY)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.VARBINARY;
+				return true;
+			}
+			case INT:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.INTEGER)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.INTEGER;
+				break;
+			}
+			case LONG:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.BIGINT)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.BIGINT;
+				break;
+			}
+			case FLOAT:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.FLOAT)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.FLOAT;
+				break;
+			}
+			case DOUBLE:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.DOUBLE)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.DOUBLE;
+				break;
+			}
+			case BOOLEAN:
+			{
+				if (typeInfo.type != 0 &&
+					typeInfo.type != Types.BOOLEAN)
+					throw new RuntimeException ("Cannot handle the AVRO schema.");
+				typeInfo.type = Types.BOOLEAN;
+				break;
+			}
+			case NULL:
+			{
+				typeInfo.nullable = ResultSetMetaData.columnNullable;
+				break;
+			}
 			case UNION:
 			{
+				boolean b = false;
 				for (Schema s : fieldSchema.getTypes ())
 				{
-					updateType (s, typeInfo);
+					b |= updateType (s, typeInfo);
 				}
-				break;
+				return b;
 			}
 			default:
 			{
-	    		throw new RuntimeException ("Cannot generate the schema.");
+				throw new RuntimeException ("Cannot generate the schema.");
 			}
 		}
 		return false;
@@ -424,10 +364,11 @@ public class AvroUtils
 			FullColumnInfo typeInfo = new FullColumnInfo ();
 			columnInfos[i++] = typeInfo;
 
-			typeInfo.name = field.schema ().getFullName ();
+			typeInfo.name = field.name ();
 			typeInfo.label = typeInfo.name;
 			doScan |= updateType (field.schema (), typeInfo);
 		}
+		int numFields = i;
 
 		if (doScan)
 		{
@@ -435,13 +376,12 @@ public class AvroUtils
 			while (iter.hasNext ())
 			{
 				GenericRecord record = iter.next ();
-				i = 0;
-				for (Schema.Field field  : fields)
+				for (i = 0; i < numFields; ++i)
 				{
-					FullColumnInfo typeInfo = columnInfos[i++];
-					switch (field.schema ().getType ())
+					FullColumnInfo typeInfo = columnInfos[i];
+					switch (typeInfo.type)
 					{
-						case STRING:
+						case Types.NVARCHAR:
 						{
 							CharSequence o = (CharSequence)record.get (i);
 							if (o == null)
@@ -451,9 +391,11 @@ public class AvroUtils
 								typeInfo.precision = len;
 							break;
 						}
-					    case BYTES:
+					    case Types.VARBINARY:
 					    {
 							ByteBuffer bb = (ByteBuffer)record.get (i);
+							if (bb == null)
+								continue;
 							int len = bb.remaining ();
 							if (typeInfo.precision < len)
 								typeInfo.precision = len;

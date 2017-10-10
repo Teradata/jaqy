@@ -893,7 +893,7 @@ INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa');
 INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb');
 -- success. update count = 1
 -- 23/17 - 0 --------------------------------------------------------------
-INSERT INTO StrTable VALUES (2, NULL, NULL, NULL, NULL);
+INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
 -- success. update count = 1
 -- 24/17 - 0 --------------------------------------------------------------
 
@@ -1010,7 +1010,7 @@ ResultSet Column Count                       5
 a,c1,c2,c3,c4
 1,aa,A,abcde,aaaaa
 2,bbb,B,fghij,bbbbb
-2,,,,
+3,,,,
 -- activity count = 3
 -- 25/18 - 0 --------------------------------------------------------------
 .format json -p on
@@ -1139,7 +1139,7 @@ ResultSet Column Count                       5
 		"c4" : "bbbbb"
 	},
 	{
-		"a" : 2,
+		"a" : 3,
 		"c1" : null,
 		"c2" : null,
 		"c3" : null,
@@ -2970,7 +2970,7 @@ INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd3
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
 -- success. update count = 1
 -- 79/49 - 0 --------------------------------------------------------------
-INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
+INSERT INTO MiscTable1 VALUES (3, NULL, NULL, NULL, NULL);
 -- success. update count = 1
 -- 80/49 - 0 --------------------------------------------------------------
 
@@ -3087,7 +3087,7 @@ ResultSet Column Count                       5
 a,c1,c2,c3,c4
 1,t,101,a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11,$12.34
 2,f,1010,a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11,$23.45
-2,,,,
+3,,,,
 -- activity count = 3
 -- 81/50 - 0 --------------------------------------------------------------
 .format json -p on
@@ -3216,7 +3216,7 @@ ResultSet Column Count                       5
 		"c4" : 23.45
 	},
 	{
-		"a" : 2,
+		"a" : 3,
 		"c1" : null,
 		"c2" : null,
 		"c3" : null,
@@ -3254,7 +3254,7 @@ INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'f
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
 -- 86/53 - 0 --------------------------------------------------------------
-INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
+INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
 -- success. update count = 1
 -- 87/53 - 0 --------------------------------------------------------------
 
@@ -3329,7 +3329,7 @@ ResultSet Column Count                       3
 a,c1,c2
 1,'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat','fat' & 'rat'
 2,'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat','fat' & 'rat'
-2,,
+3,,
 -- activity count = 3
 -- 88/54 - 0 --------------------------------------------------------------
 .format json -p on
@@ -3412,7 +3412,7 @@ ResultSet Column Count                       3
 		"c2" : "'fat' & 'rat'"
 	},
 	{
-		"a" : 2,
+		"a" : 3,
 		"c1" : null,
 		"c2" : null
 	}

@@ -994,7 +994,7 @@ INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa');
 INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb');
 -- success. update count = 1
 -- 29/11 - 0 --------------------------------------------------------------
-INSERT INTO StrTable VALUES (2, NULL, NULL, NULL, NULL);
+INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
 -- success. update count = 1
 -- 30/11 - 0 --------------------------------------------------------------
 
@@ -1287,7 +1287,7 @@ ResultSet Column Count                       5
 		"c4" : "bbbbb"
 	},
 	{
-		"a" : 2,
+		"a" : 3,
 		"c1" : null,
 		"c2" : null,
 		"c3" : null,
@@ -3449,7 +3449,7 @@ INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd3
 INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
 -- success. update count = 1
 -- 104/29 - 0 -------------------------------------------------------------
-INSERT INTO MiscTable1 VALUES (2, NULL, NULL, NULL, NULL);
+INSERT INTO MiscTable1 VALUES (3, NULL, NULL, NULL, NULL);
 -- success. update count = 1
 -- 105/29 - 0 -------------------------------------------------------------
 
@@ -3744,7 +3744,7 @@ ResultSet Column Count                       5
 		"c4" : 23.45
 	},
 	{
-		"a" : 2,
+		"a" : 3,
 		"c1" : null,
 		"c2" : null,
 		"c3" : null,
@@ -3773,7 +3773,7 @@ INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'f
 INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
 -- success. update count = 1
 -- 113/31 - 0 -------------------------------------------------------------
-INSERT INTO MiscTable2 VALUES (2, NULL, NULL);
+INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
 -- success. update count = 1
 -- 114/31 - 0 -------------------------------------------------------------
 
@@ -3960,7 +3960,7 @@ ResultSet Column Count                       3
 		"c2" : "'fat' & 'rat'"
 	},
 	{
-		"a" : 2,
+		"a" : 3,
 		"c1" : null,
 		"c2" : null
 	}

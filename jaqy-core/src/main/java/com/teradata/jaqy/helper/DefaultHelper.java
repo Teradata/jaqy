@@ -317,6 +317,7 @@ public class DefaultHelper implements JaqyHelper
 	@Override
 	public String getTypeName (BasicColumnInfo columnInfo) throws SQLException
 	{
+		boolean varType = true;
 		if (columnInfo.typeName == null)
 		{
 			TypeMap typeMap = getTypeMap ();
@@ -326,6 +327,7 @@ public class DefaultHelper implements JaqyHelper
 			if (typeInfo == null)
 				return null;
 			columnInfo.typeName = typeInfo.typeName;
+			varType = (typeInfo.maxPrecision > 0);
 		}
 
 		switch (columnInfo.type)
@@ -339,10 +341,17 @@ public class DefaultHelper implements JaqyHelper
 			case Types.CLOB:
 			case Types.NCLOB:
 			case Types.BLOB:
+				/* Prevent the case of VARCHAR(0)
+				 */
+				if (columnInfo.precision == 0)
+				{
+					columnInfo.precision = 1;
+				}
 				/* If the size is quite big, it may be the default size.
 				 * In that case, just return the type name itself.
 				 */
-				if (columnInfo.precision < 0x7fff0000)
+				if (varType &&
+					columnInfo.precision < 0x7fff0000)
 					return columnInfo.typeName + "(" + columnInfo.precision + ")";
 				return columnInfo.typeName;
 			case Types.DECIMAL:

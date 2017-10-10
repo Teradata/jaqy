@@ -119,22 +119,8 @@ class AvroImporter implements JaqyImporter<String>
 		return false;
 	}
 
-	@Override
-	public Object getObject (int index, ParameterInfo paramInfo) throws IOException
+	private Object getObject (Object v, ParameterInfo paramInfo) throws Exception
 	{
-		throw new IOException ("AVRO data has to be accessed via field.");
-	}
-
-	@Override
-	public String getPath (String name) throws Exception
-	{
-		return name;
-	}
-
-	@Override
-	public Object getObjectFromPath (String name, ParameterInfo paramInfo) throws Exception
-	{
-		Object v = m_record.get (name);
 		if (v == null)
 			return null;
 
@@ -161,6 +147,13 @@ class AvroImporter implements JaqyImporter<String>
 			case Types.DECIMAL:
 			case Types.NUMERIC:
 			{
+				if (v instanceof Boolean)
+				{
+					if (((Boolean)v).booleanValue ())
+						return 1;
+					else
+						return 0;
+				}
 				if (v instanceof Number)
 					return v;
 				if (v instanceof CharSequence)
@@ -245,6 +238,24 @@ class AvroImporter implements JaqyImporter<String>
 			}
 		}
 		throw new IOException ("Type mismatch: object is " + v.getClass () + ", target type is " + TypesUtils.getTypeName (paramInfo.type));
+	}
+
+	@Override
+	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
+	{
+		return getObject (m_record.get (index), paramInfo);
+	}
+
+	@Override
+	public String getPath (String name) throws Exception
+	{
+		return name;
+	}
+
+	@Override
+	public Object getObjectFromPath (String name, ParameterInfo paramInfo) throws Exception
+	{
+		return getObject (m_record.get (name), paramInfo);
 	}
 
 	@Override

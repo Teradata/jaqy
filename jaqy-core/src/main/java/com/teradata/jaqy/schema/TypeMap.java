@@ -125,6 +125,7 @@ public class TypeMap
 					m_map.put (type, typeInfo);
 				return typeInfo;
 			}
+			case Types.BOOLEAN:
 			case Types.TINYINT:
 			case Types.SMALLINT:
 			case Types.INTEGER:

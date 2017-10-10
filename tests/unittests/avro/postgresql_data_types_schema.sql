@@ -2,9 +2,6 @@
 -- test PostgreSQL various data types
 --------------------------------------------------------------------------
 .run ../common/postgresql_setup.sql
-.debug resultset on
-.debug preparedstatement on
-.format json -p on -b hex
 
 CREATE TABLE NumTable
 (
@@ -24,10 +21,13 @@ INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 SELECT * FROM NumTable ORDER BY a;
 DELETE FROM NumTable;
 .import avro num.avro
-INSERT INTO NumTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
-SELECT * FROM NumTable ORDER BY a;
+.importschema
+.importschema -s
+.importtable NumTable2
+SELECT * FROM NumTable2 ORDER BY a;
 
 DROP TABLE NumTable;
+DROP TABLE NumTable2;
 
 CREATE TABLE DecTable
 (
@@ -45,10 +45,11 @@ INSERT INTO DecTable VALUES (3, NULL, NULL, NULL, NULL);
 SELECT * FROM DecTable ORDER BY a;
 DELETE FROM DecTable;
 .import avro dec.avro
-INSERT INTO DecTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
-SELECT * FROM DecTable ORDER BY a;
+.importtable DecTable2
+SELECT * FROM DecTable2 ORDER BY a;
 
 DROP TABLE DecTable;
+DROP TABLE DecTable2;
 
 CREATE TABLE SerialTable
 (
@@ -65,10 +66,11 @@ INSERT INTO SerialTable (a) VALUES (2);
 SELECT * FROM SerialTable ORDER BY a;
 DELETE FROM SerialTable;
 .import avro serial.avro
-INSERT INTO SerialTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
-SELECT * FROM SerialTable ORDER BY a;
+.importtable SerialTable2
+SELECT * FROM SerialTable2 ORDER BY a;
 
 DROP TABLE SerialTable;
+DROP TABLE SerialTable2;
 
 CREATE TABLE StrTable
 (
@@ -87,10 +89,11 @@ INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
 SELECT * FROM StrTable ORDER BY a;
 DELETE FROM StrTable;
 .import avro src.avro
-INSERT INTO StrTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
-SELECT * FROM StrTable ORDER BY a;
+.importtable StrTable2
+SELECT * FROM StrTable2 ORDER BY a;
 
 DROP TABLE StrTable;
+DROP TABLE StrTable2;
 
 CREATE TABLE BinTable
 (
@@ -106,10 +109,11 @@ INSERT INTO BinTable VALUES (3, NULL);
 SELECT * FROM BinTable ORDER BY a;
 DELETE FROM BinTable;
 .import avro bin.avro
-INSERT INTO BinTable VALUES ({{a}}, {{c1}});
-SELECT * FROM BinTable ORDER BY a;
+.importtable BinTable2
+SELECT * FROM BinTable2 ORDER BY a;
 
 DROP TABLE BinTable;
+DROP TABLE BinTable2;
 
 CREATE TABLE TimeTable
 (
@@ -129,10 +133,11 @@ INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 SELECT * FROM TimeTable ORDER BY a;
 DELETE FROM TimeTable;
 .import avro time.avro
-INSERT INTO TimeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
-SELECT * FROM TimeTable ORDER BY a;
+.importtable TimeTable2
+SELECT * FROM TimeTable2 ORDER BY a;
 
 DROP TABLE TimeTable;
+DROP TABLE TimeTable2;
 
 CREATE TABLE XmlTable
 (
@@ -148,10 +153,11 @@ INSERT INTO XmlTable VALUES (3, NULL);
 SELECT * FROM XmlTable ORDER BY a;
 DELETE FROM XmlTable;
 .import avro xml.avro
-INSERT INTO XmlTable VALUES ({{a}}, {{c1}});
-SELECT * FROM XmlTable ORDER BY a;
+.importtable XmlTable2
+SELECT * FROM XmlTable2 ORDER BY a;
 
 DROP TABLE XmlTable;
+DROP TABLE XmlTable2;
 
 CREATE TABLE JsonTable
 (
@@ -166,10 +172,11 @@ INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
 SELECT * FROM JsonTable ORDER BY a;
 DELETE FROM JsonTable;
 .import avro j.avro
-INSERT INTO JsonTable VALUES ({{a}}, {{c1}});
-SELECT * FROM JsonTable ORDER BY a;
+.importtable JsonTable2
+SELECT * FROM JsonTable2 ORDER BY a;
 
 DROP TABLE JsonTable;
+DROP TABLE JsonTable2;
 
 CREATE TABLE GeoTable
 (
@@ -190,10 +197,11 @@ INSERT INTO GeoTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 SELECT * FROM GeoTable ORDER BY a;
 DELETE FROM GeoTable;
 .import avro geo.avro
-INSERT INTO GeoTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
-SELECT * FROM GeoTable ORDER BY a;
+.importtable GeoTable2
+SELECT * FROM GeoTable2 ORDER BY a;
 
 DROP TABLE GeoTable;
+DROP TABLE GeoTable2;
 
 CREATE TABLE NetTable
 (
@@ -211,10 +219,11 @@ INSERT INTO NetTable VALUES (3, NULL, NULL, NULL);
 SELECT * FROM NetTable ORDER BY a;
 DELETE FROM NetTable;
 .import avro net.avro
-INSERT INTO NetTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
-SELECT * FROM NetTable ORDER BY a;
+.importtable NetTable2
+SELECT * FROM NetTable2 ORDER BY a;
 
 DROP TABLE NetTable;
+DROP TABLE NetTable2;
 
 CREATE TABLE RangeTable
 (
@@ -235,10 +244,11 @@ INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 SELECT * FROM RangeTable ORDER BY a;
 DELETE FROM RangeTable;
 .import avro range.avro
-INSERT INTO RangeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
-SELECT * FROM RangeTable ORDER BY a;
+.importtable RangeTable2
+SELECT * FROM RangeTable2 ORDER BY a;
 
 DROP TABLE RangeTable;
+DROP TABLE RangeTable2;
 
 CREATE TABLE MiscTable1
 (
@@ -259,10 +269,11 @@ DELETE FROM MiscTable1;
 -- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
 -- TEXT and then MONEY.
 .import avro misc1.avro
-INSERT INTO MiscTable1 VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}::text::money);
-SELECT * FROM MiscTable1 ORDER BY a;
+.importtable MiscTable12
+SELECT * FROM MiscTable12 ORDER BY a;
 
 DROP TABLE MiscTable1;
+DROP TABLE MiscTable12;
 
 CREATE TABLE MiscTable2
 (
@@ -279,10 +290,11 @@ INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
 SELECT * FROM MiscTable2 ORDER BY a;
 DELETE FROM MiscTable2;
 .import avro misc2.avro
-INSERT INTO MiscTable2 VALUES ({{a}}, {{c1}}, {{c2}});
-SELECT * FROM MiscTable2 ORDER BY a;
+.importtable MiscTable22
+SELECT * FROM MiscTable22 ORDER BY a;
 
 DROP TABLE MiscTable2;
+DROP TABLE MiscTable22;
 
 .os rm -f *.avro
 .close
