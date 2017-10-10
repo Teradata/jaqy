@@ -52,4 +52,10 @@ public class AvroImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/postgresql_composite_types.sql", "../tests/unittests/avro/control/postgresql_composite_types.control");
 	}
+
+	@Test
+	public void test5 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/avro/postgresql_data_types_schema.sql", "../tests/unittests/avro/control/postgresql_data_types_schema.control");
+	}
 }
