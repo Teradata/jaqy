@@ -182,11 +182,7 @@ class AvroImporter implements JaqyImporter<String>
 			case Types.LONGVARBINARY:
 			case Types.BLOB:
 			{
-				if (v instanceof byte[])
-				{
-					return v;
-				}
-				else if (v instanceof ByteBuffer)
+				if (v instanceof ByteBuffer)
 				{
 					ByteBuffer bb = (ByteBuffer) v;
 					byte[] bytes = new byte[bb.remaining ()];
@@ -206,20 +202,6 @@ class AvroImporter implements JaqyImporter<String>
 						objs[i] = unwrapAvroObject (objs[i]);
 					}
 					return helper.createArrayOf (paramInfo, objs);
-				}
-				break;
-			}
-			case Types.STRUCT:
-			{
-				if (v instanceof List)
-				{
-					Object[] objs = new Object[((List<?>)v).size ()];
-					((List<?>) v).toArray (objs);
-					for (int i = 0; i < objs.length; ++i)
-					{
-						objs[i] = unwrapAvroObject (objs[i]);
-					}
-					return helper.createStruct (paramInfo, objs);
 				}
 				break;
 			}
