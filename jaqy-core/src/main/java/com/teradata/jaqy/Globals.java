@@ -468,8 +468,6 @@ public class Globals
 			return "info";
 		if (level == Level.WARNING)
 			return "warning";
-		if (level == Level.OFF)
-			return "off";
 		return "off";
 	}
 

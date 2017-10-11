@@ -391,20 +391,20 @@ public class AvroUtils
 								typeInfo.precision = len;
 							break;
 						}
-					    case Types.VARBINARY:
-					    {
+						case Types.VARBINARY:
+						{
 							ByteBuffer bb = (ByteBuffer)record.get (i);
 							if (bb == null)
 								continue;
 							int len = bb.remaining ();
 							if (typeInfo.precision < len)
 								typeInfo.precision = len;
-					    	break;
-					    }
-					    default:
-					    {
-					    	break;
-					    }
+							break;
+						}
+						default:
+						{
+							break;
+						}
 					}
 				}
 			}

@@ -15,9 +15,6 @@
  */
 package com.teradata.jaqy.utils;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.Map;
 
 import com.teradata.jaqy.PropertyTable;
@@ -33,24 +30,6 @@ public class PropertyTableUtils
 		for (Map.Entry<String,String> entry : map.entrySet ())
 		{
 			pt.addRow (new String[]{ entry.getKey (), entry.getValue () });
-		}
-		return pt;
-	}
-
-	public static PropertyTable createPropertyTable (ResultSet rs) throws SQLException
-	{
-		ResultSetMetaData meta = rs.getMetaData ();
-		int numCols = meta.getColumnCount ();
-		String[] titles = new String[numCols];
-		for (int i = 0; i < numCols; ++i)
-			titles[i] = meta.getColumnLabel (i + 1);
-		PropertyTable pt = new PropertyTable (titles);
-		while (rs.next ())
-		{
-			String[] row = new String[numCols];
-			for (int i = 0; i < numCols; ++i)
-				row[i] = rs.getString (i + 1);
-			pt.addRow (row);
 		}
 		return pt;
 	}
