@@ -90,7 +90,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 			conn.setAutoCommit (true);
 		interpreter.println ("-- Table Schema --");
 		interpreter.println (sql);
-		session.executeQuery (sql, interpreter);
+		session.executeQuery (sql, interpreter, 1);
 		sql = null;
 		if (!prevCommit)
 			conn.setAutoCommit (false);

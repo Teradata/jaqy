@@ -94,7 +94,7 @@ public class ExecCommand extends JaqyCommandAdapter implements ParseAction
 				Reader reader = FileUtils.getReader (new FileInputStream (file), charset);
 				String sql = StringUtils.getStringFromReader (reader);
 				Session session = interpreter.getSession ();
-				session.executeQuery (sql, interpreter);
+				session.executeQuery (sql, interpreter, 1);
 			}
 			else
 			{
@@ -117,6 +117,6 @@ public class ExecCommand extends JaqyCommandAdapter implements ParseAction
 		Display display = interpreter.getDisplay ();
 		display.echo (interpreter, action, false);
 		Session session = interpreter.getSession ();
-		session.executeQuery (action, interpreter);
+		session.executeQuery (action, interpreter, 1);
 	}
 }

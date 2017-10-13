@@ -46,6 +46,8 @@ import com.teradata.jaqy.command.ProtocolCommand;
 import com.teradata.jaqy.command.PwdCommand;
 import com.teradata.jaqy.command.QuietCommand;
 import com.teradata.jaqy.command.RemarkCommand;
+import com.teradata.jaqy.command.RepeatCommand;
+import com.teradata.jaqy.command.RepeatPrevCommand;
 import com.teradata.jaqy.command.RollbackCommand;
 import com.teradata.jaqy.command.RunCommand;
 import com.teradata.jaqy.command.ScriptCommand;
@@ -77,6 +79,8 @@ class CommandSetup
 		manager.addCommand ("pwd", new PwdCommand ());
 		manager.addCommand ("exec", new ExecCommand ());
 		manager.addCommand ("desc", new DescribeCommand ());
+		manager.addCommand ("repeat", new RepeatCommand ());
+		manager.addCommand ("#", new RepeatPrevCommand ());
 
 		// session control
 		manager.addCommand ("session", new SessionCommand ());

@@ -6,6 +6,7 @@ Jaqy Console 1.0
 .help
 Currently available commands are the following.
 
+	.# - repeats a previous SQL a number of times.
 	.alias - creates a command alias.
 	.autocommit - turns auto-commit on / off
 	.batchsize - sets the batch execution size limit.
@@ -37,6 +38,7 @@ Currently available commands are the following.
 	.pwd - prints the current catalog and schema.
 	.quiet - turns ResultSet output on / off.
 	.rem - does nothing.
+	.repeat - repeats a following SQL a number of times.
 	.rollback - rolls back the current transaction.
 	.run - runs a Jaqy script.
 	.script - runs a script.

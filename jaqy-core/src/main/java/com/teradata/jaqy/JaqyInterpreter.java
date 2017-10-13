@@ -64,6 +64,9 @@ public class JaqyInterpreter
 	private int m_sqlCount;
 	private int m_commandCount;
 
+	private int m_repeatCount = 1;
+	private String m_prevSQL;
+
 	private ParseAction m_parseAction;
 	private Object m_parseActionValue;
 	private final Stack<String> m_actionStack = new Stack<String> ();
@@ -239,11 +242,15 @@ public class JaqyInterpreter
 						try
 						{
 							display.echo (this, sql, interactive);
+							m_prevSQL = null;
 							switch (m_queryMode)
 							{
 								case Regular:
-									session.executeQuery (sql, this);
+								{
+									m_prevSQL = sql;
+									session.executeQuery (sql, this, m_repeatCount);
 									break;
+								}
 								case Prepare:
 								{
 									JaqyPreparedStatement stmt = session.prepareQuery (sql, this);
@@ -261,6 +268,7 @@ public class JaqyInterpreter
 						{
 							display.error (this, ex);
 						}
+						m_repeatCount = 1;
 						m_queryMode = QueryMode.Regular;
 						display.showPrompt (this);
 					}
@@ -302,6 +310,20 @@ public class JaqyInterpreter
 		{
 			cmd = cmd.substring (1);
 			silent = true;
+		}
+		else
+		{
+			try
+			{
+				// just to check if the string can be parsed as int.
+				Integer.parseInt (cmd);
+
+				arguments = cmd;
+				cmd = "#";
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 
 		if (isVerbatim ())
@@ -769,5 +791,19 @@ public class JaqyInterpreter
 	public VariableContext getVariableHandler ()
 	{
 		return m_scriptContext;
+	}
+
+	public String getPrevSQL ()
+	{
+		return m_prevSQL;
+	}
+
+	public void setRepeatCount (int repeatCount)
+	{
+		if (repeatCount < 1)
+		{
+			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
+		}
+		m_repeatCount = repeatCount;
 	}
 }

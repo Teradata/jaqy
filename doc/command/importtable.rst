@@ -4,10 +4,13 @@
 ``.importtable`` command creates a staging table that matches the schema
 of the current import.
 
-Since the schema generated is mostly a guess, it may fail sometimes.
+Since the schema generated is mostly a guess, it may fail sometimes due to
+not being able to generate the right type information.
 
 The first time when it runs, it needs to scan the entire data to obtain the
 schema.
+
+Currently, it only supports AVRO and CSV formats.
 
 Syntax
 ~~~~~~

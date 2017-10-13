@@ -22,9 +22,11 @@ protocol.sql
 pwd.sql
 quiet.sql
 rem.sql
+repeat.sql
 run.sql
 script.sql
 session.sql
+#.sql
 transaction.sql
 unalias.sql
 var.sql

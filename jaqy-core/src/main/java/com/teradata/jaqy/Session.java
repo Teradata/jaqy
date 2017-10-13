@@ -312,7 +312,7 @@ public class Session
 		}
 	}
 
-	public void executeQuery (String sql, JaqyInterpreter interpreter) throws SQLException
+	public void executeQuery (String sql, JaqyInterpreter interpreter, int repeat) throws SQLException
 	{
 		m_globals.log (Level.INFO, "executeQuery: " + sql);
 		interpreter.incSqlCount ();
@@ -329,8 +329,15 @@ public class Session
 		JaqyStatement stmt = createStatement ();
 		try
 		{
-			stmt.execute (sql);
-			handleQueryResult (stmt, interpreter);
+			for (int iter = 0; iter < repeat; ++iter)
+			{
+				if (repeat > 1)
+				{
+					interpreter.println ("-- iteration: " + (iter + 1));
+				}
+				stmt.execute (sql);
+				handleQueryResult (stmt, interpreter);
+			}
 		}
 		finally
 		{
