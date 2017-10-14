@@ -39,6 +39,7 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 		return "usage: " + getCommand () + " [number]";
 	}
 
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.file;

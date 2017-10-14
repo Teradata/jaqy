@@ -11,6 +11,7 @@ CREATE TABLE MyTable (a INTEGER, b VARCHAR(10000));
 
 INSERT INTO MyTable VALUES (1, 'POINT(1 1)');
 
+.repeat
 .repeat 0
 .repeat 5
 INSERT INTO MyTable

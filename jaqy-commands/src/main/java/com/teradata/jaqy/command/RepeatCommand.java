@@ -17,6 +17,7 @@ package com.teradata.jaqy.command;
 
 import java.sql.SQLException;
 
+import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
@@ -36,6 +37,12 @@ public class RepeatCommand extends JaqyCommandAdapter
 	public String getLongDescription ()
 	{
 		return "usage: " + getCommand () + " [number]";
+	}
+
+	@Override
+	public CommandArgumentType getArgumentType ()
+	{
+		return CommandArgumentType.file;
 	}
 
 	@Override
