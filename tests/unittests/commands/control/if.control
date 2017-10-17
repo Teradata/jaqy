@@ -115,14 +115,12 @@ SELECT 6;
 -- invalid if condition
 .if asdf + asdf
 -- error: ReferenceError: "asdf" is not defined in <eval> at line number 1
--- error: invalid condition
 -- skip: SELECT 7;
 .end if
 -- 8/11 - 0 ---------------------------------------------------------------
 
 .if activityCount
 -- error: java.lang.Long cannot be cast to java.lang.Boolean
--- error: invalid condition
 -- skip: SELECT 8;
 .end if
 -- 8/12 - 0 ---------------------------------------------------------------

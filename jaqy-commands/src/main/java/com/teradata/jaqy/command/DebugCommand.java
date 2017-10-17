@@ -154,7 +154,7 @@ public class DebugCommand extends JaqyCommandAdapter
 
 		if (args.length < 2)
 		{
-			interpreter.errorParsingArgument ();
+			interpreter.error ("error parsing argument.");
 			return;
 		}
 

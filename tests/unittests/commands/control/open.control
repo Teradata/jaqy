@@ -29,15 +29,13 @@ Session 0 is now closed.
 -- 0/6 - 0 ----------------------------------------------------------------
 
 .open dummy::memory:
--- failure 0: Unknown protocol
+-- error: Unknown protocol
 -- 0/7 - 0 ----------------------------------------------------------------
 .open -u dbc -p dbc teradata://dummy
 -- error: driver not found: com.teradata.jdbc.TeraDriver
--- error: Unable to load driver for teradata
 -- 0/8 - 0 ----------------------------------------------------------------
 .open -Duser=dbc teradata://dummy
 -- error: driver not found: com.teradata.jdbc.TeraDriver
--- error: Unable to load driver for teradata
 -- 0/9 - 0 ----------------------------------------------------------------
 
 .protocol dummy com.dummy.Driver
@@ -46,6 +44,5 @@ Session 0 is now closed.
 -- 0/11 - 0 ---------------------------------------------------------------
 .open dummy::memory:
 -- error: invalid jar file path: /root/dummyjdbc.jar
--- error: Unable to load driver for dummy
 -- 0/12 - 0 ---------------------------------------------------------------
 

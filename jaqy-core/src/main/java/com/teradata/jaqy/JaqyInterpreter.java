@@ -60,6 +60,9 @@ public class JaqyInterpreter
 	private final CommandManager m_commandManager;
 	private final AliasManager m_aliasManager;
 
+	private int m_failureCount;
+	private int m_errorCount;
+
 	private Session m_session;
 	private int m_sqlCount;
 	private int m_commandCount;
@@ -237,41 +240,46 @@ public class JaqyInterpreter
 				else
 				{
 					Session session = m_session;
-					if (SessionUtils.checkOpen (this))
+					SessionUtils.checkOpen (this);
+					try
 					{
-						try
+						display.echo (this, sql, interactive);
+						m_prevSQL = null;
+						SessionUtils.checkOpen (this);
+						switch (m_queryMode)
 						{
-							display.echo (this, sql, interactive);
-							m_prevSQL = null;
-							switch (m_queryMode)
+							case Regular:
 							{
-								case Regular:
-								{
-									m_prevSQL = sql;
-									session.executeQuery (sql, this, m_repeatCount);
-									break;
-								}
-								case Prepare:
-								{
-									JaqyPreparedStatement stmt = session.prepareQuery (sql, this);
-									stmt.close ();
-									break;
-								}
-								case Import:
-								{
-									session.importQuery (sql, this);
-									break;
-								}
+								m_prevSQL = sql;
+								session.executeQuery (sql, this, m_repeatCount);
+								break;
+							}
+							case Prepare:
+							{
+								JaqyPreparedStatement stmt = session.prepareQuery (sql, this);
+								stmt.close ();
+								break;
+							}
+							case Import:
+							{
+								session.importQuery (sql, this);
+								break;
 							}
 						}
-						catch (Exception ex)
-						{
-							display.error (this, ex);
-						}
-						m_repeatCount = 1;
-						m_queryMode = QueryMode.Regular;
-						display.showPrompt (this);
 					}
+					catch (SQLException ex)
+					{
+						++m_failureCount;
+						display.error (this, ex);
+					}
+					catch (Exception ex)
+					{
+						++m_errorCount;
+						display.error (this, ex);
+					}
+					m_repeatCount = 1;
+					m_queryMode = QueryMode.Regular;
+					display.showPrompt (this);
 				}
 				first = true;
 			}
@@ -380,7 +388,9 @@ public class JaqyInterpreter
 			CommandParser parser = CommandParser.getFileParser ();
 			String[] args = parser.parse (arguments);
 			if (args == null)
-				display.errorParsingArgument (this);
+			{
+				error ("error parsing argument.");
+			}
 			alias = AliasManager.replaceArgs (alias, args);
 			try
 			{
@@ -398,6 +408,7 @@ public class JaqyInterpreter
 		JaqyCommand call = m_commandManager.getCommand (cmd);
 		if (call == null)
 		{
+			++m_errorCount;
 			display.error (this, "unknown command: " + cmd);
 			return false;
 		}
@@ -426,7 +437,7 @@ public class JaqyInterpreter
 				}
 			}
 			if (args == null)
-				display.errorParsingArgument (this);
+				error ("error parsing argument.");
 			call.execute (args, silent, m_globals, this);
 		}
 		catch (Throwable t)
@@ -497,12 +508,14 @@ public class JaqyInterpreter
 				}
 				return;
 			}
+			++m_errorCount;
 			display.error (this, "no matching statement to end.");
 			return;
 		}
 		String name = m_actionStack.peek ();
 		if (!name.equals (type))
 		{
+			++m_errorCount;
 			display.error (this, "end " + type + " does not match " + name + ".");
 			return;
 		}
@@ -690,19 +703,16 @@ public class JaqyInterpreter
 		m_quiet = quiet;
 	}
 
+	/**
+	 * Throws a {@link JaqyException}.
+	 *
+	 * @param	msg
+	 *			the error message.
+	 */
 	public void error (String msg)
 	{
-		m_display.error (this, msg);
-	}
-
-	public void error (Throwable t)
-	{
-		m_display.error (this, t);
-	}
-
-	public void errorParsingArgument ()
-	{
-		m_display.errorParsingArgument (this);
+//		m_display.error (this, msg);
+		throw new JaqyException (msg);
 	}
 
 	public void echo (String msg, boolean interactive)
@@ -805,5 +815,15 @@ public class JaqyInterpreter
 			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
 		}
 		m_repeatCount = repeatCount;
+	}
+
+	public int getFailureCount ()
+	{
+		return m_failureCount;
+	}
+
+	public int getErrorCount ()
+	{
+		return m_errorCount;
 	}
 }

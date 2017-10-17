@@ -55,7 +55,6 @@ public class ClassPathCommand extends JaqyCommandAdapter
 		if (args.length != 2)
 		{
 			interpreter.error ("invalid command arguments.");
-			return;
 		}
 		String protocol = args[0];
 		String path = args[1];

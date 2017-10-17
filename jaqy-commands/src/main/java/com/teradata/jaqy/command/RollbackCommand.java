@@ -35,8 +35,7 @@ public class RollbackCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 		interpreter.getSession ().getConnection ().rollback ();
 	}
 }

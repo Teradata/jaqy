@@ -48,8 +48,7 @@ public class LoadCommand extends JaqyCommandAdapter
 	{
 		if (args.length != 1)
 		{
-			interpreter.errorParsingArgument ();
-			return;
+			interpreter.error ("error parsing argument.");
 		}
 		String path = args[0];
 		path = PathUtils.toAbsolutePath (path, interpreter.getDirectory ());

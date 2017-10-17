@@ -23,22 +23,19 @@ import com.teradata.jaqy.Session;
  */
 public class SessionUtils
 {
-	public static boolean checkOpen (JaqyInterpreter interpreter)
+	public static void checkOpen (JaqyInterpreter interpreter)
 	{
 		Session session = interpreter.getSession ();
 		if (session == null)
 		{
 			interpreter.error ("Not in a session.");
-			return false;
 		}
 		else
 		{
 			if (session.isClosed ())
 			{
 				interpreter.error ("Current session is closed.");
-				return false;
 			}
-			return true;
 		}
 	}
 }

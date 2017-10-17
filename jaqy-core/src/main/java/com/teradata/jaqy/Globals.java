@@ -401,7 +401,7 @@ public class Globals
 		catch (Throwable t)
 		{
 			log (Level.INFO, t);
-			interpreter.error (t);
+			interpreter.getDisplay ().error (interpreter, t);
 		}
 	}
 

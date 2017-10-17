@@ -55,14 +55,14 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 		}
 		catch (Throwable t)
 		{
-			interpreter.error (t);
+			interpreter.getDisplay ().error (interpreter, t);
 		}
 
-		if (b == null)
-		{
-			interpreter.error ("invalid condition");
-			b = Boolean.FALSE;
-		}
+//		if (b == null)
+//		{
+//			interpreter.error ("invalid condition");
+//			b = Boolean.FALSE;
+//		}
 		globals.log (Level.INFO, "if condition = " + b);
 		interpreter.setParseAction (this, b);
 	}
@@ -78,7 +78,7 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 	{
 		globals.log (Level.INFO, "if condition = " + value);
 		Display display = interpreter.getDisplay ();
-		if ((Boolean)value)
+		if (value != null && (Boolean)value)
 		{
 			globals.log (Level.INFO, "running if statement");
 			globals.log (Level.INFO, action);

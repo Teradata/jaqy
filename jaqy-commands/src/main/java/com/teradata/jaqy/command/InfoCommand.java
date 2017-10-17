@@ -66,8 +66,7 @@ public class InfoCommand extends JaqyCommandAdapter
 			return;
 		}
 
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 			
 		String type = args[0].toLowerCase ();
 		Session session = interpreter.getSession ();

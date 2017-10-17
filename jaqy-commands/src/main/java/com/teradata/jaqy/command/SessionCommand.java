@@ -61,22 +61,20 @@ public class SessionCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			int sessionNumber;
+			int sessionNumber = 0;
 			try
 			{
 				sessionNumber = Integer.parseInt (args[0]);
 			}
 			catch (Exception ex)
 			{
-				interpreter.errorParsingArgument ();
-				return;
+				interpreter.error ("invalid session id.");
 			}
 
 			Session sess = globals.getSession (sessionNumber);
 			if (sess == null)
 			{
 				interpreter.error ("invalid session id.");
-				return;
 			}
 
 			interpreter.setSession (sess);

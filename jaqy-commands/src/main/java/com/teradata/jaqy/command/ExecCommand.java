@@ -89,8 +89,7 @@ public class ExecCommand extends JaqyCommandAdapter implements ParseAction
 					interpreter.error ("file not found: " + args[0]);
 					return;
 				}
-				if (!SessionUtils.checkOpen (interpreter))
-					return;
+				SessionUtils.checkOpen (interpreter);
 				Reader reader = FileUtils.getReader (new FileInputStream (file), charset);
 				String sql = StringUtils.getStringFromReader (reader);
 				Session session = interpreter.getSession ();
@@ -112,8 +111,7 @@ public class ExecCommand extends JaqyCommandAdapter implements ParseAction
 	@Override
 	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 		Display display = interpreter.getDisplay ();
 		display.echo (interpreter, action, false);
 		Session session = interpreter.getSession ();

@@ -100,12 +100,6 @@ public class ConsoleDisplay implements Display
 	}
 
 	@Override
-	public void errorParsingArgument (JaqyInterpreter interpreter)
-	{
-		error (interpreter, "error parsing argument.");
-	}
-
-	@Override
 	public void error (JaqyInterpreter interpreter, Throwable t)
 	{
 		m_globals.log (Level.INFO, t);

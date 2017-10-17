@@ -35,16 +35,14 @@ public class AutoCommitCommand extends OnOffCommand
 	@Override
 	void execute (Globals globals, JaqyInterpreter interpreter, boolean on) throws SQLException
 	{
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 		interpreter.getSession ().getConnection ().setAutoCommit (on);
 	}
 
 	@Override
 	void info (Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 		boolean auto = interpreter.getSession ().getConnection ().getAutoCommit ();
 		interpreter.println (getCommand () + " " + (auto ? "on" : "off"));
 	}

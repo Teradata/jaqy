@@ -34,8 +34,6 @@ public interface Display
 	public void print (JaqyInterpreter interpreter, String s);
 	public void println (JaqyInterpreter interpreter, String s);
 
-	public void errorParsingArgument (JaqyInterpreter interpreter);
-
 	public void error (JaqyInterpreter interpreter, Throwable t);
 
 	public void error (JaqyInterpreter interpreter, String msg);

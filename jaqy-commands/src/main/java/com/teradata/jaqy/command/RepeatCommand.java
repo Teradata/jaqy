@@ -48,8 +48,7 @@ public class RepeatCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 
 		if (args.length == 0)
 		{

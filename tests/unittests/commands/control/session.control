@@ -21,7 +21,7 @@ Examples:
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .session dummy
--- error: error parsing argument.
+-- error: invalid session id.
 -- 0/3 - 0 ----------------------------------------------------------------
 .session 1234
 -- error: invalid session id.

@@ -55,8 +55,7 @@ public class DescribeCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
-		if (!SessionUtils.checkOpen (interpreter))
-			return;
+		SessionUtils.checkOpen (interpreter);
 		CommandLine cmdLine = getCommandLine (args);
 		args = cmdLine.getArgs ();
 		if (args.length == 0)

@@ -150,7 +150,6 @@ public class JaqyDriverManager
 		if (className == null)
 		{
 			interpreter.error ("driver class name not specified for " + protocolName);
-			return false;
 		}
 
 		ClassLoader cl = null;

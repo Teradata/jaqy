@@ -56,7 +56,6 @@ public class BatchSizeCommand extends JaqyCommandAdapter
 			if (batchSize < 0)
 			{
 				interpreter.error ("Batch size cannot be negative.");
-				return;
 			}
 			interpreter.getSession ().setBatchSize (batchSize);
 		}
