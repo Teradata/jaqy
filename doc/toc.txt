@@ -13,6 +13,7 @@
 	:hidden:
 
 	command
+	exitcode
 	json
 	plugin
 

@@ -33,6 +33,12 @@ public class ExitCommand extends JaqyCommandAdapter
 	}
 
 	@Override
+	public String getLongDescription ()
+	{
+		return "usage: " + getCommand () + " [exit code]";
+	}
+
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.file;

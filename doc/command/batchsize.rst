@@ -19,7 +19,7 @@ Syntax
 
 .. code-block:: text
 
-	usage: usage: .batchsize [size]
+	usage: .batchsize [size]
 
 Without arguments, the command displays the current session's batch size.
 
