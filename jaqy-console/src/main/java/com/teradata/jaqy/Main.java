@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 
 import org.apache.commons.cli.CommandLine;
 import org.fusesource.jansi.AnsiConsole;
@@ -252,5 +253,11 @@ public class Main
 
 		// parse the user commands
 		interpreter.interpret (display.isInteractive ());
+
+		if (!skipStdin)
+		{
+			globals.log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
+			System.exit (interpreter.getExitCode ());
+		}
 	}
 }
