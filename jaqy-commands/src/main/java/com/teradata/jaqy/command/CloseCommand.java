@@ -18,6 +18,7 @@ package com.teradata.jaqy.command;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
+import com.teradata.jaqy.utils.SessionUtils;
 
 /**
  * @author	Heng Yuan
@@ -33,19 +34,9 @@ public class CloseCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
+		SessionUtils.checkOpen (interpreter);
 		Session session = interpreter.getSession ();
-		if (session == null)
-		{
-			interpreter.error ("Not in a session.");
-		}
-		if (session.isClosed ())
-		{
-			interpreter.println ("Session " + session.getId () + " is already closed.");
-		}
-		else
-		{
-			session.close (interpreter, false);
-			interpreter.println ("Session " + session.getId () + " is now closed.");
-		}
+		session.close (interpreter, false);
+//		interpreter.println ("Session " + session.getId () + " is now closed.");
 	}
 }

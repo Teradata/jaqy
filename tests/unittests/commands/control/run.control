@@ -19,6 +19,6 @@ options:
 -- Running script: ../common/sqlite_setup.sql
 -- 0/4 - 0 ----------------------------------------------------------------
 .close
-Session 0 is already closed.
+-- error: Current session is closed.
 -- 0/5 - 0 ----------------------------------------------------------------
 

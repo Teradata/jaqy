@@ -17,7 +17,6 @@ Driver Version Compliant
 .open sqlite::memory:
 -- 0/4 - 0 ----------------------------------------------------------------
 .close
-Session 0 is now closed.
 -- 0/5 - 0 ----------------------------------------------------------------
 
 .diver
@@ -30,7 +29,6 @@ Session 0 is now closed.
 .open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
 -- 0/8 - 0 ----------------------------------------------------------------
 .close
-Session 0 is now closed.
 -- 0/9 - 0 ----------------------------------------------------------------
 
 .driver
@@ -46,7 +44,6 @@ com.mysql.jdbc.Driver  5.1    F
 .open -u postgres postgresql://localhost/?stringtype=unspecified
 -- 0/12 - 0 ---------------------------------------------------------------
 .close
-Session 0 is now closed.
 -- 0/13 - 0 ---------------------------------------------------------------
 
 .driver

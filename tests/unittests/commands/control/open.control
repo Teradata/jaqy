@@ -25,7 +25,6 @@ options:
 -- error: The current session already has a connection open.
 -- 0/5 - 0 ----------------------------------------------------------------
 .close
-Session 0 is now closed.
 -- 0/6 - 0 ----------------------------------------------------------------
 
 .open dummy::memory:

@@ -77,7 +77,6 @@ DROP TABLE MyTable;
 -- success. update count = 1
 -- 13/10 - 0 --------------------------------------------------------------
 .close
-Session 0 is now closed.
 -- 13/11 - 0 --------------------------------------------------------------
 
 .os rm -f file?.json file?.bson

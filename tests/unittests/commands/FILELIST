@@ -7,6 +7,9 @@ driver.sql
 echo.sql
 env.sql
 exec.sql
+exit_1.sql
+exit_2.sql
+exit_3.sql
 export.sql
 help.sql
 if.sql

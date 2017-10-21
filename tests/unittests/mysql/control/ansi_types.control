@@ -257,6 +257,5 @@ SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ST_GEOMETRY).ST_MBR () AS Test' at line 1
 -- 46/3 - 0 ---------------------------------------------------------------
 .close
-Session 0 is now closed.
 -- 46/4 - 0 ---------------------------------------------------------------
 

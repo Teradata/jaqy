@@ -240,7 +240,6 @@ public class JaqyInterpreter
 				else
 				{
 					Session session = m_session;
-					SessionUtils.checkOpen (this);
 					try
 					{
 						display.echo (this, sql, interactive);
@@ -272,10 +271,10 @@ public class JaqyInterpreter
 						++m_failureCount;
 						display.error (this, ex);
 					}
-					catch (Exception ex)
+					catch (Throwable t)
 					{
 						++m_errorCount;
-						display.error (this, ex);
+						display.error (this, t);
 					}
 					m_repeatCount = 1;
 					m_queryMode = QueryMode.Regular;
@@ -442,6 +441,7 @@ public class JaqyInterpreter
 		}
 		catch (Throwable t)
 		{
+			++m_errorCount;
 			display.error (this, t);
 			silent = false;
 		}
@@ -825,5 +825,15 @@ public class JaqyInterpreter
 	public int getErrorCount ()
 	{
 		return m_errorCount;
+	}
+
+	public int getExitCode ()
+	{
+		int code = 0;
+		if (m_failureCount > 0)
+			code |= 2;
+		if (m_errorCount > 0)
+			code |= 4;
+		return code;
 	}
 }
