@@ -1,0 +1,190 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .sort command test
+--------------------------------------------------------------------------
+.help sort
+usage: .sort [options]
+options:
+  -a,--ascending <arg>    ascending sort
+  -d,--descending <arg>   descending sort
+  -h,--high               null sorts high
+  -l,--low                null sorts low
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.sort
+-- error: Current session is closed.
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/4 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable (a INTEGER, b VARCHAR(10000));
+-- success. update count = 0
+-- 1/4 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'POINT(1 1)');
+-- success. update count = 1
+-- 2/4 - 0 ----------------------------------------------------------------
+.repeat 4
+-- 2/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       'POINT(' || (a + (SELECT MAX(a) FROM MyTable)) || ' ' || (a + (SELECT MAX(a) FROM MyTable)) || ')'
+FROM MyTable;
+-- iteration: 1
+-- success. update count = 1
+-- iteration: 2
+-- success. update count = 2
+-- iteration: 3
+-- success. update count = 4
+-- iteration: 4
+-- success. update count = 8
+-- 3/5 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       b
+FROM MyTable;
+-- success. update count = 16
+-- 4/5 - 0 ----------------------------------------------------------------
+
+.sort -d 2 -a 1
+-- 4/6 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ a b
+-- ------------
+ 9 POINT(9 9)
+25 POINT(9 9)
+ 8 POINT(8 8)
+24 POINT(8 8)
+ 7 POINT(7 7)
+23 POINT(7 7)
+ 6 POINT(6 6)
+22 POINT(6 6)
+ 5 POINT(5 5)
+21 POINT(5 5)
+ 4 POINT(4 4)
+20 POINT(4 4)
+ 3 POINT(3 3)
+19 POINT(3 3)
+ 2 POINT(2 2)
+18 POINT(2 2)
+16 POINT(16 16)
+32 POINT(16 16)
+15 POINT(15 15)
+31 POINT(15 15)
+14 POINT(14 14)
+30 POINT(14 14)
+13 POINT(13 13)
+29 POINT(13 13)
+12 POINT(12 12)
+28 POINT(12 12)
+11 POINT(11 11)
+27 POINT(11 11)
+10 POINT(10 10)
+26 POINT(10 10)
+ 1 POINT(1 1)
+17 POINT(1 1)
+-- activity count = 32
+-- 5/6 - 0 ----------------------------------------------------------------
+
+.sort -d=b -d 1
+-- 5/7 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ a b
+-- ------------
+25 POINT(9 9)
+ 9 POINT(9 9)
+24 POINT(8 8)
+ 8 POINT(8 8)
+23 POINT(7 7)
+ 7 POINT(7 7)
+22 POINT(6 6)
+ 6 POINT(6 6)
+21 POINT(5 5)
+ 5 POINT(5 5)
+20 POINT(4 4)
+ 4 POINT(4 4)
+19 POINT(3 3)
+ 3 POINT(3 3)
+18 POINT(2 2)
+ 2 POINT(2 2)
+32 POINT(16 16)
+16 POINT(16 16)
+31 POINT(15 15)
+15 POINT(15 15)
+30 POINT(14 14)
+14 POINT(14 14)
+29 POINT(13 13)
+13 POINT(13 13)
+28 POINT(12 12)
+12 POINT(12 12)
+27 POINT(11 11)
+11 POINT(11 11)
+26 POINT(10 10)
+10 POINT(10 10)
+17 POINT(1 1)
+ 1 POINT(1 1)
+-- activity count = 32
+-- 6/7 - 0 ----------------------------------------------------------------
+
+.sort -d="asdf"
+-- 6/8 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+-- error: unknown sort column: "asdf"
+-- 7/8 - 0 ----------------------------------------------------------------
+
+.sort -d=a
+-- 7/9 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ a b
+-- ------------
+32 POINT(16 16)
+31 POINT(15 15)
+30 POINT(14 14)
+29 POINT(13 13)
+28 POINT(12 12)
+27 POINT(11 11)
+26 POINT(10 10)
+25 POINT(9 9)
+24 POINT(8 8)
+23 POINT(7 7)
+22 POINT(6 6)
+21 POINT(5 5)
+20 POINT(4 4)
+19 POINT(3 3)
+18 POINT(2 2)
+17 POINT(1 1)
+16 POINT(16 16)
+15 POINT(15 15)
+14 POINT(14 14)
+13 POINT(13 13)
+12 POINT(12 12)
+11 POINT(11 11)
+10 POINT(10 10)
+ 9 POINT(9 9)
+ 8 POINT(8 8)
+ 7 POINT(7 7)
+ 6 POINT(6 6)
+ 5 POINT(5 5)
+ 4 POINT(4 4)
+ 3 POINT(3 3)
+ 2 POINT(2 2)
+ 1 POINT(1 1)
+-- activity count = 32
+-- 8/9 - 0 ----------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 9/9 - 0 ----------------------------------------------------------------
+
+.close
+-- 9/10 - 0 ---------------------------------------------------------------

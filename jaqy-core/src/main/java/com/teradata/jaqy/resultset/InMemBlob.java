@@ -21,12 +21,13 @@ import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.utils.ByteArrayUtils;
 import com.teradata.jaqy.utils.ExceptionUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class InMemBlob implements Blob
+public class InMemBlob implements Blob, Comparable<InMemBlob>
 {
 	private byte[] m_bytes;
 
@@ -112,5 +113,11 @@ public class InMemBlob implements Blob
 	public InputStream getBinaryStream (long pos, long length) throws SQLException
 	{
 		throw ExceptionUtils.getNotImplemented ();
+	}
+
+	@Override
+	public int compareTo (InMemBlob o)
+	{
+		return ByteArrayUtils.compare (m_bytes, o.m_bytes);
 	}
 }

@@ -110,4 +110,19 @@ public class ByteArrayUtils
 
 		pw.println ();
 	}
+
+	public static int compare (byte[] b1, byte[] b2)
+	{
+		int len = b1.length;
+		if (len > b2.length)
+			len = b2.length;
+		for (int i = 0; i < len; ++i)
+		{
+			if (b1[i] != b2[i])
+				return (b1[i] & 0xff) - (b2[i] & 0xff);
+		}
+		if (b1.length != b2.length)
+			return b1.length - b2.length;
+		return 0;
+	}
 }

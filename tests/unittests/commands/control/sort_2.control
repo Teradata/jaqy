@@ -1,0 +1,183 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .sort command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open derby:memory:sortDB;create=true
+-- 0/2 - 0 ----------------------------------------------------------------
+CREATE TABLE MyTable (a INTEGER, b BLOB, c CLOB);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, CAST(X'dead' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, CAST(X'deadbeef' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (3, CAST(X'facefeed' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (4, CAST(X'face' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (5, CAST(X'deadbeef' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (6, CAST(X'dead' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 7/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (7, CAST(X'facefeed' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 8/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (8, CAST(X'face' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 9/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (9, CAST(X'facefeed' AS BLOB), null);
+-- success. update count = 1
+-- 10/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (10, CAST(X'facefeed' AS BLOB), null);
+-- success. update count = 1
+-- 11/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (11, null, 'A quick brown fox');
+-- success. update count = 1
+-- 12/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (12, null, null);
+-- success. update count = 1
+-- 13/2 - 0 ---------------------------------------------------------------
+
+.sort -d 3 -a 2 -a 1
+-- 13/3 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+11 ?        A quick brown fox
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+12 ?        ?
+ 9 facefeed ?
+10 facefeed ?
+-- activity count = 12
+-- 14/3 - 0 ---------------------------------------------------------------
+
+.sort -l -d 3 -a 2 -a 1
+-- 14/4 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+11 ?        A quick brown fox
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+12 ?        ?
+ 9 facefeed ?
+10 facefeed ?
+-- activity count = 12
+-- 15/4 - 0 ---------------------------------------------------------------
+
+.sort -h -d 3 -a 2 -a 1
+-- 15/5 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+ 9 facefeed ?
+10 facefeed ?
+12 ?        ?
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+11 ?        A quick brown fox
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+-- activity count = 12
+-- 16/5 - 0 ---------------------------------------------------------------
+
+.sort -d=c -d=b -a 1
+-- 16/6 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+11 ?        A quick brown fox
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 9 facefeed ?
+10 facefeed ?
+12 ?        ?
+-- activity count = 12
+-- 17/6 - 0 ---------------------------------------------------------------
+
+.sort -l -a 2 -a 3 -a 1
+-- 17/7 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+12 ?        ?
+11 ?        A quick brown fox
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 9 facefeed ?
+10 facefeed ?
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+-- activity count = 12
+-- 18/7 - 0 ---------------------------------------------------------------
+
+.sort -h -a 2 -a 3 -a 1
+-- 18/8 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+ 9 facefeed ?
+10 facefeed ?
+11 ?        A quick brown fox
+12 ?        ?
+-- activity count = 12
+-- 19/8 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 20/8 - 0 ---------------------------------------------------------------
+
+.close
+-- 20/9 - 0 ---------------------------------------------------------------

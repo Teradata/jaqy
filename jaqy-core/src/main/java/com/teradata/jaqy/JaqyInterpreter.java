@@ -45,6 +45,7 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.SessionUtils;
+import com.teradata.jaqy.utils.SortInfo;
 import com.teradata.jaqy.utils.StringUtils;
 import com.teradata.jaqy.utils.VariableContext;
 
@@ -69,6 +70,8 @@ public class JaqyInterpreter
 
 	private int m_repeatCount = 1;
 	private String m_prevSQL;
+
+	private SortInfo[] m_sortInfos;
 
 	private ParseAction m_parseAction;
 	private Object m_parseActionValue;
@@ -276,8 +279,12 @@ public class JaqyInterpreter
 						++m_errorCount;
 						display.error (this, t);
 					}
+
+					// Now reset the status of some states
 					m_repeatCount = 1;
 					m_queryMode = QueryMode.Regular;
+					m_sortInfos = null;
+
 					display.showPrompt (this);
 				}
 				first = true;
@@ -835,5 +842,15 @@ public class JaqyInterpreter
 		if (m_errorCount > 0)
 			code |= 4;
 		return code;
+	}
+
+	public SortInfo[] getSortInfos ()
+	{
+		return m_sortInfos;
+	}
+
+	public void setSortInfos (SortInfo[] sortInfos)
+	{
+		m_sortInfos = sortInfos;
 	}
 }

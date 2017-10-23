@@ -52,6 +52,7 @@ import com.teradata.jaqy.command.RollbackCommand;
 import com.teradata.jaqy.command.RunCommand;
 import com.teradata.jaqy.command.ScriptCommand;
 import com.teradata.jaqy.command.SessionCommand;
+import com.teradata.jaqy.command.SortCommand;
 import com.teradata.jaqy.command.UnAliasCommand;
 import com.teradata.jaqy.command.VarCommand;
 import com.teradata.jaqy.command.VersionCommand;
@@ -81,6 +82,7 @@ class CommandSetup
 		manager.addCommand ("desc", new DescribeCommand ());
 		manager.addCommand ("repeat", new RepeatCommand ());
 		manager.addCommand ("#", new RepeatPrevCommand ());
+		manager.addCommand ("sort", new SortCommand ());
 
 		// session control
 		manager.addCommand ("session", new SessionCommand ());

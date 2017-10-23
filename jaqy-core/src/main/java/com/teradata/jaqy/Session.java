@@ -34,9 +34,11 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.parser.VariableParser;
+import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.DriverManagerUtils;
 import com.teradata.jaqy.utils.ParameterMetaDataUtils;
+import com.teradata.jaqy.utils.SortInfo;
 
 /**
  * @author Heng Yuan
@@ -176,6 +178,15 @@ public class Session
 			{
 				m_globals.getDebugManager ().dumpResultSet (display, this, rs);
 				display.showSuccess (interpreter);
+				SortInfo[] sortInfos = interpreter.getSortInfos ();
+				if (sortInfos != null)
+				{
+					InMemoryResultSet inMemRS = new InMemoryResultSet (rs.getResultSet ());
+					inMemRS.sort (sortInfos);
+					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper ());
+					rs.close ();
+					rs = tmpRS;
+				}
 				long activityCount = interpreter.print (rs);
 				setActivityCount (activityCount);
 				if (activityCount >= 0)

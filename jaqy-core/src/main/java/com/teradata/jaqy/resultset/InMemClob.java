@@ -30,7 +30,7 @@ import com.teradata.jaqy.utils.ExceptionUtils;
 /**
  * @author	Heng Yuan
  */
-public class InMemClob implements Clob
+public class InMemClob implements Clob, Comparable<InMemClob>
 {
 	private String m_str;
 
@@ -136,5 +136,11 @@ public class InMemClob implements Clob
 	public String toString ()
 	{
 		return m_str;
+	}
+
+	@Override
+	public int compareTo (InMemClob o)
+	{
+		return m_str.compareTo (o.m_str);
 	}
 }

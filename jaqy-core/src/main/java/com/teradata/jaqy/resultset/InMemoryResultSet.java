@@ -40,10 +40,13 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Map;
 
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.ExceptionUtils;
+import com.teradata.jaqy.utils.RSSorter;
+import com.teradata.jaqy.utils.SortInfo;
 
 /**
  * This class keeps a copy of ResultSet passed in.
@@ -1810,5 +1813,10 @@ public class InMemoryResultSet implements ResultSet
 	{
 		checkClosed ();
 		throw ExceptionUtils.getNotImplemented ();
+	}
+
+	public void sort (SortInfo[] sortInfos) throws SQLException
+	{
+		Collections.sort (m_rows, RSSorter.createSorter (m_meta, sortInfos));
 	}
 }

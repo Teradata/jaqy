@@ -29,6 +29,8 @@ repeat.sql
 run.sql
 script.sql
 session.sql
+sort_1.sql
+sort_2.sql
 #.sql
 transaction.sql
 unalias.sql
