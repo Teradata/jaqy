@@ -40,4 +40,10 @@ public class SortCommandTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/sort_2.sql", "../tests/unittests/commands/control/sort_2.control");
 	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/sort_3.sql", "../tests/unittests/commands/control/sort_3.control");
+	}
 }
