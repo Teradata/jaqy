@@ -33,7 +33,7 @@ import com.teradata.jaqy.utils.ExceptionUtils;
 /**
  * @author	Heng Yuan
  */
-class InMemSQLXML implements SQLXML
+class InMemSQLXML implements SQLXML, Comparable<InMemSQLXML>
 {
 	private String m_xml;
 
@@ -95,5 +95,11 @@ class InMemSQLXML implements SQLXML
 	public <T extends Result> T setResult (Class<T> resultClass) throws SQLException
 	{
 		throw ExceptionUtils.getNotImplemented ();
+	}
+
+	@Override
+	public int compareTo (InMemSQLXML o)
+	{
+		return m_xml.compareTo (o.m_xml);
 	}
 }

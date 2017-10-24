@@ -94,23 +94,16 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 			throw ExceptionUtils.getInvalidColumnIndex (column);
 	}
 
-	private void notImplemented () throws SQLException
+	@Override
+	public <T> T unwrap (Class<T> iface) throws SQLException
 	{
 		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	@Override
-	public <T> T unwrap (Class<T> iface) throws SQLException
-	{
-		notImplemented ();
-		return null;
-	}
-
-	@Override
 	public boolean isWrapperFor (Class<?> iface) throws SQLException
 	{
-		notImplemented ();
-		return false;
+		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	@Override

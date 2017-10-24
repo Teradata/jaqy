@@ -20,6 +20,7 @@ SELECT a + (SELECT MAX(a) FROM MyTable),
        b
 FROM MyTable;
 
+.sort
 .sort -d 2 -a 1
 SELECT * FROM MyTable ORDER BY a;
 
