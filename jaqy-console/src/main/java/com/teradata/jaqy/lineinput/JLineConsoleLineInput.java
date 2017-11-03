@@ -37,22 +37,19 @@ public class JLineConsoleLineInput implements LineInput
 		m_jline.setExpandEvents (false);
 	}
 
-	public String getLine ()
+	@Override
+	public boolean getLine (Input input)
 	{
 		try
 		{
-			return m_jline.readLine ();
+			input.interactive = true;
+			input.line = m_jline.readLine ();
+			return true;
 		}
 		catch (IOException ex)
 		{
-			return null;
+			return false;
 		}
-	}
-
-	@Override
-	public boolean isInteractive ()
-	{
-		return true;
 	}
 
 	@Override

@@ -29,31 +29,36 @@ import javax.script.SimpleScriptContext;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.helper.DummyHelper;
-import com.teradata.jaqy.interfaces.Display;
-import com.teradata.jaqy.interfaces.JaqyCommand;
-import com.teradata.jaqy.interfaces.JaqyExporter;
-import com.teradata.jaqy.interfaces.JaqyImporter;
-import com.teradata.jaqy.interfaces.JaqyPrinter;
-import com.teradata.jaqy.interfaces.LineInput;
-import com.teradata.jaqy.interfaces.ParseAction;
-import com.teradata.jaqy.interfaces.Variable;
+import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
 import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
 import com.teradata.jaqy.printer.QuietPrinter;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
-import com.teradata.jaqy.utils.FixedVariable;
-import com.teradata.jaqy.utils.ResultSetUtils;
-import com.teradata.jaqy.utils.SessionUtils;
-import com.teradata.jaqy.utils.SortInfo;
-import com.teradata.jaqy.utils.StringUtils;
-import com.teradata.jaqy.utils.VariableContext;
+import com.teradata.jaqy.utils.*;
 
 /**
  * @author Heng Yuan
  */
 public class JaqyInterpreter
 {
+	private static class ParseAction
+	{
+		JaqyCommand cmd;
+		JaqyCommand.Type type;
+		boolean silent;
+		Object value;
+	}
+
+	private static class ParseCommand
+	{
+		String cmd;
+		String alias;
+		boolean silent;
+		JaqyCommand call;
+		String[] args;
+	}
+
 	private final static String DEFAULT_ENGINE = "javascript";
 
 	private final Globals m_globals;
@@ -73,9 +78,7 @@ public class JaqyInterpreter
 
 	private SortInfo[] m_sortInfos;
 
-	private ParseAction m_parseAction;
-	private Object m_parseActionValue;
-	private final Stack<String> m_actionStack = new Stack<String> ();
+	private final Stack<ParseAction> m_actionStack = new Stack<ParseAction> ();
 
 	private final HashMap<String, ScriptEngine> m_engines = new HashMap<String, ScriptEngine> ();
 	private final ScriptEngine m_engine;
@@ -155,7 +158,7 @@ public class JaqyInterpreter
 	/**
 	 * Temporary buffer for command executor.
 	 */
-	private final StringBuffer m_verbatimBuffer = new StringBuffer ();
+	private final StringBuffer m_multiLineBuffer = new StringBuffer ();
 
 	public JaqyInterpreter (Globals globals, Display display, Session initialSession)
 	{
@@ -195,27 +198,254 @@ public class JaqyInterpreter
 		interpret (m_input, interactive);
 	}
 
-	public void interpret (LineInput input, boolean interactive)
+	private String[] parseArgs (CommandArgumentType argType, String arguments)
+	{
+		String[] args = null;
+		switch (argType)
+		{
+			case none:
+				args = new String[1];
+				args[0] = arguments;
+				break;
+			case file:
+			{
+				CommandParser parser = CommandParser.getFileParser ();
+				args = parser.parse (arguments);
+				break;
+			}
+			case sql:
+			{
+				CommandParser parser = CommandParser.getSQLParser ();
+				args = parser.parse (arguments);
+				break;
+			}
+		}
+		if (args == null)
+			error ("error parsing argument.");
+		return args;
+	}
+
+	/**
+	 * Check if a command is a .end command.
+	 *
+	 * @param	cmdLine
+	 * @return	null if it is not .end command.
+	 * 			string if it is .end command and 
+	 */
+	private String checkEndCmd (String cmdLine)
+	{
+		int space = cmdLine.indexOf (' ');
+		int tab = cmdLine.indexOf ('\t');
+
+		if (space < 0)
+			space = cmdLine.length ();
+		if (tab < 0)
+			tab = cmdLine.length ();
+
+		int index;
+		if (space < tab)
+			index = space;
+		else
+			index = tab;
+
+		String cmd = cmdLine.substring (1, index);
+		if (!"end".equals (cmd))
+			return null;
+		String arguments;
+		if (index < cmdLine.length ())
+			arguments = cmdLine.substring (index + 1);
+		else
+			arguments = "";
+
+		CommandParser parser = CommandParser.getFileParser ();
+		String[] args = parser.parse (arguments);
+		if (args.length > 0)
+			return args[0];
+		return null;
+	}
+
+	/**
+	 * Parse a command line.
+	 *
+	 * @param	parseCmd
+	 * 			the structure to be returned.
+	 * @param	cmdLine
+	 * 			the command line
+	 * @param	parseArgs
+	 * 			parse command line arguments.  If it is false, such parsing
+	 * 			avoided as much as possible.
+	 * @return	true if the command is a multi-line command.
+	 */
+	private boolean parseCommand (ParseCommand parseCmd, String cmdLine, boolean parseArgs)
+	{
+		parseCmd.alias = null;
+		parseCmd.silent = false;
+		parseCmd.cmd = null;
+
+		int space = cmdLine.indexOf (' ');
+		int tab = cmdLine.indexOf ('\t');
+
+		if (space < 0)
+			space = cmdLine.length ();
+		if (tab < 0)
+			tab = cmdLine.length ();
+
+		int index;
+		if (space < tab)
+			index = space;
+		else
+			index = tab;
+
+		String cmd = cmdLine.substring (1, index);
+		String arguments;
+		if (index < cmdLine.length ())
+			arguments = cmdLine.substring (index + 1);
+		else
+			arguments = "";
+		if (cmd.startsWith ("@"))
+		{
+			cmd = cmd.substring (1);
+			parseCmd.silent = true;
+		}
+		else
+		{
+			try
+			{
+				// just to check if the string can be parsed as int.
+				Integer.parseInt (cmd);
+
+				arguments = cmd;
+				cmd = "#";
+			}
+			catch (Exception ex)
+			{
+			}
+		}
+
+		parseCmd.cmd = cmd;
+		String alias = m_aliasManager.getAlias (cmd);
+		if (alias != null)
+		{
+			parseCmd.alias = alias;
+			if (parseArgs)
+			{
+				CommandParser parser = CommandParser.getFileParser ();
+				parseCmd.args = parser.parse (arguments);
+			}
+			return false;
+		}
+		else
+		{
+			JaqyCommand call = m_commandManager.getCommand (cmd);
+			parseCmd.call = call;
+			boolean multi = false;
+			if (call != null && call.getType () != JaqyCommand.Type.none)
+			{
+				parseCmd.args = parseArgs (call.getArgumentType (), arguments);
+				multi = call.isMultiLine (parseCmd.args);
+			}
+			else if (parseArgs && call != null)
+			{
+				parseCmd.args = parseArgs (call.getArgumentType (), arguments);
+			}
+			return multi;
+		}
+	}
+
+	public void interpret (LineInput lineInput, boolean interactive)
 	{
 		Display display = m_display;
 		display.showPrompt (this);
 
-		String line;
+		ParseAction dummyAction = new ParseAction ();
+		dummyAction.cmd = null;
+		dummyAction.type = JaqyCommand.Type.none;
+		ParseCommand parseCmd = new ParseCommand ();
+
 		boolean first = true;
 		StringBuffer buffer = new StringBuffer ();
-		while ((line = input.getLine ()) != null)
+		LineInput.Input input = new LineInput.Input ();
+		while (lineInput.getLine (input))
 		{
-//			Log.log (Level.INFO, "interpret: " + line);
-			interactive = input.isInteractive ();
-//			Log.log (Level.INFO, "flags: first = " + first + ", isVerbatim() = " + isVerbatim ());
+			interactive = input.interactive;
+			String line = input.line;
+
+			ParseAction action;
+			if (m_actionStack.isEmpty ())
+				action = dummyAction;
+			else
+				action = m_actionStack.peek ();
+
+			if (action.type == JaqyCommand.Type.exclusive)
+			{
+				String match;
+				if (line.startsWith (".end") &&
+					(match = checkEndCmd (line)) != null)
+				{
+					if (!match.equals (action.cmd.getName ()))
+					{
+						++m_errorCount;
+						display.error (this, "end " + match + " does not match " + action.cmd.getName () + ".");
+						continue;
+					}
+					m_actionStack.pop ();
+					if (m_actionStack.isEmpty ())
+					{
+						popParseAction (action);
+						first = true;
+						if (!action.silent)
+							display.showPrompt (this);
+						continue;
+					}
+				}
+				appendMultiLineBuffer (line);
+				continue;
+			}
+
 			if (first)
 			{
 				if (line.startsWith ("."))
 				{
-					buffer.setLength (0);
-					boolean silent = executeCommand (line, interactive);
-					if (!isVerbatim () && !silent)
-						display.showPrompt (this);
+					boolean multi = parseCommand (parseCmd, line, !isVerbatim ());
+					if (isVerbatim ())
+					{
+						if ("end".equals (parseCmd.cmd))
+						{
+							action = m_actionStack.pop ();
+							if (m_actionStack.empty ())
+							{
+								popParseAction (action);
+								first = true;
+								if (!action.silent)
+									display.showPrompt (this);
+								continue;
+							}
+						}
+						appendMultiLineBuffer (line);
+						if (multi)
+						{
+							setParseAction (parseCmd.call, null);
+						}
+					}
+					else
+					{
+						if (!parseCmd.silent)
+						{
+							display.echo (this, line, interactive);
+						}
+						executeCommand (parseCmd, interactive);
+						// Check if the command setParseAction.  If so, update
+						// the silent flag.
+						if (isVerbatim ())
+						{
+							m_actionStack.peek ().silent = parseCmd.silent;
+						}
+						else
+						{
+							if (!parseCmd.silent)
+								display.showPrompt (this);
+						}
+					}
 					continue;
 				}
 				if (line.length () == 0 || line.startsWith ("--"))
@@ -238,7 +468,7 @@ public class JaqyInterpreter
 
 				if (isVerbatim ())
 				{
-					appendVerbatimBuffer (sql);
+					appendMultiLineBuffer (sql);
 				}
 				else
 				{
@@ -296,108 +526,20 @@ public class JaqyInterpreter
 		}
 	}
 
-	private boolean executeCommand (String cmdLine, boolean interactive)
+	private void executeCommand (ParseCommand cmd, boolean interactive)
 	{
-		Display display = m_display;
-		int space = cmdLine.indexOf (' ');
-		int tab = cmdLine.indexOf ('\t');
-
-		if (space < 0)
-			space = cmdLine.length ();
-		if (tab < 0)
-			tab = cmdLine.length ();
-
-		int index;
-		if (space < tab)
-			index = space;
-		else
-			index = tab;
-
-		String cmd = cmdLine.substring (1, index);
-		String arguments;
-		if (index < cmdLine.length ())
-			arguments = cmdLine.substring (index + 1);
-		else
-			arguments = "";
-		boolean silent = false;
-		if (cmd.startsWith ("@"))
-		{
-			cmd = cmd.substring (1);
-			silent = true;
-		}
-		else
-		{
-			try
-			{
-				// just to check if the string can be parsed as int.
-				Integer.parseInt (cmd);
-
-				arguments = cmd;
-				cmd = "#";
-			}
-			catch (Exception ex)
-			{
-			}
-		}
-
-		if (isVerbatim ())
-		{
-			JaqyCommand.Type type = JaqyCommand.Type.none;
-			JaqyCommand call = null;
-			// existing aliases as not parse actions
-			if (m_aliasManager.getAlias (cmd) != null)
-				type = JaqyCommand.Type.none;
-			else
-			{
-				call = m_commandManager.getCommand (cmd);
-				m_globals.log (Level.INFO, "call = " + call);
-
-				// unknown commands are not parse actions either
-				if (call == null)
-					type = JaqyCommand.Type.none;
-				else
-					type = call.getType (arguments);
-			}
-			m_globals.log (Level.INFO, "CommandType: " + type);
-			switch (type)
-			{
-				case none:
-					appendVerbatimBuffer (cmdLine);
-					break;
-				case begin:
-					pushParseAction (cmd, cmdLine);
-					break;
-				case end:
-				{
-					CommandParser parser = CommandParser.getFileParser ();
-					String[] args = parser.parse (arguments);
-					popParseAction (m_session, args[0], cmdLine);
-					break;
-				}
-			}
-			return silent;
-		}
-
-		if (!silent)
+		if (!cmd.silent)
 		{
 			incCommandCount ();
-			display.echo (this, cmdLine, interactive);
 		}
 
-		String alias = m_aliasManager.getAlias (cmd);
-		if (alias != null)
+		if (cmd.alias != null)
 		{
-			m_globals.log (Level.INFO, "Run alias for " + cmd);
-			m_globals.log (Level.INFO, alias);
-			m_globals.log (Level.INFO, "End alias for " + cmd);
-			// okay, we are dealing with an alias. Let's run it
-			CommandParser parser = CommandParser.getFileParser ();
-			String[] args = parser.parse (arguments);
-			if (args == null)
+			if (cmd.args == null)
 			{
 				error ("error parsing argument.");
 			}
-			alias = AliasManager.replaceArgs (alias, args);
+			String alias = AliasManager.replaceArgs (cmd.alias, cmd.args);
 			try
 			{
 				push (new ReaderLineInput (new StringReader (alias), getDirectory (), false));
@@ -405,54 +547,29 @@ public class JaqyInterpreter
 			}
 			catch (Throwable t)
 			{
-				display.error (this, t);
-				silent = false;
+				m_display.error (this, t);
 			}
-			return silent;
 		}
-
-		JaqyCommand call = m_commandManager.getCommand (cmd);
-		if (call == null)
+		else
 		{
-			++m_errorCount;
-			display.error (this, "unknown command: " + cmd);
-			return false;
-		}
-
-		try
-		{
-			String[] args = null;
-			CommandArgumentType argType = call.getArgumentType ();
-			switch (argType)
+			JaqyCommand call = cmd.call;
+			if (call == null)
 			{
-				case none:
-					args = new String[1];
-					args[0] = arguments;
-					break;
-				case file:
-				{
-					CommandParser parser = CommandParser.getFileParser ();
-					args = parser.parse (arguments);
-					break;
-				}
-				case sql:
-				{
-					CommandParser parser = CommandParser.getSQLParser ();
-					args = parser.parse (arguments);
-					break;
-				}
+				++m_errorCount;
+				m_display.error (this, "unknown command: " + cmd.cmd);
+				return;
 			}
-			if (args == null)
-				error ("error parsing argument.");
-			call.execute (args, silent, m_globals, this);
+	
+			try
+			{
+				call.execute (cmd.args, cmd.silent, m_globals, this);
+			}
+			catch (Throwable t)
+			{
+				++m_errorCount;
+				m_display.error (this, t);
+			}
 		}
-		catch (Throwable t)
-		{
-			++m_errorCount;
-			display.error (this, t);
-			silent = false;
-		}
-		return silent;
 	}
 
 	/**
@@ -462,72 +579,40 @@ public class JaqyInterpreter
 	 */
 	public boolean isVerbatim ()
 	{
-		return m_parseAction != null;
+		return !m_actionStack.isEmpty ();
 	}
 
-	private void appendVerbatimBuffer (String line)
+	private void appendMultiLineBuffer (String line)
 	{
-		StringBuffer buffer = m_verbatimBuffer;
+		StringBuffer buffer = m_multiLineBuffer;
 		if (buffer.length () > 0)
 			buffer.append ('\n');
-//		m_globals.log (Level.INFO, "append verbatim: " + line);
 		buffer.append (line);
 	}
 
-	public void setParseAction (ParseAction action, Object value)
+	public void setParseAction (JaqyCommand cmd, Object value)
 	{
-		m_parseAction = action;
-		m_parseActionValue = value;
+		ParseAction action = new ParseAction ();
+		action.cmd = cmd;
+		action.type = cmd.getType ();
+		action.value = value;
+		m_actionStack.push (action);
 	}
 
-	private void pushParseAction (String type, String cmdLine)
+	public void popParseAction (ParseAction action)
 	{
-		m_globals.log (Level.INFO, "push ParseAction " + type);
-		appendVerbatimBuffer (cmdLine);
-		m_actionStack.push (type);
-	}
-
-	public void popParseAction (Session session, String type, String cmdLine)
-	{
-		m_globals.log (Level.INFO, "pop ParseAction " + type);
-		Display display = m_display;
-		if (m_actionStack.isEmpty ())
+		String str = m_multiLineBuffer.toString ();
+		Object value = action.value;
+		m_multiLineBuffer.setLength (0);
+		try
 		{
-			if (m_parseAction != null && m_parseAction.getName ().equals (type))
-			{
-				ParseAction parseAction = m_parseAction;
-				String action = m_verbatimBuffer.toString ();
-				Object value = m_parseActionValue;
-				m_parseAction = null;
-				m_verbatimBuffer.setLength (0);
-				m_parseActionValue = null;
-				try
-				{
-					m_globals.log (Level.INFO, "run ParseAction " + type);
-					m_globals.log (Level.INFO, "[");
-					m_globals.log (Level.INFO, action);
-					m_globals.log (Level.INFO, "]");
-					parseAction.parse (action, value, m_globals, this);
-				}
-				catch (Throwable t)
-				{
-					display.error (this, t);
-				}
-				return;
-			}
-			++m_errorCount;
-			display.error (this, "no matching statement to end.");
-			return;
+			action.cmd.parse (str, value, m_globals, this);
 		}
-		String name = m_actionStack.peek ();
-		if (!name.equals (type))
+		catch (Throwable t)
 		{
 			++m_errorCount;
-			display.error (this, "end " + type + " does not match " + name + ".");
-			return;
+			m_display.error (this, t);
 		}
-		appendVerbatimBuffer (cmdLine);
-		m_actionStack.pop ();
 	}
 
 	/**

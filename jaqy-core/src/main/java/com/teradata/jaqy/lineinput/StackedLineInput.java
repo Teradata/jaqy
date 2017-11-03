@@ -81,26 +81,16 @@ public class StackedLineInput implements LineInput
 	}
 
 	@Override
-	public String getLine ()
+	public boolean getLine (Input input)
 	{
-		LineInput input = getInput ();
+		LineInput lineInput = getInput ();
 
-		String line = null;
-		while (input != null &&
-				(line = input.getLine ()) == null)
+		while (lineInput != null &&
+			   !lineInput.getLine (input))
 		{
-			input = pop ();
+			lineInput = pop ();
 		}
-		return line;
-	}
-
-	@Override
-	public boolean isInteractive ()
-	{
-		LineInput input = getInput ();
-		if (input == null)
-			return false;
-		return input.isInteractive ();
+		return lineInput != null;
 	}
 
 	@Override

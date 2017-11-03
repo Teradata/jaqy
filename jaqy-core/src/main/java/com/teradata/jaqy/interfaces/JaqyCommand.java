@@ -26,13 +26,20 @@ public interface JaqyCommand
 {
 	enum Type
 	{
-		/** Nothing special. */
+		/** Not a multi-line command. */
 		none,
-		/** Begins a block of action that should be handled by the command. */
-		begin,
-		/** Ends a block of action. */
-		end
+		/** A multi-line command with regular parsing. */
+		mixed,
+		/** A multi-line command with its own parsing. */
+		exclusive
 	}
+
+	/**
+	 * Gets the command name.
+	 *
+	 * @return	the command name.
+	 */
+	public String getName ();
 
 	/**
 	 * Initiate a command.
@@ -77,9 +84,33 @@ public interface JaqyCommand
 	/**
 	 * Gets the command type.
 	 *
-	 * @param	arguments
-	 *			unparsed command arguments.
 	 * @return	the command type
 	 */
-	public Type getType (String arguments);
+	public Type getType ();
+
+	/**
+	 * Check if a command with the given arguments is a multi-line command.
+	 * The command should not be executed.
+	 *
+	 * @param	args
+	 *			the command arguments.
+	 * @return	true if the command is multi-line.  false otherwise.
+	 */
+	public boolean isMultiLine (String[] args);
+
+	/**
+	 * Handle the multi-line parsing.
+	 *
+	 * @param	action
+	 * 			the multi-line text.
+	 * @param	value
+	 * 			the value saved prior.
+	 * @param	globals
+	 *			Global states.
+	 * @param	interpreter
+	 *			The interpreter that calls the command.
+	 * @throws	Exception
+	 *			in case of error.
+	 */
+	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws Exception;
 }

@@ -22,21 +22,22 @@ import java.io.File;
  */
 public interface LineInput
 {
-	/**
-	 * Is this input interactive?
-	 * @return	true if the input is interactive.  false otherwise.
-	 */
-	public boolean isInteractive ();
+	public static class Input
+	{
+		public String line;
+		public boolean interactive;
+	}
 
 	/**
 	 * Getting a line from input.  The input is stripped of the EOL
 	 * characters.
-	 * <p>
-	 * On EOF, it returns null.
 	 *
-	 * @return	a line from input.
+	 * @param	Input (OUT)
+	 *			where the output of line and interactive status is stored.
+	 * @return	true if has input.
+	 * 			false if EOF.
 	 */
-	public String getLine ();
+	public boolean getLine (Input input);
 
 	/**
 	 * Get the directory of the input.

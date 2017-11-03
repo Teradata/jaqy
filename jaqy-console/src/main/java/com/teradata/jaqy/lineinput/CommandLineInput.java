@@ -69,17 +69,15 @@ public class CommandLineInput implements LineInput
 	}
 
 	@Override
-	public boolean isInteractive ()
-	{
-		return false;
-	}
-
-	@Override
-	public String getLine ()
+	public boolean getLine (Input input)
 	{
 		if (m_lines.size () > 0)
-			return m_lines.removeFirst ();
-		return null;
+		{
+			input.line = m_lines.removeFirst ();
+			input.interactive = false;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

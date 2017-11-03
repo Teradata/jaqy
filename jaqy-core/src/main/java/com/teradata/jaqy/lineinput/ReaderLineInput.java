@@ -38,14 +38,17 @@ public class ReaderLineInput implements LineInput
 		m_interactive = interactive;
 	}
 
-	public String getLine ()
+	@Override
+	public boolean getLine (Input input)
 	{
 		if (m_reader == null)
-			return null;
+			return false;
 
 		try
 		{
-			return m_reader.readLine ();
+			input.interactive = m_interactive;
+			input.line = m_reader.readLine ();
+			return input.line != null;
 		}
 		catch (IOException ex)
 		{
@@ -57,14 +60,8 @@ public class ReaderLineInput implements LineInput
 			{
 			}
 			m_reader = null;
-			return null;
+			return false;
 		}
-	}
-
-	@Override
-	public boolean isInteractive ()
-	{
-		return m_interactive;
 	}
 
 	@Override

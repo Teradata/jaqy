@@ -15,28 +15,15 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.util.HashMap;
-
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
  * @author	Heng Yuan
  */
 public class TeradataHelperFactory extends DefaultHelperFactory
 {
-	public TeradataHelperFactory ()
-	{
-		getFeatures ().noCatalog = true;
-		HashMap<String, SimpleQuery> map = new HashMap<String, SimpleQuery> ();
-		map.put (SCHEMA, new SimpleQuery ("SELECT DATABASE", 1));
-		map.put (TABLE_SCHEMA, new SimpleQuery ("SHOW TABLE {0}", 1));
-		map.put (TABLE_COLUMN, new SimpleQuery ("HELP TABLE {0}", 1));
-		setSQLMap (map);;
-	}
-
 	@Override
 	protected DefaultHelper createHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.HashMap;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
@@ -66,13 +67,24 @@ public class HelperConfigUtils
 		factory.setSQLMap (map);
 	}
 
+	public static void load (HelperManager manager, JsonArray v) throws IOException
+	{
+		int size = v.size ();
+		for (int i = 0; i < size; ++i)
+		{
+			load (manager, v.getJsonObject (i));
+		}
+	}
+
+
 	public static void load (HelperManager manager, String json) throws IOException
 	{
 		JsonValue v;
 		CookJsonParser p = new TextJsonParser (new StringReader (json), json.length ());
+		p.next ();
 		v = p.getValue ();
 		p.close ();
-		load (manager, (JsonObject)v);
+		load (manager, (JsonArray)v);
 	}
 
 	public static void load (HelperManager manager, InputStream is) throws IOException

@@ -29,7 +29,6 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
-import com.teradata.jaqy.interfaces.ParseAction;
 import com.teradata.jaqy.utils.FileUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.StringUtils;
@@ -37,7 +36,7 @@ import com.teradata.jaqy.utils.StringUtils;
 /**
  * @author	Heng Yuan
  */
-public class ExecCommand extends JaqyCommandAdapter implements ParseAction
+public class ExecCommand extends JaqyCommandAdapter
 {
 	public ExecCommand ()
 	{
@@ -103,9 +102,9 @@ public class ExecCommand extends JaqyCommandAdapter implements ParseAction
 	}
 
 	@Override
-	public JaqyCommand.Type getType (String arguments)
+	public JaqyCommand.Type getType ()
 	{
-		return JaqyCommand.Type.begin;
+		return JaqyCommand.Type.exclusive;
 	}
 
 	@Override

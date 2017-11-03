@@ -17,10 +17,8 @@ package com.teradata.jaqy;
 
 import java.io.IOException;
 
-import com.teradata.jaqy.helper.DefaultHelperFactory;
 import com.teradata.jaqy.helper.PostgresHelperFactory;
 import com.teradata.jaqy.helper.TeradataHelperFactory;
-import com.teradata.jaqy.utils.HelperConfigUtils;
 
 /**
  * @author	Heng Yuan
@@ -32,7 +30,7 @@ class HelperSetup
 		HelperManager manager = globals.getHelperManager ();
 		manager.addHelperFactory ("postgresql", new PostgresHelperFactory ());
 		manager.addHelperFactory ("teradata", new TeradataHelperFactory ());
-		HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("mysql.json"));
-		HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("sqlite.json"));
+//		HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("mysql.json"));
+//		HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("sqlite.json"));
 	}
 }

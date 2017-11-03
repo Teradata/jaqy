@@ -25,13 +25,12 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
-import com.teradata.jaqy.interfaces.ParseAction;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
 
 /**
  * @author	Heng Yuan
  */
-public class IfCommand extends JaqyCommandAdapter implements ParseAction
+public class IfCommand extends JaqyCommandAdapter
 {
 	public IfCommand ()
 	{
@@ -68,9 +67,9 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 	}
 
 	@Override
-	public JaqyCommand.Type getType (String arguments)
+	public JaqyCommand.Type getType ()
 	{
-		return JaqyCommand.Type.begin;
+		return JaqyCommand.Type.mixed;
 	}
 
 	@Override
@@ -95,5 +94,11 @@ public class IfCommand extends JaqyCommandAdapter implements ParseAction
 			}
 			display.echo (interpreter, ".end " + getName (), false);
 		}
+	}
+
+	@Override
+	public boolean isMultiLine (String[] args)
+	{
+		return true;
 	}
 }

@@ -24,12 +24,11 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
-import com.teradata.jaqy.interfaces.ParseAction;
 
 /**
  * @author	Heng Yuan
  */
-public class AliasCommand extends JaqyCommandAdapter implements ParseAction
+public class AliasCommand extends JaqyCommandAdapter
 {
 	public AliasCommand ()
 	{
@@ -83,9 +82,9 @@ public class AliasCommand extends JaqyCommandAdapter implements ParseAction
 	}
 
 	@Override
-	public JaqyCommand.Type getType (String arguments)
+	public JaqyCommand.Type getType ()
 	{
-		return JaqyCommand.Type.begin;
+		return JaqyCommand.Type.mixed;
 	}
 
 	@Override

@@ -7,4 +7,55 @@
 .alias quit
 .@exit
 .end alias
+.config
+[
+{
+	"protocol":	"mysql",
+	"features": {
+		"schema" : false
+	},
+	"catalogSQL": {
+		"sql" : "SELECT DATABASE()",
+		"field" : 1
+	},
+	"tableSchemaSQL": {
+		"sql" : "SHOW CREATE TABLE {0}",
+		"field" : 2
+	},
+	"tableColumnSQL": {
+		"sql" : "DESCRIBE {0}",
+		"field" : 1
+	}
+},
+{
+	"protocol":	"sqlite",
+	"tableSchemaSQL": {
+		"sql" : "SELECT sql FROM SQLITE_MASTER WHERE NAME = ''{0}''  COLLATE NOCASE",
+		"field" : 1
+	},
+	"tableColumnSQL": {
+		"sql" : "PRAGMA table_info([{0}])",
+		"field" : 1
+	}
+},
+{
+	"protocol":	"teradata",
+	"features": {
+		"catalog" : false
+	},
+	"schemaSQL": {
+		"sql" : "SELECT DATABASE",
+		"field" : 1
+	},
+	"tableSchemaSQL": {
+		"sql" : "SHOW TABLE {0}",
+		"field" : 1
+	},
+	"tableColumnSQL": {
+		"sql" : "HELP TABLE {0}",
+		"field" : 1
+	}
+}
+]
+.end config
 -- .prompt display.interactive ? (esc.color("green",null,1) + "-- " + session.id + ": " + session.sqlCount + "/" + session.commandCount + ": [ " + session.path + " ] --" + esc.reset () + "\n") : (display.fill ("-- " + session.id + ": " + session.sqlCount + "/" + session.commandCount + " ") + "\n")

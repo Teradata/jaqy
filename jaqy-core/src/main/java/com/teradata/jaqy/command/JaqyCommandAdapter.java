@@ -18,10 +18,16 @@ package com.teradata.jaqy.command;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.OptionsUtils;
 import com.teradata.jaqy.utils.StringUtils;
@@ -88,6 +94,7 @@ public abstract class JaqyCommandAdapter implements JaqyCommand
 		m_globals = globals;
 	}
 
+	@Override
 	public String getName ()
 	{
 		return m_name;
@@ -147,8 +154,19 @@ public abstract class JaqyCommandAdapter implements JaqyCommand
 	}
 
 	@Override
-	public Type getType (String arguments)
+	public Type getType ()
 	{
 		return Type.none;
+	}
+
+	@Override
+	public boolean isMultiLine (String[] args)
+	{
+		return false;
+	}
+
+	@Override
+	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws Exception
+	{
 	}
 }

@@ -15,22 +15,23 @@
  */
 package com.teradata.jaqy.command;
 
+import java.io.IOException;
+
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyCommand;
+import com.teradata.jaqy.utils.HelperConfigUtils;
 
 /**
- * This is a dummy command.
- *
  * @author	Heng Yuan
  */
-public class EndCommand extends JaqyCommandAdapter
+public class ConfigCommand extends JaqyCommandAdapter
 {
 	@Override
 	public String getDescription ()
 	{
-		return "ends a multi-line command.";
+		return "configures a database.";
 	}
 
 	@Override
@@ -40,14 +41,20 @@ public class EndCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public JaqyCommand.Type getType ()
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
-		return JaqyCommand.Type.none;
+		interpreter.setParseAction (this, "config");
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public JaqyCommand.Type getType ()
 	{
-		interpreter.error ("nothing to end.");
+		return JaqyCommand.Type.exclusive;
+	}
+
+	@Override
+	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws IOException
+	{
+		HelperConfigUtils.load (globals.getHelperManager (), action);
 	}
 }

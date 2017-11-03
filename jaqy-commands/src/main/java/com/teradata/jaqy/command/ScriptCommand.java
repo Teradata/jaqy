@@ -30,14 +30,12 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
-import com.teradata.jaqy.interfaces.ParseAction;
-import com.teradata.jaqy.parser.CommandParser;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
+public class ScriptCommand extends JaqyCommandAdapter
 {
 	public static String DEFAULT_LANG = "javascript";
 
@@ -117,23 +115,9 @@ public class ScriptCommand extends JaqyCommandAdapter implements ParseAction
 	}
 
 	@Override
-	public JaqyCommand.Type getType (String arguments)
+	public JaqyCommand.Type getType ()
 	{
-		try
-		{
-			String[] args = CommandParser.getFileParser ().parse (arguments);
-			CommandLine cmdLine = getCommandLine (args);
-			for (Option option : cmdLine.getOptions ())
-			{
-				if ("f".equals (option.getOpt ()))
-					return JaqyCommand.Type.none;
-			}
-			return JaqyCommand.Type.begin;
-		}
-		catch (Exception ex)
-		{
-			return JaqyCommand.Type.none;
-		}
+		return JaqyCommand.Type.exclusive;
 	}
 
 	@Override

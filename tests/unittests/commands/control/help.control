@@ -13,6 +13,7 @@ Currently available commands are the following.
 	.classpath - displays / sets the class path for a JDBC driver.
 	.close - closes the current session.
 	.commit - commits the current transaction.
+	.config - configures a database.
 	.debug - debug dump.
 	.desc - describes a table schema.
 	.driver - displays currently loaded JDBC drivers.
