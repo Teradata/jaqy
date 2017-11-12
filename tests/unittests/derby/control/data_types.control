@@ -514,47 +514,74 @@ DROP TABLE DecTable;
 
 CREATE TABLE StrTable
 (
-	s1 VARCHAR(255),
-	s2 CHAR(1),
-	s3 CHAR(5)
+	a  INTEGER,
+	c1 VARCHAR(255),
+	c2 CHAR(1),
+	c3 CHAR(5),
+	c4 LONG VARCHAR
 );
 -- success. update count = 0
 -- 15/13 - 0 --------------------------------------------------------------
 .format table
 -- 15/14 - 0 --------------------------------------------------------------
 .desc StrTable
-Column Type         Nullable
------- ------------ --------
-S1     VARCHAR(255) Yes
-S2     CHAR(1)      Yes
-S3     CHAR(5)      Yes
+Column Type                      Nullable
+------ ------------------------- --------
+A      INTEGER                   Yes
+C1     VARCHAR(255)              Yes
+C2     LONG VARCHAR FOR BIT DATA Yes
+C3     LONG VARCHAR FOR BIT DATA Yes
+C4     LONG VARCHAR              Yes
 -- 15/15 - 0 --------------------------------------------------------------
 .desc -s StrTable
 CREATE TABLE StrTable
 (
-	S1 VARCHAR(255),
-	S2 CHAR(1),
-	S3 CHAR(5)
+	A INTEGER,
+	C1 VARCHAR(255),
+	C2 LONG VARCHAR FOR BIT DATA,
+	C3 LONG VARCHAR FOR BIT DATA,
+	C4 LONG VARCHAR
 )
 -- 15/16 - 0 --------------------------------------------------------------
 
-INSERT INTO StrTable VALUES ('aa', 'A', 'abcde');
+INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'A quick brown fox');
 -- success. update count = 1
 -- 16/16 - 0 --------------------------------------------------------------
-INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij');
+INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'A dark stormy night');
 -- success. update count = 1
 -- 17/16 - 0 --------------------------------------------------------------
-INSERT INTO StrTable VALUES ('ccc', NULL, NULL);
+INSERT INTO StrTable VALUES (3, 'ccc', NULL, NULL, NULL);
 -- success. update count = 1
 -- 18/16 - 0 --------------------------------------------------------------
 
 .format csv
 -- 18/17 - 0 --------------------------------------------------------------
-SELECT * FROM StrTable ORDER BY s1;
-ResultSet Column Count                       3
+SELECT * FROM StrTable ORDER BY a;
+ResultSet Column Count                       5
   Index                                        1
-    Name                                         S1
-    Label                                        S1
+    Name                                         A
+    Label                                        A
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       APP
+    Table Name                                   STRTABLE
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     N
+  Index                                        2
+    Name                                         C1
+    Label                                        C1
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
     Java Class                                   java.lang.String
@@ -573,9 +600,9 @@ ResultSet Column Count                       3
     Searchable                                   Y
     Signed                                       N
     Writable                                     N
-  Index                                        2
-    Name                                         S2
-    Label                                        S2
+  Index                                        3
+    Name                                         C2
+    Label                                        C2
     Type                                         CHAR
     SQL Type                                     CHAR
     Java Class                                   java.lang.String
@@ -594,9 +621,9 @@ ResultSet Column Count                       3
     Searchable                                   Y
     Signed                                       N
     Writable                                     N
-  Index                                        3
-    Name                                         S3
-    Label                                        S3
+  Index                                        4
+    Name                                         C3
+    Label                                        C3
     Type                                         CHAR
     SQL Type                                     CHAR
     Java Class                                   java.lang.String
@@ -605,6 +632,27 @@ ResultSet Column Count                       3
     Table Name                                   STRTABLE
     Display Size                                 5
     Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     N
+  Index                                        5
+    Name                                         C4
+    Label                                        C4
+    Type                                         LONGVARCHAR
+    SQL Type                                     LONG VARCHAR
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       APP
+    Table Name                                   STRTABLE
+    Display Size                                 32700
+    Precision                                    32700
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               Y
@@ -616,19 +664,40 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     N
 -- success --
-S1,S2,S3
-aa,A,abcde
-bbb,B,fghij
-ccc,,
+A,C1,C2,C3,C4
+1,aa,A,abcde,A quick brown fox
+2,bbb,B,fghij,A dark stormy night
+3,ccc,,,
 -- activity count = 3
 -- 19/17 - 0 --------------------------------------------------------------
 .format json -p on
 -- 19/18 - 0 --------------------------------------------------------------
-SELECT * FROM StrTable ORDER BY s1;
-ResultSet Column Count                       3
+SELECT * FROM StrTable ORDER BY a;
+ResultSet Column Count                       5
   Index                                        1
-    Name                                         S1
-    Label                                        S1
+    Name                                         A
+    Label                                        A
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       APP
+    Table Name                                   STRTABLE
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     N
+  Index                                        2
+    Name                                         C1
+    Label                                        C1
     Type                                         VARCHAR
     SQL Type                                     VARCHAR
     Java Class                                   java.lang.String
@@ -647,9 +716,9 @@ ResultSet Column Count                       3
     Searchable                                   Y
     Signed                                       N
     Writable                                     N
-  Index                                        2
-    Name                                         S2
-    Label                                        S2
+  Index                                        3
+    Name                                         C2
+    Label                                        C2
     Type                                         CHAR
     SQL Type                                     CHAR
     Java Class                                   java.lang.String
@@ -668,9 +737,9 @@ ResultSet Column Count                       3
     Searchable                                   Y
     Signed                                       N
     Writable                                     N
-  Index                                        3
-    Name                                         S3
-    Label                                        S3
+  Index                                        4
+    Name                                         C3
+    Label                                        C3
     Type                                         CHAR
     SQL Type                                     CHAR
     Java Class                                   java.lang.String
@@ -679,6 +748,27 @@ ResultSet Column Count                       3
     Table Name                                   STRTABLE
     Display Size                                 5
     Precision                                    5
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     N
+  Index                                        5
+    Name                                         C4
+    Label                                        C4
+    Type                                         LONGVARCHAR
+    SQL Type                                     LONG VARCHAR
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       APP
+    Table Name                                   STRTABLE
+    Display Size                                 32700
+    Precision                                    32700
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               Y
@@ -692,19 +782,25 @@ ResultSet Column Count                       3
 -- success --
 [
 	{
-		"S1" : "aa",
-		"S2" : "A",
-		"S3" : "abcde"
+		"A" : 1,
+		"C1" : "aa",
+		"C2" : "A",
+		"C3" : "abcde",
+		"C4" : "A quick brown fox"
 	},
 	{
-		"S1" : "bbb",
-		"S2" : "B",
-		"S3" : "fghij"
+		"A" : 2,
+		"C1" : "bbb",
+		"C2" : "B",
+		"C3" : "fghij",
+		"C4" : "A dark stormy night"
 	},
 	{
-		"S1" : "ccc",
-		"S2" : null,
-		"S3" : null
+		"A" : 3,
+		"C1" : "ccc",
+		"C2" : null,
+		"C3" : null,
+		"C4" : null
 	}
 ]
 -- activity count = 3
@@ -716,8 +812,9 @@ DROP TABLE StrTable;
 
 CREATE TABLE BinTable
 (
-	c1 INTEGER,
-	c2 LONG VARCHAR,
+	a  INTEGER,
+	c1 CHAR(4) FOR BIT DATA,
+	c2 VARCHAR(8) FOR BIT DATA,
 	c3 LONG VARCHAR FOR BIT DATA
 );
 -- success. update count = 0
@@ -727,36 +824,38 @@ CREATE TABLE BinTable
 .desc BinTable
 Column Type                      Nullable
 ------ ------------------------- --------
-C1     INTEGER                   Yes
-C2     LONG VARCHAR              Yes
+A      INTEGER                   Yes
+C1     CHAR (4) FOR BIT DATA     Yes
+C2     VARCHAR (8) FOR BIT DATA  Yes
 C3     LONG VARCHAR FOR BIT DATA Yes
 -- 22/20 - 0 --------------------------------------------------------------
 .desc -s BinTable
 CREATE TABLE BinTable
 (
-	C1 INTEGER,
-	C2 LONG VARCHAR,
+	A INTEGER,
+	C1 CHAR (4) FOR BIT DATA,
+	C2 VARCHAR (8) FOR BIT DATA,
 	C3 LONG VARCHAR FOR BIT DATA
 )
 -- 22/21 - 0 --------------------------------------------------------------
 
-INSERT INTO BinTable VALUES (1, 'A str', X'deadbeef');
+INSERT INTO BinTable VALUES (1, X'deadbeef', X'deadbeef', X'deadbeef');
 -- success. update count = 1
 -- 23/21 - 0 --------------------------------------------------------------
-INSERT INTO BinTable VALUES (2, 'B str', X'facefeed');
+INSERT INTO BinTable VALUES (2, X'facefeed', X'facefeed', X'facefeed');
 -- success. update count = 1
 -- 24/21 - 0 --------------------------------------------------------------
-INSERT INTO BinTable VALUES (3, NULL, NULL);
+INSERT INTO BinTable VALUES (3, NULL, NULL, NULL);
 -- success. update count = 1
 -- 25/21 - 0 --------------------------------------------------------------
 
 .format csv
 -- 25/22 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
-ResultSet Column Count                       3
+ResultSet Column Count                       4
   Index                                        1
-    Name                                         C1
-    Label                                        C1
+    Name                                         A
+    Label                                        A
     Type                                         INTEGER
     SQL Type                                     INTEGER
     Java Class                                   java.lang.Integer
@@ -776,19 +875,19 @@ ResultSet Column Count                       3
     Signed                                       Y
     Writable                                     N
   Index                                        2
-    Name                                         C2
-    Label                                        C2
-    Type                                         LONGVARCHAR
-    SQL Type                                     LONG VARCHAR
-    Java Class                                   java.lang.String
+    Name                                         C1
+    Label                                        C1
+    Type                                         BINARY
+    SQL Type                                     CHAR () FOR BIT DATA
+    Java Class                                   byte[]
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
-    Display Size                                 32700
-    Precision                                    32700
+    Display Size                                 8
+    Precision                                    4
     Scale                                        0
     Auto Increment                               N
-    Case Sensitive                               Y
+    Case Sensitive                               N
     Currency                                     N
     Definitely Writable                          N
     Nullable                                     1
@@ -797,6 +896,27 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     N
   Index                                        3
+    Name                                         C2
+    Label                                        C2
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Catalog                                      
+    Schema                                       APP
+    Table Name                                   BINTABLE
+    Display Size                                 16
+    Precision                                    8
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     N
+  Index                                        4
     Name                                         C3
     Label                                        C3
     Type                                         LONGVARBINARY
@@ -818,19 +938,19 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     N
 -- success --
-C1,C2,C3
-1,A str,deadbeef
-2,B str,facefeed
-3,,
+A,C1,C2,C3
+1,deadbeef,deadbeef,deadbeef
+2,facefeed,facefeed,facefeed
+3,,,
 -- activity count = 3
 -- 26/22 - 0 --------------------------------------------------------------
 .format json -p on
 -- 26/23 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY c1;
-ResultSet Column Count                       3
+ResultSet Column Count                       4
   Index                                        1
-    Name                                         C1
-    Label                                        C1
+    Name                                         A
+    Label                                        A
     Type                                         INTEGER
     SQL Type                                     INTEGER
     Java Class                                   java.lang.Integer
@@ -850,19 +970,19 @@ ResultSet Column Count                       3
     Signed                                       Y
     Writable                                     N
   Index                                        2
-    Name                                         C2
-    Label                                        C2
-    Type                                         LONGVARCHAR
-    SQL Type                                     LONG VARCHAR
-    Java Class                                   java.lang.String
+    Name                                         C1
+    Label                                        C1
+    Type                                         BINARY
+    SQL Type                                     CHAR () FOR BIT DATA
+    Java Class                                   byte[]
     Catalog                                      
     Schema                                       APP
     Table Name                                   BINTABLE
-    Display Size                                 32700
-    Precision                                    32700
+    Display Size                                 8
+    Precision                                    4
     Scale                                        0
     Auto Increment                               N
-    Case Sensitive                               Y
+    Case Sensitive                               N
     Currency                                     N
     Definitely Writable                          N
     Nullable                                     1
@@ -871,6 +991,27 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     N
   Index                                        3
+    Name                                         C2
+    Label                                        C2
+    Type                                         VARBINARY
+    SQL Type                                     VARCHAR () FOR BIT DATA
+    Java Class                                   byte[]
+    Catalog                                      
+    Schema                                       APP
+    Table Name                                   BINTABLE
+    Display Size                                 16
+    Precision                                    8
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     N
+  Index                                        4
     Name                                         C3
     Label                                        C3
     Type                                         LONGVARBINARY
@@ -894,17 +1035,20 @@ ResultSet Column Count                       3
 -- success --
 [
 	{
-		"C1" : 1,
-		"C2" : "A str",
+		"A" : 1,
+		"C1" : "3q2+7w==",
+		"C2" : "3q2+7w==",
 		"C3" : "3q2+7w=="
 	},
 	{
-		"C1" : 2,
-		"C2" : "B str",
+		"A" : 2,
+		"C1" : "+s7+7Q==",
+		"C2" : "+s7+7Q==",
 		"C3" : "+s7+7Q=="
 	},
 	{
-		"C1" : 3,
+		"A" : 3,
+		"C1" : null,
 		"C2" : null,
 		"C3" : null
 	}

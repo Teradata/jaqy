@@ -52,38 +52,41 @@ DROP TABLE DecTable;
 
 CREATE TABLE StrTable
 (
-	s1 VARCHAR(255),
-	s2 CHAR(1),
-	s3 CHAR(5)
+	a  INTEGER,
+	c1 VARCHAR(255),
+	c2 CHAR(1),
+	c3 CHAR(5),
+	c4 LONG VARCHAR
 );
 .format table
 .desc StrTable
 .desc -s StrTable
 
-INSERT INTO StrTable VALUES ('aa', 'A', 'abcde');
-INSERT INTO StrTable VALUES ('bbb', 'B', 'fghij');
-INSERT INTO StrTable VALUES ('ccc', NULL, NULL);
+INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'A quick brown fox');
+INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'A dark stormy night');
+INSERT INTO StrTable VALUES (3, 'ccc', NULL, NULL, NULL);
 
 .format csv
-SELECT * FROM StrTable ORDER BY s1;
+SELECT * FROM StrTable ORDER BY a;
 .format json -p on
-SELECT * FROM StrTable ORDER BY s1;
+SELECT * FROM StrTable ORDER BY a;
 
 DROP TABLE StrTable;
 
 CREATE TABLE BinTable
 (
-	c1 INTEGER,
-	c2 LONG VARCHAR,
+	a  INTEGER,
+	c1 CHAR(4) FOR BIT DATA,
+	c2 VARCHAR(8) FOR BIT DATA,
 	c3 LONG VARCHAR FOR BIT DATA
 );
 .format table
 .desc BinTable
 .desc -s BinTable
 
-INSERT INTO BinTable VALUES (1, 'A str', X'deadbeef');
-INSERT INTO BinTable VALUES (2, 'B str', X'facefeed');
-INSERT INTO BinTable VALUES (3, NULL, NULL);
+INSERT INTO BinTable VALUES (1, X'deadbeef', X'deadbeef', X'deadbeef');
+INSERT INTO BinTable VALUES (2, X'facefeed', X'facefeed', X'facefeed');
+INSERT INTO BinTable VALUES (3, NULL, NULL, NULL);
 
 .format csv
 SELECT * FROM BinTable ORDER BY c1;

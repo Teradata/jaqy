@@ -35,23 +35,36 @@ public class TypeMap
 		m_map = map;
 	}
 
-	private TypeInfo getCast (int target, int[] castArray)
+	private TypeInfo getCast (int target, int precision, int[] castArray)
 	{
 		int index;
+		// First, locate the target type location
 		for (index = 0; index < castArray.length; ++index)
 		{
 			if (castArray[index] == target)
 				break;
 		}
+		// Now for each subsequent cast, check if type info exists.
+		TypeInfo bestCandidate = null;
 		for (int i = index; i < castArray.length; ++i)
 		{
 			TypeInfo typeInfo = m_map.get (castArray[i]);
 			if (typeInfo != null)
 			{
+				bestCandidate = typeInfo;
+				// check if the candidate the enough precision
+				if (typeInfo.maxPrecision == 0 &&
+					typeInfo.maxPrecision < precision)
+					continue;
 				m_map.put (target, typeInfo);
 				return typeInfo;
 			}
 		}
+		if (bestCandidate != null)
+			return bestCandidate;
+		// Hmm, casting downward didn't find any, try upward.
+		// Note that we are not trying to check the precision
+		// this time.
 		for (int i = index; i >= 0; --i)
 		{
 			TypeInfo typeInfo = m_map.get (castArray[i]);
@@ -64,7 +77,7 @@ public class TypeMap
 		return null;
 	}
 
-	private static int switchCharType (int type)
+	static int switchCharType (int type)
 	{
 		switch (type)
 		{
@@ -88,10 +101,10 @@ public class TypeMap
 		return type;
 	}
 
-	public TypeInfo getType (int type)
+	public TypeInfo getType (int type, int precision, boolean exact)
 	{
 		TypeInfo typeInfo = m_map.get (type);
-		if (typeInfo != null)
+		if (exact || typeInfo != null)
 			return typeInfo;
 
 		switch (type)
@@ -100,15 +113,15 @@ public class TypeMap
 			case Types.VARBINARY:
 			case Types.LONGVARBINARY:
 			case Types.BLOB:
-				return getCast (type, BINARY_CAST);
+				return getCast (type, precision, BINARY_CAST);
 			case Types.CHAR:
 			case Types.VARCHAR:
 			case Types.LONGVARCHAR:
 			case Types.CLOB:
 			{
-				typeInfo = getCast (type, STRING_CAST);
+				typeInfo = getCast (type, precision, STRING_CAST);
 				if (typeInfo == null)
-					typeInfo = getCast (switchCharType (type), NSTRING_CAST);
+					typeInfo = getCast (switchCharType (type), precision, NSTRING_CAST);
 				if (typeInfo != null)
 					m_map.put (type, typeInfo);
 				return typeInfo;
@@ -118,9 +131,9 @@ public class TypeMap
 			case Types.LONGNVARCHAR:
 			case Types.NCLOB:
 			{
-				typeInfo = getCast (type, NSTRING_CAST);
+				typeInfo = getCast (type, precision, NSTRING_CAST);
 				if (typeInfo == null)
-					typeInfo = getCast (switchCharType (type), STRING_CAST);
+					typeInfo = getCast (switchCharType (type), precision, STRING_CAST);
 				if (typeInfo != null)
 					m_map.put (type, typeInfo);
 				return typeInfo;
@@ -135,8 +148,133 @@ public class TypeMap
 			case Types.DOUBLE:
 			case Types.DECIMAL:
 			case Types.NUMERIC:
-				return getCast (type, NUMBER_CAST);
+			{
+				// for numeric types, we ignore the precision (set it to 0)
+				return getCast (type, 0, NUMBER_CAST);
+			}
 		}
 		return null;
+	}
+
+	/**
+	 * Sets the custom type map for a database.  It overrides the type info
+	 * obtained from database.
+	 *
+	 * @param	customMap
+	 * 			sets the custom type map for a database.
+	 */
+	public void setCustomMap (Map<Integer, TypeInfo> customMap)
+	{
+		synchronized (this)
+		{
+			m_map.putAll (customMap);
+		}
+	}
+
+	/**
+	 * Given the type, precision, and scale, return the type name that matches
+	 * the need.
+	 *
+	 * @param	type
+	 * 			See {@link Types}.
+	 * @param	precision
+	 * 			the precision for the type.
+	 * @param	scale
+	 * 			the scale for the type.
+	 * @param	exact
+	 * 			if exact is false, the closest type (based on casting rule)
+	 * 			is used.
+	 * @return	a type name.
+	 */
+	public String getTypeName (int type, int precision, int scale, boolean exact)
+	{
+		TypeInfo typeInfo = getType (type, precision, exact);
+		if (typeInfo == null)
+			return null;
+		if (typeInfo.typeFormat != null)
+		{
+			return typeInfo.typeFormat.format (new Object[]{ precision, scale });
+		}
+
+		String typeName = typeInfo.typeName;
+		boolean varType = (typeInfo.maxPrecision > 0);
+
+		switch (type)
+		{
+			case Types.VARCHAR:
+			case Types.CHAR:
+			case Types.NVARCHAR:
+			case Types.NCHAR:
+			case Types.BINARY:
+			case Types.VARBINARY:
+			case Types.CLOB:
+			case Types.NCLOB:
+			case Types.BLOB:
+				/* Prevent the case of VARCHAR(0)
+				 */
+				if (precision == 0)
+				{
+					precision = 1;
+				}
+				/* If the size is quite big, it may be the default size.
+				 * In that case, just return the type name itself.
+				 */
+				if (varType &&
+					precision < 0x7fff0000)
+					return typeName + "(" + precision + ")";
+				return typeName;
+			case Types.DECIMAL:
+			case Types.NUMERIC:
+				return typeName + "(" + precision + "," + scale + ")";
+			default:
+				return typeName;
+		}
+	}
+
+	/**
+	 * Check if a string refers to the same type as the other string.
+	 * <p>
+	 * For example, the following two are the same type.
+	 * VARCHAR CHARACTER SET LATIN vs VARCHAR(1000) CHARACTER SET LATIN
+	 * <p>
+	 * Likewise, VARCHAR(1000) CHARACTER SET LATIN is the same as VARCHAR.
+	 * <p>
+	 * The purpose of this function is to detect if a name obtained from
+	 * TypeMap matches the name obtained from ResultSetMetaData.
+	 *
+	 * @param	src
+	 * 			src type string
+	 * @param	sub
+	 * 			the string to check.  It needs to be a sub common string
+	 * 			of src.
+	 * @return	true if sub is a substring of src.
+	 */
+	public static boolean isSameType (String src, String sub)
+	{
+		if (src.length () < sub.length ())
+			return false;
+		if (src.length () == sub.length ())
+			return src.equalsIgnoreCase (sub);
+
+		src = src.toLowerCase ();
+		sub = sub.toLowerCase ();
+
+		// check the simple case where sub is a substring of src.
+		if (src.indexOf (sub) >= 0)
+			return true;
+
+		// we now have to deal with more complicated cases such as
+		// VARCHAR CHARACTER SET LATIN vs VARCHAR(1000) CHARACTER SET LATIN
+		// we make a major assumption that at least beginning part of
+		// src and sub are the same.
+		int i;
+		for (i = 0; i < sub.length (); ++i)
+		{
+			if (src.charAt (i) != sub.charAt (i))
+				break;
+		}
+		if (i == 0)
+			return false;
+		return src.substring (i).indexOf (sub.substring (i)) >= 0;
 	}
 }

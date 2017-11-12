@@ -55,6 +55,13 @@ public class ConfigCommand extends JaqyCommandAdapter
 	@Override
 	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws IOException
 	{
-		HelperConfigUtils.load (globals.getHelperManager (), action);
+		try
+		{
+			HelperConfigUtils.load (globals.getHelperManager (), action);
+		}
+		catch (Exception ex)
+		{
+			interpreter.error ("invalid JSON configuration");
+		}
 	}
 }

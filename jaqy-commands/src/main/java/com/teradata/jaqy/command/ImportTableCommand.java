@@ -83,7 +83,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 		Session session = interpreter.getSession ();
 		JaqyConnection conn = session.getConnection ();
 		JaqyHelper helper = conn.getHelper ();
-		String sql = SchemaUtils.getTableSchema (helper, schemaInfo, tableName);
+		String sql = SchemaUtils.getTableSchema (helper, schemaInfo, tableName, false);
 
 		boolean prevCommit = conn.getAutoCommit ();
 		if (!prevCommit)

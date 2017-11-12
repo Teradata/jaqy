@@ -15,10 +15,7 @@
  */
 package com.teradata.jaqy.interfaces;
 
-import java.sql.Array;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Struct;
+import java.sql.*;
 
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
@@ -129,6 +126,24 @@ public interface JaqyHelper
 	 * 			if the creation failed.
 	 */
 	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException;
+	/**
+	 * Given the type, precision, and scale, give the closest type name that
+	 * matches the need.
+	 *
+	 * @param	type
+	 * 			See {@link Types}.
+	 * @param	precision
+	 * 			the precision for the type.
+	 * @param	scale
+	 * 			the scale for the type.
+	 * @param	exact
+	 * 			if exact is false, the closest type (based on casting rule)
+	 * 			is used.
+	 * @return	a type name.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public String getTypeName (int type, int precision, int scale, boolean exact) throws SQLException;
 	/**
 	 * Based on the typeInfo, infer the SQL type.
 	 * @param	typeInfo

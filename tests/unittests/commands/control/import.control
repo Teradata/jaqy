@@ -149,9 +149,9 @@ d      TEXT    Yes
 CREATE TABLE TABLENAME
 (
 	a INTEGER NOT NULL,
-	b TEXT(5) NOT NULL,
-	c TEXT(5) NOT NULL,
-	d TEXT(8)
+	b TEXT NOT NULL,
+	c TEXT NOT NULL,
+	d TEXT
 )
 -- 12/17 - 0 --------------------------------------------------------------
 .importtable
@@ -162,9 +162,9 @@ CREATE TABLE TABLENAME
 CREATE TABLE MyTable3
 (
 	a INTEGER NOT NULL,
-	b TEXT(5) NOT NULL,
-	c TEXT(5) NOT NULL,
-	d TEXT(8)
+	b TEXT NOT NULL,
+	c TEXT NOT NULL,
+	d TEXT
 )
 -- success. update count = 1
 -- INSERTION --

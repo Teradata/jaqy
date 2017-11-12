@@ -1,9 +1,10 @@
 package com.teradata.jaqy.utils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -11,18 +12,44 @@ import javax.json.JsonValue;
 
 import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.TextJsonParser;
-import org.yuanheng.cookjson.UTF8TextJsonParser;
 
 import com.teradata.jaqy.HelperManager;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.helper.DefaultHelperFactory;
+import com.teradata.jaqy.schema.TypeInfo;
 
 public class HelperConfigUtils
 {
-	private static void loadFeatures (DefaultHelperFactory factory, JsonObject v)
+	private static void loadType (Map<Integer, TypeInfo> map, JsonObject v)
+	{
+		TypeInfo typeInfo = new TypeInfo ();
+		typeInfo.type = v.getInt ("type");
+		typeInfo.typeName = v.getString ("name");
+		if (typeInfo.typeName.indexOf ('{') >= 0)
+		{
+			typeInfo.maxPrecision = v.getInt ("maxPrecision");
+			typeInfo.typeFormat = new MessageFormat (typeInfo.typeName);
+		}
+		map.put (typeInfo.type, typeInfo);
+	}
+
+	private static HashMap<Integer, TypeInfo> getTypeMap (JsonArray v)
 	{
 		if (v == null)
-			return;
+			return null;
+		int size = v.size ();
+		HashMap<Integer, TypeInfo> map = new HashMap<Integer, TypeInfo> ();
+		for (int i = 0; i < size; ++i)
+		{
+			loadType (map, (JsonObject)v.getJsonObject (i));
+		}
+		return map;
+	}
+
+	private static JdbcFeatures getFeatures (JsonObject v)
+	{
+		if (v == null)
+			return null;
 		JdbcFeatures features = new JdbcFeatures ();
 		if (!v.getBoolean ("schema", false))
 		{
@@ -32,7 +59,7 @@ public class HelperConfigUtils
 		{
 			features.noCatalog = true;
 		}
-		factory.setFeatures (features);
+		return features;
 	}
 
 	private static SimpleQuery getSimpleQuery (JsonObject v, String key)
@@ -58,13 +85,18 @@ public class HelperConfigUtils
 		if (protocol == null || protocol.length () == 0)
 			throw new IOException ("Invalid protocol name.");
 		DefaultHelperFactory factory = (DefaultHelperFactory) manager.getHelperFactory (protocol);
-		loadFeatures (factory, v.getJsonObject ("features"));
-		HashMap<String, SimpleQuery> map = new HashMap<String, SimpleQuery> ();
-		updateMap (map, "catalogSQL", v);
-		updateMap (map, "schemaSQL", v);
-		updateMap (map, "tableSchemaSQL", v);
-		updateMap (map, "tableColumnSQL", v);
-		factory.setSQLMap (map);
+		JdbcFeatures features = getFeatures (v.getJsonObject ("features"));
+		HashMap<Integer, TypeInfo> typeMap = getTypeMap (v.getJsonArray ("typeMap"));
+		HashMap<String, SimpleQuery> sqlMap = new HashMap<String, SimpleQuery> ();
+		updateMap (sqlMap, "catalogSQL", v);
+		updateMap (sqlMap, "schemaSQL", v);
+		updateMap (sqlMap, "tableSchemaSQL", v);
+		updateMap (sqlMap, "tableColumnSQL", v);
+		factory.setSQLMap (sqlMap);
+		if (features != null)
+			factory.setFeatures (features);
+		if (typeMap != null)
+			factory.setCustomTypeMap (typeMap);
 	}
 
 	public static void load (HelperManager manager, JsonArray v) throws IOException
@@ -76,7 +108,6 @@ public class HelperConfigUtils
 		}
 	}
 
-
 	public static void load (HelperManager manager, String json) throws IOException
 	{
 		JsonValue v;
@@ -85,15 +116,5 @@ public class HelperConfigUtils
 		v = p.getValue ();
 		p.close ();
 		load (manager, (JsonArray)v);
-	}
-
-	public static void load (HelperManager manager, InputStream is) throws IOException
-	{
-		JsonValue v;
-		CookJsonParser p = new UTF8TextJsonParser (is);
-		p.next ();
-		v = p.getValue ();
-		p.close ();
-		load (manager, (JsonObject)v);
 	}
 }

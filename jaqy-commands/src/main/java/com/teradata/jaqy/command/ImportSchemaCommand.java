@@ -90,12 +90,12 @@ public class ImportSchemaCommand extends JaqyCommandAdapter
 		JaqyHelper helper = session.getConnection ().getHelper ();
 		if (displaySQL)
 		{
-			String sql = SchemaUtils.getTableSchema (helper, schemaInfo, "TABLENAME");
+			String sql = SchemaUtils.getTableSchema (helper, schemaInfo, "TABLENAME", false);
 			interpreter.println (sql);
 		}
 		else
 		{
-			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo);
+			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false);
 			interpreter.print (rs);
 			rs.close ();
 		}

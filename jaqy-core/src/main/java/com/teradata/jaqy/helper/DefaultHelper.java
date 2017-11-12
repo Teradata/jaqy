@@ -15,33 +15,16 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.sql.Struct;
-import java.sql.Types;
+import java.sql.*;
 import java.text.MessageFormat;
+import java.util.Map;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.PropertyTable;
-import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.connection.JaqyStatement;
-import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
-import com.teradata.jaqy.schema.BasicColumnInfo;
-import com.teradata.jaqy.schema.FullColumnInfo;
-import com.teradata.jaqy.schema.ParameterInfo;
-import com.teradata.jaqy.schema.SchemaInfo;
-import com.teradata.jaqy.schema.SchemaUtils;
-import com.teradata.jaqy.schema.TypeInfo;
-import com.teradata.jaqy.schema.TypeMap;
+import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ExceptionUtils;
@@ -70,6 +53,7 @@ public class DefaultHelper implements JaqyHelper
 	private MessageFormat m_tableColumnFormat;
 
 	private TypeMap m_typeMap;
+	private Map<Integer, TypeInfo> m_customTypeMap;
 
 	public DefaultHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
@@ -152,6 +136,10 @@ public class DefaultHelper implements JaqyHelper
 		if (m_typeMap != null)
 			return m_typeMap;
 		m_typeMap = SchemaUtils.getTypeMap (m_conn);
+		if (m_typeMap != null && m_customTypeMap != null)
+		{
+			m_typeMap.setCustomMap (m_customTypeMap);
+		}
 		return m_typeMap;
 	}
 
@@ -315,19 +303,23 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
+	public String getTypeName (int type, int precision, int scale, boolean exact) throws SQLException
+	{
+		TypeMap typeMap = getTypeMap ();
+		if (typeMap == null)
+			return null;
+		return typeMap.getTypeName (type, precision, scale, exact);
+	}
+
+	@Override
 	public String getTypeName (BasicColumnInfo columnInfo) throws SQLException
 	{
-		boolean varType = true;
 		if (columnInfo.typeName == null)
 		{
 			TypeMap typeMap = getTypeMap ();
 			if (typeMap == null)
 				return null;
-			TypeInfo typeInfo = typeMap.getType (columnInfo.type);
-			if (typeInfo == null)
-				return null;
-			columnInfo.typeName = typeInfo.typeName;
-			varType = (typeInfo.maxPrecision > 0);
+			return typeMap.getTypeName (columnInfo.type, columnInfo.precision, columnInfo.scale, true);
 		}
 
 		switch (columnInfo.type)
@@ -341,22 +333,40 @@ public class DefaultHelper implements JaqyHelper
 			case Types.CLOB:
 			case Types.NCLOB:
 			case Types.BLOB:
+			{
+				int precision = columnInfo.precision;
 				/* Prevent the case of VARCHAR(0)
 				 */
-				if (columnInfo.precision == 0)
+				if (precision == 0)
 				{
-					columnInfo.precision = 1;
+					precision = 1;
+				}
+				TypeMap typeMap = getTypeMap ();
+				if (typeMap != null)
+				{
+					String preciseName = typeMap.getTypeName (columnInfo.type, columnInfo.precision, columnInfo.scale, true);
+					if (preciseName != null && TypeMap.isSameType (preciseName, columnInfo.typeName))
+					{
+						return preciseName;
+					}
 				}
 				/* If the size is quite big, it may be the default size.
 				 * In that case, just return the type name itself.
+				 *
+				 * If the type name contains space, it is difficult to
+				 * tell where to put the precision.
 				 */
-				if (varType &&
-					columnInfo.precision < 0x7fff0000)
-					return columnInfo.typeName + "(" + columnInfo.precision + ")";
+				if (precision < 0x7fff0000 && columnInfo.typeName.indexOf (' ') < 0)
+				{
+					return columnInfo.typeName + "(" + precision + ")";
+				}
 				return columnInfo.typeName;
+			}
 			case Types.DECIMAL:
 			case Types.NUMERIC:
+			{
 				return columnInfo.typeName + "(" + columnInfo.precision + "," + columnInfo.scale + ")";
+			}
 			default:
 				return columnInfo.typeName;
 		}
@@ -391,7 +401,7 @@ public class DefaultHelper implements JaqyHelper
 				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
 			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData ());
-			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName);
+			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true);
 			rs.close ();
 
 			return schema;
@@ -555,5 +565,10 @@ public class DefaultHelper implements JaqyHelper
 			m_tableColumnFormat = null;
 		else
 			m_tableColumnFormat = new MessageFormat (tableSchemaQuery.sql);
+	}
+
+	public void setCustomTypeMap (Map<Integer, TypeInfo> map)
+	{
+		m_customTypeMap = map;
 	}
 }

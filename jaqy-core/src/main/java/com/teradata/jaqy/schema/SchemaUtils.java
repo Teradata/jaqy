@@ -33,7 +33,7 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
  */
 public class SchemaUtils
 {
-	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName) throws SQLException
+	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName, boolean exact) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
 		StringBuilder buffer = new StringBuilder ();
@@ -48,7 +48,15 @@ public class SchemaUtils
 				schemaInfo.columns[i].type = Types.INTEGER;
 				schemaInfo.columns[i].nullable = ResultSetMetaData.columnNullable;
 			}
-			String columnType = helper.getTypeName (schemaInfo.columns[i]);
+			String columnType;
+			if (exact)
+			{
+				columnType = helper.getTypeName (schemaInfo.columns[i]);
+			}
+			else
+			{
+				columnType = helper.getTypeName (schemaInfo.columns[i].type, schemaInfo.columns[i].precision, schemaInfo.columns[i].scale, false);
+			}
 			if (i == 0)
 				buffer.append ('\n');
 			else
@@ -62,14 +70,22 @@ public class SchemaUtils
 		return buffer.toString ();
 	}
 
-	public static JaqyResultSet getSchemaResultSet (JaqyHelper helper, SchemaInfo schemaInfo) throws SQLException
+	public static JaqyResultSet getSchemaResultSet (JaqyHelper helper, SchemaInfo schemaInfo, boolean exact) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
 		PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
 		for (int i = 0; i < count; ++i)
 		{
 			String columnName = schemaInfo.columns[i].name;
-			String columnType = helper.getTypeName (schemaInfo.columns[i]);
+			String columnType;
+			if (exact)
+			{
+				columnType = helper.getTypeName (schemaInfo.columns[i]);
+			}
+			else
+			{
+				columnType = helper.getTypeName (schemaInfo.columns[i].type, schemaInfo.columns[i].precision, schemaInfo.columns[i].scale, false);
+			}
 			String nullable = (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNoNulls) ? "No" : (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
 			pt.addRow (new String[]{ columnName, columnType, nullable });
 		}
@@ -92,17 +108,17 @@ public class SchemaUtils
 				info.typeName = rs.getString ("TYPE_NAME");
 				info.type = rs.getInt ("DATA_TYPE");
 				info.maxPrecision = rs.getInt ("PRECISION");
-				info.literalPrefix = rs.getString ("LITERAL_PREFIX");
-				info.literalSuffix = rs.getString ("LITERAL_SUFFIX");
-				info.nullable = rs.getShort ("NULLABLE");
-				info.caseSensitive = rs.getBoolean ("CASE_SENSITIVE");
-				info.searchable = rs.getShort ("SEARCHABLE");
-				info.signed = !rs.getBoolean ("UNSIGNED_ATTRIBUTE");
-				info.money = rs.getBoolean ("FIXED_PREC_SCALE");
-				info.autoIncrement = rs.getBoolean ("AUTO_INCREMENT");
-				info.minScale = rs.getShort ("MINIMUM_SCALE");
-				info.maxScale = rs.getShort ("MAXIMUM_SCALE");
-				info.radix = rs.getInt ("NUM_PREC_RADIX");
+//				info.literalPrefix = rs.getString ("LITERAL_PREFIX");
+//				info.literalSuffix = rs.getString ("LITERAL_SUFFIX");
+//				info.nullable = rs.getShort ("NULLABLE");
+//				info.caseSensitive = rs.getBoolean ("CASE_SENSITIVE");
+//				info.searchable = rs.getShort ("SEARCHABLE");
+//				info.signed = !rs.getBoolean ("UNSIGNED_ATTRIBUTE");
+//				info.money = rs.getBoolean ("FIXED_PREC_SCALE");
+//				info.autoIncrement = rs.getBoolean ("AUTO_INCREMENT");
+//				info.minScale = rs.getShort ("MINIMUM_SCALE");
+//				info.maxScale = rs.getShort ("MAXIMUM_SCALE");
+//				info.radix = rs.getInt ("NUM_PREC_RADIX");
 
 				TypeInfo oldInfo = map.get (info.type);
 				if (oldInfo == null )

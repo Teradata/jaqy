@@ -17,12 +17,14 @@ package com.teradata.jaqy.helper;
 
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
+import com.teradata.jaqy.schema.TypeInfo;
 import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
@@ -37,6 +39,7 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 
 	private Hashtable<String,SimpleQuery> m_sqlMap = new Hashtable<String,SimpleQuery> ();
 	private JdbcFeatures m_features = new JdbcFeatures ();
+	private Map<Integer, TypeInfo> m_customTypeMap;
 
 	public DefaultHelperFactory ()
 	{
@@ -61,6 +64,7 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 		helper.setSchemaQuery (m_sqlMap.get (SCHEMA));
 		helper.setTableSchemaQuery (m_sqlMap.get (TABLE_SCHEMA));
 		helper.setTableColumnQuery (m_sqlMap.get (TABLE_COLUMN));
+		helper.setCustomTypeMap (m_customTypeMap);
 	}
 
 	public JdbcFeatures getFeatures ()
@@ -72,6 +76,12 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 	{
 		m_features = features;
 	}
+
+	public void setCustomTypeMap (Map<Integer, TypeInfo> map)
+	{
+		m_customTypeMap = map;
+	}
+
 
 	public void setSQLMap (HashMap<String,SimpleQuery> sqls)
 	{
