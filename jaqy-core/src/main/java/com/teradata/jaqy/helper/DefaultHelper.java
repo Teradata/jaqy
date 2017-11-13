@@ -37,11 +37,6 @@ import com.teradata.jaqy.utils.SimpleQuery;
  */
 public class DefaultHelper implements JaqyHelper
 {
-	public final static String getYesNo (boolean b)
-	{
-		return b ? "Yes" : "No";
-	}
-
 	private final JaqyConnection m_conn;
 	private final Globals m_globals;
 	private final JdbcFeatures m_features;
