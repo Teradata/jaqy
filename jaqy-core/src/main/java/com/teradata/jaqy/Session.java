@@ -181,7 +181,7 @@ public class Session
 				SortInfo[] sortInfos = interpreter.getSortInfos ();
 				if (sortInfos != null)
 				{
-					InMemoryResultSet inMemRS = new InMemoryResultSet (rs.getResultSet ());
+					InMemoryResultSet inMemRS = new InMemoryResultSet (rs.getResultSet (), interpreter.getLimit ());
 					inMemRS.sort (sortInfos);
 					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper ());
 					rs.close ();
@@ -323,7 +323,7 @@ public class Session
 		}
 	}
 
-	public void executeQuery (String sql, JaqyInterpreter interpreter, int repeat) throws SQLException
+	public void executeQuery (String sql, JaqyInterpreter interpreter, long repeat) throws SQLException
 	{
 		m_globals.log (Level.INFO, "executeQuery: " + sql);
 		interpreter.incSqlCount ();

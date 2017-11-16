@@ -43,6 +43,7 @@ class CommandSetup
 		manager.addCommand ("repeat", new RepeatCommand ());
 		manager.addCommand ("#", new RepeatPrevCommand ());
 		manager.addCommand ("sort", new SortCommand ());
+		manager.addCommand ("limit", new LimitCommand ());
 
 		// session control
 		manager.addCommand ("session", new SessionCommand ());

@@ -209,7 +209,7 @@ public class JsonUtils
 		g.writeEnd ();
 	}
 
-	public static long print (Globals globals, CookJsonGenerator g, JaqyResultSet rs) throws SQLException
+	public static long print (Globals globals, CookJsonGenerator g, JaqyResultSet rs, long limit) throws SQLException
 	{
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
 		int columns = metaData.getColumnCount ();
@@ -224,7 +224,9 @@ public class JsonUtils
 
 		g.writeStartArray ();
 		long count = 0;
-		while (rs.next ())
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		while (rs.next () && count < limit)
 		{
 			++count;
 			g.writeStartObject ();

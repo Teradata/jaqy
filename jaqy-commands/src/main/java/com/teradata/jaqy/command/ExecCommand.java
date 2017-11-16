@@ -92,7 +92,11 @@ public class ExecCommand extends JaqyCommandAdapter
 				Reader reader = FileUtils.getReader (new FileInputStream (file), charset);
 				String sql = StringUtils.getStringFromReader (reader);
 				Session session = interpreter.getSession ();
-				session.executeQuery (sql, interpreter, 1);
+				session.executeQuery (sql, interpreter, interpreter.getRepeatCount ());
+
+				// now reset things
+				interpreter.setRepeatCount (1);
+				interpreter.setLimit (0);
 			}
 			else
 			{

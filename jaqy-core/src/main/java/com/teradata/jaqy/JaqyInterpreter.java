@@ -73,7 +73,8 @@ public class JaqyInterpreter
 	private int m_sqlCount;
 	private int m_commandCount;
 
-	private int m_repeatCount = 1;
+	private long m_limit = 0;
+	private long m_repeatCount = 1;
 	private String m_prevSQL;
 
 	private SortInfo[] m_sortInfos;
@@ -514,6 +515,7 @@ public class JaqyInterpreter
 					m_repeatCount = 1;
 					m_queryMode = QueryMode.Regular;
 					m_sortInfos = null;
+					m_limit = 0;
 
 					display.showPrompt (this);
 				}
@@ -757,11 +759,11 @@ public class JaqyInterpreter
 			}
 			if (m_quiet)
 			{
-				return QuietPrinter.getInstance ().print (rs, m_globals, display, display.getPrintWriter ());
+				return QuietPrinter.getInstance ().print (rs, m_globals, display, display.getPrintWriter (), m_limit);
 			}
 			else
 			{
-				return m_printer.print (rs, m_globals, display, display.getPrintWriter ());
+				return m_printer.print (rs, m_globals, display, display.getPrintWriter (), m_limit);
 			}
 		}
 		catch (Exception ex)
@@ -900,13 +902,28 @@ public class JaqyInterpreter
 		return m_prevSQL;
 	}
 
-	public void setRepeatCount (int repeatCount)
+	public long getRepeatCount ()
+	{
+		return m_repeatCount;
+	}
+
+	public void setRepeatCount (long repeatCount)
 	{
 		if (repeatCount < 1)
 		{
 			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
 		}
 		m_repeatCount = repeatCount;
+	}
+
+	public long getLimit ()
+	{
+		return m_limit;
+	}
+
+	public void setLimit (long limit)
+	{
+		m_limit = limit;
 	}
 
 	public int getFailureCount ()

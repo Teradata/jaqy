@@ -113,7 +113,7 @@ class TeradataHelper extends DefaultHelper
 				// So we do generic handling here.
 				//
 				@SuppressWarnings ("resource")
-				InMemoryResultSet newRS = new InMemoryResultSet (rs);
+				InMemoryResultSet newRS = new InMemoryResultSet (rs, 0);
 				rs.close ();
 				for (Object[] row : newRS.getRows ())
 				{

@@ -39,10 +39,12 @@ public class QuietPrinter implements JaqyPrinter
 	{
 	}
 
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws SQLException
+	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws SQLException
 	{
-		int count = 0;
-		while (rs.next ())
+		long count = 0;
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		while (rs.next () && count < limit)
 		{
 			++count;
 		}

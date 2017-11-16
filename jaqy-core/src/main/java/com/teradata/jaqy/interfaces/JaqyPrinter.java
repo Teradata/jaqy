@@ -26,5 +26,5 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 public interface JaqyPrinter
 {
 	public String getName ();
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws Exception;
+	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception;
 }

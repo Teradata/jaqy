@@ -31,6 +31,7 @@ script.sql
 session.sql
 sort_1.sql
 sort_2.sql
+sort_3.sql
 #.sql
 transaction.sql
 unalias.sql

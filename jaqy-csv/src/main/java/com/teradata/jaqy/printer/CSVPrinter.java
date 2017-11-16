@@ -46,7 +46,7 @@ class CSVPrinter implements JaqyPrinter
 	}
 
 	@Override
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws Exception
+	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception
 	{
 		JaqyHelper helper = rs.getHelper ();
 		JaqyResultSetMetaData metaData = rs.getMetaData ();
@@ -66,7 +66,9 @@ class CSVPrinter implements JaqyPrinter
 		printer.println ();
 
 		long count = 0;
-		while (rs.next ())
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		while (rs.next () && count < limit)
 		{
 			++count;
 			for (int i = 0; i < columns; ++i)

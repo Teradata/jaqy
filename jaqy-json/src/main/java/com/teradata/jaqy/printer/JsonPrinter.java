@@ -52,7 +52,7 @@ class JsonPrinter implements JaqyPrinter
 	}
 
 	@Override
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws Exception
+	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception
 	{
 		JsonProvider provider = new CookJsonProvider ();
 
@@ -72,7 +72,7 @@ class JsonPrinter implements JaqyPrinter
 
 		CookJsonGenerator g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (pw);
 
-		long count = JsonUtils.print (globals, g, rs);
+		long count = JsonUtils.print (globals, g, rs, limit);
 		pw.println ();
 		return count;
 	}

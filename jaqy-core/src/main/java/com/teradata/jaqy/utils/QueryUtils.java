@@ -85,7 +85,7 @@ public class QueryUtils
 			if (rs == null)
 				return null;
 
-			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet ());
+			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet (), 0);
 			rs.close ();
 			return DummyHelper.getInstance ().getResultSet (columnRS);
 		}

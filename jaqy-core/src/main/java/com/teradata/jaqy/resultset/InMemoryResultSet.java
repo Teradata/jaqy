@@ -65,12 +65,14 @@ public class InMemoryResultSet implements ResultSet
 	private boolean m_wasNull;
 	private Statement m_statement;
 
-	public InMemoryResultSet (ResultSet rs) throws SQLException
+	public InMemoryResultSet (ResultSet rs, long limit) throws SQLException
 	{
 		m_meta = new InMemoryResultSetMetaData (rs.getMetaData ());
 		m_statement = rs.getStatement ();
 		m_columnCount = m_meta.getColumnCount ();
-		while (rs.next ())
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		while (rs.next () && limit > 0)
 		{
 			Object[] row = new Object[m_columnCount];
 			for (int i = 0; i < m_columnCount; ++i)
@@ -98,6 +100,7 @@ public class InMemoryResultSet implements ResultSet
 				}
 			}
 			m_rows.add (row);
+			--limit;
 		}
 	}
 

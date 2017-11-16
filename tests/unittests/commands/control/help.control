@@ -30,6 +30,7 @@ Currently available commands are the following.
 	.importschema - displays the schema of the current import.
 	.importtable - creates a staging table and imports data into it.
 	.info - provides information for the database
+	.limit - limit the output to a number of rows.
 	.list - lists tables in the current catalog / schema.
 	.load - loads a Jaqy plugin
 	.open - opens a new JDBC session.

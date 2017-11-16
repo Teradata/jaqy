@@ -76,14 +76,14 @@ class TablePrinter implements JaqyPrinter
 		pw.println ();
 	}
 
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw) throws SQLException
+	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws SQLException
 	{
 		JaqyHelper helper = rs.getHelper ();
 		// If the ResultSet is forward only, make an in-memory which allows
 		// rewind operation.
 		if (m_autoShrink && rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
 		{
-			ResultSet newRS = new InMemoryResultSet (rs.getResultSet ());
+			ResultSet newRS = new InMemoryResultSet (rs.getResultSet (), limit);
 			rs.close ();
 			rs = new JaqyResultSet (newRS, helper);
 		}
@@ -118,7 +118,7 @@ class TablePrinter implements JaqyPrinter
 				if (dispSize <= m_columnThreshold)
 					widths[i] = dispSize;
 			}
-			shrink (columns, widths, rs, handlers);
+			shrink (columns, widths, rs, handlers, limit);
 		}
 		else
 		{
@@ -172,7 +172,9 @@ class TablePrinter implements JaqyPrinter
 			printDash (pw, widths);
 
 		long count = 0;
-		while (rs.next ())
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		while (rs.next () && count < limit)
 		{
 			++count;
 			if (m_border)
@@ -217,7 +219,7 @@ class TablePrinter implements JaqyPrinter
 		}
 	}
 
-	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers)
+	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers, long limit)
 	{
 		boolean[] skipShrink = new boolean[columns];
 		boolean doScan = false;
@@ -229,11 +231,14 @@ class TablePrinter implements JaqyPrinter
 		}
 		if (!doScan)
 			return;
+		long threshold = m_scanThreshold;
+		if (limit != 0 && threshold > limit)
+			threshold = limit;
 
 		try
 		{
 			int lineCount = 0;
-			while (rs.next () && lineCount < m_scanThreshold)
+			while (rs.next () && lineCount < threshold)
 			{
 				for (int i = 0; i < columns; ++i)
 				{

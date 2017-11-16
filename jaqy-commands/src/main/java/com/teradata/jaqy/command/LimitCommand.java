@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.command;
 
-import java.sql.SQLException;
-
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -25,12 +23,12 @@ import com.teradata.jaqy.utils.SessionUtils;
 /**
  * @author	Heng Yuan
  */
-public class RepeatCommand extends JaqyCommandAdapter
+public class LimitCommand extends JaqyCommandAdapter
 {
 	@Override
 	public String getDescription ()
 	{
-		return "repeats a following SQL a number of times.";
+		return "limit the output to a number of rows.";
 	}
 
 	@Override
@@ -46,16 +44,23 @@ public class RepeatCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
 		SessionUtils.checkOpen (interpreter);
-
 		if (args.length == 0)
 		{
-			interpreter.error ("Missing repeat count.");
+			interpreter.println (getCommand () + " " + interpreter.getLimit ());
 			return;
 		}
 
-		interpreter.setRepeatCount (Long.parseLong (args[0]));
+		try
+		{
+			int limit = Integer.parseInt (args[0]);
+			interpreter.setLimit (limit);
+		}
+		catch (Exception ex)
+		{
+			interpreter.error ("invalid limit number.");
+		}
 	}
 }
