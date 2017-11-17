@@ -28,7 +28,7 @@ public class LimitCommand extends JaqyCommandAdapter
 	@Override
 	public String getDescription ()
 	{
-		return "limit the output to a number of rows.";
+		return "limits the output to a number of rows.";
 	}
 
 	@Override
