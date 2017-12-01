@@ -13,11 +13,13 @@
 	:hidden:
 
 	command
+	format
 	exitcode
 	json
 	plugin
 
 .. toctree::
 	:caption: Miscellaneous
+	:hidden:
 
 	jdbclimitations
