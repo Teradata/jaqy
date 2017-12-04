@@ -121,18 +121,22 @@ public class CSVUtils
 						try
 						{
 							BigDecimal dec = new BigDecimal (s);
+							int precision = dec.precision ();
+							int scale = dec.scale ();
+							// if precision is smaller than or equal to scale, then we have leading "0."
+							if (precision <= scale)
+								precision = scale + 1;
 							if (columns[i].type == Types.NULL)
 							{
-								columns[i].precision = dec.precision ();
-								columns[i].scale = dec.scale ();
+								columns[i].precision = precision;
+								columns[i].scale = scale;
 							}
 							else
 							{
-								if (columns[i].scale != dec.scale ())
+								if (columns[i].scale != scale)
 								{
-									columns[i].scale = Integer.MIN_VALUE;
+									columns[i].scale = Integer.MAX_VALUE;
 								}
-								int precision = dec.precision ();
 								if (columns[i].precision < precision)
 								{
 									columns[i].precision = precision;
@@ -159,7 +163,8 @@ public class CSVUtils
 			{
 				columnInfos[i].name = headers[i];
 			}
-			else
+			if (columnInfos[i].name == null ||
+				columnInfos[i].name.trim ().length () == 0)
 			{
 				columnInfos[i].name = "col" + (i + 1);
 			}
@@ -181,15 +186,15 @@ public class CSVUtils
 			else
 			{
 				columnInfos[i].precision = columns[i].precision;
-				if (columns[i].scale == Integer.MIN_VALUE)
-				{
-					columnInfos[i].type = Types.DOUBLE;
-					columnInfos[i].scale = 0;
-				}
-				else if (columns[i].scale == 0 &&
-						 columns[i].precision < 11)
+				if (columns[i].scale <= 0 &&
+				    columns[i].precision < 11)
 				{
 					columnInfos[i].type = Types.INTEGER;
+					columnInfos[i].scale = 0;
+				}
+				else if (columns[i].scale == Integer.MAX_VALUE)
+				{
+					columnInfos[i].type = Types.DOUBLE;
 					columnInfos[i].scale = 0;
 				}
 				else
