@@ -15,10 +15,7 @@
  */
 package com.teradata.jaqy.schema;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.HashMap;
 
 import com.teradata.jaqy.PropertyTable;
@@ -33,6 +30,35 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
  */
 public class SchemaUtils
 {
+	public static String getQuotedIdentifier (String name, String quote)
+	{
+		// check if quoting is supported
+		if (quote == null || quote.length () == 0 || " ".equals (quote))
+			return name;
+		// simple case of simply quoting the name.
+		if (name.indexOf (quote) < 0 ||
+			quote.length () != 1)			// well, no idea how to deal with it if the length is not 1
+			return quote + name + quote;
+		char ch = quote.charAt (0);
+		StringBuilder builder = new StringBuilder ();
+		builder.append (ch);
+		int start = 0;
+		int len = name.length ();
+		int index;
+		while (start < len && (index = name.indexOf (ch, start)) >= 0)
+		{
+			builder.append (name.substring (start, index));
+			builder.append (ch).append (ch);
+			start = index + 1;
+		}
+		if (start < len)
+		{
+			builder.append (name.substring (start));
+		}
+		builder.append (ch);
+		return builder.toString ();
+	}
+
 	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName, boolean exact) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
@@ -62,7 +88,7 @@ public class SchemaUtils
 			else
 				buffer.append (",\n");
 			buffer.append ('\t');
-			buffer.append (columnName).append (" ").append (columnType);
+			buffer.append (helper.getQuotedIdentifier (columnName)).append (" ").append (columnType);
 			if (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNoNulls)
 				buffer.append (" NOT NULL");
 		}

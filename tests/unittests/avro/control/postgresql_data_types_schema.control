@@ -55,24 +55,24 @@ c5     float8 Yes
 .importschema -s
 CREATE TABLE TABLENAME
 (
-	a int4,
-	c1 int4,
-	c2 int4,
-	c3 int8,
-	c4 float8,
-	c5 float8
+	"a" int4,
+	"c1" int4,
+	"c2" int4,
+	"c3" int8,
+	"c4" float8,
+	"c5" float8
 )
 -- 6/6 - 0 ----------------------------------------------------------------
 .importtable NumTable2
 -- Table Schema --
 CREATE TABLE NumTable2
 (
-	a int4,
-	c1 int4,
-	c2 int4,
-	c3 int8,
-	c4 float8,
-	c5 float8
+	"a" int4,
+	"c1" int4,
+	"c2" int4,
+	"c3" int8,
+	"c4" float8,
+	"c5" float8
 )
 -- success. update count = 0
 -- INSERTION --
@@ -130,11 +130,11 @@ DELETE FROM DecTable;
 -- Table Schema --
 CREATE TABLE DecTable2
 (
-	a int4,
-	c1 varchar(5),
-	c2 varchar(11),
-	c3 varchar(24),
-	c4 varchar(33)
+	"a" int4,
+	"c1" varchar(5),
+	"c2" varchar(11),
+	"c3" varchar(24),
+	"c4" varchar(33)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -189,10 +189,10 @@ DELETE FROM SerialTable;
 -- Table Schema --
 CREATE TABLE SerialTable2
 (
-	a int4,
-	c1 int4 NOT NULL,
-	c2 int4 NOT NULL,
-	c3 int8 NOT NULL
+	"a" int4,
+	"c1" int4 NOT NULL,
+	"c2" int4 NOT NULL,
+	"c3" int8 NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -250,11 +250,11 @@ DELETE FROM StrTable;
 -- Table Schema --
 CREATE TABLE StrTable2
 (
-	a int4,
-	c1 varchar(3),
-	c2 varchar(1),
-	c3 varchar(5),
-	c4 varchar(5)
+	"a" int4,
+	"c1" varchar(3),
+	"c2" varchar(1),
+	"c3" varchar(5),
+	"c4" varchar(5)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -310,8 +310,8 @@ DELETE FROM BinTable;
 -- Table Schema --
 CREATE TABLE BinTable2
 (
-	a int4,
-	c1 bytea
+	"a" int4,
+	"c1" bytea
 )
 -- success. update count = 0
 -- INSERTION --
@@ -371,12 +371,12 @@ DELETE FROM TimeTable;
 -- Table Schema --
 CREATE TABLE TimeTable2
 (
-	a int4,
-	c1 varchar(10),
-	c2 varchar(8),
-	c3 varchar(8),
-	c4 varchar(21),
-	c5 varchar(21)
+	"a" int4,
+	"c1" varchar(10),
+	"c2" varchar(8),
+	"c3" varchar(8),
+	"c4" varchar(21),
+	"c5" varchar(21)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -432,8 +432,8 @@ DELETE FROM XmlTable;
 -- Table Schema --
 CREATE TABLE XmlTable2
 (
-	a int4,
-	c1 varchar(15)
+	"a" int4,
+	"c1" varchar(15)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -486,8 +486,8 @@ DELETE FROM JsonTable;
 -- Table Schema --
 CREATE TABLE JsonTable2
 (
-	a int4,
-	c1 varchar(31)
+	"a" int4,
+	"c1" varchar(31)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -547,13 +547,13 @@ DELETE FROM GeoTable;
 -- Table Schema --
 CREATE TABLE GeoTable2
 (
-	a int4,
-	c1 varchar(9),
-	c2 varchar(21),
-	c3 varchar(19),
-	c4 varchar(51),
-	c5 varchar(51),
-	c6 varchar(15)
+	"a" int4,
+	"c1" varchar(9),
+	"c2" varchar(21),
+	"c3" varchar(19),
+	"c4" varchar(51),
+	"c5" varchar(51),
+	"c6" varchar(15)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -611,10 +611,10 @@ DELETE FROM NetTable;
 -- Table Schema --
 CREATE TABLE NetTable2
 (
-	a int4,
-	c1 varchar(18),
-	c2 varchar(11),
-	c3 varchar(17)
+	"a" int4,
+	"c1" varchar(18),
+	"c2" varchar(11),
+	"c3" varchar(17)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -675,13 +675,13 @@ DELETE FROM RangeTable;
 -- Table Schema --
 CREATE TABLE RangeTable2
 (
-	a int4,
-	c1 varchar(5),
-	c2 varchar(13),
-	c3 varchar(15),
-	c4 varchar(45),
-	c5 varchar(51),
-	c6 varchar(23)
+	"a" int4,
+	"c1" varchar(5),
+	"c2" varchar(13),
+	"c3" varchar(15),
+	"c4" varchar(45),
+	"c5" varchar(51),
+	"c6" varchar(23)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -742,11 +742,11 @@ DELETE FROM MiscTable1;
 -- Table Schema --
 CREATE TABLE MiscTable12
 (
-	a int4,
-	c1 int2,
-	c2 varchar(4),
-	c3 varchar(36),
-	c4 varchar(5)
+	"a" int4,
+	"c1" int2,
+	"c2" varchar(4),
+	"c3" varchar(36),
+	"c4" varchar(5)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -803,9 +803,9 @@ DELETE FROM MiscTable2;
 -- Table Schema --
 CREATE TABLE MiscTable22
 (
-	a int4,
-	c1 varchar(50),
-	c2 varchar(13)
+	"a" int4,
+	"c1" varchar(50),
+	"c2" varchar(13)
 )
 -- success. update count = 0
 -- INSERTION --

@@ -153,6 +153,15 @@ public interface JaqyHelper
 	 */
 	public String getTypeName (BasicColumnInfo typeInfo) throws SQLException;
 	/**
+	 * Gets the quoted identifier
+	 * @param	name
+	 * 			table / column identifier name.
+	 * @return	quoted table / column name.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public String getQuotedIdentifier (String name) throws SQLException;
+	/**
 	 * Get the SQL schema for the given table.
 	 * @param	tableName
 	 * 			the table to retrieve the SQL schema.

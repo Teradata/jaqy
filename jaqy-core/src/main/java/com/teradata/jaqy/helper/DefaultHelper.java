@@ -566,4 +566,12 @@ public class DefaultHelper implements JaqyHelper
 	{
 		m_customTypeMap = map;
 	}
+
+	@Override
+	public String getQuotedIdentifier (String name) throws SQLException
+	{
+		DatabaseMetaData meta = m_conn.getMetaData ();
+		String quote = meta.getIdentifierQuoteString ();
+		return SchemaUtils.getQuotedIdentifier (name, quote);
+	}
 }

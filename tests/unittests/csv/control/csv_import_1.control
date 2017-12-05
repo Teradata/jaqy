@@ -76,8 +76,8 @@ b      INTEGER No
 .importschema -s
 CREATE TABLE TABLENAME
 (
-	a INTEGER NOT NULL,
-	b INTEGER NOT NULL
+	"a" INTEGER NOT NULL,
+	"b" INTEGER NOT NULL
 )
 -- 1/10 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);

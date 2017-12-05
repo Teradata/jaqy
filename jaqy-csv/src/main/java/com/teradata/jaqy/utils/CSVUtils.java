@@ -128,6 +128,7 @@ public class CSVUtils
 								precision = scale + 1;
 							if (columns[i].type == Types.NULL)
 							{
+								columns[i].type = Types.NUMERIC;
 								columns[i].precision = precision;
 								columns[i].scale = scale;
 							}
@@ -186,15 +187,15 @@ public class CSVUtils
 			else
 			{
 				columnInfos[i].precision = columns[i].precision;
-				if (columns[i].scale <= 0 &&
-				    columns[i].precision < 11)
-				{
-					columnInfos[i].type = Types.INTEGER;
-					columnInfos[i].scale = 0;
-				}
-				else if (columns[i].scale == Integer.MAX_VALUE)
+				if (columns[i].scale == Integer.MAX_VALUE)
 				{
 					columnInfos[i].type = Types.DOUBLE;
+					columnInfos[i].scale = 0;
+				}
+				else if (columns[i].scale <= 0 &&
+				         columns[i].precision < 11)
+				{
+					columnInfos[i].type = Types.INTEGER;
 					columnInfos[i].scale = 0;
 				}
 				else

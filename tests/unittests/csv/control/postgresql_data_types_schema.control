@@ -55,24 +55,24 @@ c5     numeric(16,0) Yes
 .importschema -s
 CREATE TABLE TABLENAME
 (
-	a int4 NOT NULL,
-	c1 int4,
-	c2 int4,
-	c3 int4,
-	c4 numeric(5,1),
-	c5 numeric(16,0)
+	"a" int4 NOT NULL,
+	"c1" int4,
+	"c2" int4,
+	"c3" int4,
+	"c4" numeric(5,1),
+	"c5" numeric(16,0)
 )
 -- 6/6 - 0 ----------------------------------------------------------------
 .importtable NumTable2
 -- Table Schema --
 CREATE TABLE NumTable2
 (
-	a int4 NOT NULL,
-	c1 int4,
-	c2 int4,
-	c3 int4,
-	c4 numeric(5,1),
-	c5 numeric(16,0)
+	"a" int4 NOT NULL,
+	"c1" int4,
+	"c2" int4,
+	"c3" int4,
+	"c4" numeric(5,1),
+	"c5" numeric(16,0)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -130,11 +130,11 @@ DELETE FROM DecTable;
 -- Table Schema --
 CREATE TABLE DecTable2
 (
-	a int4 NOT NULL,
-	c1 numeric(3,2),
-	c2 numeric(9,2),
-	c3 numeric(22,2),
-	c4 numeric(31,2)
+	"a" int4 NOT NULL,
+	"c1" numeric(3,2),
+	"c2" numeric(9,2),
+	"c3" numeric(22,2),
+	"c4" numeric(31,2)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -189,10 +189,10 @@ DELETE FROM SerialTable;
 -- Table Schema --
 CREATE TABLE SerialTable2
 (
-	a int4 NOT NULL,
-	c1 int4 NOT NULL,
-	c2 int4 NOT NULL,
-	c3 int4 NOT NULL
+	"a" int4 NOT NULL,
+	"c1" int4 NOT NULL,
+	"c2" int4 NOT NULL,
+	"c3" int4 NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -250,11 +250,11 @@ DELETE FROM StrTable;
 -- Table Schema --
 CREATE TABLE StrTable2
 (
-	a int4 NOT NULL,
-	c1 varchar(3),
-	c2 bpchar(1),
-	c3 bpchar(5),
-	c4 bpchar(5)
+	"a" int4 NOT NULL,
+	"c1" varchar(3),
+	"c2" bpchar(1),
+	"c3" bpchar(5),
+	"c4" bpchar(5)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -310,8 +310,8 @@ DELETE FROM BinTable;
 -- Table Schema --
 CREATE TABLE BinTable2
 (
-	a int4 NOT NULL,
-	c1 bpchar(8)
+	"a" int4 NOT NULL,
+	"c1" bpchar(8)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -371,12 +371,12 @@ DELETE FROM TimeTable;
 -- Table Schema --
 CREATE TABLE TimeTable2
 (
-	a int4 NOT NULL,
-	c1 bpchar(10),
-	c2 bpchar(8),
-	c3 bpchar(11),
-	c4 bpchar(19),
-	c5 bpchar(22)
+	"a" int4 NOT NULL,
+	"c1" bpchar(10),
+	"c2" bpchar(8),
+	"c3" bpchar(11),
+	"c4" bpchar(19),
+	"c5" bpchar(22)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -432,8 +432,8 @@ DELETE FROM XmlTable;
 -- Table Schema --
 CREATE TABLE XmlTable2
 (
-	a int4 NOT NULL,
-	c1 bpchar(15)
+	"a" int4 NOT NULL,
+	"c1" bpchar(15)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -486,8 +486,8 @@ DELETE FROM JsonTable;
 -- Table Schema --
 CREATE TABLE JsonTable2
 (
-	a int4 NOT NULL,
-	c1 varchar(31) NOT NULL
+	"a" int4 NOT NULL,
+	"c1" varchar(31) NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -547,13 +547,13 @@ DELETE FROM GeoTable;
 -- Table Schema --
 CREATE TABLE GeoTable2
 (
-	a int4 NOT NULL,
-	c1 bpchar(9),
-	c2 bpchar(21),
-	c3 bpchar(19),
-	c4 varchar(51),
-	c5 varchar(51),
-	c6 bpchar(15)
+	"a" int4 NOT NULL,
+	"c1" bpchar(9),
+	"c2" bpchar(21),
+	"c3" bpchar(19),
+	"c4" varchar(51),
+	"c5" varchar(51),
+	"c6" bpchar(15)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -611,10 +611,10 @@ DELETE FROM NetTable;
 -- Table Schema --
 CREATE TABLE NetTable2
 (
-	a int4 NOT NULL,
-	c1 varchar(18),
-	c2 varchar(11),
-	c3 bpchar(17)
+	"a" int4 NOT NULL,
+	"c1" varchar(18),
+	"c2" varchar(11),
+	"c3" bpchar(17)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -675,13 +675,13 @@ DELETE FROM RangeTable;
 -- Table Schema --
 CREATE TABLE RangeTable2
 (
-	a int4 NOT NULL,
-	c1 bpchar(5),
-	c2 bpchar(13),
-	c3 bpchar(15),
-	c4 bpchar(45),
-	c5 bpchar(51),
-	c6 bpchar(23)
+	"a" int4 NOT NULL,
+	"c1" bpchar(5),
+	"c2" bpchar(13),
+	"c3" bpchar(15),
+	"c4" bpchar(45),
+	"c5" bpchar(51),
+	"c6" bpchar(23)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -742,11 +742,11 @@ DELETE FROM MiscTable1;
 -- Table Schema --
 CREATE TABLE MiscTable12
 (
-	a int4 NOT NULL,
-	c1 bpchar(1),
-	c2 int4,
-	c3 bpchar(36),
-	c4 bpchar(6)
+	"a" int4 NOT NULL,
+	"c1" bpchar(1),
+	"c2" int4,
+	"c3" bpchar(36),
+	"c4" bpchar(6)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -803,9 +803,9 @@ DELETE FROM MiscTable2;
 -- Table Schema --
 CREATE TABLE MiscTable22
 (
-	a int4 NOT NULL,
-	c1 bpchar(50),
-	c2 bpchar(13)
+	"a" int4 NOT NULL,
+	"c1" bpchar(50),
+	"c2" bpchar(13)
 )
 -- success. update count = 0
 -- INSERTION --

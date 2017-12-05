@@ -33,10 +33,10 @@ T4     DOUBLE   Yes
 .desc -s NumTable
 CREATE TABLE NumTable
 (
-	T1 SMALLINT,
-	T2 INTEGER,
-	T3 BIGINT,
-	T4 DOUBLE
+	"T1" SMALLINT,
+	"T2" INTEGER,
+	"T3" BIGINT,
+	"T4" DOUBLE
 )
 -- 1/6 - 0 ----------------------------------------------------------------
 
@@ -284,10 +284,10 @@ D4     DECIMAL(31,2) Yes
 .desc -s DecTable
 CREATE TABLE DecTable
 (
-	D1 DECIMAL(3,2),
-	D2 DECIMAL(9,2),
-	D3 DECIMAL(22,2),
-	D4 DECIMAL(31,2)
+	"D1" DECIMAL(3,2),
+	"D2" DECIMAL(9,2),
+	"D3" DECIMAL(22,2),
+	"D4" DECIMAL(31,2)
 )
 -- 8/11 - 0 ---------------------------------------------------------------
 
@@ -536,11 +536,11 @@ C4     LONG VARCHAR              Yes
 .desc -s StrTable
 CREATE TABLE StrTable
 (
-	A INTEGER,
-	C1 VARCHAR(255),
-	C2 LONG VARCHAR FOR BIT DATA,
-	C3 LONG VARCHAR FOR BIT DATA,
-	C4 LONG VARCHAR
+	"A" INTEGER,
+	"C1" VARCHAR(255),
+	"C2" LONG VARCHAR FOR BIT DATA,
+	"C3" LONG VARCHAR FOR BIT DATA,
+	"C4" LONG VARCHAR
 )
 -- 15/16 - 0 --------------------------------------------------------------
 
@@ -832,10 +832,10 @@ C3     LONG VARCHAR FOR BIT DATA Yes
 .desc -s BinTable
 CREATE TABLE BinTable
 (
-	A INTEGER,
-	C1 CHAR (4) FOR BIT DATA,
-	C2 VARCHAR (8) FOR BIT DATA,
-	C3 LONG VARCHAR FOR BIT DATA
+	"A" INTEGER,
+	"C1" CHAR (4) FOR BIT DATA,
+	"C2" VARCHAR (8) FOR BIT DATA,
+	"C3" LONG VARCHAR FOR BIT DATA
 )
 -- 22/21 - 0 --------------------------------------------------------------
 
@@ -1080,9 +1080,9 @@ C3     BLOB(1024) Yes
 .desc -s LobTable
 CREATE TABLE LobTable
 (
-	C1 INTEGER,
-	C2 CLOB(1024),
-	C3 BLOB(1024)
+	"C1" INTEGER,
+	"C2" CLOB(1024),
+	"C3" BLOB(1024)
 )
 -- 29/26 - 0 --------------------------------------------------------------
 
@@ -1284,10 +1284,10 @@ C4     TIMESTAMP Yes
 .desc -s TimeTable
 CREATE TABLE TimeTable
 (
-	C1 INTEGER,
-	C2 DATE,
-	C3 TIME,
-	C4 TIMESTAMP
+	"C1" INTEGER,
+	"C2" DATE,
+	"C3" TIME,
+	"C4" TIMESTAMP
 )
 -- 36/31 - 0 --------------------------------------------------------------
 
