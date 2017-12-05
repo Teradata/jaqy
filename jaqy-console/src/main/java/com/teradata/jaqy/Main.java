@@ -18,6 +18,8 @@ package com.teradata.jaqy;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
@@ -114,6 +116,15 @@ public class Main
 
 	public static void main (String[] args) throws Exception
 	{
+		// disable jline trace messages on SLES systems
+		jline.internal.Log.setOutput (new PrintStream (new OutputStream ()
+		{
+			@Override
+			public void write (int b) throws IOException
+			{
+			}
+		}));
+
 		Globals globals = new Globals ();
 		// initiate the name and version
 		Package pkg = Main.class.getPackage ();
