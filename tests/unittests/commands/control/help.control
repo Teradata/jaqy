@@ -24,6 +24,7 @@ Currently available commands are the following.
 	.exit - exits the program
 	.export - exports a ResultSet.
 	.format - chooses the ResultSet output format.
+	.handler - displays / sets handlers.
 	.help - displays this help message
 	.if - conditional statement
 	.import - imports data into database.

@@ -67,6 +67,7 @@ class CommandSetup
 		manager.addCommand ("run", new RunCommand ());
 		manager.addCommand ("version", new VersionCommand ());
 		manager.addCommand ("config", new ConfigCommand ());
+		manager.addCommand ("handler", new HandlerCommand ());
 
 		// I/O
 		manager.addCommand ("format", new FormatCommand ());

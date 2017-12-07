@@ -23,7 +23,7 @@ import com.teradata.jaqy.interfaces.ErrorStateHandler;
 import com.teradata.jaqy.interfaces.StateHandler;
 import com.teradata.jaqy.utils.Escape;
 import com.teradata.jaqy.utils.FixedVariable;
-import com.teradata.jaqy.utils.SimpleStateHandlers;
+import com.teradata.jaqy.utils.DefaultStateHandlers;
 import com.teradata.jaqy.utils.TitleUtils;
 
 public class ConsoleDisplay implements Display
@@ -45,12 +45,12 @@ public class ConsoleDisplay implements Display
 	private JaqyInterpreter m_interpreter;
 	private final Object m_interpreterLock = new Object ();
 
-	private StateHandler m_promptHandler = SimpleStateHandlers.promptHandler;
-	private StateHandler m_titleHandler = SimpleStateHandlers.titleHandler;
-	private StateHandler m_successHandler = SimpleStateHandlers.successHandler;
-	private StateHandler m_successUpdateHandler = SimpleStateHandlers.successUpdateHandler;
-	private StateHandler m_activityCountHandler = SimpleStateHandlers.activityCountHandler;
-	private ErrorStateHandler m_errorHandler = SimpleStateHandlers.failureHandler;
+	private StateHandler m_promptHandler = DefaultStateHandlers.promptHandler;
+	private StateHandler m_titleHandler = DefaultStateHandlers.titleHandler;
+	private StateHandler m_successHandler = DefaultStateHandlers.successHandler;
+	private StateHandler m_successUpdateHandler = DefaultStateHandlers.successUpdateHandler;
+	private StateHandler m_activityCountHandler = DefaultStateHandlers.activityCountHandler;
+	private ErrorStateHandler m_errorHandler = DefaultStateHandlers.errorHandler;
 
 	public ConsoleDisplay (Globals globals)
 	{
@@ -280,6 +280,8 @@ public class ConsoleDisplay implements Display
 	 */
 	public void setPromptHandler (StateHandler promptHandler)
 	{
+		if (promptHandler == null)
+			promptHandler = DefaultStateHandlers.promptHandler;
 		m_promptHandler = promptHandler;
 	}
 
@@ -295,9 +297,12 @@ public class ConsoleDisplay implements Display
 	 * @param	titleHandler
 	 *			the titleHandler to set
 	 */
-	public void setTitleHandler (StateHandler titleHandler)
+	public void setTitleHandler (StateHandler titleHandler, JaqyInterpreter interpreter)
 	{
+		if (titleHandler == null)
+			titleHandler = DefaultStateHandlers.titleHandler;
 		m_titleHandler = titleHandler;
+		showTitle (interpreter);
 	}
 
 	/**
@@ -314,6 +319,8 @@ public class ConsoleDisplay implements Display
 	 */
 	public void setErrorHandler (ErrorStateHandler errorHandler)
 	{
+		if (errorHandler == null)
+			errorHandler = DefaultStateHandlers.errorHandler;
 		m_errorHandler = errorHandler;
 	}
 
@@ -339,5 +346,41 @@ public class ConsoleDisplay implements Display
 	public Globals getGlobals ()
 	{
 		return m_globals;
+	}
+
+	public StateHandler getSuccessHandler ()
+	{
+		return m_successHandler;
+	}
+
+	public void setSuccessHandler (StateHandler successHandler)
+	{
+		if (successHandler == null)
+			successHandler = DefaultStateHandlers.successHandler;
+		m_successHandler = successHandler;
+	}
+
+	public StateHandler getSuccessUpdateHandler ()
+	{
+		return m_successUpdateHandler;
+	}
+
+	public void setSuccessUpdateHandler (StateHandler successUpdateHandler)
+	{
+		if (successUpdateHandler == null)
+			successUpdateHandler = DefaultStateHandlers.successUpdateHandler;
+		m_successUpdateHandler = successUpdateHandler;
+	}
+
+	public StateHandler getActivityCountHandler ()
+	{
+		return m_activityCountHandler;
+	}
+
+	public void setActivityCountHandler (StateHandler activityCountHandler)
+	{
+		if (activityCountHandler == null)
+			activityCountHandler = DefaultStateHandlers.activityCountHandler;
+		m_activityCountHandler = activityCountHandler;
 	}
 }

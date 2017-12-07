@@ -1,6 +1,0 @@
-.title [string]
-
-When string is empty, the current prompt is displayed.
-
-When string is not empty, it is evaluated by a session javascript engine
-to produce the title to be displayed.

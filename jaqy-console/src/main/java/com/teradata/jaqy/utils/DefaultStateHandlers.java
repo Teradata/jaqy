@@ -26,7 +26,7 @@ import com.teradata.jaqy.interfaces.StateHandler;
 /**
  * @author	Heng Yuan
  */
-public class SimpleStateHandlers
+public class DefaultStateHandlers
 {
 	public final static StateHandler promptHandler = new StateHandler ()
 	{
@@ -118,7 +118,7 @@ public class SimpleStateHandlers
 			return buffer.toString ();
 		}
 	};
-	public final static ErrorStateHandler failureHandler = new ErrorStateHandler ()
+	public final static ErrorStateHandler errorHandler = new ErrorStateHandler ()
 	{
 		@Override
 		public String getString (Throwable t, String msg, JaqyInterpreter interpreter)

@@ -24,7 +24,7 @@ import com.teradata.jaqy.utils.TestUtils;
 /**
  * @author	Heng Yuan
  */
-public class PwdCommandTest
+public class HandlerCommandTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -32,6 +32,6 @@ public class PwdCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/handler.sql", "../tests/unittests/commands/control/handler.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/pwd.sql", "../tests/unittests/commands/control/pwd.control");
 	}
 }
