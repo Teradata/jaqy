@@ -88,7 +88,7 @@ public class DefaultStateHandlers
 			return buffer.toString ();
 		}
 	};
-	public final static StateHandler successUpdateHandler = new StateHandler ()
+	public final static StateHandler updateHandler = new StateHandler ()
 	{
 		@Override
 		public String getString (JaqyInterpreter interpreter)

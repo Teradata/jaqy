@@ -158,9 +158,9 @@ public class HandlerCommand extends JaqyCommandAdapter
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getSuccessUpdateHandler ();
+				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getUpdateHandler ();
 				String script = null;
-				if (handler == DefaultStateHandlers.successUpdateHandler)
+				if (handler == DefaultStateHandlers.updateHandler)
 					script = "default";
 				else if (handler instanceof ScriptStateHandler)
 					script = ((ScriptStateHandler)handler).getScript ();
@@ -180,7 +180,7 @@ public class HandlerCommand extends JaqyCommandAdapter
 					handler = new ScriptStateHandler ();
 					handler.setScript (argument);
 				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setSuccessUpdateHandler (handler);
+				((ConsoleDisplay)interpreter.getDisplay ()).setUpdateHandler (handler);
 				return;
 			}
 		}

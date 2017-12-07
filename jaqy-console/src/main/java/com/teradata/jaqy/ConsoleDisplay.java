@@ -48,7 +48,7 @@ public class ConsoleDisplay implements Display
 	private StateHandler m_promptHandler = DefaultStateHandlers.promptHandler;
 	private StateHandler m_titleHandler = DefaultStateHandlers.titleHandler;
 	private StateHandler m_successHandler = DefaultStateHandlers.successHandler;
-	private StateHandler m_successUpdateHandler = DefaultStateHandlers.successUpdateHandler;
+	private StateHandler m_updateHandler = DefaultStateHandlers.updateHandler;
 	private StateHandler m_activityCountHandler = DefaultStateHandlers.activityCountHandler;
 	private ErrorStateHandler m_errorHandler = DefaultStateHandlers.errorHandler;
 
@@ -71,6 +71,12 @@ public class ConsoleDisplay implements Display
 		VariableManager varManager = globals.getVarManager ();
 		varManager.setVariable (m_displayVar);
 		varManager.setVariable (m_escapeVar);
+	}
+
+	@Override
+	public Globals getGlobals ()
+	{
+		return m_globals;
 	}
 
 	@Override
@@ -134,7 +140,7 @@ public class ConsoleDisplay implements Display
 	{
 		if (!m_initiated)
 			return;
-		String prompt = getPromptHandler().getString (interpreter);
+		String prompt = m_promptHandler.getString (interpreter);
 		m_pw.print (prompt);
 		m_pw.flush ();
 	}
@@ -149,7 +155,7 @@ public class ConsoleDisplay implements Display
 		if (!m_initiated)
 			return;
 
-		String title = getTitleHandler().getString (interpreter);
+		String title = m_titleHandler.getString (interpreter);
 		TitleUtils.showTitle (title, this, m_globals.getOs ());
 	}
 
@@ -266,6 +272,24 @@ public class ConsoleDisplay implements Display
 		return m_escape;
 	}
 
+	@Override
+	public void showSuccess (JaqyInterpreter interpreter)
+	{
+		m_pw.println (m_successHandler.getString (interpreter));
+	}
+
+	@Override
+	public void showSuccessUpdate (JaqyInterpreter interpreter)
+	{
+		m_pw.println (m_updateHandler.getString (interpreter));
+	}
+
+	@Override
+	public void showActivityCount (JaqyInterpreter interpreter)
+	{
+		m_pw.println (m_activityCountHandler.getString (interpreter));
+	}
+
 	/**
 	 * @return	the promptHandler
 	 */
@@ -305,6 +329,30 @@ public class ConsoleDisplay implements Display
 		showTitle (interpreter);
 	}
 
+	public StateHandler getSuccessHandler ()
+	{
+		return m_successHandler;
+	}
+
+	public void setSuccessHandler (StateHandler successHandler)
+	{
+		if (successHandler == null)
+			successHandler = DefaultStateHandlers.successHandler;
+		m_successHandler = successHandler;
+	}
+
+	public StateHandler getUpdateHandler ()
+	{
+		return m_updateHandler;
+	}
+
+	public void setUpdateHandler (StateHandler updateHandler)
+	{
+		if (updateHandler == null)
+			updateHandler = DefaultStateHandlers.updateHandler;
+		m_updateHandler = updateHandler;
+	}
+
 	/**
 	 * @return	the errorHandler
 	 */
@@ -322,54 +370,6 @@ public class ConsoleDisplay implements Display
 		if (errorHandler == null)
 			errorHandler = DefaultStateHandlers.errorHandler;
 		m_errorHandler = errorHandler;
-	}
-
-	@Override
-	public void showSuccess (JaqyInterpreter interpreter)
-	{
-		m_pw.println (m_successHandler.getString (interpreter));
-	}
-
-	@Override
-	public void showSuccessUpdate (JaqyInterpreter interpreter)
-	{
-		m_pw.println (m_successUpdateHandler.getString (interpreter));
-	}
-
-	@Override
-	public void showActivityCount (JaqyInterpreter interpreter)
-	{
-		m_pw.println (m_activityCountHandler.getString (interpreter));
-	}
-
-	@Override
-	public Globals getGlobals ()
-	{
-		return m_globals;
-	}
-
-	public StateHandler getSuccessHandler ()
-	{
-		return m_successHandler;
-	}
-
-	public void setSuccessHandler (StateHandler successHandler)
-	{
-		if (successHandler == null)
-			successHandler = DefaultStateHandlers.successHandler;
-		m_successHandler = successHandler;
-	}
-
-	public StateHandler getSuccessUpdateHandler ()
-	{
-		return m_successUpdateHandler;
-	}
-
-	public void setSuccessUpdateHandler (StateHandler successUpdateHandler)
-	{
-		if (successUpdateHandler == null)
-			successUpdateHandler = DefaultStateHandlers.successUpdateHandler;
-		m_successUpdateHandler = successUpdateHandler;
 	}
 
 	public StateHandler getActivityCountHandler ()
