@@ -24,7 +24,6 @@ import org.apache.commons.csv.CSVFormat;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
-import com.teradata.jaqy.utils.StringUtils;
 
 /**
  * @author	Heng Yuan
@@ -80,7 +79,6 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 				}
 				case 'h':
 				{
-					String value = option.getValue ();
 					format = format.withHeader ();
 					break;
 				}
