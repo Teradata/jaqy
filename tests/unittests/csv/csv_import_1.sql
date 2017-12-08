@@ -16,7 +16,7 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 .import csv -d asdf
 
 -- test csv with header
-.import csv -h on lib/import1.csv
+.import csv -h lib/import1.csv
 .importschema
 .importschema -s
 INSERT INTO MyTable VALUES (?, ?);
@@ -25,7 +25,7 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 -- test csv with header
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 INSERT INTO MyTable VALUES (?, ?);
 
 SELECT * FROM MyTable ORDER BY a;
@@ -36,14 +36,14 @@ DROP TABLE MyTable;
 -- INTEGER type
 CREATE TABLE MyTable(a INTEGER, b INTEGER);
 -- test csv with header
-.import csv -h on lib/import1.csv
+.import csv -h lib/import1.csv
 INSERT INTO MyTable VALUES (?, ?);
 
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 -- test csv forgetting to skip header
-.import csv -h off lib/import1.csv
+.import csv lib/import1.csv
 INSERT INTO MyTable VALUES (?, ?);
 
 SELECT * FROM MyTable ORDER BY a;

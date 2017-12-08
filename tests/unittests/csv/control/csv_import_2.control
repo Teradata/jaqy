@@ -23,8 +23,17 @@ csv type options:
                                                         delimiter
   -f,--nafilter                                         enables N/A value
                                                         filtering
-  -h,--header <on | off>                                indicates the file has
-                                                        a header or not
+  -h,--header                                           indicates the file has
+                                                        a header
+  -p,--precise                                          Obtain precise decimal
+                                                        points if possible.
+                                                        This option is only
+                                                        meaningful in
+                                                        generating a table
+                                                        schema.  By default,
+                                                        floating values are
+                                                        treated as DOUBLE
+                                                        PRECISION.
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
   -v,--navalues <arg>                                   specifies a comma
                                                         delimited list of N/A
@@ -39,7 +48,6 @@ json type options:
   -b,--binary <base64 | hex>   sets the binary format.
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
-  -p,--pretty <on | off>       turns pretty print on / off.
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .import
@@ -58,7 +66,7 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 -- 1/5 - 0 ----------------------------------------------------------------
 
 -- test csv with header
-.import csv -h on lib/import1.csv
+.import csv -h lib/import1.csv
 -- 1/6 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 Parameter Count                              2
@@ -97,7 +105,7 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 4/6 - 0 ----------------------------------------------------------------
 
-.import csv -h on lib/import1.csv
+.import csv -h lib/import1.csv
 -- 4/7 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{c}});
 -- error: field not found: c
@@ -114,7 +122,7 @@ DELETE FROM MyTable;
 -- 6/7 - 0 ----------------------------------------------------------------
 
 -- test csv without header
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 -- 6/8 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
 Parameter Count                              2
@@ -153,7 +161,7 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 9/8 - 0 ----------------------------------------------------------------
 
-.import csv -h off -t default lib/import2.csv
+.import csv -t default lib/import2.csv
 -- 9/9 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
 Parameter Count                              2
@@ -192,26 +200,26 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 12/9 - 0 ---------------------------------------------------------------
 
-.import csv -h off -t dummy lib/import2.csv
+.import csv -t dummy lib/import2.csv
 -- error: unknown csv format: dummy
 -- 12/10 - 0 --------------------------------------------------------------
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 -- 12/11 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{cola}}, {{col2}});
 -- error: Invalid column name: cola
 -- 12/11 - 0 --------------------------------------------------------------
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 -- 12/12 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{col0}}, {{col2}});
 -- error: Invalid column name: col0
 -- 12/12 - 0 --------------------------------------------------------------
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 -- 12/13 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 -- error: Invalid column name: a
 -- 12/13 - 0 --------------------------------------------------------------
 
-.import csv -h off -d| -c utf8 lib/import3.csv
+.import csv -d| -c utf8 lib/import3.csv
 -- 12/14 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{col1}}, {{col2}});
 Parameter Count                              2
@@ -263,7 +271,7 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200), c INTEGER);
 -- success. update count = 0
 -- 18/14 - 0 --------------------------------------------------------------
 
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 -- 18/15 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{col1}}, {{col2}}, {{col3}});
 Parameter Count                              3

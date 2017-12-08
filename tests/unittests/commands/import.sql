@@ -26,11 +26,11 @@ INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 SELECT * FROM MyTable ORDER BY a;
 .importschema
 .importtable MyTable2
-.import csv -h on file1.csv
+.import csv -h file1.csv
 .importtable MyTable2
 SELECT * FROM MyTable2 ORDER BY a;
 
-.import csv -h on file1.csv
+.import csv -h file1.csv
 .importschema
 .importschema -s
 .importtable

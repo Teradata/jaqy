@@ -27,19 +27,19 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 .batchsize 1
-.import csv -h on batch.csv
+.import csv -h batch.csv
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 .batchsize 2
-.import csv -h on batch.csv
+.import csv -h batch.csv
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 .batchsize 10000
-.import csv -h on batch.csv
+.import csv -h batch.csv
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;

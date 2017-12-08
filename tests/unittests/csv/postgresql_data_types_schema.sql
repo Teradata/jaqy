@@ -20,7 +20,7 @@ INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 .export csv num.csv
 SELECT * FROM NumTable ORDER BY a;
 DELETE FROM NumTable;
-.import csv -h on -f num.csv
+.import csv -h -f num.csv
 .importschema
 .importschema -s
 .importtable NumTable2
@@ -44,10 +44,16 @@ INSERT INTO DecTable VALUES (3, NULL, NULL, NULL, NULL);
 .export csv dec.csv
 SELECT * FROM DecTable ORDER BY a;
 DELETE FROM DecTable;
-.import csv -h on -f dec.csv
+.import csv -h -f -p dec.csv
 .importtable DecTable2
 SELECT * FROM DecTable2 ORDER BY a;
 
+DROP TABLE DecTable;
+DROP TABLE DecTable2;
+
+.import csv -h -f dec.csv
+.importtable DecTable2
+SELECT * FROM DecTable2 ORDER BY a;
 DROP TABLE DecTable;
 DROP TABLE DecTable2;
 
@@ -65,7 +71,7 @@ INSERT INTO SerialTable (a) VALUES (2);
 .export csv serial.csv
 SELECT * FROM SerialTable ORDER BY a;
 DELETE FROM SerialTable;
-.import csv -h on -f serial.csv
+.import csv -h -f serial.csv
 .importtable SerialTable2
 SELECT * FROM SerialTable2 ORDER BY a;
 
@@ -88,7 +94,7 @@ INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
 .export csv src.csv
 SELECT * FROM StrTable ORDER BY a;
 DELETE FROM StrTable;
-.import csv -h on -f src.csv
+.import csv -h -f src.csv
 .importtable StrTable2
 SELECT * FROM StrTable2 ORDER BY a;
 
@@ -108,7 +114,7 @@ INSERT INTO BinTable VALUES (3, NULL);
 .export csv bin.csv
 SELECT * FROM BinTable ORDER BY a;
 DELETE FROM BinTable;
-.import csv -h on -f bin.csv
+.import csv -h -f bin.csv
 .importtable BinTable2
 SELECT * FROM BinTable2 ORDER BY a;
 
@@ -132,7 +138,7 @@ INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 .export csv time.csv
 SELECT * FROM TimeTable ORDER BY a;
 DELETE FROM TimeTable;
-.import csv -h on -f time.csv
+.import csv -h -f time.csv
 .importtable TimeTable2
 SELECT * FROM TimeTable2 ORDER BY a;
 
@@ -152,7 +158,7 @@ INSERT INTO XmlTable VALUES (3, NULL);
 .export csv xml.csv
 SELECT * FROM XmlTable ORDER BY a;
 DELETE FROM XmlTable;
-.import csv -h on -f xml.csv
+.import csv -h -f xml.csv
 .importtable XmlTable2
 SELECT * FROM XmlTable2 ORDER BY a;
 
@@ -171,7 +177,7 @@ INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
 .export csv j.csv
 SELECT * FROM JsonTable ORDER BY a;
 DELETE FROM JsonTable;
-.import csv -h on -f j.csv
+.import csv -h -f j.csv
 .importtable JsonTable2
 SELECT * FROM JsonTable2 ORDER BY a;
 
@@ -196,7 +202,7 @@ INSERT INTO GeoTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 .export csv geo.csv
 SELECT * FROM GeoTable ORDER BY a;
 DELETE FROM GeoTable;
-.import csv -h on -f geo.csv
+.import csv -h -f geo.csv
 .importtable GeoTable2
 SELECT * FROM GeoTable2 ORDER BY a;
 
@@ -218,7 +224,7 @@ INSERT INTO NetTable VALUES (3, NULL, NULL, NULL);
 .export csv net.csv
 SELECT * FROM NetTable ORDER BY a;
 DELETE FROM NetTable;
-.import csv -h on -f net.csv
+.import csv -h -f net.csv
 .importtable NetTable2
 SELECT * FROM NetTable2 ORDER BY a;
 
@@ -243,7 +249,7 @@ INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 .export csv range.csv
 SELECT * FROM RangeTable ORDER BY a;
 DELETE FROM RangeTable;
-.import csv -h on -f range.csv
+.import csv -h -f range.csv
 .importtable RangeTable2
 SELECT * FROM RangeTable2 ORDER BY a;
 
@@ -268,7 +274,7 @@ SELECT * FROM MiscTable1 ORDER BY a;
 DELETE FROM MiscTable1;
 -- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
 -- TEXT and then MONEY.
-.import csv -h on -f misc1.csv
+.import csv -h -f misc1.csv
 .importtable MiscTable12
 SELECT * FROM MiscTable12 ORDER BY a;
 
@@ -289,7 +295,7 @@ INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
 .export csv misc2.csv
 SELECT * FROM MiscTable2 ORDER BY a;
 DELETE FROM MiscTable2;
-.import csv -h on -f misc2.csv
+.import csv -h -f misc2.csv
 .importtable MiscTable22
 SELECT * FROM MiscTable22 ORDER BY a;
 

@@ -50,6 +50,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 	private final File m_file;
 	private final Charset m_charset;
 	private final CSVFormat m_format;
+	private final boolean m_precise;
 	private CSVParser m_parser;
 	private Map<String, Integer> m_headers;
 	private Iterator<CSVRecord> m_iterator;
@@ -58,11 +59,12 @@ public class CSVImporter implements JaqyImporter<Integer>
 	private String[] m_naValues;
 	private SchemaInfo m_schemaInfo;
 
-	public CSVImporter (File file, Charset charset, CSVFormat format) throws IOException
+	public CSVImporter (File file, Charset charset, CSVFormat format, boolean precise) throws IOException
 	{
 		m_file = file;
 		m_charset = charset;
 		m_format = format;
+		m_precise = precise;
 		openFile (file, charset, format);
 	}
 
@@ -101,7 +103,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 				headers[i] = map.get (i);
 			}
 		}
-		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues);
+		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues, m_precise);
 		m_parser.close ();
 		// reopen the file since we just did the scan
 		openFile (m_file, m_charset, m_format);

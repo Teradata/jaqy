@@ -20,8 +20,17 @@ csv type options:
                                                         delimiter
   -f,--nafilter                                         enables N/A value
                                                         filtering
-  -h,--header <on | off>                                indicates the file has
-                                                        a header or not
+  -h,--header                                           indicates the file has
+                                                        a header
+  -p,--precise                                          Obtain precise decimal
+                                                        points if possible.
+                                                        This option is only
+                                                        meaningful in
+                                                        generating a table
+                                                        schema.  By default,
+                                                        floating values are
+                                                        treated as DOUBLE
+                                                        PRECISION.
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
   -v,--navalues <arg>                                   specifies a comma
                                                         delimited list of N/A
@@ -36,7 +45,6 @@ json type options:
   -b,--binary <base64 | hex>   sets the binary format.
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
-  -p,--pretty <on | off>       turns pretty print on / off.
 
 -- 0/1 - 0 ----------------------------------------------------------------
 .help importschema
@@ -105,7 +113,7 @@ SELECT * FROM MyTable ORDER BY a;
 .importtable MyTable2
 -- error: There is no current import.
 -- 9/12 - 0 ---------------------------------------------------------------
-.import csv -h on file1.csv
+.import csv -h file1.csv
 -- 9/13 - 0 ---------------------------------------------------------------
 .importtable MyTable2
 -- Table Schema --
@@ -135,7 +143,7 @@ a b     c     d
 -- activity count = 7
 -- 12/14 - 0 --------------------------------------------------------------
 
-.import csv -h on file1.csv
+.import csv -h file1.csv
 -- 12/15 - 0 --------------------------------------------------------------
 .importschema
 Column Type    Nullable

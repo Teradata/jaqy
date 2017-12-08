@@ -9,7 +9,7 @@ Jaqy Console 1.0
 .open -u postgres postgresql://localhost/?stringtype=unspecified
 -- 0/2 - 0 ----------------------------------------------------------------
 
-.import csv -h on lib/import5.csv
+.import csv -h -p lib/import5.csv
 -- 0/3 - 0 ----------------------------------------------------------------
 .importschema
 Column Type         Nullable
@@ -32,7 +32,6 @@ CREATE TABLE MyTable
 -- INSERTION --
 INSERT INTO MyTable VALUES (?,?,?,?)
 -- 2/5 - 0 ----------------------------------------------------------------
-
 SELECT * FROM MyTable ORDER BY a;
 -- success --
 a      b"b                       c                   d
@@ -46,5 +45,43 @@ a      b"b                       c                   d
 DROP TABLE MyTable;
 -- success. update count = 0
 -- 4/5 - 0 ----------------------------------------------------------------
-.close
+
+.import csv -h lib/import5.csv
 -- 4/6 - 0 ----------------------------------------------------------------
+.importschema
+Column Type   Nullable
+------ ------ --------
+a      int4   No
+b"b    float8 No
+c      float8 No
+d      float8 No
+-- 4/7 - 0 ----------------------------------------------------------------
+.importtable MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"a" int4 NOT NULL,
+	"b""b" float8 NOT NULL,
+	"c" float8 NOT NULL,
+	"d" float8 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?)
+-- 6/8 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a                     b"b                       c                   d
+- ----------------------- ----------------------- -------------------
+1                 0.11111                  111100 1.12339999999999995
+2  -0.0111100000000000001     122.200000000000003                   2
+3 -0.00111000000000000009 1.33299999999999994e-05                   3
+4 0.000110000000000000004                  144400                   4
+-- activity count = 4
+-- 7/8 - 0 ----------------------------------------------------------------
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 8/8 - 0 ----------------------------------------------------------------
+
+.close
+-- 8/9 - 0 ----------------------------------------------------------------

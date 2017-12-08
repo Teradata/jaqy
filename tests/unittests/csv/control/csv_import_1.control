@@ -23,8 +23,17 @@ csv type options:
                                                         delimiter
   -f,--nafilter                                         enables N/A value
                                                         filtering
-  -h,--header <on | off>                                indicates the file has
-                                                        a header or not
+  -h,--header                                           indicates the file has
+                                                        a header
+  -p,--precise                                          Obtain precise decimal
+                                                        points if possible.
+                                                        This option is only
+                                                        meaningful in
+                                                        generating a table
+                                                        schema.  By default,
+                                                        floating values are
+                                                        treated as DOUBLE
+                                                        PRECISION.
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
   -v,--navalues <arg>                                   specifies a comma
                                                         delimited list of N/A
@@ -39,7 +48,6 @@ json type options:
   -b,--binary <base64 | hex>   sets the binary format.
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
-  -p,--pretty <on | off>       turns pretty print on / off.
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .import
@@ -65,7 +73,7 @@ CREATE TABLE MyTable(a VARCHAR(200) PRIMARY KEY, b VARCHAR(200));
 -- 1/7 - 0 ----------------------------------------------------------------
 
 -- test csv with header
-.import csv -h on lib/import1.csv
+.import csv -h lib/import1.csv
 -- 1/8 - 0 ----------------------------------------------------------------
 .importschema
 Column Type    Nullable
@@ -118,7 +126,7 @@ DELETE FROM MyTable;
 -- 4/10 - 0 ---------------------------------------------------------------
 
 -- test csv with header
-.import csv -h off lib/import2.csv
+.import csv lib/import2.csv
 -- 4/11 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
 Parameter Count                              2
@@ -166,7 +174,7 @@ CREATE TABLE MyTable(a INTEGER, b INTEGER);
 -- success. update count = 0
 -- 9/11 - 0 ---------------------------------------------------------------
 -- test csv with header
-.import csv -h on lib/import1.csv
+.import csv -h lib/import1.csv
 -- 9/12 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
 Parameter Count                              2
@@ -206,7 +214,7 @@ DELETE FROM MyTable;
 -- 12/12 - 0 --------------------------------------------------------------
 
 -- test csv forgetting to skip header
-.import csv -h off lib/import1.csv
+.import csv lib/import1.csv
 -- 12/13 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
 Parameter Count                              2

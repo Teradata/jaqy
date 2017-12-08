@@ -25,7 +25,6 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonFormat;
-import com.teradata.jaqy.utils.OptionsUtils;
 
 /**
  * @author	Heng Yuan
@@ -39,7 +38,6 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 	public JsonImporterFactory ()
 	{
 		addOption ("c", "charset", true, "sets the file character set");
-		addOption (OptionsUtils.getOnOffOption ("p", "pretty", "turns pretty print on / off."));
 		addOption ("a", "array", false, "treats BSON root document as array.");
 
 		Option option;

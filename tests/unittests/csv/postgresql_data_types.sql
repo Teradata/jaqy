@@ -23,7 +23,7 @@ INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 .export csv num.csv
 SELECT * FROM NumTable ORDER BY a;
 DELETE FROM NumTable;
-.import csv -h on -f num.csv
+.import csv -h -f num.csv
 INSERT INTO NumTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
 SELECT * FROM NumTable ORDER BY a;
 
@@ -44,7 +44,7 @@ INSERT INTO DecTable VALUES (3, NULL, NULL, NULL, NULL);
 .export csv dec.csv
 SELECT * FROM DecTable ORDER BY a;
 DELETE FROM DecTable;
-.import csv -h on -f dec.csv
+.import csv -h -f dec.csv
 INSERT INTO DecTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
 SELECT * FROM DecTable ORDER BY a;
 
@@ -64,7 +64,7 @@ INSERT INTO SerialTable (a) VALUES (2);
 .export csv serial.csv
 SELECT * FROM SerialTable ORDER BY a;
 DELETE FROM SerialTable;
-.import csv -h on -f serial.csv
+.import csv -h -f serial.csv
 INSERT INTO SerialTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
 SELECT * FROM SerialTable ORDER BY a;
 
@@ -86,7 +86,7 @@ INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
 .export csv src.csv
 SELECT * FROM StrTable ORDER BY a;
 DELETE FROM StrTable;
-.import csv -h on -f src.csv
+.import csv -h -f src.csv
 INSERT INTO StrTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
 SELECT * FROM StrTable ORDER BY a;
 
@@ -105,7 +105,7 @@ INSERT INTO BinTable VALUES (3, NULL);
 .export csv bin.csv
 SELECT * FROM BinTable ORDER BY a;
 DELETE FROM BinTable;
-.import csv -h on -f bin.csv
+.import csv -h -f bin.csv
 INSERT INTO BinTable VALUES ({{a}}, {{c1}});
 SELECT * FROM BinTable ORDER BY a;
 
@@ -128,7 +128,7 @@ INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 .export csv time.csv
 SELECT * FROM TimeTable ORDER BY a;
 DELETE FROM TimeTable;
-.import csv -h on -f time.csv
+.import csv -h -f time.csv
 INSERT INTO TimeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
 SELECT * FROM TimeTable ORDER BY a;
 
@@ -147,7 +147,7 @@ INSERT INTO XmlTable VALUES (3, NULL);
 .export csv xml.csv
 SELECT * FROM XmlTable ORDER BY a;
 DELETE FROM XmlTable;
-.import csv -h on -f xml.csv
+.import csv -h -f xml.csv
 INSERT INTO XmlTable VALUES ({{a}}, {{c1}});
 SELECT * FROM XmlTable ORDER BY a;
 
@@ -165,7 +165,7 @@ INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
 .export csv j.csv
 SELECT * FROM JsonTable ORDER BY a;
 DELETE FROM JsonTable;
-.import csv -h on -f j.csv
+.import csv -h -f j.csv
 INSERT INTO JsonTable VALUES ({{a}}, {{c1}});
 SELECT * FROM JsonTable ORDER BY a;
 
@@ -189,7 +189,7 @@ INSERT INTO GeoTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 .export csv geo.csv
 SELECT * FROM GeoTable ORDER BY a;
 DELETE FROM GeoTable;
-.import csv -h on -f geo.csv
+.import csv -h -f geo.csv
 INSERT INTO GeoTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
 SELECT * FROM GeoTable ORDER BY a;
 
@@ -210,7 +210,7 @@ INSERT INTO NetTable VALUES (3, NULL, NULL, NULL);
 .export csv net.csv
 SELECT * FROM NetTable ORDER BY a;
 DELETE FROM NetTable;
-.import csv -h on -f net.csv
+.import csv -h -f net.csv
 INSERT INTO NetTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
 SELECT * FROM NetTable ORDER BY a;
 
@@ -234,7 +234,7 @@ INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
 .export csv range.csv
 SELECT * FROM RangeTable ORDER BY a;
 DELETE FROM RangeTable;
-.import csv -h on -f range.csv
+.import csv -h -f range.csv
 INSERT INTO RangeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
 SELECT * FROM RangeTable ORDER BY a;
 
@@ -258,7 +258,7 @@ SELECT * FROM MiscTable1 ORDER BY a;
 DELETE FROM MiscTable1;
 -- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
 -- TEXT and then MONEY.
-.import csv -h on -f misc1.csv
+.import csv -h -f misc1.csv
 INSERT INTO MiscTable1 VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}::text::money);
 SELECT * FROM MiscTable1 ORDER BY a;
 
@@ -278,7 +278,7 @@ INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
 .export csv misc2.csv
 SELECT * FROM MiscTable2 ORDER BY a;
 DELETE FROM MiscTable2;
-.import csv -h on -f misc2.csv
+.import csv -h -f misc2.csv
 INSERT INTO MiscTable2 VALUES ({{a}}, {{c1}}, {{c2}});
 SELECT * FROM MiscTable2 ORDER BY a;
 

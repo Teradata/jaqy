@@ -61,7 +61,7 @@ DELETE FROM MyTable;
 
 .batchsize 1
 -- 9/6 - 0 ----------------------------------------------------------------
-.import csv -h on batch.csv
+.import csv -h batch.csv
 -- 9/7 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
 -- success. update count = 1
@@ -93,7 +93,7 @@ DELETE FROM MyTable;
 
 .batchsize 2
 -- 12/8 - 0 ---------------------------------------------------------------
-.import csv -h on batch.csv
+.import csv -h batch.csv
 -- 12/9 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
 -- success. update count = 1
@@ -121,7 +121,7 @@ DELETE FROM MyTable;
 
 .batchsize 10000
 -- 15/10 - 0 --------------------------------------------------------------
-.import csv -h on batch.csv
+.import csv -h batch.csv
 -- 15/11 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES (?, ?);
 -- success. update count = 1

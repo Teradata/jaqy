@@ -173,7 +173,7 @@ ResultSet Column Count                       6
 DELETE FROM NumTable;
 -- success. update count = 3
 -- 6/6 - 0 ----------------------------------------------------------------
-.import csv -h on -f num.csv
+.import csv -h -f num.csv
 -- 6/7 - 0 ----------------------------------------------------------------
 INSERT INTO NumTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
 Parameter Count                              6
@@ -529,7 +529,7 @@ ResultSet Column Count                       5
 DELETE FROM DecTable;
 -- success. update count = 3
 -- 15/8 - 0 ---------------------------------------------------------------
-.import csv -h on -f dec.csv
+.import csv -h -f dec.csv
 -- 15/9 - 0 ---------------------------------------------------------------
 INSERT INTO DecTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
 Parameter Count                              5
@@ -828,7 +828,7 @@ ResultSet Column Count                       4
 DELETE FROM SerialTable;
 -- success. update count = 2
 -- 23/10 - 0 --------------------------------------------------------------
-.import csv -h on -f serial.csv
+.import csv -h -f serial.csv
 -- 23/11 - 0 --------------------------------------------------------------
 INSERT INTO SerialTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
 Parameter Count                              4
@@ -1113,7 +1113,7 @@ ResultSet Column Count                       5
 DELETE FROM StrTable;
 -- success. update count = 3
 -- 32/12 - 0 --------------------------------------------------------------
-.import csv -h on -f src.csv
+.import csv -h -f src.csv
 -- 32/13 - 0 --------------------------------------------------------------
 INSERT INTO StrTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}});
 Parameter Count                              5
@@ -1371,7 +1371,7 @@ ResultSet Column Count                       2
 DELETE FROM BinTable;
 -- success. update count = 3
 -- 41/14 - 0 --------------------------------------------------------------
-.import csv -h on -f bin.csv
+.import csv -h -f bin.csv
 -- 41/15 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES ({{a}}, {{c1}});
 Parameter Count                              2
@@ -1618,7 +1618,7 @@ ResultSet Column Count                       6
 DELETE FROM TimeTable;
 -- success. update count = 3
 -- 50/16 - 0 --------------------------------------------------------------
-.import csv -h on -f time.csv
+.import csv -h -f time.csv
 -- 50/17 - 0 --------------------------------------------------------------
 INSERT INTO TimeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}});
 Parameter Count                              6
@@ -1909,7 +1909,7 @@ ResultSet Column Count                       2
 DELETE FROM XmlTable;
 -- success. update count = 3
 -- 59/18 - 0 --------------------------------------------------------------
-.import csv -h on -f xml.csv
+.import csv -h -f xml.csv
 -- 59/19 - 0 --------------------------------------------------------------
 INSERT INTO XmlTable VALUES ({{a}}, {{c1}});
 Parameter Count                              2
@@ -2065,7 +2065,7 @@ ResultSet Column Count                       2
 DELETE FROM JsonTable;
 -- success. update count = 2
 -- 67/20 - 0 --------------------------------------------------------------
-.import csv -h on -f j.csv
+.import csv -h -f j.csv
 -- 67/21 - 0 --------------------------------------------------------------
 INSERT INTO JsonTable VALUES ({{a}}, {{c1}});
 Parameter Count                              2
@@ -2338,7 +2338,7 @@ ResultSet Column Count                       7
 DELETE FROM GeoTable;
 -- success. update count = 3
 -- 76/22 - 0 --------------------------------------------------------------
-.import csv -h on -f geo.csv
+.import csv -h -f geo.csv
 -- 76/23 - 0 --------------------------------------------------------------
 INSERT INTO GeoTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
 Parameter Count                              7
@@ -2706,7 +2706,7 @@ ResultSet Column Count                       4
 DELETE FROM NetTable;
 -- success. update count = 3
 -- 85/24 - 0 --------------------------------------------------------------
-.import csv -h on -f net.csv
+.import csv -h -f net.csv
 -- 85/25 - 0 --------------------------------------------------------------
 INSERT INTO NetTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}});
 Parameter Count                              4
@@ -3041,7 +3041,7 @@ ResultSet Column Count                       7
 DELETE FROM RangeTable;
 -- success. update count = 3
 -- 94/26 - 0 --------------------------------------------------------------
-.import csv -h on -f range.csv
+.import csv -h -f range.csv
 -- 94/27 - 0 --------------------------------------------------------------
 INSERT INTO RangeTable VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}, {{c5}}, {{c6}});
 Parameter Count                              7
@@ -3433,7 +3433,7 @@ DELETE FROM MiscTable1;
 -- 103/28 - 0 -------------------------------------------------------------
 -- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
 -- TEXT and then MONEY.
-.import csv -h on -f misc1.csv
+.import csv -h -f misc1.csv
 -- 103/29 - 0 -------------------------------------------------------------
 INSERT INTO MiscTable1 VALUES ({{a}}, {{c1}}, {{c2}}, {{c3}}, {{c4}}::text::money);
 Parameter Count                              5
@@ -3713,7 +3713,7 @@ ResultSet Column Count                       3
 DELETE FROM MiscTable2;
 -- success. update count = 3
 -- 112/30 - 0 -------------------------------------------------------------
-.import csv -h on -f misc2.csv
+.import csv -h -f misc2.csv
 -- 112/31 - 0 -------------------------------------------------------------
 INSERT INTO MiscTable2 VALUES ({{a}}, {{c1}}, {{c2}});
 Parameter Count                              3

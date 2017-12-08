@@ -65,7 +65,7 @@ public class CSVUtils
 		throw new IllegalArgumentException ("unknown csv format: " + format);
 	}
 
-	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues)
+	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues, boolean precise)
 	{
 		int count = -1;
 		ScanColumnType[] columns = null;
@@ -198,10 +198,15 @@ public class CSVUtils
 					columnInfos[i].type = Types.INTEGER;
 					columnInfos[i].scale = 0;
 				}
-				else
+				else if (precise && columns[i].scale > 0)
 				{
 					columnInfos[i].type = Types.DECIMAL;
 					columnInfos[i].scale = columns[i].scale;
+				}
+				else
+				{
+					columnInfos[i].type = Types.DOUBLE;
+					columnInfos[i].scale = 0;
 				}
 			}
 		}
