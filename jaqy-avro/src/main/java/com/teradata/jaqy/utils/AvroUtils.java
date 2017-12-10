@@ -234,13 +234,14 @@ public class AvroUtils
 		}
 
 		long count = 0;
+		JaqyHelper helper = rs.getHelper ();
 		while (rs.next ())
 		{
 			++count;
 			GenericRecord r = new GenericData.Record (schema);
 			for (int i = 0; i < columns; ++i)
 			{
-				Object obj = rs.getObject (i + 1);
+				Object obj = helper.getObject (rs, i + 1);
 				if (obj == null)
 				{
 					r.put (i, null);

@@ -41,24 +41,28 @@ import com.teradata.jaqy.utils.TypesUtils;
  */
 class TeradataHelper extends DefaultHelper
 {
+	private final static String getPDTString (Struct s) throws SQLException
+	{
+		if (s == null)
+			return null;
+		StringBuilder builder = new StringBuilder ();
+		builder.append ("('");
+		for (Object obj : s.getAttributes ())
+		{
+			if (builder.length () > 2)
+				builder.append ("', '");
+			builder.append (obj);
+		}
+		builder.append ("')");
+		return builder.toString ();
+	}
+
 	private final static TypeHandler s_pdtHandler = new TypeHandler ()
 	{
 		@Override
 		public String getString (JaqyResultSet rs, int column) throws SQLException
 		{
-			Struct str = (Struct)rs.getObject (column);
-			if (str == null)
-				return null;
-			StringBuilder builder = new StringBuilder ();
-			builder.append ("('");
-			for (Object obj : str.getAttributes ())
-			{
-				if (builder.length () > 2)
-					builder.append ("', '");
-				builder.append (obj);
-			}
-			builder.append ("')");
-			return builder.toString ();
+			return getPDTString ((Struct)rs.getObject (column));
 		}
 
 		@Override
@@ -142,6 +146,24 @@ class TeradataHelper extends DefaultHelper
 	}
 
 	@Override
+	public Object getObject (JaqyResultSet rs, int index) throws SQLException
+	{
+		Object o = rs.getObject (index);
+		if (o instanceof Struct)
+		{
+			if (rs.getMetaData ().getColumnType (index) == Types.STRUCT)
+			{
+				String typeName = rs.getMetaData ().getColumnTypeName (index);
+				if (typeName != null && typeName.startsWith ("PERIOD("))
+				{
+					return getPDTString ((Struct) o);
+				}
+			}
+		}
+		return o;
+	}
+
+	@Override
 	public TypeHandler getTypeHandler (JaqyResultSet rs, int column) throws SQLException
 	{
 		if (rs.getMetaData ().getColumnType (column) == Types.STRUCT)
@@ -196,49 +218,10 @@ class TeradataHelper extends DefaultHelper
 	{
 		if (info.type == Types.STRUCT &&
 			info.typeName != null &&
-			info.typeName.startsWith ("PERIOD"))
+			info.typeName.startsWith ("PERIOD("))
 		{
-			if ("PERIOD(DATE)".equals (info.typeName))
-			{
-				FullColumnInfo[] childrenInfo = new FullColumnInfo[2];
-				childrenInfo[0] = new FullColumnInfo ();
-				childrenInfo[0].label = "BEGIN";
-				childrenInfo[1] = new FullColumnInfo ();
-				childrenInfo[1].label = "END";
-				for (int i = 0; i < 2; ++i)
-				{
-					childrenInfo[i].type = Types.DATE;
-					childrenInfo[i].typeName = "DATE";
-				}
-			}
-			else if ("PERIOD(TIME)".equals (info.typeName) ||
-					 "PERIOD(TIME WITH TIME ZONE)".equals (info.typeName))
-			{
-				FullColumnInfo[] childrenInfo = new FullColumnInfo[2];
-				childrenInfo[0] = new FullColumnInfo ();
-				childrenInfo[0].label = "BEGIN";
-				childrenInfo[1] = new FullColumnInfo ();
-				childrenInfo[1].label = "END";
-				for (int i = 0; i < 2; ++i)
-				{
-					childrenInfo[i].type = Types.TIME;
-					childrenInfo[i].typeName = "TIME";
-				}
-			}
-			else if ("PERIOD(TIMESTAMP)".equals (info.typeName) ||
-					 "PERIOD(TIMESTAMP WITH TIME ZONE)".equals (info.typeName))
-			{
-				FullColumnInfo[] childrenInfo = new FullColumnInfo[2];
-				childrenInfo[0] = new FullColumnInfo ();
-				childrenInfo[0].label = "BEGIN";
-				childrenInfo[1] = new FullColumnInfo ();
-				childrenInfo[1].label = "END";
-				for (int i = 0; i < 2; ++i)
-				{
-					childrenInfo[i].type = Types.TIMESTAMP;
-					childrenInfo[i].typeName = "TIMESTAMP";
-				}
-			}
+			info.type = Types.VARCHAR;
+			info.precision = 100;
 		}
 	}
 }

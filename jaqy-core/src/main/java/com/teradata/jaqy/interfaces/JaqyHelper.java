@@ -80,6 +80,20 @@ public interface JaqyHelper
 	 */
 	public JaqyResultSet getResultSet (ResultSet rs) throws SQLException;
 	/**
+	 * This function retrieves an object from a ResultSet using the index provided.
+	 * The purpose of this function is to provide an ability for Helper class
+	 * to modify the object retrieved.
+	 *
+	 * @param	rs
+	 * 			resultset
+	 * @param	index
+	 * 			column index
+	 * @return	the object at the column position
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public Object getObject (JaqyResultSet rs, int index) throws SQLException;
+	/**
 	 * Check if a ResultSet column is a JSON column.  Until JDBC has
 	 * JSON built-in, we need a way to recognize a JSON column.
 	 *

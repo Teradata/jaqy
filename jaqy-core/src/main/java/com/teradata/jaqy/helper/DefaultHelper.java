@@ -74,6 +74,12 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
+	public Object getObject (JaqyResultSet rs, int index) throws SQLException
+	{
+		return rs.getObject (index);
+	}
+
+	@Override
 	public JaqyConnection getConnection ()
 	{
 		return m_conn;
