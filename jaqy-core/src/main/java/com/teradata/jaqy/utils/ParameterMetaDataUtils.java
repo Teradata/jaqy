@@ -16,9 +16,11 @@
 package com.teradata.jaqy.utils;
 
 import java.io.PrintWriter;
+import java.sql.ParameterMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
 import com.teradata.jaqy.interfaces.Display;
@@ -63,21 +65,52 @@ public class ParameterMetaDataUtils
 		}
 	}
 
-	public static ParameterInfo[] getParameterInfos (JaqyParameterMetaData meta) throws SQLException
+	public static ParameterInfo[] getParameterInfos (JaqyParameterMetaData meta, Globals globals) throws SQLException
 	{
 		int count = meta.getParameterCount ();
 		ParameterInfo[] parameterInfos = new ParameterInfo[count];
 		for (int i = 0; i < count; ++i)
 		{
 			parameterInfos[i] = new ParameterInfo ();
-			parameterInfos[i].type = meta.getParameterType (i + 1);
-			parameterInfos[i].typeName = meta.getParameterTypeName (i + 1);
-			parameterInfos[i].className = meta.getParameterClassName (i + 1);
-			parameterInfos[i].precision = meta.getPrecision (i + 1);
-			parameterInfos[i].scale = meta.getScale (i + 1);
-			parameterInfos[i].nullable = meta.isNullable (i + 1);
-			parameterInfos[i].signed = meta.isSigned (i + 1);
-			parameterInfos[i].mode = meta.getParameterMode (i + 1);
+			try
+			{
+				parameterInfos[i].type = meta.getParameterType (i + 1);
+				parameterInfos[i].typeName = meta.getParameterTypeName (i + 1);
+				parameterInfos[i].className = meta.getParameterClassName (i + 1);
+				parameterInfos[i].precision = meta.getPrecision (i + 1);
+				parameterInfos[i].scale = meta.getScale (i + 1);
+				try
+				{
+					parameterInfos[i].nullable = meta.isNullable (i + 1);
+				}
+				catch (SQLException ex)
+				{
+					parameterInfos[i].nullable = ParameterMetaData.parameterNullableUnknown;
+					globals.log (Level.INFO, ex);
+				}
+				try
+				{
+					parameterInfos[i].signed = meta.isSigned (i + 1);
+				}
+				catch (SQLException ex)
+				{
+					parameterInfos[i].signed = true;
+					globals.log (Level.INFO, ex);
+				}
+				try
+				{
+					parameterInfos[i].mode = meta.getParameterMode (i + 1);
+				}
+				catch (SQLException ex)
+				{
+					parameterInfos[i].mode = ParameterMetaData.parameterModeUnknown;
+					globals.log (Level.INFO, ex);
+				}
+			}
+			catch (SQLException ex)
+			{
+				globals.log (Level.INFO, ex);
+			}
 		}
 		return parameterInfos;
 	}

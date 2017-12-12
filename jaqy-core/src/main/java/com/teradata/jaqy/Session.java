@@ -248,7 +248,7 @@ public class Session
 
 		JaqyPreparedStatement stmt = prepareQuery (sql, interpreter);
 		JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
-		ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData);
+		ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
 		if (parameterInfos.length == 0)
 			throw new IOException ("no parameters detected.");
 		try

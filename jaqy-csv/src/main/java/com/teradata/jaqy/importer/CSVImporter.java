@@ -35,6 +35,8 @@ import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.CSVUtils;
+import com.teradata.jaqy.utils.StringUtils;
+import com.teradata.jaqy.utils.TypesUtils;
 
 /**
  * @author	Heng Yuan
@@ -127,11 +129,14 @@ public class CSVImporter implements JaqyImporter<Integer>
 		try
 		{
 			String value = m_record.get (index);
-			if (!m_naFilter)
-				return value;
-			for (String f : m_naValues)
-				if (value.equals (f))
-					return null;
+			if (m_naFilter)
+			{
+				for (String f : m_naValues)
+					if (value.equals (f))
+						return null;
+			}
+			if (TypesUtils.isBinary (paramInfo.type))
+				return StringUtils.getBytesFromHexString (value);
 			return value;
 		}
 		catch (ArrayIndexOutOfBoundsException ex)
