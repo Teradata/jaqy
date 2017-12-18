@@ -53,7 +53,7 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	{
 		boolean autoSize = DEFAULT_AUTO_SIZE;
 		boolean border = false;
-		int scanThreshold = DEFAULT_SCAN_THRESHOLD;
+		long scanThreshold = DEFAULT_SCAN_THRESHOLD;
 		int columnThreshold = DEFAULT_COLUMN_THRESHOLD;
 		int maxColumnSize = DEFAULT_MAX_COLUMN_SIZE;
 
@@ -89,9 +89,9 @@ public class TablePrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 				}
 				case 'r':
 				{
-					scanThreshold = Integer.parseInt (option.getValue ());
+					scanThreshold = Long.parseLong (option.getValue ());
 					if (scanThreshold <= 0)
-						scanThreshold = Integer.MAX_VALUE;
+						scanThreshold = Long.MAX_VALUE;
 					break;
 				}
 				case 'c':

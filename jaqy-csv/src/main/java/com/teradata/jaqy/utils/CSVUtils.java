@@ -32,6 +32,8 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class CSVUtils
 {
+	public final static int AUTO_STOP_MINIMUM = 1000;
+
 	public static class ScanColumnType
 	{
 		boolean nullable;
@@ -40,6 +42,8 @@ public class CSVUtils
 		int maxLength;
 		int precision;
 		int scale;
+
+		int notNullCount;
 	}
 
 	public static char getChar (String str)
@@ -65,16 +69,26 @@ public class CSVUtils
 		throw new IllegalArgumentException ("unknown csv format: " + format);
 	}
 
-	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues, boolean precise)
+	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues, boolean precise, long limit)
 	{
 		int count = -1;
 		ScanColumnType[] columns = null;
 		int rowCount = 0;
-		while (iterator.hasNext ())
+		boolean autoStop = false;
+		if (limit < 0)
+		{
+			limit = Long.MAX_VALUE;
+			autoStop = true;
+		}
+		else if (limit == 0)
+			limit = Long.MAX_VALUE;
+		boolean needScan;
+		while (iterator.hasNext () && rowCount < limit)
 		{
 			CSVRecord record = iterator.next ();
 			++rowCount;
 			int size = record.size ();
+			needScan = false;
 			if (count == -1)
 			{
 				count = size;
@@ -87,6 +101,7 @@ public class CSVUtils
 					columns[i].minLength = Integer.MAX_VALUE;
 					columns[i].maxLength = -1;
 				}
+				needScan = true;
 			}
 			for (int i = 0; i < count; ++i)
 			{
@@ -106,7 +121,6 @@ public class CSVUtils
 				if (isNa)
 				{
 					columns[i].nullable = true;
-					continue;
 				}
 				else
 				{
@@ -115,6 +129,7 @@ public class CSVUtils
 						columns[i].maxLength = len;
 					if (columns[i].minLength > len)
 						columns[i].minLength = len;
+
 					if (columns[i].type == Types.NUMERIC ||
 						columns[i].type == Types.NULL)
 					{
@@ -143,13 +158,53 @@ public class CSVUtils
 									columns[i].precision = precision;
 								}
 							}
+							++columns[i].notNullCount;
 						}
 						catch (Exception ex)
 						{
+							if (columns[i].minLength == columns[i].maxLength)
+							{
+								// Check if we are in a fixed char column.
+								columns[i].type = Types.CHAR;
+								++columns[i].notNullCount;
+							}
+							else
+							{
+								columns[i].type = Types.VARCHAR;
+								// For varchar columns, we basically have to scan
+								// all the rows to find the maximum string length.
+								autoStop = false;
+							}
+						}
+					}
+					else if (columns[i].type == Types.CHAR)
+					{
+						if (columns[i].minLength == columns[i].maxLength)
+							++columns[i].notNullCount;
+						else
+						{
 							columns[i].type = Types.VARCHAR;
+							// For varchar columns, we basically have to scan
+							// all the rows to find the maximum string length.
+							autoStop = false;
 						}
 					}
 				}
+
+				if (autoStop &&
+					columns[i].notNullCount < AUTO_STOP_MINIMUM)
+				{
+					// For each number column, we basically need enough
+					// confidence to say that additional scan is not
+					// necessary.
+					needScan = true;
+				}
+			}
+
+			if (autoStop && !needScan)
+			{
+				// Automatically stop if we just have numbers.
+				break;
 			}
 		}
 
@@ -172,16 +227,11 @@ public class CSVUtils
 			columnInfos[i].label = columnInfos[i].name;
 
 			columnInfos[i].nullable = columns[i].nullable ? ResultSetMetaData.columnNullable : ResultSetMetaData.columnNoNulls;
-			if (columns[i].type == Types.VARCHAR)
+
+			if (columns[i].type == Types.CHAR ||
+				columns[i].type == Types.VARCHAR)
 			{
-				if (columns[i].minLength == columns[i].maxLength)
-				{
-					columnInfos[i].type = Types.CHAR;
-				}
-				else
-				{
-					columnInfos[i].type = Types.VARCHAR;
-				}
+				columnInfos[i].type = columns[i].type;
 				columnInfos[i].precision = columns[i].maxLength;
 			}
 			else

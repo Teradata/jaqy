@@ -60,13 +60,15 @@ public class CSVImporter implements JaqyImporter<Integer>
 	private boolean m_naFilter;
 	private String[] m_naValues;
 	private SchemaInfo m_schemaInfo;
+	private long m_scanThreshold;
 
-	public CSVImporter (File file, Charset charset, CSVFormat format, boolean precise) throws IOException
+	public CSVImporter (File file, Charset charset, CSVFormat format, boolean precise, long scanThreshold) throws IOException
 	{
 		m_file = file;
 		m_charset = charset;
 		m_format = format;
 		m_precise = precise;
+		m_scanThreshold = scanThreshold;
 		openFile (file, charset, format);
 	}
 
@@ -105,7 +107,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 				headers[i] = map.get (i);
 			}
 		}
-		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues, m_precise);
+		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues, m_precise, m_scanThreshold);
 		m_parser.close ();
 		// reopen the file since we just did the scan
 		openFile (m_file, m_charset, m_format);

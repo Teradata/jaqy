@@ -2,9 +2,6 @@
 -- .import csv command test
 --------------------------------------------------------------------------
 .run ../common/derby_setup.sql
-.help import
-.import
-
 .open derby:memory:csvDB;create=true
 
 -- VARCHAR type

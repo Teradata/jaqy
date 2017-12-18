@@ -43,6 +43,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		addOption ("v", "navalues", true, "specifies a comma delimited list of N/A values.  If it is not specified and --nafilter is enabled, then the default list is used.");
 		addOption ("p", "precise", false, "Obtain precise decimal points if possible.  This option is only meaningful in generating a table schema.  By default, floating values are treated as DOUBLE PRECISION.");
 		addOption ("h", "header", false, "indicates the file has a header");
+		addOption ("r", "rowthreshold", false, "sets row threshold in schema determination.");
 	}
 
 	@Override
@@ -59,6 +60,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		boolean naFilter = false;
 		String[] naValues = null;
 		boolean precise = false;
+		long scanThreshold = -1;	// -1 indicates internal algorithm
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -103,12 +105,19 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 					precise = true;
 					break;
 				}
+				case 'r':
+				{
+					scanThreshold = Long.parseLong (option.getValue ());
+					if (scanThreshold <= 0)
+						scanThreshold = 0;
+					break;
+				}
 			}
 		}
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		CSVImporter importer = new CSVImporter (interpreter.getFile (args[0]), charset, format, precise);
+		CSVImporter importer = new CSVImporter (interpreter.getFile (args[0]), charset, format, precise, scanThreshold);
 		if (naFilter == true)
 		{
 			importer.setNaFilter (true);

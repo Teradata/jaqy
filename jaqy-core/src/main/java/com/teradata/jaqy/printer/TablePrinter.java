@@ -38,11 +38,11 @@ class TablePrinter implements JaqyPrinter
 {
 	private boolean m_border;
 	private boolean m_autoShrink;
-	private int m_scanThreshold;
+	private long m_scanThreshold;
 	private int m_columnThreshold;
 	private int m_maxColumnSize;
 
-	public TablePrinter (boolean border, boolean autoShrink, int scanThreshold, int columnThreshold, int maxColumnSize)
+	public TablePrinter (boolean border, boolean autoShrink, long scanThreshold, int columnThreshold, int maxColumnSize)
 	{
 		m_border = border;
 		m_autoShrink = autoShrink;

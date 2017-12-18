@@ -31,6 +31,8 @@ csv type options:
                                                         floating values are
                                                         treated as DOUBLE
                                                         PRECISION.
+  -r,--rowthreshold                                     sets row threshold in
+                                                        schema determination.
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
   -v,--navalues <arg>                                   specifies a comma
                                                         delimited list of N/A

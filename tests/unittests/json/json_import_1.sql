@@ -2,9 +2,6 @@
 -- .import json command test
 --------------------------------------------------------------------------
 .run ../common/derby_setup.sql
-.help import
-.import
-
 .open derby:memory:jsonDB;create=true
 
 CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
