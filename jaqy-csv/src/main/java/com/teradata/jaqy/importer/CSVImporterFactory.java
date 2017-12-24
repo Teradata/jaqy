@@ -43,7 +43,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		addOption ("v", "navalues", true, "specifies a comma delimited list of N/A values.  If it is not specified and --nafilter is enabled, then the default list is used.");
 		addOption ("p", "precise", false, "Obtain precise decimal points if possible.  This option is only meaningful in generating a table schema.  By default, floating values are treated as DOUBLE PRECISION.");
 		addOption ("h", "header", false, "indicates the file has a header");
-		addOption ("r", "rowthreshold", false, "sets row threshold in schema determination.");
+		addOption ("r", "rowthreshold", true, "sets row threshold in schema determination.");
 	}
 
 	@Override
