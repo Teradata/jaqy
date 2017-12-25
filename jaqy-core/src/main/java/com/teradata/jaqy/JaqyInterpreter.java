@@ -873,6 +873,8 @@ public class JaqyInterpreter
 	public void setQueryMode (QueryMode queryMode)
 	{
 		m_queryMode = queryMode;
+		if (queryMode != QueryMode.Import)
+			m_importer = null;
 	}
 
 	public File getDirectory ()

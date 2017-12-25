@@ -142,11 +142,71 @@ CREATE TABLE SinTable
 -- 10/14 - 0 --------------------------------------------------------------
 
 SELECT COUNT(*), min(x), max(x) FROM SinTable;
--- error: no parameters detected.
+-- success --
+count  min  max
+----- ---- ----
+    0    ?    ?
+-- activity count = 1
 -- 11/14 - 0 --------------------------------------------------------------
 DROP TABLE SinTable;
 -- success. update count = 0
 -- 12/14 - 0 --------------------------------------------------------------
 
-.close
+.import csv lib/sin2.csv
 -- 12/15 - 0 --------------------------------------------------------------
+.importschema
+Column Type   Nullable
+------ ------ --------
+col1   float8 No
+col2   float8 No
+-- 12/16 - 0 --------------------------------------------------------------
+.importtable SinTable
+-- Table Schema --
+CREATE TABLE SinTable
+(
+	"col1" float8 NOT NULL,
+	"col2" float8 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO SinTable VALUES (?,?)
+-- 14/17 - 0 --------------------------------------------------------------
+.desc -s SinTable
+CREATE TABLE SinTable
+(
+	"col1" float8 NOT NULL,
+	"col2" float8 NOT NULL
+)
+-- 14/18 - 0 --------------------------------------------------------------
+
+SELECT COUNT(*), min(col1), max(col1) FROM SinTable;
+-- success --
+count min  max
+----- --- ----
+ 1051   0 10.5
+-- activity count = 1
+-- 15/18 - 0 --------------------------------------------------------------
+DROP TABLE SinTable;
+-- success. update count = 0
+-- 16/18 - 0 --------------------------------------------------------------
+
+.import csv lib/empty.csv
+-- 16/19 - 0 --------------------------------------------------------------
+.importschema
+Column Type      Nullable
+------ --------- --------
+col1   bpchar(1) No
+col2   bpchar(1) No
+-- 16/20 - 0 --------------------------------------------------------------
+
+.import csv -h lib/numstr.csv
+-- 16/21 - 0 --------------------------------------------------------------
+.importschema
+Column Type       Nullable
+------ ---------- --------
+a      int4       No
+b      varchar(4) No
+-- 16/22 - 0 --------------------------------------------------------------
+
+.close
+-- 16/23 - 0 --------------------------------------------------------------

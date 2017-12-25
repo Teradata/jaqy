@@ -107,7 +107,13 @@ public class ImportTableCommand extends JaqyCommandAdapter
 		sql = buffer.toString ();
 		interpreter.println ("-- INSERTION --");
 		interpreter.println (sql);
-		session.importQuery (sql, interpreter);
-		interpreter.setQueryMode (QueryMode.Regular);
+		try
+		{
+			session.importQuery (sql, interpreter);
+		}
+		finally
+		{
+			interpreter.setQueryMode (QueryMode.Regular);
+		}
 	}
 }
