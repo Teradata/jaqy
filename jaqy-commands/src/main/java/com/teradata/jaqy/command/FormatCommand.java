@@ -72,7 +72,6 @@ public class FormatCommand extends JaqyCommandAdapter
 			if (printer == null)
 			{
 				interpreter.error ("invalid format name: " + name);
-				return;
 			}
 			interpreter.setPrinter (printer);
 		}

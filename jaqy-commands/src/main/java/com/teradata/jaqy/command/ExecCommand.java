@@ -86,7 +86,6 @@ public class ExecCommand extends JaqyCommandAdapter
 				if (!file.exists ())
 				{
 					interpreter.error ("file not found: " + args[0]);
-					return;
 				}
 				SessionUtils.checkOpen (interpreter);
 				Reader reader = FileUtils.getReader (new FileInputStream (file), charset);

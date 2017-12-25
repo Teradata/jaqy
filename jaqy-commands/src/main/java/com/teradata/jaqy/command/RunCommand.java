@@ -63,9 +63,8 @@ public class RunCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("missing file name.");
-			return;
 		}
-		LineInput input;
+		LineInput input = null;
 		try
 		{
 			input = LineInputFactory.getLineInput (interpreter.getFile (args[0]), encoding, false);
@@ -73,7 +72,6 @@ public class RunCommand extends JaqyCommandAdapter
 		catch (IOException e)
 		{
 			interpreter.error ("invalid file: " + args[0]);
-			return;
 		}
 		if (!silent)
 			interpreter.println ("-- Running script: " + args[0]);

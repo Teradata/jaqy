@@ -94,14 +94,13 @@ public class Session
 			String protocol = DriverManagerUtils.getProtocol (m_globals.getDriverManager (), url);
 			if (protocol == null)
 			{
-				throw new JaqyException ("Unknown protocol");
+				interpreter.error ("Unknown protocol");
 			}
 
 			boolean loaded = m_globals.getDriverManager ().loadDriver (display, interpreter, protocol);
 			if (!loaded)
 			{
 				interpreter.error ("Unable to load driver for " + protocol);
-				return;
 			}
 
 			// append jdbc: prefix if necessary
@@ -330,7 +329,6 @@ public class Session
 		if (isClosed ())
 		{
 			interpreter.error ("session closed.");
-			return;
 		}
 
 		// remove trailing ; since some JDBC drivers (notably Apache Derby)

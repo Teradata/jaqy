@@ -61,7 +61,6 @@ public class DescribeCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("Missing table name.");
-			return;
 		}
 		boolean displaySQL = false;
 		for (Option option : cmdLine.getOptions ())

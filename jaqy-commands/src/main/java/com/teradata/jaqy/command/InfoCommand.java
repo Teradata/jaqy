@@ -63,7 +63,6 @@ public class InfoCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("need to provide the information type.");
-			return;
 		}
 
 		SessionUtils.checkOpen (interpreter);
@@ -109,7 +108,6 @@ public class InfoCommand extends JaqyCommandAdapter
 		else
 		{
 			interpreter.error ("invalid information type: " + args[0]);
-			return;
 		}
 	}
 

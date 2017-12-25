@@ -107,7 +107,6 @@ public class ScriptCommand extends JaqyCommandAdapter
 			if (!scriptFile.exists ())
 			{
 				interpreter.error ("file not found: " + file);
-				return;
 			}
 			Reader reader = FileUtils.getReader (new FileInputStream (scriptFile), scriptOptions.encoding);
 			runScript (scriptOptions, reader, globals, interpreter);
@@ -136,7 +135,6 @@ public class ScriptCommand extends JaqyCommandAdapter
 		if (engine == null)
 		{
 			interpreter.error ("unknown language: " + scriptOptions.lang);
-			return;
 		}
 		try
 		{

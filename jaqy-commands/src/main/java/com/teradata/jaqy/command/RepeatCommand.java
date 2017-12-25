@@ -53,7 +53,6 @@ public class RepeatCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("Missing repeat count.");
-			return;
 		}
 
 		interpreter.setRepeatCount (Long.parseLong (args[0]));

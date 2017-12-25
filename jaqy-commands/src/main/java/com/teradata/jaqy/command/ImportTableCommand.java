@@ -61,18 +61,15 @@ public class ImportTableCommand extends JaqyCommandAdapter
 		if (importer == null)
 		{
 			interpreter.error ("There is no current import.");
-			return;
 		}
 		SchemaInfo schemaInfo = importer.getSchema ();
 		if (schemaInfo == null)
 		{
 			interpreter.error ("Current import schema is not available.");
-			return;
 		}
 		if (args.length == 0)
 		{
 			interpreter.error ("Staging table name is not specified.");
-			return;
 		}
 		StringBuilder buffer = new StringBuilder ();
 		for (String arg : args)

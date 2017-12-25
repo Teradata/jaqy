@@ -72,7 +72,6 @@ public class ExportCommand extends JaqyCommandAdapter
 			if (exporter == null)
 			{
 				interpreter.error ("invalid format name: " + name);
-				return;
 			}
 			interpreter.setExporter (exporter);
 		}

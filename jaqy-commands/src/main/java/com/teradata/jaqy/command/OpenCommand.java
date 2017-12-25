@@ -81,12 +81,10 @@ public class OpenCommand extends JaqyCommandAdapter
 		if (session == null)
 		{
 			interpreter.error ("No active sessions.");
-			return;
 		}
 		if (!session.isClosed ())
 		{
 			interpreter.error ("The current session already has a connection open.");
-			return;
 		}
 
 		CommandLine cmdLine = getCommandLine (args);
@@ -94,7 +92,6 @@ public class OpenCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("invalid command arguments.");
-			return;
 		}
 		Properties prop = new Properties ();
 		cmdLine.getOptions ();

@@ -64,13 +64,11 @@ public class ImportSchemaCommand extends JaqyCommandAdapter
 		if (importer == null)
 		{
 			interpreter.error ("There is no current import.");
-			return;
 		}
 		SchemaInfo schemaInfo = importer.getSchema ();
 		if (schemaInfo == null)
 		{
 			interpreter.error ("Current import schema is not available.");
-			return;
 		}
 		boolean displaySQL = false;
 		CommandLine cmdLine = getCommandLine (args);

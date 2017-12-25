@@ -53,14 +53,12 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("Missing repeat count.");
-			return;
 		}
 
 		String sql = interpreter.getPrevSQL ();
 		if (sql == null)
 		{
 			interpreter.error ("No suitable previous SQL to repeat.");
-			return;
 		}
 
 		int repeatCount = Integer.parseInt (args[0]);

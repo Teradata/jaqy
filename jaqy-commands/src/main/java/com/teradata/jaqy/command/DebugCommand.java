@@ -155,14 +155,12 @@ public class DebugCommand extends JaqyCommandAdapter
 		if (args.length < 2)
 		{
 			interpreter.error ("error parsing argument.");
-			return;
 		}
 
 		DebugOptionHandler handler = m_optionMap.get (args[0]);
 		if (handler == null)
 		{
 			interpreter.error ("Unknown debug option: " + args[0]);
-			return;
 		}
 		handler.handleOption (globals, interpreter, StringUtils.shiftArgs (args));
 	}

@@ -48,7 +48,6 @@ public class UnAliasCommand extends JaqyCommandAdapter
 		if (args.length == 0)
 		{
 			interpreter.error ("missing argument.");
-			return;
 		}
 		else
 		{
@@ -56,7 +55,6 @@ public class UnAliasCommand extends JaqyCommandAdapter
 			if (globals.getAliasManager ().getAlias (name) == null)
 			{
 				interpreter.error ("alias " + args[0] + " is not found.");
-				return;
 			}
 			globals.getAliasManager ().setAlias (name, null);
 		}

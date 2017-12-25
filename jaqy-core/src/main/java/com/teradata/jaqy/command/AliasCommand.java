@@ -75,7 +75,6 @@ public class AliasCommand extends JaqyCommandAdapter
 			if (globals.getCommandManager ().getCommand (args[0]) != null)
 			{
 				interpreter.error ("alias name conflicts with an existing command.");
-				return;
 			}
 			interpreter.setParseAction (this, args[0]);
 		}
