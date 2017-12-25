@@ -35,7 +35,7 @@ DROP TABLE SinTable;
 SELECT COUNT(*), min(col1), max(col1) FROM SinTable;
 DROP TABLE SinTable;
 
-.import csv lib/empty.csv
+.import csv -h lib/empty.csv
 .importschema
 
 .import csv -h lib/numstr.csv
