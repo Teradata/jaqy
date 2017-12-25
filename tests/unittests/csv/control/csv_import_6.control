@@ -190,13 +190,10 @@ DROP TABLE SinTable;
 -- success. update count = 0
 -- 16/18 - 0 --------------------------------------------------------------
 
-.import csv lib/empty.csv
+.import csv -h lib/empty.csv
 -- 16/19 - 0 --------------------------------------------------------------
 .importschema
-Column Type      Nullable
------- --------- --------
-col1   bpchar(1) No
-col2   bpchar(1) No
+-- error: Current import schema is not available.
 -- 16/20 - 0 --------------------------------------------------------------
 
 .import csv -h lib/numstr.csv
