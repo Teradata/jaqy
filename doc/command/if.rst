@@ -1,8 +1,10 @@
 .if
 ---
 
-``.if`` executes a block of jaqy script if and only if the expression
+``.if`` executes a block of Jaqy script if and only if the expression
 condition is evaluated to true.
+
+The expression condition is evaluated using JavaScript.
 
 Syntax
 ~~~~~~

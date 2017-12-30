@@ -71,7 +71,8 @@ public interface JaqyCommand
 	 * Executes a command.
 	 * @param	args
 	 *			the command arguments.
-	 * @param silent TODO
+	 * @param	silent
+	 * 			if the command is executed silently.
 	 * @param	globals
 	 *			Global states.
 	 * @param	interpreter
@@ -105,6 +106,8 @@ public interface JaqyCommand
 	 * 			the multi-line text.
 	 * @param	value
 	 * 			the value saved prior.
+	 * @param	silent
+	 * 			if the command is executed silently.
 	 * @param	globals
 	 *			Global states.
 	 * @param	interpreter
@@ -112,5 +115,5 @@ public interface JaqyCommand
 	 * @throws	Exception
 	 *			in case of error.
 	 */
-	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws Exception;
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception;
 }

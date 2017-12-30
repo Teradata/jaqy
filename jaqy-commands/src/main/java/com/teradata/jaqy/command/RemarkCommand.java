@@ -15,8 +15,12 @@
  */
 package com.teradata.jaqy.command;
 
+import java.io.IOException;
+
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyCommand;
 
 /**
  * @author	Heng Yuan
@@ -26,11 +30,35 @@ public class RemarkCommand extends JaqyCommandAdapter
 	@Override
 	public String getDescription ()
 	{
-		return "does nothing.";
+		return "does block comment.";
+	}
+
+	@Override
+	public JaqyCommand.Type getType ()
+	{
+		return JaqyCommand.Type.exclusive;
+	}
+
+	@Override
+	public boolean isMultiLine (String[] args)
+	{
+		return true;
 	}
 
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
+		interpreter.setParseAction (this, null);
+	}
+
+	@Override
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws IOException
+	{
+		if (!silent)
+		{
+			Display display = interpreter.getDisplay ();
+			display.echo (interpreter, action, false);
+			display.echo (interpreter, ".end " + getName (), false);
+		}
 	}
 }

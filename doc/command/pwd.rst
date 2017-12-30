@@ -20,7 +20,7 @@ Database Extension
 Some databases may choose not to implement ``getCatalog()`` and ``getSchema()``
 functions due to the difficulties of reliably tracking the current catalog /
 schema.  That do not mean they do not have SQL for reporting the current
-catalog or schema.  See `JSON Configuration <../json.html>`__ to learn more.
+catalog or schema.  See `database configurations <../config/database.html>`__ to learn more.
 
 Example
 ~~~~~~~

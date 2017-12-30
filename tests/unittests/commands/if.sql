@@ -11,18 +11,26 @@ CREATE TABLE MyTable (a INTEGER, b INTEGER);
 -- basic if test
 SELECT * FROM MyTable ORDER BY a;
 .if activityCount == 0
-.rem Test
+.rem
+Test
+.end rem
 SELECT 1;
-.rem Test
+.rem
+Test
+.end rem
 .end if
 
 INSERT INTO MyTable VALUES (1, 1);
 
 SELECT * FROM MyTable ORDER BY a;
 .if activityCount == 0
-.rem Test
+.rem
+Test
+.end rem
 SELECT 2;
-.rem Test
+.rem
+Test
+.end rem
 .end if
 
 -- nested ifs

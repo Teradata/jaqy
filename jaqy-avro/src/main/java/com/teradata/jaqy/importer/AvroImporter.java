@@ -205,6 +205,20 @@ class AvroImporter implements JaqyImporter<String>
 				}
 				break;
 			}
+			case Types.STRUCT:
+			{
+				if (v instanceof List)
+				{
+					Object[] objs = new Object[((List<?>)v).size ()];
+					((List<?>) v).toArray (objs);
+					for (int i = 0; i < objs.length; ++i)
+					{
+						objs[i] = unwrapAvroObject (objs[i]);
+					}
+					return helper.createStruct (paramInfo, objs);
+				}
+				break;
+			}
 			case Types.OTHER:
 			{
 				if (v instanceof CharSequence)

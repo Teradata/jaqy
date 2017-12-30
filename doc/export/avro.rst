@@ -71,8 +71,9 @@ Database Type to AVRO Type Mapping
 		  data types, which are transmitted as Struct types,
 		  are converted into formats that matches their BTEQ output formats.
 
-		* For PostgreSQL, because the driver reports Struct type even though
-		  the data is actually string, such type is not well supported.
+		* For PostgreSQL, the driver reports Struct type even though the data
+		  is actually string.  Jaqy had a specific workaround for this
+		  inconsistency.
 
 	* For types not listed in the above table, they are stored as STRING.  AVRO
 	  exporter relies on the toString() function of the object retrieved by the

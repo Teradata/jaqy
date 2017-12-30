@@ -608,7 +608,7 @@ public class JaqyInterpreter
 		m_multiLineBuffer.setLength (0);
 		try
 		{
-			action.cmd.parse (str, value, m_globals, this);
+			action.cmd.parse (str, value, action.silent, m_globals, this);
 		}
 		catch (Throwable t)
 		{

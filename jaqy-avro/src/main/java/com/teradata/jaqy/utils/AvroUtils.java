@@ -74,6 +74,7 @@ public class AvroUtils
 			case Types.NULL:
 				return Schema.Type.NULL;
 			case Types.ARRAY:
+			case Types.STRUCT:
 				return Schema.Type.ARRAY;
 			default:
 				return Schema.Type.STRING;

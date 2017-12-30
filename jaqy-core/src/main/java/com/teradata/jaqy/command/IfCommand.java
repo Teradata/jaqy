@@ -73,7 +73,7 @@ public class IfCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws IOException
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws IOException
 	{
 		globals.log (Level.INFO, "if condition = " + value);
 		Display display = interpreter.getDisplay ();
@@ -83,16 +83,22 @@ public class IfCommand extends JaqyCommandAdapter
 			globals.log (Level.INFO, action);
 			globals.log (Level.INFO, "end if statement");
 			interpreter.interpret (new ReaderLineInput (new StringReader (action), globals.getDirectory (), false), false);
-			display.echo (interpreter, ".end " + getName (), false);
+			if (!silent)
+			{
+				display.echo (interpreter, ".end " + getName (), false);
+			}
 		}
 		else
 		{
-			String[] lines = action.split ("\n");
-			for (String line : lines)
+			if (!silent)
 			{
-				display.echo (interpreter, "-- skip: " + line, false);
+				String[] lines = action.split ("\n");
+				for (String line : lines)
+				{
+					display.echo (interpreter, "-- skip: " + line, false);
+				}
+				display.echo (interpreter, ".end " + getName (), false);
 			}
-			display.echo (interpreter, ".end " + getName (), false);
 		}
 	}
 

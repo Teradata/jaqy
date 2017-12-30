@@ -7,8 +7,11 @@ language that mixes SQL with commands.
 A command is simply a name token with a dot prefix.  For instance, ``.open``,
 ``.close``, etc.
 
-Jaqy also supports both SQL line comments which starts with ``--`` and C style
-block comments ``/* */``.
+Jaqy also supports SQL line comments which starts with ``--``.  It should be
+noted that Jaqy does not recognize comments ``/* */``.  Comments recognized
+by Jaqy is not sent to the database, but sometimes such behavior may not be
+wanted since it may be used to contain some metadata for logging purposes.
+Thus, ``/* */`` is not recognized by Jaqy.
 
 Launching Jaqy
 --------------

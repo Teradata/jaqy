@@ -53,7 +53,7 @@ public class ConfigCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws IOException
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws IOException
 	{
 		try
 		{

@@ -30,8 +30,8 @@ The following example was tested done on PostgreSQL.
 	-- 1/3 - 0 - postgres @ localhost - public --
 	.desc -s mytable
 	CREATE TABLE mytable (
-			a int4,
-			b int4
+	    a int4,
+	    b int4
 	)
 	-- 1/4 - 0 - postgres @ localhost - public --
 
@@ -56,7 +56,8 @@ Derby's design issue.
 Database Extension
 ~~~~~~~~~~~~~~~~~~
 
-This command can be configured using `JSON Configuration <../json.html>`__ to
+This command can be configured using
+`database configurations <../config/database.html>`__ to
 use database specific SQL rather than the generic approach used.  For instance,
 Teradata uses ``HELP TABLE <tableName>`` and ``SHOW TABLE <tableName>`` to get
 the column information, and the table schema, respectively.

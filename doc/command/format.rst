@@ -37,10 +37,6 @@ Syntax
 For more detailed information on each format type, please see
 `Display Format <../format.html>`__.
 
-* `csv <../format/csv.html>`__
-* `json <../format/json.html>`__
-* `table <../format/table.html>`__
-
 Example
 ~~~~~~~
 

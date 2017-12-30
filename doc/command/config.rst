@@ -2,11 +2,11 @@
 -------
 
 ``.config`` configures database handlings using JSON.  For more information
-on the format, see `JSON Configuration <../json.html>`__.
+on the format, see `Database Configurations <../config/database.html>`__.
 
 .. note::
 
-	JSON configuration does not apply to the current active connection.
+	Database configurations does not apply to the current active connection.
 
 Example
 ~~~~~~~
@@ -84,4 +84,4 @@ Example
 See Also
 ~~~~~~~~
 
-* `JSON Configuration <../json.html>`__
+* `Database Configurations <../config/database.html>`__

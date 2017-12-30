@@ -13,10 +13,13 @@
 	:hidden:
 
 	command
+	config
 	format
 	exitcode
-	json
+	export
+	import
 	plugin
+	script
 
 .. toctree::
 	:caption: Miscellaneous

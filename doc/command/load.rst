@@ -1,7 +1,8 @@
 .load
 -----
 
-``.load`` loads a Jaqy plugin.
+``.load`` loads a Jaqy plugin.  See `Plugin Loading <../plugin.html>`__ for
+more information.
 
 Syntax
 ~~~~~~

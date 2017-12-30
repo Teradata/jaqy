@@ -111,11 +111,14 @@ public class ExecCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
 	{
 		SessionUtils.checkOpen (interpreter);
-		Display display = interpreter.getDisplay ();
-		display.echo (interpreter, action, false);
+		if (!silent)
+		{
+			Display display = interpreter.getDisplay ();
+			display.echo (interpreter, action, false);
+		}
 		Session session = interpreter.getSession ();
 		session.executeQuery (action, interpreter, 1);
 	}

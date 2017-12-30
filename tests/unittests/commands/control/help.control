@@ -40,7 +40,7 @@ Currently available commands are the following.
 	.protocol - displays / sets JDBC protocols and their associated JDBC drivers.
 	.pwd - prints the current catalog and schema.
 	.quiet - turns ResultSet output on / off.
-	.rem - does nothing.
+	.rem - does block comment.
 	.repeat - repeats a following SQL a number of times.
 	.rollback - rolls back the current transaction.
 	.run - runs a Jaqy script.

@@ -2,7 +2,17 @@
 -- .rem command test
 --------------------------------------------------------------------------
 .help rem
-.rem
-.rem test
-.rem aa a a a aa
 
+.rem
+SELECT 1234;
+.end rem
+
+.help rem
+
+.rem asdfasdfasdf
+asdfasdf;
+asd;
+a//z/
+.end rem
+
+.help rem

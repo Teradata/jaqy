@@ -5,8 +5,7 @@ Display Formats
 display format.
 
 .. toctree::
-	:maxdepth: 0
+	:maxdepth: 1
 	:glob:
-	:hidden:
 
 	format/*
