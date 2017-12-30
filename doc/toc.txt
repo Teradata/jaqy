@@ -9,10 +9,11 @@
 
 .. toctree::
 	:maxdepth: 3
-	:caption: References
+	:caption: Manual
 	:hidden:
 
 	command
+	comment
 	config
 	format
 	exitcode

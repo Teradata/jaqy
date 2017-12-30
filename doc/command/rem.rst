@@ -1,6 +1,20 @@
 .rem
 ----
 
-``.rem`` (remark) does nothing
+``.rem`` (remark) does block comment.
 
-This command is mainly served as a line comment much like DOS's REM command.
+Example
+~~~~~~~
+
+.. code-block:: sql
+
+	.rem nothing gets executed
+	SELECT 1234;
+	SELECT 1234;
+	SELECT 1234;
+	.end rem
+
+See Also
+~~~~~~~~
+
+* `Comments <../comment.html>`__
