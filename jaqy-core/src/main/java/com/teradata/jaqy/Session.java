@@ -55,6 +55,7 @@ public class Session
 	private long m_activityCount;
 	private final Object m_lock = new Object ();
 	private long m_batchSize = DEFAULT_BATCH_SIZE;
+	private boolean m_doNotClose;
 
 	Session (Globals globals, int sessionId, Display display)
 	{
@@ -192,7 +193,8 @@ public class Session
 				{
 					display.showActivityCount (interpreter);
 				}
-				rs.close ();
+				if (!m_doNotClose)
+					rs.close ();
 				rs = null;
 			}
 			else
@@ -209,6 +211,8 @@ public class Session
 					break;
 				}
 			}
+			if (m_doNotClose)
+				break;
 			// move onto the next result set
 			boolean moreRS = stmt.getMoreResults ();
 			if (moreRS)
@@ -353,12 +357,13 @@ public class Session
 		{
 			try
 			{
-				if (stmt != null)
+				if (!m_doNotClose && stmt != null)
 					stmt.close ();
 			}
 			catch (Exception ex)
 			{
 			}
+			m_doNotClose = false;
 		}
 	}
 
@@ -431,5 +436,10 @@ public class Session
 		if (batchSize == 0)
 			batchSize = DEFAULT_BATCH_SIZE;
 		m_batchSize = batchSize;
+	}
+
+	public void setDoNotClose (boolean b)
+	{
+		m_doNotClose = b;
 	}
 }

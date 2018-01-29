@@ -755,7 +755,7 @@ public class JaqyInterpreter
 			if (exporter != null)
 			{
 				setExporter (null);
-				return exporter.export (rs, m_globals);
+				return exporter.export (rs, m_session, this, m_globals);
 			}
 			if (m_quiet)
 			{

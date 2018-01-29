@@ -23,6 +23,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyExporter;
@@ -50,7 +52,7 @@ class CSVExporter implements JaqyExporter
 	}
 
 	@Override
-	public long export (JaqyResultSet rs, Globals globals) throws Exception
+	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception
 	{
 		PrintWriter pw = new PrintWriter (new BufferedWriter (m_out));
 		JaqyResultSetMetaData metaData = rs.getMetaData ();

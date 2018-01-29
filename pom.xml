@@ -43,6 +43,7 @@
 		<module>jaqy-console</module>
 		<module>jaqy-json</module>
 		<module>jaqy-csv</module>
+		<module>jaqy-pipe</module>
 		<module>jaqy-avro</module>
 		<module>jaqy-codecov</module>
 	</modules>

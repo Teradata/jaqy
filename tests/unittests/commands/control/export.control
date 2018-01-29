@@ -9,6 +9,7 @@ type:
   avro
   csv
   json
+  pipe
 
 avro type options:
   -c,--compression <arg>   sets the compression codec
@@ -25,6 +26,9 @@ json type options:
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
   -p,--pretty <on | off>       turns pretty print on / off.
+
+pipe type options:
+
 
 -- 0/1 - 0 ----------------------------------------------------------------
 .export

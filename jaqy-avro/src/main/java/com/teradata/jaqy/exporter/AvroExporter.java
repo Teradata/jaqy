@@ -26,6 +26,8 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumWriter;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -55,7 +57,7 @@ class AvroExporter implements JaqyExporter
 	}
 
 	@Override
-	public long export (JaqyResultSet rs, Globals globals) throws Exception
+	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception
 	{
 		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData ());
 		JaqyHelper helper = rs.getHelper ();

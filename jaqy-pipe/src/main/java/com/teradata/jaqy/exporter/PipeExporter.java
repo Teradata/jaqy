@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.interfaces;
+package com.teradata.jaqy.exporter;
+
+import java.sql.ResultSet;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.interfaces.JaqyExporter;
 
 /**
  * @author	Heng Yuan
  */
-public interface JaqyExporter
+public class PipeExporter implements JaqyExporter
 {
-	public String getName ();
-	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception;
+	private JaqyResultSet m_rs;
+
+	public PipeExporter ()
+	{
+	}
+
+	@Override
+	public String getName ()
+	{
+		return "pipe";
+	}
+
+	@Override
+	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception
+	{
+		m_rs = rs;
+		interpreter.setExporter (this);
+		session.setDoNotClose (true);
+		if (rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
+			return -1;
+		long count = 0;
+		while (rs.next ())
+		{
+			++count;
+		}
+		rs.beforeFirst ();
+		return count;
+	}
+
+	public JaqyResultSet getResultSet ()
+	{
+		return m_rs;
+	}
 }

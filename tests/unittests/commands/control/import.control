@@ -9,6 +9,7 @@ type:
   avro
   csv
   json
+  pipe
 
 avro type options:
 
@@ -47,6 +48,9 @@ json type options:
   -b,--binary <base64 | hex>   sets the binary format.
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
+
+pipe type options:
+
 
 -- 0/1 - 0 ----------------------------------------------------------------
 .help importschema

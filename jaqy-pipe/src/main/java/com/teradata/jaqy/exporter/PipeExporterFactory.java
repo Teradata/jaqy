@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.interfaces;
+package com.teradata.jaqy.exporter;
 
-import com.teradata.jaqy.Globals;
+import org.apache.commons.cli.CommandLine;
+
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.Session;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
  * @author	Heng Yuan
  */
-public interface JaqyExporter
+public class PipeExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 {
-	public String getName ();
-	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception;
+	public PipeExporterFactory ()
+	{
+	}
+
+	@Override
+	public String getName ()
+	{
+		return "pipe";
+	}
+
+	@Override
+	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
+	{
+		return new PipeExporter ();
+	}
 }
