@@ -223,5 +223,10 @@ class TeradataHelper extends DefaultHelper
 			info.type = Types.VARCHAR;
 			info.precision = 100;
 		}
+		else if (info.type == Types.OTHER &&
+				 info.className != null)
+		{
+			fixOtherType (info);
+		}
 	}
 }

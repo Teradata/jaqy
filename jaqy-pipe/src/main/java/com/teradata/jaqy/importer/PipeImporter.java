@@ -16,7 +16,10 @@
 package com.teradata.jaqy.importer;
 
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.SQLException;
+import java.sql.SQLXML;
 import java.sql.Statement;
 import java.util.logging.Level;
 
@@ -25,8 +28,10 @@ import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
  * @author	Heng Yuan
@@ -35,11 +40,13 @@ public class PipeImporter implements JaqyImporter<Integer>
 {
 	private final Globals m_globals;
 	private final JaqyResultSet m_rs;
+	private final SchemaInfo m_schema;
 
-	public PipeImporter (JaqyResultSet rs, Globals globals) throws IOException
+	public PipeImporter (JaqyResultSet rs, Globals globals) throws Exception
 	{
 		m_rs = rs;
 		m_globals = globals;
+		m_schema = ResultSetMetaDataUtils.getColumnInfo (m_rs.getMetaData ().getMetaData (), rs.getHelper ());
 	}
 
 	@Override
@@ -51,7 +58,7 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public SchemaInfo getSchema () throws Exception
 	{
-		return null;
+		return m_schema;
 	}
 
 	@Override
@@ -63,14 +70,31 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
 	{
-		try
+		Object o = m_rs.getObject (index + 1);
+		if (o instanceof Clob)
 		{
-			return m_rs.getObject (index + 1);
+			Clob clob = (Clob)o;
+			long len = clob.length ();
+			String str = clob.getSubString (1, (int)len);
+			clob.free ();
+			return str;
 		}
-		catch (ArrayIndexOutOfBoundsException ex)
+		else if (o instanceof Blob)
 		{
-			throw new IOException ("Column " + (index + 1) + " is not found.");
+			Blob blob = (Blob)o;
+			long len = blob.length ();
+			byte[] bytes = blob.getBytes (1, (int)len);
+			blob.free ();
+			return bytes;
 		}
+		else if (o instanceof SQLXML)
+		{
+			SQLXML xml = (SQLXML)o;
+			String str = xml.getString ();
+			xml.free ();
+			return str;
+		}
+		return o;
 	}
 
 	@Override
@@ -110,9 +134,18 @@ public class PipeImporter implements JaqyImporter<Integer>
 		}
 	}
 
+	private FullColumnInfo getColumnInfo (int column)
+	{
+		return m_schema.columns[column - 1];
+	}
+
 	@Override
 	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
 	{
-		stmt.setNull (column, paramInfo.type, paramInfo.typeName);
+		// If possible, we use the source type info since
+		// 1. We need to match the source type
+		// 2. ParamInfo may be dummy (as in case of MySQL)
+		FullColumnInfo info = getColumnInfo (column);
+		stmt.setNull (column, info.type, info.typeName);
 	}
 }

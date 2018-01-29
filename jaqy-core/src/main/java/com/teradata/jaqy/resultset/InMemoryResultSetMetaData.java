@@ -42,7 +42,7 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	 */
 	InMemoryResultSetMetaData (ResultSetMetaData meta) throws SQLException
 	{
-		m_columnInfos = ResultSetMetaDataUtils.getColumnInfo (meta).columns;
+		m_columnInfos = ResultSetMetaDataUtils.getColumnInfo (meta, null).columns;
 	}
 
 	/**

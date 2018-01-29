@@ -24,6 +24,7 @@ import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
@@ -32,7 +33,7 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class ResultSetMetaDataUtils
 {
-	public static SchemaInfo getColumnInfo (ResultSetMetaData meta) throws SQLException
+	public static SchemaInfo getColumnInfo (ResultSetMetaData meta, JaqyHelper helper) throws SQLException
 	{
 		int columnCount = meta.getColumnCount ();
 		FullColumnInfo[] columnInfos = new FullColumnInfo[columnCount];
@@ -41,26 +42,32 @@ public class ResultSetMetaDataUtils
 			FullColumnInfo columnInfo = new FullColumnInfo ();
 			columnInfos[i] = columnInfo;
 
-			columnInfo.autoIncrement = meta.isAutoIncrement (i + 1);
-			columnInfo.caseSensitive = meta.isCaseSensitive (i + 1);
-			columnInfo.searchable = meta.isSearchable (i + 1);
-			columnInfo.currency = meta.isCurrency (i + 1);
-			columnInfo.nullable = meta.isNullable (i + 1);
-			columnInfo.signed = meta.isSigned (i + 1);
-			columnInfo.displaySize = meta.getColumnDisplaySize (i + 1);
-			columnInfo.label = meta.getColumnLabel (i + 1);
-			columnInfo.name = meta.getColumnName (i + 1);
-			columnInfo.schemaName = meta.getSchemaName (i + 1);
-			columnInfo.precision = meta.getPrecision (i + 1);
-			columnInfo.scale = meta.getScale (i + 1);
-			columnInfo.tableName = meta.getTableName (i + 1);
-			columnInfo.catalogName = meta.getCatalogName (i + 1);
-			columnInfo.type = meta.getColumnType (i + 1);
-			columnInfo.typeName = meta.getColumnTypeName (i + 1);
-			columnInfo.className = meta.getColumnClassName (i + 1);
-			columnInfo.readOnly = meta.isReadOnly (i + 1);
-			columnInfo.writable = meta.isWritable (i + 1);
-			columnInfo.definitelyWritable= meta.isDefinitelyWritable (i + 1);
+			int column = i + 1;
+			columnInfo.autoIncrement = meta.isAutoIncrement (column);
+			columnInfo.caseSensitive = meta.isCaseSensitive (column);
+			columnInfo.searchable = meta.isSearchable (column);
+			columnInfo.currency = meta.isCurrency (column);
+			columnInfo.nullable = meta.isNullable (column);
+			columnInfo.signed = meta.isSigned (column);
+			columnInfo.displaySize = meta.getColumnDisplaySize (column);
+			columnInfo.label = meta.getColumnLabel (column);
+			columnInfo.name = meta.getColumnName (column);
+			columnInfo.schemaName = meta.getSchemaName (column);
+			columnInfo.precision = meta.getPrecision (column);
+			columnInfo.scale = meta.getScale (column);
+			columnInfo.tableName = meta.getTableName (column);
+			columnInfo.catalogName = meta.getCatalogName (column);
+			columnInfo.type = meta.getColumnType (column);
+			columnInfo.typeName = meta.getColumnTypeName (column);
+			columnInfo.className = meta.getColumnClassName (column);
+			columnInfo.readOnly = meta.isReadOnly (column);
+			columnInfo.writable = meta.isWritable (column);
+			columnInfo.definitelyWritable= meta.isDefinitelyWritable (column);
+
+			if (helper != null)
+			{
+				helper.fixColumnInfo (columnInfo);
+			}
 		}
 		return new SchemaInfo (columnInfos);
 	}

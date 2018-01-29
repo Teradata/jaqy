@@ -16,6 +16,7 @@
 package com.teradata.jaqy.connection;
 
 import java.io.InputStream;
+import java.io.Reader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -87,6 +88,11 @@ public class JaqyResultSet
 	public String getString (int column) throws SQLException
 	{
 		return m_rs.getString (column);
+	}
+
+	public Reader getCharacterStream (int column) throws SQLException
+	{
+		return m_rs.getCharacterStream (column);
 	}
 
 	public InputStream getBinaryStream (int column) throws SQLException

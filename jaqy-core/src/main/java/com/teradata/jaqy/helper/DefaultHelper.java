@@ -401,7 +401,7 @@ public class DefaultHelper implements JaqyHelper
 			if (rs == null)
 				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
-			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData ());
+			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), this);
 			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true);
 			rs.close ();
 
@@ -443,7 +443,7 @@ public class DefaultHelper implements JaqyHelper
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
-			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData ());
+			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), this);
 			int count = schemaInfo.columns.length;
 
 			PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
@@ -471,14 +471,26 @@ public class DefaultHelper implements JaqyHelper
 		}
 	}
 
-	private int guessType (String className)
+	protected void fixOtherType (BasicColumnInfo info)
 	{
-		if ("java.lang.Integer".equals (className))
-			return Types.INTEGER;
-		if ("java.lang.String".equals (className))
-			return Types.VARCHAR;
-		// Can't guess it
-		return Types.OTHER;
+		if (info.className.startsWith ("java.lang."))
+		{
+			if ("java.lang.Integer".equals (info.className))
+				info.type = Types.INTEGER;
+			if ("java.lang.String".equals (info.className))
+				info.type = Types.VARCHAR;
+		}
+		else if (info.className.startsWith ("java.sql."))
+		{
+			if ("java.sql.Clob".equals (info.className))
+				info.type = Types.CLOB;
+			if ("java.sql.NClob".equals (info.className))
+				info.type = Types.NCLOB;
+			if ("java.sql.Blob".equals (info.className))
+				info.type = Types.BLOB;
+			if ("java.sql.SQLXML".equals (info.className))
+				info.type = Types.SQLXML;
+		}
 	}
 
 	protected FullColumnInfo[] createElementType (int type, String typeName)
@@ -503,10 +515,9 @@ public class DefaultHelper implements JaqyHelper
 	public void fixColumnInfo (FullColumnInfo info)
 	{
 		if (info.type == Types.OTHER &&
-			info.className != null &&
-			info.className.startsWith ("java.lang."))
+			info.className != null)
 		{
-			info.type = guessType (info.className);
+			fixOtherType (info);
 		}
 		else if (info.type == Types.STRUCT ||
 				 info.type == Types.ARRAY)
@@ -530,10 +541,9 @@ public class DefaultHelper implements JaqyHelper
 	public void fixParameterInfo (ParameterInfo info)
 	{
 		if (info.type == Types.OTHER &&
-			info.className != null &&
-			info.className.startsWith ("java.lang."))
+			info.className != null)
 		{
-			info.type = guessType (info.className);
+			fixOtherType (info);
 		}
 	}
 

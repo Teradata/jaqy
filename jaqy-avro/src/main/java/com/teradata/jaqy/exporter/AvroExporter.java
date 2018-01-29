@@ -31,7 +31,6 @@ import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
@@ -59,12 +58,8 @@ class AvroExporter implements JaqyExporter
 	@Override
 	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception
 	{
-		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData ());
 		JaqyHelper helper = rs.getHelper ();
-		for (FullColumnInfo info : schemaInfo.columns)
-		{
-			helper.fixColumnInfo (info);
-		}
+		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData (), helper);
 		Schema schema = AvroUtils.getSchema (schemaInfo, helper);
 		globals.log (Level.INFO, "schema is " + schema.toString (true));
 
