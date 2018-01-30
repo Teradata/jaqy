@@ -95,6 +95,7 @@ class PostgresHelper extends DefaultHelper
 			// PostgreSQL JDBC money handling is a pain.  Let's just
 			// treat it as a string type.
 			info.type = Types.VARCHAR;
+			info.typeName = "varchar";
 			info.precision = 26;		// rough estimate
 		}
 		else

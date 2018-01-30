@@ -401,7 +401,7 @@ public class DefaultHelper implements JaqyHelper
 			if (rs == null)
 				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
-			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), this);
+			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), null);
 			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true);
 			rs.close ();
 
@@ -443,7 +443,7 @@ public class DefaultHelper implements JaqyHelper
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
-			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), this);
+			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), null);
 			int count = schemaInfo.columns.length;
 
 			PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
