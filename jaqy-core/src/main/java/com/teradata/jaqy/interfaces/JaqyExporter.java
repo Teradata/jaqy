@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,8 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 /**
  * @author	Heng Yuan
  */
-public interface JaqyExporter
+public interface JaqyExporter extends AutoCloseable
 {
 	public String getName ();
 	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception;
-	/**
-	 * Silently close this exporter.  This function is called when the user
-	 * changes the exporter without actually exporting anything.
-	 */
-	public void close () throws Exception;
 }

@@ -16,6 +16,7 @@
 package com.teradata.jaqy;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -844,7 +845,7 @@ public class JaqyInterpreter
 	 */
 	public void setExporter (JaqyExporter exporter)
 	{
-		if (m_exporter != null)
+		if (exporter != null && m_exporter != null)
 		{
 			try
 			{
@@ -872,6 +873,18 @@ public class JaqyInterpreter
 	 */
 	public void setImporter (JaqyImporter<?> importer)
 	{
+		JaqyImporter<?> oldImporter = m_importer;
+		if (oldImporter != null)
+		{
+			try
+			{
+				oldImporter.close ();
+			}
+			catch (IOException ex)
+			{
+				m_globals.log (Level.INFO, ex);
+			}
+		}
 		m_importer = importer;
 		setQueryMode (QueryMode.Import);
 	}
