@@ -1,0 +1,135 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test pipe
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE TextTable
+(
+	a  INTEGER,
+	c1 TEXT
+);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO TextTable VALUES (1, '1');
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+
+.repeat 10
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO TextTable
+SELECT a + (SELECT max(a) FROM TextTable),
+       c1 || (SELECT c1 FROM TextTable WHERE a = (SELECT max(a) FROM TextTable))
+FROM TextTable;
+-- iteration: 1
+-- success. update count = 1
+-- iteration: 2
+-- success. update count = 2
+-- iteration: 3
+-- success. update count = 4
+-- iteration: 4
+-- success. update count = 8
+-- iteration: 5
+-- success. update count = 16
+-- iteration: 6
+-- success. update count = 32
+-- iteration: 7
+-- success. update count = 64
+-- iteration: 8
+-- success. update count = 128
+-- iteration: 9
+-- success. update count = 256
+-- iteration: 10
+-- success. update count = 512
+-- 3/3 - 0 ----------------------------------------------------------------
+
+INSERT INTO XmlTable
+SELECT a, CAST('<a>' || c1 || '</a>' AS XML)
+FROM TextTable;
+-- failure 0: [42P01] ERROR: relation "xmltable" does not exist
+  Position: 13
+-- 4/3 - 0 ----------------------------------------------------------------
+
+.session new
+-- 4/4 - 1 ----------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 4/5 - 1 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 4/6 - 1 ----------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 5/6 - 1 ----------------------------------------------------------------
+
+CREATE TABLE TextTable
+(
+	a  INTEGER,
+	c1 MEDIUMTEXT
+);
+-- success. update count = 0
+-- 6/6 - 1 ----------------------------------------------------------------
+
+.session 0
+-- 6/7 - 0 ----------------------------------------------------------------
+
+.autocommit off
+-- 6/8 - 0 ----------------------------------------------------------------
+.fetchsize 50
+-- 6/9 - 0 ----------------------------------------------------------------
+.export pipe
+-- 6/10 - 0 ---------------------------------------------------------------
+SELECT * FROM TextTable ORDER BY a;
+-- success --
+-- 7/10 - 0 ---------------------------------------------------------------
+
+.session 1
+-- 7/11 - 1 ---------------------------------------------------------------
+
+.import pipe
+-- 7/12 - 1 ---------------------------------------------------------------
+.batchsize 500
+-- 7/13 - 1 ---------------------------------------------------------------
+INSERT INTO TextTable VALUES ({{a}}, {{c1}});
+-- success. update count = 1
+-- success. update count = 1
+-- success. update count = 1
+-- 8/13 - 1 ---------------------------------------------------------------
+
+SELECT COUNT(*) FROM TextTable;
+-- success --
+COUNT(*)
+--------
+    1024
+-- activity count = 1
+-- 9/13 - 1 ---------------------------------------------------------------
+
+SELECT * FROM TextTable WHERE a = 40;
+-- success --
+ a c1
+-- ----------------------------------------
+40 1111111111111111111111111111111111111111
+-- activity count = 1
+-- 10/13 - 1 --------------------------------------------------------------
+
+.session 0
+-- 10/14 - 0 --------------------------------------------------------------
+.autocommit on
+-- 10/15 - 0 --------------------------------------------------------------
+DROP TABLE TextTable;
+-- success. update count = 0
+-- 11/15 - 0 --------------------------------------------------------------
+.close
+-- 11/16 - 0 --------------------------------------------------------------
+.session 1
+-- 11/17 - 1 --------------------------------------------------------------
+DROP TABLE TextTable;
+-- success. update count = 0
+-- 12/17 - 1 --------------------------------------------------------------
+.close
+-- 12/18 - 1 --------------------------------------------------------------
