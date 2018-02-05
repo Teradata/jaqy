@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.exporter;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 
@@ -76,7 +77,7 @@ class AvroExporter implements JaqyExporter
 	}
 
 	@Override
-	public void close () throws Exception
+	public void close () throws IOException
 	{
 		m_os.close ();
 	}

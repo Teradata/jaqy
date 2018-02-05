@@ -91,7 +91,7 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		return m_rs.getObject (path);
+		return ResultSetUtils.copyIfNecessary (m_rs.getObject (path + 1), interpreter);
 	}
 
 	@Override

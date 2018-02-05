@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.interfaces;
 
+import java.io.Closeable;
+
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
@@ -23,7 +25,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 /**
  * @author	Heng Yuan
  */
-public interface JaqyExporter extends AutoCloseable
+public interface JaqyExporter extends Closeable
 {
 	public String getName ();
 	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception;
