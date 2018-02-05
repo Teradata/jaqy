@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  */
 package com.teradata.jaqy.utils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
+import com.teradata.jaqy.resultset.*;
 
 /**
  * @author	Heng Yuan
@@ -92,5 +92,42 @@ public class ResultSetUtils
 			default:
 				return "Unknown";
 		}
+	}
+
+	public static Clob copyClob (Clob clob, int threshold, char[] charBuffer) throws SQLException
+	{
+		if (clob.length () < threshold)
+		{
+			if (clob instanceof NClob)
+				return new InMemNClob ((NClob)clob);
+			return new InMemClob (clob);
+		}
+		if (clob instanceof NClob)
+			return new FileNClob ((NClob)clob, charBuffer);
+		return new FileClob (clob, charBuffer);
+	}
+
+	public static Blob copyBlob (Blob blob, int threshold, byte[] byteBuffer) throws SQLException
+	{
+		if (blob.length () < threshold)
+			return new InMemBlob (blob);
+		return new FileBlob (blob, byteBuffer);
+	}
+
+	public static SQLXML copySQLXML (SQLXML xml, int threshold, char[] charBuffer) throws SQLException
+	{
+		return new FileSQLXML (xml, charBuffer);
+	}
+
+	public static Object copyIfNecessary (Object o, JaqyInterpreter interpreter) throws SQLException
+	{
+		int threshold = interpreter.getCopyThreshold ();
+		if (o instanceof Clob)
+			return copyClob ((Clob)o, threshold, interpreter.getCharBuffer ());
+		if (o instanceof Blob)
+			return copyBlob ((Blob)o, threshold, interpreter.getByteBuffer ());
+		if (o instanceof SQLXML)
+			return copySQLXML ((SQLXML)o, threshold, interpreter.getCharBuffer ());
+		return o;
 	}
 }

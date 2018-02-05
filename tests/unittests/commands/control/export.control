@@ -32,7 +32,7 @@ pipe type options:
 
 -- 0/1 - 0 ----------------------------------------------------------------
 .export
--- error: null
+No current exports.
 -- 0/2 - 0 ----------------------------------------------------------------
 
 .run ../common/sqlite_setup.sql
@@ -70,7 +70,7 @@ INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 -- 8/5 - 0 ----------------------------------------------------------------
 
 .export
--- error: null
+No current exports.
 -- 8/6 - 0 ----------------------------------------------------------------
 .export dummy
 -- error: invalid format name: dummy

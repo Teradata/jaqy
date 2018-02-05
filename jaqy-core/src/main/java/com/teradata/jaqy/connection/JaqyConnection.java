@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ public class JaqyConnection
 {
 	private final Connection m_connection;
 	private JaqyHelper m_helper;
+	private int m_fetchSize = 0;
 
 	public JaqyConnection (Connection conn)
 	{
@@ -78,14 +79,20 @@ public class JaqyConnection
 		}
 	}
 	
-	public JaqyStatement createStatement () throws SQLException
+	public JaqyStatement createStatement (boolean forwardOnly) throws SQLException
 	{
-		return m_helper.createStatement ();
+		JaqyStatement stmt = m_helper.createStatement (forwardOnly);
+		if (m_fetchSize > 0)
+			stmt.setFetchSize (m_fetchSize);
+		return stmt;
 	}
 
 	public JaqyPreparedStatement prepareStatement (String sql) throws SQLException
 	{
-		return m_helper.preparedStatement (sql);
+		JaqyPreparedStatement stmt = m_helper.preparedStatement (sql);
+		if (m_fetchSize > 0)
+			stmt.setFetchSize (m_fetchSize);
+		return stmt;
 	}
 
 	public void setAutoCommit (boolean b) throws SQLException
@@ -155,5 +162,15 @@ public class JaqyConnection
 	public Struct createStruct (String typeName, Object[] elements) throws SQLException
 	{
 		return m_connection.createStruct (typeName, elements);
+	}
+
+	public void setFetchSize (int size)
+	{
+		m_fetchSize = size;
+	}
+
+	public int getFetchSize ()
+	{
+		return m_fetchSize;
 	}
 }

@@ -1,0 +1,85 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test exporting large amount of data
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE TextTable
+(
+	a  INTEGER,
+	c1 TEXT
+);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO TextTable VALUES (1, '1');
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+
+.repeat 16
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO TextTable
+SELECT a + (SELECT max(a) FROM TextTable),
+       c1 || (SELECT c1 FROM TextTable WHERE a = (SELECT max(a) FROM TextTable))
+FROM TextTable;
+-- iteration: 1
+-- success. update count = 1
+-- iteration: 2
+-- success. update count = 2
+-- iteration: 3
+-- success. update count = 4
+-- iteration: 4
+-- success. update count = 8
+-- iteration: 5
+-- success. update count = 16
+-- iteration: 6
+-- success. update count = 32
+-- iteration: 7
+-- success. update count = 64
+-- iteration: 8
+-- success. update count = 128
+-- iteration: 9
+-- success. update count = 256
+-- iteration: 10
+-- success. update count = 512
+-- iteration: 11
+-- success. update count = 1024
+-- iteration: 12
+-- success. update count = 2048
+-- iteration: 13
+-- success. update count = 4096
+-- iteration: 14
+-- success. update count = 8192
+-- iteration: 15
+-- success. update count = 16384
+-- iteration: 16
+-- success. update count = 32768
+-- 3/3 - 0 ----------------------------------------------------------------
+
+.autocommit off
+-- 3/4 - 0 ----------------------------------------------------------------
+.fetchsize 50
+-- 3/5 - 0 ----------------------------------------------------------------
+.export csv texttable.csv
+-- 3/6 - 0 ----------------------------------------------------------------
+SELECT * FROM TextTable ORDER BY a;
+-- success --
+-- activity count = 65536
+-- 4/6 - 0 ----------------------------------------------------------------
+
+DROP TABLE TextTable;
+-- success. update count = 0
+-- 5/6 - 0 ----------------------------------------------------------------
+
+.os wc -c texttable.csv
+2148029604 texttable.csv
+-- 5/7 - 0 ----------------------------------------------------------------
+.os rm -f texttable.csv
+-- 5/8 - 0 ----------------------------------------------------------------
+.close
+-- 5/9 - 0 ----------------------------------------------------------------

@@ -34,7 +34,7 @@ public class QueryUtils
 		globals.log (Level.INFO, "SQL: " + sql);
 		try
 		{
-			stmt = conn.createStatement ();
+			stmt = conn.createStatement (true);
 			stmt.execute (sql);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)
@@ -79,7 +79,7 @@ public class QueryUtils
 		globals.log (Level.INFO, "SQL: " + sql);
 		try
 		{
-			stmt = conn.createStatement ();
+			stmt = conn.createStatement (true);
 			stmt.execute (sql);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)

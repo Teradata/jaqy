@@ -110,4 +110,17 @@ class JsonExporter implements JaqyExporter
 
 		return count;
 	}
+
+	@Override
+	public void close () throws Exception
+	{
+		if (m_out != null)
+		{
+			m_out.close ();
+		}
+		if (m_os != null)
+		{
+			m_os.close ();
+		}
+	}
 }

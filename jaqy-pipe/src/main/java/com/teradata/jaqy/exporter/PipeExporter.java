@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.sql.ResultSet;
-
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
@@ -46,19 +44,17 @@ public class PipeExporter implements JaqyExporter
 		m_rs = rs;
 		interpreter.setExporter (this);
 		session.setDoNotClose (true);
-		if (rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
-			return -1;
-		long count = 0;
-		while (rs.next ())
-		{
-			++count;
-		}
-		rs.beforeFirst ();
-		return count;
+		return -1;
 	}
 
 	public JaqyResultSet getResultSet ()
 	{
 		return m_rs;
+	}
+
+	@Override
+	public void close () throws Exception
+	{
+		m_rs = null;
 	}
 }

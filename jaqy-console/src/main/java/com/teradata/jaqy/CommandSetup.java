@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,6 +76,7 @@ class CommandSetup
 		manager.addCommand ("importschema", new ImportSchemaCommand ());
 		manager.addCommand ("importtable", new ImportTableCommand ());
 		manager.addCommand ("batchsize", new BatchSizeCommand ());
+		manager.addCommand ("fetchsize", new FetchSizeCommand ());
 
 		// plugin
 		manager.addCommand ("load", new LoadCommand ());

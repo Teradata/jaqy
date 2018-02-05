@@ -265,4 +265,10 @@ class TablePrinter implements JaqyPrinter
 	{
 		return "table";
 	}
+
+	@Override
+	public boolean isForwardOnly ()
+	{
+		return false;
+	}
 }

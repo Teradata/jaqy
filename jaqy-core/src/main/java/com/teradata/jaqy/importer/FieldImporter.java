@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.VariableHandler;
@@ -66,10 +67,10 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	}
 
 	@Override
-	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		Object path = m_pathMap.get (new Integer (index));
-		return m_importer.getObjectFromPath (path, paramInfo);
+		return m_importer.getObjectFromPath (path, paramInfo, interpreter);
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	 * Dummy since it will not be called.
 	 */
 	@Override
-	public Object getObjectFromPath (Object path, ParameterInfo paramInfo) throws Exception
+	public Object getObjectFromPath (Object path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		return null;
 	}

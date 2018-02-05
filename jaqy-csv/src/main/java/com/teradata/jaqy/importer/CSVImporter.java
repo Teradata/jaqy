@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -126,7 +127,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		try
 		{
@@ -171,9 +172,9 @@ public class CSVImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo) throws Exception
+	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		return getObject ((int)path, paramInfo);
+		return getObject ((int)path, paramInfo, interpreter);
 	}
 
 	@Override

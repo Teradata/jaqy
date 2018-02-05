@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public interface JaqyHelper
 {
 	public JdbcFeatures getFeatures ();
 
-	public JaqyStatement createStatement () throws SQLException;
+	public JaqyStatement createStatement (boolean forwardOnly) throws SQLException;
 	public JaqyPreparedStatement preparedStatement (String sql) throws SQLException;
 
 	public JaqyConnection getConnection ();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,8 @@ import com.teradata.jaqy.utils.*;
  */
 public class JaqyInterpreter
 {
+	public static int BUFFER_SIZE = 32000;
+
 	private static class ParseAction
 	{
 		JaqyCommand cmd;
@@ -76,6 +78,11 @@ public class JaqyInterpreter
 	private long m_limit = 0;
 	private long m_repeatCount = 1;
 	private String m_prevSQL;
+
+	private int m_copyThreshold = 32000;
+	/** temp byte buffer */
+	private byte[] m_byteBuffer;
+	private char[] m_charBuffer;
 
 	private SortInfo[] m_sortInfos;
 
@@ -837,6 +844,17 @@ public class JaqyInterpreter
 	 */
 	public void setExporter (JaqyExporter exporter)
 	{
+		if (m_exporter != null)
+		{
+			try
+			{
+				m_exporter.close ();
+			}
+			catch (Exception ex)
+			{
+				m_globals.log (Level.INFO, ex);
+			}
+		}
 		m_exporter = exporter;
 	}
 
@@ -956,5 +974,33 @@ public class JaqyInterpreter
 	public void setSortInfos (SortInfo[] sortInfos)
 	{
 		m_sortInfos = sortInfos;
+	}
+
+	public byte[] getByteBuffer ()
+	{
+		if (m_byteBuffer == null)
+		{
+			m_byteBuffer = new byte[BUFFER_SIZE];
+		}
+		return m_byteBuffer;
+	}
+
+	public char[] getCharBuffer ()
+	{
+		if (m_charBuffer == null)
+		{
+			m_charBuffer = new char[BUFFER_SIZE];
+		}
+		return m_charBuffer;
+	}
+
+	public int getCopyThreshold ()
+	{
+		return m_copyThreshold;
+	}
+
+	public void setCopyThreshold (int copyThreshold)
+	{
+		m_copyThreshold = copyThreshold;
 	}
 }

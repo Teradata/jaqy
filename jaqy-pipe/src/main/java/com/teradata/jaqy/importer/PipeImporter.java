@@ -16,14 +16,12 @@
 package com.teradata.jaqy.importer;
 
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.Clob;
 import java.sql.SQLException;
-import java.sql.SQLXML;
 import java.sql.Statement;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
@@ -32,6 +30,7 @@ import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
+import com.teradata.jaqy.utils.ResultSetUtils;
 
 /**
  * @author	Heng Yuan
@@ -68,33 +67,9 @@ public class PipeImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		Object o = m_rs.getObject (index + 1);
-		if (o instanceof Clob)
-		{
-			Clob clob = (Clob)o;
-			long len = clob.length ();
-			String str = clob.getSubString (1, (int)len);
-			clob.free ();
-			return str;
-		}
-		else if (o instanceof Blob)
-		{
-			Blob blob = (Blob)o;
-			long len = blob.length ();
-			byte[] bytes = blob.getBytes (1, (int)len);
-			blob.free ();
-			return bytes;
-		}
-		else if (o instanceof SQLXML)
-		{
-			SQLXML xml = (SQLXML)o;
-			String str = xml.getString ();
-			xml.free ();
-			return str;
-		}
-		return o;
+		return ResultSetUtils.copyIfNecessary (m_rs.getObject (index + 1), interpreter);
 	}
 
 	@Override
@@ -114,7 +89,7 @@ public class PipeImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
-	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo) throws Exception
+	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		return m_rs.getObject (path);
 	}

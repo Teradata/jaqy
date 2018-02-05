@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.resultset;
+package com.teradata.jaqy.command;
 
-import java.sql.NClob;
-import java.sql.SQLException;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import com.teradata.jaqy.utils.TestUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class InMemNClob extends InMemClob implements NClob
+public class FetchSizeCommandTest
 {
-	public InMemNClob (NClob clob) throws SQLException
-	{
-		super (clob);
-	}
+	@Rule
+	public TemporaryFolder testFolder = new TemporaryFolder ();
 
-	InMemNClob (String str)
+	@Test
+	public void test1 () throws Exception
 	{
-		super (str);
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/fetchsize.sql", "../tests/unittests/commands/control/fetchsize.control");
 	}
 }

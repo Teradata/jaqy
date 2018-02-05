@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -237,7 +238,7 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObject (int index, ParameterInfo paramInfo) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		return getObject (m_record.get (index), paramInfo);
 	}
@@ -249,7 +250,7 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObjectFromPath (String name, ParameterInfo paramInfo) throws Exception
+	public Object getObjectFromPath (String name, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		return getObject (m_record.get (name), paramInfo);
 	}

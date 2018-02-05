@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import org.yuanheng.cookjson.value.CookJsonArray;
 import org.yuanheng.cookjson.value.CookJsonBinary;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
@@ -159,7 +160,7 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObject (int index, ParameterInfo paramInfo) throws IOException
+	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws IOException
 	{
 		throw new IOException ("json data has to be accessed via field.");
 	}
@@ -171,7 +172,7 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObjectFromPath (String name, ParameterInfo paramInfo) throws Exception
+	public Object getObjectFromPath (String name, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		JsonValue v = m_node.get (name);
 		if (v == null || v.getValueType () == ValueType.NULL) 

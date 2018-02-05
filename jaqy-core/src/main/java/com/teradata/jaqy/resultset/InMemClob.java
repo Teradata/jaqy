@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,16 @@ import java.sql.Clob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.utils.ExceptionUtils;
+import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class InMemClob implements Clob, Comparable<InMemClob>
+public class InMemClob implements Clob, Comparable<Clob>
 {
 	private String m_str;
 
-	InMemClob (Clob clob) throws SQLException
+	public InMemClob (Clob clob) throws SQLException
 	{
 		this (clob.getSubString (1, (int)clob.length ()));
 		clob.free ();
@@ -65,13 +66,13 @@ public class InMemClob implements Clob, Comparable<InMemClob>
 	}
 
 	@Override
-	public Reader getCharacterStream () throws SQLException
+	public Reader getCharacterStream ()
 	{
 		return new StringReader (m_str);
 	}
 
 	@Override
-	public InputStream getAsciiStream () throws SQLException
+	public InputStream getAsciiStream ()
 	{
 		return new ByteArrayInputStream (m_str.getBytes (Charset.forName ("utf-8")));
 	}
@@ -121,7 +122,7 @@ public class InMemClob implements Clob, Comparable<InMemClob>
 	}
 
 	@Override
-	public void free () throws SQLException
+	public void free ()
 	{
 		m_str = null;
 	}
@@ -139,8 +140,18 @@ public class InMemClob implements Clob, Comparable<InMemClob>
 	}
 
 	@Override
-	public int compareTo (InMemClob o)
+	public int compareTo (Clob o)
 	{
-		return m_str.compareTo (o.m_str);
+		if (o instanceof InMemClob)
+			return m_str.compareTo (((InMemClob)o).m_str);
+		try
+		{
+			return FileUtils.compare (getCharacterStream(), o.getCharacterStream ());
+		}
+		catch (Exception ex)
+		{
+			// shouldn't reach here
+			return -1;
+		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,45 +15,56 @@
  */
 package com.teradata.jaqy.resultset;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-import java.nio.charset.Charset;
+import java.io.*;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
+import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class InMemSQLXML implements SQLXML, Comparable<SQLXML>
+public class FileSQLXML implements SQLXML, Comparable<SQLXML>
 {
-	private String m_xml;
+	private int m_length;
+	private File m_file;
 
-	public InMemSQLXML (SQLXML xml) throws SQLException
+	public FileSQLXML (SQLXML xml, char[] charBuffer) throws SQLException
 	{
-		m_xml = xml.getString ();
-		xml.free ();
+		try
+		{
+			m_file = FileUtils.createTempFile ();
+			m_length = (int)FileUtils.writeFile (m_file, xml.getCharacterStream (), charBuffer);
+			xml.free ();
+		}
+		catch (IOException ex)
+		{
+			throw new JaqyException (ex);
+		}
 	}
 
 	@Override
 	public void free () throws SQLException
 	{
-		m_xml = null;
+		m_file.delete ();
 	}
 
 	@Override
 	public InputStream getBinaryStream () throws SQLException
 	{
-		return new ByteArrayInputStream (m_xml.getBytes (Charset.forName ("utf-8")));
+		try
+		{
+			return new FileInputStream (m_file);
+		}
+		catch (IOException ex)
+		{
+			throw new JaqyException (ex);
+		}
 	}
 
 	@Override
@@ -65,7 +76,14 @@ public class InMemSQLXML implements SQLXML, Comparable<SQLXML>
 	@Override
 	public Reader getCharacterStream ()
 	{
-		return new StringReader (m_xml);
+		try
+		{
+			return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
+		}
+		catch (IOException ex)
+		{
+			throw new JaqyException (ex);
+		}
 	}
 
 	@Override
@@ -77,7 +95,14 @@ public class InMemSQLXML implements SQLXML, Comparable<SQLXML>
 	@Override
 	public String getString () throws SQLException
 	{
-		return m_xml;
+		try
+		{
+			return FileUtils.readString (m_file, 0, m_length);
+		}
+		catch (IOException ex)
+		{
+			throw new JaqyException (ex);
+		}
 	}
 
 	@Override
@@ -98,18 +123,9 @@ public class InMemSQLXML implements SQLXML, Comparable<SQLXML>
 		throw ExceptionUtils.getNotImplemented ();
 	}
 
-	public int getLength ()
-	{
-		return m_xml.length ();
-	}
-
 	@Override
 	public int compareTo (SQLXML o)
 	{
-		if (o instanceof InMemSQLXML)
-		{
-			return m_xml.compareTo (((InMemSQLXML)o).m_xml);
-		}
 		try
 		{
 			return FileUtils.compare (getCharacterStream(), o.getCharacterStream ());

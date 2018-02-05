@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,14 +146,14 @@ public class Session
 		return conn.isClosed ();
 	}
 
-	private JaqyStatement createStatement () throws SQLException
+	private JaqyStatement createStatement (boolean forwardOnly) throws SQLException
 	{
 		JaqyConnection conn;
 		synchronized (m_lock)
 		{
 			conn = m_connection;
 		}
-		return conn.createStatement ();
+		return conn.createStatement (forwardOnly);
 	}
 
 	private JaqyPreparedStatement prepareStatement (String sql, JaqyInterpreter interpreter) throws SQLException
@@ -263,7 +263,7 @@ public class Session
 			{
 				for (int i = 0; i < columns; ++i)
 				{
-					Object o = importer.getObject (i, parameterInfos[i]);
+					Object o = importer.getObject (i, parameterInfos[i], interpreter);
 					if (o == null)
 					{
 						//stmt.setNull (i + 1, parameterInfos[i].type, parameterInfos[i].typeName);
@@ -340,7 +340,17 @@ public class Session
 		if (sql.endsWith (";"))
 			sql = sql.substring (0, sql.length () - 1);
 
-		JaqyStatement stmt = createStatement ();
+		// optimize the ResultSet type a bit.  FORWARD_ONLY resultsets
+		// for some drivers are necessary to obtain large results.
+		boolean forwardOnly = (interpreter.getExporter () != null) ||
+							  interpreter.isQuiet () ||
+							  interpreter.getPrinter ().isForwardOnly ();
+		if (forwardOnly)
+		{
+			m_globals.log (Level.INFO, "executeQuery - forwardOnly");
+		}
+
+		JaqyStatement stmt = createStatement (forwardOnly);
 		try
 		{
 			for (int iter = 0; iter < repeat; ++iter)
@@ -353,12 +363,19 @@ public class Session
 				handleQueryResult (stmt, interpreter);
 			}
 		}
+		catch (Error err)
+		{
+			throw err;
+		}
 		finally
 		{
 			try
 			{
 				if (!m_doNotClose && stmt != null)
+				{
+					m_globals.log (Level.INFO, "executeQuery - closing statement.");
 					stmt.close ();
+				}
 			}
 			catch (Exception ex)
 			{

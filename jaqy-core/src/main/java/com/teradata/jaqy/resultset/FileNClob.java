@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ import java.sql.SQLException;
 /**
  * @author	Heng Yuan
  */
-public class InMemNClob extends InMemClob implements NClob
+public class FileNClob extends FileClob implements NClob
 {
-	public InMemNClob (NClob clob) throws SQLException
+	public FileNClob (NClob clob, char[] charBuffer) throws SQLException
 	{
-		super (clob);
+		super (clob, charBuffer);
 	}
 
-	InMemNClob (String str)
+	public FileNClob (String str)
 	{
 		super (str);
 	}

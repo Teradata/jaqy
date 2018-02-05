@@ -76,4 +76,10 @@ class JsonPrinter implements JaqyPrinter
 		pw.println ();
 		return count;
 	}
+
+	@Override
+	public boolean isForwardOnly ()
+	{
+		return true;
+	}
 }

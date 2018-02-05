@@ -46,8 +46,9 @@ public class PipeImporterFactory extends JaqyHandlerFactoryImpl<PipeImporter>
 			interpreter.error ("No current pipe export.");
 		else if (!(exporter instanceof PipeExporter))
 			interpreter.error ("Current export is not a pipe export.");
-
 		JaqyResultSet rs = ((PipeExporter)exporter).getResultSet ();
+		if (rs == null)
+			interpreter.error ("Data has not been exported.");
 		interpreter.setExporter (null);
 		return new PipeImporter (rs, interpreter.getGlobals ());
 	}

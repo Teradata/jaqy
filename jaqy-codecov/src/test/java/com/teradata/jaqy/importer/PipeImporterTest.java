@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,5 +33,17 @@ public class PipeImporterTest
 	public void test1 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_1.sql", "../tests/unittests/pipe/control/pipe_1.control");
+	}
+
+	@Test
+	public void test2 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_2.sql", "../tests/unittests/pipe/control/pipe_2.control");
+	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_3.sql", "../tests/unittests/pipe/control/pipe_3.control");
 	}
 }

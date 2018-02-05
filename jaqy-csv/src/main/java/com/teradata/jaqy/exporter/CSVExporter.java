@@ -83,4 +83,10 @@ class CSVExporter implements JaqyExporter
 		printer.close ();
 		return count;
 	}
+
+	@Override
+	public void close () throws Exception
+	{
+		m_out.close ();
+	}
 }

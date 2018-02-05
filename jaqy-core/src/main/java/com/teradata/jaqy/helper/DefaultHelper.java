@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,10 +86,10 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public JaqyStatement createStatement () throws SQLException
+	public JaqyStatement createStatement (boolean forwardOnly) throws SQLException
 	{
 		Connection conn = m_conn.getConnection ();
-		if (m_features.forwardOnlyRS)
+		if (m_features.forwardOnlyRS || forwardOnly)
 			return new JaqyStatement (conn.createStatement (), m_conn);
 		else
 		{
@@ -395,7 +395,7 @@ public class DefaultHelper implements JaqyHelper
 		JaqyStatement stmt = null;
 		try
 		{
-			stmt = createStatement ();
+			stmt = createStatement (true);
 			stmt.execute (query);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)
@@ -437,7 +437,7 @@ public class DefaultHelper implements JaqyHelper
 		JaqyStatement stmt = null;
 		try
 		{
-			stmt = createStatement ();
+			stmt = createStatement (true);
 			stmt.execute (query);
 			JaqyResultSet rs = stmt.getResultSet ();
 			if (rs == null)

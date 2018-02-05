@@ -80,4 +80,10 @@ class CSVPrinter implements JaqyPrinter
 		printer.flush ();
 		return count;
 	}
+
+	@Override
+	public boolean isForwardOnly ()
+	{
+		return true;
+	}
 }

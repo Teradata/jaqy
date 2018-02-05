@@ -62,7 +62,15 @@ public class ExportCommand extends JaqyCommandAdapter
 	{
 		if (args.length == 0)
 		{
-			interpreter.println (getCommand () + " " + interpreter.getExporter ().getName ());
+			JaqyExporter exporter = interpreter.getExporter ();
+			if (exporter == null)
+			{
+				interpreter.println ("No current exports.");
+			}
+			else
+			{
+				interpreter.println (getCommand () + " " + exporter.getName ());
+			}
 		}
 		else
 		{

@@ -27,4 +27,11 @@ public interface JaqyPrinter
 {
 	public String getName ();
 	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception;
+	/**
+	 * Does this ResultSet printer only scans forward?
+	 *
+	 * @return	true if this ResultSet printer only scans forward.
+	 * 			false otherwise.
+	 */
+	boolean isForwardOnly ();
 }

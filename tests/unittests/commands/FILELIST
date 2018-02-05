@@ -11,10 +11,13 @@ exit_1.sql
 exit_2.sql
 exit_3.sql
 export.sql
+fetchsize.sql
+handler.sql
 help.sql
 if.sql
 import.sql
 info.sql
+limit.sql
 list.sql
 load.sql
 open.sql

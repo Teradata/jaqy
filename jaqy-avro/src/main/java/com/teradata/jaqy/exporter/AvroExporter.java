@@ -74,4 +74,10 @@ class AvroExporter implements JaqyExporter
 		dataFileWriter.close ();
 		return count;
 	}
+
+	@Override
+	public void close () throws Exception
+	{
+		m_os.close ();
+	}
 }

@@ -27,4 +27,9 @@ public interface JaqyExporter
 {
 	public String getName ();
 	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception;
+	/**
+	 * Silently close this exporter.  This function is called when the user
+	 * changes the exporter without actually exporting anything.
+	 */
+	public void close () throws Exception;
 }

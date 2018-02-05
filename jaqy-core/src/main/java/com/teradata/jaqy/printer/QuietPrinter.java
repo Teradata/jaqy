@@ -56,4 +56,10 @@ public class QuietPrinter implements JaqyPrinter
 	{
 		return "quiet";
 	}
+
+	@Override
+	public boolean isForwardOnly ()
+	{
+		return true;
+	}
 }
