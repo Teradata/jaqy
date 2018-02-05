@@ -15,7 +15,6 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -113,15 +112,27 @@ class JsonExporter implements JaqyExporter
 	}
 
 	@Override
-	public void close () throws IOException
+	public void close ()
 	{
 		if (m_out != null)
 		{
-			m_out.close ();
+			try
+			{
+				m_out.close ();
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 		if (m_os != null)
 		{
-			m_os.close ();
+			try
+			{
+				m_os.close ();
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 	}
 }

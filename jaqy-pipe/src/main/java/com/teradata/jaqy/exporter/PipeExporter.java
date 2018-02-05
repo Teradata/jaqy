@@ -15,7 +15,7 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.IOException;
+import java.sql.SQLException;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -55,8 +55,18 @@ public class PipeExporter implements JaqyExporter
 	}
 
 	@Override
-	public void close () throws IOException
+	public void close ()
 	{
+		if (m_rs != null)
+		{
+			try
+			{
+				m_rs.close ();
+			}
+			catch (SQLException ex)
+			{
+			}
+		}
 		m_rs = null;
 	}
 }

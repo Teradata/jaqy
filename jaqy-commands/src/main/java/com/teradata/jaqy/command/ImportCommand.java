@@ -18,6 +18,7 @@ package com.teradata.jaqy.command;
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.QueryMode;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -76,6 +77,7 @@ public class ImportCommand extends JaqyCommandAdapter
 			}
 //			importer.showSchema (interpreter);
 			interpreter.setImporter (importer);
+			interpreter.setQueryMode (QueryMode.Import);
 		}
 	}
 }

@@ -16,7 +16,6 @@
 package com.teradata.jaqy.exporter;
 
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
@@ -86,8 +85,14 @@ class CSVExporter implements JaqyExporter
 	}
 
 	@Override
-	public void close () throws IOException
+	public void close ()
 	{
-		m_out.close ();
+		try
+		{
+			m_out.close ();
+		}
+		catch (Exception ex)
+		{
+		}
 	}
 }

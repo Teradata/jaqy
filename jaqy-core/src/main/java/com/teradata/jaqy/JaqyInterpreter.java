@@ -482,6 +482,7 @@ public class JaqyInterpreter
 				else
 				{
 					Session session = m_session;
+					boolean errorCleanup = false;
 					try
 					{
 						display.echo (this, sql, interactive);
@@ -511,12 +512,26 @@ public class JaqyInterpreter
 					catch (SQLException ex)
 					{
 						++m_failureCount;
+						errorCleanup = true;
 						display.error (this, ex);
 					}
 					catch (Throwable t)
 					{
 						++m_errorCount;
+						errorCleanup = true;
 						display.error (this, t);
+					}
+
+					if (errorCleanup)
+					{
+						if (m_importer != null)
+						{
+							setImporter (null);
+						}
+						if (m_exporter != null)
+						{
+							setExporter (null);
+						}
 					}
 
 					// Now reset the status of some states
@@ -886,7 +901,6 @@ public class JaqyInterpreter
 			}
 		}
 		m_importer = importer;
-		setQueryMode (QueryMode.Import);
 	}
 
 	/**
@@ -905,7 +919,9 @@ public class JaqyInterpreter
 	{
 		m_queryMode = queryMode;
 		if (queryMode != QueryMode.Import)
-			m_importer = null;
+		{
+			setImporter (null);
+		}
 	}
 
 	public File getDirectory ()
