@@ -8,7 +8,7 @@ import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
-public class FileBlob implements Blob, Comparable<Blob>
+public class FileBlob implements Blob, CloseableData, Comparable<Blob>
 {
 	private long m_length;
 	private File m_file;
@@ -138,5 +138,11 @@ public class FileBlob implements Blob, Comparable<Blob>
 			// shouldn't reach here
 			return -1;
 		}
+	}
+
+	@Override
+	public void close ()
+	{
+		m_file.delete ();
 	}
 }

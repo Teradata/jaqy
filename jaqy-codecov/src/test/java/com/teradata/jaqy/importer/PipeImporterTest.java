@@ -52,4 +52,10 @@ public class PipeImporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_4.sql", "../tests/unittests/pipe/control/pipe_4.control");
 	}
+
+	@Test
+	public void test5 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_5.sql", "../tests/unittests/pipe/control/pipe_5.control");
+	}
 }

@@ -8,7 +8,7 @@ import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
-public class FileClob implements Clob
+public class FileClob implements Clob, CloseableData, Comparable<Clob>
 {
 	private long m_length;
 	private File m_file;
@@ -20,6 +20,7 @@ public class FileClob implements Clob
 			m_length = clob.length ();
 			m_file = FileUtils.createTempFile ();
 			FileUtils.writeFile (m_file, clob.getCharacterStream (), charBuffer);
+			clob.free ();
 		}
 		catch (IOException ex)
 		{
@@ -133,7 +134,7 @@ public class FileClob implements Clob
 	}
 
 	@Override
-	public void free () throws SQLException
+	public void free ()
 	{
 		m_file.delete ();
 	}
@@ -142,5 +143,25 @@ public class FileClob implements Clob
 	public Reader getCharacterStream (long pos, long length) throws SQLException
 	{
 		throw ExceptionUtils.getNotImplemented ();
+	}
+
+	@Override
+	public void close ()
+	{
+		m_file.delete ();
+	}
+
+	@Override
+	public int compareTo (Clob o)
+	{
+		try
+		{
+			return FileUtils.compare (getCharacterStream(), o.getCharacterStream ());
+		}
+		catch (Exception ex)
+		{
+			// shouldn't reach here
+			return -1;
+		}
 	}
 }

@@ -15,9 +15,11 @@
  */
 package com.teradata.jaqy.importer;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
@@ -26,6 +28,7 @@ import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.resultset.CloseableData;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
@@ -40,6 +43,8 @@ public class PipeImporter implements JaqyImporter<Integer>
 	private final Globals m_globals;
 	private final JaqyResultSet m_rs;
 	private final SchemaInfo m_schema;
+
+	private ArrayList<CloseableData> m_rowResource;
 
 	public PipeImporter (JaqyResultSet rs, Globals globals) throws Exception
 	{
@@ -63,13 +68,39 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public boolean next () throws SQLException
 	{
+		// first close any current row resource
+		if (m_rowResource != null)
+		{
+			for (Closeable c : m_rowResource)
+			{
+				try
+				{
+					c.close ();
+				}
+				catch (Exception ex)
+				{
+					m_globals.log (Level.INFO, ex);
+				}
+			}
+			m_rowResource.clear ();
+		}
 		return m_rs.next ();
+	}
+
+	private void addRowResource (CloseableData c)
+	{
+		if (m_rowResource == null)
+			m_rowResource = new ArrayList<CloseableData> ();
+		m_rowResource.add (c);
 	}
 
 	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		return ResultSetUtils.copyIfNecessary (m_rs.getObject (index + 1), interpreter);
+		Object o = ResultSetUtils.copyIfNecessary (m_rs.getObject (index + 1), interpreter);
+		if (o instanceof CloseableData)
+			addRowResource ((CloseableData)o);
+		return o;
 	}
 
 	@Override
@@ -91,7 +122,7 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		return ResultSetUtils.copyIfNecessary (m_rs.getObject (path + 1), interpreter);
+		return getObject (path, paramInfo, interpreter);
 	}
 
 	@Override

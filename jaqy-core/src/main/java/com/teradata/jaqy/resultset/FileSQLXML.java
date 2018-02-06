@@ -29,7 +29,7 @@ import com.teradata.jaqy.utils.FileUtils;
 /**
  * @author	Heng Yuan
  */
-public class FileSQLXML implements SQLXML, Comparable<SQLXML>
+public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
 {
 	private int m_length;
 	private File m_file;
@@ -135,5 +135,11 @@ public class FileSQLXML implements SQLXML, Comparable<SQLXML>
 			// shouldn't reach here
 			return -1;
 		}
+	}
+
+	@Override
+	public void close ()
+	{
+		m_file.delete ();
 	}
 }

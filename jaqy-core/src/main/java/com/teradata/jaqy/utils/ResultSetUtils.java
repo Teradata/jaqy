@@ -121,6 +121,8 @@ public class ResultSetUtils
 
 	public static Object copyIfNecessary (Object o, JaqyInterpreter interpreter) throws SQLException
 	{
+		if (o == null)
+			return o;
 		int threshold = interpreter.getCopyThreshold ();
 		if (o instanceof Clob)
 			return copyClob ((Clob)o, threshold, interpreter.getCharBuffer ());

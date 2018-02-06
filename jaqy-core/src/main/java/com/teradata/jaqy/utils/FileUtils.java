@@ -106,7 +106,8 @@ public class FileUtils
 		int offset = 0;
 		int remain = length;
 		int len;
-		while ((len = is.read (byteBuffer, offset, remain)) >= 0)
+		while (remain > 0 &&
+			   (len = is.read (byteBuffer, offset, remain)) >= 0)
 		{
 			offset += len;
 			remain -= len;
@@ -131,7 +132,8 @@ public class FileUtils
 		int offset = 0;
 		int remain = length;
 		int len;
-		while ((len = reader.read (charBuffer, offset, remain)) >= 0)
+		while (remain > 0 &&
+			   (len = reader.read (charBuffer, offset, remain)) >= 0)
 		{
 			offset += len;
 			remain -= len;
