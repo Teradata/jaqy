@@ -19,6 +19,7 @@ INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 .export csv -d asdf
 
 .export csv -c utf-8 file1.csv
+.export
 SELECT * FROM MyTable ORDER BY a;
 .os cat file1.csv
 

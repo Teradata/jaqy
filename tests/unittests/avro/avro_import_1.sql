@@ -12,6 +12,7 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b VARCHAR(200) NOT NULL, c VARCHAR(2
 
 .import avro
 .import avro lib/file1.avro
+.import
 INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;

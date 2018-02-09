@@ -63,7 +63,15 @@ public class ImportCommand extends JaqyCommandAdapter
 	{
 		if (args.length == 0)
 		{
-			interpreter.println (getCommand () + ": missing importer type.");
+			JaqyImporter<?> importer = interpreter.getImporter ();
+			if (importer == null)
+			{
+				interpreter.println ("No current imports.");
+			}
+			else
+			{
+				interpreter.println (getCommand () + " " + importer.getName ());
+			}
 		}
 		else
 		{

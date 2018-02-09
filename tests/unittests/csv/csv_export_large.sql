@@ -22,6 +22,7 @@ FROM TextTable;
 .export csv texttable.csv
 SELECT * FROM TextTable ORDER BY a;
 
+.autocommit on
 DROP TABLE TextTable;
 
 .os wc -c texttable.csv

@@ -16,8 +16,8 @@ INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d', X'deadbeef');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 
 .export json
-
 .export json file1.json
+.export
 SELECT * FROM MyTable ORDER BY a;
 .os cat file1.json
 
@@ -26,13 +26,13 @@ SELECT * FROM MyTable ORDER BY a;
 .os cat file2.json
 
 .export json -c utf-16le -p on file3.json
+.export json -c utf-16le -p on file4.json
 SELECT * FROM MyTable ORDER BY a;
 
-.export json -f bson file4.bson
+.export json -f bson file5.bson
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;
 .close
 
 .os rm -f file?.json file?.bson
-

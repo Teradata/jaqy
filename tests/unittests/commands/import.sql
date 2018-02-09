@@ -27,6 +27,7 @@ SELECT * FROM MyTable ORDER BY a;
 .importschema
 .importtable MyTable2
 .import csv -h file1.csv
+.import
 .importtable MyTable2
 SELECT * FROM MyTable2 ORDER BY a;
 

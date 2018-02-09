@@ -14,6 +14,7 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
 .import json -b dummy
 
 .import json lib/import1.json
+.import
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 
 SELECT * FROM MyTable ORDER BY a;

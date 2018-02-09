@@ -17,6 +17,7 @@ INSERT INTO MyTable VALUES (7, 'a	b', 'c,d', X'deadbeef');
 
 .export avro
 .export avro file1.avro
+.export
 SELECT * FROM MyTable ORDER BY a;
 .export avro -c null file2.avro
 SELECT * FROM MyTable ORDER BY a;
@@ -27,8 +28,9 @@ SELECT * FROM MyTable ORDER BY a;
 .export avro -c bzip2 file5.avro
 SELECT * FROM MyTable ORDER BY a;
 .export avro -c xz file6.avro
+.export avro -c xz file7.avro
 SELECT * FROM MyTable ORDER BY a;
-.export avro -c unknown file6.avro
+.export avro -c unknown file8.avro
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;
