@@ -30,31 +30,62 @@ INSERT INTO LobTable VALUES (9, NULL, NULL);
 .run ../common/mysql_setup.sql
 USE vagrant;
 
+-- MySQL Test
+.session new
+.run ../common/mysql_setup.sql
+USE vagrant;
 CREATE TABLE LobTable
 (
 	a  INTEGER,
-	c1 MEDIUMTEXT,
+	c1 VARCHAR(10000),
+	c2 VARBINARY(10000)
+);
+
+.session 0
+
+.export pipe
+.fetchsize 2
+SELECT * FROM LobTable ORDER BY a;
+
+.session 1
+.import pipe
+.batchsize 2
+INSERT INTO LobTable VALUES (?, ?, ?);
+
+SELECT * FROM LobTable ORDER BY a;
+
+DROP TABLE LobTable;
+.close
+
+-- SQLite Test
+.run ../common/sqlite_setup.sql
+.open sqlite::memory:
+
+CREATE TABLE LobTable
+(
+	a  INTEGER,
+	c1 TEXT,
 	c2 BLOB
 );
 
 .session 0
 
 .export pipe
+.fetchsize 2
 SELECT * FROM LobTable ORDER BY a;
 
 .session 1
-
 .import pipe
-.batchsize 2
-INSERT INTO LobTable VALUES ({{A}}, {{C1}}, {{C2}});
-
-SELECT COUNT(*) FROM LobTable;
+.import
+.debug preparedstatement on
+.batchsize 3000
+INSERT INTO LobTable VALUES (?, ?, ?);
 
 SELECT * FROM LobTable ORDER BY a;
 
-.session 0
 DROP TABLE LobTable;
 .close
-.session 1
+
+.session 0
 DROP TABLE LobTable;
 .close

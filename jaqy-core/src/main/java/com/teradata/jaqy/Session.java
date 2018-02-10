@@ -16,18 +16,11 @@
 package com.teradata.jaqy;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyParameterMetaData;
-import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.connection.JaqyStatement;
+import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.importer.FieldImporter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -250,6 +243,7 @@ public class Session
 			importer = fieldImporter;
 
 		JaqyPreparedStatement stmt = prepareQuery (sql, interpreter);
+		JdbcFeatures features = stmt.getHelper ().getFeatures ();
 		JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
 		ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
 		if (parameterInfos.length == 0)
@@ -278,8 +272,98 @@ public class Session
 						case Types.BIGINT:
 							stmt.setObject (i + 1, o, parameterInfos[i].type);
 							break;
+						case Types.CHAR:
+						case Types.VARCHAR:
+						case Types.LONGVARCHAR:
+						case Types.NCHAR:
+						case Types.NVARCHAR:
+						case Types.LONGNVARCHAR:
+						{
+							if (o instanceof SQLXML)
+							{
+								SQLXML xml = (SQLXML)o;
+								if (features.noStream)
+									stmt.setString (i + 1, xml.getString ());
+								else
+									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
+								xml.free ();
+							}
+							else if (o instanceof Clob)
+							{
+								Clob clob = (Clob)o;
+								if (features.noStream)
+									stmt.setObject (i + 1, clob.getSubString (1, (int)clob.length ()));
+								else
+									stmt.setCharacterStream (i + 1, clob.getCharacterStream ());
+								clob.free ();
+							}
+							else if (o instanceof Blob)
+							{
+								Blob blob = (Blob)o;
+								if (features.noStream)
+									stmt.setObject (i + 1, blob.getBytes (1, (int)blob.length ()));
+								else
+									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
+								blob.free ();
+							}
+							else
+							{
+								stmt.setObject (i + 1, o);
+							}
+							break;
+						}
+						case Types.BINARY:
+						case Types.VARBINARY:
+						case Types.LONGVARBINARY:
+						case Types.BLOB:
+						{
+							if (o instanceof Blob)
+							{
+								Blob blob = (Blob)o;
+								if (features.noStream)
+									stmt.setBytes(i + 1, blob.getBytes (1, (int)blob.length ()));
+								else
+									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
+								blob.free ();
+							}
+							else
+							{
+								stmt.setObject (i + 1, o);
+							}
+							break;
+						}
+						case Types.CLOB:
+						case Types.NCLOB:
+						{
+							if (o instanceof SQLXML)
+							{
+								SQLXML xml = (SQLXML)o;
+								if (features.noStream)
+									stmt.setString (i + 1, xml.getString ());
+								else
+									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
+								xml.free ();
+							}
+							else
+							{
+								stmt.setObject (i + 1, o);
+							}
+							break;
+						}
 						default:
-							stmt.setObject (i + 1, o);
+						{
+							if (o instanceof SQLXML &&
+								parameterInfos[i].type != Types.SQLXML)
+							{
+								SQLXML xml = (SQLXML)o;
+								stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
+								xml.free ();
+							}
+							else
+							{
+								stmt.setObject (i + 1, o);
+							}
+						}
 					}
 				}
 				if (batchSize == 1)

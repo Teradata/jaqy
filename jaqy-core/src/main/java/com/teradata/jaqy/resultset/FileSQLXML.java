@@ -47,7 +47,9 @@ public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparab
 	@Override
 	public void free ()
 	{
-		m_file.delete ();
+		if (m_file != null)
+			m_file.delete ();
+		m_file = null;
 	}
 
 	@Override

@@ -54,14 +54,20 @@ public class PipeImporterTest
 	}
 
 	@Test
-	public void test5 () throws Exception
+	public void test_lob () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_5.sql", "../tests/unittests/pipe/control/pipe_5.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_lob.sql", "../tests/unittests/pipe/control/pipe_lob.control");
 	}
 
 	@Test
 	public void test6 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_6.sql", "../tests/unittests/pipe/control/pipe_6.control");
+	}
+
+	@Test
+	public void test_xml () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/pipe/pipe_xml.sql", "../tests/unittests/pipe/control/pipe_xml.control");
 	}
 }

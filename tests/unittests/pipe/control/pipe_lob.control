@@ -1,0 +1,231 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test pipe
+--------------------------------------------------------------------------
+
+-- artificially sets the copy threshold to be very small for testing purposes.
+.script
+interpreter.setCopyThreshold (4);
+.end script
+-- 0/1 - 0 ----------------------------------------------------------------
+
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/2 - 0 ----------------------------------------------------------------
+.open derby:memory:pipeDB;create=true
+-- 0/3 - 0 ----------------------------------------------------------------
+CREATE TABLE LobTable
+(
+	a  INTEGER,
+	c1 CLOB(1K),
+	c2 BLOB(1K)
+);
+-- success. update count = 0
+-- 1/3 - 0 ----------------------------------------------------------------
+
+INSERT INTO LobTable VALUES (1, '1', CAST(X'de' AS BLOB));
+-- success. update count = 1
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (2, '12', CAST(X'dead' AS BLOB));
+-- success. update count = 1
+-- 3/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (3, '123', CAST(X'deadbe' AS BLOB));
+-- success. update count = 1
+-- 4/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (4, '1234', CAST(X'deadbeef' AS BLOB));
+-- success. update count = 1
+-- 5/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (5, '12345', CAST(X'deadbeefde' AS BLOB));
+-- success. update count = 1
+-- 6/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (6, '123456', CAST(X'deadbeefdead' AS BLOB));
+-- success. update count = 1
+-- 7/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (7, '1234567', CAST(X'deadbeefdeadbe' AS BLOB));
+-- success. update count = 1
+-- 8/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (8, '12345678', CAST(X'deadbeefdeadbeef' AS BLOB));
+-- success. update count = 1
+-- 9/3 - 0 ----------------------------------------------------------------
+INSERT INTO LobTable VALUES (9, NULL, NULL);
+-- success. update count = 1
+-- 10/3 - 0 ---------------------------------------------------------------
+
+.session new
+-- 10/4 - 1 ---------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 10/5 - 1 ---------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 10/6 - 1 ---------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 11/6 - 1 ---------------------------------------------------------------
+
+-- MySQL Test
+.session new
+-- 11/7 - 2 ---------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 11/8 - 2 ---------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 11/9 - 2 ---------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 12/9 - 2 ---------------------------------------------------------------
+CREATE TABLE LobTable
+(
+	a  INTEGER,
+	c1 VARCHAR(10000),
+	c2 VARBINARY(10000)
+);
+-- success. update count = 0
+-- 13/9 - 2 ---------------------------------------------------------------
+
+.session 0
+-- 13/10 - 0 --------------------------------------------------------------
+
+.export pipe
+-- 13/11 - 0 --------------------------------------------------------------
+.fetchsize 2
+-- 13/12 - 0 --------------------------------------------------------------
+SELECT * FROM LobTable ORDER BY a;
+-- success --
+-- 14/12 - 0 --------------------------------------------------------------
+
+.session 1
+-- 14/13 - 1 --------------------------------------------------------------
+.import pipe
+-- 14/14 - 1 --------------------------------------------------------------
+.batchsize 2
+-- 14/15 - 1 --------------------------------------------------------------
+INSERT INTO LobTable VALUES (?, ?, ?);
+-- success. update count = 1
+-- success. update count = 1
+-- success. update count = 1
+-- success. update count = 1
+-- success. update count = 1
+-- 15/15 - 1 --------------------------------------------------------------
+
+SELECT * FROM LobTable ORDER BY a;
+-- success --
+a c1       c2
+- -------- ----------------
+1 1        de
+2 12       dead
+3 123      deadbe
+4 1234     deadbeef
+5 12345    deadbeefde
+6 123456   deadbeefdead
+7 1234567  deadbeefdeadbe
+8 12345678 deadbeefdeadbeef
+9 ?        ?
+-- activity count = 9
+-- 16/15 - 1 --------------------------------------------------------------
+
+DROP TABLE LobTable;
+-- success. update count = 0
+-- 17/15 - 1 --------------------------------------------------------------
+.close
+-- 17/16 - 1 --------------------------------------------------------------
+
+-- SQLite Test
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 17/17 - 1 --------------------------------------------------------------
+.open sqlite::memory:
+-- 17/18 - 1 --------------------------------------------------------------
+
+CREATE TABLE LobTable
+(
+	a  INTEGER,
+	c1 TEXT,
+	c2 BLOB
+);
+-- success. update count = 0
+-- 18/18 - 1 --------------------------------------------------------------
+
+.session 0
+-- 18/19 - 0 --------------------------------------------------------------
+
+.export pipe
+-- 18/20 - 0 --------------------------------------------------------------
+.fetchsize 2
+-- 18/21 - 0 --------------------------------------------------------------
+SELECT * FROM LobTable ORDER BY a;
+-- success --
+-- 19/21 - 0 --------------------------------------------------------------
+
+.session 1
+-- 19/22 - 1 --------------------------------------------------------------
+.import pipe
+-- 19/23 - 1 --------------------------------------------------------------
+.import
+.import pipe
+-- 19/24 - 1 --------------------------------------------------------------
+.debug preparedstatement on
+-- 19/25 - 1 --------------------------------------------------------------
+.batchsize 3000
+-- 19/26 - 1 --------------------------------------------------------------
+INSERT INTO LobTable VALUES (?, ?, ?);
+Parameter Count                              3
+  Index                                        1
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        2
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+    Mode                                         IN
+  Index                                        3
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Precision                                    0
+    Scale                                        0
+    Nullable                                     1
+    Signed                                       Y
+    Mode                                         IN
+-- success. update count = 1
+-- 20/26 - 1 --------------------------------------------------------------
+
+SELECT * FROM LobTable ORDER BY a;
+-- success --
+a c1       c2
+- -------- ----------------
+1 1        de
+2 12       dead
+3 123      deadbe
+4 1234     deadbeef
+5 12345    deadbeefde
+6 123456   deadbeefdead
+7 1234567  deadbeefdeadbe
+8 12345678 deadbeefdeadbeef
+9 ?        ?
+-- activity count = 9
+-- 21/26 - 1 --------------------------------------------------------------
+
+DROP TABLE LobTable;
+-- success. update count = 1
+-- 22/26 - 1 --------------------------------------------------------------
+.close
+-- 22/27 - 1 --------------------------------------------------------------
+
+.session 0
+-- 22/28 - 0 --------------------------------------------------------------
+DROP TABLE LobTable;
+-- success. update count = 0
+-- 23/28 - 0 --------------------------------------------------------------
+.close
+-- 23/29 - 0 --------------------------------------------------------------

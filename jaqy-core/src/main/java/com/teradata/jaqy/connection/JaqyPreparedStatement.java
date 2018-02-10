@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.connection;
 
+import java.io.InputStream;
+import java.io.Reader;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -78,7 +80,27 @@ public class JaqyPreparedStatement extends JaqyStatement
 		m_statement.addBatch ();
 	}
 
-	public void setObject (int parameter, Object obj) throws SQLException
+    public void setString(int parameter, String x) throws SQLException
+    {
+		m_statement.setString (parameter, x);
+    }
+
+    public void setBytes(int parameter, byte[] x) throws SQLException
+    {
+		m_statement.setBytes (parameter, x);
+    }
+
+    public void setCharacterStream(int parameter, Reader reader) throws SQLException
+    {
+		m_statement.setCharacterStream (parameter, reader);
+    }
+
+    public void setBinaryStream(int parameter, InputStream x) throws SQLException
+    {
+		m_statement.setBinaryStream (parameter, x);
+    }
+
+    public void setObject (int parameter, Object obj) throws SQLException
 	{
 		m_statement.setObject (parameter, obj);
 	}

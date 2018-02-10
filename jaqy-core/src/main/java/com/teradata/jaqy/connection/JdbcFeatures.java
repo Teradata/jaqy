@@ -30,6 +30,10 @@ public class JdbcFeatures
 	/** Does not support schema */
 	public boolean noSchema;
 
+	// ---------- Data types -------------------------
+	/** Does the driver supports CharacterStream / BinaryStream? */
+	public boolean noStream;
+
 	// ---------- DatabaseMetaData -------------------------
 
 	//----------- ResultSet --------------------------------
