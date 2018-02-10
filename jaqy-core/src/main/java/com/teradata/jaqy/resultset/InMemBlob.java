@@ -17,18 +17,16 @@ package com.teradata.jaqy.resultset;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.utils.ByteArrayUtils;
-import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class InMemBlob implements Blob, Comparable<Blob>
+public class InMemBlob extends BlobWrapper implements Comparable<Blob>
 {
 	private byte[] m_bytes;
 
@@ -69,51 +67,9 @@ public class InMemBlob implements Blob, Comparable<Blob>
 	}
 
 	@Override
-	public long position (byte[] pattern, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public long position (Blob pattern, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public int setBytes (long pos, byte[] bytes) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public int setBytes (long pos, byte[] bytes, int offset, int len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public OutputStream setBinaryStream (long pos) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public void truncate (long len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
 	public void free ()
 	{
 		m_bytes = null;
-	}
-
-	@Override
-	public InputStream getBinaryStream (long pos, long length) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	@Override

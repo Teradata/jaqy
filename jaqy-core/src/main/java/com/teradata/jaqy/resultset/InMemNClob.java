@@ -27,9 +27,4 @@ public class InMemNClob extends InMemClob implements NClob
 	{
 		super (clob);
 	}
-
-	InMemNClob (String str)
-	{
-		super (str);
-	}
 }

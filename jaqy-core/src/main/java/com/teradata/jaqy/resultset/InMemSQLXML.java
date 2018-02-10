@@ -17,24 +17,18 @@ package com.teradata.jaqy.resultset;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-
-import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class InMemSQLXML implements SQLXML, Comparable<SQLXML>
+public class InMemSQLXML extends SQLXMLWrapper implements Comparable<SQLXML>
 {
 	private String m_xml;
 
@@ -57,45 +51,15 @@ public class InMemSQLXML implements SQLXML, Comparable<SQLXML>
 	}
 
 	@Override
-	public OutputStream setBinaryStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
 	public Reader getCharacterStream ()
 	{
 		return new StringReader (m_xml);
 	}
 
 	@Override
-	public Writer setCharacterStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
 	public String getString () throws SQLException
 	{
 		return m_xml;
-	}
-
-	@Override
-	public void setString (String value) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public <T extends Source> T getSource (Class<T> sourceClass) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public <T extends Result> T setResult (Class<T> resultClass) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	public int getLength ()

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,13 @@ import java.io.*;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-
 import com.teradata.jaqy.JaqyException;
-import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
+public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparable<SQLXML>
 {
 	private int m_length;
 	private File m_file;
@@ -49,7 +45,7 @@ public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
 	}
 
 	@Override
-	public void free () throws SQLException
+	public void free ()
 	{
 		m_file.delete ();
 	}
@@ -68,12 +64,6 @@ public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
 	}
 
 	@Override
-	public OutputStream setBinaryStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
 	public Reader getCharacterStream ()
 	{
 		try
@@ -87,12 +77,6 @@ public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
 	}
 
 	@Override
-	public Writer setCharacterStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
 	public String getString () throws SQLException
 	{
 		try
@@ -103,24 +87,6 @@ public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
 		{
 			throw new JaqyException (ex);
 		}
-	}
-
-	@Override
-	public void setString (String value) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public <T extends Source> T getSource (Class<T> sourceClass) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public <T extends Result> T setResult (Class<T> resultClass) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	@Override
@@ -140,6 +106,6 @@ public class FileSQLXML implements SQLXML, CloseableData, Comparable<SQLXML>
 	@Override
 	public void close ()
 	{
-		m_file.delete ();
+		free ();
 	}
 }

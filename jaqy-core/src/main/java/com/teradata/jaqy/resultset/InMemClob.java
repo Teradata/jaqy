@@ -17,10 +17,8 @@ package com.teradata.jaqy.resultset;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.nio.charset.Charset;
 import java.sql.Clob;
 import java.sql.SQLException;
@@ -31,7 +29,7 @@ import com.teradata.jaqy.utils.FileUtils;
 /**
  * @author	Heng Yuan
  */
-public class InMemClob implements Clob, Comparable<Clob>
+public class InMemClob extends ClobWrapper implements Comparable<Clob>
 {
 	private String m_str;
 
@@ -86,51 +84,9 @@ public class InMemClob implements Clob, Comparable<Clob>
 	}
 
 	@Override
-	public long position (Clob searchstr, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public int setString (long pos, String str) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public int setString (long pos, String str, int offset, int len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public OutputStream setAsciiStream (long pos) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public Writer setCharacterStream (long pos) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
-	public void truncate (long len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
-
-	@Override
 	public void free ()
 	{
 		m_str = null;
-	}
-
-	@Override
-	public Reader getCharacterStream (long pos, long length) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
 	}
 
 	@Override
