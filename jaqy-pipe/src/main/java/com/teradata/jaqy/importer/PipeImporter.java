@@ -24,7 +24,6 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -75,17 +74,7 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public Integer getPath (String name) throws Exception
 	{
-		JaqyResultSetMetaData meta = m_rs.getMetaData ();
-		int numCols = meta.getColumnCount ();
-		for (int i = 0; i < numCols; ++i)
-		{
-			String colName = meta.getColumnLabel (i + 1);
-			if (name.equals (colName))
-			{
-				return i;
-			}
-		}
-		throw new IllegalArgumentException ("Invalid column name: " + name);
+		return m_rs.findColumn (name) - 1;
 	}
 
 	@Override

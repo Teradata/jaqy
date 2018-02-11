@@ -83,14 +83,29 @@ public class InMemoryResultSet extends ResultSetWrapper
 		return m_rows;
 	}
 
+	@Override
+	public int findColumn (String columnLabel) throws SQLException
+	{
+		checkClosed ();
+		int numCols = m_meta.getColumnCount ();
+		for (int i = 0; i < numCols; ++i)
+		{
+			String colName = m_meta.getColumnLabel (i + 1);
+			if (m_meta.equals (colName))
+			{
+				return i + 1;
+			}
+		}
+		throw ExceptionUtils.getUnknownColumnLabel (columnLabel);
+	}
+
 	private void checkColumnIndex (int column) throws SQLException
 	{
 		if (column < 1 || column > m_columnCount)
 			throw ExceptionUtils.getInvalidColumnIndex (column);
 		if (m_row == null)
 			throw ExceptionUtils.getInvalidRow ();
-		if (m_row[column - 1] == null)
-			m_wasNull = true;
+		m_wasNull = (m_row[column - 1] == null);
 	}
 
 	@Override

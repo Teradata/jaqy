@@ -28,6 +28,11 @@ public class ExceptionUtils
 		return new SQLException ("Invalid column index " + column + ".");
 	}
 
+	public static SQLException getUnknownColumnLabel (String label)
+	{
+		return new SQLException ("Unknown column label " + label + ".");
+	}
+
 	public static SQLException getInvalidRow ()
 	{
 		return new SQLException ("Invalid row.");

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,11 @@ public class JaqyResultSet
 			m_metaData = new JaqyResultSetMetaData (m_rs.getMetaData (), m_helper);
 			return m_metaData;
 		}
+	}
+
+	public int findColumn (String columnLabel) throws SQLException
+	{
+		return m_rs.findColumn (columnLabel);
 	}
 
 	public void close () throws SQLException
