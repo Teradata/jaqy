@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,9 @@ import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.DefaultStateHandlers;
 import com.teradata.jaqy.utils.TitleUtils;
 
+/**
+ * @author	Heng Yuan
+ */
 public class ConsoleDisplay implements Display
 {
 	private final Globals m_globals;

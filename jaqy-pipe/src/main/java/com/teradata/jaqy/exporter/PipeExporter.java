@@ -66,7 +66,7 @@ public class PipeExporter implements JaqyExporter
 			catch (SQLException ex)
 			{
 			}
+			m_rs = null;
 		}
-		m_rs = null;
 	}
 }

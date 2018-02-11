@@ -15,6 +15,9 @@
  */
 package com.teradata.jaqy;
 
+/**
+ * @author	Heng Yuan
+ */
 public class JaqyException extends RuntimeException
 {
 	private static final long serialVersionUID = 5138632292108189946L;

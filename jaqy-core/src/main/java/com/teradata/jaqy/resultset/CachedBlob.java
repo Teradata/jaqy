@@ -20,6 +20,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyException;
+import com.teradata.jaqy.utils.ByteArrayUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -126,6 +127,18 @@ public class CachedBlob extends BlobWrapper implements Comparable<CachedBlob>
 	{
 		try
 		{
+			// First compare the in-memory cache
+			//
+			// We assume the cache size is the same for both Clobs.
+			// This assumption makes things a lot easier.
+			int c = ByteArrayUtils.compare (m_bytes, o.m_bytes);
+			if (c != 0)
+				return c;
+			// This is the simpler cases of both Clobs being in-memory.
+			if (m_file == null && o.m_file == null)
+				return 0;
+
+			// Full comparison.
 			return FileUtils.compare (getBinaryStream(), o.getBinaryStream ());
 		}
 		catch (Exception ex)

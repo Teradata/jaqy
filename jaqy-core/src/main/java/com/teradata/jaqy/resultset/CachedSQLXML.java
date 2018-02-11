@@ -45,6 +45,10 @@ public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLX
 				m_file.delete ();
 				m_file = null;
 			}
+			else
+			{
+				m_str = FileUtils.readString (m_file, 0, cacheSize);
+			}
 		}
 		catch (IOException ex)
 		{
@@ -98,6 +102,18 @@ public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLX
 	{
 		try
 		{
+			// First compare the in-memory cache
+			//
+			// We assume the cache size is the same for both Clobs.
+			// This assumption makes things a lot easier.
+			int c = m_str.compareTo (o.m_str);
+			if (c != 0)
+				return c;
+			// This is the simpler cases of both Clobs being in-memory.
+			if (m_file == null && o.m_file == null)
+				return 0;
+
+			// Full comparison.
 			return FileUtils.compare (getCharacterStream(), o.getCharacterStream ());
 		}
 		catch (Exception ex)

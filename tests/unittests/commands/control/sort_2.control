@@ -48,9 +48,66 @@ INSERT INTO MyTable VALUES (11, null, 'A quick brown fox');
 INSERT INTO MyTable VALUES (12, null, null);
 -- success. update count = 1
 -- 13/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (13, CAST(X'de' AS BLOB), '1');
+-- success. update count = 1
+-- 14/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (14, CAST(X'de' AS BLOB), '1');
+-- success. update count = 1
+-- 15/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (15, CAST(X'dead' AS BLOB), '1');
+-- success. update count = 1
+-- 16/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (16, CAST(X'dead' AS BLOB), '2');
+-- success. update count = 1
+-- 17/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (17, CAST(X'dead' AS BLOB), '12');
+-- success. update count = 1
+-- 18/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (18, CAST(X'dead' AS BLOB), '123');
+-- success. update count = 1
+-- 19/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (19, CAST(X'dead' AS BLOB), '223');
+-- success. update count = 1
+-- 20/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (20, CAST(X'dead' AS BLOB), '1234');
+-- success. update count = 1
+-- 21/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (21, CAST(X'dead' AS BLOB), '12345');
+-- success. update count = 1
+-- 22/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (22, CAST(X'dead' AS BLOB), '12');
+-- success. update count = 1
+-- 23/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (23, CAST(X'dead' AS BLOB), '123');
+-- success. update count = 1
+-- 24/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (24, CAST(X'deadbe' AS BLOB), '1');
+-- success. update count = 1
+-- 25/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (25, CAST(X'deadbe' AS BLOB), '2');
+-- success. update count = 1
+-- 26/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (26, CAST(X'deadef' AS BLOB), '1');
+-- success. update count = 1
+-- 27/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (27, CAST(X'deadef' AS BLOB), '2');
+-- success. update count = 1
+-- 28/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (28, CAST(X'deadefbe' AS BLOB), '1');
+-- success. update count = 1
+-- 29/2 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (29, CAST(X'deadefbe' AS BLOB), '2');
+-- success. update count = 1
+-- 30/2 - 0 ---------------------------------------------------------------
+
+-- artificially sets the cache size to be very small for testing purposes.
+.script
+interpreter.setCacheSize (3);
+.end script
+-- 30/3 - 0 ---------------------------------------------------------------
 
 .sort -d 3 -a 2 -a 1
--- 13/3 - 0 ---------------------------------------------------------------
+-- 30/4 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
@@ -64,14 +121,31 @@ SELECT * FROM MyTable ORDER BY a;
  6 dead     A quick brown
  2 deadbeef A quick brown
  5 deadbeef A quick brown
+19 dead     223
+16 dead     2
+25 deadbe   2
+27 deadef   2
+29 deadefbe 2
+21 dead     12345
+20 dead     1234
+18 dead     123
+23 dead     123
+17 dead     12
+22 dead     12
+13 de       1
+14 de       1
+15 dead     1
+24 deadbe   1
+26 deadef   1
+28 deadefbe 1
 12 ?        ?
  9 facefeed ?
 10 facefeed ?
--- activity count = 12
--- 14/3 - 0 ---------------------------------------------------------------
+-- activity count = 29
+-- 31/4 - 0 ---------------------------------------------------------------
 
 .sort -l -d 3 -a 2 -a 1
--- 14/4 - 0 ---------------------------------------------------------------
+-- 31/5 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
@@ -85,14 +159,31 @@ SELECT * FROM MyTable ORDER BY a;
  6 dead     A quick brown
  2 deadbeef A quick brown
  5 deadbeef A quick brown
+19 dead     223
+16 dead     2
+25 deadbe   2
+27 deadef   2
+29 deadefbe 2
+21 dead     12345
+20 dead     1234
+18 dead     123
+23 dead     123
+17 dead     12
+22 dead     12
+13 de       1
+14 de       1
+15 dead     1
+24 deadbe   1
+26 deadef   1
+28 deadefbe 1
 12 ?        ?
  9 facefeed ?
 10 facefeed ?
--- activity count = 12
--- 15/4 - 0 ---------------------------------------------------------------
+-- activity count = 29
+-- 32/5 - 0 ---------------------------------------------------------------
 
 .sort -h -d 3 -a 2 -a 1
--- 15/5 - 0 ---------------------------------------------------------------
+-- 32/6 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
@@ -109,11 +200,28 @@ SELECT * FROM MyTable ORDER BY a;
  6 dead     A quick brown
  2 deadbeef A quick brown
  5 deadbeef A quick brown
--- activity count = 12
--- 16/5 - 0 ---------------------------------------------------------------
+19 dead     223
+16 dead     2
+25 deadbe   2
+27 deadef   2
+29 deadefbe 2
+21 dead     12345
+20 dead     1234
+18 dead     123
+23 dead     123
+17 dead     12
+22 dead     12
+13 de       1
+14 de       1
+15 dead     1
+24 deadbe   1
+26 deadef   1
+28 deadefbe 1
+-- activity count = 29
+-- 33/6 - 0 ---------------------------------------------------------------
 
 .sort -d=c -d=b -a 1
--- 16/6 - 0 ---------------------------------------------------------------
+-- 33/7 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
@@ -127,43 +235,94 @@ SELECT * FROM MyTable ORDER BY a;
  5 deadbeef A quick brown
  1 dead     A quick brown
  6 dead     A quick brown
+19 dead     223
+29 deadefbe 2
+27 deadef   2
+25 deadbe   2
+16 dead     2
+21 dead     12345
+20 dead     1234
+18 dead     123
+23 dead     123
+17 dead     12
+22 dead     12
+28 deadefbe 1
+26 deadef   1
+24 deadbe   1
+15 dead     1
+13 de       1
+14 de       1
  9 facefeed ?
 10 facefeed ?
 12 ?        ?
--- activity count = 12
--- 17/6 - 0 ---------------------------------------------------------------
+-- activity count = 29
+-- 34/7 - 0 ---------------------------------------------------------------
 
 .sort -l -a 2 -a 3 -a 1
--- 17/7 - 0 ---------------------------------------------------------------
+-- 34/8 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
 -- -------- -----------------
 12 ?        ?
 11 ?        A quick brown fox
+13 de       1
+14 de       1
+15 dead     1
+17 dead     12
+22 dead     12
+18 dead     123
+23 dead     123
+20 dead     1234
+21 dead     12345
+16 dead     2
+19 dead     223
  1 dead     A quick brown
  6 dead     A quick brown
+24 deadbe   1
+25 deadbe   2
  2 deadbeef A quick brown
  5 deadbeef A quick brown
+26 deadef   1
+27 deadef   2
+28 deadefbe 1
+29 deadefbe 2
  4 face     A quick brown fox
  8 face     A quick brown fox
  9 facefeed ?
 10 facefeed ?
  3 facefeed A quick brown fox
  7 facefeed A quick brown fox
--- activity count = 12
--- 18/7 - 0 ---------------------------------------------------------------
+-- activity count = 29
+-- 35/8 - 0 ---------------------------------------------------------------
 
 .sort -h -a 2 -a 3 -a 1
--- 18/8 - 0 ---------------------------------------------------------------
+-- 35/9 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
 -- -------- -----------------
+13 de       1
+14 de       1
+15 dead     1
+17 dead     12
+22 dead     12
+18 dead     123
+23 dead     123
+20 dead     1234
+21 dead     12345
+16 dead     2
+19 dead     223
  1 dead     A quick brown
  6 dead     A quick brown
+24 deadbe   1
+25 deadbe   2
  2 deadbeef A quick brown
  5 deadbeef A quick brown
+26 deadef   1
+27 deadef   2
+28 deadefbe 1
+29 deadefbe 2
  4 face     A quick brown fox
  8 face     A quick brown fox
  3 facefeed A quick brown fox
@@ -172,12 +331,12 @@ SELECT * FROM MyTable ORDER BY a;
 10 facefeed ?
 11 ?        A quick brown fox
 12 ?        ?
--- activity count = 12
--- 19/8 - 0 ---------------------------------------------------------------
+-- activity count = 29
+-- 36/9 - 0 ---------------------------------------------------------------
 
 DROP TABLE MyTable;
 -- success. update count = 0
--- 20/8 - 0 ---------------------------------------------------------------
+-- 37/9 - 0 ---------------------------------------------------------------
 
 .close
--- 20/9 - 0 ---------------------------------------------------------------
+-- 37/10 - 0 --------------------------------------------------------------

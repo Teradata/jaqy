@@ -37,6 +37,21 @@ INSERT INTO XmlTable VALUES (3, '<a>2222</a>', '[1,2,3]');
 INSERT INTO XmlTable VALUES (3, '<a>3333</a>', '[2,3,4]');
 INSERT INTO XmlTable VALUES (3, '<a>4444</a>', '[1,2,3]');
 INSERT INTO XmlTable VALUES (3, '<a>5555</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>1</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>1</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>12</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>12</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>22</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>22</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>123</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (4, '<a>123</a>', '[2,3,4]');
+INSERT INTO XmlTable VALUES (5, '<a>1234</a>', '[1,2,3]');
+INSERT INTO XmlTable VALUES (5, '<a>1234</a>', '[2,3,4]');
+
+-- artificially sets the cache size to be very small for testing purposes.
+.script
+interpreter.setCacheSize (9);
+.end script
 
 .sort -a 2 -a 3
 SELECT * FROM XmlTable ORDER BY a;
