@@ -25,24 +25,44 @@ import com.teradata.jaqy.utils.FileUtils;
 /**
  * @author	Heng Yuan
  */
-public class FileClob extends ClobWrapper implements CloseableData, Comparable<Clob>
+public class CachedClob extends ClobWrapper implements Comparable<CachedClob>
 {
 	private long m_length;
+	private String m_str;
 	private File m_file;
 
-	public FileClob (Clob clob, char[] charBuffer) throws SQLException
+	public CachedClob (Clob clob, int cacheSize, char[] charBuffer) throws SQLException
 	{
 		try
 		{
 			m_length = clob.length ();
-			m_file = FileUtils.createTempFile ();
-			FileUtils.writeFile (m_file, clob.getCharacterStream (), charBuffer);
+			if (m_length < cacheSize)
+			{
+				m_str = clob.getSubString (1, (int)m_length);
+				m_file = null;
+			}
+			else
+			{
+				m_str = clob.getSubString (1, cacheSize);
+				if (m_length > cacheSize)
+				{
+					m_file = FileUtils.createTempFile ();
+					FileUtils.writeFile (m_file, clob.getCharacterStream (), charBuffer);
+				}
+			}
 			clob.free ();
 		}
 		catch (IOException ex)
 		{
 			throw new JaqyException (ex);
 		}
+	}
+
+	public CachedClob (String str)
+	{
+		m_length = str.length ();
+		m_str = str;
+		m_file = null;
 	}
 
 	@Override
@@ -54,12 +74,19 @@ public class FileClob extends ClobWrapper implements CloseableData, Comparable<C
 	@Override
 	public String getSubString (long pos, int length) throws SQLException
 	{
+		// most common case check
+		if (pos == 1 && length == m_str.length ())
+			return m_str;
+
 		if (pos < 1 ||
-			pos > length ||
+			length < 0 ||
 			(pos + length - 1) > m_length)
 			throw new IllegalArgumentException ("Invalid arguments.");
 		try
 		{
+			// if the data is already in the memory
+			if ((pos + length - 1) <= m_str.length ())
+				return m_str.substring ((int)(pos - 1), (int)(pos + length - 1));
 			return FileUtils.readString (m_file, pos - 1, length);
 		}
 		catch (IOException ex)
@@ -73,20 +100,9 @@ public class FileClob extends ClobWrapper implements CloseableData, Comparable<C
 	{
 		try
 		{
-			return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
-		}
-		catch (IOException ex)
-		{
-			throw new JaqyException (ex);
-		}
-	}
-
-	@Override
-	public InputStream getAsciiStream () throws SQLException
-	{
-		try
-		{
-			return new FileInputStream (m_file);
+			if (m_file != null)
+				return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
+			return new StringReader (m_str);
 		}
 		catch (IOException ex)
 		{
@@ -97,17 +113,19 @@ public class FileClob extends ClobWrapper implements CloseableData, Comparable<C
 	@Override
 	public void free ()
 	{
-		m_file.delete ();
+		if (m_str != null)
+		{
+			m_str = null;
+			if (m_file != null)
+			{
+				m_file.delete ();
+				m_file = null;
+			}
+		}
 	}
 
 	@Override
-	public void close ()
-	{
-		free ();
-	}
-
-	@Override
-	public int compareTo (Clob o)
+	public int compareTo (CachedClob o)
 	{
 		try
 		{

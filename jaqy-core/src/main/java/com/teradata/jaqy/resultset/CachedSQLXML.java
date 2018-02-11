@@ -25,18 +25,26 @@ import com.teradata.jaqy.utils.FileUtils;
 /**
  * @author	Heng Yuan
  */
-public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparable<SQLXML>
+public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLXML>
 {
 	private int m_length;
 	private File m_file;
+	private String m_str;
 
-	public FileSQLXML (SQLXML xml, char[] charBuffer) throws SQLException
+	public CachedSQLXML (SQLXML xml, int cacheSize, char[] charBuffer) throws SQLException
 	{
 		try
 		{
 			m_file = FileUtils.createTempFile ();
 			m_length = (int)FileUtils.writeFile (m_file, xml.getCharacterStream (), charBuffer);
 			xml.free ();
+
+			if (m_length <= cacheSize)
+			{
+				m_str = FileUtils.readString (m_file, 0, m_length);
+				m_file.delete ();
+				m_file = null;
+			}
 		}
 		catch (IOException ex)
 		{
@@ -47,21 +55,11 @@ public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparab
 	@Override
 	public void free ()
 	{
+		m_str = null;
 		if (m_file != null)
+		{
 			m_file.delete ();
-		m_file = null;
-	}
-
-	@Override
-	public InputStream getBinaryStream () throws SQLException
-	{
-		try
-		{
-			return new FileInputStream (m_file);
-		}
-		catch (IOException ex)
-		{
-			throw new JaqyException (ex);
+			m_file = null;
 		}
 	}
 
@@ -70,7 +68,9 @@ public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparab
 	{
 		try
 		{
-			return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
+			if (m_file != null)
+				return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
+			return new StringReader (m_str);
 		}
 		catch (IOException ex)
 		{
@@ -79,11 +79,13 @@ public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparab
 	}
 
 	@Override
-	public String getString () throws SQLException
+	public String getString ()
 	{
 		try
 		{
-			return FileUtils.readString (m_file, 0, m_length);
+			if (m_file != null)
+				return FileUtils.readString (m_file, 0, m_length);
+			return m_str;
 		}
 		catch (IOException ex)
 		{
@@ -92,7 +94,7 @@ public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparab
 	}
 
 	@Override
-	public int compareTo (SQLXML o)
+	public int compareTo (CachedSQLXML o)
 	{
 		try
 		{
@@ -103,11 +105,5 @@ public class FileSQLXML extends SQLXMLWrapper implements CloseableData, Comparab
 			// shouldn't reach here
 			return -1;
 		}
-	}
-
-	@Override
-	public void close ()
-	{
-		free ();
 	}
 }

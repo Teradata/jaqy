@@ -15,21 +15,15 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Struct;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.resultset.InMemClob;
+import com.teradata.jaqy.resultset.CachedClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -87,7 +81,7 @@ class TeradataHelper extends DefaultHelper
 	}
 
 	@Override
-	public JaqyResultSet getResultSet (ResultSet rs) throws SQLException
+	public JaqyResultSet getResultSet (ResultSet rs, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (rs == null)
 			return null;
@@ -117,7 +111,7 @@ class TeradataHelper extends DefaultHelper
 				// So we do generic handling here.
 				//
 				@SuppressWarnings ("resource")
-				InMemoryResultSet newRS = new InMemoryResultSet (rs, 0);
+				InMemoryResultSet newRS = new InMemoryResultSet (rs, 0, interpreter);
 				rs.close ();
 				for (Object[] row : newRS.getRows ())
 				{
@@ -130,11 +124,11 @@ class TeradataHelper extends DefaultHelper
 							{
 								row[i] = ((String)o).replace ('\r', '\n');
 							}
-							else if (o instanceof InMemClob)
+							else if (o instanceof CachedClob)
 							{
-								InMemClob clob = (InMemClob)o;
+								CachedClob clob = (CachedClob)o;
 								String s = clob.getSubString (1, (int)clob.length ());
-								clob.replace (s);
+								clob = new CachedClob (s);
 							}
 						}
 					}

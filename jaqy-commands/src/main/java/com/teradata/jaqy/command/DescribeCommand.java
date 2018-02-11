@@ -79,12 +79,12 @@ public class DescribeCommand extends JaqyCommandAdapter
 			tableName += args[i];
 		if (displaySQL)
 		{
-			String schema = interpreter.getSession ().getConnection ().getHelper ().getTableSchema (tableName);
+			String schema = interpreter.getSession ().getConnection ().getHelper ().getTableSchema (tableName, interpreter);
 			interpreter.println (schema);
 		}
 		else
 		{
-			JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName);
+			JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName, interpreter);
 			interpreter.print (rs);
 			rs.close ();
 		}

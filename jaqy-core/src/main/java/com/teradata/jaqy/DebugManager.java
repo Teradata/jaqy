@@ -110,7 +110,7 @@ public class DebugManager
 		m_dumpPreparedStatement = dumpPreparedStatement;
 	}
 
-	public void dumpPreparedStatement (Display display, Session session, JaqyPreparedStatement stmt)
+	public void dumpPreparedStatement (Display display, Session session, JaqyPreparedStatement stmt, JaqyInterpreter interpreter)
 	{
 		if (m_dumpPreparedStatement)
 		{
@@ -125,7 +125,7 @@ public class DebugManager
 			}
 			try
 			{
-				JaqyResultSet rs = stmt.getResultSet ();
+				JaqyResultSet rs = stmt.getResultSet (interpreter);
 				if (rs != null)
 					ResultSetMetaDataUtils.dump (display, session, rs.getMetaData ());
 			}

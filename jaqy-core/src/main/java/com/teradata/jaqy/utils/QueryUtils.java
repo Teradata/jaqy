@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyStatement;
@@ -14,29 +15,28 @@ public class QueryUtils
 {
 	/**
 	 * Get the string result from a query.
-	 *
-	 * @param	globals
-	 *			global variables
 	 * @param	conn
 	 * 			The JDBC connection
 	 * @param	sql
 	 * 			The query string
 	 * @param	column
 	 * 			The column to retrieve data from
+	 * @param interpreter TODO
+	 *
 	 * @return	a string representation of the output for a particular column.
 	 * 			It can retrieve multiple rows of data if needed.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public static String getQueryString (Globals globals, JaqyConnection conn, String sql, int column) throws SQLException
+	public static String getQueryString (JaqyConnection conn, String sql, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		JaqyStatement stmt = null;
-		globals.log (Level.INFO, "SQL: " + sql);
+		interpreter.getGlobals ().log (Level.INFO, "SQL: " + sql);
 		try
 		{
 			stmt = conn.createStatement (true);
 			stmt.execute (sql);
-			JaqyResultSet rs = stmt.getResultSet ();
+			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
 				return null;
 
@@ -69,11 +69,13 @@ public class QueryUtils
 	 * 			The JDBC connection
 	 * @param	sql
 	 * 			The query string
+	 * @param	interpreter
+	 * 			the interpreter
 	 * @return	an in-memory COPY of the query ResultSet.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public static JaqyResultSet getResultSet (Globals globals, JaqyConnection conn, String sql) throws SQLException
+	public static JaqyResultSet getResultSet (Globals globals, JaqyConnection conn, String sql, JaqyInterpreter interpreter) throws SQLException
 	{
 		JaqyStatement stmt = null;
 		globals.log (Level.INFO, "SQL: " + sql);
@@ -81,13 +83,13 @@ public class QueryUtils
 		{
 			stmt = conn.createStatement (true);
 			stmt.execute (sql);
-			JaqyResultSet rs = stmt.getResultSet ();
+			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
 				return null;
 
-			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet (), 0);
+			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet (), 0, interpreter);
 			rs.close ();
-			return DummyHelper.getInstance ().getResultSet (columnRS);
+			return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
 		}
 		finally
 		{

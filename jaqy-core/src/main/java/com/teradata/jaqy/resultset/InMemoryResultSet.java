@@ -26,9 +26,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.RSSorter;
+import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.SortInfo;
 
 /**
@@ -48,7 +50,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 	private boolean m_wasNull;
 	private Statement m_statement;
 
-	public InMemoryResultSet (ResultSet rs, long limit) throws SQLException
+	public InMemoryResultSet (ResultSet rs, long limit, JaqyInterpreter interpreter) throws SQLException
 	{
 		m_meta = new InMemoryResultSetMetaData (rs.getMetaData ());
 		m_statement = rs.getStatement ();
@@ -61,26 +63,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 			for (int i = 0; i < m_columnCount; ++i)
 			{
 				Object o = rs.getObject (i + 1);
-				if (o instanceof Blob)
-				{
-					row[i] = new InMemBlob ((Blob)o);
-				}
-				else if (o instanceof NClob)
-				{
-					row[i] = new InMemNClob ((NClob)o);
-				}
-				else if (o instanceof Clob)
-				{
-					row[i] = new InMemClob ((Clob)o);
-				}
-				else if (o instanceof SQLXML)
-				{
-					row[i] = new InMemSQLXML ((SQLXML)o);
-				}
-				else
-				{
-					row[i] = o;
-				}
+				row[i] = ResultSetUtils.copyIfNecessary (o, interpreter);
 			}
 			m_rows.add (row);
 			--limit;

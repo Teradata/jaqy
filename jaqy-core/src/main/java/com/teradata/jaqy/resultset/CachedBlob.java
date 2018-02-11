@@ -15,10 +15,7 @@
  */
 package com.teradata.jaqy.resultset;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -28,18 +25,31 @@ import com.teradata.jaqy.utils.FileUtils;
 /**
  * @author	Heng Yuan
  */
-public class FileBlob extends BlobWrapper implements CloseableData, Comparable<Blob>
+public class CachedBlob extends BlobWrapper implements Comparable<CachedBlob>
 {
 	private long m_length;
 	private File m_file;
+	private byte[] m_bytes;
 
-	public FileBlob (Blob blob, byte[] byteBuffer) throws SQLException
+	public CachedBlob (Blob blob, int cacheSize, byte[] byteBuffer) throws SQLException
 	{
 		try
 		{
 			m_length = blob.length ();
-			m_file = FileUtils.createTempFile ();
-			FileUtils.writeFile (m_file, blob.getBinaryStream (), byteBuffer);
+			if (m_length < cacheSize)
+			{
+				m_bytes = blob.getBytes (1, (int)m_length);
+				m_file = null;
+			}
+			else
+			{
+				m_bytes = blob.getBytes (1, cacheSize);
+				if (m_length > cacheSize)
+				{
+					m_file = FileUtils.createTempFile ();
+					FileUtils.writeFile (m_file, blob.getBinaryStream (), byteBuffer);
+				}
+			}
 			blob.free ();
 		}
 		catch (IOException ex)
@@ -57,12 +67,23 @@ public class FileBlob extends BlobWrapper implements CloseableData, Comparable<B
 	@Override
 	public byte[] getBytes (long pos, int length) throws SQLException
 	{
+		// most common case check
+		if (pos == 1 && length == m_bytes.length)
+			return m_bytes;
+
 		if (pos < 1 ||
-			pos > length ||
+			length < 0 ||
 			(pos + length - 1) > m_length)
 			throw new SQLException ("Invalid arguments");
 		try
 		{
+			// if the data is already in the memory
+			if ((pos + length - 1) <= m_bytes.length)
+			{
+				byte[] bytes = new byte[length];
+				System.arraycopy (m_bytes, (int)(pos - 1), bytes, 0, length);
+				return bytes;
+			}
 			return FileUtils.readFile (m_file, pos - 1, length);
 		}
 		catch (IOException ex)
@@ -76,7 +97,9 @@ public class FileBlob extends BlobWrapper implements CloseableData, Comparable<B
 	{
 		try
 		{
-			return new FileInputStream (m_file);
+			if (m_file != null)
+				return new FileInputStream (m_file);
+			return new ByteArrayInputStream (m_bytes);
 		}
 		catch (IOException ex)
 		{
@@ -87,11 +110,19 @@ public class FileBlob extends BlobWrapper implements CloseableData, Comparable<B
 	@Override
 	public void free ()
 	{
-		m_file.delete ();
+		if (m_bytes != null)
+		{
+			m_bytes = null;
+			if (m_file != null)
+			{
+				m_file.delete ();
+				m_file = null;
+			}
+		}
 	}
 
 	@Override
-	public int compareTo (Blob o)
+	public int compareTo (CachedBlob o)
 	{
 		try
 		{
@@ -102,11 +133,5 @@ public class FileBlob extends BlobWrapper implements CloseableData, Comparable<B
 			// shouldn't reach here
 			return -1;
 		}
-	}
-
-	@Override
-	public void close ()
-	{
-		free ();
 	}
 }

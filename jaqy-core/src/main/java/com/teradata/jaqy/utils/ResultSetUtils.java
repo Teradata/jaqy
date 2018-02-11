@@ -20,7 +20,10 @@ import java.sql.*;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.resultset.*;
+import com.teradata.jaqy.resultset.CachedBlob;
+import com.teradata.jaqy.resultset.CachedClob;
+import com.teradata.jaqy.resultset.CachedNClob;
+import com.teradata.jaqy.resultset.CachedSQLXML;
 
 /**
  * @author	Heng Yuan
@@ -94,42 +97,21 @@ public class ResultSetUtils
 		}
 	}
 
-	public static Clob copyClob (Clob clob, int threshold, char[] charBuffer) throws SQLException
-	{
-		if (clob.length () < threshold)
-		{
-			if (clob instanceof NClob)
-				return new InMemNClob ((NClob)clob);
-			return new InMemClob (clob);
-		}
-		if (clob instanceof NClob)
-			return new FileNClob ((NClob)clob, charBuffer);
-		return new FileClob (clob, charBuffer);
-	}
-
-	public static Blob copyBlob (Blob blob, int threshold, byte[] byteBuffer) throws SQLException
-	{
-		if (blob.length () < threshold)
-			return new InMemBlob (blob);
-		return new FileBlob (blob, byteBuffer);
-	}
-
-	public static SQLXML copySQLXML (SQLXML xml, int threshold, char[] charBuffer) throws SQLException
-	{
-		return new FileSQLXML (xml, charBuffer);
-	}
-
 	public static Object copyIfNecessary (Object o, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (o == null)
 			return o;
-		int threshold = interpreter.getCopyThreshold ();
+		int cacheSize = interpreter.getCacheSize ();
 		if (o instanceof Clob)
-			return copyClob ((Clob)o, threshold, interpreter.getCharBuffer ());
+		{
+			if (o instanceof NClob)
+				return new CachedNClob ((NClob)o, cacheSize, interpreter.getCharBuffer ());
+			return new CachedClob ((Clob)o, cacheSize, interpreter.getCharBuffer ());
+		}
 		if (o instanceof Blob)
-			return copyBlob ((Blob)o, threshold, interpreter.getByteBuffer ());
+			return new CachedBlob ((Blob)o, cacheSize, interpreter.getByteBuffer ());
 		if (o instanceof SQLXML)
-			return copySQLXML ((SQLXML)o, threshold, interpreter.getCharBuffer ());
+			return new CachedSQLXML ((SQLXML)o, cacheSize, interpreter.getCharBuffer ());
 		return o;
 	}
 }

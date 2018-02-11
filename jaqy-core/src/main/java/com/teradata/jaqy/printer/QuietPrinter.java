@@ -18,9 +18,8 @@ package com.teradata.jaqy.printer;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 
 /**
@@ -39,7 +38,7 @@ public class QuietPrinter implements JaqyPrinter
 	{
 	}
 
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws SQLException
+	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws SQLException
 	{
 		long count = 0;
 		if (limit == 0)

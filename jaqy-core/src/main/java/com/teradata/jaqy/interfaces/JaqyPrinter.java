@@ -17,7 +17,7 @@ package com.teradata.jaqy.interfaces;
 
 import java.io.PrintWriter;
 
-import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
@@ -26,7 +26,7 @@ import com.teradata.jaqy.connection.JaqyResultSet;
 public interface JaqyPrinter
 {
 	public String getName ();
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception;
+	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Does this ResultSet printer only scans forward?
 	 *

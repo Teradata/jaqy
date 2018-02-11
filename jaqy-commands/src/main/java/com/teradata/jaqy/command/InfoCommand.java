@@ -347,7 +347,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		try
 		{
 			rs = metaData.getSchemas ();
-			interpreter.print (helper.getResultSet (rs));
+			interpreter.print (helper.getResultSet (rs, interpreter));
 		}
 		catch (SQLException ex)
 		{
@@ -376,7 +376,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		try
 		{
 			rs = metaData.getCatalogs ();
-			interpreter.print (helper.getResultSet (rs));
+			interpreter.print (helper.getResultSet (rs, interpreter));
 		}
 		catch (SQLException ex)
 		{
@@ -406,7 +406,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		try
 		{
 			rs = metaData.getTableTypes ();
-			interpreter.print (helper.getResultSet (rs));
+			interpreter.print (helper.getResultSet (rs, interpreter));
 		}
 		catch (SQLException ex)
 		{
@@ -435,7 +435,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		try
 		{
 			rs = metaData.getTypeInfo ();
-			interpreter.print (helper.getResultSet (rs));
+			interpreter.print (helper.getResultSet (rs, interpreter));
 		}
 		catch (SQLException ex)
 		{
@@ -464,7 +464,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		try
 		{
 			rs = metaData.getClientInfoProperties ();
-			interpreter.print (helper.getResultSet (rs));
+			interpreter.print (helper.getResultSet (rs, interpreter));
 		}
 		catch (SQLException ex)
 		{

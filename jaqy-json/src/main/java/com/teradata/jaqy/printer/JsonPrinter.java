@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,8 @@ import javax.json.stream.JsonGenerator;
 import org.yuanheng.cookjson.CookJsonGenerator;
 import org.yuanheng.cookjson.CookJsonProvider;
 
-import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonUtils;
@@ -52,7 +51,7 @@ class JsonPrinter implements JaqyPrinter
 	}
 
 	@Override
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception
+	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
 	{
 		JsonProvider provider = new CookJsonProvider ();
 
@@ -72,7 +71,7 @@ class JsonPrinter implements JaqyPrinter
 
 		CookJsonGenerator g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (pw);
 
-		long count = JsonUtils.print (globals, g, rs, limit);
+		long count = JsonUtils.print (interpreter.getGlobals (), g, rs, limit);
 		pw.println ();
 		return count;
 	}

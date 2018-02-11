@@ -157,14 +157,14 @@ public class Session
 			conn = m_connection;
 		}
 		JaqyPreparedStatement stmt = conn.prepareStatement (sql);
-		m_globals.getDebugManager ().dumpPreparedStatement (interpreter.getDisplay (), this, stmt);
+		m_globals.getDebugManager ().dumpPreparedStatement (interpreter.getDisplay (), this, stmt, interpreter);
 		return stmt;
 	}
 
 	private void handleQueryResult (JaqyStatement stmt, JaqyInterpreter interpreter) throws SQLException
 	{
 		Display display = interpreter.getDisplay ();
-		JaqyResultSet rs = stmt.getResultSet ();
+		JaqyResultSet rs = stmt.getResultSet (interpreter);
 		for (;;)
 		{
 			if (rs != null)
@@ -174,7 +174,7 @@ public class Session
 				SortInfo[] sortInfos = interpreter.getSortInfos ();
 				if (sortInfos != null)
 				{
-					InMemoryResultSet inMemRS = new InMemoryResultSet (rs.getResultSet (), interpreter.getLimit ());
+					InMemoryResultSet inMemRS = new InMemoryResultSet (rs.getResultSet (), interpreter.getLimit (), interpreter);
 					inMemRS.sort (sortInfos);
 					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper ());
 					rs.close ();
@@ -210,7 +210,7 @@ public class Session
 			boolean moreRS = stmt.getMoreResults ();
 			if (moreRS)
 			{
-				rs = stmt.getResultSet ();
+				rs = stmt.getResultSet (interpreter);
 			}
 		}
 	}
@@ -286,7 +286,6 @@ public class Session
 									stmt.setString (i + 1, xml.getString ());
 								else
 									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
-								xml.free ();
 							}
 							else if (o instanceof Clob)
 							{
@@ -295,7 +294,6 @@ public class Session
 									stmt.setObject (i + 1, clob.getSubString (1, (int)clob.length ()));
 								else
 									stmt.setCharacterStream (i + 1, clob.getCharacterStream ());
-								clob.free ();
 							}
 							else if (o instanceof Blob)
 							{
@@ -304,7 +302,6 @@ public class Session
 									stmt.setObject (i + 1, blob.getBytes (1, (int)blob.length ()));
 								else
 									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
-								blob.free ();
 							}
 							else
 							{
@@ -324,7 +321,6 @@ public class Session
 									stmt.setBytes(i + 1, blob.getBytes (1, (int)blob.length ()));
 								else
 									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
-								blob.free ();
 							}
 							else
 							{
@@ -342,7 +338,6 @@ public class Session
 									stmt.setString (i + 1, xml.getString ());
 								else
 									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
-								xml.free ();
 							}
 							else
 							{
@@ -357,13 +352,30 @@ public class Session
 							{
 								SQLXML xml = (SQLXML)o;
 								stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
-								xml.free ();
 							}
 							else
 							{
 								stmt.setObject (i + 1, o);
 							}
 						}
+					}
+
+					// free Blob / Clob / SQLXML / Array
+					if (o instanceof SQLXML)
+					{
+						((SQLXML)o).free ();
+					}
+					else if (o instanceof Clob)
+					{
+						((Clob)o).free ();
+					}
+					else if (o instanceof Blob)
+					{
+						((Blob)o).free ();
+					}
+					else if (o instanceof Array)
+					{
+						((Array)o).free ();
 					}
 				}
 				if (batchSize == 1)

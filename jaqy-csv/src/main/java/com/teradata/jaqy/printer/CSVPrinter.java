@@ -19,10 +19,9 @@ import java.io.PrintWriter;
 
 import org.apache.commons.csv.CSVFormat;
 
-import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.typehandler.TypeHandler;
@@ -46,7 +45,7 @@ class CSVPrinter implements JaqyPrinter
 	}
 
 	@Override
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws Exception
+	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyHelper helper = rs.getHelper ();
 		JaqyResultSetMetaData metaData = rs.getMetaData ();

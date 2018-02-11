@@ -97,12 +97,12 @@ public class ListCommand extends JaqyCommandAdapter
 
 		if (".".equals (catalogPattern))
 		{
-			catalogPattern = conn.getCatalog ();
+			catalogPattern = conn.getCatalog (interpreter);
 		}
 
 		if (".".equals (schemaPattern))
 		{
-			schemaPattern = conn.getSchema ();
+			schemaPattern = conn.getSchema (interpreter);
 		}
 
 		JaqyHelper helper = conn.getHelper ();
@@ -129,7 +129,7 @@ public class ListCommand extends JaqyCommandAdapter
 		if (rs == null)
 			return;
 
-		interpreter.print (helper.getResultSet (rs));
+		interpreter.print (helper.getResultSet (rs, interpreter));
 		rs.close ();
 	}
 }

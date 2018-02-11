@@ -21,10 +21,10 @@ import java.sql.SQLException;
 /**
  * @author	Heng Yuan
  */
-public class FileNClob extends FileClob implements NClob
+public class CachedNClob extends CachedClob implements NClob
 {
-	public FileNClob (NClob clob, char[] charBuffer) throws SQLException
+	public CachedNClob (NClob clob, int cacheSize, char[] charBuffer) throws SQLException
 	{
-		super (clob, charBuffer);
+		super (clob, cacheSize, charBuffer);
 	}
 }

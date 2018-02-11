@@ -43,7 +43,7 @@ import com.teradata.jaqy.utils.*;
  */
 public class JaqyInterpreter
 {
-	public static int BUFFER_SIZE = 32000;
+	public final static int BUFFER_SIZE = 32000;
 
 	private static class ParseAction
 	{
@@ -80,7 +80,7 @@ public class JaqyInterpreter
 	private long m_repeatCount = 1;
 	private String m_prevSQL;
 
-	private int m_copyThreshold = 32000;
+	private int m_cacheSize = 4096;
 	/** temp byte buffer */
 	private byte[] m_byteBuffer;
 	private char[] m_charBuffer;
@@ -782,11 +782,11 @@ public class JaqyInterpreter
 			}
 			if (m_quiet)
 			{
-				return QuietPrinter.getInstance ().print (rs, m_globals, display, display.getPrintWriter (), m_limit);
+				return QuietPrinter.getInstance ().print (rs, display.getPrintWriter (), m_limit, this);
 			}
 			else
 			{
-				return m_printer.print (rs, m_globals, display, display.getPrintWriter (), m_limit);
+				return m_printer.print (rs, display.getPrintWriter (), m_limit, this);
 			}
 		}
 		catch (Exception ex)
@@ -799,7 +799,7 @@ public class JaqyInterpreter
 	public void print (PropertyTable pt) throws SQLException
 	{
 		InMemoryResultSet rs = new InMemoryResultSet (pt);
-		print (DummyHelper.getInstance ().getResultSet (rs));
+		print (DummyHelper.getInstance ().getResultSet (rs, this));
 	}
 
 	/**
@@ -1023,13 +1023,13 @@ public class JaqyInterpreter
 		return m_charBuffer;
 	}
 
-	public int getCopyThreshold ()
+	public int getCacheSize ()
 	{
-		return m_copyThreshold;
+		return m_cacheSize;
 	}
 
-	public void setCopyThreshold (int copyThreshold)
+	public void setCacheSize (int cacheSize)
 	{
-		m_copyThreshold = copyThreshold;
+		m_cacheSize = cacheSize;
 	}
 }

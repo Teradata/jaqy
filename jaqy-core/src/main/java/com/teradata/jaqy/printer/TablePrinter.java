@@ -20,10 +20,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
@@ -76,14 +75,14 @@ class TablePrinter implements JaqyPrinter
 		pw.println ();
 	}
 
-	public long print (JaqyResultSet rs, Globals globals, Display display, PrintWriter pw, long limit) throws SQLException
+	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws SQLException
 	{
 		JaqyHelper helper = rs.getHelper ();
 		// If the ResultSet is forward only, make an in-memory which allows
 		// rewind operation.
 		if (m_autoShrink && rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
 		{
-			ResultSet newRS = new InMemoryResultSet (rs.getResultSet (), limit);
+			ResultSet newRS = new InMemoryResultSet (rs.getResultSet (), limit, interpreter);
 			rs.close ();
 			rs = new JaqyResultSet (newRS, helper);
 		}

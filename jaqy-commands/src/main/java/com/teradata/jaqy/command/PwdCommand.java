@@ -53,7 +53,7 @@ public class PwdCommand extends JaqyCommandAdapter
 
 		try
 		{
-			catalog = conn.getCatalog ();
+			catalog = conn.getCatalog (interpreter);
 		}
 		catch (SQLException ex)
 		{
@@ -72,7 +72,7 @@ public class PwdCommand extends JaqyCommandAdapter
 
 		try
 		{
-			schema = helper.getSchema ();
+			schema = helper.getSchema (interpreter);
 		}
 		catch (SQLException ex)
 		{

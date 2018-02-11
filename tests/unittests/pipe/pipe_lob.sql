@@ -4,7 +4,7 @@
 
 -- artificially sets the copy threshold to be very small for testing purposes.
 .script
-interpreter.setCopyThreshold (4);
+interpreter.setCacheSize (4);
 .end script
 
 .run ../common/derby_setup.sql

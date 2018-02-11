@@ -21,6 +21,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.Struct;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 
 /**
@@ -115,14 +116,14 @@ public class JaqyConnection
 		m_connection.rollback ();
 	}
 
-	public String getCatalog () throws SQLException
+	public String getCatalog (JaqyInterpreter interpreter) throws SQLException
 	{
-		return m_helper.getCatalog ();
+		return m_helper.getCatalog (interpreter);
 	}
 
-	public String getSchema () throws SQLException
+	public String getSchema (JaqyInterpreter interpreter) throws SQLException
 	{
-		return m_helper.getSchema ();
+		return m_helper.getSchema (interpreter);
 	}
 
 	public DatabaseMetaData getMetaData () throws SQLException

@@ -25,9 +25,12 @@ CREATE TABLE XmlTable2
 -- same session pipe test for simplicity
 
 .export pipe
+.export
 .fetchsize 2
 SELECT * FROM XmlTable ORDER BY a;
 .import pipe
+.import
+.importschema
 .batchsize 2
 INSERT INTO XmlTable2 VALUES (?, ?);
 

@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.teradata.jaqy.JaqyInterpreter;
+
 /**
  * @author	Heng Yuan
  */
@@ -53,13 +55,13 @@ public class JaqyStatement
 		return m_statement.execute (sql);
 	}
 
-	public JaqyResultSet getResultSet () throws SQLException
+	public JaqyResultSet getResultSet (JaqyInterpreter interpreter) throws SQLException
 	{
 		if (m_rs == null)
 		{
 			ResultSet rs = m_statement.getResultSet ();
 			if (rs != null)
-				m_rs = m_connection.getHelper ().getResultSet (rs);
+				m_rs = m_connection.getHelper ().getResultSet (rs, interpreter);
 		}
 		return m_rs;
 	}

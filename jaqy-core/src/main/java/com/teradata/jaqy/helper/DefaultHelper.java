@@ -20,6 +20,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -68,7 +69,7 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public JaqyResultSet getResultSet (ResultSet rs) throws SQLException
+	public JaqyResultSet getResultSet (ResultSet rs, JaqyInterpreter interpreter) throws SQLException
 	{
 		return new JaqyResultSet (rs, this);
 	}
@@ -193,19 +194,19 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public String getCatalog () throws SQLException
+	public String getCatalog (JaqyInterpreter interpreter) throws SQLException
 	{
 		if (m_catalogQuery == null)
 			return getCatalogInternal ();
-		return QueryUtils.getQueryString (getGlobals (), m_conn, m_catalogQuery.sql, m_catalogQuery.columnIndex);
+		return QueryUtils.getQueryString (m_conn, m_catalogQuery.sql, m_catalogQuery.columnIndex, interpreter);
 	}
 
 	@Override
-	public String getSchema () throws SQLException
+	public String getSchema (JaqyInterpreter interpreter) throws SQLException
 	{
 		if (m_schemaQuery == null)
 			return getSchemaInternal ();
-		return QueryUtils.getQueryString (getGlobals (), m_conn, m_schemaQuery.sql, m_schemaQuery.columnIndex);
+		return QueryUtils.getQueryString (m_conn, m_schemaQuery.sql, m_schemaQuery.columnIndex, interpreter);
 	}
 
 	@Override
@@ -377,11 +378,11 @@ public class DefaultHelper implements JaqyHelper
 	 * Guess the schema for a table.
 	 */
 	@Override
-	public String getTableSchema (String tableName) throws Exception
+	public String getTableSchema (String tableName, JaqyInterpreter interpreter) throws Exception
 	{
 		if (m_tableSchemaQuery != null)
 		{
-			String value = QueryUtils.getQueryString (getGlobals (), m_conn, m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex);
+			String value = QueryUtils.getQueryString (m_conn, m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex, interpreter);
 			if (value == null || value.length () == 0)
 				throw ExceptionUtils.getTableNotFound ();
 			return value;
@@ -397,7 +398,7 @@ public class DefaultHelper implements JaqyHelper
 		{
 			stmt = createStatement (true);
 			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet ();
+			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
 				throw new RuntimeException ("Table was not found.");
 			JaqyResultSetMetaData meta = rs.getMetaData ();
@@ -420,11 +421,11 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public JaqyResultSet getTableColumns (String tableName) throws Exception
+	public JaqyResultSet getTableColumns (String tableName, JaqyInterpreter interpreter) throws Exception
 	{
 		if (m_tableColumnFormat != null)
 		{
-			JaqyResultSet rs = QueryUtils.getResultSet (getGlobals (), m_conn, m_tableColumnFormat.format (new Object[]{ tableName }));
+			JaqyResultSet rs = QueryUtils.getResultSet (getGlobals (), m_conn, m_tableColumnFormat.format (new Object[]{ tableName }), interpreter);
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			InMemoryResultSet inmemrs = (InMemoryResultSet) rs.getResultSet ();
@@ -439,7 +440,7 @@ public class DefaultHelper implements JaqyHelper
 		{
 			stmt = createStatement (true);
 			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet ();
+			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
@@ -457,7 +458,7 @@ public class DefaultHelper implements JaqyHelper
 			rs.close ();
 
 			InMemoryResultSet columnRS = new InMemoryResultSet (pt);
-			return DummyHelper.getInstance ().getResultSet (columnRS);
+			return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
 		}
 		finally
 		{

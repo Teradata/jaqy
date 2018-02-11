@@ -17,6 +17,7 @@ package com.teradata.jaqy.interfaces;
 
 import java.sql.*;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -47,18 +48,22 @@ public interface JaqyHelper
 	public TypeMap getTypeMap () throws SQLException;
 	/**
 	 * Utility function for getting catalog.
+	 * @param	interpreter
+	 * 			the interpreter
 	 * @return	The database catalog string if it is support catalog.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public String getCatalog () throws SQLException;
+	public String getCatalog (JaqyInterpreter interpreter) throws SQLException;
 	/**
 	 * Utility function for getting schema.
+	 * @param	interpreter
+	 * 			the interpreter
 	 * @return	The database schema string if it is support schema.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public String getSchema () throws SQLException;
+	public String getSchema (JaqyInterpreter interpreter) throws SQLException;
 	/**
 	 * Getting a path info string for interactive mode.  This string should
 	 * be fairly informative of the user, host, database, etc without
@@ -74,11 +79,13 @@ public interface JaqyHelper
 	 *
 	 * @param	rs
 	 * 			query ResultSet
+	 * @param	interpreter
+	 * 			the interpreter
 	 * @return	JaqyResultSet which is a wrapper for some actions.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public JaqyResultSet getResultSet (ResultSet rs) throws SQLException;
+	public JaqyResultSet getResultSet (ResultSet rs, JaqyInterpreter interpreter) throws SQLException;
 	/**
 	 * This function retrieves an object from a ResultSet using the index provided.
 	 * The purpose of this function is to provide an ability for Helper class
@@ -179,20 +186,24 @@ public interface JaqyHelper
 	 * Get the SQL schema for the given table.
 	 * @param	tableName
 	 * 			the table to retrieve the SQL schema.
+	 * @param	interpreter
+	 * 			the interpreter
 	 * @return	the SQL schema
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public String getTableSchema (String tableName) throws Exception;
+	public String getTableSchema (String tableName, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Get the column description of the given table.
 	 * @param	tableName
 	 * 			the table to retrieve the column information.
+	 * @param	interpreter
+	 * 			the interpreter
 	 * @return	a ResultSet describing the columns
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public JaqyResultSet getTableColumns (String tableName) throws Exception;
+	public JaqyResultSet getTableColumns (String tableName, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Do a client side fix of the column metadata information.  The fix
 	 * is to get rid of incorrect or ambiguous type informations.

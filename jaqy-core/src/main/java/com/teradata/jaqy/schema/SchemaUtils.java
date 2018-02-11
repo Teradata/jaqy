@@ -18,6 +18,7 @@ package com.teradata.jaqy.schema;
 import java.sql.*;
 import java.util.HashMap;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
@@ -96,7 +97,7 @@ public class SchemaUtils
 		return buffer.toString ();
 	}
 
-	public static JaqyResultSet getSchemaResultSet (JaqyHelper helper, SchemaInfo schemaInfo, boolean exact) throws SQLException
+	public static JaqyResultSet getSchemaResultSet (JaqyHelper helper, SchemaInfo schemaInfo, boolean exact, JaqyInterpreter interpreter) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
 		PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
@@ -117,7 +118,7 @@ public class SchemaUtils
 		}
 
 		InMemoryResultSet columnRS = new InMemoryResultSet (pt);
-		return DummyHelper.getInstance ().getResultSet (columnRS);
+		return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
 	}
 
 	public static TypeMap getTypeMap (JaqyConnection conn) throws SQLException

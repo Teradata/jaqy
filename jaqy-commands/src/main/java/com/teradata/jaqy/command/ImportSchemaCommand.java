@@ -93,7 +93,7 @@ public class ImportSchemaCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false);
+			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false, interpreter);
 			interpreter.print (rs);
 			rs.close ();
 		}
