@@ -16,6 +16,10 @@ transmitting the text to the database server.  Otherwise, if the text
 does not start with ``.``, then it is considered as part of SQL statement,
 and would be transmitted to the database server.
 
+The main reason not to blindly stripping away all the comments is because
+for databases that support query logging, being able to search for queries
+using tokens buried inside comments is very useful.
+
 Examples
 --------
 

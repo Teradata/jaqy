@@ -22,8 +22,10 @@ Field Description
 
 ``features`` list the functionalities that a given database does not support.
 
-* ``"schema" : false`` if the database does not support schema.
 * ``"catalog" : false`` if the database does not support catalog.
+* ``"schema" : false`` if the database does not support schema.
+* ``"stream" : false`` if the database does not support binary / character
+  streams.
 
 ``schemaSQL`` is used by `.pwd <../command/pwd.html>`__ and
 `.list <../command/list.html>`__ commands to determine the current schema.

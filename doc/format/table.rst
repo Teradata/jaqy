@@ -42,6 +42,10 @@ is on by default.
 		  are detected and converted into formats that matches their BTEQ output
 		  formats.
 
+.. warning::
+
+	``table`` should not be used to display large amount of data.  See
+	`Large Data Set Handling <../largedataset.html>`__ for more information.
 
 Example
 *******

@@ -7,6 +7,10 @@ In Jaqy, each session can only have one active database connection.  Thus,
 it is necessary to have multiple sessions to open multiple database
 connections.
 
+The primary purpose of having multiple sessions is to support direct data
+transfer between two database servers using
+`pipe export / import <../export/pipe.html>`__.
+
 Syntax
 ~~~~~~
 

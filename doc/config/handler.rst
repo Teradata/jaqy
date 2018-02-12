@@ -65,3 +65,8 @@ Examples
 	.handler error "-- javascript error: " + ((error == null) ? message : (sqlex == null ? error.message : ("SQL Error: " + sqlex.message)))
 	-- set a new activity handler using javascript
 	.handler activity "-- javascript activity: " + session.activityCount
+
+See Also
+--------
+
+* `Scripting <../script.html>`__
