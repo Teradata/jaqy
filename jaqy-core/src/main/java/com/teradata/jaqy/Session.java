@@ -272,18 +272,15 @@ public class Session
 						case Types.BIGINT:
 							stmt.setObject (i + 1, o, parameterInfos[i].type);
 							break;
-						case Types.CHAR:
-						case Types.VARCHAR:
-						case Types.LONGVARCHAR:
-						case Types.NCHAR:
-						case Types.NVARCHAR:
-						case Types.LONGNVARCHAR:
+						default:
 						{
 							if (o instanceof SQLXML)
 							{
 								SQLXML xml = (SQLXML)o;
-								if (features.noStream)
-									stmt.setString (i + 1, xml.getString ());
+								if (parameterInfos[i].type == Types.SQLXML)
+									stmt.setSQLXML (i + 1, xml);
+								else if (features.noStream)
+									stmt.setObject (i + 1, xml.getString ());
 								else
 									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
 							}
@@ -302,56 +299,6 @@ public class Session
 									stmt.setObject (i + 1, blob.getBytes (1, (int)blob.length ()));
 								else
 									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
-							}
-							else
-							{
-								stmt.setObject (i + 1, o);
-							}
-							break;
-						}
-						case Types.BINARY:
-						case Types.VARBINARY:
-						case Types.LONGVARBINARY:
-						case Types.BLOB:
-						{
-							if (o instanceof Blob)
-							{
-								Blob blob = (Blob)o;
-								if (features.noStream)
-									stmt.setBytes(i + 1, blob.getBytes (1, (int)blob.length ()));
-								else
-									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
-							}
-							else
-							{
-								stmt.setObject (i + 1, o);
-							}
-							break;
-						}
-						case Types.CLOB:
-						case Types.NCLOB:
-						{
-							if (o instanceof SQLXML)
-							{
-								SQLXML xml = (SQLXML)o;
-								if (features.noStream)
-									stmt.setString (i + 1, xml.getString ());
-								else
-									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
-							}
-							else
-							{
-								stmt.setObject (i + 1, o);
-							}
-							break;
-						}
-						default:
-						{
-							if (o instanceof SQLXML &&
-								parameterInfos[i].type != Types.SQLXML)
-							{
-								SQLXML xml = (SQLXML)o;
-								stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
 							}
 							else
 							{

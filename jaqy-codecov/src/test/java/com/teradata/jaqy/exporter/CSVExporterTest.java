@@ -34,4 +34,10 @@ public class CSVExporterTest
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_export_1.sql", "../tests/unittests/csv/control/csv_export_1.control");
 	}
+
+	@Test
+	public void test_lob_1 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_lob_1.sql", "../tests/unittests/csv/control/csv_lob_1.control");
+	}
 }

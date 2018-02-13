@@ -16,12 +16,14 @@
 package com.teradata.jaqy.importer;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.csv.CSVFormat;
 
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.utils.CSVImportInfo;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
@@ -44,6 +46,9 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		addOption ("p", "precise", false, "Obtain precise decimal points if possible.  This option is only meaningful in generating a table schema.  By default, floating values are treated as DOUBLE PRECISION.");
 		addOption ("h", "header", false, "indicates the file has a header");
 		addOption ("r", "rowthreshold", true, "sets row threshold in schema determination.");
+		addOption ("e", "encoding", true, "specifies the external file character set");
+		addOption ("j", "clob", true, "specifies the external text file column");
+		addOption ("k", "blob", true, "specifies the external binary file column");
 	}
 
 	@Override
@@ -57,10 +62,12 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 	{
 		Charset charset = DEFAULT_CHARSET;
 		CSVFormat format = CSVFormat.DEFAULT;
+		HashMap<Integer, CSVImportInfo> importInfoMap = new HashMap<Integer, CSVImportInfo> ();
 		boolean naFilter = false;
 		String[] naValues = null;
 		boolean precise = false;
 		long scanThreshold = -1;	// -1 indicates internal algorithm
+		Charset encoding = DEFAULT_CHARSET;
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -112,12 +119,39 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 						scanThreshold = 0;
 					break;
 				}
+				case 'e':
+				{
+					encoding = Charset.forName (option.getValue ());
+					break;
+				}
+				case 'j':
+				{
+					int column = Integer.parseInt (option.getValue ());
+					if (column < 1)
+					{
+						interpreter.error ("Column index cannot be smaller than 1.");
+					}
+					CSVImportInfo info = new CSVImportInfo (encoding);
+					importInfoMap.put (column - 1, info);
+					break;
+				}
+				case 'k':
+				{
+					int column = Integer.parseInt (option.getValue ());
+					if (column < 1)
+					{
+						interpreter.error ("Column index cannot be smaller than 1.");
+					}
+					CSVImportInfo info = new CSVImportInfo (null);
+					importInfoMap.put (column - 1, info);
+					break;
+				}
 			}
 		}
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		CSVImporter importer = new CSVImporter (interpreter.getFile (args[0]), charset, format, precise, scanThreshold);
+		CSVImporter importer = new CSVImporter (interpreter.getFile (args[0]), charset, format, importInfoMap, precise, scanThreshold);
 		if (naFilter == true)
 		{
 			importer.setNaFilter (true);

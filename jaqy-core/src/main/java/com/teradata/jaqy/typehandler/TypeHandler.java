@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package com.teradata.jaqy.typehandler;
 
-import java.sql.SQLException;
-
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
@@ -24,6 +23,6 @@ import com.teradata.jaqy.connection.JaqyResultSet;
  */
 public interface TypeHandler
 {
-	public String getString (JaqyResultSet rs, int column) throws SQLException;
-	public int getLength (JaqyResultSet rs, int column) throws SQLException;
+	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception;
+	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception;
 }

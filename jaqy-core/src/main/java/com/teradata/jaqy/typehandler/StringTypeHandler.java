@@ -17,6 +17,7 @@ package com.teradata.jaqy.typehandler;
 
 import java.sql.SQLException;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
@@ -36,13 +37,13 @@ class StringTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public String getString (JaqyResultSet rs, int column) throws SQLException
+	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		return rs.getString (column);
 	}
 
 	@Override
-	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		String str = rs.getString (column);
 		if (str == null)

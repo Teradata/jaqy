@@ -18,6 +18,7 @@ package com.teradata.jaqy.typehandler;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
@@ -37,7 +38,7 @@ class XmlTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public String getString (JaqyResultSet rs, int column) throws SQLException
+	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		SQLXML xml = (SQLXML) rs.getObject (column);
 		if (xml  == null)
@@ -48,7 +49,7 @@ class XmlTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		SQLXML xml = (SQLXML) rs.getObject (column);
 		if (xml  == null)

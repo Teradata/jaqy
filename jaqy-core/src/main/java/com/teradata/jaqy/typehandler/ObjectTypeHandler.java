@@ -19,6 +19,7 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -39,7 +40,7 @@ class ObjectTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public String getString (JaqyResultSet rs, int columnIndex) throws SQLException
+	public String getString (JaqyResultSet rs, int columnIndex, JaqyInterpreter interpreter) throws SQLException
 	{
 		Object obj = rs.getObject (columnIndex);
 		if (obj == null)
@@ -70,7 +71,7 @@ class ObjectTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		Object obj = rs.getObject (column);
 		if (obj == null)

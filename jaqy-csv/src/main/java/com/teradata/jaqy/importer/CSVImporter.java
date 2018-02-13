@@ -15,11 +15,7 @@
  */
 package com.teradata.jaqy.importer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.sql.Types;
 import java.util.HashMap;
@@ -33,8 +29,11 @@ import org.apache.commons.csv.CSVRecord;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.resultset.FileBlob;
+import com.teradata.jaqy.resultset.FileClob;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.utils.CSVImportInfo;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.StringUtils;
 import com.teradata.jaqy.utils.TypesUtils;
@@ -62,12 +61,14 @@ public class CSVImporter implements JaqyImporter<Integer>
 	private String[] m_naValues;
 	private SchemaInfo m_schemaInfo;
 	private long m_scanThreshold;
+	private HashMap<Integer, CSVImportInfo> m_importInfoMap;
 
-	public CSVImporter (File file, Charset charset, CSVFormat format, boolean precise, long scanThreshold) throws IOException
+	public CSVImporter (File file, Charset charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
 	{
 		m_file = file;
 		m_charset = charset;
 		m_format = format;
+		m_importInfoMap = importInfoMap;
 		m_precise = precise;
 		m_scanThreshold = scanThreshold;
 		openFile (file, charset, format);
@@ -137,6 +138,19 @@ public class CSVImporter implements JaqyImporter<Integer>
 				for (String f : m_naValues)
 					if (value.equals (f))
 						return null;
+			}
+			CSVImportInfo importInfo = m_importInfoMap.get (index);
+			if (importInfo != null)
+			{
+				if (value.length () == 0)
+					return null;
+				File file = interpreter.getFile (value);
+				if (!file.isFile ())
+					throw new FileNotFoundException ("External file " + file.getPath () + " is not found.");
+				if (importInfo.charset == null)
+					return new FileBlob (file);
+				else
+					return new FileClob (file, importInfo.charset);
 			}
 			if (TypesUtils.isBinary (paramInfo.type))
 				return StringUtils.getBytesFromHexString (value);

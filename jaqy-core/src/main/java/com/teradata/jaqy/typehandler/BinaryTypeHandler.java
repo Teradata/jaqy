@@ -18,6 +18,7 @@ package com.teradata.jaqy.typehandler;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -38,7 +39,7 @@ class BinaryTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public String getString (JaqyResultSet rs, int column) throws SQLException
+	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		Object obj = rs.getObject (column);
 		if (obj == null)
@@ -58,7 +59,7 @@ class BinaryTypeHandler implements TypeHandler
 	}
 
 	@Override
-	public int getLength (JaqyResultSet rs, int column) throws SQLException
+	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 	{
 		Object obj = rs.getObject (column);
 		if (obj == null)

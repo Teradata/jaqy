@@ -19,10 +19,16 @@ csv type options:
                                                         character set
   -d,--delimiter <arg>                                  specifies the
                                                         delimiter
+  -e,--encoding <arg>                                   specifies the external
+                                                        file character set
   -f,--nafilter                                         enables N/A value
                                                         filtering
   -h,--header                                           indicates the file has
                                                         a header
+  -j,--clob <arg>                                       specifies the external
+                                                        text file column
+  -k,--blob <arg>                                       specifies the external
+                                                        binary file column
   -p,--precise                                          Obtain precise decimal
                                                         points if possible.
                                                         This option is only

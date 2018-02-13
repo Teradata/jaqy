@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -26,14 +27,17 @@ import org.apache.commons.csv.CSVFormat;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.utils.CSVExportInfo;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
+import com.teradata.jaqy.utils.CSVNameGen;
 
 /**
  * @author	Heng Yuan
  */
 public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 {
+	public static String DEFAULT_NAME_PATTERN = "%08d.bin";
 	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
 
 	public CSVExporterFactory ()
@@ -43,6 +47,9 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		Option option = new Option ("t", "type", true, "sets the csv type.");
 		option.setArgName ("default | excel | rfc4180 | mysql | tdf");
 		addOption (option);
+		addOption ("n", "name", true, "specifies the external file name pattern");
+		addOption ("e", "encoding", true, "specifies the external file character set");
+		addOption ("f", "file", true, "specifies the external file column");
 	}
 
 	@Override
@@ -56,6 +63,10 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	{
 		Charset charset = DEFAULT_CHARSET;
 		CSVFormat format = CSVFormat.DEFAULT;
+
+		HashMap<Integer, CSVExportInfo> exportInfoMap = new HashMap<Integer, CSVExportInfo> ();
+		CSVNameGen nameGen = new CSVNameGen (DEFAULT_NAME_PATTERN);
+		Charset encoding = DEFAULT_CHARSET;
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -79,12 +90,37 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 					format = CSVUtils.getFormat (option.getValue ());
 					break;
 				}
+				case 'n':
+				{
+					String fmt = option.getValue ();
+					nameGen = new CSVNameGen (fmt);
+					// now check if the name is a valid format.
+					if (fmt.equals (nameGen.getName (1)))
+						interpreter.error ("Invalid name pattern: " + fmt);
+					break;
+				}
+				case 'e':
+				{
+					encoding = Charset.forName (option.getValue ());
+					break;
+				}
+				case 'f':
+				{
+					int column = Integer.parseInt (option.getValue ());
+					if (column < 1)
+					{
+						interpreter.error ("Column index cannot be smaller than 1.");
+					}
+					CSVExportInfo info = new CSVExportInfo (nameGen, encoding);
+					exportInfoMap.put (column, info);
+					break;
+				}
 			}
 		}
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
 		Writer fw = new OutputStreamWriter (new FileOutputStream (interpreter.getFile (args[0])), charset);
-		return new CSVExporter (format, fw);
+		return new CSVExporter (format, fw, exportInfoMap);
 	}
 }

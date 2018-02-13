@@ -1,0 +1,100 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .export csv test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+.format csv
+-- 0/3 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b TEXT, c BLOB);
+-- success. update count = 0
+-- 1/3 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'a', X'de');
+-- success. update count = 1
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, 'ab', X'dead');
+-- success. update count = 1
+-- 3/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (3, 'abc', X'deadbe');
+-- success. update count = 1
+-- 4/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (4, 'abcd', X'deadbeef');
+-- success. update count = 1
+-- 5/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (5, 'abcde', X'deadbeeffa');
+-- success. update count = 1
+-- 6/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (6, 'abcdef', X'deadbeefface');
+-- success. update count = 1
+-- 7/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (7, 'abcdefg', X'deadbeeffacefe');
+-- success. update count = 1
+-- 8/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (8, NULL, NULL);
+-- success. update count = 1
+-- 9/3 - 0 ----------------------------------------------------------------
+
+.export csv -n %02d.bin -e UTF-16LE -f2 -f3 file1.csv
+-- 9/4 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+-- activity count = 8
+-- 10/4 - 0 ---------------------------------------------------------------
+
+.os /usr/bin/hexdump -C 13.bin
+00000000  61 00 62 00 63 00 64 00  65 00 66 00 67 00        |a.b.c.d.e.f.g.|
+0000000e
+-- 10/5 - 0 ---------------------------------------------------------------
+.os /usr/bin/hexdump -C 14.bin
+00000000  de ad be ef fa ce fe                              |.......|
+00000007
+-- 10/6 - 0 ---------------------------------------------------------------
+.os cat file1.csv
+a,b,c
+1,01.bin,02.bin
+2,03.bin,04.bin
+3,05.bin,06.bin
+4,07.bin,08.bin
+5,09.bin,10.bin
+6,11.bin,12.bin
+7,13.bin,14.bin
+8,,
+-- 10/7 - 0 ---------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 8
+-- 11/7 - 0 ---------------------------------------------------------------
+
+.import csv -h -e UTF-16LE -j2 -k3 file1.csv
+-- 11/8 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?, ?);
+-- success. update count = 1
+-- 12/8 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a,b,c
+1,a,de
+2,ab,dead
+3,abc,deadbe
+4,abcd,deadbeef
+5,abcde,deadbeeffa
+6,abcdef,deadbeefface
+7,abcdefg,deadbeeffacefe
+8,,
+-- activity count = 8
+-- 13/8 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 1
+-- 14/8 - 0 ---------------------------------------------------------------
+.close
+-- 14/9 - 0 ---------------------------------------------------------------
+.os rm -f file1.csv *.bin
+-- 14/10 - 0 --------------------------------------------------------------

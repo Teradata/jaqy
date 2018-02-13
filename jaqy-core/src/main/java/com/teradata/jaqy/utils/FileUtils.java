@@ -16,6 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * @author	Heng Yuan
@@ -63,7 +64,12 @@ public class FileUtils
 
 	public static long writeFile (File file, Reader reader, char[] charBuffer) throws IOException
 	{
-		Writer writer = new OutputStreamWriter (new FileOutputStream (file), "UTF-8");
+		return writeFile (file, Charset.forName ("UTF-8"), reader, charBuffer);
+	}
+
+	public static long writeFile (File file, Charset charset, Reader reader, char[] charBuffer) throws IOException
+	{
+		Writer writer = new OutputStreamWriter (new FileOutputStream (file), charset);
 		int len;
 		long length = 0;
 		while ((len = reader.read (charBuffer)) >= 0)
@@ -85,7 +91,12 @@ public class FileUtils
 
 	public static void writeFile (File file, String str) throws IOException
 	{
-		Writer writer = new OutputStreamWriter (new FileOutputStream (file), "UTF-8");
+		writeFile (file, Charset.forName ("UTF-8"), str);
+	}
+
+	public static void writeFile (File file, Charset charset, String str) throws IOException
+	{
+		Writer writer = new OutputStreamWriter (new FileOutputStream (file), charset);
 		writer.write (str);
 		writer.close ();
 	}
@@ -116,10 +127,23 @@ public class FileUtils
 		return byteBuffer;
 	}
 
+	public static long getLength (File file, Charset charset) throws IOException
+	{
+		InputStreamReader reader = new InputStreamReader (new FileInputStream (file), charset);
+		long length = reader.skip (Long.MAX_VALUE);
+		reader.close ();
+		return length;
+	}
+
 	public static String readString (File file, long start, int length) throws IOException
 	{
+		return readString (file, Charset.forName ("UTF-8"), start, length);
+	}
+
+	public static String readString (File file, Charset charset, long start, int length) throws IOException
+	{
 		char[] charBuffer = new char[length];
-		Reader reader = new InputStreamReader (new FileInputStream (file), "UTF-8");
+		Reader reader = new InputStreamReader (new FileInputStream (file), charset);
 		if (start > 0)
 		{
 			long offset = start;

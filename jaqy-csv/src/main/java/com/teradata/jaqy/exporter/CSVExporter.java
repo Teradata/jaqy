@@ -18,6 +18,7 @@ package com.teradata.jaqy.exporter;
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.HashMap;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -30,6 +31,7 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.typehandler.TypeHandler;
+import com.teradata.jaqy.utils.CSVExportInfo;
 
 /**
  * @author	Heng Yuan
@@ -38,11 +40,13 @@ class CSVExporter implements JaqyExporter
 {
 	private final CSVFormat m_format;
 	private final Writer m_out;
+	private final HashMap<Integer, CSVExportInfo> m_fileInfoMap;
 
-	public CSVExporter (CSVFormat format, Writer out)
+	public CSVExporter (CSVFormat format, Writer out, HashMap<Integer, CSVExportInfo> fileInfoMap)
 	{
 		m_format = format;
 		m_out = out;
+		m_fileInfoMap = fileInfoMap;
 	}
 
 	@Override
@@ -66,7 +70,11 @@ class CSVExporter implements JaqyExporter
 			// print the header row
 			printer.print (metaData.getColumnLabel (i + 1));
 
-			handlers[i] = helper.getTypeHandler (rs, i + 1);
+			CSVExportInfo fileInfo = m_fileInfoMap.get (i + 1);
+			if (fileInfo == null)
+				handlers[i] = helper.getTypeHandler (rs, i + 1);
+			else
+				handlers[i] = new FileHandler (fileInfo);
 		}
 		printer.println ();
 
@@ -76,7 +84,7 @@ class CSVExporter implements JaqyExporter
 			++count;
 			for (int i = 0; i < columns; ++i)
 			{
-				printer.print (handlers[i].getString (rs, i + 1));
+				printer.print (handlers[i].getString (rs, i + 1, interpreter));
 			}
 			printer.println ();
 		}

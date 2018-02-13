@@ -72,7 +72,7 @@ class CSVPrinter implements JaqyPrinter
 			++count;
 			for (int i = 0; i < columns; ++i)
 			{
-				printer.print (handlers[i].getString (rs, i + 1));
+				printer.print (handlers[i].getString (rs, i + 1, interpreter));
 			}
 			printer.println ();
 		}

@@ -17,7 +17,6 @@ package com.teradata.jaqy.printer;
 
 import java.io.PrintWriter;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
 
 import com.teradata.jaqy.JaqyInterpreter;
@@ -75,7 +74,7 @@ class TablePrinter implements JaqyPrinter
 		pw.println ();
 	}
 
-	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws SQLException
+	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyHelper helper = rs.getHelper ();
 		// If the ResultSet is forward only, make an in-memory which allows
@@ -117,7 +116,7 @@ class TablePrinter implements JaqyPrinter
 				if (dispSize <= m_columnThreshold)
 					widths[i] = dispSize;
 			}
-			shrink (columns, widths, rs, handlers, limit);
+			shrink (columns, widths, rs, handlers, limit, interpreter);
 		}
 		else
 		{
@@ -187,7 +186,7 @@ class TablePrinter implements JaqyPrinter
 					else
 						pw.print (' ');
 				}
-				StringUtils.print (pw, handlers[i].getString (rs, i + 1), widths[i], leftAligns[i], (i < (columns - 1)) || m_border);
+				StringUtils.print (pw, handlers[i].getString (rs, i + 1, interpreter), widths[i], leftAligns[i], (i < (columns - 1)) || m_border);
 			}
 			if (m_border)
 				pw.print (" |");
@@ -218,7 +217,7 @@ class TablePrinter implements JaqyPrinter
 		}
 	}
 
-	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers, long limit)
+	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers, long limit, JaqyInterpreter interpreter)
 	{
 		boolean[] skipShrink = new boolean[columns];
 		boolean doScan = false;
@@ -243,7 +242,7 @@ class TablePrinter implements JaqyPrinter
 				{
 					if (skipShrink[i])
 						continue;
-					int len = handlers[i].getLength (rs, i + 1);
+					int len = handlers[i].getLength (rs, i + 1, interpreter);
 					if (len == -1)
 					{
 						len = 4;
@@ -254,7 +253,7 @@ class TablePrinter implements JaqyPrinter
 			}
 			rs.beforeFirst ();
 		}
-		catch (SQLException ex)
+		catch (Exception ex)
 		{
 		}
 	}

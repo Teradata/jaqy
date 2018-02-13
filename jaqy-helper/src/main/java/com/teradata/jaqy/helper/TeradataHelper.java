@@ -54,13 +54,13 @@ class TeradataHelper extends DefaultHelper
 	private final static TypeHandler s_pdtHandler = new TypeHandler ()
 	{
 		@Override
-		public String getString (JaqyResultSet rs, int column) throws SQLException
+		public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 		{
 			return getPDTString ((Struct)rs.getObject (column));
 		}
 
 		@Override
-		public int getLength (JaqyResultSet rs, int column) throws SQLException
+		public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 		{
 			Struct str = (Struct)rs.getObject (column);
 			if (str == null)

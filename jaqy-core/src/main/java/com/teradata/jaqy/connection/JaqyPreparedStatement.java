@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLXML;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 
@@ -103,6 +104,11 @@ public class JaqyPreparedStatement extends JaqyStatement
     public void setObject (int parameter, Object obj) throws SQLException
 	{
 		m_statement.setObject (parameter, obj);
+	}
+
+    public void setSQLXML (int parameter, SQLXML x) throws SQLException
+	{
+		m_statement.setSQLXML (parameter, x);
 	}
 
 	public void setObject (int parameter, Object obj, int sqlType) throws SQLException
