@@ -60,19 +60,4 @@ public interface Display
 	 *			false if we are reading input from a file.
 	 */
 	public boolean isInteractive ();
-
-	/**
-	 * Gets the current interpreter.
-	 *
-	 * @return	the current interpreter.
-	 */
-	public JaqyInterpreter getInterpreter ();
-
-	/**
-	 * Set the current interpreter.
-	 *
-	 * @param	interpreter
-	 *			the interpreter to be set as active
-	 */
-	public void setInterpreter (JaqyInterpreter interpreter);
 }

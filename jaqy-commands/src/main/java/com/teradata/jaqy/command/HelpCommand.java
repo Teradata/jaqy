@@ -82,6 +82,10 @@ public class HelpCommand extends JaqyCommandAdapter
 			if (cmdName.startsWith ("."))
 				cmdName = cmdName.substring (1);
 			JaqyCommand cmd = m_manager.getCommand (cmdName);
+			if (cmd == null)
+			{
+				interpreter.error ("-- unknown command: " + cmdName);
+			}
 			if (cmd != null)
 			{
 				helpCommand (globals, pw, cmdName, cmd, StringUtils.shiftArgs (args));

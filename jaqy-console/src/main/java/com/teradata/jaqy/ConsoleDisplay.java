@@ -45,9 +45,6 @@ public class ConsoleDisplay implements Display
 
 	private boolean m_initiated;
 
-	private JaqyInterpreter m_interpreter;
-	private final Object m_interpreterLock = new Object ();
-
 	private StateHandler m_promptHandler = DefaultStateHandlers.promptHandler;
 	private StateHandler m_titleHandler = DefaultStateHandlers.titleHandler;
 	private StateHandler m_successHandler = DefaultStateHandlers.successHandler;
@@ -223,35 +220,6 @@ public class ConsoleDisplay implements Display
 	{
 		if (m_colorEnabled)
 			m_pw.print (color);
-	}
-
-	/**
-	 * Gets the current active session.
-	 *
-	 * @return	the current active session.
-	 */
-	@Override
-	public JaqyInterpreter getInterpreter ()
-	{
-		synchronized (m_interpreterLock)
-		{
-			return m_interpreter;
-		}
-	}
-
-	/**
-	 * Set the current active session.
-	 *
-	 * @param	session
-	 *			the session to be set as active
-	 */
-	@Override
-	public void setInterpreter (JaqyInterpreter interpreter)
-	{
-		synchronized (m_interpreterLock)
-		{
-			m_interpreter = interpreter;
-		}
 	}
 
 	public String fill (String str)

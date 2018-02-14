@@ -48,6 +48,7 @@ Currently available commands are the following.
 	.script - runs a script.
 	.session - session related controls.
 	.sort - does client side ResultSet sorting.
+	.timer - sets a timer.
 	.unalias - removes a command alias.
 	.var - displays variables
 	.version - displays version information
@@ -57,3 +58,7 @@ Use .help [command] to know more about a command.
 .help help
 usage: .help [optional command]
 -- 0/2 - 0 ----------------------------------------------------------------
+.help asdf
+-- error: -- unknown command: asdf
+-- 0/3 - 0 ----------------------------------------------------------------
+

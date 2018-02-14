@@ -165,8 +165,6 @@ public class Main
 
 		// create an interpreter
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, display, session);
-		// sets the display's active interpreter.
-		display.setInterpreter (interpreter);
 
 		// initiate commands
 		CommandSetup.init (globals);
