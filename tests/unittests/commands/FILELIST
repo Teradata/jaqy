@@ -36,6 +36,7 @@ sort_1.sql
 sort_2.sql
 sort_3.sql
 #.sql
+timer.sql
 transaction.sql
 unalias.sql
 var.sql
