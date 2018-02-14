@@ -29,7 +29,6 @@ import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
-import com.teradata.jaqy.utils.ResultSetUtils;
 
 /**
  * @author	Heng Yuan
@@ -68,7 +67,7 @@ public class PipeImporter implements JaqyImporter<Integer>
 	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		return ResultSetUtils.copyIfNecessary (m_rs.getObject (index + 1), interpreter);
+		return m_rs.getObject (index + 1);
 	}
 
 	@Override

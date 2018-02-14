@@ -17,9 +17,7 @@ package com.teradata.jaqy.connection;
 
 import java.io.InputStream;
 import java.io.Reader;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLXML;
+import java.sql.*;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 
@@ -104,6 +102,21 @@ public class JaqyPreparedStatement extends JaqyStatement
     public void setObject (int parameter, Object obj) throws SQLException
 	{
 		m_statement.setObject (parameter, obj);
+	}
+
+    public void setClob (int parameter, Clob x) throws SQLException
+	{
+		m_statement.setClob (parameter, x);
+	}
+
+    public void setNClob (int parameter, NClob x) throws SQLException
+	{
+		m_statement.setNClob (parameter, x);
+	}
+
+    public void setBlob (int parameter, Blob x) throws SQLException
+	{
+		m_statement.setBlob (parameter, x);
 	}
 
     public void setSQLXML (int parameter, SQLXML x) throws SQLException

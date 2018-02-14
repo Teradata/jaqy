@@ -30,6 +30,7 @@ import com.teradata.jaqy.parser.VariableParser;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.DriverManagerUtils;
+import com.teradata.jaqy.utils.FileUtils;
 import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 import com.teradata.jaqy.utils.SortInfo;
 
@@ -277,10 +278,15 @@ public class Session
 							if (o instanceof SQLXML)
 							{
 								SQLXML xml = (SQLXML)o;
-								if (parameterInfos[i].type == Types.SQLXML)
-									stmt.setSQLXML (i + 1, xml);
-								else if (features.noStream)
+								if (features.noStream)
 									stmt.setObject (i + 1, xml.getString ());
+								else if (parameterInfos[i].type == Types.SQLXML)
+								{
+									SQLXML x = m_connection.createSQLXML ();
+									FileUtils.copy (x.setCharacterStream (), xml.getCharacterStream (), interpreter.getCharBuffer ());
+									stmt.setSQLXML (i + 1, x);
+									x.free ();
+								}
 								else
 									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
 							}
@@ -289,6 +295,20 @@ public class Session
 								Clob clob = (Clob)o;
 								if (features.noStream)
 									stmt.setObject (i + 1, clob.getSubString (1, (int)clob.length ()));
+								else if (parameterInfos[i].type == Types.NCLOB)
+								{
+									NClob c = m_connection.createNClob ();
+									FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
+									stmt.setNClob (i + 1, c);
+									c.free ();
+								}
+								else if (parameterInfos[i].type == Types.CLOB)
+								{
+									Clob c = m_connection.createClob ();
+									FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
+									stmt.setClob (i + 1, c);
+									c.free ();
+								}
 								else
 									stmt.setCharacterStream (i + 1, clob.getCharacterStream ());
 							}
@@ -297,6 +317,14 @@ public class Session
 								Blob blob = (Blob)o;
 								if (features.noStream)
 									stmt.setObject (i + 1, blob.getBytes (1, (int)blob.length ()));
+								else if (parameterInfos[i].type == Types.BLOB)
+								{
+									Blob b;
+									b = m_connection.createBlob ();
+									FileUtils.copy (b.setBinaryStream (1), blob.getBinaryStream (), interpreter.getByteBuffer ());
+									stmt.setBlob (i + 1, b);
+									b.free ();
+								}
 								else
 									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
 							}

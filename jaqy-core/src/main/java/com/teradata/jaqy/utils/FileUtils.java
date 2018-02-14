@@ -166,6 +166,28 @@ public class FileUtils
 		return new String (charBuffer);
 	}
 
+	public static void copy (Writer out, Reader r, char[] charBuffer) throws IOException
+	{
+		int len;
+		while ((len = r.read (charBuffer)) >= 0)
+		{
+			out.write (charBuffer, 0, len);
+		}
+		r.close ();
+		out.close ();
+	}
+
+	public static void copy (OutputStream os, InputStream is, byte[] byteBuffer) throws IOException
+	{
+		int len;
+		while ((len = is.read (byteBuffer)) >= 0)
+		{
+			os.write (byteBuffer, 0, len);
+		}
+		is.close ();
+		os.close ();
+	}
+
 	public static int compare (Reader r1, Reader r2) throws IOException
 	{
 		try

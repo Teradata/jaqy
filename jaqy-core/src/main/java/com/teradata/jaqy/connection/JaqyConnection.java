@@ -15,11 +15,7 @@
  */
 package com.teradata.jaqy.connection;
 
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
-import java.sql.Struct;
+import java.sql.*;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -153,6 +149,26 @@ public class JaqyConnection
 	public Connection getConnection ()
 	{
 		return m_connection;
+	}
+
+	public Clob createClob () throws SQLException
+	{
+		return m_connection.createClob ();
+	}
+
+	public NClob createNClob () throws SQLException
+	{
+		return m_connection.createNClob ();
+	}
+
+	public Blob createBlob () throws SQLException
+	{
+		return m_connection.createBlob ();
+	}
+
+	public SQLXML createSQLXML () throws SQLException
+	{
+		return m_connection.createSQLXML ();
 	}
 
 	public Array createArrayOf (String typeName, Object[] elements) throws SQLException
