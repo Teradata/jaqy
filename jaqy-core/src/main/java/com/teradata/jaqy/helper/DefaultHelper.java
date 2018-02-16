@@ -400,7 +400,7 @@ public class DefaultHelper implements JaqyHelper
 			stmt.execute (query);
 			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
-				throw new RuntimeException ("Table was not found.");
+				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
 			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), null);
 			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true);
