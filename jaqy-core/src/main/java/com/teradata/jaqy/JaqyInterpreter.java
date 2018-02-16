@@ -34,6 +34,7 @@ import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
 import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
+import com.teradata.jaqy.parser.VariableParser;
 import com.teradata.jaqy.printer.QuietPrinter;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.*;
@@ -486,6 +487,7 @@ public class JaqyInterpreter
 					try
 					{
 						display.echo (this, sql, interactive);
+						String actualSQL = VariableParser.getString (sql, getVariableHandler ());
 						m_prevSQL = null;
 						SessionUtils.checkOpen (this);
 						switch (m_queryMode)
@@ -493,18 +495,18 @@ public class JaqyInterpreter
 							case Regular:
 							{
 								m_prevSQL = sql;
-								session.executeQuery (sql, this, m_repeatCount);
+								session.executeQuery (actualSQL, this, m_repeatCount);
 								break;
 							}
 							case Prepare:
 							{
-								JaqyPreparedStatement stmt = session.prepareQuery (sql, this);
+								JaqyPreparedStatement stmt = session.prepareQuery (actualSQL, this);
 								stmt.close ();
 								break;
 							}
 							case Import:
 							{
-								session.importQuery (sql, this);
+								session.importQuery (actualSQL, this);
 								break;
 							}
 						}

@@ -26,7 +26,7 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 import com.teradata.jaqy.interfaces.JaqyImporter;
-import com.teradata.jaqy.parser.VariableParser;
+import com.teradata.jaqy.parser.FieldParser;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.DriverManagerUtils;
@@ -238,7 +238,7 @@ public class Session
 		JaqyImporter<?> importer = interpreter.getImporter ();
 		m_globals.log (Level.INFO, "importQuery: " + importer);
 		FieldImporter fieldImporter = new FieldImporter (importer);
-		sql = VariableParser.getString (sql, interpreter.getVariableHandler (), fieldImporter);
+		sql = FieldParser.getString (sql, fieldImporter);
 		m_globals.log (Level.INFO, "field sql: " + sql);
 		if (fieldImporter.hasFields ())
 			importer = fieldImporter;

@@ -26,25 +26,27 @@ import com.teradata.jaqy.interfaces.VariableHandler;
 /**
  * @author	Heng Yuan 
  */
-public class VariableParserTest
+public class FieldParserTest
 {
 	@Test
 	public void testVariable () throws IOException
 	{
-		final HashMap<String,String> varMap = new HashMap<String, String> ();
-		varMap.put ("PATH", "/c/d:/e/f");
+		final HashMap<String,String> fieldMap = new HashMap<String, String> ();
+		fieldMap.put ("abc", "cooler than ice");
+		fieldMap.put ("def", "ice cold");
 
-		VariableHandler varHandler = new VariableHandler ()
+		VariableHandler fieldHandler = new VariableHandler ()
 		{
 			@Override
 			public String getVariable (String name) throws IOException
 			{
-				return varMap.get (name);
+				return fieldMap.get (name);
 			}
 		};
 		String str = "abcd ${1} ${2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
 		String value;
-		value = VariableParser.getString (str, varHandler);
-		Assert.assertEquals ("abcd ${1} ${2} /c/d:/e/f  {{abc}} {{}} {{d}} {{def}}", value);
+
+		value = FieldParser.getString (str, fieldHandler);
+		Assert.assertEquals ("abcd ${1} ${2} ${PATH} ${SHELL} cooler than ice {{}}  ice cold", value);
 	}
 }

@@ -28,14 +28,14 @@ import com.teradata.jaqy.interfaces.VariableHandler;
  * @author	Heng Yuan
  */
 @CookCCOption (unicode = true)
-public class VariableParser extends VariableGeneratedParser
+public class FieldParser extends FieldGeneratedParser
 {
 	private final StringBuffer m_buffer = new StringBuffer ();
-	private final VariableHandler m_varHandler;
+	private final VariableHandler m_fieldHandler;
 
-	private VariableParser (VariableHandler varHandler)
+	private FieldParser (VariableHandler fieldHandler)
 	{
-		m_varHandler = varHandler;
+		m_fieldHandler = fieldHandler;
 	}
 
 	@Override
@@ -44,14 +44,21 @@ public class VariableParser extends VariableGeneratedParser
 		return m_buffer.toString ();
 	}
 
-	@Lex (pattern = "'${'[a-zA-Z_][a-zA-Z0-9_]*'}'")
-	void scanVariable () throws IOException
+	@Lex (pattern = "'{{'[^{}]+'}}'")
+	void scanField () throws IOException
 	{
-		String name = yyText ();
-		name = name.substring (2, name.length () - 1);
-		String value = m_varHandler.getVariable (name);
-		if (value != null)
-			m_buffer.append (value);
+		if (m_fieldHandler == null)
+		{
+			m_buffer.append (yyText ());
+		}
+		else
+		{
+			String name = yyText ();
+			name = name.substring (2, name.length () - 2);
+			String value = m_fieldHandler.getVariable (name);
+			if (value != null)
+				m_buffer.append (value);
+		}
 	}
 
 	@Lexs (patterns = {
@@ -69,9 +76,9 @@ public class VariableParser extends VariableGeneratedParser
 		return 0;
 	}
 
-	public static String getString (String str, VariableHandler varHandler) throws IOException
+	public static String getString (String str, VariableHandler fieldHandler) throws IOException
 	{
-		VariableParser parser = new VariableParser (varHandler);
+		FieldParser parser = new FieldParser (fieldHandler);
 		parser.setInput (new StringReader (str));
 		if (parser.yyLex () != 0)
 			throw new IOException ("parsing error.");

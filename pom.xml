@@ -65,6 +65,7 @@
 							<exclude>com/teradata/jaqy/command/ExitCommand.class</exclude>
 							<exclude>com/teradata/jaqy/command/VersionCommand.class</exclude>
 							<exclude>com/teradata/jaqy/resultset/*Wrapper.class</exclude>
+							<exclude>com/teradata/jaqy/parser/*Generated*.class</exclude>
 						</excludes>
 					</instrumentation>
 				</configuration>
