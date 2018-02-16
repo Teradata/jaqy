@@ -16,7 +16,7 @@ the time elapsed since then.
 
 .. note::
 
-	This command creates a variable `timer`.
+	This command creates a variable ``timer``.
 
 Example
 ~~~~~~~

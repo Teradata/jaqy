@@ -244,11 +244,16 @@ public class Session
 			importer = fieldImporter;
 
 		JaqyPreparedStatement stmt = prepareQuery (sql, interpreter);
-		JdbcFeatures features = stmt.getHelper ().getFeatures ();
+		JaqyHelper helper = stmt.getHelper ();
+		JdbcFeatures features = helper.getFeatures ();
+
 		JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
 		ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
 		if (parameterInfos.length == 0)
 			throw new IOException ("no parameters detected.");
+		for (ParameterInfo paramInfo : parameterInfos)
+			helper.fixParameterInfo (paramInfo);
+
 		try
 		{
 			int columns = stmt.getParameterCount ();
