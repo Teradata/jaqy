@@ -284,7 +284,7 @@ public class Session
 							{
 								SQLXML xml = (SQLXML)o;
 								if (features.noStream)
-									stmt.setObject (i + 1, xml.getString ());
+									stmt.setString (i + 1, xml.getString ());
 								else if (parameterInfos[i].type == Types.SQLXML)
 								{
 									SQLXML x = m_connection.createSQLXML ();
@@ -299,7 +299,7 @@ public class Session
 							{
 								Clob clob = (Clob)o;
 								if (features.noStream)
-									stmt.setObject (i + 1, clob.getSubString (1, (int)clob.length ()));
+									stmt.setString (i + 1, clob.getSubString (1, (int)clob.length ()));
 								else if (parameterInfos[i].type == Types.NCLOB)
 								{
 									NClob c = m_connection.createNClob ();
@@ -321,7 +321,7 @@ public class Session
 							{
 								Blob blob = (Blob)o;
 								if (features.noStream)
-									stmt.setObject (i + 1, blob.getBytes (1, (int)blob.length ()));
+									stmt.setBytes (i + 1, blob.getBytes (1, (int)blob.length ()));
 								else if (parameterInfos[i].type == Types.BLOB)
 								{
 									Blob b;
