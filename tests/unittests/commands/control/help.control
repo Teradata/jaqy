@@ -50,7 +50,6 @@ Currently available commands are the following.
 	.sort - does client side ResultSet sorting.
 	.timer - sets a timer.
 	.unalias - removes a command alias.
-	.var - displays variables
 	.version - displays version information
 
 Use .help [command] to know more about a command.

@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.logging.Level;
 
-import javax.script.ScriptEngine;
-
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
@@ -46,11 +44,10 @@ public class IfCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
 	{
-		ScriptEngine engine = interpreter.getScriptEngine ();
 		Boolean b = null;
 		try
 		{
-			b = (Boolean)engine.eval (args[0]);
+			b = (Boolean)interpreter.eval (args[0]);
 		}
 		catch (Throwable t)
 		{

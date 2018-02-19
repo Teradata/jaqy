@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import java.util.Stack;
 /**
  * @author	Heng Yuan
  */
-abstract class ArgumentGeneratedParser
+abstract class GeneratedArgumentParser
 {
 
 
@@ -514,7 +514,7 @@ abstract class ArgumentGeneratedParser
 				}
 				case 23: break;
 				default:
-					throw new IOException ("Internal error in ArgumentGeneratedParser lexer.");
+					throw new IOException ("Internal error in GeneratedArgumentParser lexer.");
 			}
 
 		}

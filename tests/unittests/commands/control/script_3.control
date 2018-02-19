@@ -1,0 +1,70 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .script command test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable
+(
+	a INTEGER,
+	b INTEGER
+);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+.script
+function println (str)
+{
+	display.println (interpreter, str);
+}
+
+var schema = interpreter.getQueryString ("SELECT sql FROM SQLITE_MASTER WHERE NAME = 'MyTable' COLLATE NOCASE", 1);
+
+println ("schema = " + schema);
+
+var var1 = 'abc';
+println ("var1 " + var1);
+
+var var2 = 'xxx';
+println ("var2 " + var2);
+
+.end script
+schema = CREATE TABLE MyTable
+(
+	a INTEGER,
+	b INTEGER
+)
+var1 abc
+var2 xxx
+-- 1/3 - 0 ----------------------------------------------------------------
+
+SELECT '${schema}' AS Test;
+-- success --
+Test
+-----------------------------------------------
+CREATE TABLE MyTable
+(
+	a INTEGER,
+	b INTEGER
+)
+-- activity count = 1
+-- 2/3 - 0 ----------------------------------------------------------------
+SELECT '${var1 + var2}' AS Test;
+-- success --
+Test
+------
+abcxxx
+-- activity count = 1
+-- 3/3 - 0 ----------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 4/3 - 0 ----------------------------------------------------------------
+
+.close
+-- 4/4 - 0 ----------------------------------------------------------------

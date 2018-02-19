@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * @author	Heng Yuan
  */
-public interface VariableHandler
+public interface ExpressionHandler
 {
-	public String getVariable (String name) throws IOException;
+	public Object eval (String name) throws IOException;
 }

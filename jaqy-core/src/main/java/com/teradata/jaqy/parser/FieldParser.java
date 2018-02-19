@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +22,20 @@ import org.yuanheng.cookcc.CookCCOption;
 import org.yuanheng.cookcc.Lex;
 import org.yuanheng.cookcc.Lexs;
 
-import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
  * @author	Heng Yuan
  */
 @CookCCOption (unicode = true)
-public class FieldParser extends FieldGeneratedParser
+public class FieldParser extends GeneratedFieldParser
 {
 	private final StringBuffer m_buffer = new StringBuffer ();
-	private final VariableHandler m_fieldHandler;
+	private final ExpressionHandler m_expHandler;
 
-	private FieldParser (VariableHandler fieldHandler)
+	private FieldParser (ExpressionHandler fieldHandler)
 	{
-		m_fieldHandler = fieldHandler;
+		m_expHandler = fieldHandler;
 	}
 
 	@Override
@@ -47,17 +47,17 @@ public class FieldParser extends FieldGeneratedParser
 	@Lex (pattern = "'{{'[^{}]+'}}'")
 	void scanField () throws IOException
 	{
-		if (m_fieldHandler == null)
+		if (m_expHandler == null)
 		{
 			m_buffer.append (yyText ());
 		}
 		else
 		{
-			String name = yyText ();
-			name = name.substring (2, name.length () - 2);
-			String value = m_fieldHandler.getVariable (name);
-			if (value != null)
-				m_buffer.append (value);
+			String exp = yyText ();
+			exp = exp.substring (2, exp.length () - 2);
+			Object o = m_expHandler.eval (exp);
+			if (o != null)
+				m_buffer.append (o.toString ());
 		}
 	}
 
@@ -76,9 +76,9 @@ public class FieldParser extends FieldGeneratedParser
 		return 0;
 	}
 
-	public static String getString (String str, VariableHandler fieldHandler) throws IOException
+	public static String getString (String str, ExpressionHandler expHandler) throws IOException
 	{
-		FieldParser parser = new FieldParser (fieldHandler);
+		FieldParser parser = new FieldParser (expHandler);
 		parser.setInput (new StringReader (str));
 		if (parser.yyLex () != 0)
 			throw new IOException ("parsing error.");

@@ -7,17 +7,13 @@ Jaqy Console 1.0
 usage: .script [options] [file]
 options:
   -c,--charset <arg>   specifies the file character set
-  -l,--lang <arg>      specifies the language
-  -t,--temporary       specifies the script engine is temporary
 
 -- 0/1 - 0 ----------------------------------------------------------------
 
--- test running a script from a file
-.script -t lib/print.js
+.script lib/print.js
 你好，世界
 -- 0/2 - 0 ----------------------------------------------------------------
--- test running a script from a file, with language specified.
-.script -l javascript lib/print.js
+.script -c utf-8 lib/print.js
 你好，世界
 -- 0/3 - 0 ----------------------------------------------------------------
 

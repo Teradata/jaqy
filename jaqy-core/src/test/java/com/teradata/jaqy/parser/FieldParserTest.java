@@ -21,7 +21,7 @@ import java.util.HashMap;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
  * @author	Heng Yuan 
@@ -35,10 +35,10 @@ public class FieldParserTest
 		fieldMap.put ("abc", "cooler than ice");
 		fieldMap.put ("def", "ice cold");
 
-		VariableHandler fieldHandler = new VariableHandler ()
+		ExpressionHandler fieldHandler = new ExpressionHandler ()
 		{
 			@Override
-			public String getVariable (String name) throws IOException
+			public String eval (String name) throws IOException
 			{
 				return fieldMap.get (name);
 			}

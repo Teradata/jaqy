@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +22,18 @@ import org.yuanheng.cookcc.CookCCOption;
 import org.yuanheng.cookcc.Lex;
 import org.yuanheng.cookcc.Lexs;
 
-import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
  * @author	Heng Yuan
  */
 @CookCCOption (unicode = true)
-public class VariableParser extends VariableGeneratedParser
+public class ExpressionParser extends GeneratedExpressionParser
 {
 	private final StringBuffer m_buffer = new StringBuffer ();
-	private final VariableHandler m_varHandler;
+	private final ExpressionHandler m_varHandler;
 
-	private VariableParser (VariableHandler varHandler)
+	private ExpressionParser (ExpressionHandler varHandler)
 	{
 		m_varHandler = varHandler;
 	}
@@ -44,14 +44,14 @@ public class VariableParser extends VariableGeneratedParser
 		return m_buffer.toString ();
 	}
 
-	@Lex (pattern = "'${'[a-zA-Z_][a-zA-Z0-9_]*'}'")
+	@Lex (pattern = "'${'[^\\r\\n{}]*'}'")
 	void scanVariable () throws IOException
 	{
 		String name = yyText ();
 		name = name.substring (2, name.length () - 1);
-		String value = m_varHandler.getVariable (name);
-		if (value != null)
-			m_buffer.append (value);
+		Object o = m_varHandler.eval (name);
+		if (o != null)
+			m_buffer.append (o.toString ());
 	}
 
 	@Lexs (patterns = {
@@ -69,9 +69,9 @@ public class VariableParser extends VariableGeneratedParser
 		return 0;
 	}
 
-	public static String getString (String str, VariableHandler varHandler) throws IOException
+	public static String getString (String str, ExpressionHandler varHandler) throws IOException
 	{
-		VariableParser parser = new VariableParser (varHandler);
+		ExpressionParser parser = new ExpressionParser (varHandler);
 		parser.setInput (new StringReader (str));
 		if (parser.yyLex () != 0)
 			throw new IOException ("parsing error.");

@@ -19,15 +19,15 @@ import java.io.IOException;
 
 import javax.script.SimpleScriptContext;
 
-import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
  * @author	Heng Yuan
  */
-public class VariableContext extends SimpleScriptContext implements VariableHandler
+public class VariableContext extends SimpleScriptContext implements ExpressionHandler
 {
 	@Override
-	public String getVariable (String name) throws IOException
+	public String eval (String name) throws IOException
 	{
 		Object o = getAttribute (name);
 		if (o == null)

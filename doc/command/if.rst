@@ -36,5 +36,4 @@ Example
 See Also
 ~~~~~~~~
 
-* `.var <var.html>`__
 * `.script <script.html>`__

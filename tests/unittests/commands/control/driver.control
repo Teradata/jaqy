@@ -51,6 +51,6 @@ Driver                Version Compliant
 --------------------- ------- ---------
 org.sqlite.JDBC        3.8    F
 com.mysql.jdbc.Driver  5.1    F
-org.postgresql.Driver 42.1    F
+org.postgresql.Driver 42.2    F
 -- 0/14 - 0 ---------------------------------------------------------------
 

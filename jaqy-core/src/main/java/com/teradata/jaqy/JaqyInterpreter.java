@@ -17,6 +17,7 @@ package com.teradata.jaqy;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,8 +26,9 @@ import java.util.logging.Level;
 
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
-import javax.script.SimpleScriptContext;
+import javax.script.ScriptException;
 
+import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.helper.DummyHelper;
@@ -34,7 +36,7 @@ import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
 import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
-import com.teradata.jaqy.parser.VariableParser;
+import com.teradata.jaqy.parser.ExpressionParser;
 import com.teradata.jaqy.printer.QuietPrinter;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.*;
@@ -42,7 +44,7 @@ import com.teradata.jaqy.utils.*;
 /**
  * @author Heng Yuan
  */
-public class JaqyInterpreter
+public class JaqyInterpreter implements ExpressionHandler
 {
 	public final static int BUFFER_SIZE = 32000;
 
@@ -180,7 +182,7 @@ public class JaqyInterpreter
 		m_varManager = new VariableManager (globals.getVarManager ());
 
 		setupScriptEngine (display);
-		m_engine = getScriptEngine (DEFAULT_ENGINE, false);
+		m_engine = getScriptEngine (DEFAULT_ENGINE);
 
 		try
 		{
@@ -487,7 +489,7 @@ public class JaqyInterpreter
 					try
 					{
 						display.echo (this, sql, interactive);
-						String actualSQL = VariableParser.getString (sql, getVariableHandler ());
+						String actualSQL = ExpressionParser.getString (sql, this);
 						m_prevSQL = null;
 						SessionUtils.checkOpen (this);
 						switch (m_queryMode)
@@ -716,19 +718,16 @@ public class JaqyInterpreter
 	/**
 	 * Get the session script engine for a particular script type.
 	 *
-	 * @param type
-	 *            script engine type.
-	 * @param temp
-	 *            is the script engine temporary
+	 * @param	type
+	 *			script engine type.
 	 * @return script engine for the type.
 	 */
-	public ScriptEngine getScriptEngine (String type, boolean temp)
+	public ScriptEngine getScriptEngine (String type)
 	{
 		synchronized (m_engines)
 		{
 			ScriptEngine engine = null;
-			if (!temp)
-				engine = m_engines.get (type);
+			engine = m_engines.get (type);
 			if (engine == null)
 			{
 				engine = m_globals.getScriptManager ().createEngine (type);
@@ -737,19 +736,8 @@ public class JaqyInterpreter
 					return null;
 				}
 
-				ScriptContext context;
-				if (temp)
-				{
-					context = new SimpleScriptContext ();
-					VariableManager varManager = new VariableManager (getVariableManager ());
-					context.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
-				}
-				else
-				{
-					context = getVariableHandler ();
-					m_engines.put (type, engine);
-				}
-				engine.setContext (context);
+				m_engines.put (type, engine);
+				engine.setContext (m_scriptContext);
 			}
 			return engine;
 		}
@@ -1033,5 +1021,41 @@ public class JaqyInterpreter
 	public void setCacheSize (int cacheSize)
 	{
 		m_cacheSize = cacheSize;
+	}
+
+	public String getQueryString (String sql, int column) throws SQLException
+	{
+		SessionUtils.checkOpen (this);
+		JaqyConnection conn = m_session.getConnection ();
+		return QueryUtils.getQueryString (conn, sql, column, this);
+	}
+
+	@Override
+	public Object eval (String exp) throws IOException
+	{
+		try
+		{
+			return m_engine.eval (exp);
+		}
+		catch (ScriptException ex)
+		{
+			throw new IOException (ex.getMessage (), ex);
+		}
+	}
+
+	public Object eval (Reader reader) throws IOException
+	{
+		try
+		{
+			return m_engine.eval (reader);
+		}
+		catch (ScriptException ex)
+		{
+			throw new IOException (ex.getMessage (), ex);
+		}
+		finally
+		{
+			reader.close ();
+		}
 	}
 }

@@ -3,10 +3,8 @@
 --------------------------------------------------------------------------
 .help script
 
--- test running a script from a file
-.script -t lib/print.js
--- test running a script from a file, with language specified.
-.script -l javascript lib/print.js
+.script lib/print.js
+.script -c utf-8 lib/print.js
 
 -- test running a script inline
 .script

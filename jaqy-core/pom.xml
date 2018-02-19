@@ -77,7 +77,7 @@
 						<target>1.6</target>
 						<tasks>
 							<task src="src/main/java/com/teradata/jaqy/parser/ArgumentParser.java"/>
-							<task src="src/main/java/com/teradata/jaqy/parser/VariableParser.java"/>
+							<task src="src/main/java/com/teradata/jaqy/parser/ExpressionParser.java"/>
 							<task src="src/main/java/com/teradata/jaqy/parser/FieldParser.java"/>
 						</tasks>
 					</configuration>

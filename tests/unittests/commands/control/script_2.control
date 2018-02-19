@@ -1,0 +1,71 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .script command test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+SELECT 1;
+-- success --
+1
+-
+1
+-- activity count = 1
+-- 1/2 - 0 ----------------------------------------------------------------
+
+SELECT ${activityCount} AS activityCount;
+-- success --
+activityCount
+-------------
+            1
+-- activity count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+SELECT SUBSTR ('${display}', 1, 33) AS display;
+-- success --
+display
+---------------------------------
+com.teradata.jaqy.ConsoleDisplay@
+-- activity count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+SELECT SUBSTR ('${esc}', 1, 31) AS esc;
+-- success --
+esc
+-------------------------------
+com.teradata.jaqy.utils.Escape@
+-- activity count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+SELECT SUBSTR ('${globals}', 1, 26) AS globals;
+-- success --
+globals
+--------------------------
+com.teradata.jaqy.Globals@
+-- activity count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+SELECT SUBSTR ('${interpreter}', 1, 34) AS interpreter;
+-- success --
+interpreter
+----------------------------------
+com.teradata.jaqy.JaqyInterpreter@
+-- activity count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+SELECT SUBSTR ('${parent}', 1, 34) AS parent;
+-- success --
+parent
+----------------------------------
+com.teradata.jaqy.VariableManager@
+-- activity count = 1
+-- 7/2 - 0 ----------------------------------------------------------------
+SELECT '${session}' AS session;
+-- success --
+session
+-------
+0
+-- activity count = 1
+-- 8/2 - 0 ----------------------------------------------------------------
+
+.close
+-- 8/3 - 0 ----------------------------------------------------------------

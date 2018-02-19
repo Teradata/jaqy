@@ -18,9 +18,6 @@ package com.teradata.jaqy.command;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Reader;
-import java.io.StringReader;
-
-import javax.script.ScriptEngine;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -37,19 +34,13 @@ import com.teradata.jaqy.utils.FileUtils;
  */
 public class ScriptCommand extends JaqyCommandAdapter
 {
-	public static String DEFAULT_LANG = "javascript";
-
 	private static class ScriptOptions
 	{
-		String	lang;
-		boolean	temp;
 		String	encoding;
 	}
 
 	public ScriptCommand ()
 	{
-		addOption ("l", "lang", true, "specifies the language");
-		addOption ("t", "temporary", false, "specifies the script engine is temporary");
 		addOption ("c", "charset", true, "specifies the file character set");
 	}
 
@@ -65,7 +56,6 @@ public class ScriptCommand extends JaqyCommandAdapter
 		return getCommand () + " [options] [file]";
 	}
 
-	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.file;
@@ -75,7 +65,6 @@ public class ScriptCommand extends JaqyCommandAdapter
 	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		ScriptOptions scriptOptions = new ScriptOptions ();
-		scriptOptions.lang = DEFAULT_LANG;
 
 		CommandLine cmdLine = getCommandLine (args);
 		args = cmdLine.getArgs ();
@@ -83,14 +72,8 @@ public class ScriptCommand extends JaqyCommandAdapter
 		{
 			switch (option.getOpt ().charAt (0))
 			{
-				case 'l':
-					scriptOptions.lang = option.getValue ();
-					break;
 				case 'c':
 					scriptOptions.encoding = option.getValue ();
-					break;
-				case 't':
-					scriptOptions.temp = true;
 					break;
 			}
 		}
@@ -109,7 +92,7 @@ public class ScriptCommand extends JaqyCommandAdapter
 				interpreter.error ("file not found: " + file);
 			}
 			Reader reader = FileUtils.getReader (new FileInputStream (scriptFile), scriptOptions.encoding);
-			runScript (scriptOptions, reader, globals, interpreter);
+			interpreter.eval (reader);
 		}
 	}
 
@@ -120,7 +103,7 @@ public class ScriptCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		if (!silent)
 		{
@@ -128,34 +111,6 @@ public class ScriptCommand extends JaqyCommandAdapter
 			display.echo (interpreter, action, false);
 			display.echo (interpreter, ".end " + getName (), false);
 		}
-		runScript ((ScriptOptions)value, new StringReader (action), globals, interpreter);
-	}
-
-
-	private void runScript (ScriptOptions scriptOptions, Reader reader, Globals globals, JaqyInterpreter interpreter)
-	{
-		ScriptEngine engine = interpreter.getScriptEngine (scriptOptions.lang, scriptOptions.temp);
-		if (engine == null)
-		{
-			interpreter.error ("unknown language: " + scriptOptions.lang);
-		}
-		try
-		{
-			engine.eval (reader);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace ();
-		}
-		finally
-		{
-			try
-			{
-				reader.close ();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
+		interpreter.eval (action);
 	}
 }

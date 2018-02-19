@@ -22,14 +22,14 @@ import java.util.HashSet;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
-import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.interfaces.ExpressionHandler;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
  * @author	Heng Yuan
  */
-public class FieldImporter implements JaqyImporter<Object>, VariableHandler
+public class FieldImporter implements JaqyImporter<Object>, ExpressionHandler
 {
 	private int m_count;
 	private final JaqyImporter<Object> m_importer;
@@ -103,7 +103,7 @@ public class FieldImporter implements JaqyImporter<Object>, VariableHandler
 	 * @return	the parameter marker.
 	 */
 	@Override
-	public String getVariable (String name) throws IOException
+	public Object eval (String name) throws IOException
 	{
 		if (!m_fieldSet.contains (name))
 		{

@@ -21,12 +21,12 @@ import java.util.HashMap;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.teradata.jaqy.interfaces.VariableHandler;
+import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
  * @author	Heng Yuan 
  */
-public class VariableParserTest
+public class ExpressionParserTest
 {
 	@Test
 	public void testVariable () throws IOException
@@ -34,17 +34,17 @@ public class VariableParserTest
 		final HashMap<String,String> varMap = new HashMap<String, String> ();
 		varMap.put ("PATH", "/c/d:/e/f");
 
-		VariableHandler varHandler = new VariableHandler ()
+		ExpressionHandler varHandler = new ExpressionHandler ()
 		{
 			@Override
-			public String getVariable (String name) throws IOException
+			public String eval (String name) throws IOException
 			{
 				return varMap.get (name);
 			}
 		};
-		String str = "abcd ${1} ${2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
+		String str = "abcd ${1} ${2+2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
 		String value;
-		value = VariableParser.getString (str, varHandler);
-		Assert.assertEquals ("abcd ${1} ${2} /c/d:/e/f  {{abc}} {{}} {{d}} {{def}}", value);
+		value = ExpressionParser.getString (str, varHandler);
+		Assert.assertEquals ("abcd   /c/d:/e/f  {{abc}} {{}} {{d}} {{def}}", value);
 	}
 }

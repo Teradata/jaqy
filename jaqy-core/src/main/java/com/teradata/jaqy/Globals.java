@@ -15,33 +15,15 @@
  */
 package com.teradata.jaqy;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.logging.Formatter;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-import java.util.logging.StreamHandler;
+import java.util.logging.*;
 
-import javax.script.ScriptEngine;
-
-import com.teradata.jaqy.interfaces.Display;
-import com.teradata.jaqy.interfaces.JaqyExporter;
-import com.teradata.jaqy.interfaces.JaqyImporter;
-import com.teradata.jaqy.interfaces.JaqyOption;
-import com.teradata.jaqy.interfaces.JaqyPlugin;
-import com.teradata.jaqy.interfaces.JaqyPrinter;
-import com.teradata.jaqy.interfaces.Variable;
+import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.URLUtils;
@@ -64,7 +46,6 @@ public class Globals
 	private final OptionManager m_optionManager = new OptionManager ();
 	private final ScriptManager m_scriptManager = new ScriptManager ();
 	private final DebugManager m_debugManager = new DebugManager ();
-	private final HashMap<String, ScriptEngine> m_engines = new HashMap<String, ScriptEngine> ();
 	private final Os m_os = new Os ();
 	private final CommandManager m_commandManager = new CommandManager (this);
 	private final AliasManager m_aliasManager = new AliasManager ();
@@ -209,28 +190,6 @@ public class Globals
 	public ScriptManager getScriptManager ()
 	{
 		return m_scriptManager;
-	}
-
-	/**
-	 * Get the global script engine for a particular script type.
-	 *
-	 * @param	type
-	 *			script engine type.
-	 * @return	script engine for the type.
-	 */
-	public ScriptEngine getScriptEngine (String type)
-	{
-		synchronized (m_engines)
-		{
-			ScriptEngine engine = m_engines.get (type);
-			if (engine == null)
-			{
-				engine = m_scriptManager.createEngine (type);
-				if (engine != null)
-					m_engines.put (type, engine);
-			}
-			return engine;
-		}
 	}
 
 	public Session createSession (Display display)

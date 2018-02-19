@@ -32,6 +32,18 @@ public class ScriptCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/script.sql", "../tests/unittests/commands/control/script.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/script_1.sql", "../tests/unittests/commands/control/script_1.control");
+	}
+
+	@Test
+	public void test2 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/script_2.sql", "../tests/unittests/commands/control/script_2.control");
+	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/script_3.sql", "../tests/unittests/commands/control/script_3.control");
 	}
 }

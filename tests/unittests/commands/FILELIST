@@ -30,7 +30,9 @@ quiet.sql
 rem.sql
 repeat.sql
 run.sql
-script.sql
+script_1.sql
+script_2.sql
+script_3.sql
 session.sql
 sort_1.sql
 sort_2.sql
@@ -39,5 +41,4 @@ sort_3.sql
 timer.sql
 transaction.sql
 unalias.sql
-var.sql
 version.sql

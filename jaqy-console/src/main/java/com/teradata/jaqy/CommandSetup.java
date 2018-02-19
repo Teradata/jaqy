@@ -87,10 +87,6 @@ class CommandSetup
 		manager.addCommand ("prepare", new PrepareCommand ());
 
 		// scripting
-		manager.addCommand ("var", new VarCommand ());
 		manager.addCommand ("script", new ScriptCommand ());
-
-//		manager.addCommand ("prompt", new PromptCommand ());
-//		manager.addCommand ("title", new TitleCommand ());
 	}
 }
