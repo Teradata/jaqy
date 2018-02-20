@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,14 +73,12 @@ public interface JaqyCommand
 	 *			the command arguments.
 	 * @param	silent
 	 * 			if the command is executed silently.
-	 * @param	globals
-	 *			Global states.
 	 * @param	interpreter
 	 *			The interpreter that calls the command.
 	 * @throws	Exception
 	 *			in case of error.
 	 */
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception;
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception;
 
 	/**
 	 * Gets the command type.

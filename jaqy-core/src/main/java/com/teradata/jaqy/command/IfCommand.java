@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class IfCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
 	{
 		Boolean b = null;
 		try
@@ -59,7 +59,7 @@ public class IfCommand extends JaqyCommandAdapter
 //			interpreter.error ("invalid condition");
 //			b = Boolean.FALSE;
 //		}
-		globals.log (Level.INFO, "if condition = " + b);
+		interpreter.getGlobals ().log (Level.INFO, "if condition = " + b);
 		interpreter.setParseAction (this, b);
 	}
 

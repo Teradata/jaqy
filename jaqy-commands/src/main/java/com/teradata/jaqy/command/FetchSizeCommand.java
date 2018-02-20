@@ -18,7 +18,6 @@ package com.teradata.jaqy.command;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
@@ -45,7 +44,7 @@ public class FetchSizeCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
 	{
 		SessionUtils.checkOpen (interpreter);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,26 @@ import com.teradata.jaqy.connection.JaqyResultSet;
  */
 public interface JaqyPrinter
 {
+	/**
+	 * Gets the name of the printer
+	 * @return	the name of the printer.
+	 */
 	public String getName ();
+	/**
+	 * Display a ResultSet on screen.
+	 *
+	 * @param	rs
+	 * 			the ResultSet.
+	 * @param	pw
+	 * 			printer writer
+	 * @param	limit
+	 * 			the maximum number of rows to be displayed.
+	 * @param	interpreter
+	 * 			the interpreter.
+	 * @return	the activity count.  It may be limited by the display limit.
+	 * @throws	Exception
+	 * 			in case of error.
+	 */
 	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Does this ResultSet printer only scans forward?

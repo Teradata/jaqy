@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class UnAliasCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
 	{
 		if (args.length == 0)
 		{
@@ -52,6 +52,7 @@ public class UnAliasCommand extends JaqyCommandAdapter
 		else
 		{
 			String name = args[0];
+			Globals globals = interpreter.getGlobals ();
 			if (globals.getAliasManager ().getAlias (name) == null)
 			{
 				interpreter.error ("alias " + args[0] + " is not found.");

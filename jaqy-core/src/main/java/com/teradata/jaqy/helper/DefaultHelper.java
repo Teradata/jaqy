@@ -29,7 +29,6 @@ import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ExceptionUtils;
-import com.teradata.jaqy.utils.QueryUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 import com.teradata.jaqy.utils.SimpleQuery;
 
@@ -113,23 +112,7 @@ public class DefaultHelper implements JaqyHelper
 	public JaqyPreparedStatement preparedStatement (String sql) throws SQLException
 	{
 		Connection conn = m_conn.getConnection ();
-		if (m_features.forwardOnlyRS)
-			return new JaqyPreparedStatement (conn.prepareStatement (sql), m_conn);
-		else
-		{
-			try
-			{
-				return new JaqyPreparedStatement (conn.prepareStatement (sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), m_conn);
-			}
-			catch (SQLException ex)
-			{
-				// we are catching all SQLException rather than just
-				// SQLFeatureNotSupportedException because some JDBC drivers
-				// throw SQLException in all cases.
-				getFeatures().forwardOnlyRS = true;
-				return new JaqyPreparedStatement (conn.prepareStatement (sql), m_conn);
-			}
-		}
+		return new JaqyPreparedStatement (conn.prepareStatement (sql), m_conn);
 	}
 
 	@Override
@@ -198,7 +181,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_catalogQuery == null)
 			return getCatalogInternal ();
-		return QueryUtils.getQueryString (m_conn, m_catalogQuery.sql, m_catalogQuery.columnIndex, interpreter);
+		return interpreter.getQueryString (m_catalogQuery.sql, m_catalogQuery.columnIndex);
 	}
 
 	@Override
@@ -206,7 +189,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_schemaQuery == null)
 			return getSchemaInternal ();
-		return QueryUtils.getQueryString (m_conn, m_schemaQuery.sql, m_schemaQuery.columnIndex, interpreter);
+		return interpreter.getQueryString (m_schemaQuery.sql, m_schemaQuery.columnIndex);
 	}
 
 	@Override
@@ -382,7 +365,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_tableSchemaQuery != null)
 		{
-			String value = QueryUtils.getQueryString (m_conn, m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex, interpreter);
+			String value = interpreter.getQueryString (m_tableSchemaFormat.format (new Object[]{ tableName }), m_tableSchemaQuery.columnIndex);
 			if (value == null || value.length () == 0)
 				throw ExceptionUtils.getTableNotFound ();
 			return value;
@@ -425,7 +408,7 @@ public class DefaultHelper implements JaqyHelper
 	{
 		if (m_tableColumnFormat != null)
 		{
-			JaqyResultSet rs = QueryUtils.getResultSet (getGlobals (), m_conn, m_tableColumnFormat.format (new Object[]{ tableName }), interpreter);
+			JaqyResultSet rs = interpreter.getResultSet (m_tableColumnFormat.format (new Object[]{ tableName }));
 			if (rs == null)
 				throw ExceptionUtils.getTableNotFound ();
 			InMemoryResultSet inmemrs = (InMemoryResultSet) rs.getResultSet ();

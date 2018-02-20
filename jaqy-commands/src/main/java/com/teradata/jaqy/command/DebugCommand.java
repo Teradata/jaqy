@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -144,8 +144,9 @@ public class DebugCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
 	{
+		Globals globals = interpreter.getGlobals ();
 		if (args.length == 0)
 		{
 			interpreter.println (getCurrentOptions (globals, interpreter));

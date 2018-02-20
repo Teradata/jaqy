@@ -84,12 +84,24 @@ public interface JaqyImporter<P> extends Closeable
 	 *			the path object obtained from {@link #getPath(String)}.
 	 * @param	paramInfo
 	 * 			JDBC parameter information
-	 * @param interpreter TODO
+	 * @param	interpreter
+	 * 			the interpreter.
 	 * @return	the object at the path.
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
 	public Object getObjectFromPath (P path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
 
+	/**
+	 * Sets NULL for a particular column.
+	 * @param	stmt
+	 * 			the prepared statement.
+	 * @param	column
+	 * 			the column index
+	 * @param	paramInfo
+	 * 			parameter information.
+	 * @throws	Exception
+	 * 			in case of error.
+	 */
 	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception;
 }

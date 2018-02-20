@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.Session;
@@ -58,7 +57,7 @@ public class InfoCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (args.length == 0)
 		{

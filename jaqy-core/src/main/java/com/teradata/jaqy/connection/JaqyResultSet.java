@@ -114,4 +114,14 @@ public class JaqyResultSet
 	{
 		m_rs.beforeFirst ();;
 	}
+
+	public Object get (int row, int column) throws SQLException
+	{
+		if (m_rs.getType () != ResultSet.TYPE_FORWARD_ONLY)
+		{
+			if (m_rs.absolute (row))
+				return m_rs.getObject (column);
+		}
+		return null;
+	}
 }

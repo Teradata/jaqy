@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.LineInput;
 import com.teradata.jaqy.lineinput.LineInputFactory;
@@ -54,7 +53,7 @@ public class RunCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		CommandLine cmdLine = getCommandLine (args);
 

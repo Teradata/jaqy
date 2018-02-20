@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.SortInfo;
@@ -75,7 +74,7 @@ public class SortCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		SessionUtils.checkOpen (interpreter);
 

@@ -17,9 +17,7 @@ package com.teradata.jaqy.exporter;
 
 import java.sql.SQLException;
 
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 
@@ -41,11 +39,11 @@ public class PipeExporter implements JaqyExporter
 	}
 
 	@Override
-	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception
+	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
 	{
 		m_rs = rs;
 		interpreter.setExporter (this);
-		session.setDoNotClose (true);
+		interpreter.getSession ().setDoNotClose (true);
 		return -1;
 	}
 

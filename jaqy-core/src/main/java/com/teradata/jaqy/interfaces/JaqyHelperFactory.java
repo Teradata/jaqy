@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,18 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 
 /**
- * 
  * @author	Heng Yuan
  */
 public interface JaqyHelperFactory
 {
+	/**
+	 * Gets the Helper object to be associated with a connection.
+	 *
+	 * @param	conn
+	 * 			the connection object
+	 * @param	globals
+	 * 			Jaqy globals.
+	 * @return	the Helper object to be associated with a connection.
+	 */
 	public JaqyHelper getHelper (JaqyConnection conn, Globals globals);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.teradata.jaqy.command;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
@@ -39,24 +38,24 @@ abstract class OnOffCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (args.length == 0)
 		{
-			info (globals, interpreter);
+			info (interpreter);
 		}
 		else
 		{
 			if ("on".equals (args[0]))
-				execute (globals, interpreter, true);
+				execute (true, interpreter);
 			else if ("off".equals (args[0]))
-				execute (globals, interpreter, false);
+				execute (false, interpreter);
 			else
 				interpreter.error ("invalid command arguments");
 		}
 	}
 
-	abstract void execute (Globals globals, JaqyInterpreter interpreter, boolean on) throws SQLException;
+	abstract void execute (boolean on, JaqyInterpreter interpreter) throws SQLException;
 
-	abstract void info (Globals globals, JaqyInterpreter interpreter) throws SQLException;
+	abstract void info (JaqyInterpreter interpreter) throws SQLException;
 }

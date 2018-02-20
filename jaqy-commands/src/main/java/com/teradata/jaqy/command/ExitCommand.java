@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.teradata.jaqy.command;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
@@ -45,9 +44,9 @@ public class ExitCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
 	{
-		globals.log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
+		interpreter.getGlobals ().log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
 		if (args.length == 0)
 		{
 			System.exit (interpreter.getExitCode ());

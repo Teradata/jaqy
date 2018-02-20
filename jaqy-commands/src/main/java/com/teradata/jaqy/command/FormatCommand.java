@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ public class FormatCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		if (args.length == 0)
 		{
@@ -68,7 +68,7 @@ public class FormatCommand extends JaqyCommandAdapter
 		{
 			String name = args[0];
 			args = StringUtils.shiftArgs (args);
-			JaqyPrinter printer = globals.getPrinterManager ().getHandler (name, args, interpreter);
+			JaqyPrinter printer = interpreter.getGlobals ().getPrinterManager ().getHandler (name, args, interpreter);
 			if (printer == null)
 			{
 				interpreter.error ("invalid format name: " + name);

@@ -10,6 +10,9 @@ CREATE TABLE MyTable
 	b INTEGER
 );
 
+INSERT INTO MyTable VALUES (1, 2);
+INSERT INTO MyTable VALUES (3, 4);
+
 .script
 function println (str)
 {
@@ -30,6 +33,12 @@ println ("var2 " + var2);
 
 SELECT '${schema}' AS Test;
 SELECT '${var1 + var2}' AS Test;
+
+.script
+var val3 = interpreter.getResultSet ("SELECT * FROM MyTable").get (2, 2);
+.end script
+
+SELECT '${val3}' AS Test;
 
 DROP TABLE MyTable;
 

@@ -36,13 +36,40 @@ import com.teradata.jaqy.typehandler.TypeHandler;
  */
 public interface JaqyHelper
 {
-	public JdbcFeatures getFeatures ();
-
-	public JaqyStatement createStatement (boolean forwardOnly) throws SQLException;
-	public JaqyPreparedStatement preparedStatement (String sql) throws SQLException;
-
+	/**
+	 * Gets the current connection.
+	 * @return	the current connection.
+	 */
 	public JaqyConnection getConnection ();
-
+	/**
+	 * Some simple features (or features missing) in the JDBC.
+	 * @return	the features of the JDBC driver.
+	 */
+	public JdbcFeatures getFeatures ();
+	/**
+	 * Creates a normal query statement.
+	 * @param	forwardOnly
+	 * 			The hint if only a TYPE_FORWARD_ONLY statement is needed.
+	 * @return	a Statement for executing normal query.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public JaqyStatement createStatement (boolean forwardOnly) throws SQLException;
+	/**
+	 * Creates a prepared query statement.
+	 * @param	sql
+	 * 			the SQL query
+	 * @return	prepared statement
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public JaqyPreparedStatement preparedStatement (String sql) throws SQLException;
+	/**
+	 * Gets the current connection URL.
+	 * @return	the current connection URL.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
 	public String getURL () throws SQLException;
 
 	public TypeMap getTypeMap () throws SQLException;

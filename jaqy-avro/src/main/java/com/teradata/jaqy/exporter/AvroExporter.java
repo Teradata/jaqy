@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,7 @@ import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumWriter;
 
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -56,12 +54,12 @@ class AvroExporter implements JaqyExporter
 	}
 
 	@Override
-	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception
+	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyHelper helper = rs.getHelper ();
 		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData (), helper);
 		Schema schema = AvroUtils.getSchema (schemaInfo, helper);
-		globals.log (Level.INFO, "schema is " + schema.toString (true));
+		interpreter.getGlobals ().log (Level.INFO, "schema is " + schema.toString (true));
 
 		DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord> (schema);
 		DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord> (writer);

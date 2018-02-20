@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.util.TreeMap;
 
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.CommandManager;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.StringUtils;
@@ -52,7 +51,7 @@ public class HelpCommand extends JaqyCommandAdapter
 		pw.println ("Use .help [command] to know more about a command.");
 	}
 
-	private void helpCommand (Globals globals, PrintWriter pw, String name, JaqyCommand command, String[] args)
+	private void helpCommand (PrintWriter pw, String name, JaqyCommand command, String[] args)
 	{
 		String syntax = command.getLongDescription ();
 		if (syntax == null)
@@ -68,7 +67,7 @@ public class HelpCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
 	{
 		PrintWriter pw = interpreter.getDisplay ().getPrintWriter ();
 
@@ -88,7 +87,7 @@ public class HelpCommand extends JaqyCommandAdapter
 			}
 			if (cmd != null)
 			{
-				helpCommand (globals, pw, cmdName, cmd, StringUtils.shiftArgs (args));
+				helpCommand (pw, cmdName, cmd, StringUtils.shiftArgs (args));
 			}
 		}
 	}

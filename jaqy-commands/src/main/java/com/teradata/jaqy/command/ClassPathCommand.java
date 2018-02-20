@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,9 @@ public class ClassPathCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
-		JaqyDriverManager driverManager = globals.getDriverManager ();
+		JaqyDriverManager driverManager = interpreter.getGlobals ().getDriverManager ();
 		if (args.length == 0)
 		{
 			// display the class path loaded.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 
@@ -36,7 +35,7 @@ public class EnvCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Key", "Value" });
 		TreeMap<String, String> tree = new TreeMap<String, String> ();

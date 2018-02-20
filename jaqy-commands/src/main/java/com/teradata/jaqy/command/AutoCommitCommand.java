@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package com.teradata.jaqy.command;
 
 import java.sql.SQLException;
 
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
@@ -33,14 +32,14 @@ public class AutoCommitCommand extends OnOffCommand
 	}
 
 	@Override
-	void execute (Globals globals, JaqyInterpreter interpreter, boolean on) throws SQLException
+	void execute (boolean on, JaqyInterpreter interpreter) throws SQLException
 	{
 		SessionUtils.checkOpen (interpreter);
 		interpreter.getSession ().getConnection ().setAutoCommit (on);
 	}
 
 	@Override
-	void info (Globals globals, JaqyInterpreter interpreter) throws SQLException
+	void info (JaqyInterpreter interpreter) throws SQLException
 	{
 		SessionUtils.checkOpen (interpreter);
 		boolean auto = interpreter.getSession ().getConnection ().getAutoCommit ();

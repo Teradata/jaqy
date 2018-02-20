@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package com.teradata.jaqy.command;
 
 import com.teradata.jaqy.ConsoleDisplay;
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.ErrorStateHandler;
 import com.teradata.jaqy.interfaces.StateHandler;
@@ -41,7 +40,7 @@ public class HandlerCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
 	{
 		String argument = args[0].trim ();
 		int i1 = argument.indexOf (' ');

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2017-2018 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import org.apache.commons.cli.CommandLine;
 import com.teradata.jaqy.Globals;
 
 /**
+ * A command line option class.
+ *
  * @author	Heng Yuan
  */
 public abstract class JaqyOption

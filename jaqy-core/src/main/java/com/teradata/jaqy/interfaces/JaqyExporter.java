@@ -17,9 +17,7 @@ package com.teradata.jaqy.interfaces;
 
 import java.io.Closeable;
 
-import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
@@ -27,6 +25,21 @@ import com.teradata.jaqy.connection.JaqyResultSet;
  */
 public interface JaqyExporter extends Closeable
 {
+	/**
+	 * Gets name of the exporter.
+	 * @return	The name of the exporter.
+	 */
 	public String getName ();
-	public long export (JaqyResultSet rs, Session session, JaqyInterpreter interpreter, Globals globals) throws Exception;
+	/**
+	 * Export the given ResultSet
+	 *
+	 * @param	rs
+	 * 			the ResultSet
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @return	the activity count (i.e. row count)
+	 * @throws	Exception
+	 * 			in case of error
+	 */
+	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
 }

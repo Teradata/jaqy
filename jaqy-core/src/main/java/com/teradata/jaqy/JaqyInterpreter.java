@@ -591,7 +591,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	
 			try
 			{
-				call.execute (cmd.args, cmd.silent, m_globals, this);
+				call.execute (cmd.args, cmd.silent, this);
 			}
 			catch (Throwable t)
 			{
@@ -768,7 +768,7 @@ public class JaqyInterpreter implements ExpressionHandler
 			if (exporter != null)
 			{
 				setExporter (null);
-				return exporter.export (rs, m_session, this, m_globals);
+				return exporter.export (rs, this);
 			}
 			if (m_quiet)
 			{
@@ -1028,6 +1028,11 @@ public class JaqyInterpreter implements ExpressionHandler
 		SessionUtils.checkOpen (this);
 		JaqyConnection conn = m_session.getConnection ();
 		return QueryUtils.getQueryString (conn, sql, column, this);
+	}
+
+	public JaqyResultSet getResultSet (String sql) throws SQLException
+	{
+		return QueryUtils.getResultSet (m_globals, m_session.getConnection (), sql, this);
 	}
 
 	@Override

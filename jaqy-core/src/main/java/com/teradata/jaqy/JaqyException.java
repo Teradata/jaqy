@@ -29,6 +29,6 @@ public class JaqyException extends RuntimeException
 
 	public JaqyException (Exception ex)
 	{
-		super (ex);
+		super (ex.getMessage (), ex);
 	}
 }
