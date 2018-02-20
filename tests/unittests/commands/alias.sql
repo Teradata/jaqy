@@ -29,5 +29,6 @@ SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;
 
+.end asdf`13554
 .close
 
