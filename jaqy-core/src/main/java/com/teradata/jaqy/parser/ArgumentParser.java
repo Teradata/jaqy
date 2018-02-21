@@ -45,7 +45,7 @@ public class ArgumentParser extends GeneratedArgumentParser
 			m_buffer.append (m_args[index]);
 	}
 
-	@Lex (pattern = "'${'[0-9]+'}'")
+	@Lex (pattern = "'$\\('[0-9]+'\\)'")
 	void scanArgument2 ()
 	{
 		String str = yyText ();
@@ -55,7 +55,7 @@ public class ArgumentParser extends GeneratedArgumentParser
 			m_buffer.append (m_args[index]);
 	}
 
-	@Lex (pattern = "'${'[0-9]+'-}'")
+	@Lex (pattern = "'$\\('[0-9]+'-\\)'")
 	void scanArgument3 ()
 	{
 		String str = yyText ();
@@ -76,7 +76,7 @@ public class ArgumentParser extends GeneratedArgumentParser
 		}
 	}
 
-	@Lex (pattern = "'${'[0-9]+'-'[0-9]+'}'")
+	@Lex (pattern = "'$\\('[0-9]+'-'[0-9]+'\\)'")
 	void scanArgument4 ()
 	{
 		String str = yyText ();

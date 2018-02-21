@@ -21,9 +21,9 @@ Note that any SQL must end with ``;`` or the parser would consider that more
 text are coming.
 
 The alias command supports command line arguments, which are separate via
-spaces or tabs.  The first argument is ``$0`` (or ``${0}``), the second argument
-is ``${1}``, and so on.  You can specify a range of arguments (e.g. ``${1-2}``)
-or use open ended argument ranges (e.g. ``${1-}``).
+spaces or tabs.  The first argument is ``$0`` (or ``$(0)``), the second argument
+is ``$(1)``, and so on.  You can specify a range of arguments (e.g. ``$(1-2)``)
+or use open ended argument ranges (e.g. ``$(1-)``).
 
 All the commands and SQL are echoed when they are executed.  If you want to
 hide the display of a command, use ``.@`` prefix.  For instance, instead of
@@ -42,7 +42,7 @@ Example
 
 	-- Create a short hand for insertion
 	.alias ins
-	INSERT INTO ${0} VALUES (${1-});
+	INSERT INTO $(0) VALUES ($(1-));
 	.end alias
 
 	-- Testing the insert alias

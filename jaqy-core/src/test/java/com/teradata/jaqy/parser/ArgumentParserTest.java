@@ -37,7 +37,7 @@ public class ArgumentParserTest
 		result = ArgumentParser.replaceArgs ("ab $1 $5 cd", args);
 		Assert.assertEquals ("ab 1  cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab ${1} ${5} cd", args);
+		result = ArgumentParser.replaceArgs ("ab $(1) $(5) cd", args);
 		Assert.assertEquals ("ab 1  cd", result);
 
 		result = ArgumentParser.replaceArgs ("ab $1 $ cd", args);
@@ -49,19 +49,19 @@ public class ArgumentParserTest
 		result = ArgumentParser.replaceArgs ("ab $1 $@ cd", args);
 		Assert.assertEquals ("ab 1 0 1 2 3 4 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab ${1} cd", args);
+		result = ArgumentParser.replaceArgs ("ab $(1) cd", args);
 		Assert.assertEquals ("ab 1 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab ${1-3} cd", args);
+		result = ArgumentParser.replaceArgs ("ab $(1-3) cd", args);
 		Assert.assertEquals ("ab 1 2 3 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab ${3-1} cd", args);
+		result = ArgumentParser.replaceArgs ("ab $(3-1) cd", args);
 		Assert.assertEquals ("ab 3 2 1 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab ${3-} cd", args);
+		result = ArgumentParser.replaceArgs ("ab $(3-) cd", args);
 		Assert.assertEquals ("ab 3 4 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab ${3- } cd", args);
-		Assert.assertEquals ("ab ${3- } cd", result);
+		result = ArgumentParser.replaceArgs ("ab $(3- ) cd", args);
+		Assert.assertEquals ("ab $(3- ) cd", result);
 	}
 }
