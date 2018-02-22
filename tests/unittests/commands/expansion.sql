@@ -18,12 +18,14 @@ SELECT '${var2}' AS Test;
 SELECT '${var1 + var2}' AS Test;
 
 .expansion off
+.expansion
 
 SELECT '${var1}' AS Test;
 SELECT '${var2}' AS Test;
 SELECT '${var1 + var2}' AS Test;
 
 .expansion on
+.expansion
 
 SELECT '${var1}' AS Test;
 SELECT '${var2}' AS Test;
