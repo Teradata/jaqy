@@ -103,6 +103,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private JaqyImporter<?> m_importer;
 
 	private QueryMode m_queryMode = QueryMode.Regular;
+	private boolean m_expansion = true;
 
 	private final VariableContext m_scriptContext = new VariableContext ();
 
@@ -489,7 +490,7 @@ public class JaqyInterpreter implements ExpressionHandler
 					try
 					{
 						display.echo (this, sql, interactive);
-						String actualSQL = ExpressionParser.getString (sql, this);
+						String actualSQL = m_expansion ? ExpressionParser.getString (sql, this) : sql;
 						m_prevSQL = null;
 						SessionUtils.checkOpen (this);
 						switch (m_queryMode)
@@ -1062,5 +1063,15 @@ public class JaqyInterpreter implements ExpressionHandler
 		{
 			reader.close ();
 		}
+	}
+
+	public boolean isExpansion ()
+	{
+		return m_expansion;
+	}
+
+	public void setExpansion (boolean expansion)
+	{
+		m_expansion = expansion;
 	}
 }

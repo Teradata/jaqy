@@ -10,6 +10,7 @@ exec.sql
 exit_1.sql
 exit_2.sql
 exit_3.sql
+expansion.sql
 export.sql
 fetchsize.sql
 handler.sql

@@ -69,6 +69,7 @@ class CommandSetup
 		manager.addCommand ("config", new ConfigCommand ());
 		manager.addCommand ("handler", new HandlerCommand ());
 		manager.addCommand ("timer", new TimerCommand ());
+		manager.addCommand ("expansion", new ExpansionCommand ());
 
 		// I/O
 		manager.addCommand ("format", new FormatCommand ());

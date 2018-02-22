@@ -22,6 +22,7 @@ Currently available commands are the following.
 	.env - displays the execution environment.
 	.exec - executes a block of SQL.
 	.exit - exits the program
+	.expansion - turns expression expansion on / off
 	.export - exports a ResultSet.
 	.fetchsize - sets the statement fetch size.
 	.format - chooses the ResultSet output format.
