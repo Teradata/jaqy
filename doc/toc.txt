@@ -12,6 +12,7 @@
 	:caption: Manual
 	:hidden:
 
+	build
 	command
 	comment
 	config
