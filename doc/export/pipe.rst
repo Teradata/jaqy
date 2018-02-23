@@ -4,13 +4,12 @@ pipe
 Pipe export / import is used to directly transfer data between databases.
 
 For exporting a large data set, necessary precautions in
-`Large Data Set Handling <../largedataset.html>`__ apply.  BLOB / CLOB / XML
-types larger than the default cache size (4096) are temporarily stored on disk
-to reduce the memory footprint.
+`Large Data Set Handling <../largedataset.html>`__ apply.
 
 For importing data with LOB values, it may be necessary to change the
 `batch size <command/batchsize.html>`__ to reduce the memory consumption.
-However, very large LOB values can still cause memory exhaustion issues.
+However, very large LOB values can still cause memory exhaustion issues
+for some JDBC drivers.
 
 One advantage of using pipe export / import over other formats is the ability
 to handle some database specific data types, if both the source and the target
