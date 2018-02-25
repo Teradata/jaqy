@@ -122,4 +122,10 @@ public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLX
 			return -1;
 		}
 	}
+
+	@Override
+	public void finalize ()
+	{
+		free ();
+	}
 }

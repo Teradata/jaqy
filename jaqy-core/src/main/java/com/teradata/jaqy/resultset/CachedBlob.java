@@ -147,4 +147,10 @@ public class CachedBlob extends BlobWrapper implements Comparable<CachedBlob>
 			return -1;
 		}
 	}
+
+	@Override
+	public void finalize ()
+	{
+		free ();
+	}
 }

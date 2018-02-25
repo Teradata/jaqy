@@ -149,4 +149,10 @@ public class CachedClob extends ClobWrapper implements Comparable<CachedClob>
 			return -1;
 		}
 	}
+
+	@Override
+	public void finalize ()
+	{
+		free ();
+	}
 }

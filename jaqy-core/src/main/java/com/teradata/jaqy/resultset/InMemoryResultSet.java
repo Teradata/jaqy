@@ -49,6 +49,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 	private int m_dir = 1;
 	private boolean m_wasNull;
 	private Statement m_statement;
+	private boolean m_hasLob;
 
 	public InMemoryResultSet (ResultSet rs, long limit, JaqyInterpreter interpreter) throws SQLException
 	{
@@ -64,6 +65,10 @@ public class InMemoryResultSet extends ResultSetWrapper
 			{
 				Object o = rs.getObject (i + 1);
 				row[i] = ResultSetUtils.copyIfNecessary (o, interpreter);
+				if (row[i] instanceof CachedClob ||
+					row[i] instanceof CachedBlob ||
+					row[i] instanceof CachedSQLXML)
+					m_hasLob = true;
 			}
 			m_rows.add (row);
 			--limit;
@@ -115,8 +120,24 @@ public class InMemoryResultSet extends ResultSetWrapper
 	}
 
 	@Override
-	public void close () throws SQLException
+	public void close ()
 	{
+		if (m_hasLob)
+		{
+			for (Object[] row : m_rows)
+			{
+				for (Object o : row)
+				{
+					if (o instanceof CachedClob)
+						((CachedClob)o).free ();
+					else if (o instanceof CachedBlob)
+						((CachedBlob)o).free ();
+					else if (o instanceof CachedSQLXML)
+						((CachedSQLXML)o).free ();
+				}
+			}
+			m_hasLob = false;
+		}
 		m_rows = null;
 		m_meta = null;
 		m_closed = true;
@@ -886,5 +907,12 @@ public class InMemoryResultSet extends ResultSetWrapper
 	public void sort (SortInfo[] sortInfos) throws SQLException
 	{
 		Collections.sort (m_rows, RSSorter.createSorter (m_meta, sortInfos));
+	}
+
+
+	@Override
+	public void finalize ()
+	{
+		close ();
 	}
 }
