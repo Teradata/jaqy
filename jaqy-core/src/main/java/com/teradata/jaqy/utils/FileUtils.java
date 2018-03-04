@@ -18,6 +18,9 @@ package com.teradata.jaqy.utils;
 import java.io.*;
 import java.nio.charset.Charset;
 
+import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
+
 /**
  * @author	Heng Yuan
  */
@@ -43,16 +46,16 @@ public class FileUtils
 		}
 	}
 
-	public static File createTempFile () throws IOException
+	public static FilePath createTempFile () throws IOException
 	{
 		File file = File.createTempFile(TEMPFILE_PREFIX, TEMPFILE_SUFFIX);
 //		file.deleteOnExit ();
-		return file;
+		return new FilePath (file);
 	}
 
-	public static void writeFile (File file, InputStream is, byte[] byteBuffer) throws IOException
+	public static void writeFile (Path file, InputStream is, byte[] byteBuffer) throws IOException
 	{
-		OutputStream os = new FileOutputStream (file);
+		OutputStream os = file.getOutputStream ();
 		int len;
 		while ((len = is.read (byteBuffer)) >= 0)
 		{
@@ -62,14 +65,14 @@ public class FileUtils
 		is.close ();
 	}
 
-	public static long writeFile (File file, Reader reader, char[] charBuffer) throws IOException
+	public static long writeFile (Path file, Reader reader, char[] charBuffer) throws IOException
 	{
 		return writeFile (file, Charset.forName ("UTF-8"), reader, charBuffer);
 	}
 
-	public static long writeFile (File file, Charset charset, Reader reader, char[] charBuffer) throws IOException
+	public static long writeFile (Path file, Charset charset, Reader reader, char[] charBuffer) throws IOException
 	{
-		Writer writer = new OutputStreamWriter (new FileOutputStream (file), charset);
+		Writer writer = new OutputStreamWriter (file.getOutputStream (), charset);
 		int len;
 		long length = 0;
 		while ((len = reader.read (charBuffer)) >= 0)
@@ -82,29 +85,29 @@ public class FileUtils
 		return length;
 	}
 
-	public static void writeFile (File file, byte[] bytes) throws IOException
+	public static void writeFile (Path file, byte[] bytes) throws IOException
 	{
-		OutputStream os = new FileOutputStream (file);
+		OutputStream os = file.getOutputStream ();
 		os.write (bytes);
 		os.close ();
 	}
 
-	public static void writeFile (File file, String str) throws IOException
+	public static void writeFile (Path file, String str) throws IOException
 	{
 		writeFile (file, Charset.forName ("UTF-8"), str);
 	}
 
-	public static void writeFile (File file, Charset charset, String str) throws IOException
+	public static void writeFile (Path file, Charset charset, String str) throws IOException
 	{
-		Writer writer = new OutputStreamWriter (new FileOutputStream (file), charset);
+		Writer writer = new OutputStreamWriter (file.getOutputStream (), charset);
 		writer.write (str);
 		writer.close ();
 	}
 
-	public static byte[] readFile (File file, long start, int length) throws IOException
+	public static byte[] readFile (Path file, long start, int length) throws IOException
 	{
 		byte[] byteBuffer = new byte[length];
-		FileInputStream is = new FileInputStream (file);
+		InputStream is = file.getInputStream ();
 		if (start > 0)
 		{
 			long offset = start;
@@ -127,23 +130,23 @@ public class FileUtils
 		return byteBuffer;
 	}
 
-	public static long getLength (File file, Charset charset) throws IOException
+	public static long getLength (Path file, Charset charset) throws IOException
 	{
-		InputStreamReader reader = new InputStreamReader (new FileInputStream (file), charset);
+		InputStreamReader reader = new InputStreamReader (file.getInputStream (), charset);
 		long length = reader.skip (Long.MAX_VALUE);
 		reader.close ();
 		return length;
 	}
 
-	public static String readString (File file, long start, int length) throws IOException
+	public static String readString (Path file, long start, int length) throws IOException
 	{
 		return readString (file, Charset.forName ("UTF-8"), start, length);
 	}
 
-	public static String readString (File file, Charset charset, long start, int length) throws IOException
+	public static String readString (Path file, Charset charset, long start, int length) throws IOException
 	{
 		char[] charBuffer = new char[length];
-		Reader reader = new InputStreamReader (new FileInputStream (file), charset);
+		Reader reader = new InputStreamReader (file.getInputStream (), charset);
 		if (start > 0)
 		{
 			long offset = start;

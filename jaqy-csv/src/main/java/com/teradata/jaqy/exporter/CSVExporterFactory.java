@@ -15,7 +15,6 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -28,9 +27,9 @@ import org.apache.commons.csv.CSVFormat;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.utils.CSVExportInfo;
+import com.teradata.jaqy.utils.CSVNameGen;
 import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
-import com.teradata.jaqy.utils.CSVNameGen;
 
 /**
  * @author	Heng Yuan
@@ -120,7 +119,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		Writer fw = new OutputStreamWriter (new FileOutputStream (interpreter.getFile (args[0])), charset);
+		Writer fw = new OutputStreamWriter (interpreter.getPath (args[0]).getOutputStream (), charset);
 		return new CSVExporter (format, fw, exportInfoMap);
 	}
 }

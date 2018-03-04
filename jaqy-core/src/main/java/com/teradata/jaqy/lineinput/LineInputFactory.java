@@ -15,14 +15,10 @@
  */
 package com.teradata.jaqy.lineinput;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 
 import com.teradata.jaqy.interfaces.LineInput;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -30,17 +26,17 @@ import com.teradata.jaqy.utils.FileUtils;
  */
 public class LineInputFactory
 {
-	public static LineInput getSimpleLineInput (InputStream is, File dir, boolean interactive) throws IOException
+	public static LineInput getSimpleLineInput (InputStream is, Path dir, boolean interactive) throws IOException
 	{
 		return new ReaderLineInput (new InputStreamReader (is), dir, interactive);
 	}
 
-	public static LineInput getLineInput (File file, String encoding, boolean interactive) throws IOException
+	public static LineInput getLineInput (Path file, String encoding, boolean interactive) throws IOException
 	{
-		return getLineInput (new FileInputStream (file), file.getParentFile (), encoding, interactive);
+		return getLineInput (file.getInputStream (), file.getParent (), encoding, interactive);
 	}
 
-	public static LineInput getLineInput (InputStream is, File dir, String encoding, boolean interactive) throws IOException
+	public static LineInput getLineInput (InputStream is, Path dir, String encoding, boolean interactive) throws IOException
 	{
 		Reader reader = FileUtils.getReader (is, encoding);
 		return new ReaderLineInput (reader, dir, interactive);

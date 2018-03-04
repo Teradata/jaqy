@@ -15,11 +15,14 @@
  */
 package com.teradata.jaqy.resultset;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyException;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.ByteArrayUtils;
 import com.teradata.jaqy.utils.FileUtils;
 
@@ -29,7 +32,7 @@ import com.teradata.jaqy.utils.FileUtils;
 public class CachedBlob extends BlobWrapper implements Comparable<CachedBlob>
 {
 	private long m_length;
-	private File m_file;
+	private FilePath m_file;
 	private byte[] m_bytes;
 
 	public CachedBlob (Blob blob, int cacheSize, byte[] byteBuffer) throws SQLException
@@ -99,7 +102,7 @@ public class CachedBlob extends BlobWrapper implements Comparable<CachedBlob>
 		try
 		{
 			if (m_file != null)
-				return new FileInputStream (m_file);
+				return m_file.getInputStream ();
 			return new ByteArrayInputStream (m_bytes);
 		}
 		catch (IOException ex)

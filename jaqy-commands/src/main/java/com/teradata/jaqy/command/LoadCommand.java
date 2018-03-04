@@ -50,7 +50,7 @@ public class LoadCommand extends JaqyCommandAdapter
 			interpreter.error ("error parsing argument.");
 		}
 		String path = args[0];
-		path = PathUtils.toAbsolutePath (path, interpreter.getDirectory ());
+		path = PathUtils.toAbsolutePath (path, interpreter.getFileDirectory ());
 		interpreter.getGlobals ().loadPlugin (path, interpreter);
 	}
 }

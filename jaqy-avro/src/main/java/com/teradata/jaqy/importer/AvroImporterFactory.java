@@ -15,11 +15,10 @@
  */
 package com.teradata.jaqy.importer;
 
-import java.io.File;
-
 import org.apache.commons.cli.CommandLine;
 
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
@@ -43,8 +42,7 @@ public class AvroImporterFactory extends JaqyHandlerFactoryImpl<AvroImporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		File file = interpreter.getFile (args[0]);
-
+		Path file = interpreter.getPath (args[0]);
 		return new AvroImporter (interpreter.getSession ().getConnection (), file);
 	}
 }

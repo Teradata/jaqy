@@ -15,7 +15,7 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import org.apache.commons.cli.CommandLine;
@@ -110,7 +110,7 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		FileOutputStream os = new FileOutputStream (interpreter.getFile (args[0]));
+		OutputStream os = interpreter.getPath (args[0]).getOutputStream ();
 
 		// In case of BSON, we use the default handling of byte array since
 		// BSON supports it natively.

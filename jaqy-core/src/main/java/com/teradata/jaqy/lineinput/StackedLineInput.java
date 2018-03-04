@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.Stack;
 
 import com.teradata.jaqy.interfaces.LineInput;
+import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
 
 /**
  * @author	Heng Yuan
@@ -94,11 +96,44 @@ public class StackedLineInput implements LineInput
 	}
 
 	@Override
-	public File getDirectory ()
+	public Path getDirectory ()
 	{
 		LineInput input = getInput ();
 		if (input == null)
-			return new File (".");
+			return null;
 		return input.getDirectory ();
+	}
+
+	@Override
+	public File getFileDirectory ()
+	{
+		synchronized (m_lock)
+		{
+			if (m_input != null)
+			{
+				Path path = m_input.getDirectory ();
+				if (path != null &&
+					path instanceof FilePath)
+				{
+					return ((FilePath)path).getFile ();
+				}
+			}
+			// scan backward to find the last file directory
+			int i = m_inputs.size ();
+			for (; i > 0; --i)
+			{
+				LineInput input = m_inputs.get (i - 1);
+				if (input != null)
+				{
+					Path path = input.getDirectory ();
+					if (path != null &&
+						path instanceof FilePath)
+					{
+						return ((FilePath)path).getFile ();
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

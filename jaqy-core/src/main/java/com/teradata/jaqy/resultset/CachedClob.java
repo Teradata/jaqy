@@ -20,6 +20,7 @@ import java.sql.Clob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyException;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -29,7 +30,7 @@ public class CachedClob extends ClobWrapper implements Comparable<CachedClob>
 {
 	private long m_length;
 	private String m_str;
-	private File m_file;
+	private FilePath m_file;
 
 	public CachedClob (Clob clob, int cacheSize, char[] charBuffer) throws SQLException
 	{
@@ -101,7 +102,7 @@ public class CachedClob extends ClobWrapper implements Comparable<CachedClob>
 		try
 		{
 			if (m_file != null)
-				return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
+				return new InputStreamReader (m_file.getInputStream (), "UTF-8");
 			return new StringReader (m_str);
 		}
 		catch (IOException ex)

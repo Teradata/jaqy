@@ -15,11 +15,15 @@
  */
 package com.teradata.jaqy.resultset;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 
 import com.teradata.jaqy.JaqyException;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -28,7 +32,7 @@ import com.teradata.jaqy.utils.FileUtils;
 public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLXML>
 {
 	private int m_length;
-	private File m_file;
+	private FilePath m_file;
 	private String m_str;
 
 	public CachedSQLXML (SQLXML xml, int cacheSize, char[] charBuffer) throws SQLException
@@ -73,7 +77,7 @@ public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLX
 		try
 		{
 			if (m_file != null)
-				return new InputStreamReader (new FileInputStream (m_file), "UTF-8");
+				return new InputStreamReader (m_file.getInputStream (), "UTF-8");
 			return new StringReader (m_str);
 		}
 		catch (IOException ex)

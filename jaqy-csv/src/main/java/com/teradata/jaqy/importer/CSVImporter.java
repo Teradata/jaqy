@@ -29,6 +29,7 @@ import org.apache.commons.csv.CSVRecord;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.resultset.FileBlob;
 import com.teradata.jaqy.resultset.FileClob;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -49,7 +50,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 		"N/A", "NA", "#NA", "NULL", "NaN", "-NaN", "nan", "-nan", ""
 	};
 
-	private final File m_file;
+	private final Path m_file;
 	private final Charset m_charset;
 	private final CSVFormat m_format;
 	private final boolean m_precise;
@@ -63,7 +64,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 	private long m_scanThreshold;
 	private HashMap<Integer, CSVImportInfo> m_importInfoMap;
 
-	public CSVImporter (File file, Charset charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
+	public CSVImporter (Path file, Charset charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
 	{
 		m_file = file;
 		m_charset = charset;
@@ -74,9 +75,9 @@ public class CSVImporter implements JaqyImporter<Integer>
 		openFile (file, charset, format);
 	}
 
-	private void openFile (File file, Charset charset, CSVFormat format) throws IOException
+	private void openFile (Path file, Charset charset, CSVFormat format) throws IOException
 	{
-		Reader reader = new InputStreamReader (new FileInputStream (file), charset);
+		Reader reader = new InputStreamReader (file.getInputStream (), charset);
 		m_parser = format.parse (reader);
 		m_headers = m_parser.getHeaderMap ();
 		m_iterator = m_parser.iterator ();
@@ -144,9 +145,9 @@ public class CSVImporter implements JaqyImporter<Integer>
 			{
 				if (value.length () == 0)
 					return null;
-				File file = interpreter.getFile (value);
+				Path file = interpreter.getPath (value);
 				if (!file.isFile ())
-					throw new FileNotFoundException ("External file " + file.getPath () + " is not found.");
+					throw new FileNotFoundException ("External file " + file.getName () + " is not found.");
 				if (importInfo.charset == null)
 					return new FileBlob (file);
 				else

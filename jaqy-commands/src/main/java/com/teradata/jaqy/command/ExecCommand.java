@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.command;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.Reader;
 import java.sql.SQLException;
 
@@ -29,6 +27,7 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.StringUtils;
@@ -82,13 +81,13 @@ public class ExecCommand extends JaqyCommandAdapter
 			}
 			if (args.length > 0)
 			{
-				File file = interpreter.getFile (args[0]);
+				Path file = interpreter.getPath (args[0]);
 				if (!file.exists ())
 				{
 					interpreter.error ("file not found: " + args[0]);
 				}
 				SessionUtils.checkOpen (interpreter);
-				Reader reader = FileUtils.getReader (new FileInputStream (file), charset);
+				Reader reader = FileUtils.getReader (file.getInputStream (), charset);
 				String sql = StringUtils.getStringFromReader (reader);
 				Session session = interpreter.getSession ();
 				session.executeQuery (sql, interpreter, interpreter.getRepeatCount ());

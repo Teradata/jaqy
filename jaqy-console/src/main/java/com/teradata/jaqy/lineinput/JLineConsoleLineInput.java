@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 
 import com.teradata.jaqy.interfaces.LineInput;
+import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
 
 import jline.console.ConsoleReader;
 
@@ -28,9 +30,9 @@ import jline.console.ConsoleReader;
 public class JLineConsoleLineInput implements LineInput
 {
 	private ConsoleReader m_jline;
-	private final File m_dir;
+	private final Path m_dir;
 
-	public JLineConsoleLineInput (File dir) throws IOException
+	public JLineConsoleLineInput (Path dir) throws IOException
 	{
 		m_dir = dir;
 		m_jline = new ConsoleReader ();
@@ -53,8 +55,16 @@ public class JLineConsoleLineInput implements LineInput
 	}
 
 	@Override
-	public File getDirectory ()
+	public Path getDirectory ()
 	{
 		return m_dir;
+	}
+
+	@Override
+	public File getFileDirectory ()
+	{
+		if (m_dir instanceof FilePath)
+			return ((FilePath)m_dir).getFile ();
+		return null;
 	}
 }

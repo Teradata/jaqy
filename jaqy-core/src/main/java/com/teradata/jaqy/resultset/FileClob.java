@@ -15,11 +15,14 @@
  */
 package com.teradata.jaqy.resultset;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyException;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -28,10 +31,10 @@ import com.teradata.jaqy.utils.FileUtils;
 public class FileClob extends ClobWrapper
 {
 	private long m_length;
-	private File m_file;
+	private Path m_file;
 	private Charset m_charset;
 
-	public FileClob (File file, Charset charset) throws SQLException
+	public FileClob (Path file, Charset charset) throws SQLException
 	{
 		m_length = -1;
 		m_file = file;
@@ -77,7 +80,7 @@ public class FileClob extends ClobWrapper
 	{
 		try
 		{
-			return new InputStreamReader (new FileInputStream (m_file), m_charset);
+			return new InputStreamReader (m_file.getInputStream (), m_charset);
 		}
 		catch (IOException ex)
 		{

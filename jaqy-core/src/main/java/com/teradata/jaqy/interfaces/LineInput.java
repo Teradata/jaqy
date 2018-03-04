@@ -44,5 +44,11 @@ public interface LineInput
 	 * 
 	 * @return	the directory of the input.
 	 */
-	public File getDirectory ();
+	public Path getDirectory ();
+	/**
+	 * Get the directory of the input.
+	 * 
+	 * @return	the directory of the input.
+	 */
+	public File getFileDirectory ();
 }

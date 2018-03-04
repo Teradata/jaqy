@@ -15,13 +15,12 @@
  */
 package com.teradata.jaqy.resultset;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyException;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -29,9 +28,9 @@ import com.teradata.jaqy.utils.FileUtils;
  */
 public class FileBlob extends BlobWrapper
 {
-	private File m_file;
+	private Path m_file;
 
-	public FileBlob (File file) throws SQLException
+	public FileBlob (Path file) throws SQLException
 	{
 		m_file = file;
 	}
@@ -64,7 +63,7 @@ public class FileBlob extends BlobWrapper
 	{
 		try
 		{
-			return new FileInputStream (m_file);
+			return m_file.getInputStream ();
 		}
 		catch (IOException ex)
 		{

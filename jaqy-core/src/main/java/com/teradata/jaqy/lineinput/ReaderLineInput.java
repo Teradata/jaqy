@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.Reader;
 
 import com.teradata.jaqy.interfaces.LineInput;
+import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
 
 /**
  * @author	Heng Yuan
@@ -28,10 +30,10 @@ import com.teradata.jaqy.interfaces.LineInput;
 public class ReaderLineInput implements LineInput
 {
 	private BufferedReader m_reader;
-	private final File m_dir;
+	private final Path m_dir;
 	private final boolean m_interactive;
 
-	public ReaderLineInput (Reader reader, File dir, boolean interactive) throws IOException
+	public ReaderLineInput (Reader reader, Path dir, boolean interactive) throws IOException
 	{
 		m_reader = new BufferedReader (reader);
 		m_dir = dir;
@@ -65,8 +67,16 @@ public class ReaderLineInput implements LineInput
 	}
 
 	@Override
-	public File getDirectory ()
+	public Path getDirectory ()
 	{
 		return m_dir;
+	}
+
+	@Override
+	public File getFileDirectory ()
+	{
+		if (m_dir instanceof FilePath)
+			return ((FilePath)m_dir).getFile ();
+		return null;
 	}
 }

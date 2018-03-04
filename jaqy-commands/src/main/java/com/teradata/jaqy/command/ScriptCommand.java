@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.command;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.Reader;
 
 import org.apache.commons.cli.CommandLine;
@@ -27,6 +25,7 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
@@ -86,12 +85,12 @@ public class ScriptCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			File scriptFile = interpreter.getFile (file);
+			Path scriptFile = interpreter.getPath (file);
 			if (!scriptFile.exists ())
 			{
 				interpreter.error ("file not found: " + file);
 			}
-			Reader reader = FileUtils.getReader (new FileInputStream (scriptFile), scriptOptions.encoding);
+			Reader reader = FileUtils.getReader (scriptFile.getInputStream (), scriptOptions.encoding);
 			interpreter.eval (reader);
 		}
 	}

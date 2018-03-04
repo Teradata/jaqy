@@ -15,12 +15,7 @@
  */
 package com.teradata.jaqy;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 
@@ -29,10 +24,12 @@ import org.fusesource.jansi.AnsiConsole;
 
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.LineInput;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.lineinput.CommandLineInput;
 import com.teradata.jaqy.lineinput.JLineConsoleLineInput;
 import com.teradata.jaqy.lineinput.LineInputFactory;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.JaqyShutdownHook;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -66,13 +63,13 @@ public class Main
 		return null;
 	}
 
-	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, File initFile)
+	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, Path initFile)
 	{
 		LineInput lineInput;
 		try
 		{
 			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
-			File startDir = new File (System.getProperty ("user.dir"));
+			Path startDir = new FilePath (new File (System.getProperty ("user.dir")));
 			lineInput = new ReaderLineInput (reader, startDir, false);
 			interpreter.push (lineInput);
 			interpreter.interpret (false);
@@ -176,7 +173,7 @@ public class Main
 		HelperSetup.init (globals);
 
 		// load initiation scripts
-		File initFile = getDefaultInitFile ();
+		Path initFile = new FilePath (getDefaultInitFile ());
 		CommandLine cmdLine = globals.getOptionManager ().getCommandLine (args);
 		if (cmdLine.hasOption ("norc"))
 		{
@@ -185,7 +182,7 @@ public class Main
 		else if (cmdLine.hasOption ("rcfile"))
 		{
 			String fileName = cmdLine.getOptionValue ("rcfile");
-			initFile = new File (fileName);
+			initFile = new FilePath (new File (fileName));
 		}
 		loadInit (globals, interpreter, display, initFile);
 
@@ -210,6 +207,7 @@ public class Main
 		// of the initiation script
 		interpreter.resetCommandCount ();
 
+		Path currentDir = new FilePath (globals.getDirectory ());
 		// Current dir
 		// setup the input
 		if (display.isInteractive ())
@@ -221,20 +219,20 @@ public class Main
 				// Windows have its own readline-like support for
 				// all apps, so we can just use the default system
 				// behavior.
-				interpreter.push (LineInputFactory.getSimpleLineInput (System.in, globals.getDirectory (), true));
+				interpreter.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
 			}
 			else
 			{
 				try
 				{
 					// we use JLine other systems.
-					interpreter.push (new JLineConsoleLineInput (globals.getDirectory ()));
+					interpreter.push (new JLineConsoleLineInput (currentDir));
 				}
 				catch (IOException ex)
 				{
 					// just in case we fail with JLine,
 					// fall back to default.
-					interpreter.push (LineInputFactory.getSimpleLineInput (System.in, globals.getDirectory (), true));
+					interpreter.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
 				}
 			}
 		}
@@ -250,14 +248,14 @@ public class Main
 					// encoding at all.  Instead, use the default.
 					encoding = Charset.defaultCharset ().displayName ();
 				}
-				interpreter.push (LineInputFactory.getLineInput (System.in, globals.getDirectory (), encoding, false));
+				interpreter.push (LineInputFactory.getLineInput (System.in, currentDir, encoding, false));
 			}
 		}
 
 		// Interpret any remaining command line arguments first
 		if (args.length > 0)
 		{
-			interpreter.push (new CommandLineInput (args, globals.getDirectory ()));
+			interpreter.push (new CommandLineInput (args, currentDir));
 		}
 
 		// parse the user commands

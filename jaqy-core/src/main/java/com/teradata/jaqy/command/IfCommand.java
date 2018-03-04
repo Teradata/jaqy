@@ -79,7 +79,7 @@ public class IfCommand extends JaqyCommandAdapter
 			globals.log (Level.INFO, "running if statement");
 			globals.log (Level.INFO, action);
 			globals.log (Level.INFO, "end if statement");
-			interpreter.interpret (new ReaderLineInput (new StringReader (action), globals.getDirectory (), false), false);
+			interpreter.interpret (new ReaderLineInput (new StringReader (action), interpreter.getDirectory (), false), false);
 			if (!silent)
 			{
 				display.echo (interpreter, ".end " + getName (), false);

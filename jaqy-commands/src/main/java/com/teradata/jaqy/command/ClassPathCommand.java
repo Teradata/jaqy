@@ -58,7 +58,7 @@ public class ClassPathCommand extends JaqyCommandAdapter
 		}
 		String protocol = args[0];
 		String path = args[1];
-		path = PathUtils.toAbsolutePath (path, interpreter.getDirectory ());
+		path = PathUtils.toAbsolutePath (path, interpreter.getFileDirectory ());
 		driverManager.addDriverLocation (protocol, path);
 	}
 }

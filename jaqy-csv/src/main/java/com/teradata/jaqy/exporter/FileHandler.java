@@ -15,7 +15,6 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.Reader;
 import java.sql.Blob;
@@ -24,6 +23,7 @@ import java.sql.SQLXML;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.CSVExportInfo;
 import com.teradata.jaqy.utils.FileUtils;
@@ -47,7 +47,7 @@ class FileHandler implements TypeHandler
 		if (o == null)
 			return null;
 		String fileName = m_fileInfo.nameGen.newName ();
-		File file = interpreter.getFile (fileName);
+		Path file = interpreter.getPath (fileName);
 		if (o instanceof byte[])
 		{
 			FileUtils.writeFile (file, (byte[])o);

@@ -46,6 +46,6 @@ public class OsCommand extends JaqyCommandAdapter
 		String argument = args[0];
 		if (argument.trim ().length () == 0)
 			return;
-		interpreter.getGlobals ().getOs ().shell (interpreter.getDirectory (), argument);
+		interpreter.getGlobals ().getOs ().shell (interpreter.getFileDirectory (), argument);
 	}
 }

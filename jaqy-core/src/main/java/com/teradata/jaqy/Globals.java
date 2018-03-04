@@ -50,6 +50,7 @@ public class Globals
 	private final CommandManager m_commandManager = new CommandManager (this);
 	private final AliasManager m_aliasManager = new AliasManager ();
 	private final HelperManager m_helperManager = new HelperManager ();
+	private final PathHandlerManager m_pathHandlerManager = new PathHandlerManager ();
 
 	private Object m_sessionLock = new Object ();
 	private final ArrayList<Session> m_sessions = new ArrayList<Session> ();
@@ -400,6 +401,16 @@ public class Globals
 	public HelperManager getHelperManager ()
 	{
 		return m_helperManager;
+	}
+
+	public PathHandlerManager getPathHandlerManager ()
+	{
+		return m_pathHandlerManager;
+	}
+
+	public PathHandler getPathHandler (String path)
+	{
+		return m_pathHandlerManager.getHandler (path);
 	}
 
 	public void setLevel (String levelStr)

@@ -15,7 +15,7 @@
  */
 package com.teradata.jaqy.importer;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import org.apache.commons.cli.CommandLine;
@@ -114,7 +114,7 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		FileInputStream is = new FileInputStream (interpreter.getFile (args[0]));
+		InputStream is = interpreter.getPath (args[0]).getInputStream ();
 
 		// In case of BSON, we use the default handling of byte array since
 		// BSON supports it natively.

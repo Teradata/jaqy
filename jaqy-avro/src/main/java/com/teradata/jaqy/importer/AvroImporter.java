@@ -15,8 +15,9 @@
  */
 package com.teradata.jaqy.importer;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.sql.Types;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
@@ -56,24 +58,30 @@ class AvroImporter implements JaqyImporter<String>
 		return v;
 	}
 
-	private final File m_file;
+	private final Path m_file;
 	private final JaqyConnection m_conn;
 	private DataFileReader<GenericRecord> m_dataFileReader;
 	private boolean m_end;
 	private Iterator<GenericRecord> m_iter;
 	private GenericRecord m_record;
 
-	public AvroImporter (JaqyConnection conn, File file) throws IOException
+	public AvroImporter (JaqyConnection conn, Path file) throws IOException
 	{
 		m_conn = conn;
 		m_file = file;
 		openFile (file);
 	}
 
-	private void openFile (File file) throws IOException
+	private void openFile (Path file) throws IOException
 	{
 		DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord> ();
-		m_dataFileReader = new DataFileReader<GenericRecord> (file, reader);
+		InputStream is = file.getInputStream ();
+		if (!(is instanceof FileInputStream))
+		{
+			is.close ();
+			throw new IOException ("Unable to get file based InputStream from " + file.getPath ());
+		}
+		m_dataFileReader = new DataFileReader<GenericRecord> (new AvroInputStream ((FileInputStream)is), reader);
 
 		m_iter = m_dataFileReader.iterator ();
 	}

@@ -66,7 +66,7 @@ public class RunCommand extends JaqyCommandAdapter
 		LineInput input = null;
 		try
 		{
-			input = LineInputFactory.getLineInput (interpreter.getFile (args[0]), encoding, false);
+			input = LineInputFactory.getLineInput (interpreter.getPath (args[0]), encoding, false);
 		}
 		catch (IOException e)
 		{

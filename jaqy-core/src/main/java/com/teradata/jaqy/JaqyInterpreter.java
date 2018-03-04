@@ -915,16 +915,27 @@ public class JaqyInterpreter implements ExpressionHandler
 		}
 	}
 
-	public File getDirectory ()
+	public File getFileDirectory ()
+	{
+		File file = m_input.getFileDirectory ();
+		if (file == null)
+			return m_globals.getDirectory ();
+		return file;
+	}
+
+	public Path getDirectory ()
 	{
 		return m_input.getDirectory ();
 	}
 
-	public File getFile (String name)
+	public Path getPath (String name) throws IOException
 	{
-		if ('/' == File.separatorChar && name.startsWith ("/"))
-			return new File (name);
-		return new File (getDirectory (), name);
+		PathHandler handler = m_globals.getPathHandler (name);
+		if (handler == null)
+		{
+			return getDirectory ().getRelativePath (name);
+		}
+		return handler.getPath (name);
 	}
 
 	public VariableManager getVariableManager ()
