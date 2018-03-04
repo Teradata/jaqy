@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.utils;
+package com.teradata.jaqy.path;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -26,6 +26,7 @@ import org.junit.rules.TemporaryFolder;
 
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.path.FilePathHandler;
+import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
