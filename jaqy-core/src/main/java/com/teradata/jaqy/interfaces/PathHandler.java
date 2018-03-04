@@ -31,14 +31,6 @@ public interface PathHandler
 	 */
 	public Path getPath (String path) throws IOException;
 	/**
-	 * Get the Path object from the path string, relative to the parent path.
-	 *
-	 * @param	path
-	 *			the path string
-	 * @return	path object
-	 */
-	public Path getPath (Path parent, String path) throws IOException;
-	/**
 	 * Check if the handler can handle a path string.
 	 * @param	path
 	 * 			path string

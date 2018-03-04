@@ -57,13 +57,6 @@ public class FilePathHandler implements PathHandler
 	}
 
 	@Override
-	public Path getPath (Path parent, String path)
-	{
-		File dir = ((FilePath)parent).getFile ();
-		return new FilePath (new File (dir, path));
-	}
-
-	@Override
 	public boolean canHandle (String path)
 	{
 		if (path.startsWith ("/") ||
