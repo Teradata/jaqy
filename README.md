@@ -5,3 +5,5 @@ is at https://teradata.github.io/jaqy/ .
 
 It still has a few remaining features before the first release, but it is
 already quite powerful.
+
+**This software is NOT SUPPORTED by Teradata**.  This is an approved personal project of @coconut2015 .
