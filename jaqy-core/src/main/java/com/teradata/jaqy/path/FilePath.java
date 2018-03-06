@@ -50,19 +50,13 @@ public class FilePath implements Path
 	}
 
 	@Override
-	public String getName ()
-	{
-		return m_file.getName ();
-	}
-
-	@Override
 	public String getPath ()
 	{
 		return m_file.getPath ();
 	}
 
 	@Override
-	public String getFullName ()
+	public String getCanonicalPath ()
 	{
 		try
 		{
@@ -72,12 +66,6 @@ public class FilePath implements Path
 		{
 			return m_file.getAbsolutePath ();
 		}
-	}
-
-	@Override
-	public boolean isDirectory ()
-	{
-		return m_file.isDirectory ();
 	}
 
 	@Override

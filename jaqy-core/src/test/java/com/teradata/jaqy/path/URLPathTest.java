@@ -15,23 +15,17 @@
  */
 package com.teradata.jaqy.path;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.OutputStream;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.teradata.jaqy.interfaces.Path;
-import com.teradata.jaqy.path.FilePathHandler;
-import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class FilePathHandlerTest
+public class URLPathTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -39,27 +33,33 @@ public class FilePathHandlerTest
 	@Test
 	public void test1 () throws Exception
 	{
-		FilePathHandler handler = new FilePathHandler ();
+		HttpPathHandler handler = new HttpPathHandler ();
 
-		File file = testFolder.newFile ();
-		Path path;
-
-		path = handler.getPath (file.getAbsolutePath ());
+		String url = "https://introcs.cs.princeton.edu/java/data/DJIA.csv";
+		String parent = "https://introcs.cs.princeton.edu/java/data";
+		Path path = handler.getPath (url);
 		Assert.assertNotNull (path);
-		OutputStream os = path.getOutputStream ();
-		String str = "abcdefghijklmnopqrstuvwxyz";
-		os.write (str.getBytes ("UTF-8"));
-		os.close ();
-		Assert.assertEquals (file.getPath (), path.getPath ());
-		Assert.assertEquals (file.getCanonicalPath (), path.getCanonicalPath ());
+		Assert.assertEquals (url, path.getPath ());
+		Assert.assertEquals (url, path.getCanonicalPath ());
 		Assert.assertTrue (path.exists ());
+		Assert.assertEquals (1071673, path.length ());
 		Assert.assertTrue (path.isFile ());
-		Assert.assertEquals (str.length (), path.length ());
-		Assert.assertEquals (0, FileUtils.compare (new ByteArrayInputStream (str.getBytes ("UTF-8")), path.getInputStream ()));
 
 		path = path.getParent ();
-		Assert.assertNotNull (path);
-		Assert.assertTrue (path.exists ());
-		Assert.assertFalse (path.isFile ());
+		Assert.assertEquals (parent, path.getPath ());
+		path = path.getRelativePath ("elements.csv");
+		Assert.assertTrue (path.isFile ());
+
+		path = path.getParent ();
+		path = path.getRelativePath ("/java/data/DJIA.csv");
+		Assert.assertEquals (url, path.getPath ());
+
+		path = path.getParent ();
+		path = path.getRelativePath ("../../java/data/DJIA.csv");
+		Assert.assertEquals (url, path.getPath ());
+
+		path = path.getParent ();
+		path = path.getRelativePath ("../../java/data/abcdefghijklmnopqrstuvw.csv");
+		Assert.assertFalse (path.exists ());
 	}
 }

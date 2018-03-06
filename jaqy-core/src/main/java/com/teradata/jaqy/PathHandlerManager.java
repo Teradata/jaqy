@@ -58,6 +58,28 @@ public class PathHandlerManager
 	}
 
 	/**
+	 * Remove a path handler based on the class name.
+	 *
+	 * @param	className
+	 * 			PathHandler class name
+	 */
+	public void removePathHandler (String className)
+	{
+		synchronized (m_lock)
+		{
+			for (int i = 0; i < m_handlers.size (); ++i)
+			{
+				PathHandler handler = m_handlers.get (i);
+				if (className.equals (handler.getClass ().getCanonicalName ()))
+				{
+					m_handlers.remove (i);
+					break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Find a PathHandler for the path provided.
 	 *
 	 * @param	path

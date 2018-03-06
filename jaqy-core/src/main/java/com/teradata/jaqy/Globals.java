@@ -24,6 +24,7 @@ import java.util.Enumeration;
 import java.util.logging.*;
 
 import com.teradata.jaqy.interfaces.*;
+import com.teradata.jaqy.path.HttpPathHandler;
 import com.teradata.jaqy.utils.FixedVariable;
 import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.URLUtils;
@@ -101,6 +102,7 @@ public class Globals
 		m_logger.addHandler (handler);
 		m_logger.setLevel (Level.OFF);
 
+		m_pathHandlerManager.addPathHandler (new HttpPathHandler ());
 		m_printerManager = new JaqyHandlerFactoryManager<JaqyPrinter> (this, "com.teradata.jaqy.interfaces.JaqyPrinter");
 		m_exporterManager = new JaqyHandlerFactoryManager<JaqyExporter> (this, "com.teradata.jaqy.interfaces.JaqyExporter");
 		m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter<?>> (this, "com.teradata.jaqy.interfaces.JaqyImporter");

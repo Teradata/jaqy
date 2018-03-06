@@ -42,5 +42,8 @@ public class PathHandlerManagerTest
 		Assert.assertTrue (handler.canHandle (path));
 
 		Assert.assertTrue (manager.hasPathHandler ("com.teradata.jaqy.path.FilePathHandler"));
+
+		manager.removePathHandler ("com.teradata.jaqy.path.FilePathHandler");
+		Assert.assertFalse (manager.hasPathHandler ("com.teradata.jaqy.path.FilePathHandler"));
 	}
 }

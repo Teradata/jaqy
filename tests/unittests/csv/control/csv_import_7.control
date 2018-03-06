@@ -1,0 +1,69 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import csv -h -f https://introcs.cs.princeton.edu/java/data/ip-by-country.csv
+-- 0/3 - 0 ----------------------------------------------------------------
+.importschema
+Column                Type        Nullable
+--------------------- ----------- --------
+beginning IP Address  varchar(15) No
+ending IP Address     varchar(15) No
+beginning IP Number   int4        No
+ending IP Number      int4        No
+ISO 3166 Country Code bpchar(2)   Yes
+Country Name          varchar(36) No
+-- 0/4 - 0 ----------------------------------------------------------------
+.importtable mytable
+-- Table Schema --
+CREATE TABLE mytable
+(
+	"beginning IP Address" varchar(15) NOT NULL,
+	"ending IP Address" varchar(15) NOT NULL,
+	"beginning IP Number" int4 NOT NULL,
+	"ending IP Number" int4 NOT NULL,
+	"ISO 3166 Country Code" bpchar(2),
+	"Country Name" varchar(36) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO mytable VALUES (?,?,?,?,?,?)
+-- failure 0: [07006] Cannot convert an instance of java.lang.String to type int
+-- 2/5 - 0 ----------------------------------------------------------------
+
+SELECT COUNT(*) FROM mytable;
+-- success --
+count
+-----
+15000
+-- activity count = 1
+-- 3/5 - 0 ----------------------------------------------------------------
+.limit 5
+-- 3/6 - 0 ----------------------------------------------------------------
+SELECT * FROM mytable ORDER BY 1;
+-- success --
+beginning IP Address ending IP Address beginning IP Number ending IP Number ISO 3166 Country Code Country Name
+-------------------- ----------------- ------------------- ---------------- --------------------- -------------
+11.0.0.0             12.1.52.63                  184549376        201405503 US                    United States
+12.10.192.0          12.10.199.255               202031104        202033151 IN                    India
+12.10.200.0          12.10.207.255               202033152        202035199 US                    United States
+12.10.208.0          12.10.209.255               202035200        202035711 IN                    India
+12.10.210.0          12.14.128.135               202035712        202276999 US                    United States
+-- activity count = 5
+-- 4/6 - 0 ----------------------------------------------------------------
+.limit 0
+-- 4/7 - 0 ----------------------------------------------------------------
+
+DROP TABLE mytable;
+-- success. update count = 0
+-- 5/7 - 0 ----------------------------------------------------------------
+
+.close
+-- 5/8 - 0 ----------------------------------------------------------------

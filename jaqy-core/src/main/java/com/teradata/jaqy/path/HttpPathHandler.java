@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.interfaces;
+package com.teradata.jaqy.path;
 
 import java.io.IOException;
+import java.net.URL;
+
+import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.interfaces.PathHandler;
 
 /**
- * PathHandler is an abstraction used to deal with potential input / output
- * files / directories.
+ * An extremely simple PathHandler for loading data from http URL links.
  *
  * @author	Heng Yuan
  */
-public interface PathHandler
+public class HttpPathHandler implements PathHandler
 {
-	/**
-	 * Get the Path object from the path string.
-	 *
-	 * @param	path
-	 *			the path string
-	 * @return	path object
-	 */
-	public Path getPath (String path) throws IOException;
-	/**
-	 * Check if the handler can handle a path string.
-	 *
-	 * @param	path
-	 * 			path string
-	 * @return	true if the path can be handled.
-	 */
-	public boolean canHandle (String path);
+	@Override
+	public Path getPath (String path) throws IOException
+	{
+		return new URLPath (new URL (path));
+	}
+
+	@Override
+	public boolean canHandle (String path)
+	{
+		return path.startsWith ("http://") || path.startsWith ("https://");
+	}
 }
