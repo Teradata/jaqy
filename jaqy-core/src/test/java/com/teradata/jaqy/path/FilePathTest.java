@@ -24,12 +24,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class FilePathHandlerTest
+public class FilePathTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -39,15 +40,10 @@ public class FilePathHandlerTest
 	{
 		FilePathHandler handler = new FilePathHandler ();
 
-		Assert.assertTrue (handler.canHandle ("/tmp/abcdefg.csv"));
-		Assert.assertTrue (handler.canHandle ("\\abcdefg.csv"));
-//		Assert.assertTrue (handler.canHandle ("C:\\tmp\\abcdefg.csv"));
-		Assert.assertTrue (handler.canHandle ("file:///tmp/abcdefg.csv"));
-
 		File file = testFolder.newFile ();
-		FilePath path;
+		Path path;
 
-		path = (FilePath)handler.getPath (file.getAbsolutePath ());
+		path = handler.getPath (file.getAbsolutePath ());
 		Assert.assertNotNull (path);
 		OutputStream os = path.getOutputStream ();
 		String str = "abcdefghijklmnopqrstuvwxyz";
@@ -59,24 +55,13 @@ public class FilePathHandlerTest
 		Assert.assertTrue (path.isFile ());
 		Assert.assertEquals (str.length (), path.length ());
 		Assert.assertEquals (0, FileUtils.compare (new ByteArrayInputStream (str.getBytes ("UTF-8")), path.getInputStream ()));
-		path.delete ();
 
-		path = (FilePath)handler.getPath (file.toURI ().toString ());
-		Assert.assertNotNull (path);
-		os = path.getOutputStream ();
-		os.write (str.getBytes ("UTF-8"));
-		os.close ();
-		Assert.assertEquals (file.getPath (), path.getPath ());
-		Assert.assertEquals (file.getCanonicalPath (), path.getCanonicalPath ());
-		Assert.assertTrue (path.exists ());
-		Assert.assertTrue (path.isFile ());
-		Assert.assertEquals (str.length (), path.length ());
-		Assert.assertEquals (0, FileUtils.compare (new ByteArrayInputStream (str.getBytes ("UTF-8")), path.getInputStream ()));
-		path.delete ();
-
-		path = (FilePath)path.getParent ();
+		path = path.getParent ();
 		Assert.assertNotNull (path);
 		Assert.assertTrue (path.exists ());
 		Assert.assertFalse (path.isFile ());
+
+		path = path.getRelativePath (File.separator + "tmp");
+		Assert.assertEquals (File.separator + "tmp", path.getCanonicalPath ());
 	}
 }

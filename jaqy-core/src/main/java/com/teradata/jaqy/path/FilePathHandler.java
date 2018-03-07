@@ -34,7 +34,7 @@ public class FilePathHandler implements PathHandler
 
 	public FilePathHandler ()
 	{
-		if (new Os ().isWindows ())
+		if (Os.isWindows ())
 		{
 			m_winPath = Pattern.compile ("^[a-zA-Z]:\\\\.*");
 		}
@@ -44,7 +44,7 @@ public class FilePathHandler implements PathHandler
 	public Path getPath (String path) throws IOException
 	{
 		File file;
-		if (path.startsWith ("file://"))
+		if (path.startsWith ("file:/"))
 		{
 			URL url = new URL (path);
 			file = new File (url.getFile ());
@@ -61,7 +61,7 @@ public class FilePathHandler implements PathHandler
 	{
 		if (path.startsWith ("/") ||
 			path.startsWith ("\\") ||
-			path.startsWith ("file://"))
+			path.startsWith ("file:/"))
 			return true;
 		if (m_winPath != null)
 		{

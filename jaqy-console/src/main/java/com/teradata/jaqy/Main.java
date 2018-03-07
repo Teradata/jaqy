@@ -128,8 +128,9 @@ public class Main
 		globals.setName (pkg.getImplementationTitle ());
 		globals.setVersion (pkg.getImplementationVersion ());
 
+		globals.getOs ();
 		// install Jansi
-		if (globals.getOs ().isWindows ())
+		if (Os.isWindows ())
 		{
 			AnsiConsole.systemInstall ();
 		}
@@ -150,8 +151,9 @@ public class Main
 		// Add shutdown hook that closes all sessions on exit.
 		JaqyShutdownHook.register (globals);
 
+		globals.getOs ();
 		// register signal handlers for dealing with Ctrl-C
-		if (!globals.getOs ().isWindows ())
+		if (!Os.isWindows ())
 		{
 			// The signal handler only works on Linux
 //			new ConsoleSignalHandler (display).register ();
@@ -212,7 +214,8 @@ public class Main
 		// setup the input
 		if (display.isInteractive ())
 		{
-			if (globals.getOs ().isWindows ())
+			globals.getOs ();
+			if (Os.isWindows ())
 			{
 				// windows
 				//

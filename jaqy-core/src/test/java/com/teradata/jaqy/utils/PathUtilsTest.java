@@ -36,8 +36,7 @@ public class PathUtilsTest
 		paths = PathUtils.split ("a;b");
 		Assert.assertArrayEquals (new String[] { "a", "b" }, paths);
 
-		Os os = new Os ();
-		if (os.isWindows ())
+		if (Os.isWindows ())
 		{
 			// Windows tests
 			paths = PathUtils.split ("/abc/def:lib/def");

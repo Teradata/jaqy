@@ -27,19 +27,13 @@ import org.apache.commons.exec.PumpStreamHandler;
  */
 public class Os
 {
-	private final String m_os;
-	private final boolean m_windows;
-
-	public Os ()
-	{
-		m_os = System.getProperty ("os.name");
-		m_windows = m_os.indexOf ("Win") >= 0 || m_os.indexOf ("win") >= 0;
-	}
+	private final static String s_os = System.getProperty ("os.name").toLowerCase ();
+	private final static boolean s_windows = s_os.indexOf ("win") >= 0;
 
 	public void shell (File dir, String cmd) throws Exception
 	{
 		CommandLine commandLine;
-		if (m_windows)
+		if (s_windows)
 		{
 			commandLine = new CommandLine ("cmd");
 			commandLine.addArgument ("/C");
@@ -57,28 +51,8 @@ public class Os
 		executor.execute(commandLine);
 	}
 
-	public boolean isWindows ()
+	public static boolean isWindows ()
 	{
-		return m_windows;
-	}
-
-	public boolean isMac ()
-	{
-		return (m_os.indexOf ("mac") >= 0);
-	}
-
-	public boolean isUnix ()
-	{
-		return (m_os.indexOf ("nix") >= 0 || m_os.indexOf ("nux") >= 0 || m_os.indexOf ("aix") > 0);
-	}
-
-	public boolean isSolaris ()
-	{
-		return (m_os.indexOf ("sunos") >= 0);
-	}
-
-	public String getOS ()
-	{
-		return m_os;
+		return s_windows;
 	}
 }

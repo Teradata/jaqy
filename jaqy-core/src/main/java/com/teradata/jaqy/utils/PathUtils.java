@@ -19,11 +19,28 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.teradata.jaqy.Os;
+
 /**
  * @author	Heng Yuan
  */
 public class PathUtils
 {
+	public static File getRelativePath (File dir, String path)
+	{
+		if (path.startsWith ("/") || path.startsWith ("\\"))
+		{
+			return new File (path);
+		}
+		if (Os.isWindows () &&
+			path.length () > 3 &&
+			path.charAt (1) == ':' &&path.charAt (2) == '\\')
+		{
+			return new File (path);
+		}
+		return new File (dir, path);
+	}
+
 	/**
 	 * Check if a ':' is not part of 'C:\....' windows type path.
 	 *
@@ -130,11 +147,7 @@ public class PathUtils
 		StringBuilder builder = new StringBuilder ();
 		for (String p : paths)
 		{
-			File f;
-			if (p.startsWith ("/") && '/' == File.separatorChar)
-				f = new File (p);
-			else
-				f = new File (dir, p);
+			File f = getRelativePath (dir, p);
 			if (builder.length () > 0)
 				builder.append (sep);
 			String newPath;

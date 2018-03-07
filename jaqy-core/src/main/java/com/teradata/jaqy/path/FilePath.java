@@ -18,6 +18,7 @@ package com.teradata.jaqy.path;
 import java.io.*;
 
 import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.utils.PathUtils;
 
 /**
  * @author	Heng Yuan
@@ -46,7 +47,8 @@ public class FilePath implements Path
 	public Path getRelativePath (String name)
 	{
 		File dir = m_file.isDirectory () ? m_file : m_file.getParentFile ();
-		return new FilePath (new File (dir, name));
+
+		return new FilePath (PathUtils.getRelativePath (dir, name));
 	}
 
 	@Override

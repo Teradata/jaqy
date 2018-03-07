@@ -16,9 +16,7 @@
 package com.teradata.jaqy.path;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import com.teradata.jaqy.interfaces.Path;
 
@@ -27,9 +25,6 @@ import com.teradata.jaqy.interfaces.Path;
  */
 public class URLPathTest
 {
-	@Rule
-	public TemporaryFolder testFolder = new TemporaryFolder ();
-
 	@Test
 	public void test1 () throws Exception
 	{
