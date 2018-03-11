@@ -45,7 +45,7 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		SessionUtils.checkOpen (interpreter);
 
@@ -60,7 +60,12 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 			interpreter.error ("No suitable previous SQL to repeat.");
 		}
 
-		int repeatCount = Integer.parseInt (args[0]);
+		Object o = interpreter.eval (args[0]);
+		if (o == null || !(o instanceof Number))
+		{
+			interpreter.error ("Invalid repeat value.");
+		}
+		long repeatCount = ((Number)o).longValue ();
 		if (repeatCount < 1)
 		{
 			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
