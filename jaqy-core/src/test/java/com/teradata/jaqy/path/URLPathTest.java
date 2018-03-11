@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.path;
 
+import java.io.IOException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,6 +40,7 @@ public class URLPathTest
 		Assert.assertEquals (url, path.getCanonicalPath ());
 		Assert.assertTrue (path.exists ());
 		Assert.assertEquals (1071673, path.length ());
+		Assert.assertEquals (1071673, path.length ());
 		Assert.assertTrue (path.isFile ());
 
 		path = path.getParent ();
@@ -56,5 +59,16 @@ public class URLPathTest
 		path = path.getParent ();
 		path = path.getRelativePath ("../../java/data/abcdefghijklmnopqrstuvw.csv");
 		Assert.assertFalse (path.exists ());
+		Assert.assertFalse (path.exists ());
+	}
+
+	@Test (expected = IOException.class)
+	public void test2 () throws Exception
+	{
+		HttpPathHandler handler = new HttpPathHandler ();
+
+		String url = "https://www.example.com/test.csv";
+		Path path = handler.getPath (url, null);
+		path.getOutputStream ();
 	}
 }

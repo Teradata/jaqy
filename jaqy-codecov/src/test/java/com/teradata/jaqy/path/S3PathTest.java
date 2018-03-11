@@ -82,6 +82,7 @@ public class S3PathTest
 		Assert.assertEquals (url, path.getCanonicalPath ());
 		Assert.assertTrue (path.exists ());
 		Assert.assertEquals (31443, path.length ());
+		Assert.assertEquals (31443, path.length ());
 		Assert.assertTrue (path.isFile ());
 		Assert.assertEquals (0, FileUtils.compare (path.getInputStream (), new FileInputStream (new File (dir, "sin.csv"))));
 
@@ -96,6 +97,7 @@ public class S3PathTest
 		Assert.assertEquals ("s3://tests/unittests/csv/lib/import1.csv", path.getPath ());
 		FileUtils.copy (path.getOutputStream (), new FileInputStream (new File (dir, "import1.csv")), new byte[4096]);
 		Assert.assertEquals (25, path.length ());
+		Assert.assertEquals (25, path.length ());
 		Assert.assertEquals (0, FileUtils.compare (path.getInputStream (), new FileInputStream (new File (dir, "import1.csv"))));
 
 		path = (S3Path)path.getParent ();
@@ -104,6 +106,9 @@ public class S3PathTest
 
 		path = (S3Path)path.getParent ();
 		path = (S3Path)path.getRelativePath ("../test/abc.csv");
+		Assert.assertEquals (0, path.length ());
+		Assert.assertEquals (0, path.length ());
+		Assert.assertFalse (path.exists ());
 		Assert.assertFalse (path.exists ());
 
 		VariableManager vm = interpreter.getVariableManager ();
