@@ -20,6 +20,7 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.QueryMode;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
@@ -83,7 +84,10 @@ public class ImportCommand extends JaqyCommandAdapter
 				interpreter.error ("importer type not found: " + name);
 				return;
 			}
-//			importer.showSchema (interpreter);
+
+			// we need to have an open session to do the import
+			SessionUtils.checkOpen (interpreter);
+
 			interpreter.setImporter (importer);
 			interpreter.setQueryMode (QueryMode.Import);
 		}

@@ -55,12 +55,7 @@ public class Main
 		// I am not going to lose sleep over this particular issue.
 		String home = System.getProperty ("user.home");
 
-		File file = new File (home, USER_INIT_RC);
-		if (file.exists ())
-		{
-			return file;
-		}
-		return null;
+		return new File (home, USER_INIT_RC);
 	}
 
 	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, Path initFile)
@@ -173,6 +168,14 @@ public class Main
 
 		// install predefined helper factories
 		HelperSetup.init (globals);
+
+		try
+		{
+			globals.loadRC (ClassLoader.getSystemClassLoader (), interpreter);
+		}
+		catch (Exception ex)
+		{
+		}
 
 		// load initiation scripts
 		Path initFile = new FilePath (getDefaultInitFile ());

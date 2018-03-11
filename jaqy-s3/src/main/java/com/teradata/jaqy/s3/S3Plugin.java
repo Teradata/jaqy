@@ -13,31 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.path;
+package com.teradata.jaqy.s3;
 
-import java.io.IOException;
-import java.net.URL;
-
-import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.interfaces.Path;
-import com.teradata.jaqy.interfaces.PathHandler;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.command.S3Command;
+import com.teradata.jaqy.interfaces.JaqyPlugin;
+import com.teradata.jaqy.path.S3PathHandler;
 
 /**
- * An extremely simple PathHandler for loading data from http URL links.
- *
  * @author	Heng Yuan
  */
-public class HttpPathHandler implements PathHandler
+public class S3Plugin implements JaqyPlugin
 {
 	@Override
-	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
+	public void init (Globals globals)
 	{
-		return new URLPath (new URL (path));
-	}
-
-	@Override
-	public boolean canHandle (String path)
-	{
-		return path.startsWith ("http://") || path.startsWith ("https://");
+		globals.getCommandManager ().addCommand ("s3", new S3Command ());
+		globals.getPathHandlerManager ().addPathHandler (new S3PathHandler ());
 	}
 }

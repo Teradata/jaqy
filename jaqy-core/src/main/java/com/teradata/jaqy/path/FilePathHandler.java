@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Os;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.interfaces.PathHandler;
@@ -41,7 +42,7 @@ public class FilePathHandler implements PathHandler
 	}
 
 	@Override
-	public Path getPath (String path) throws IOException
+	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
 	{
 		File file;
 		if (path.startsWith ("file:/"))

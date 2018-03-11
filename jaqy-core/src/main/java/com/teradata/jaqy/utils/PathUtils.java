@@ -26,8 +26,23 @@ import com.teradata.jaqy.Os;
  */
 public class PathUtils
 {
+	public static String getFixedPath (String path)
+	{
+		if ('\\' == File.separatorChar)
+		{
+			path = path.replace ('/', '\\');
+		}
+		else if ('/' == File.separatorChar)
+		{
+			path = path.replace ('\\', '/');
+		}
+		return path;
+	}
+
 	public static File getRelativePath (File dir, String path)
 	{
+		path = PathUtils.getFixedPath (path);
+
 		if (path.startsWith ("/") || path.startsWith ("\\"))
 		{
 			return new File (path);
@@ -98,15 +113,7 @@ public class PathUtils
 	 */
 	public static String[] split (String path)
 	{
-		// fix any relative paths
-		if ('/' == File.separatorChar)
-		{
-			path = path.replace ('\\', '/');
-		}
-		else if ('\\' == File.separatorChar)
-		{
-			path = path.replace ('/', '\\');
-		}
+		path = getFixedPath (path);
 
 		// it is possible some paths contain multiple jars
 		// in order to load all the dependencies.

@@ -935,7 +935,7 @@ public class JaqyInterpreter implements ExpressionHandler
 		{
 			return getDirectory ().getRelativePath (name);
 		}
-		return handler.getPath (name);
+		return handler.getPath (name, this);
 	}
 
 	public VariableManager getVariableManager ()

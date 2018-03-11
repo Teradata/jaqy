@@ -31,6 +31,7 @@ quiet.sql
 rem.sql
 repeat.sql
 run.sql
+s3.sql
 script_1.sql
 script_2.sql
 script_3.sql

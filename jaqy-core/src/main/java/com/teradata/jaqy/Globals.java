@@ -92,7 +92,7 @@ public class Globals
 		}
 	};
 
-	Globals ()
+	public Globals ()
 	{
 		m_varManager.setVariable (m_globalsVar);
 
@@ -320,7 +320,7 @@ public class Globals
 		return m_importerManager;
 	}
 
-	private void loadRC (ClassLoader cl, JaqyInterpreter interpreter) throws IOException
+	public void loadRC (ClassLoader cl, JaqyInterpreter interpreter) throws IOException
 	{
 		String name = "META-INF/services/" + m_rc;
 		log (Level.INFO, "loading service: " + name);
@@ -362,7 +362,7 @@ public class Globals
 		}
 		catch (Throwable t)
 		{
-			log (Level.INFO, t);
+			log (Level.WARNING, t);
 			interpreter.getDisplay ().error (interpreter, t);
 		}
 	}
@@ -390,7 +390,7 @@ public class Globals
 		}
 		catch (Throwable t)
 		{
-			log (Level.INFO, t);
+			log (Level.WARNING, t);
 			interpreter.error ("invalid classpath: " + path);
 		}
 	}

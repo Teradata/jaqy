@@ -32,7 +32,7 @@ public class URLPathTest
 
 		String url = "https://introcs.cs.princeton.edu/java/data/DJIA.csv";
 		String parent = "https://introcs.cs.princeton.edu/java/data";
-		Path path = handler.getPath (url);
+		Path path = handler.getPath (url, null);
 		Assert.assertNotNull (path);
 		Assert.assertEquals (url, path.getPath ());
 		Assert.assertEquals (url, path.getCanonicalPath ());

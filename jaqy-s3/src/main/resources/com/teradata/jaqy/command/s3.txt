@@ -1,0 +1,5 @@
+usage: s3 [type] [setting]
+type:
+  access     set the access key
+  secret     set the secret key
+  region     set the region

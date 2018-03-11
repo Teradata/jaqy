@@ -1,6 +1,8 @@
 avro
 ^^^^
 
+This feature requires ``jaqy-avro`` plugin.
+
 Options
 *******
 

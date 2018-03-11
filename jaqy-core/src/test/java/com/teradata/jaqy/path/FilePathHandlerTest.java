@@ -47,7 +47,7 @@ public class FilePathHandlerTest
 		File file = testFolder.newFile ();
 		FilePath path;
 
-		path = (FilePath)handler.getPath (file.getAbsolutePath ());
+		path = (FilePath)handler.getPath (file.getAbsolutePath (), null);
 		Assert.assertNotNull (path);
 		OutputStream os = path.getOutputStream ();
 		String str = "abcdefghijklmnopqrstuvwxyz";
@@ -61,7 +61,7 @@ public class FilePathHandlerTest
 		Assert.assertEquals (0, FileUtils.compare (new ByteArrayInputStream (str.getBytes ("UTF-8")), path.getInputStream ()));
 		path.delete ();
 
-		path = (FilePath)handler.getPath (file.toURI ().toString ());
+		path = (FilePath)handler.getPath (file.toURI ().toString (), null);
 		Assert.assertNotNull (path);
 		os = path.getOutputStream ();
 		os.write (str.getBytes ("UTF-8"));

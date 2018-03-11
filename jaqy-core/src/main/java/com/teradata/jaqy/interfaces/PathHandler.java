@@ -17,6 +17,8 @@ package com.teradata.jaqy.interfaces;
 
 import java.io.IOException;
 
+import com.teradata.jaqy.JaqyInterpreter;
+
 /**
  * PathHandler is an abstraction used to deal with potential input / output
  * files / directories.
@@ -30,9 +32,11 @@ public interface PathHandler
 	 *
 	 * @param	path
 	 *			the path string
+	 * @param	interpreter
+	 * 			the interpreter.
 	 * @return	path object
 	 */
-	public Path getPath (String path) throws IOException;
+	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException;
 	/**
 	 * Check if the handler can handle a path string.
 	 *

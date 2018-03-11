@@ -47,7 +47,7 @@ public class JaqyHandlerFactoryManager<E>
 		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace ();
+			globals.log (Level.WARNING, ex);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class JaqyHandlerFactoryManager<E>
 		}
 		catch (Exception ex)
 		{
-			m_globals.log (Level.INFO, ex);
+			m_globals.log (Level.WARNING, ex);
 		}
 	}
 

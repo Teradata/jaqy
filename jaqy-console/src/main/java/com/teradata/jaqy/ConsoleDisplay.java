@@ -108,7 +108,7 @@ public class ConsoleDisplay implements Display
 	@Override
 	public void error (JaqyInterpreter interpreter, Throwable t)
 	{
-		m_globals.log (Level.INFO, t);
+		m_globals.log (Level.WARNING, t);
 		String msg = getErrorHandler().getString (t, null, interpreter);
 		m_pw.println (msg);
 	}

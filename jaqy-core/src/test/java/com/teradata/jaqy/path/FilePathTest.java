@@ -43,7 +43,7 @@ public class FilePathTest
 		File file = testFolder.newFile ();
 		Path path;
 
-		path = handler.getPath (file.getAbsolutePath ());
+		path = handler.getPath (file.getAbsolutePath (), null);
 		Assert.assertNotNull (path);
 		OutputStream os = path.getOutputStream ();
 		String str = "abcdefghijklmnopqrstuvwxyz";

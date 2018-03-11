@@ -21,6 +21,7 @@
 	export
 	import
 	largedataset
+	path
 	plugin
 	script
 

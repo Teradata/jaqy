@@ -46,6 +46,7 @@ Currently available commands are the following.
 	.repeat - repeats a following SQL a number of times.
 	.rollback - rolls back the current transaction.
 	.run - runs a Jaqy script.
+	.s3 - configures AWS S3 client.
 	.script - runs a script.
 	.session - session related controls.
 	.sort - does client side ResultSet sorting.

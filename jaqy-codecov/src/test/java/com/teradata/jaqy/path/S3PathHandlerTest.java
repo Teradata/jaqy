@@ -18,26 +18,34 @@ package com.teradata.jaqy.path;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 
 /**
  * @author	Heng Yuan
  */
-public class HttpPathHandlerTest
+public class S3PathHandlerTest
 {
 	@Test
 	public void test1 () throws Exception
 	{
-		HttpPathHandler handler = new HttpPathHandler ();
+		S3PathHandler handler = new S3PathHandler ();
 
-		String url = "http://introcs.cs.princeton.edu/java/data/DJIA.csv";
+		String url = "s3://abc/test.csv";
 		Assert.assertTrue (handler.canHandle (url));
-		Assert.assertTrue (handler.canHandle ("https://introcs.cs.princeton.edu/java/data/DJIA.csv"));
 		Assert.assertFalse (handler.canHandle ("C:\\abc"));
 		Assert.assertFalse (handler.canHandle ("C:\\temp\\abc"));
 		Assert.assertFalse (handler.canHandle ("/tmp/abc"));
+	}
 
-		Path path = handler.getPath (url, null);
-		Assert.assertEquals (url, path.getPath ());
+	@Test(expected = IllegalArgumentException.class)  
+	public void test2 () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+
+		S3PathHandler handler = new S3PathHandler ();
+
+		handler.getPath ("s3", interpreter);
 	}
 }
