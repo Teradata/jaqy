@@ -45,7 +45,7 @@ public class VariableManager implements Bindings
 
 		if (parent != null)
 		{
-			setVariable (new FixedVariable ("parent", parent, "Parent variables"));
+			setVariable (new FixedVariable ("parent", parent));
 		}
 	}
 

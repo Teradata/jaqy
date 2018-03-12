@@ -156,12 +156,6 @@ public class S3Utils
 				{
 					return S3CLIENT_VAR;
 				}
-
-				@Override
-				public String getDescription ()
-				{
-					return "Current session S3 client";
-				}
 			};
 		}
 		clientVar.set (client);

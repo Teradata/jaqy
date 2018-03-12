@@ -26,6 +26,13 @@ FROM MyTable;
 
 SELECT * FROM MyTable ORDER BY a;
 
+SELECT 1234;
+.# ${5 - 3}
+
+
+SELECT ${iteration} AS Test;
+.# ${5 - 3}
+
 DROP TABLE MyTable;
 
 .close

@@ -57,7 +57,7 @@ public class Globals
 	private final ArrayList<Session> m_sessions = new ArrayList<Session> ();
 
 	private final VariableManager m_varManager = new VariableManager (null);
-	private final Variable m_globalsVar = new FixedVariable ("globals", this, "Global objects");
+	private final Variable m_globalsVar = new FixedVariable ("globals", this);
 
 	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager;
 	private final JaqyHandlerFactoryManager<JaqyExporter> m_exporterManager;

@@ -47,6 +47,7 @@ public class Session
 	private JaqyConnection m_connection;
 
 	private long m_activityCount;
+	private long m_iteration;
 	private final Object m_lock = new Object ();
 	private long m_batchSize = DEFAULT_BATCH_SIZE;
 	private boolean m_doNotClose;
@@ -216,8 +217,9 @@ public class Session
 		}
 	}
 
-	public JaqyPreparedStatement prepareQuery (String sql, JaqyInterpreter interpreter) throws SQLException
+	public JaqyPreparedStatement prepareQuery (String sql, JaqyInterpreter interpreter) throws Exception
 	{
+		sql = interpreter.expand (sql);
 		m_globals.log (Level.INFO, "prepareQuery: " + sql);
 		interpreter.incSqlCount ();
 		if (isClosed ())
@@ -238,6 +240,7 @@ public class Session
 		JaqyImporter<?> importer = interpreter.getImporter ();
 		m_globals.log (Level.INFO, "importQuery: " + importer);
 		FieldImporter fieldImporter = new FieldImporter (importer);
+		sql = interpreter.expand (sql);
 		sql = FieldParser.getString (sql, fieldImporter);
 		m_globals.log (Level.INFO, "field sql: " + sql);
 		if (fieldImporter.hasFields ())
@@ -402,9 +405,8 @@ public class Session
 		}
 	}
 
-	public void executeQuery (String sql, JaqyInterpreter interpreter, long repeat) throws SQLException
+	public void executeQuery (String sql, JaqyInterpreter interpreter, long repeat) throws Exception
 	{
-		m_globals.log (Level.INFO, "executeQuery: " + sql);
 		interpreter.incSqlCount ();
 		if (isClosed ())
 		{
@@ -431,11 +433,14 @@ public class Session
 		{
 			for (int iter = 0; iter < repeat; ++iter)
 			{
+				setIteration (iter);
 				if (repeat > 1)
 				{
 					interpreter.println ("-- iteration: " + (iter + 1));
 				}
-				stmt.execute (sql);
+				String actualSql = interpreter.expand (sql);
+				m_globals.log (Level.INFO, "executeQuery: " + actualSql);
+				stmt.execute (actualSql);
 				handleQueryResult (stmt, interpreter);
 			}
 		}
@@ -534,5 +539,15 @@ public class Session
 	public void setDoNotClose (boolean b)
 	{
 		m_doNotClose = b;
+	}
+
+	public long getIteration ()
+	{
+		return m_iteration;
+	}
+
+	public void setIteration (long iteration)
+	{
+		m_iteration = iteration;
 	}
 }

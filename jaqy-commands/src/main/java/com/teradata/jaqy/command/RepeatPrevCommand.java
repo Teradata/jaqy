@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.command;
 
-import java.sql.SQLException;
-
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
@@ -41,7 +39,7 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 	@Override
 	public CommandArgumentType getArgumentType ()
 	{
-		return CommandArgumentType.file;
+		return CommandArgumentType.none;
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 	{
 		SessionUtils.checkOpen (interpreter);
 
-		if (args.length == 0)
+		if (args.length == 0 || args[0].length () == 0)
 		{
 			interpreter.error ("Missing repeat count.");
 		}
@@ -60,12 +58,8 @@ public class RepeatPrevCommand extends JaqyCommandAdapter
 			interpreter.error ("No suitable previous SQL to repeat.");
 		}
 
-		Object o = interpreter.eval (args[0]);
-		if (o == null || !(o instanceof Number))
-		{
-			interpreter.error ("Invalid repeat value.");
-		}
-		long repeatCount = ((Number)o).longValue ();
+		String arg = interpreter.expand (args[0]);
+		long repeatCount = Long.parseLong (arg);
 		if (repeatCount < 1)
 		{
 			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);

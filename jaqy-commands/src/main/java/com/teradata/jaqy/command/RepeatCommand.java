@@ -39,7 +39,7 @@ public class RepeatCommand extends JaqyCommandAdapter
 	@Override
 	public CommandArgumentType getArgumentType ()
 	{
-		return CommandArgumentType.file;
+		return CommandArgumentType.none;
 	}
 
 	@Override
@@ -47,16 +47,12 @@ public class RepeatCommand extends JaqyCommandAdapter
 	{
 		SessionUtils.checkOpen (interpreter);
 
-		if (args.length == 0)
+		if (args.length == 0 || args[0].length () == 0)
 		{
 			interpreter.error ("Missing repeat count.");
 		}
-		Object o = interpreter.eval (args[0]);
-		if (o == null || !(o instanceof Number))
-		{
-			interpreter.error ("Invalid repeat value.");
-		}
+		String arg = interpreter.expand (args[0]);
 
-		interpreter.setRepeatCount (((Number)o).longValue ());
+		interpreter.setRepeatCount (Long.parseLong (arg));
 	}
 }

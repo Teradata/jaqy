@@ -21,6 +21,9 @@ FROM MyTable;
 
 SELECT * FROM MyTable ORDER BY a;
 
+.repeat ${5 - 3}
+SELECT ${iteration} AS Test;
+
 DROP TABLE MyTable;
 
 .close

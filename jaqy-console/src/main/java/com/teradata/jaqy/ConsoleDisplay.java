@@ -33,9 +33,9 @@ public class ConsoleDisplay implements Display
 {
 	private final Globals m_globals;
 
-	private final FixedVariable m_displayVar = new FixedVariable ("display", this, "Display object");
+	private final FixedVariable m_displayVar = new FixedVariable ("display", this);
 	private final Escape m_escape = new Escape (this);
-	private final FixedVariable m_escapeVar = new FixedVariable ("esc", m_escape, "Escape object");
+	private final FixedVariable m_escapeVar = new FixedVariable ("esc", m_escape);
 
 	private PrintWriter m_pw;
 	private Echo m_echo = Echo.auto;

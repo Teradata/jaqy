@@ -16,7 +16,6 @@
 package com.teradata.jaqy.command;
 
 import java.io.Reader;
-import java.sql.SQLException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -110,7 +109,7 @@ public class ExecCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws SQLException
+	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		SessionUtils.checkOpen (interpreter);
 		if (!silent)

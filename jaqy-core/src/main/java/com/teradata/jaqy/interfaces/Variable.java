@@ -39,10 +39,4 @@ public interface Variable
 	 * @return	the name of the variable.
 	 */
 	public String getName ();
-	/**
-	 * Gets the variable description.
-	 *
-	 * @return	the variable description.
-	 */
-	public String getDescription ();
 }

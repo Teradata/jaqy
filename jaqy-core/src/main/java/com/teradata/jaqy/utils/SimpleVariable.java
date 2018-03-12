@@ -24,7 +24,6 @@ public class SimpleVariable implements Variable
 {
 	private String m_name;
 	private Object m_obj;
-	private String m_description = "User defined variable";
 
 	public SimpleVariable (String name)
 	{
@@ -47,16 +46,5 @@ public class SimpleVariable implements Variable
 	public String getName ()
 	{
 		return m_name;
-	}
-
-	@Override
-	public String getDescription ()
-	{
-		return m_description;
-	}
-
-	public void setDescription (String description)
-	{
-		m_description = description;
 	}
 }

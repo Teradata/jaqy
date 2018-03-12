@@ -108,7 +108,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private final VariableContext m_scriptContext = new VariableContext ();
 
 	private final VariableManager m_varManager;
-	private final Variable m_interpreterVar = new FixedVariable ("interpreter", this, "Interpreter object");
+	private final Variable m_interpreterVar = new FixedVariable ("interpreter", this);
 	private final Variable m_sessionVar = new Variable ()
 	{
 		@Override
@@ -127,12 +127,6 @@ public class JaqyInterpreter implements ExpressionHandler
 		public String getName ()
 		{
 			return "session";
-		}
-
-		@Override
-		public String getDescription ()
-		{
-			return "Current session object";
 		}
 	};
 
@@ -160,11 +154,26 @@ public class JaqyInterpreter implements ExpressionHandler
 		{
 			return "activityCount";
 		}
+	};
+
+	private final Variable m_iterationVar = new Variable ()
+	{
+		@Override
+		public Object get ()
+		{
+			return getSession ().getIteration ();
+		}
 
 		@Override
-		public String getDescription ()
+		public boolean set (Object value)
 		{
-			return "The number of rows in the query result";
+			return false;
+		}
+
+		@Override
+		public String getName ()
+		{
+			return "iteration";
 		}
 	};
 
@@ -490,7 +499,6 @@ public class JaqyInterpreter implements ExpressionHandler
 					try
 					{
 						display.echo (this, sql, interactive);
-						String actualSQL = m_expansion ? ExpressionParser.getString (sql, this) : sql;
 						m_prevSQL = null;
 						SessionUtils.checkOpen (this);
 						switch (m_queryMode)
@@ -498,18 +506,18 @@ public class JaqyInterpreter implements ExpressionHandler
 							case Regular:
 							{
 								m_prevSQL = sql;
-								session.executeQuery (actualSQL, this, m_repeatCount);
+								session.executeQuery (sql, this, m_repeatCount);
 								break;
 							}
 							case Prepare:
 							{
-								JaqyPreparedStatement stmt = session.prepareQuery (actualSQL, this);
+								JaqyPreparedStatement stmt = session.prepareQuery (sql, this);
 								stmt.close ();
 								break;
 							}
 							case Import:
 							{
-								session.importQuery (actualSQL, this);
+								session.importQuery (sql, this);
 								break;
 							}
 						}
@@ -713,6 +721,7 @@ public class JaqyInterpreter implements ExpressionHandler
 		varManager.setVariable (m_interpreterVar);
 		varManager.setVariable (m_sessionVar);
 		varManager.setVariable (m_activityCountVar);
+		varManager.setVariable (m_iterationVar);
 		m_scriptContext.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
 	}
 
@@ -1084,5 +1093,10 @@ public class JaqyInterpreter implements ExpressionHandler
 	public void setExpansion (boolean expansion)
 	{
 		m_expansion = expansion;
+	}
+
+	public String expand (String str) throws IOException
+	{
+		return m_expansion ? ExpressionParser.getString (str, this) : str;
 	}
 }

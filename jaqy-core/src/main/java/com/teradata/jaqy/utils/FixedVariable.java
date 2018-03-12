@@ -24,13 +24,11 @@ public class FixedVariable implements Variable
 {
 	private String m_name;
 	private final Object m_obj;
-	private String m_description = "";
 
-	public FixedVariable (String name, Object obj, String description)
+	public FixedVariable (String name, Object obj)
 	{
 		m_name = name;
 		m_obj = obj;
-		m_description = description;
 	}
 
 	@Override
@@ -49,16 +47,5 @@ public class FixedVariable implements Variable
 	public String getName ()
 	{
 		return m_name;
-	}
-
-	@Override
-	public String getDescription ()
-	{
-		return m_description;
-	}
-
-	public void setDescription (String description)
-	{
-		m_description = description;
 	}
 }
