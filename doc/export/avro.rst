@@ -8,7 +8,6 @@ Options
 
 .. code-block:: text
 
-	avro type options:
 	  -c,--compression <arg>   sets the compression codec
 
 .. note::

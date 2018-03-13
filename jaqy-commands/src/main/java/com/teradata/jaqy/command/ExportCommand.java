@@ -37,7 +37,7 @@ public class ExportCommand extends JaqyCommandAdapter
 	{
 		Globals globals = getGlobals ();
 		StringBuffer buffer = new StringBuffer ();
-		buffer.append ("usage: " + getCommand () + " [type] [type options] [file]\ntype:");
+		buffer.append ("usage: " + getCommand () + " [type] [type options] [path]\ntype:");
 		String[] names = globals.getExporterManager ().getNames ();
 		for (String name : names)
 			buffer.append ("\n  ").append (name);

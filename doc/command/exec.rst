@@ -12,7 +12,7 @@ Syntax
 
 .. code-block:: bash
 
-	usage: .exec [options] [file]
+	usage: .exec [options] [path]
 	options:
 	  -c,--charset <arg>   sets the file character set
 

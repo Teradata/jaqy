@@ -11,7 +11,6 @@ Options
 
 .. code-block:: text
 
-	json type options:
 	  -a,--array                   treats BSON root document as array.
 	  -b,--binary <base64 | hex>   sets the binary format.
 	  -c,--charset <arg>           sets the file character set

@@ -23,11 +23,9 @@ import org.junit.Test;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.s3.S3Utils;
 import com.teradata.jaqy.utils.FileUtils;
 
@@ -111,8 +109,7 @@ public class S3PathTest
 		Assert.assertFalse (path.exists ());
 		Assert.assertFalse (path.exists ());
 
-		VariableManager vm = interpreter.getVariableManager ();
-		s3client = (AmazonS3Client) vm.get (S3Utils.S3CLIENT_VAR);
+		s3client = S3Utils.getS3Client (interpreter);
 		if (s3client != null)
 			s3client.shutdown ();
 		CoordinatedShutdown.get(actor).runAll ();

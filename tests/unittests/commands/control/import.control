@@ -4,7 +4,7 @@ Jaqy Console 1.0
 -- .import related commands test
 --------------------------------------------------------------------------
 .help import
-usage: .import [type] [type options] [file]
+usage: .import [type] [type options] [path]
 type:
   avro
   csv

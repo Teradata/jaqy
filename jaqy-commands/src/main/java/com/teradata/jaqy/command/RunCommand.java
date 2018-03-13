@@ -37,7 +37,7 @@ public class RunCommand extends JaqyCommandAdapter
 	@Override
 	protected String getSyntax ()
 	{
-		return ".run [options] [file]";
+		return ".run [options] [path]";
 	}
 
 	@Override

@@ -10,7 +10,7 @@ Syntax
 
 .. code-block:: text
 
-	usage: .run [options] [file]
+	usage: .run [options] [path]
 	options:
 	  -c,--charset <arg>   sets the file character set
 

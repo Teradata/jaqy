@@ -52,7 +52,7 @@ public class ScriptCommand extends JaqyCommandAdapter
 	@Override
 	protected String getSyntax ()
 	{
-		return getCommand () + " [options] [file]";
+		return getCommand () + " [options] [path]";
 	}
 
 	public CommandArgumentType getArgumentType ()

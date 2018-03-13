@@ -8,18 +8,9 @@ Syntax
 
 .. code-block:: text
 
-	usage: .script [options] [file]
+	usage: .script [options] [path]
 	options:
 	  -c,--charset <arg>   specifies the file character set
-	  -l,--lang <arg>      specifies the language
-	  -t,--temporary       specifies the script engine is temporary
-
-``-l`` specified the scripting language.  If it is not specified, the default
-is JavaScript, which is already bundled with JRE since Java 6.
-
-``-t`` specifies that the script engine is temporary.  A temporary script
-engine is destroyed immediately after the use.  A non-temporary script engine
-retains its state so that it can be re-used.
 
 If the script file is not specified, the end of script is ``.end script`` on
 a line by itself.
@@ -55,3 +46,8 @@ Jaqy uses
 to create a
 `ScriptEngine <https://docs.oracle.com/javase/8/docs/api/javax/script/ScriptEngine.html>`__
 .
+
+See Also
+~~~~~~~~
+
+* `Scripting <../script.html>`__

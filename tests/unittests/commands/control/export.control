@@ -4,7 +4,7 @@ Jaqy Console 1.0
 -- .export command test
 --------------------------------------------------------------------------
 .help export
-usage: .export [type] [type options] [file]
+usage: .export [type] [type options] [path]
 type:
   avro
   csv

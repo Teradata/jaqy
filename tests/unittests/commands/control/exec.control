@@ -4,7 +4,7 @@ Jaqy Console 1.0
 -- .exec command test
 --------------------------------------------------------------------------
 .help exec
-usage: .exec [options] [file]
+usage: .exec [options] [path]
 options:
   -c,--charset <arg>   sets the file character set
 

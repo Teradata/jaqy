@@ -25,7 +25,7 @@ Field Description
 * ``"catalog" : false`` if the database does not support catalog.
 * ``"schema" : false`` if the database does not support schema.
 * ``"stream" : false`` if the database does not support binary / character
-  streams.
+  streams or LOBs.
 
 ``schemaSQL`` is used by `.pwd <../command/pwd.html>`__ and
 `.list <../command/list.html>`__ commands to determine the current schema.

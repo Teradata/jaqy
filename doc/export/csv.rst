@@ -6,10 +6,17 @@ Options
 
 .. code-block:: text
 
+	  -c,--charset <arg>                                    sets the file
+	                                                        character set
 	  -d,--delimiter <arg>                                  specifies the
 	                                                        delimiter
+	  -e,--encoding <arg>                                   specifies the external
+	                                                        file character set
+	  -f,--file <arg>                                       specifies the external
+	                                                        file column
+	  -n,--name <arg>                                       specifies the external
+	                                                        file name pattern
 	  -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
-
 
 .. note::
 

@@ -50,7 +50,7 @@ public class ExecCommand extends JaqyCommandAdapter
 	@Override
 	protected String getSyntax ()
 	{
-		return getCommand () + " [options] [file]";
+		return getCommand () + " [options] [path]";
 	}
 
 	@Override

@@ -12,15 +12,20 @@ Options
 
 .. code-block:: text
 
-	csv type options:
 	  -c,--charset <arg>                                    sets the file
 	                                                        character set
 	  -d,--delimiter <arg>                                  specifies the
 	                                                        delimiter
+	  -e,--encoding <arg>                                   specifies the external
+	                                                        file character set
 	  -f,--nafilter                                         enables N/A value
 	                                                        filtering
 	  -h,--header                                           indicates the file has
 	                                                        a header
+	  -j,--clob <arg>                                       specifies the external
+	                                                        text file column
+	  -k,--blob <arg>                                       specifies the external
+	                                                        binary file column
 	  -p,--precise                                          Obtain precise decimal
 	                                                        points if possible.
 	                                                        This option is only
@@ -36,7 +41,7 @@ Options
 	  -v,--navalues <arg>                                   specifies a comma
 	                                                        delimited list of N/A
 	                                                        values.  If it is not
-                                                        	specified and
+	                                                        specified and
 	                                                        --nafilter is enabled,
 	                                                        then the default list
 	                                                        is used.
@@ -84,6 +89,12 @@ hours to import the data.
 * The default schema detection algorithm works fine for the data.
 * Or just manually specify the import INSERT statement.
 
+.. warning::
+
+	For `S3 Path <../path/s3.html>`__, the early scan termination can generate
+	warnings.  See
+	`abort() <https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/model/S3ObjectInputStream.html#abort-->`__
+	of S3ObjectInputStream.
 
 Example
 *******

@@ -4,7 +4,7 @@ Jaqy Console 1.0
 -- .script command test
 --------------------------------------------------------------------------
 .help script
-usage: .script [options] [file]
+usage: .script [options] [path]
 options:
   -c,--charset <arg>   specifies the file character set
 
