@@ -29,10 +29,7 @@ import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.parser.FieldParser;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.ParameterInfo;
-import com.teradata.jaqy.utils.DriverManagerUtils;
-import com.teradata.jaqy.utils.FileUtils;
-import com.teradata.jaqy.utils.ParameterMetaDataUtils;
-import com.teradata.jaqy.utils.SortInfo;
+import com.teradata.jaqy.utils.*;
 
 /**
  * @author Heng Yuan
@@ -176,7 +173,7 @@ public class Session
 				SortInfo[] sortInfos = interpreter.getSortInfos ();
 				if (sortInfos != null)
 				{
-					InMemoryResultSet inMemRS = new InMemoryResultSet (rs.getResultSet (), interpreter.getLimit (), interpreter);
+					InMemoryResultSet inMemRS = ResultSetUtils.copyResultSet (rs.getResultSet (), interpreter.getLimit (), interpreter);
 					inMemRS.sort (sortInfos);
 					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper ());
 					rs.close ();

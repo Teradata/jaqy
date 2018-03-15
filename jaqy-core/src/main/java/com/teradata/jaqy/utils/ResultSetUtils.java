@@ -20,10 +20,7 @@ import java.sql.*;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.resultset.CachedBlob;
-import com.teradata.jaqy.resultset.CachedClob;
-import com.teradata.jaqy.resultset.CachedNClob;
-import com.teradata.jaqy.resultset.CachedSQLXML;
+import com.teradata.jaqy.resultset.*;
 
 /**
  * @author	Heng Yuan
@@ -113,5 +110,10 @@ public class ResultSetUtils
 		if (o instanceof SQLXML)
 			return new CachedSQLXML ((SQLXML)o, cacheSize, interpreter.getCharBuffer ());
 		return o;
+	}
+
+	public static InMemoryResultSet copyResultSet (ResultSet rs, long limit, JaqyInterpreter interpreter) throws SQLException
+	{
+		return new InMemoryResultSet (rs, limit, interpreter);
 	}
 }

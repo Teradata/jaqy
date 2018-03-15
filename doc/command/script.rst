@@ -50,4 +50,5 @@ to create a
 See Also
 ~~~~~~~~
 
+* `.eval <eval.html>`__ command
 * `Scripting <../script.html>`__

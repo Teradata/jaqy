@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Stack;
@@ -104,6 +105,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	private QueryMode m_queryMode = QueryMode.Regular;
 	private boolean m_expansion = true;
+	private boolean m_saveResultSet;
 
 	private final VariableContext m_scriptContext = new VariableContext ();
 
@@ -774,20 +776,33 @@ public class JaqyInterpreter implements ExpressionHandler
 		try
 		{
 			m_globals.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
+			boolean rewind = false;
+			if (m_saveResultSet)
+			{
+				ResultSet newRS = ResultSetUtils.copyResultSet (rs.getResultSet (), 0, this);
+				rs = DummyHelper.getInstance ().getResultSet (newRS, this);
+				getVariableManager ().put ("save", rs);
+				rewind = true;
+				m_saveResultSet = false;
+			}
 			JaqyExporter exporter = getExporter ();
 			if (exporter != null)
 			{
 				setExporter (null);
 				return exporter.export (rs, this);
 			}
+			long activityCount;
 			if (m_quiet)
 			{
-				return QuietPrinter.getInstance ().print (rs, display.getPrintWriter (), m_limit, this);
+				activityCount = QuietPrinter.getInstance ().print (rs, display.getPrintWriter (), m_limit, this);
 			}
 			else
 			{
-				return m_printer.print (rs, display.getPrintWriter (), m_limit, this);
+				activityCount = m_printer.print (rs, display.getPrintWriter (), m_limit, this);
 			}
+			if (rewind)
+				rs.beforeFirst ();
+			return activityCount;
 		}
 		catch (Exception ex)
 		{
@@ -1098,5 +1113,15 @@ public class JaqyInterpreter implements ExpressionHandler
 	public String expand (String str) throws IOException
 	{
 		return m_expansion ? ExpressionParser.getString (str, this) : str;
+	}
+
+	public boolean isSaveResultSet ()
+	{
+		return m_saveResultSet;
+	}
+
+	public void setSaveResultSet (boolean saveResultSet)
+	{
+		m_saveResultSet = saveResultSet;
 	}
 }

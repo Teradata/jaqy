@@ -9,6 +9,13 @@ Each
 has a JavaScript engine.  Since Jaqy currently only uses a JaqyInterpreter,
 there is effectively just one script engine.
 
+Commands
+--------
+
+* `.eval <command/eval.html>`__ is used to execute a one-liner JavaScript
+* `.script <command/script.html>`__ is used to execute a block of JavaScript
+  from a file.
+
 Variables
 ---------
 
@@ -25,6 +32,8 @@ engine scope.
 | esc           | `Escape <https://github.com/Teradata/jaqy/blob/master/jaqy-console/src/main/java/com/teradata/jaqy/utils/Escape.java>`__              |
 +---------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | globals       | `Globals <https://github.com/Teradata/jaqy/blob/master/jaqy-core/src/main/java/com/teradata/jaqy/Globals.java>`__                     |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------+
+| iteration     | The current repeat iteration.                                                                                                         |
 +---------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | interpreter   | `JaqyInterpreter <https://github.com/Teradata/jaqy/blob/master/jaqy-core/src/main/java/com/teradata/jaqy/JaqyInterpreter.java>`__     |
 +---------------+---------------------------------------------------------------------------------------------------------------------------------------+

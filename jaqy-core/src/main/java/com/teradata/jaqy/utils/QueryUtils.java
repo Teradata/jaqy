@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.utils;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
@@ -24,7 +25,6 @@ import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.helper.DummyHelper;
-import com.teradata.jaqy.resultset.InMemoryResultSet;
 
 /**
  * @author	Heng Yuan
@@ -105,7 +105,7 @@ public class QueryUtils
 			if (rs == null)
 				return null;
 
-			InMemoryResultSet columnRS = new InMemoryResultSet (rs.getResultSet (), 0, interpreter);
+			ResultSet columnRS = ResultSetUtils.copyResultSet (rs.getResultSet (), 0, interpreter);
 			rs.close ();
 			return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
 		}

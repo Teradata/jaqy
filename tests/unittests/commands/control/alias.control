@@ -18,8 +18,8 @@ arguments.
 
 Arguments:
 $0, $1 $2 etc corresponds to n-th argument passed to the alias.
-${1-} corresponds to all arguments after 1 (including 1).
-${2-3} corresponds to all arguments between 2 and 3 (inclusive).
+$(1-) corresponds to all arguments after 1 (including 1).
+$(2-3) corresponds to all arguments between 2 and 3 (inclusive).
 
 Examples:
 -- .quit would exit Jaqy.
@@ -30,7 +30,7 @@ Examples:
 -- creates a shortcut alias for insertion.
 -- .ins MyTable 1, 1
 .alias ins
-INSERT INTO $0 VALUES (${1-});
+INSERT INTO $0 VALUES ($(1-));
 .end alias
 
 -- 0/2 - 0 ----------------------------------------------------------------

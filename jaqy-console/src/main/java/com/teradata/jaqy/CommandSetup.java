@@ -79,6 +79,7 @@ class CommandSetup
 		manager.addCommand ("importtable", new ImportTableCommand ());
 		manager.addCommand ("batchsize", new BatchSizeCommand ());
 		manager.addCommand ("fetchsize", new FetchSizeCommand ());
+		manager.addCommand ("save", new SaveCommand ());
 
 		// plugin
 		manager.addCommand ("load", new LoadCommand ());
@@ -89,5 +90,6 @@ class CommandSetup
 
 		// scripting
 		manager.addCommand ("script", new ScriptCommand ());
+		manager.addCommand ("eval", new EvalCommand ());
 	}
 }

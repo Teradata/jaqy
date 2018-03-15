@@ -20,6 +20,7 @@ Currently available commands are the following.
 	.echo - turns echo on / off
 	.end - ends a multi-line command.
 	.env - displays the execution environment.
+	.eval - evaluates a one line JavaScript
 	.exec - executes a block of SQL.
 	.exit - exits the program
 	.expansion - turns expression expansion on / off
@@ -47,6 +48,7 @@ Currently available commands are the following.
 	.rollback - rolls back the current transaction.
 	.run - runs a Jaqy script.
 	.s3 - configures AWS S3 client.
+	.save - saves a resultset to variable named 'save'.
 	.script - runs a script.
 	.session - session related controls.
 	.sort - does client side ResultSet sorting.

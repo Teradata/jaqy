@@ -28,6 +28,7 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.typehandler.TypeHandler;
+import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -110,8 +111,7 @@ class TeradataHelper extends DefaultHelper
 				//
 				// So we do generic handling here.
 				//
-				@SuppressWarnings ("resource")
-				InMemoryResultSet newRS = new InMemoryResultSet (rs, 0, interpreter);
+				InMemoryResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, interpreter);
 				rs.close ();
 				for (Object[] row : newRS.getRows ())
 				{

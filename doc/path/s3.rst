@@ -13,6 +13,23 @@ for the proper setup.
 `.s3 <command/s3.html>`__ command can be used to configure the access
 credential and region if needed.
 
+Variables
+*********
+
+The following variables are used / set up by the path handler.
+
++---------------+----------------------------------------------------+
+| Variable      | Description                                        |
++===============+====================================================+
+| s3builder     | The builder to create the S3 client                |
++---------------+----------------------------------------------------+
+| s3client      | The currently cached s3 client                     |
++---------------+----------------------------------------------------+
+| s3access      | The s3 access key                                  |
++---------------+----------------------------------------------------+
+| s3secret      | The s3 secret key                                  |
++---------------+----------------------------------------------------+
+
 Example
 *******
 

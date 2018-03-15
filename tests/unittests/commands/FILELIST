@@ -6,6 +6,7 @@ desc.sql
 driver.sql
 echo.sql
 env.sql
+eval.sql
 exec.sql
 exit_1.sql
 exit_2.sql
@@ -32,6 +33,7 @@ rem.sql
 repeat.sql
 run.sql
 s3.sql
+save.sql
 script_1.sql
 script_2.sql
 script_3.sql
