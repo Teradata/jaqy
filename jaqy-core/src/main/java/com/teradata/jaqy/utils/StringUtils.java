@@ -19,7 +19,9 @@ import java.io.*;
 
 import javax.script.ScriptEngine;
 
+import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.parser.CommandParser;
 
 /**
  * @author	Heng Yuan
@@ -214,5 +216,56 @@ public class StringUtils
 			return false;
 		else
 			throw new IllegalArgumentException ("invalid value for " + field + ": " + state);
+	}
+
+	public static String stripQuote (String str, char quoteChar)
+	{
+		if (str.length () < 2)
+			return str;
+		if (str.charAt (0) != quoteChar)
+			return str;
+		int len = str.length ();
+		if (str.charAt (len - 1) != quoteChar)
+			return str;
+
+		char[] chars = new char[str.length () - 2];
+		int pos = 0;
+
+		for (int i = 1; i < len - 1; ++i)
+		{
+			char ch = str.charAt (i);
+			if (ch != quoteChar)
+				chars[pos++] = ch;
+			else
+				chars[pos++] = str.charAt (++i);
+		}
+		return new String (chars, 0, pos);
+	}
+
+	public static String[] parseArgs (CommandArgumentType argType, String arguments, JaqyInterpreter interpreter)
+	{
+		String[] args = null;
+		switch (argType)
+		{
+			case none:
+				args = new String[1];
+				args[0] = arguments;
+				break;
+			case file:
+			{
+				CommandParser parser = CommandParser.getFileParser ();
+				args = parser.parse (arguments);
+				break;
+			}
+			case sql:
+			{
+				CommandParser parser = CommandParser.getSQLParser ();
+				args = parser.parse (arguments);
+				break;
+			}
+		}
+		if (args == null)
+			interpreter.error ("error parsing argument.");
+		return args;
 	}
 }

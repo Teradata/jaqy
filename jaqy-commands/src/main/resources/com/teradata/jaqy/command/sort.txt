@@ -1,0 +1,14 @@
+usage: .sort [order]
+
+The order syntax is pretty much similar to that of ORDER BY, without
+the support for complex expressions.
+
+Examples:
+
+.sort 1
+.sort 1, 2
+.sort 1 asc, 2
+.sort 1 desc, 2 asc
+.sort name desc
+.sort "Last Name" desc, "First Name" desc
+ 

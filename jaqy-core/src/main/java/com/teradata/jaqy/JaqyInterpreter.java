@@ -70,7 +70,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	private final Globals m_globals;
 	private final Display m_display;
-	private final CommandManager m_commandManager;
+	private final ObjectManager<JaqyCommand> m_commandManager;
 	private final AliasManager m_aliasManager;
 
 	private int m_failureCount;
@@ -222,33 +222,6 @@ public class JaqyInterpreter implements ExpressionHandler
 		interpret (m_input, interactive);
 	}
 
-	private String[] parseArgs (CommandArgumentType argType, String arguments)
-	{
-		String[] args = null;
-		switch (argType)
-		{
-			case none:
-				args = new String[1];
-				args[0] = arguments;
-				break;
-			case file:
-			{
-				CommandParser parser = CommandParser.getFileParser ();
-				args = parser.parse (arguments);
-				break;
-			}
-			case sql:
-			{
-				CommandParser parser = CommandParser.getSQLParser ();
-				args = parser.parse (arguments);
-				break;
-			}
-		}
-		if (args == null)
-			error ("error parsing argument.");
-		return args;
-	}
-
 	/**
 	 * Check if a command is a .end command.
 	 *
@@ -360,17 +333,17 @@ public class JaqyInterpreter implements ExpressionHandler
 		}
 		else
 		{
-			JaqyCommand call = m_commandManager.getCommand (cmd);
+			JaqyCommand call = m_commandManager.getObject (cmd);
 			parseCmd.call = call;
 			boolean multi = false;
 			if (call != null && call.getType () != JaqyCommand.Type.none)
 			{
-				parseCmd.args = parseArgs (call.getArgumentType (), arguments);
+				parseCmd.args = StringUtils.parseArgs (call.getArgumentType (), arguments, this);
 				multi = call.isMultiLine (parseCmd.args);
 			}
 			else if (parseArgs && call != null)
 			{
-				parseCmd.args = parseArgs (call.getArgumentType (), arguments);
+				parseCmd.args = StringUtils.parseArgs (call.getArgumentType (), arguments, this);
 			}
 			return multi;
 		}

@@ -13,32 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
+package com.teradata.jaqy.setting;
 
 import java.sql.SQLException;
 
+import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
  * @author	Heng Yuan
  */
-public class ExpansionCommand extends OnOffCommand
+public class FetchSizeSetting extends JaqySettingAdapter
 {
 	@Override
 	public String getDescription ()
 	{
-		return "turns expression expansion on / off";
+		return "sets the statement fetch size.";
 	}
 
 	@Override
-	void execute (boolean on, JaqyInterpreter interpreter) throws SQLException
+	public Type getType ()
 	{
-		interpreter.setExpansion (on);
+		return Type.session;
+	}
+
+	public CommandArgumentType getArgumentType ()
+	{
+		return CommandArgumentType.file;
 	}
 
 	@Override
-	void info (JaqyInterpreter interpreter) throws SQLException
+	public Object get (JaqyInterpreter interpreter) throws Exception
 	{
-		interpreter.println (getCommand () + " " + (interpreter.isExpansion () ? "on" : "off"));
+		return interpreter.getSession ().getConnection ().getFetchSize ();
+	}
+
+	@Override
+	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	{
+		int fetchSize = Integer.parseInt (args[0]);
+		if (fetchSize < 0)
+		{
+			interpreter.error ("Fetch size cannot be negative.");
+		}
+		interpreter.getSession ().getConnection ().setFetchSize (fetchSize);
 	}
 }

@@ -1,9 +1,8 @@
 --------------------------------------------------------------------------
--- .expansion command test
+-- expansion setting test
 --------------------------------------------------------------------------
-.help expansion
-.expansion
-.expansion asdf
+.set expansion
+.set expansion asdf
 
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
@@ -17,15 +16,15 @@ SELECT '${var1}' AS Test;
 SELECT '${var2}' AS Test;
 SELECT '${var1 + var2}' AS Test;
 
-.expansion off
-.expansion
+.set expansion off
+.set expansion
 
 SELECT '${var1}' AS Test;
 SELECT '${var2}' AS Test;
 SELECT '${var1 + var2}' AS Test;
 
-.expansion on
-.expansion
+.set expansion on
+.set expansion
 
 SELECT '${var1}' AS Test;
 SELECT '${var2}' AS Test;

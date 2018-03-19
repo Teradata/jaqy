@@ -26,12 +26,12 @@ CREATE TABLE XmlTable2
 
 .export pipe
 .export
-.fetchsize 2
+.set fetchsize 2
 SELECT * FROM XmlTable ORDER BY a;
 .import pipe
 .import
 .importschema
-.batchsize 2
+.set batchsize 2
 INSERT INTO XmlTable2 VALUES (?, ?);
 
 SELECT * FROM XmlTable2 ORDER BY a;

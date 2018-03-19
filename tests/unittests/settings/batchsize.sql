@@ -1,8 +1,7 @@
 --------------------------------------------------------------------------
--- .batchsize command test
+-- batchsize setting test
 --------------------------------------------------------------------------
-.help batchsize
-.batchsize
+.set batchsize
 
 .run ../common/derby_setup.sql
 
@@ -26,31 +25,32 @@ SELECT COUNT(*) FROM MyTable;
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
-.batchsize 1
+.set batchsize
+
+.set batchsize 1
 .import csv -h batch.csv
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
-.batchsize 2
+.set batchsize 2
 .import csv -h batch.csv
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
-.batchsize 10000
+.set batchsize 10000
 .import csv -h batch.csv
 INSERT INTO MyTable VALUES (?, ?);
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
-.batchsize dummy
-.batchsize -1
-.batchsize
-.batchsize 0
-.batchsize
+.set batchsize dummy
+.set batchsize -1
+.set batchsize
+.set batchsize 0
+.set batchsize
 
 DROP TABLE MyTable;
 .close
 .os rm -f batch.csv
-

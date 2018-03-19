@@ -15,13 +15,9 @@
  */
 package com.teradata.jaqy.command;
 
-import java.util.ArrayList;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
-
-import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.parser.OrderByParser;
+import com.teradata.jaqy.utils.ClientRSUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.SortInfo;
 
@@ -32,16 +28,13 @@ public class SortCommand extends JaqyCommandAdapter
 {
 	public SortCommand ()
 	{
-		addOption ("a", "ascending", true, "ascending sort");
-		addOption ("d", "descending", true, "descending sort");
-		addOption ("l", "low", false, "null sorts low");
-		addOption ("h", "high", false, "null sorts high");
+		super ("sort.txt");
 	}
 
 	@Override
 	protected String getSyntax ()
 	{
-		return ".sort [options]";
+		return ".sort [order]";
 	}
 
 	@Override
@@ -51,70 +44,21 @@ public class SortCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.sql;
-	}
-
-	private SortInfo getSortInfo (String name, boolean asc, boolean nullLow)
-	{
-		SortInfo sortInfo = new SortInfo ();
-		try
-		{
-			sortInfo.column = Integer.parseInt (name);
-		}
-		catch (Exception ex)
-		{
-			sortInfo.column = -1;
-			sortInfo.name = name;
-		}
-		sortInfo.nullLow = nullLow;
-		sortInfo.asc = asc;
-		return sortInfo;
-	}
-
-	@Override
 	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		SessionUtils.checkOpen (interpreter);
 
-		CommandLine cmdLine = getCommandLine (args);
-
-		boolean nullLow = true;
-
-		ArrayList<SortInfo> sortInfos = new ArrayList<SortInfo> ();
-		for (Option option : cmdLine.getOptions ())
-		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 'a':
-				{
-					String value = option.getValue ();
-					sortInfos.add (getSortInfo (value, true, nullLow));
-					break;
-				}
-				case 'd':
-				{
-					String value = option.getValue ();
-					sortInfos.add (getSortInfo (value, false, nullLow));
-					break;
-				}
-				case 'l':
-				{
-					nullLow = true;
-					break;
-				}
-				case 'h':
-				{
-					nullLow = false;
-					break;
-				}
-			}
-		}
-		if (sortInfos.isEmpty ())
+		String str = args[0].trim ();
+		if (str.length () == 0)
 		{
 			interpreter.error ("missing sort columns");
 		}
-		interpreter.setSortInfos (sortInfos.toArray (new SortInfo[sortInfos.size ()]));
+		SortInfo[] sortInfos = OrderByParser.getSortInfo (str);
+		boolean nullsort = ClientRSUtils.getSortNull (interpreter);
+		for (SortInfo sortInfo : sortInfos)
+		{
+			sortInfo.nullLow = nullsort;
+		}
+		interpreter.setSortInfos (sortInfos);
 	}
 }

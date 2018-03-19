@@ -27,8 +27,11 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
  */
 public class JaqyConnection
 {
+	public final static long DEFAULT_BATCH_SIZE = 5000;
+
 	private final Connection m_connection;
 	private JaqyHelper m_helper;
+	private long m_batchSize = DEFAULT_BATCH_SIZE;
 	private int m_fetchSize = 0;
 
 	public JaqyConnection (Connection conn)
@@ -179,6 +182,18 @@ public class JaqyConnection
 	public Struct createStruct (String typeName, Object[] elements) throws SQLException
 	{
 		return m_connection.createStruct (typeName, elements);
+	}
+
+	public long getBatchSize ()
+	{
+		return m_batchSize;
+	}
+
+	public void setBatchSize (long batchSize)
+	{
+		if (batchSize == 0)
+			batchSize = DEFAULT_BATCH_SIZE;
+		m_batchSize = batchSize;
 	}
 
 	public void setFetchSize (int size)

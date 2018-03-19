@@ -29,12 +29,12 @@ CREATE TABLE XmlTable
 .session 0
 
 .export pipe
-.fetchsize 2
+.set fetchsize 2
 SELECT * FROM XmlTable ORDER BY a;
 
 .session 1
 .import pipe
-.batchsize 2
+.set batchsize 2
 INSERT INTO XmlTable VALUES (?, ?);
 
 SELECT * FROM XmlTable ORDER BY a;
@@ -55,12 +55,12 @@ CREATE TABLE XmlTable
 .session 0
 
 .export pipe
-.fetchsize 2
+.set fetchsize 2
 SELECT * FROM XmlTable ORDER BY a;
 
 .session 1
 .import pipe
-.batchsize 3000
+.set batchsize 3000
 INSERT INTO XmlTable VALUES (?, ?);
 
 SELECT * FROM XmlTable ORDER BY a;

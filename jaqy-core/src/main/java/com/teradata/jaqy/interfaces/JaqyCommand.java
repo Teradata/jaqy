@@ -22,7 +22,7 @@ import com.teradata.jaqy.JaqyInterpreter;
 /**
  * @author	Heng Yuan
  */
-public interface JaqyCommand
+public interface JaqyCommand extends JaqyObject
 {
 	enum Type
 	{
@@ -40,14 +40,6 @@ public interface JaqyCommand
 	 * @return	the command name.
 	 */
 	public String getName ();
-
-	/**
-	 * Initiate a command.
-	 * @param	name
-	 *			the command name.
-	 * @param globals TODO
-	 */
-	public void init (String name, Globals globals);
 
 	/**
 	 * Gets the one line command description.

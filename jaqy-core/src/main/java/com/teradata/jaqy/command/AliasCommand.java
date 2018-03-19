@@ -73,7 +73,7 @@ public class AliasCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			if (globals.getCommandManager ().getCommand (args[0]) != null)
+			if (globals.getCommandManager ().getObject (args[0]) != null)
 			{
 				interpreter.error ("alias name conflicts with an existing command.");
 			}

@@ -13,22 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.s3;
+package com.teradata.jaqy.setting;
 
-import com.teradata.jaqy.Globals;
-import com.teradata.jaqy.command.S3Command;
-import com.teradata.jaqy.interfaces.JaqyPlugin;
-import com.teradata.jaqy.path.S3PathHandler;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import com.teradata.jaqy.utils.TestUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class S3Plugin implements JaqyPlugin
+public class NullSortSettingTest
 {
-	@Override
-	public void init (Globals globals)
+	@Rule
+	public TemporaryFolder testFolder = new TemporaryFolder ();
+
+	@Test
+	public void test1 () throws Exception
 	{
-		globals.getCommandManager ().addObject ("s3", new S3Command ());
-		globals.getPathHandlerManager ().addPathHandler (new S3PathHandler ());
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/settings/nullsort.sql", "../tests/unittests/settings/control/nullsort.control");
 	}
 }

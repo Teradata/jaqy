@@ -1,0 +1,42 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .set command test
+--------------------------------------------------------------------------
+.help set
+usage: .set [setting] [value]
+
+-- interpreter level settings
+
+	.set expansion - sets expression expansion on / off
+	.set nullsort - sets the sort order of nulls for client side sorting.
+
+-- session level settings
+
+	.set batchsize - sets the batch execution size limit.
+	.set fetchsize - sets the statement fetch size.
+
+-- 0/1 - 0 ----------------------------------------------------------------
+
+.set
+-- interpreter level settings
+.set expansion on
+.set nullsort low
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/4 - 0 ----------------------------------------------------------------
+.set
+-- interpreter level settings
+.set expansion on
+.set nullsort low
+
+-- session level settings
+.set batchsize 5000
+.set fetchsize 0
+-- 0/5 - 0 ----------------------------------------------------------------
+.close
+-- 0/6 - 0 ----------------------------------------------------------------

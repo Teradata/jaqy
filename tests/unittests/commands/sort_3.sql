@@ -14,10 +14,10 @@ INSERT INTO MyTable VALUES (2, NULL, '{1,2,3}');
 INSERT INTO MyTable VALUES (2, NULL, '{1,2,3}');
 FROM MyTable;
 
-.sort -a 2 -a 1
+.sort 2, 1
 SELECT * FROM MyTable ORDER BY a, b, c;
 
-.sort -a 3
+.sort 3
 SELECT * FROM MyTable ORDER BY a, b, c;
 
 DROP TABLE MyTable;
@@ -53,7 +53,7 @@ INSERT INTO XmlTable VALUES (5, '<a>1234</a>', '[2,3,4]');
 interpreter.setCacheSize (9);
 .end script
 
-.sort -a 2 -a 3
+.sort 2, 3
 SELECT * FROM XmlTable ORDER BY a;
 
 DROP TABLE XmlTable;

@@ -44,12 +44,12 @@ CREATE TABLE LobTable
 .session 0
 
 .export pipe
-.fetchsize 2
+.set fetchsize 2
 SELECT * FROM LobTable ORDER BY a;
 
 .session 1
 .import pipe
-.batchsize 2
+.set batchsize 2
 INSERT INTO LobTable VALUES (?, ?, ?);
 
 SELECT * FROM LobTable ORDER BY a;
@@ -71,14 +71,14 @@ CREATE TABLE LobTable
 .session 0
 
 .export pipe
-.fetchsize 2
+.set fetchsize 2
 SELECT * FROM LobTable ORDER BY a;
 
 .session 1
 .import pipe
 .import
 .debug preparedstatement on
-.batchsize 3000
+.set batchsize 3000
 INSERT INTO LobTable VALUES (?, ?, ?);
 
 SELECT * FROM LobTable ORDER BY a;

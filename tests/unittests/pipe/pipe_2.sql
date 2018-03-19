@@ -34,14 +34,14 @@ CREATE TABLE TextTable
 .session 0
 
 .autocommit off
-.fetchsize 50
+.set fetchsize 50
 .export pipe
 SELECT * FROM TextTable ORDER BY a;
 
 .session 1
 
 .import pipe
-.batchsize 500
+.set batchsize 500
 INSERT INTO TextTable VALUES (?, ?);
 
 SELECT COUNT(*) FROM TextTable;

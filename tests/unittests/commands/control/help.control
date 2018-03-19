@@ -9,7 +9,6 @@ Currently available commands are the following.
 	.# - repeats a previous SQL a number of times.
 	.alias - creates a command alias.
 	.autocommit - turns auto-commit on / off
-	.batchsize - sets the batch execution size limit.
 	.classpath - displays / sets the class path for a JDBC driver.
 	.close - closes the current session.
 	.commit - commits the current transaction.
@@ -23,9 +22,7 @@ Currently available commands are the following.
 	.eval - evaluates a one line JavaScript
 	.exec - executes a block of SQL.
 	.exit - exits the program
-	.expansion - turns expression expansion on / off
 	.export - exports a ResultSet.
-	.fetchsize - sets the statement fetch size.
 	.format - chooses the ResultSet output format.
 	.handler - displays / sets handlers.
 	.help - displays this help message
@@ -51,6 +48,7 @@ Currently available commands are the following.
 	.save - saves a resultset to variable named 'save'.
 	.script - runs a script.
 	.session - session related controls.
+	.set - sets / displays settings.
 	.sort - does client side ResultSet sorting.
 	.timer - sets a timer.
 	.unalias - removes a command alias.

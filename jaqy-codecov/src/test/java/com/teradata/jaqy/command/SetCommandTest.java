@@ -24,7 +24,7 @@ import com.teradata.jaqy.utils.TestUtils;
 /**
  * @author	Heng Yuan
  */
-public class BatchSizeCommandTest
+public class SetCommandTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -32,6 +32,6 @@ public class BatchSizeCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/batchsize.sql", "../tests/unittests/commands/control/batchsize.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/set.sql", "../tests/unittests/commands/control/set.control");
 	}
 }

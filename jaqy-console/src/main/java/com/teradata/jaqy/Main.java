@@ -160,6 +160,8 @@ public class Main
 		// create an interpreter
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, display, session);
 
+		// initiate settings
+		SettingSetup.init (globals);
 		// initiate commands
 		CommandSetup.init (globals);
 

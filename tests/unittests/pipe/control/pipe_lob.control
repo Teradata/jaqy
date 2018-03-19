@@ -88,7 +88,7 @@ CREATE TABLE LobTable
 
 .export pipe
 -- 13/11 - 0 --------------------------------------------------------------
-.fetchsize 2
+.set fetchsize 2
 -- 13/12 - 0 --------------------------------------------------------------
 SELECT * FROM LobTable ORDER BY a;
 -- success --
@@ -98,7 +98,7 @@ SELECT * FROM LobTable ORDER BY a;
 -- 14/13 - 1 --------------------------------------------------------------
 .import pipe
 -- 14/14 - 1 --------------------------------------------------------------
-.batchsize 2
+.set batchsize 2
 -- 14/15 - 1 --------------------------------------------------------------
 INSERT INTO LobTable VALUES (?, ?, ?);
 -- success. update count = 1
@@ -151,7 +151,7 @@ CREATE TABLE LobTable
 
 .export pipe
 -- 18/20 - 0 --------------------------------------------------------------
-.fetchsize 2
+.set fetchsize 2
 -- 18/21 - 0 --------------------------------------------------------------
 SELECT * FROM LobTable ORDER BY a;
 -- success --
@@ -166,7 +166,7 @@ SELECT * FROM LobTable ORDER BY a;
 -- 19/24 - 1 --------------------------------------------------------------
 .debug preparedstatement on
 -- 19/25 - 1 --------------------------------------------------------------
-.batchsize 3000
+.set batchsize 3000
 -- 19/26 - 1 --------------------------------------------------------------
 INSERT INTO LobTable VALUES (?, ?, ?);
 Parameter Count                              3

@@ -82,7 +82,7 @@ public class RSSorter implements Comparator<Object[]>
 		int columnCount = rsmd.getColumnCount ();
 		for (SortInfo sortInfo : sortInfos)
 		{
-			if (sortInfo.column < 0)
+			if (sortInfo.column <= 0)
 			{
 				for (int i = 1; i <= columnCount; ++i)
 				{
@@ -93,7 +93,7 @@ public class RSSorter implements Comparator<Object[]>
 						break;
 					}
 				}
-				if (sortInfo.column < 0)
+				if (sortInfo.column <= 0)
 				{
 					throw new JaqyException ("unknown sort column: " + sortInfo.name);
 				}

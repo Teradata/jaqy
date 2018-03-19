@@ -106,7 +106,7 @@ interpreter.setCacheSize (3);
 .end script
 -- 30/3 - 0 ---------------------------------------------------------------
 
-.sort -d 3 -a 2 -a 1
+.sort 3 desc, 2 asc, 1 asc
 -- 30/4 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
@@ -144,8 +144,10 @@ SELECT * FROM MyTable ORDER BY a;
 -- activity count = 29
 -- 31/4 - 0 ---------------------------------------------------------------
 
-.sort -l -d 3 -a 2 -a 1
+.set nullsort low
 -- 31/5 - 0 ---------------------------------------------------------------
+.sort 3 desc, 2 asc, 1 asc
+-- 31/6 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
@@ -180,124 +182,130 @@ SELECT * FROM MyTable ORDER BY a;
  9 facefeed ?
 10 facefeed ?
 -- activity count = 29
--- 32/5 - 0 ---------------------------------------------------------------
-
-.sort -h -d 3 -a 2 -a 1
 -- 32/6 - 0 ---------------------------------------------------------------
-SELECT * FROM MyTable ORDER BY a;
--- success --
- A B        C
--- -------- -----------------
- 9 facefeed ?
-10 facefeed ?
-12 ?        ?
- 4 face     A quick brown fox
- 8 face     A quick brown fox
- 3 facefeed A quick brown fox
- 7 facefeed A quick brown fox
-11 ?        A quick brown fox
- 1 dead     A quick brown
- 6 dead     A quick brown
- 2 deadbeef A quick brown
- 5 deadbeef A quick brown
-19 dead     223
-16 dead     2
-25 deadbe   2
-27 deadef   2
-29 deadefbe 2
-21 dead     12345
-20 dead     1234
-18 dead     123
-23 dead     123
-17 dead     12
-22 dead     12
-13 de       1
-14 de       1
-15 dead     1
-24 deadbe   1
-26 deadef   1
-28 deadefbe 1
--- activity count = 29
--- 33/6 - 0 ---------------------------------------------------------------
 
-.sort -d=c -d=b -a 1
--- 33/7 - 0 ---------------------------------------------------------------
+.set nullsort high
+-- 32/7 - 0 ---------------------------------------------------------------
+.sort 3 desc, 2 asc, 1 asc
+-- 32/8 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
 -- -------- -----------------
- 3 facefeed A quick brown fox
- 7 facefeed A quick brown fox
+ 9 facefeed ?
+10 facefeed ?
+12 ?        ?
  4 face     A quick brown fox
  8 face     A quick brown fox
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
 11 ?        A quick brown fox
- 2 deadbeef A quick brown
- 5 deadbeef A quick brown
  1 dead     A quick brown
  6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
 19 dead     223
-29 deadefbe 2
-27 deadef   2
-25 deadbe   2
 16 dead     2
+25 deadbe   2
+27 deadef   2
+29 deadefbe 2
 21 dead     12345
 20 dead     1234
 18 dead     123
 23 dead     123
 17 dead     12
 22 dead     12
-28 deadefbe 1
-26 deadef   1
-24 deadbe   1
-15 dead     1
 13 de       1
 14 de       1
- 9 facefeed ?
-10 facefeed ?
-12 ?        ?
+15 dead     1
+24 deadbe   1
+26 deadef   1
+28 deadefbe 1
 -- activity count = 29
--- 34/7 - 0 ---------------------------------------------------------------
+-- 33/8 - 0 ---------------------------------------------------------------
 
-.sort -l -a 2 -a 3 -a 1
--- 34/8 - 0 ---------------------------------------------------------------
+.set nullsort low
+-- 33/9 - 0 ---------------------------------------------------------------
+.sort c desc, b desc, 1 asc
+-- 33/10 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
 -- -------- -----------------
-12 ?        ?
-11 ?        A quick brown fox
-13 de       1
-14 de       1
-15 dead     1
-17 dead     12
-22 dead     12
-18 dead     123
-23 dead     123
-20 dead     1234
-21 dead     12345
-16 dead     2
-19 dead     223
- 1 dead     A quick brown
- 6 dead     A quick brown
-24 deadbe   1
-25 deadbe   2
- 2 deadbeef A quick brown
- 5 deadbeef A quick brown
-26 deadef   1
-27 deadef   2
-28 deadefbe 1
-29 deadefbe 2
- 4 face     A quick brown fox
- 8 face     A quick brown fox
- 9 facefeed ?
-10 facefeed ?
  3 facefeed A quick brown fox
  7 facefeed A quick brown fox
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+11 ?        A quick brown fox
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+19 dead     223
+29 deadefbe 2
+27 deadef   2
+25 deadbe   2
+16 dead     2
+21 dead     12345
+20 dead     1234
+18 dead     123
+23 dead     123
+17 dead     12
+22 dead     12
+28 deadefbe 1
+26 deadef   1
+24 deadbe   1
+15 dead     1
+13 de       1
+14 de       1
+ 9 facefeed ?
+10 facefeed ?
+12 ?        ?
 -- activity count = 29
--- 35/8 - 0 ---------------------------------------------------------------
+-- 34/10 - 0 --------------------------------------------------------------
 
-.sort -h -a 2 -a 3 -a 1
--- 35/9 - 0 ---------------------------------------------------------------
+.sort 2, 3, 1
+-- 34/11 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+12 ?        ?
+11 ?        A quick brown fox
+13 de       1
+14 de       1
+15 dead     1
+17 dead     12
+22 dead     12
+18 dead     123
+23 dead     123
+20 dead     1234
+21 dead     12345
+16 dead     2
+19 dead     223
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+24 deadbe   1
+25 deadbe   2
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+26 deadef   1
+27 deadef   2
+28 deadefbe 1
+29 deadefbe 2
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 9 facefeed ?
+10 facefeed ?
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+-- activity count = 29
+-- 35/11 - 0 --------------------------------------------------------------
+
+.set nullsort high
+-- 35/12 - 0 --------------------------------------------------------------
+.sort 2, 3, 1
+-- 35/13 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
  A B        C
@@ -332,11 +340,11 @@ SELECT * FROM MyTable ORDER BY a;
 11 ?        A quick brown fox
 12 ?        ?
 -- activity count = 29
--- 36/9 - 0 ---------------------------------------------------------------
+-- 36/13 - 0 --------------------------------------------------------------
 
 DROP TABLE MyTable;
 -- success. update count = 0
--- 37/9 - 0 ---------------------------------------------------------------
+-- 37/13 - 0 --------------------------------------------------------------
 
 .close
--- 37/10 - 0 --------------------------------------------------------------
+-- 37/14 - 0 --------------------------------------------------------------

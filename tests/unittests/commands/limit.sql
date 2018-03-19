@@ -33,7 +33,7 @@ SELECT * FROM MyTable ORDER BY a;
 SELECT * FROM MyTable ORDER BY b;
 
 .limit 12
-.sort -d 1
+.sort 1 desc
 SELECT * FROM MyTable ORDER BY b;
 
 DROP TABLE MyTable;

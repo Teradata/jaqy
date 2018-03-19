@@ -4,13 +4,20 @@ Jaqy Console 1.0
 -- .sort command test
 --------------------------------------------------------------------------
 .help sort
-usage: .sort [options]
-options:
-  -a,--ascending <arg>    ascending sort
-  -d,--descending <arg>   descending sort
-  -h,--high               null sorts high
-  -l,--low                null sorts low
+usage: .sort [order]
 
+The order syntax is pretty much similar to that of ORDER BY, without
+the support for complex expressions.
+
+Examples:
+
+.sort 1
+.sort 1, 2
+.sort 1 asc, 2
+.sort 1 desc, 2 asc
+.sort name desc
+.sort "Last Name" desc, "First Name" desc
+ 
 -- 0/1 - 0 ----------------------------------------------------------------
 .sort
 -- error: Current session is closed.
@@ -55,7 +62,7 @@ FROM MyTable;
 .sort
 -- error: missing sort columns
 -- 4/6 - 0 ----------------------------------------------------------------
-.sort -d 2 -a 1
+.sort 2 desc, 1 asc
 -- 4/7 - 0 ----------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
@@ -96,7 +103,7 @@ SELECT * FROM MyTable ORDER BY a;
 -- activity count = 32
 -- 5/7 - 0 ----------------------------------------------------------------
 
-.sort -d=b -d 1
+.sort b desc, 1 desc
 -- 5/8 - 0 ----------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
@@ -137,14 +144,14 @@ SELECT * FROM MyTable ORDER BY a;
 -- activity count = 32
 -- 6/8 - 0 ----------------------------------------------------------------
 
-.sort -d="asdf"
+.sort "asdf" desc
 -- 6/9 - 0 ----------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
--- error: unknown sort column: "asdf"
+-- error: unknown sort column: asdf
 -- 7/9 - 0 ----------------------------------------------------------------
 
-.sort -d=a
+.sort a desc
 -- 7/10 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --

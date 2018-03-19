@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.CommandManager;
+import com.teradata.jaqy.ObjectManager;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.StringUtils;
@@ -30,9 +30,9 @@ import com.teradata.jaqy.utils.StringUtils;
  */
 public class HelpCommand extends JaqyCommandAdapter
 {
-	private final CommandManager m_manager;
+	private final ObjectManager<JaqyCommand> m_manager;
 
-	public HelpCommand (CommandManager manager)
+	public HelpCommand (ObjectManager<JaqyCommand> manager)
 	{
 		m_manager = manager;
 	}
@@ -42,7 +42,7 @@ public class HelpCommand extends JaqyCommandAdapter
 		pw.println ("Currently available commands are the following.");
 		pw.println ();
 		TreeMap<String,JaqyCommand> sortedMap = new TreeMap<String,JaqyCommand> ();
-		sortedMap.putAll (m_manager.getCommandMap ());
+		sortedMap.putAll (m_manager.getObjectMap ());
 		for (Map.Entry<String, JaqyCommand> entry : sortedMap.entrySet ())
 		{
 			pw.println ("\t." + entry.getKey () + " - " + entry.getValue ().getDescription ());
@@ -80,7 +80,7 @@ public class HelpCommand extends JaqyCommandAdapter
 			String cmdName = args[0];
 			if (cmdName.startsWith ("."))
 				cmdName = cmdName.substring (1);
-			JaqyCommand cmd = m_manager.getCommand (cmdName);
+			JaqyCommand cmd = m_manager.getObject (cmdName);
 			if (cmd == null)
 			{
 				interpreter.error ("-- unknown command: " + cmdName);

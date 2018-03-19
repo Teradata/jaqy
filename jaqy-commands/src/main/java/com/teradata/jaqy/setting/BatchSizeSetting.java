@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
-
-import java.sql.SQLException;
+package com.teradata.jaqy.setting;
 
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -23,12 +21,18 @@ import com.teradata.jaqy.JaqyInterpreter;
 /**
  * @author	Heng Yuan
  */
-public class BatchSizeCommand extends JaqyCommandAdapter
+public class BatchSizeSetting extends JaqySettingAdapter
 {
 	@Override
 	public String getDescription ()
 	{
 		return "sets the batch execution size limit.";
+	}
+
+	@Override
+	public Type getType ()
+	{
+		return Type.session;
 	}
 
 	public CommandArgumentType getArgumentType ()
@@ -37,26 +41,19 @@ public class BatchSizeCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public String getLongDescription ()
+	public Object get (JaqyInterpreter interpreter) throws Exception
 	{
-		return "usage: " + getCommand () + " [size]";
+		return interpreter.getSession ().getConnection ().getBatchSize ();
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
-		if (args.length == 0)
+		int batchSize = Integer.parseInt (args[0]);
+		if (batchSize < 0)
 		{
-			interpreter.println (getCommand () + " " + interpreter.getSession ().getBatchSize ());
+			interpreter.error ("Batch size cannot be negative.");
 		}
-		else
-		{
-			int batchSize = Integer.parseInt (args[0]);
-			if (batchSize < 0)
-			{
-				interpreter.error ("Batch size cannot be negative.");
-			}
-			interpreter.getSession ().setBatchSize (batchSize);
-		}
+		interpreter.getSession ().getConnection ().setBatchSize (batchSize);
 	}
 }

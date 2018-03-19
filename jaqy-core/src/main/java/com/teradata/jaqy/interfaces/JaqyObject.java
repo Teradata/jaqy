@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.s3;
+package com.teradata.jaqy.interfaces;
 
 import com.teradata.jaqy.Globals;
-import com.teradata.jaqy.command.S3Command;
-import com.teradata.jaqy.interfaces.JaqyPlugin;
-import com.teradata.jaqy.path.S3PathHandler;
 
 /**
  * @author	Heng Yuan
  */
-public class S3Plugin implements JaqyPlugin
+public interface JaqyObject
 {
-	@Override
-	public void init (Globals globals)
-	{
-		globals.getCommandManager ().addObject ("s3", new S3Command ());
-		globals.getPathHandlerManager ().addPathHandler (new S3PathHandler ());
-	}
+	/**
+	 * Initiate an object
+	 *
+	 * @param	name
+	 *			the object name.
+	 * @param	globals
+	 * 			Globals object
+	 */
+	public void init (String name, Globals globals);
 }

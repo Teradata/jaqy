@@ -17,45 +17,45 @@ package com.teradata.jaqy;
 
 import java.util.HashMap;
 
-import com.teradata.jaqy.interfaces.JaqyCommand;
+import com.teradata.jaqy.interfaces.JaqyObject;
 
 /**
  * @author	Heng Yuan
  */
-public class CommandManager
+public class ObjectManager<T extends JaqyObject>
 {
 	private final Globals m_globals;
 	private final Object m_lock = new Object ();
-	private final HashMap<String, JaqyCommand> m_commandMap = new HashMap<String, JaqyCommand> ();
+	private final HashMap<String, T> m_objectMap = new HashMap<String, T> ();
 
-	public CommandManager (Globals globals)
+	public ObjectManager (Globals globals)
 	{
 		m_globals = globals;
 	}
 
-	public void addCommand (String name, JaqyCommand cmd)
+	public void addObject (String name, T cmd)
 	{
 		cmd.init (name, m_globals);
 		synchronized (m_lock)
 		{
-			m_commandMap.put (name, cmd);
+			m_objectMap.put (name, cmd);
 		}
 	}
 
-	public JaqyCommand getCommand (String name)
+	public T getObject (String name)
 	{
 		synchronized (m_lock)
 		{
-			return m_commandMap.get (name);
+			return m_objectMap.get (name);
 		}
 	}
 
-	public HashMap<String, JaqyCommand> getCommandMap ()
+	public HashMap<String, T> getObjectMap ()
 	{
-		HashMap<String, JaqyCommand> map = new HashMap<String, JaqyCommand> ();
+		HashMap<String, T> map = new HashMap<String, T> ();
 		synchronized (m_lock)
 		{
-			map.putAll (m_commandMap);
+			map.putAll (m_objectMap);
 		}
 		return map;
 	}

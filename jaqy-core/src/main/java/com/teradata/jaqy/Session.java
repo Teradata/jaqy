@@ -36,8 +36,6 @@ import com.teradata.jaqy.utils.*;
  */
 public class Session
 {
-	public final static long DEFAULT_BATCH_SIZE = 5000;
-
 	private final int m_sessionId;
 	private final Globals m_globals;
 
@@ -46,7 +44,6 @@ public class Session
 	private long m_activityCount;
 	private long m_iteration;
 	private final Object m_lock = new Object ();
-	private long m_batchSize = DEFAULT_BATCH_SIZE;
 	private boolean m_doNotClose;
 
 	Session (Globals globals, int sessionId, Display display)
@@ -258,7 +255,7 @@ public class Session
 		{
 			int columns = stmt.getParameterCount ();
 			long batchCount = 0;
-			long batchSize = m_batchSize;
+			long batchSize = m_connection.getBatchSize ();
 			while (importer.next ())
 			{
 				for (int i = 0; i < columns; ++i)
@@ -519,18 +516,6 @@ public class Session
 	public String toString ()
 	{
 		return Integer.toString (m_sessionId);
-	}
-
-	public long getBatchSize ()
-	{
-		return m_batchSize;
-	}
-
-	public void setBatchSize (long batchSize)
-	{
-		if (batchSize == 0)
-			batchSize = DEFAULT_BATCH_SIZE;
-		m_batchSize = batchSize;
 	}
 
 	public void setDoNotClose (boolean b)

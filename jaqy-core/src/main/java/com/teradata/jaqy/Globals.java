@@ -48,7 +48,8 @@ public class Globals
 	private final ScriptManager m_scriptManager = new ScriptManager ();
 	private final DebugManager m_debugManager = new DebugManager ();
 	private final Os m_os = new Os ();
-	private final CommandManager m_commandManager = new CommandManager (this);
+	private final ObjectManager<JaqyCommand> m_commandManager = new ObjectManager<JaqyCommand> (this);
+	private final ObjectManager<JaqySetting> m_settingManager = new ObjectManager<JaqySetting> (this);
 	private final AliasManager m_aliasManager = new AliasManager ();
 	private final HelperManager m_helperManager = new HelperManager ();
 	private final PathHandlerManager m_pathHandlerManager = new PathHandlerManager ();
@@ -273,9 +274,18 @@ public class Globals
 	 * Gets the command manager.
 	 * @return	the command manager
 	 */
-	public CommandManager getCommandManager ()
+	public ObjectManager<JaqyCommand> getCommandManager ()
 	{
 		return m_commandManager;
+	}
+
+	/**
+	 * Gets the command manager.
+	 * @return	the command manager
+	 */
+	public ObjectManager<JaqySetting> getSettingManager ()
+	{
+		return m_settingManager;
 	}
 
 	/**

@@ -40,22 +40,26 @@ INSERT INTO MyTable VALUES (29, CAST(X'deadefbe' AS BLOB), '2');
 interpreter.setCacheSize (3);
 .end script
 
-.sort -d 3 -a 2 -a 1
+.sort 3 desc, 2 asc, 1 asc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -l -d 3 -a 2 -a 1
+.set nullsort low
+.sort 3 desc, 2 asc, 1 asc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -h -d 3 -a 2 -a 1
+.set nullsort high
+.sort 3 desc, 2 asc, 1 asc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -d=c -d=b -a 1
+.set nullsort low
+.sort c desc, b desc, 1 asc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -l -a 2 -a 3 -a 1
+.sort 2, 3, 1
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -h -a 2 -a 3 -a 1
+.set nullsort high
+.sort 2, 3, 1
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;

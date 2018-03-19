@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>org.yuanheng.cookcc</groupId>
 			<artifactId>cookcc</artifactId>
-			<version>0.4.0</version>
+			<version>0.4.1</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -79,6 +79,7 @@
 							<task src="src/main/java/com/teradata/jaqy/parser/ArgumentParser.java"/>
 							<task src="src/main/java/com/teradata/jaqy/parser/ExpressionParser.java"/>
 							<task src="src/main/java/com/teradata/jaqy/parser/FieldParser.java"/>
+							<task src="src/main/java/com/teradata/jaqy/parser/OrderByParser.java"/>
 						</tasks>
 					</configuration>
 					<executions>

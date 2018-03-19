@@ -21,16 +21,16 @@ SELECT a + (SELECT MAX(a) FROM MyTable),
 FROM MyTable;
 
 .sort
-.sort -d 2 -a 1
+.sort 2 desc, 1 asc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -d=b -d 1
+.sort b desc, 1 desc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -d="asdf"
+.sort "asdf" desc
 SELECT * FROM MyTable ORDER BY a;
 
-.sort -d=a
+.sort a desc
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;

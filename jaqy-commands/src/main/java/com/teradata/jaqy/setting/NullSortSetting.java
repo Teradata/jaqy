@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
-
-import java.sql.SQLException;
+package com.teradata.jaqy.setting;
 
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.utils.SessionUtils;
+import com.teradata.jaqy.utils.ClientRSUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class FetchSizeCommand extends JaqyCommandAdapter
+public class NullSortSetting extends JaqySettingAdapter
 {
 	@Override
 	public String getDescription ()
 	{
-		return "sets the statement fetch size.";
+		return "sets the sort order of nulls for client side sorting.";
 	}
 
 	public CommandArgumentType getArgumentType ()
@@ -38,28 +36,19 @@ public class FetchSizeCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public String getLongDescription ()
+	public Object get (JaqyInterpreter interpreter) throws Exception
 	{
-		return "usage: " + getCommand () + " [size]";
+		return ClientRSUtils.getSortNull (interpreter) ? "low" : "high";
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
-		SessionUtils.checkOpen (interpreter);
-
-		if (args.length == 0)
-		{
-			interpreter.println (getCommand () + " " + interpreter.getSession ().getConnection ().getFetchSize ());
-		}
+		if ("low".equalsIgnoreCase (args[0]))
+			ClientRSUtils.setSortNull (interpreter, true);
+		else if ("high".equalsIgnoreCase (args[0]))
+			ClientRSUtils.setSortNull (interpreter, false);
 		else
-		{
-			int fetchSize = Integer.parseInt (args[0]);
-			if (fetchSize < 0)
-			{
-				interpreter.error ("Fetch size cannot be negative.");
-			}
-			interpreter.getSession ().getConnection ().setFetchSize (fetchSize);
-		}
+			interpreter.error ("invalid nullsort value.");
 	}
 }

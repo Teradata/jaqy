@@ -21,7 +21,7 @@ package com.teradata.jaqy.utils;
 public class SortInfo
 {
 	/**
-	 * The column id.  If the id is negative, it is not set.
+	 * The column id.  If the id is 0 or negative, it is not set.
 	 */
 	public int column;
 	/**
