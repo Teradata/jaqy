@@ -45,7 +45,15 @@ public class WhereParserTest
 		exp.bind (null, interpreter);
 		Assert.assertEquals (new Integer (1), exp.get (engine, vm));
 
-		exp = WhereParser.getExp ("1 + 2 * 3 % 5 * 2", false);
+		exp = WhereParser.getExp ("1--1", false);
+		exp.bind (null, interpreter);
+		Assert.assertEquals (new Integer (2), exp.get (engine, vm));
+
+		exp = WhereParser.getExp ("1-1", false);
+		exp.bind (null, interpreter);
+		Assert.assertEquals (new Integer (0), exp.get (engine, vm));
+
+		exp = WhereParser.getExp ("1 + 2 * 3 % 5 * 2 / 1", false);
 		exp.bind (null, interpreter);
 		Assert.assertEquals (new Integer (3), exp.get (engine, vm));
 
@@ -73,7 +81,7 @@ public class WhereParserTest
 		exp.bind (null, interpreter);
 		Assert.assertTrue ((Boolean)exp.get (engine, vm));
 
-		exp = WhereParser.getExp ("1 <= 2", false);
+		exp = WhereParser.getExp ("1 <= (2)", false);
 		exp.bind (null, interpreter);
 		Assert.assertTrue ((Boolean)exp.get (engine, vm));
 
@@ -96,6 +104,10 @@ public class WhereParserTest
 		exp = WhereParser.getExp ("Math.sqrt(4)", false);
 		exp.bind (null, interpreter);
 		Assert.assertEquals (new Double (2), exp.get (engine, vm));
+
+		exp = WhereParser.getExp ("Math.random()", false);
+		exp.bind (null, interpreter);
+		Assert.assertEquals (Double.class, exp.get (engine, vm).getClass ());
 
 		exp = WhereParser.getExp ("1 || 2", false);
 		exp.bind (null, interpreter);
@@ -241,4 +253,11 @@ public class WhereParserTest
 	{
 		WhereParser.getExp ("a LIKE 1", false);
 	}
+
+	@Test (expected = IOException.class)
+	public void testError4 () throws IOException
+	{
+		WhereParser.getExp ("a \\ ", false);
+	}
+
 }

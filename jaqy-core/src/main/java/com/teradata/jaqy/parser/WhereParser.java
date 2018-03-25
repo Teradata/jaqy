@@ -109,7 +109,7 @@ public class WhereParser extends GeneratedWhereParser
 	}
 
 	@Lexs (patterns = {
-		@Lex (pattern = "('+'|'-')?([0-9]+)('.'[0-9]+)*([eE]('+'|'-')?[0-9]+)?", token = "NUMBER"),
+		@Lex (pattern = "([0-9]+)('.'[0-9]+)*([eE]('+'|'-')?[0-9]+)?", token = "NUMBER"),
 		@Lex (pattern = "[_A-Za-z][_A-Za-z0-9]*([ \\t]*'.'[ \\t]*[_A-Za-z][_A-Za-z0-9]*)*", token = "IDENTIFIER")
 	})
 	String scanText ()
