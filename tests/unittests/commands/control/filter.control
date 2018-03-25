@@ -1,0 +1,215 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .filter command test
+--------------------------------------------------------------------------
+.help filter
+usage: .filter [predicate]
+
+The predicate syntax is pretty much similar to that of WHERE clause, without
+the support for complex expressions.
+
+For LIKE operator, full JavaScript regular expressions is supported instead
+of SQL's syntax.
+
+Examples:
+
+.filter a >= 2 and a <= 10
+.filter a between 2 and 10
+.filter a LIKE 'a*b'
+.filter a IN ('a', 'b', 'c')
+.filter a = ANY (1, 2, 3)
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.filter
+-- error: Current session is closed.
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/4 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable (a INTEGER, b VARCHAR(10000));
+-- success. update count = 0
+-- 1/4 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'POINT(1 1)');
+-- success. update count = 1
+-- 2/4 - 0 ----------------------------------------------------------------
+.repeat 4
+-- 2/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       'POINT(' || (a + (SELECT MAX(a) FROM MyTable)) || ' ' || (a + (SELECT MAX(a) FROM MyTable)) || ')'
+FROM MyTable;
+-- iteration: 1
+-- success. update count = 1
+-- iteration: 2
+-- success. update count = 2
+-- iteration: 3
+-- success. update count = 4
+-- iteration: 4
+-- success. update count = 8
+-- 3/5 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       b
+FROM MyTable;
+-- success. update count = 16
+-- 4/5 - 0 ----------------------------------------------------------------
+
+UPDATE MyTable SET b = NULL WHERE a % 2 = 0;
+-- success. update count = 16
+-- 5/5 - 0 ----------------------------------------------------------------
+
+-- unfiltered
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ a b
+-- ------------
+ 1 POINT(1 1)
+ 2 ?
+ 3 POINT(3 3)
+ 4 ?
+ 5 POINT(5 5)
+ 6 ?
+ 7 POINT(7 7)
+ 8 ?
+ 9 POINT(9 9)
+10 ?
+11 POINT(11 11)
+12 ?
+13 POINT(13 13)
+14 ?
+15 POINT(15 15)
+16 ?
+17 POINT(1 1)
+18 ?
+19 POINT(3 3)
+20 ?
+21 POINT(5 5)
+22 ?
+23 POINT(7 7)
+24 ?
+25 POINT(9 9)
+26 ?
+27 POINT(11 11)
+28 ?
+29 POINT(13 13)
+30 ?
+31 POINT(15 15)
+32 ?
+-- activity count = 32
+-- 6/5 - 0 ----------------------------------------------------------------
+
+.filter
+-- error: missing predicate
+-- 6/6 - 0 ----------------------------------------------------------------
+
+-- various filters
+.filter a > 3 and a < 10
+-- 6/7 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- ----------
+4 ?
+5 POINT(5 5)
+6 ?
+7 POINT(7 7)
+8 ?
+9 POINT(9 9)
+-- activity count = 6
+-- 7/7 - 0 ----------------------------------------------------------------
+.filter a between 3 and 10
+-- 7/8 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ a b
+-- ----------
+ 3 POINT(3 3)
+ 4 ?
+ 5 POINT(5 5)
+ 6 ?
+ 7 POINT(7 7)
+ 8 ?
+ 9 POINT(9 9)
+10 ?
+-- activity count = 8
+-- 8/8 - 0 ----------------------------------------------------------------
+
+.filter a = 3 and b LIKE 'point'
+-- 8/9 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- -
+-- activity count = 0
+-- 9/9 - 0 ----------------------------------------------------------------
+.eval interpreter.setCaseInsensitive (true)
+-- 9/10 - 0 ---------------------------------------------------------------
+.filter a = 3 and b LIKE 'point'
+-- 9/11 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- ----------
+3 POINT(3 3)
+-- activity count = 1
+-- 10/11 - 0 --------------------------------------------------------------
+
+.filter a < ANY (2, 3, 4)
+-- 10/12 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- ----------
+1 POINT(1 1)
+2 ?
+3 POINT(3 3)
+-- activity count = 3
+-- 11/12 - 0 --------------------------------------------------------------
+-- SOME is the same as ANY
+.filter a < SOME (2, 3, 4)
+-- 11/13 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- ----------
+1 POINT(1 1)
+2 ?
+3 POINT(3 3)
+-- activity count = 3
+-- 12/13 - 0 --------------------------------------------------------------
+.filter a < ALL (2, 3, 4)
+-- 12/14 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- ----------
+1 POINT(1 1)
+-- activity count = 1
+-- 13/14 - 0 --------------------------------------------------------------
+
+.eval var myfunc = function(a,b) { return a + b; }
+-- 13/15 - 0 --------------------------------------------------------------
+.filter a > myfunc(3,4) and a < 10
+-- 13/16 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a b
+- ----------
+8 ?
+9 POINT(9 9)
+-- activity count = 2
+-- 14/16 - 0 --------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 15/16 - 0 --------------------------------------------------------------
+
+.close
+-- 15/17 - 0 --------------------------------------------------------------

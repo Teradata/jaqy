@@ -34,7 +34,6 @@ import org.yuanheng.cookjson.TextJsonParser;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.interfaces.JaqyHelper;
 
 /**
  * @author	Heng Yuan
@@ -221,14 +220,13 @@ public class JsonUtils
 		long count = 0;
 		if (limit == 0)
 			limit = Long.MAX_VALUE;
-		JaqyHelper helper = rs.getHelper ();
 		while (rs.next () && count < limit)
 		{
 			++count;
 			g.writeStartObject ();
 			for (int i = 0; i < columns; ++i)
 			{
-				Object obj = helper.getObject (rs, i + 1);
+				Object obj = rs.getObject (i + 1);
 				if (obj != null && jsonCheck[i])
 				{
 					globals.log (Level.INFO, "Column " + (i + 1) + " is a JSON column: " + obj.getClass ());

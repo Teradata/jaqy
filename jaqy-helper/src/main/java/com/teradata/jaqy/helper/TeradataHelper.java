@@ -136,13 +136,13 @@ class TeradataHelper extends DefaultHelper
 				rs = newRS;
 			}
 		}
-		return new JaqyResultSet (rs, this);
+		return new JaqyResultSet (rs, this, interpreter);
 	}
 
 	@Override
-	public Object getObject (JaqyResultSet rs, int index) throws SQLException
+	public Object getObject (JaqyResultSet rs, int index, boolean mapped) throws SQLException
 	{
-		Object o = rs.getObject (index);
+		Object o = rs.getObject (index, mapped);
 		if (o instanceof Struct)
 		{
 			if (rs.getMetaData ().getColumnType (index) == Types.STRUCT)

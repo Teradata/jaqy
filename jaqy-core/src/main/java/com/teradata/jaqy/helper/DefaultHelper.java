@@ -70,13 +70,13 @@ public class DefaultHelper implements JaqyHelper
 	@Override
 	public JaqyResultSet getResultSet (ResultSet rs, JaqyInterpreter interpreter) throws SQLException
 	{
-		return new JaqyResultSet (rs, this);
+		return new JaqyResultSet (rs, this, interpreter);
 	}
 
 	@Override
-	public Object getObject (JaqyResultSet rs, int index) throws SQLException
+	public Object getObject (JaqyResultSet rs, int index, boolean mapped) throws SQLException
 	{
-		return rs.getObject (index);
+		return rs.getObject (index, mapped);
 	}
 
 	@Override

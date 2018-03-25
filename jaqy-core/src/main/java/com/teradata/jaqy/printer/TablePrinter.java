@@ -82,7 +82,7 @@ class TablePrinter implements JaqyPrinter
 		{
 			ResultSet newRS = ResultSetUtils.copyResultSet (rs.getResultSet (), limit, interpreter);
 			rs.close ();
-			rs = new JaqyResultSet (newRS, helper);
+			rs = new JaqyResultSet (newRS, helper, interpreter);
 		}
 
 		JaqyResultSetMetaData metaData = rs.getMetaData ();

@@ -44,8 +44,9 @@ class CommandSetup
 		manager.addObject ("desc", new DescribeCommand ());
 		manager.addObject ("repeat", new RepeatCommand ());
 		manager.addObject ("#", new RepeatPrevCommand ());
-		manager.addObject ("sort", new SortCommand ());
 		manager.addObject ("limit", new LimitCommand ());
+		manager.addObject ("sort", new SortCommand ());
+		manager.addObject ("filter", new FilterCommand ());
 
 		// session control
 		manager.addObject ("session", new SessionCommand ());

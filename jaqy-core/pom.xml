@@ -80,6 +80,7 @@
 							<task src="src/main/java/com/teradata/jaqy/parser/ExpressionParser.java"/>
 							<task src="src/main/java/com/teradata/jaqy/parser/FieldParser.java"/>
 							<task src="src/main/java/com/teradata/jaqy/parser/OrderByParser.java"/>
+							<task src="src/main/java/com/teradata/jaqy/parser/WhereParser.java"/>
 						</tasks>
 					</configuration>
 					<executions>

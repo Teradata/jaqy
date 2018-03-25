@@ -180,6 +180,30 @@ public class StringUtils
 		return new String (chars, 0, i);
 	}
 
+	public static String quoteJavaString (String str)
+	{
+		StringBuilder builder = new StringBuilder ();
+		builder.append ('"');
+		int index = 0;
+		int fromIndex = 0;
+		while ((index = str.indexOf ('"', fromIndex)) >= 0)
+		{
+			if (index == fromIndex)
+			{
+				builder.append ("\\\"");
+				++fromIndex;
+				continue;
+			}
+			builder.append (str.substring (fromIndex, index));
+			builder.append ("\\\"");
+			fromIndex = index + 1;
+		}
+		if (fromIndex < str.length ())
+			builder.append (str.substring (fromIndex));
+		builder.append ('"');
+		return builder.toString ();
+	}
+
 	/**
 	 * Evaluate a string using the default script engine.
 	 *

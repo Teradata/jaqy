@@ -23,6 +23,7 @@ Currently available commands are the following.
 	.exec - executes a block of SQL.
 	.exit - exits the program
 	.export - exports a ResultSet.
+	.filter - does client side ResultSet filtering.
 	.format - chooses the ResultSet output format.
 	.handler - displays / sets handlers.
 	.help - displays this help message

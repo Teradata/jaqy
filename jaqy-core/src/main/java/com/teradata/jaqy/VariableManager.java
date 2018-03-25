@@ -39,7 +39,7 @@ public class VariableManager implements Bindings
 	/** all the variables in the current scope, including exports. */
 	private final HashMap<String, Object> m_variables = new HashMap<String, Object> ();
 
-	VariableManager (VariableManager parent)
+	public VariableManager (VariableManager parent)
 	{
 		m_parent = parent;
 

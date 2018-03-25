@@ -1,0 +1,15 @@
+usage: .filter [predicate]
+
+The predicate syntax is pretty much similar to that of WHERE clause, without
+the support for complex expressions.
+
+For LIKE operator, full JavaScript regular expressions is supported instead
+of SQL's syntax.
+
+Examples:
+
+.filter a >= 2 and a <= 10
+.filter a between 2 and 10
+.filter a LIKE 'a*b'
+.filter a IN ('a', 'b', 'c')
+.filter a = ANY (1, 2, 3)

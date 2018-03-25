@@ -11,6 +11,7 @@ exit_1.sql
 exit_2.sql
 exit_3.sql
 export.sql
+filter.sql
 handler.sql
 help.sql
 if.sql

@@ -122,11 +122,13 @@ public interface JaqyHelper
 	 * 			resultset
 	 * @param	index
 	 * 			column index
+	 * @param	mapped
+	 * 			is the column a mapped column
 	 * @return	the object at the column position
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public Object getObject (JaqyResultSet rs, int index) throws SQLException;
+	public Object getObject (JaqyResultSet rs, int index, boolean mapped) throws SQLException;
 	/**
 	 * Check if a ResultSet column is a JSON column.  Until JDBC has
 	 * JSON built-in, we need a way to recognize a JSON column.

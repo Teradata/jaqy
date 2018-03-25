@@ -89,7 +89,10 @@ public class JaqyInterpreter implements ExpressionHandler
 	private byte[] m_byteBuffer;
 	private char[] m_charBuffer;
 
+	// client side ResultSet handling
 	private SortInfo[] m_sortInfos;
+	private Predicate m_predicate;
+	private boolean m_caseInsensitive;
 
 	private final Stack<ParseAction> m_actionStack = new Stack<ParseAction> ();
 
@@ -199,7 +202,7 @@ public class JaqyInterpreter implements ExpressionHandler
 		try
 		{
 			m_printer = globals.getPrinterManager ().getHandler ("table", new String[0], this);
-			assert m_printer != null;
+//			assert m_printer != null;
 		}
 		catch (Exception ex)
 		{
@@ -526,6 +529,7 @@ public class JaqyInterpreter implements ExpressionHandler
 					m_repeatCount = 1;
 					m_queryMode = QueryMode.Regular;
 					m_sortInfos = null;
+					m_predicate = null;
 					m_limit = 0;
 
 					display.showPrompt (this);
@@ -749,6 +753,11 @@ public class JaqyInterpreter implements ExpressionHandler
 		try
 		{
 			m_globals.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
+
+			// add predicate handling
+			rs.setPredicate (m_predicate);
+			m_predicate = null;
+
 			boolean rewind = false;
 			if (m_saveResultSet)
 			{
@@ -1004,6 +1013,17 @@ public class JaqyInterpreter implements ExpressionHandler
 		m_sortInfos = sortInfos;
 	}
 
+
+	public Predicate getPredicate ()
+	{
+		return m_predicate;
+	}
+
+	public void setPredicate (Predicate predicate)
+	{
+		m_predicate = predicate;
+	}
+
 	public byte[] getByteBuffer ()
 	{
 		if (m_byteBuffer == null)
@@ -1096,5 +1116,15 @@ public class JaqyInterpreter implements ExpressionHandler
 	public void setSaveResultSet (boolean saveResultSet)
 	{
 		m_saveResultSet = saveResultSet;
+	}
+
+	public boolean isCaseInsensitive ()
+	{
+		return m_caseInsensitive;
+	}
+
+	public void setCaseInsensitive (boolean caseInsensitive)
+	{
+		m_caseInsensitive = caseInsensitive;
 	}
 }

@@ -172,7 +172,7 @@ public class Session
 				{
 					InMemoryResultSet inMemRS = ResultSetUtils.copyResultSet (rs.getResultSet (), interpreter.getLimit (), interpreter);
 					inMemRS.sort (sortInfos);
-					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper ());
+					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper (), interpreter);
 					rs.close ();
 					rs = tmpRS;
 				}

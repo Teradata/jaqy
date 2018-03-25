@@ -20,7 +20,9 @@ import java.io.Reader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.Predicate;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 
 /**
@@ -31,11 +33,14 @@ public class JaqyResultSet
 	private final ResultSet m_rs;
 	private final JaqyHelper m_helper;
 	private JaqyResultSetMetaData m_metaData;
+	private Predicate m_predicate;
+	private final JaqyInterpreter m_interpreter;
 
-	public JaqyResultSet (ResultSet rs, JaqyHelper helper)
+	public JaqyResultSet (ResultSet rs, JaqyHelper helper, JaqyInterpreter interpreter)
 	{
 		m_rs = rs;
 		m_helper = helper;
+		m_interpreter = interpreter;
 	}
 
 	/**
@@ -102,17 +107,32 @@ public class JaqyResultSet
 
 	public int findColumn (String columnLabel) throws SQLException
 	{
+		return findColumn (columnLabel, true);
+	}
+
+	public int findColumn (String columnLabel, boolean mapped) throws SQLException
+	{
 		return m_rs.findColumn (columnLabel);
 	}
 
 	public void close () throws SQLException
 	{
+		if (m_predicate != null)
+			m_predicate.close ();
 		m_rs.close ();
 	}
 
 	public boolean next () throws SQLException
 	{
-		return m_rs.next ();
+		while (m_rs.next ())
+		{
+			if (m_predicate == null ||
+				m_predicate.eval (this, m_interpreter))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public int getType () throws SQLException
@@ -121,6 +141,11 @@ public class JaqyResultSet
 	}
 
 	public Object getObject (int column) throws SQLException
+	{
+		return m_helper.getObject (this, column, true);
+	}
+
+	public Object getObject (int column, boolean mapped) throws SQLException
 	{
 		return m_rs.getObject (column);
 	}
@@ -158,5 +183,19 @@ public class JaqyResultSet
 				return m_rs.getObject (column);
 		}
 		return null;
+	}
+
+	public Predicate getPredicate ()
+	{
+		return m_predicate;
+	}
+
+	public void setPredicate (Predicate predicate) throws Exception
+	{
+		if (predicate != null)
+		{
+			predicate.bind (this, m_interpreter);
+		}
+		m_predicate = predicate;
 	}
 }
