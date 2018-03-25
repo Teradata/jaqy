@@ -27,7 +27,7 @@ import com.teradata.jaqy.utils.exp.*;
 /**
  * @author	Heng Yuan
  */
-@CookCCOption (unicode = true, start = "start", lexerTable = "ecs")
+@CookCCOption (unicode = true, start = "start")
 public class WhereParser extends GeneratedWhereParser
 {
 	@CookCCToken
