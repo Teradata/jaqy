@@ -32,12 +32,6 @@ public class FilterCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	protected String getSyntax ()
-	{
-		return ".filter [predicate]";
-	}
-
-	@Override
 	public String getDescription ()
 	{
 		return "does client side ResultSet filtering.";

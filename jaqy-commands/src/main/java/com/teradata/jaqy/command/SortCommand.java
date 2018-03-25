@@ -32,12 +32,6 @@ public class SortCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	protected String getSyntax ()
-	{
-		return ".sort [order]";
-	}
-
-	@Override
 	public String getDescription ()
 	{
 		return "does client side ResultSet sorting.";
