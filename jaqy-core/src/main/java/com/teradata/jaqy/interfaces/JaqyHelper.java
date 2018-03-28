@@ -18,12 +18,7 @@ package com.teradata.jaqy.interfaces;
 import java.sql.*;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.connection.JaqyResultSetMetaData;
-import com.teradata.jaqy.connection.JaqyStatement;
-import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.schema.BasicColumnInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -122,13 +117,11 @@ public interface JaqyHelper
 	 * 			resultset
 	 * @param	index
 	 * 			column index
-	 * @param	mapped
-	 * 			is the column a mapped column
 	 * @return	the object at the column position
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public Object getObject (JaqyResultSet rs, int index, boolean mapped) throws SQLException;
+	public Object getObject (JaqyResultSet rs, int index) throws SQLException;
 	/**
 	 * Check if a ResultSet column is a JSON column.  Until JDBC has
 	 * JSON built-in, we need a way to recognize a JSON column.

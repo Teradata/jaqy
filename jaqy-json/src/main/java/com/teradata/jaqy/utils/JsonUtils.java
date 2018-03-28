@@ -32,8 +32,8 @@ import org.yuanheng.cookjson.TextJsonGenerator;
 import org.yuanheng.cookjson.TextJsonParser;
 
 import com.teradata.jaqy.Globals;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan

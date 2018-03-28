@@ -15,11 +15,9 @@
  */
 package com.teradata.jaqy.utils.exp;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
@@ -35,12 +33,12 @@ public class StringLiteralNode implements ExpNode
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter)
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter)
 	{
 	}
 
 	@Override
-	public Object get (ScriptEngine engine, Bindings bindings)
+	public Object get ()
 	{
 		return m_literal;
 	}

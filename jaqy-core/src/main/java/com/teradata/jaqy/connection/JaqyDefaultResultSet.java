@@ -15,32 +15,28 @@
  */
 package com.teradata.jaqy.connection;
 
-import java.io.InputStream;
-import java.io.Reader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.interfaces.Predicate;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 
 /**
  * @author	Heng Yuan
  */
-public class JaqyResultSet
+public class JaqyDefaultResultSet implements JaqyResultSet
 {
 	private final ResultSet m_rs;
 	private final JaqyHelper m_helper;
 	private JaqyResultSetMetaData m_metaData;
-	private Predicate m_predicate;
-	private final JaqyInterpreter m_interpreter;
+	private Statement m_statement;
 
-	public JaqyResultSet (ResultSet rs, JaqyHelper helper, JaqyInterpreter interpreter)
+	public JaqyDefaultResultSet (ResultSet rs, JaqyHelper helper)
 	{
 		m_rs = rs;
 		m_helper = helper;
-		m_interpreter = interpreter;
 	}
 
 	/**
@@ -77,99 +73,75 @@ public class JaqyResultSet
 		return null;
 	}
 
-	/**
-	 * @return	the connection
-	 */
-	public JaqyConnection getConnection ()
+	@Override
+	public Statement getStatement ()
 	{
-		return m_helper.getConnection ();
+		return m_statement;
 	}
 
+	@Override
 	public ResultSet getResultSet ()
 	{
 		return m_rs;
 	}
 
+	@Override
 	public JaqyHelper getHelper ()
 	{
 		return m_helper;
 	}
 
+	@Override
 	public JaqyResultSetMetaData getMetaData () throws SQLException
 	{
 		if (m_metaData != null)
 			return m_metaData;
-		{
-			m_metaData = new JaqyResultSetMetaData (m_rs.getMetaData (), m_helper);
-			return m_metaData;
-		}
+		m_metaData = new JaqyResultSetMetaData (m_rs.getMetaData (), m_helper);
+		return m_metaData;
 	}
 
+	@Override
 	public int findColumn (String columnLabel) throws SQLException
-	{
-		return findColumn (columnLabel, true);
-	}
-
-	public int findColumn (String columnLabel, boolean mapped) throws SQLException
 	{
 		return m_rs.findColumn (columnLabel);
 	}
 
+	@Override
 	public void close () throws SQLException
 	{
-		if (m_predicate != null)
-			m_predicate.close ();
 		m_rs.close ();
 	}
 
+	@Override
 	public boolean next () throws SQLException
 	{
-		while (m_rs.next ())
-		{
-			if (m_predicate == null ||
-				m_predicate.eval (this, m_interpreter))
-			{
-				return true;
-			}
-		}
-		return false;
+		return m_rs.next ();
 	}
 
+	@Override
 	public int getType () throws SQLException
 	{
 		return m_rs.getType ();
 	}
 
+	@Override
 	public Object getObject (int column) throws SQLException
 	{
-		return m_helper.getObject (this, column, true);
+		return m_helper.getObject (this, column);
 	}
 
-	public Object getObject (int column, boolean mapped) throws SQLException
+	public Object getObjectInternal (int column) throws SQLException
 	{
 		return m_rs.getObject (column);
 	}
 
+	@Override
 	public String getString (int column) throws SQLException
 	{
 		return m_rs.getString (column);
 	}
 
-	public Reader getCharacterStream (int column) throws SQLException
-	{
-		return m_rs.getCharacterStream (column);
-	}
-
-	public InputStream getBinaryStream (int column) throws SQLException
-	{
-		return m_rs.getBinaryStream (column);
-	}
-
-	public byte[] getBytes (int column) throws SQLException
-	{
-		return m_rs.getBytes (column);
-	}
-
+	@Override
 	public void beforeFirst () throws SQLException
 	{
 		m_rs.beforeFirst ();;
@@ -185,17 +157,8 @@ public class JaqyResultSet
 		return null;
 	}
 
-	public Predicate getPredicate ()
+	public void setStatement (Statement statement)
 	{
-		return m_predicate;
-	}
-
-	public void setPredicate (Predicate predicate) throws Exception
-	{
-		if (predicate != null)
-		{
-			predicate.bind (this, m_interpreter);
-		}
-		m_predicate = predicate;
+		m_statement = statement;
 	}
 }

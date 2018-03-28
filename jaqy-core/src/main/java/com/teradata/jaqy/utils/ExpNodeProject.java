@@ -13,36 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.utils.exp;
+package com.teradata.jaqy.utils;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
+import com.teradata.jaqy.interfaces.Project;
+import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
  * @author	Heng Yuan
  */
-public class UnaryNode extends JSExpNode
+public class ExpNodeProject implements Project
 {
-	private final ExpNode m_exp;
-	private final String m_op;
+	private ExpNode[] m_expList;
+	private VariableManager m_vm;
 
-	public UnaryNode (String op, ExpNode exp)
+	public ExpNodeProject (ExpNode[] expList)
 	{
-		this.m_exp = exp;
-		this.m_op = op;
+		m_expList = expList;
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
+	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
 	{
-		super.bind (rs, vm, interpreter);
-		m_exp.bind (rs, vm, interpreter);
+		m_vm = new VariableManager (interpreter.getVariableManager ());
+		m_vm.setVariable (ExpNodePredicate.RS_VAR, rs);
+		for (ExpNode exp : m_expList)
+			exp.bind (rs, m_vm, interpreter);
 	}
 
 	@Override
-	public String toString ()
+	public Object get (int column) throws Exception
 	{
-		return "(" + m_op + "(" + m_exp + "))";
+		return m_expList[column - 1].get ();
+	}
+
+	@Override
+	public void close ()
+	{
+		m_expList = null;
 	}
 }

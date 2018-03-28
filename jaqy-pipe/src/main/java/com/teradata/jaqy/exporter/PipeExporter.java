@@ -18,8 +18,8 @@ package com.teradata.jaqy.exporter;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan

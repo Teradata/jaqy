@@ -13,36 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.utils.exp;
+package com.teradata.jaqy.command;
 
-import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
-import com.teradata.jaqy.interfaces.JaqyResultSet;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import com.teradata.jaqy.utils.TestUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class UnaryNode extends JSExpNode
+public class ProjectCommandTest
 {
-	private final ExpNode m_exp;
-	private final String m_op;
+	@Rule
+	public TemporaryFolder testFolder = new TemporaryFolder ();
 
-	public UnaryNode (String op, ExpNode exp)
+	@Test
+	public void test1 () throws Exception
 	{
-		this.m_exp = exp;
-		this.m_op = op;
-	}
-
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
-	{
-		super.bind (rs, vm, interpreter);
-		m_exp.bind (rs, vm, interpreter);
-	}
-
-	@Override
-	public String toString ()
-	{
-		return "(" + m_op + "(" + m_exp + "))";
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/project.sql", "../tests/unittests/commands/control/project.control");
 	}
 }

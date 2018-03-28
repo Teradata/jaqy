@@ -1,0 +1,10 @@
+usage: .project [columns]
+
+The column syntax is similar to that of SELECT expression list, except that
+the only expression supported is the column itself.  The column can be renamed
+using AS clause.
+
+Examples:
+
+.project a, b
+.project a AS Test, b as "Column 2"

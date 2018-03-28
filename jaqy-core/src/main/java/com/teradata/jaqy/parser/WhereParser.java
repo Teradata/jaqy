@@ -59,12 +59,10 @@ public class WhereParser extends GeneratedWhereParser
 		return new IOException ("invalid WHERE syntax.");
 	}
 
-	private final boolean m_mapped;
 	private ExpNode m_exp;
 
-	private WhereParser (boolean mapped)
+	private WhereParser ()
 	{
-		m_mapped = mapped;
 	}
 
 	public ExpNode getExp ()
@@ -390,7 +388,7 @@ public class WhereParser extends GeneratedWhereParser
 	})
 	ExpNode parseColumnName (String name)
 	{
-		return new ColumnNode (name, m_mapped);
+		return new ColumnNode (name);
 	}
 
 	@Rule (lhs = "exp", rhs = "exp IN LPAREN paramlist RPAREN", args = "1 4")
@@ -426,9 +424,9 @@ public class WhereParser extends GeneratedWhereParser
 		return paramList;
 	}
 
-	public static ExpNode getExp (String str, boolean mapped) throws IOException
+	public static ExpNode getExp (String str) throws IOException
 	{
-		WhereParser parser = new WhereParser (mapped);
+		WhereParser parser = new WhereParser ();
 		parser.setInput (new StringReader (str));
 		if (parser.yyParse () != 0)
 			throw getErrorException ();

@@ -17,19 +17,16 @@ package com.teradata.jaqy.resultset;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Types;
 
-import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.utils.ExceptionUtils;
-import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
  * This class keeps a copy of ResultSetMetaData for in-memory ResultSet.
  *
  * @author	Heng Yuan
  */
-class InMemoryResultSetMetaData implements ResultSetMetaData
+public class InMemoryResultSetMetaData implements ResultSetMetaData
 {
 	private final FullColumnInfo[] m_columnInfos;
 
@@ -40,52 +37,9 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	 * @throws	SQLException
 	 * 			In case of any SQL exception
 	 */
-	InMemoryResultSetMetaData (ResultSetMetaData meta) throws SQLException
+	public InMemoryResultSetMetaData (FullColumnInfo[] columnInfos)
 	{
-		m_columnInfos = ResultSetMetaDataUtils.getColumnInfo (meta, null).columns;
-	}
-
-	/**
-	 * Make a copy of the ResultSetMetaData
-	 * @param	meta
-	 *			The ResultSetMetaData to be copied.
-	 * @throws	SQLException
-	 * 			In case of any SQL exception
-	 */
-	InMemoryResultSetMetaData (PropertyTable pt)
-	{
-		String[] titles = pt.getTitles ();
-		int columnCount = titles.length;
-		FullColumnInfo[] columnInfos = new FullColumnInfo[columnCount];
 		m_columnInfos = columnInfos;
-		int lengths[] = pt.getLengths ();
-
-		for (int i = 0; i < columnCount; ++i)
-		{
-			FullColumnInfo columnInfo = new FullColumnInfo ();
-			columnInfos[i] = columnInfo;
-
-			columnInfo.autoIncrement = false;
-			columnInfo.caseSensitive = false;
-			columnInfo.searchable = false;
-			columnInfo.currency = false;
-			columnInfo.nullable = columnNullable;
-			columnInfo.signed = false;
-			columnInfo.displaySize = lengths[i];
-			columnInfo.label = titles[i];
-			columnInfo.name = titles[i];
-			columnInfo.schemaName = null;
-			columnInfo.precision = 0;
-			columnInfo.scale = 0;
-			columnInfo.tableName = null;
-			columnInfo.catalogName = null;
-			columnInfo.type = Types.VARCHAR;
-			columnInfo.typeName = "VARCHAR";
-			columnInfo.readOnly = true;
-			columnInfo.writable = false;
-			columnInfo.definitelyWritable = false;
-			columnInfo.className = "java.lang.String";
-		}
 	}
 
 	private void checkColumnIndex (int column) throws SQLException
@@ -107,7 +61,7 @@ class InMemoryResultSetMetaData implements ResultSetMetaData
 	}
 
 	@Override
-	public int getColumnCount () throws SQLException
+	public int getColumnCount ()
 	{
 		return m_columnInfos.length;
 	}

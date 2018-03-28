@@ -26,11 +26,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.RSSorter;
-import com.teradata.jaqy.utils.ResultSetUtils;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 import com.teradata.jaqy.utils.SortInfo;
 
 /**
@@ -41,7 +39,7 @@ import com.teradata.jaqy.utils.SortInfo;
 public class InMemoryResultSet extends ResultSetWrapper
 {
 	private ArrayList<Object[]> m_rows = new ArrayList<Object[]> ();
-	private InMemoryResultSetMetaData m_meta;
+	private ResultSetMetaData m_meta;
 	private int m_columnCount;
 	private boolean m_closed;
 	private int m_rowId;
@@ -51,36 +49,12 @@ public class InMemoryResultSet extends ResultSetWrapper
 	private Statement m_statement;
 	private boolean m_hasLob;
 
-	public InMemoryResultSet (ResultSet rs, long limit, JaqyInterpreter interpreter) throws SQLException
+	public InMemoryResultSet (ArrayList<Object[]> rows, InMemoryResultSetMetaData rsmd, Statement stmt)
 	{
-		m_meta = new InMemoryResultSetMetaData (rs.getMetaData ());
-		m_statement = rs.getStatement ();
-		m_columnCount = m_meta.getColumnCount ();
-		if (limit == 0)
-			limit = Long.MAX_VALUE;
-		while (rs.next () && limit > 0)
-		{
-			Object[] row = new Object[m_columnCount];
-			for (int i = 0; i < m_columnCount; ++i)
-			{
-				Object o = rs.getObject (i + 1);
-				row[i] = ResultSetUtils.copyIfNecessary (o, interpreter);
-				if (row[i] instanceof CachedClob ||
-					row[i] instanceof CachedBlob ||
-					row[i] instanceof CachedSQLXML)
-					m_hasLob = true;
-			}
-			m_rows.add (row);
-			--limit;
-		}
-	}
-
-	public InMemoryResultSet (PropertyTable pt) throws SQLException
-	{
-		m_meta = new InMemoryResultSetMetaData (pt);
-		m_statement = null;
-		m_columnCount = m_meta.getColumnCount ();
-		m_rows = pt.getRows ();
+		m_meta = rsmd;
+		m_statement = stmt;
+		m_columnCount = rsmd.getColumnCount ();
+		m_rows = rows;
 	}
 
 	public ArrayList<Object[]> getRows ()
@@ -92,16 +66,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 	public int findColumn (String columnLabel) throws SQLException
 	{
 		checkClosed ();
-		int numCols = m_meta.getColumnCount ();
-		for (int i = 0; i < numCols; ++i)
-		{
-			String colName = m_meta.getColumnLabel (i + 1);
-			if (m_meta.equals (colName))
-			{
-				return i + 1;
-			}
-		}
-		throw ExceptionUtils.getUnknownColumnLabel (columnLabel);
+		return ResultSetMetaDataUtils.findColumn (m_meta, columnLabel);
 	}
 
 	private void checkColumnIndex (int column) throws SQLException
@@ -914,5 +879,10 @@ public class InMemoryResultSet extends ResultSetWrapper
 	public void finalize ()
 	{
 		close ();
+	}
+
+	public void setHasLob (boolean b)
+	{
+		m_hasLob = b;
 	}
 }

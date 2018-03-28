@@ -15,10 +15,11 @@
  */
 package com.teradata.jaqy.utils;
 
-import com.teradata.jaqy.JaqyException;
+import java.sql.SQLException;
+
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.VariableManager;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.Predicate;
 import com.teradata.jaqy.utils.exp.ExpNode;
 
@@ -28,6 +29,7 @@ import com.teradata.jaqy.utils.exp.ExpNode;
 public class ExpNodePredicate implements Predicate
 {
 	public static String RS_VAR = "rs";
+
 	private final ExpNode m_exp;
 	private VariableManager m_vm;
 
@@ -41,26 +43,26 @@ public class ExpNodePredicate implements Predicate
 	{
 		m_vm = new VariableManager (interpreter.getVariableManager ());
 		m_vm.setVariable (RS_VAR, rs);
-		m_exp.bind (rs, interpreter);
+		m_exp.bind (rs, m_vm, interpreter);
 	}
 
 	@Override
-	public boolean eval (JaqyResultSet rs, JaqyInterpreter interpreter)
+	public boolean eval () throws SQLException
 	{
 		Object o;
 		try
 		{
-			o = m_exp.get (interpreter.getScriptEngine (), m_vm);
+			o = m_exp.get ();
 		}
 		catch (Exception ex)
 		{
-			throw new JaqyException (ex);
+			throw new SQLException (ex);
 		}
 		if (o instanceof Boolean)
 		{
 			return ((Boolean)o).booleanValue ();
 		}
-		throw new JaqyException ("invalid predicate");
+		throw new SQLException ("invalid predicate");
 	}
 
 	@Override

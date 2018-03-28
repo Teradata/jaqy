@@ -16,25 +16,24 @@
 package com.teradata.jaqy.command;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.parser.WhereParser;
-import com.teradata.jaqy.utils.ExpNodePredicate;
+import com.teradata.jaqy.parser.ProjectParser;
+import com.teradata.jaqy.utils.ProjectColumnList;
 import com.teradata.jaqy.utils.SessionUtils;
-import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
  * @author	Heng Yuan
  */
-public class FilterCommand extends JaqyCommandAdapter
+public class ProjectCommand extends JaqyCommandAdapter
 {
-	public FilterCommand ()
+	public ProjectCommand ()
 	{
-		super ("filter.txt");
+		super ("project.txt");
 	}
 
 	@Override
 	public String getDescription ()
 	{
-		return "does client side ResultSet filtering.";
+		return "does client side ResultSet projection.";
 	}
 
 	@Override
@@ -45,9 +44,9 @@ public class FilterCommand extends JaqyCommandAdapter
 		String str = args[0].trim ();
 		if (str.length () == 0)
 		{
-			interpreter.error ("missing predicate");
+			interpreter.error ("missing projection columns");
 		}
-		ExpNode exp = WhereParser.getExp (args[0]);
-		interpreter.setPredicate (new ExpNodePredicate (exp));
+		ProjectColumnList expList = ProjectParser.getExpList (args[0]);
+		interpreter.setProjectList (expList);
 	}
 }

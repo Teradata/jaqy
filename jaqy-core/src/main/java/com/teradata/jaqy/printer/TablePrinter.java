@@ -20,9 +20,9 @@ import java.sql.ResultSet;
 import java.sql.Types;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.ResultSetUtils;
@@ -80,9 +80,9 @@ class TablePrinter implements JaqyPrinter
 		// rewind operation.
 		if (m_autoShrink && rs.getType () == ResultSet.TYPE_FORWARD_ONLY)
 		{
-			ResultSet newRS = ResultSetUtils.copyResultSet (rs.getResultSet (), limit, interpreter);
+			JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, limit, interpreter);
 			rs.close ();
-			rs = new JaqyResultSet (newRS, helper, interpreter);
+			rs = newRS;
 		}
 
 		JaqyResultSetMetaData metaData = rs.getMetaData ();

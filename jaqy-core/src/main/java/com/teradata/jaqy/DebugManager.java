@@ -20,8 +20,8 @@ import java.util.logging.Level;
 
 import com.teradata.jaqy.connection.JaqyParameterMetaData;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.Display;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 

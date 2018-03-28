@@ -19,7 +19,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**

@@ -21,8 +21,9 @@ import java.util.logging.Level;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.connection.JaqyDefaultResultSet;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.CachedClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
@@ -111,7 +112,7 @@ class TeradataHelper extends DefaultHelper
 				//
 				// So we do generic handling here.
 				//
-				InMemoryResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, interpreter);
+				InMemoryResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, this, interpreter);
 				rs.close ();
 				for (Object[] row : newRS.getRows ())
 				{
@@ -136,13 +137,13 @@ class TeradataHelper extends DefaultHelper
 				rs = newRS;
 			}
 		}
-		return new JaqyResultSet (rs, this, interpreter);
+		return new JaqyDefaultResultSet (rs, this);
 	}
 
 	@Override
-	public Object getObject (JaqyResultSet rs, int index, boolean mapped) throws SQLException
+	public Object getObject (JaqyResultSet rs, int index) throws SQLException
 	{
-		Object o = rs.getObject (index, mapped);
+		Object o = rs.getObjectInternal (index);
 		if (o instanceof Struct)
 		{
 			if (rs.getMetaData ().getColumnType (index) == Types.STRUCT)

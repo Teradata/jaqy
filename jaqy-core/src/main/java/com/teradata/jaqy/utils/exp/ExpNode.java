@@ -15,17 +15,15 @@
  */
 package com.teradata.jaqy.utils.exp;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
  */
 public interface ExpNode
 {
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
-	public Object get (ScriptEngine engine, Bindings bindings) throws Exception;
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception;
+	public Object get () throws Exception;
 }

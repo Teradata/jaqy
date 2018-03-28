@@ -16,10 +16,15 @@
 package com.teradata.jaqy.utils;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.PropertyTable;
+import com.teradata.jaqy.connection.JaqyDefaultResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
+import com.teradata.jaqy.helper.DummyHelper;
+import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.*;
 
 /**
@@ -112,8 +117,68 @@ public class ResultSetUtils
 		return o;
 	}
 
-	public static InMemoryResultSet copyResultSet (ResultSet rs, long limit, JaqyInterpreter interpreter) throws SQLException
+	public static InMemoryResultSet copyResultSet (ResultSet rs, long limit, JaqyHelper helper, JaqyInterpreter interpreter) throws SQLException
 	{
-		return new InMemoryResultSet (rs, limit, interpreter);
+		InMemoryResultSetMetaData rsmd = ResultSetMetaDataUtils.copyResultSetMetaData (rs.getMetaData (), helper);
+		ArrayList<Object[]> rows = new ArrayList<Object[]> ();
+		Statement statement = rs.getStatement ();
+		int columnCount = rsmd.getColumnCount ();
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		boolean hasLob = false;
+		while (rs.next () && limit > 0)
+		{
+			Object[] row = new Object[columnCount];
+			for (int i = 0; i < columnCount; ++i)
+			{
+				Object o = rs.getObject (i + 1);
+				row[i] = ResultSetUtils.copyIfNecessary (o, interpreter);
+				if (row[i] instanceof CachedClob ||
+					row[i] instanceof CachedBlob ||
+					row[i] instanceof CachedSQLXML)
+					hasLob = true;
+			}
+			rows.add (row);
+			--limit;
+		}
+		InMemoryResultSet newRS = new InMemoryResultSet (rows, rsmd, statement);
+		newRS.setHasLob (hasLob);
+		return newRS;
+	}
+
+	public static JaqyResultSet copyResultSet (JaqyResultSet rs, long limit, JaqyInterpreter interpreter) throws SQLException
+	{
+		InMemoryResultSetMetaData rsmd = ResultSetMetaDataUtils.copyResultSetMetaData (rs.getMetaData ().getMetaData (), rs.getHelper ());
+		ArrayList<Object[]> rows = new ArrayList<Object[]> ();
+		Statement statement = rs.getStatement ();
+		int columnCount = rsmd.getColumnCount ();
+		if (limit == 0)
+			limit = Long.MAX_VALUE;
+		boolean hasLob = false;
+		while (rs.next () && limit > 0)
+		{
+			Object[] row = new Object[columnCount];
+			for (int i = 0; i < columnCount; ++i)
+			{
+				Object o = rs.getObject (i + 1);
+				row[i] = ResultSetUtils.copyIfNecessary (o, interpreter);
+				if (row[i] instanceof CachedClob ||
+					row[i] instanceof CachedBlob ||
+					row[i] instanceof CachedSQLXML)
+					hasLob = true;
+			}
+			rows.add (row);
+			--limit;
+		}
+		InMemoryResultSet newRS = new InMemoryResultSet (rows, rsmd, statement);
+		newRS.setHasLob (hasLob);
+		return new JaqyDefaultResultSet (newRS, DummyHelper.getInstance ());
+	}
+
+	public static JaqyDefaultResultSet getResultSet (PropertyTable pt)
+	{
+		InMemoryResultSetMetaData rsmd = ResultSetMetaDataUtils.copyResultSetMetaData (pt);
+		InMemoryResultSet newRS = new InMemoryResultSet (pt.getRows (), rsmd, null);
+		return new JaqyDefaultResultSet (newRS, DummyHelper.getInstance ());
 	}
 }

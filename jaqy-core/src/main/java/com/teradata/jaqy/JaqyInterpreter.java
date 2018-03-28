@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Stack;
@@ -30,16 +29,14 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyFilterResultSet;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.helper.DummyHelper;
 import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
 import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
 import com.teradata.jaqy.parser.ExpressionParser;
 import com.teradata.jaqy.printer.QuietPrinter;
-import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.*;
 
 /**
@@ -92,6 +89,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	// client side ResultSet handling
 	private SortInfo[] m_sortInfos;
 	private Predicate m_predicate;
+	private ProjectColumnList m_projectList;
 	private boolean m_caseInsensitive;
 
 	private final Stack<ParseAction> m_actionStack = new Stack<ParseAction> ();
@@ -530,6 +528,7 @@ public class JaqyInterpreter implements ExpressionHandler
 					m_queryMode = QueryMode.Regular;
 					m_sortInfos = null;
 					m_predicate = null;
+					m_projectList = null;
 					m_limit = 0;
 
 					display.showPrompt (this);
@@ -754,15 +753,24 @@ public class JaqyInterpreter implements ExpressionHandler
 		{
 			m_globals.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
 
-			// add predicate handling
-			rs.setPredicate (m_predicate);
-			m_predicate = null;
+			// add client side projection / predicate handling
+			if (m_predicate != null ||
+				m_projectList != null)
+			{
+				@SuppressWarnings ("resource")
+				JaqyFilterResultSet newRS = new JaqyFilterResultSet (rs, rs.getHelper (), this);
+				newRS.setStatement (rs.getStatement ());
+				newRS.setPredicate (m_predicate);
+				newRS.setProjection (m_projectList);
+				m_predicate = null;
+				m_projectList = null;
+				rs = newRS;
+			}
 
 			boolean rewind = false;
 			if (m_saveResultSet)
 			{
-				ResultSet newRS = ResultSetUtils.copyResultSet (rs.getResultSet (), 0, this);
-				rs = DummyHelper.getInstance ().getResultSet (newRS, this);
+				rs = ResultSetUtils.copyResultSet (rs, 0, this);
 				getVariableManager ().put ("save", rs);
 				rewind = true;
 				m_saveResultSet = false;
@@ -795,8 +803,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	public void print (PropertyTable pt) throws SQLException
 	{
-		InMemoryResultSet rs = new InMemoryResultSet (pt);
-		print (DummyHelper.getInstance ().getResultSet (rs, this));
+		print (ResultSetUtils.getResultSet (pt));
 	}
 
 	/**
@@ -1022,6 +1029,16 @@ public class JaqyInterpreter implements ExpressionHandler
 	public void setPredicate (Predicate predicate)
 	{
 		m_predicate = predicate;
+	}
+
+	public ProjectColumnList getProjectList ()
+	{
+		return m_projectList;
+	}
+
+	public void setProjectList (ProjectColumnList projectList)
+	{
+		m_projectList = projectList;
 	}
 
 	public byte[] getByteBuffer ()

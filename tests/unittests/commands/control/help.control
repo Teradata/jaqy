@@ -38,6 +38,7 @@ Currently available commands are the following.
 	.open - opens a new JDBC session.
 	.os - executes shell commands.
 	.prepare - prepares a sql statement.
+	.project - does client side ResultSet projection.
 	.protocol - displays / sets JDBC protocols and their associated JDBC drivers.
 	.pwd - prints the current catalog and schema.
 	.quiet - turns ResultSet output on / off.

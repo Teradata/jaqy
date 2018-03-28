@@ -27,19 +27,14 @@ SELECT * FROM MyTable ORDER BY a;
 .repeat ${save.size()}
 SELECT '${save.get (iteration)[1]}' AS geo;
 
--- client side filtering using javascript
-.script
-{
-	save.getResultSet ().getRows ().removeIf (
-		function(item) {
-			return item[0] < 3;
-		}
-	);
-}
-.end script
+-- rewind before printing
+.eval save.beforeFirst ();
+.filter a > 2
+.project b AS Test
 
+-- rewind before printing
+.eval save.beforeFirst ();
 .print save
-
 
 DROP TABLE MyTable;
 

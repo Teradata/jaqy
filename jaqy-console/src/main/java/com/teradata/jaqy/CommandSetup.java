@@ -45,8 +45,11 @@ class CommandSetup
 		manager.addObject ("repeat", new RepeatCommand ());
 		manager.addObject ("#", new RepeatPrevCommand ());
 		manager.addObject ("limit", new LimitCommand ());
+
+		// client side ResultSet processing
 		manager.addObject ("sort", new SortCommand ());
 		manager.addObject ("filter", new FilterCommand ());
+		manager.addObject ("project", new ProjectCommand ());
 
 		// session control
 		manager.addObject ("session", new SessionCommand ());

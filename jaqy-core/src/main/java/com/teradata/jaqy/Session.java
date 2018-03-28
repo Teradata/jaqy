@@ -22,10 +22,7 @@ import java.util.logging.Level;
 
 import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.importer.FieldImporter;
-import com.teradata.jaqy.interfaces.Display;
-import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.interfaces.JaqyHelperFactory;
-import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.parser.FieldParser;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -170,10 +167,10 @@ public class Session
 				SortInfo[] sortInfos = interpreter.getSortInfos ();
 				if (sortInfos != null)
 				{
-					InMemoryResultSet inMemRS = ResultSetUtils.copyResultSet (rs.getResultSet (), interpreter.getLimit (), interpreter);
-					inMemRS.sort (sortInfos);
-					JaqyResultSet tmpRS = new JaqyResultSet (inMemRS, rs.getHelper (), interpreter);
+					JaqyResultSet tmpRS = ResultSetUtils.copyResultSet (rs, interpreter.getLimit (), interpreter);
 					rs.close ();
+					InMemoryResultSet inMemRS = (InMemoryResultSet)tmpRS.getResultSet ();
+					inMemRS.sort (sortInfos);
 					rs = tmpRS;
 				}
 				long activityCount = interpreter.print (rs);

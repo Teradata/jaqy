@@ -15,16 +15,14 @@
  */
 package com.teradata.jaqy.utils;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyStatement;
-import com.teradata.jaqy.helper.DummyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
@@ -105,9 +103,9 @@ public class QueryUtils
 			if (rs == null)
 				return null;
 
-			ResultSet columnRS = ResultSetUtils.copyResultSet (rs.getResultSet (), 0, interpreter);
+			JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, interpreter);
 			rs.close ();
-			return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
+			return newRS;
 		}
 		finally
 		{

@@ -16,36 +16,38 @@
 package com.teradata.jaqy.utils.exp;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
  */
 public class FunctionNode extends JSExpNode
 {
-	public final String function;
-	public final ExpNode[] parameters;
+	private final String m_function;
+	private final ExpNode[] m_parameters;
 
 	public FunctionNode (String function, ExpNode[] parameters)
 	{
-		this.function = function;
-		this.parameters = parameters;
+		m_function = function;
+		m_parameters = parameters;
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
 	{
-		for (ExpNode parameter : parameters)
-			parameter.bind (rs, interpreter);
+		super.bind (rs, vm, interpreter);
+		for (ExpNode parameter : m_parameters)
+			parameter.bind (rs, vm, interpreter);
 	}
 
 	@Override
 	public String toString ()
 	{
 		StringBuilder builder = new StringBuilder ();
-		builder.append ('(').append (function).append ('(');
+		builder.append ('(').append (m_function).append ('(');
 		boolean first = true;
-		for (ExpNode parameter : parameters)
+		for (ExpNode parameter : m_parameters)
 		{
 			if (first)
 				first = false;

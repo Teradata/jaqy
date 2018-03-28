@@ -16,34 +16,36 @@
 package com.teradata.jaqy.utils.exp;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
  */
 public class BinaryNode extends JSExpNode
 {
-	public final ExpNode left;
-	public final ExpNode right;
-	public final String op;
+	private final ExpNode m_left;
+	private final ExpNode m_right;
+	private final String m_op;
 
 	public BinaryNode (String op, ExpNode left, ExpNode right)
 	{
-		this.left = left;
-		this.right = right;
-		this.op = op;
+		m_left = left;
+		m_right = right;
+		m_op = op;
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
 	{
-		left.bind (rs, interpreter);
-		right.bind (rs, interpreter);
+		super.bind (rs, vm, interpreter);
+		m_left.bind (rs, vm, interpreter);
+		m_right.bind (rs, vm, interpreter);
 	}
 
 	@Override
 	public String toString ()
 	{
-		return "((" + left + ")" + op + "(" + right + "))";
+		return "((" + m_left + ")" + m_op + "(" + m_right + "))";
 	}
 }

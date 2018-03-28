@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan

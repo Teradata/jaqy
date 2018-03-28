@@ -16,7 +16,8 @@
 package com.teradata.jaqy.utils.exp;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
@@ -37,11 +38,12 @@ public class ArrayOpNode extends JSExpNode
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
 	{
-		m_exp.bind (rs, interpreter);
+		super.bind (rs, vm, interpreter);
+		m_exp.bind (rs, vm, interpreter);
 		for (ExpNode parameter : m_parameters)
-			parameter.bind (rs, interpreter);
+			parameter.bind (rs, vm, interpreter);
 	}
 
 	@Override

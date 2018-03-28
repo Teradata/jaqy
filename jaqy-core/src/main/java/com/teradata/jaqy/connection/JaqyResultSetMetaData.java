@@ -19,6 +19,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -30,11 +31,21 @@ public class JaqyResultSetMetaData
 	private final JaqyHelper m_helper;
 	private final JdbcFeatures m_features;
 
-	JaqyResultSetMetaData (ResultSetMetaData metaData, JaqyHelper helper)
+	public JaqyResultSetMetaData (ResultSetMetaData metaData, JaqyHelper helper)
 	{
 		m_metaData = metaData;
 		m_helper = helper;
 		m_features = m_helper.getFeatures ();
+	}
+
+	public JaqyHelper getHelper ()
+	{
+		return m_helper;
+	}
+
+	public int findColumn (String columnLabel) throws SQLException
+	{
+		return ResultSetMetaDataUtils.findColumn (m_metaData, columnLabel);
 	}
 
 	/**

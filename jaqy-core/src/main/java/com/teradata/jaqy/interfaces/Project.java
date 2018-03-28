@@ -13,44 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.utils.exp;
+package com.teradata.jaqy.interfaces;
 
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
-import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
  */
-public class ColumnNode implements ExpNode
+public interface Project
 {
-	private final String m_name;
-	private int m_column;
-	private JaqyResultSet m_rs;
-
-	public ColumnNode (String name)
-	{
-		m_name = name;
-	}
-
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws SQLException
-	{
-		m_rs = rs;
-		m_column = rs.findColumn (m_name);
-	}
-
-	@Override
-	public Object get () throws Exception
-	{
-		return m_rs.getObject (m_column);
-	}
-
-	@Override
-	public String toString ()
-	{
-		return "(rs.getObject (" + m_column + "))";
-	}
+	/**
+	 * Binds to a JaqyResultSet.
+	 * @param	rs
+	 * 			ResultSet object
+	 * @param	interpreter
+	 * 			interpreter object
+	 * @throws	Exception
+	 * 			in case of error
+	 */
+	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
+	/**
+	 * Get the object at the specified column.
+	 * @param	column
+	 * 			The column index
+	 * @return	the object at the specified column.
+	 * @throws	SQLException
+	 * 			in case of error
+	 */
+	public Object get (int column) throws Exception;
+	/**
+	 * Free any resources.  Should not throw any exceptions.
+	 */
+	public void close ();
 }

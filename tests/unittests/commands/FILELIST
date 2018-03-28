@@ -24,6 +24,7 @@ open.sql
 os_linux.sql
 os_win.sql
 prepare.sql
+project.sql
 protocol.sql
 pwd.sql
 quiet.sql

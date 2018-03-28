@@ -18,9 +18,9 @@ package com.teradata.jaqy.importer;
 import org.apache.commons.cli.CommandLine;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.exporter.PipeExporter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**

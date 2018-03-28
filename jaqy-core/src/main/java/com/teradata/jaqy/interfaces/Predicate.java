@@ -16,9 +16,9 @@
 package com.teradata.jaqy.interfaces;
 
 import java.io.Closeable;
+import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
@@ -37,13 +37,11 @@ public interface Predicate extends Closeable
 	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Check if the predicate evaluates to true for the current row.
-	 * @param	rs
-	 * 			ResultSet object
-	 * @param	interpreter
-	 * 			interpreter object
-	 * @return	true if the predicate evalutes to true.
+	 * @return	true if the predicate evaluates to true.
+	 * @throws	SQLException
+	 * 			in case of error
 	 */
-	public boolean eval (JaqyResultSet rs, JaqyInterpreter interpreter);
+	public boolean eval () throws SQLException;
 	/**
 	 * Free any resources.  Should not throw any exceptions.
 	 */

@@ -18,7 +18,6 @@ package com.teradata.jaqy.interfaces;
 import java.io.Closeable;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 
 /**
  * @author	Heng Yuan

@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;

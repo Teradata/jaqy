@@ -24,12 +24,14 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
 import com.teradata.jaqy.utils.ExceptionUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
+import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
@@ -70,13 +72,13 @@ public class DefaultHelper implements JaqyHelper
 	@Override
 	public JaqyResultSet getResultSet (ResultSet rs, JaqyInterpreter interpreter) throws SQLException
 	{
-		return new JaqyResultSet (rs, this, interpreter);
+		return new JaqyDefaultResultSet (rs, this);
 	}
 
 	@Override
-	public Object getObject (JaqyResultSet rs, int index, boolean mapped) throws SQLException
+	public Object getObject (JaqyResultSet rs, int index) throws SQLException
 	{
-		return rs.getObject (index, mapped);
+		return rs.getObjectInternal (index);
 	}
 
 	@Override
@@ -440,8 +442,7 @@ public class DefaultHelper implements JaqyHelper
 			}
 			rs.close ();
 
-			InMemoryResultSet columnRS = new InMemoryResultSet (pt);
-			return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
+			return ResultSetUtils.getResultSet (pt);
 		}
 		finally
 		{

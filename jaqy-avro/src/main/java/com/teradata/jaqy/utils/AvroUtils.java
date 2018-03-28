@@ -27,8 +27,8 @@ import org.apache.avro.generic.GenericArray;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 

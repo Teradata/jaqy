@@ -20,9 +20,9 @@ import java.io.PrintWriter;
 import org.apache.commons.csv.CSVFormat;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.typehandler.TypeHandler;
 

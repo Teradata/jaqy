@@ -26,9 +26,9 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumWriter;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;

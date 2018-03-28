@@ -16,33 +16,35 @@
 package com.teradata.jaqy.utils.exp;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
  */
 public class IsNullNode extends JSExpNode
 {
-	public final ExpNode exp;
-	public final boolean is;
+	private final ExpNode m_exp;
+	private final boolean m_is;
 
 	public IsNullNode (ExpNode exp, boolean is)
 	{
-		this.exp = exp;
-		this.is = is;
+		this.m_exp = exp;
+		this.m_is = is;
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
 	{
-		exp.bind (rs, interpreter);
+		super.bind (rs, vm, interpreter);
+		m_exp.bind (rs, vm, interpreter);
 	}
 
 	@Override
 	public String toString ()
 	{
-		if (is)
-			return "((" + exp + ") == null)";
-		return "((" + exp + ") != null)";
+		if (m_is)
+			return "((" + m_exp + ") == null)";
+		return "((" + m_exp + ") != null)";
 	}
 }

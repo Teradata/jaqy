@@ -1,0 +1,188 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .project command test
+--------------------------------------------------------------------------
+.help project
+usage: .project [columns]
+
+The column syntax is similar to that of SELECT expression list, except that
+the only expression supported is the column itself.  The column can be renamed
+using AS clause.
+
+Examples:
+
+.project a, b
+.project a AS Test, b as "Column 2"
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.project
+-- error: Current session is closed.
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/4 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable (a INTEGER, b VARCHAR(10000));
+-- success. update count = 0
+-- 1/4 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'POINT(1 1)');
+-- success. update count = 1
+-- 2/4 - 0 ----------------------------------------------------------------
+.repeat 4
+-- 2/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       'POINT(' || (a + (SELECT MAX(a) FROM MyTable)) || ' ' || (a + (SELECT MAX(a) FROM MyTable)) || ')'
+FROM MyTable;
+-- iteration: 1
+-- success. update count = 1
+-- iteration: 2
+-- success. update count = 2
+-- iteration: 3
+-- success. update count = 4
+-- iteration: 4
+-- success. update count = 8
+-- 3/5 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       b
+FROM MyTable;
+-- success. update count = 16
+-- 4/5 - 0 ----------------------------------------------------------------
+
+UPDATE MyTable SET b = NULL WHERE a % 2 = 0;
+-- success. update count = 16
+-- 5/5 - 0 ----------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ a b
+-- ------------
+ 1 POINT(1 1)
+ 2 ?
+ 3 POINT(3 3)
+ 4 ?
+ 5 POINT(5 5)
+ 6 ?
+ 7 POINT(7 7)
+ 8 ?
+ 9 POINT(9 9)
+10 ?
+11 POINT(11 11)
+12 ?
+13 POINT(13 13)
+14 ?
+15 POINT(15 15)
+16 ?
+17 POINT(1 1)
+18 ?
+19 POINT(3 3)
+20 ?
+21 POINT(5 5)
+22 ?
+23 POINT(7 7)
+24 ?
+25 POINT(9 9)
+26 ?
+27 POINT(11 11)
+28 ?
+29 POINT(13 13)
+30 ?
+31 POINT(15 15)
+32 ?
+-- activity count = 32
+-- 6/5 - 0 ----------------------------------------------------------------
+
+.project
+-- error: missing projection columns
+-- 6/6 - 0 ----------------------------------------------------------------
+
+.project b
+-- 6/7 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+b
+------------
+POINT(1 1)
+?
+POINT(3 3)
+?
+POINT(5 5)
+?
+POINT(7 7)
+?
+POINT(9 9)
+?
+POINT(11 11)
+?
+POINT(13 13)
+?
+POINT(15 15)
+?
+POINT(1 1)
+?
+POINT(3 3)
+?
+POINT(5 5)
+?
+POINT(7 7)
+?
+POINT(9 9)
+?
+POINT(11 11)
+?
+POINT(13 13)
+?
+POINT(15 15)
+?
+-- activity count = 32
+-- 7/7 - 0 ----------------------------------------------------------------
+
+.filter a > 3 and a < 10
+-- 7/8 - 0 ----------------------------------------------------------------
+.project b
+-- 7/9 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+b
+----------
+?
+POINT(5 5)
+?
+POINT(7 7)
+?
+POINT(9 9)
+-- activity count = 6
+-- 8/9 - 0 ----------------------------------------------------------------
+
+.filter a > 3 and a < 10
+-- 8/10 - 0 ---------------------------------------------------------------
+.project b
+-- 8/11 - 0 ---------------------------------------------------------------
+.sort b DESC, a ASC
+-- 8/12 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+b
+----------
+POINT(9 9)
+POINT(7 7)
+POINT(5 5)
+?
+?
+?
+-- activity count = 6
+-- 9/12 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 10/12 - 0 --------------------------------------------------------------
+
+.close
+-- 10/13 - 0 --------------------------------------------------------------

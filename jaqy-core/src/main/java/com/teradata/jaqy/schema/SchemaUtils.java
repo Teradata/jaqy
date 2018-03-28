@@ -15,16 +15,18 @@
  */
 package com.teradata.jaqy.schema;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.JaqyConnection;
-import com.teradata.jaqy.connection.JaqyResultSet;
-import com.teradata.jaqy.helper.DummyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
+import com.teradata.jaqy.utils.ResultSetUtils;
 
 /**
  * @author	Heng Yuan
@@ -117,8 +119,7 @@ public class SchemaUtils
 			pt.addRow (new String[]{ columnName, columnType, nullable });
 		}
 
-		InMemoryResultSet columnRS = new InMemoryResultSet (pt);
-		return DummyHelper.getInstance ().getResultSet (columnRS, interpreter);
+		return ResultSetUtils.getResultSet (pt);
 	}
 
 	public static TypeMap getTypeMap (JaqyConnection conn) throws SQLException

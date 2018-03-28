@@ -16,44 +16,46 @@
 package com.teradata.jaqy.utils.exp;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.connection.JaqyResultSet;
+import com.teradata.jaqy.VariableManager;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
  */
 public class ConcatNode extends JSExpNode
 {
-	public final ExpNode left;
-	public final ExpNode right;
+	private final ExpNode m_left;
+	private final ExpNode m_right;
 
 	public ConcatNode (ExpNode left, ExpNode right)
 	{
-		this.left = left;
-		this.right = right;
+		m_left = left;
+		m_right = right;
 	}
 
 	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
 	{
-		left.bind (rs, interpreter);
-		right.bind (rs, interpreter);
+		super.bind (rs, vm, interpreter);
+		m_left.bind (rs, vm, interpreter);
+		m_right.bind (rs, vm, interpreter);
 	}
 
 	@Override
 	public String toString ()
 	{
-		String leftSide = left.toString ();
-		if (left instanceof ConcatNode)
+		String leftSide = m_left.toString ();
+		if (m_left instanceof ConcatNode)
 		{
-			leftSide = "(" + left.toString ();
+			leftSide = "(" + m_left.toString ();
 		}
 		else
 		{
-			if (left instanceof StringLiteralNode)
-				leftSide = "(" + left + ".toString ()";
+			if (m_left instanceof StringLiteralNode)
+				leftSide = "(" + m_left + ".toString ()";
 			else
 				leftSide = "(''.concat(" + leftSide + ")";
 		}
-		return leftSide + ".concat (" + right + "))";
+		return leftSide + ".concat (" + m_right + "))";
 	}
 }

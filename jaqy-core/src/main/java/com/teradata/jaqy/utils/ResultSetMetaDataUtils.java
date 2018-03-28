@@ -18,13 +18,17 @@ package com.teradata.jaqy.utils;
 import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.logging.Level;
 
+import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
+import com.teradata.jaqy.helper.DummyHelper;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.resultset.InMemoryResultSetMetaData;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
@@ -33,43 +37,60 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class ResultSetMetaDataUtils
 {
+	public static FullColumnInfo getColumnInfo (ResultSetMetaData meta, int column, JaqyHelper helper) throws SQLException
+	{
+		FullColumnInfo columnInfo = new FullColumnInfo ();
+		columnInfo.autoIncrement = meta.isAutoIncrement (column);
+		columnInfo.caseSensitive = meta.isCaseSensitive (column);
+		columnInfo.searchable = meta.isSearchable (column);
+		columnInfo.currency = meta.isCurrency (column);
+		columnInfo.nullable = meta.isNullable (column);
+		columnInfo.signed = meta.isSigned (column);
+		columnInfo.displaySize = meta.getColumnDisplaySize (column);
+		columnInfo.label = meta.getColumnLabel (column);
+		columnInfo.name = meta.getColumnName (column);
+		columnInfo.schemaName = meta.getSchemaName (column);
+		columnInfo.precision = meta.getPrecision (column);
+		columnInfo.scale = meta.getScale (column);
+		columnInfo.tableName = meta.getTableName (column);
+		columnInfo.catalogName = meta.getCatalogName (column);
+		columnInfo.type = meta.getColumnType (column);
+		columnInfo.typeName = meta.getColumnTypeName (column);
+		columnInfo.className = meta.getColumnClassName (column);
+		columnInfo.readOnly = meta.isReadOnly (column);
+		columnInfo.writable = meta.isWritable (column);
+		columnInfo.definitelyWritable= meta.isDefinitelyWritable (column);
+
+		if (helper != null)
+		{
+			helper.fixColumnInfo (columnInfo);
+		}
+		return columnInfo;
+	}
+
 	public static SchemaInfo getColumnInfo (ResultSetMetaData meta, JaqyHelper helper) throws SQLException
 	{
 		int columnCount = meta.getColumnCount ();
 		FullColumnInfo[] columnInfos = new FullColumnInfo[columnCount];
 		for (int i = 0; i < columnCount; ++i)
 		{
-			FullColumnInfo columnInfo = new FullColumnInfo ();
-			columnInfos[i] = columnInfo;
-
-			int column = i + 1;
-			columnInfo.autoIncrement = meta.isAutoIncrement (column);
-			columnInfo.caseSensitive = meta.isCaseSensitive (column);
-			columnInfo.searchable = meta.isSearchable (column);
-			columnInfo.currency = meta.isCurrency (column);
-			columnInfo.nullable = meta.isNullable (column);
-			columnInfo.signed = meta.isSigned (column);
-			columnInfo.displaySize = meta.getColumnDisplaySize (column);
-			columnInfo.label = meta.getColumnLabel (column);
-			columnInfo.name = meta.getColumnName (column);
-			columnInfo.schemaName = meta.getSchemaName (column);
-			columnInfo.precision = meta.getPrecision (column);
-			columnInfo.scale = meta.getScale (column);
-			columnInfo.tableName = meta.getTableName (column);
-			columnInfo.catalogName = meta.getCatalogName (column);
-			columnInfo.type = meta.getColumnType (column);
-			columnInfo.typeName = meta.getColumnTypeName (column);
-			columnInfo.className = meta.getColumnClassName (column);
-			columnInfo.readOnly = meta.isReadOnly (column);
-			columnInfo.writable = meta.isWritable (column);
-			columnInfo.definitelyWritable= meta.isDefinitelyWritable (column);
-
-			if (helper != null)
-			{
-				helper.fixColumnInfo (columnInfo);
-			}
+			columnInfos[i] = getColumnInfo (meta, i + 1, helper);
 		}
 		return new SchemaInfo (columnInfos);
+	}
+
+	public static int findColumn (ResultSetMetaData meta, String columnLabel) throws SQLException
+	{
+		int numCols = meta.getColumnCount ();
+		for (int i = 0; i < numCols; ++i)
+		{
+			String colName = meta.getColumnLabel (i + 1);
+			if (columnLabel.equals (colName))
+			{
+				return i + 1;
+			}
+		}
+		throw ExceptionUtils.getUnknownColumnLabel (columnLabel);
 	}
 
 	private static void dumpColumn (Display display, PrintWriter pw, JaqyResultSetMetaData metaData, int column)
@@ -115,5 +136,52 @@ public class ResultSetMetaDataUtils
 		{
 			dumpColumn (display, pw, metaData, i);
 		}
+	}
+
+	public static InMemoryResultSetMetaData copyResultSetMetaData (PropertyTable pt)
+	{
+		String[] titles = pt.getTitles ();
+		int columnCount = titles.length;
+		FullColumnInfo[] columnInfos = new FullColumnInfo[columnCount];
+		int lengths[] = pt.getLengths ();
+
+		for (int i = 0; i < columnCount; ++i)
+		{
+			FullColumnInfo columnInfo = new FullColumnInfo ();
+			columnInfos[i] = columnInfo;
+
+			columnInfo.autoIncrement = false;
+			columnInfo.caseSensitive = false;
+			columnInfo.searchable = false;
+			columnInfo.currency = false;
+			columnInfo.nullable = ResultSetMetaData.columnNullable;
+			columnInfo.signed = false;
+			columnInfo.displaySize = lengths[i];
+			columnInfo.label = titles[i];
+			columnInfo.name = titles[i];
+			columnInfo.schemaName = null;
+			columnInfo.precision = 0;
+			columnInfo.scale = 0;
+			columnInfo.tableName = null;
+			columnInfo.catalogName = null;
+			columnInfo.type = Types.VARCHAR;
+			columnInfo.typeName = "VARCHAR";
+			columnInfo.readOnly = true;
+			columnInfo.writable = false;
+			columnInfo.definitelyWritable = false;
+			columnInfo.className = "java.lang.String";
+		}
+		return new InMemoryResultSetMetaData (columnInfos);
+	}
+
+	public static InMemoryResultSetMetaData copyResultSetMetaData (ResultSetMetaData metaData, JaqyHelper helper) throws SQLException
+	{
+		return new InMemoryResultSetMetaData (ResultSetMetaDataUtils.getColumnInfo (metaData, helper).columns);
+	}
+
+	public static JaqyResultSetMetaData copyResultSetMetaData (JaqyResultSetMetaData metaData) throws SQLException
+	{
+		ResultSetMetaData rsmd = copyResultSetMetaData (metaData.getMetaData (), metaData.getHelper ());
+		return new JaqyResultSetMetaData (rsmd, DummyHelper.getInstance ());
 	}
 }
