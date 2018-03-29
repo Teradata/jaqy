@@ -158,6 +158,7 @@ public class Session
 	{
 		Display display = interpreter.getDisplay ();
 		JaqyResultSet rs = stmt.getResultSet (interpreter);
+		rs.setStatement (stmt);
 		for (;;)
 		{
 			if (rs != null)

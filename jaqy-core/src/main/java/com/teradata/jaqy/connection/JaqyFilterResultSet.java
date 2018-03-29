@@ -52,6 +52,12 @@ public class JaqyFilterResultSet implements JaqyResultSet
 	}
 
 	@Override
+	public void setStatement (JaqyStatement statement)
+	{
+		m_statement = statement;
+	}
+
+	@Override
 	public ResultSet getResultSet ()
 	{
 		return m_rs.getResultSet ();
@@ -152,11 +158,6 @@ public class JaqyFilterResultSet implements JaqyResultSet
 			predicate.bind (m_rs, m_interpreter);
 		}
 		m_predicate = predicate;
-	}
-
-	public void setStatement (JaqyStatement statement)
-	{
-		m_statement = statement;
 	}
 
 	public void setProjection (ProjectColumnList expList) throws SQLException

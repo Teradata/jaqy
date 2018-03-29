@@ -79,6 +79,12 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 	}
 
 	@Override
+	public void setStatement (JaqyStatement statement)
+	{
+		m_statement = statement;
+	}
+
+	@Override
 	public ResultSet getResultSet ()
 	{
 		return m_rs;
@@ -154,10 +160,5 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 				return m_rs.getObject (column);
 		}
 		return null;
-	}
-
-	public void setStatement (JaqyStatement statement)
-	{
-		m_statement = statement;
 	}
 }

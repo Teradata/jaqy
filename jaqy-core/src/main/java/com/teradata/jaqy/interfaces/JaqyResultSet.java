@@ -31,6 +31,7 @@ public interface JaqyResultSet extends AutoCloseable
 	public JaqyResultSetMetaData getMetaData () throws SQLException;
 
 	public JaqyStatement getStatement ();
+	public void setStatement (JaqyStatement statement);
 
 	public ResultSet getResultSet ();
 
