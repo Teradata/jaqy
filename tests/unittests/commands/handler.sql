@@ -28,7 +28,7 @@ SELECT 1234 AS Test;
 .handler success
 
 .handler update
-.handler update "-- javascript update: " + session.activityCount
+.handler update "-- javascript update: " + interpreter.activityCount
 CREATE TABLE MyTable (a INTEGER, b INTEGER);
 INSERT INTO MyTable VALUES (1, 1);
 UPDATE MyTable SET b = 2;
@@ -46,7 +46,7 @@ SELECT asdf;
 .handler error
 
 .handler activity
-.handler activity "-- javascript activity: " + session.activityCount
+.handler activity "-- javascript activity: " + interpreter.activityCount
 SELECT 1234 AS Test;
 .handler activity
 .handler activity default

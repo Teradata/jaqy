@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
+import com.teradata.jaqy.utils.SortInfo;
 
 /**
  * @author	Heng Yuan
@@ -160,5 +161,20 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 				return m_rs.getObject (column);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isSortable ()
+	{
+		return m_rs instanceof InMemoryResultSet;
+	}
+
+	@Override
+	public void sort (SortInfo[] sortInfos) throws SQLException
+	{
+		if (m_rs instanceof InMemoryResultSet)
+		{
+			((InMemoryResultSet)m_rs).sort (sortInfos);
+		}
 	}
 }

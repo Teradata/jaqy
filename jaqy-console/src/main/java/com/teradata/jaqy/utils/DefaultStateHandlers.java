@@ -97,7 +97,7 @@ public class DefaultStateHandlers
 			StringBuffer buffer = new StringBuffer ();
 			if (display.isColorEnabled ())
 				buffer.append (display.getEscape ().fgColor ("green"));
-			buffer.append ("-- success. update count = " + interpreter.getSession ().getActivityCount ());
+			buffer.append ("-- success. update count = " + interpreter.getActivityCount ());
 			if (display.isColorEnabled ())
 				buffer.append (display.getEscape ().reset ());
 			return buffer.toString ();
@@ -112,7 +112,7 @@ public class DefaultStateHandlers
 			StringBuffer buffer = new StringBuffer ();
 			if (display.isColorEnabled ())
 				buffer.append (display.getEscape ().fgColor ("green"));
-			buffer.append ("-- activity count = " + interpreter.getSession ().getActivityCount ());
+			buffer.append ("-- activity count = " + interpreter.getActivityCount ());
 			if (display.isColorEnabled ())
 				buffer.append (display.getEscape ().reset ());
 			return buffer.toString ();

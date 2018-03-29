@@ -24,7 +24,6 @@ import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.importer.FieldImporter;
 import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.parser.FieldParser;
-import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.*;
 
@@ -38,7 +37,6 @@ public class Session
 
 	private JaqyConnection m_connection;
 
-	private long m_activityCount;
 	private long m_iteration;
 	private final Object m_lock = new Object ();
 	private boolean m_doNotClose;
@@ -158,29 +156,19 @@ public class Session
 	{
 		Display display = interpreter.getDisplay ();
 		JaqyResultSet rs = stmt.getResultSet (interpreter);
-		rs.setStatement (stmt);
 		for (;;)
 		{
 			if (rs != null)
 			{
+				rs.setStatement (stmt);
 				m_globals.getDebugManager ().dumpResultSet (display, this, rs);
 				display.showSuccess (interpreter);
-				SortInfo[] sortInfos = interpreter.getSortInfos ();
-				if (sortInfos != null)
-				{
-					JaqyResultSet tmpRS = ResultSetUtils.copyResultSet (rs, interpreter.getLimit (), interpreter);
-					rs.close ();
-					InMemoryResultSet inMemRS = (InMemoryResultSet)tmpRS.getResultSet ();
-					inMemRS.sort (sortInfos);
-					rs = tmpRS;
-				}
-				long activityCount = interpreter.print (rs);
-				setActivityCount (activityCount);
-				if (activityCount >= 0)
+				rs = interpreter.print (rs);
+				if (interpreter.getActivityCount () >= 0)
 				{
 					display.showActivityCount (interpreter);
 				}
-				if (!m_doNotClose)
+				if (rs != null && !m_doNotClose)
 					rs.close ();
 				rs = null;
 			}
@@ -189,7 +177,7 @@ public class Session
 				long activityCount = stmt.getUpdateCount ();
 				if (activityCount >= 0)
 				{
-					setActivityCount (activityCount);
+					interpreter.setActivityCount (activityCount);
 					display.showSuccessUpdate (interpreter);
 				}
 				else
@@ -487,27 +475,6 @@ public class Session
 			buffer.append ("closed.");
 		}
 		return buffer.toString ();
-	}
-
-	/**
-	 * Sets the activity count.
-	 * 
-	 * @param activity
-	 *            count the activity count
-	 */
-	public void setActivityCount (long activityCount)
-	{
-		m_activityCount = activityCount;
-	}
-
-	/**
-	 * Gets the activity count.
-	 * 
-	 * @return the activity count
-	 */
-	public long getActivityCount ()
-	{
-		return m_activityCount;
 	}
 
 	@Override

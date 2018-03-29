@@ -111,7 +111,7 @@ Test
 .handler update
 .handler update default
 -- 2/20 - 0 ---------------------------------------------------------------
-.handler update "-- javascript update: " + session.activityCount
+.handler update "-- javascript update: " + interpreter.activityCount
 -- 2/21 - 0 ---------------------------------------------------------------
 CREATE TABLE MyTable (a INTEGER, b INTEGER);
 -- javascript update: 0
@@ -123,7 +123,7 @@ UPDATE MyTable SET b = 2;
 -- javascript update: 1
 -- 5/21 - 0 ---------------------------------------------------------------
 .handler update
-.handler update "-- javascript update: " + session.activityCount
+.handler update "-- javascript update: " + interpreter.activityCount
 -- 5/22 - 0 ---------------------------------------------------------------
 .handler update default
 -- 5/23 - 0 ---------------------------------------------------------------
@@ -161,7 +161,7 @@ SELECT asdf;
 .handler activity
 .handler activity default
 -- 8/30 - 0 ---------------------------------------------------------------
-.handler activity "-- javascript activity: " + session.activityCount
+.handler activity "-- javascript activity: " + interpreter.activityCount
 -- 8/31 - 0 ---------------------------------------------------------------
 SELECT 1234 AS Test;
 -- success --
@@ -171,7 +171,7 @@ Test
 -- javascript activity: 1
 -- 9/31 - 0 ---------------------------------------------------------------
 .handler activity
-.handler activity "-- javascript activity: " + session.activityCount
+.handler activity "-- javascript activity: " + interpreter.activityCount
 -- 9/32 - 0 ---------------------------------------------------------------
 .handler activity default
 -- 9/33 - 0 ---------------------------------------------------------------

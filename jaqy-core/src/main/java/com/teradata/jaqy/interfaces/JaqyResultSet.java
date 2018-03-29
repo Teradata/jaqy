@@ -20,6 +20,7 @@ import java.sql.SQLException;
 
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JaqyStatement;
+import com.teradata.jaqy.utils.SortInfo;
 
 /**
  * @author	Heng Yuan
@@ -50,7 +51,8 @@ public interface JaqyResultSet extends AutoCloseable
 	 * @param	column
 	 * 			the column index
 	 * @return	the object associated with a column.
-	 * @throws SQLException
+	 * @throws	SQLException
+	 * 			in case of error.
 	 */
 	public Object getObject (int column) throws SQLException;
 
@@ -60,11 +62,31 @@ public interface JaqyResultSet extends AutoCloseable
 	 * @param	column
 	 * 			the column index
 	 * @return	the internal ResultSet get object
-	 * @throws SQLException
+	 * @throws	SQLException
+	 * 			in case of error.
 	 */
 	public Object getObjectInternal (int column) throws SQLException;
 
 	public String getString (int column) throws SQLException;
-
+	/**
+	 * Rewind the cursor.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
 	public void beforeFirst () throws SQLException;
+	/**
+	 * Check if this ResultSet can be sorted or not.
+	 *
+	 * @return	true if this ResultSet allows setSortInfos() to be called.
+	 */
+	public boolean isSortable ();
+	/**
+	 * Sort the ResultSet.
+	 *
+	 * @param	sortInfos
+	 * 			info necessary to do the sort.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
+	public void sort (SortInfo[] sortInfos) throws SQLException;
 }

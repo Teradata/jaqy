@@ -23,7 +23,9 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.Predicate;
 import com.teradata.jaqy.interfaces.Project;
+import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.ProjectColumnList;
+import com.teradata.jaqy.utils.SortInfo;
 
 /**
  * @author	Heng Yuan
@@ -167,6 +169,21 @@ public class JaqyFilterResultSet implements JaqyResultSet
 			expList.bind (m_rs, m_interpreter);
 			m_project = expList.getProject ();
 			m_rsmd = expList.getMetaData ();
+		}
+	}
+
+	@Override
+	public boolean isSortable ()
+	{
+		return m_rs instanceof InMemoryResultSet;
+	}
+
+	@Override
+	public void sort (SortInfo[] sortInfos) throws SQLException
+	{
+		if (m_rs instanceof InMemoryResultSet)
+		{
+			((InMemoryResultSet)m_rs).sort (sortInfos);
 		}
 	}
 }

@@ -29,6 +29,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyDefaultResultSet;
 import com.teradata.jaqy.connection.JaqyFilterResultSet;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.*;
@@ -37,6 +38,7 @@ import com.teradata.jaqy.lineinput.StackedLineInput;
 import com.teradata.jaqy.parser.CommandParser;
 import com.teradata.jaqy.parser.ExpressionParser;
 import com.teradata.jaqy.printer.QuietPrinter;
+import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.*;
 
 /**
@@ -76,7 +78,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private Session m_session;
 	private int m_sqlCount;
 	private int m_commandCount;
-
+	private long m_activityCount;
 	private long m_limit = 0;
 	private long m_repeatCount = 1;
 	private String m_prevSQL;
@@ -138,7 +140,7 @@ public class JaqyInterpreter implements ExpressionHandler
 		@Override
 		public Object get ()
 		{
-			return getSession ().getActivityCount ();
+			return getActivityCount ();
 		}
 
 		@Override
@@ -146,7 +148,7 @@ public class JaqyInterpreter implements ExpressionHandler
 		{
 			if (value instanceof Number)
 			{
-				getSession ().setActivityCount (((Number) value).longValue ());
+				setActivityCount (((Number) value).longValue ());
 				return true;
 			}
 			return false;
@@ -526,9 +528,9 @@ public class JaqyInterpreter implements ExpressionHandler
 					// Now reset the status of some states
 					m_repeatCount = 1;
 					m_queryMode = QueryMode.Regular;
-					m_sortInfos = null;
 					m_predicate = null;
 					m_projectList = null;
+					m_sortInfos = null;
 					m_limit = 0;
 
 					display.showPrompt (this);
@@ -746,31 +748,93 @@ public class JaqyInterpreter implements ExpressionHandler
 		m_display.println (this, msg);
 	}
 
-	public long print (JaqyResultSet rs)
+	/**
+	 * Print the ResultSet.
+	 * <p>
+	 * It should be noted that this function does not close the ResultSet.
+	 * This behavior is to allow saved ResultSet to be re-used.
+	 * <p>
+	 * Depending on the client filtering, projection and sorting, either a
+	 * copy or another JaqyResult could be created to deal with these.
+	 *
+	 * @param	rs
+	 * 			ResultSet to be printed.
+	 * @return	the ResultSet passed in, or a copy of the ResultSet after
+	 * 			filtering, projection and sorting.
+	 */
+	public JaqyResultSet print (JaqyResultSet rs)
 	{
 		Display display = m_display;
 		try
 		{
 			m_globals.log (Level.INFO, "ResultSet Type: " + ResultSetUtils.getResultSetType (rs.getType ()));
 
-			// add client side projection / predicate handling
-			if (m_predicate != null ||
-				m_projectList != null)
+			// before printing, we clear the current activity count in case we
+			// had an error.
+			m_activityCount = -1;
+
+			boolean rsCanProject = false;
+
+			// First, filter the ResultSet
+			if (m_predicate != null)
 			{
 				@SuppressWarnings ("resource")
 				JaqyFilterResultSet newRS = new JaqyFilterResultSet (rs, rs.getHelper (), this);
 				newRS.setStatement (rs.getStatement ());
 				newRS.setPredicate (m_predicate);
-				newRS.setProjection (m_projectList);
-				m_predicate = null;
-				m_projectList = null;
 				rs = newRS;
+				m_predicate = null;
+				rsCanProject = true;
 			}
 
+			// Second, sort the ResultSet
+			if (m_sortInfos != null)
+			{
+				if (!rs.isSortable ())
+				{
+					JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, m_limit, this);
+					rs.close ();
+					rs = newRS;
+				}
+				rs.sort (m_sortInfos);
+				m_sortInfos = null;
+				rsCanProject = false;
+			}
+
+			// Lastly, do projection
+			if (m_projectList != null)
+			{
+				if (rsCanProject)
+				{
+					// Re-use the current JaqyFilterResultSet if possible.
+					((JaqyFilterResultSet)rs).setProjection (m_projectList);
+				}
+				else
+				{
+					@SuppressWarnings ("resource")
+					JaqyFilterResultSet newRS = new JaqyFilterResultSet (rs, rs.getHelper (), this);
+					newRS.setStatement (rs.getStatement ());
+					newRS.setPredicate (m_predicate);
+					newRS.setProjection (m_projectList);
+					rs = newRS;
+				}
+				m_projectList = null;
+			}
+
+			// Now check if we need to save the ResultSet.  If so, we need
+			// to make this ResultSet in-memory and without filtering and
+			// projections.
 			boolean rewind = false;
 			if (m_saveResultSet)
 			{
-				rs = ResultSetUtils.copyResultSet (rs, 0, this);
+				// check if we can avoid the copy the ResultSet
+				if (!(rs instanceof JaqyDefaultResultSet) ||
+					!(rs.getResultSet () instanceof InMemoryResultSet))
+				{
+					JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, this);
+					rs.close ();
+					rs = newRS;
+				}
 				getVariableManager ().put ("save", rs);
 				rewind = true;
 				m_saveResultSet = false;
@@ -779,25 +843,28 @@ public class JaqyInterpreter implements ExpressionHandler
 			if (exporter != null)
 			{
 				setExporter (null);
-				return exporter.export (rs, this);
+				m_activityCount = exporter.export (rs, this);
+				return rs;
 			}
-			long activityCount;
 			if (m_quiet)
 			{
-				activityCount = QuietPrinter.getInstance ().print (rs, display.getPrintWriter (), m_limit, this);
+				m_activityCount = QuietPrinter.getInstance ().print (rs, display.getPrintWriter (), m_limit, this);
 			}
 			else
 			{
-				activityCount = m_printer.print (rs, display.getPrintWriter (), m_limit, this);
+				m_activityCount = m_printer.print (rs, display.getPrintWriter (), m_limit, this);
 			}
 			if (rewind)
+			{
 				rs.beforeFirst ();
-			return activityCount;
+				rs = null;	// prevent the ResultSet from closed.
+			}
+			return rs;
 		}
 		catch (Exception ex)
 		{
 			display.error (this, ex);
-			return -1;
+			return null;
 		}
 	}
 
@@ -971,6 +1038,27 @@ public class JaqyInterpreter implements ExpressionHandler
 		return m_repeatCount;
 	}
 
+	/**
+	 * Sets the activity count.
+	 * 
+	 * @param activity
+	 *            count the activity count
+	 */
+	public void setActivityCount (long activityCount)
+	{
+		m_activityCount = activityCount;
+	}
+
+	/**
+	 * Gets the activity count.
+	 * 
+	 * @return the activity count
+	 */
+	public long getActivityCount ()
+	{
+		return m_activityCount;
+	}
+
 	public void setRepeatCount (long repeatCount)
 	{
 		if (repeatCount < 1)
@@ -1019,7 +1107,6 @@ public class JaqyInterpreter implements ExpressionHandler
 	{
 		m_sortInfos = sortInfos;
 	}
-
 
 	public Predicate getPredicate ()
 	{
