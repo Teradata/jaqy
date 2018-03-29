@@ -22,6 +22,7 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.JaqyDefaultResultSet;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
+import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.helper.DummyHelper;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
@@ -150,7 +151,7 @@ public class ResultSetUtils
 	{
 		InMemoryResultSetMetaData rsmd = ResultSetMetaDataUtils.copyResultSetMetaData (rs.getMetaData ().getMetaData (), rs.getHelper ());
 		ArrayList<Object[]> rows = new ArrayList<Object[]> ();
-		Statement statement = rs.getStatement ();
+		JaqyStatement stmt = rs.getStatement ();
 		int columnCount = rsmd.getColumnCount ();
 		if (limit == 0)
 			limit = Long.MAX_VALUE;
@@ -170,9 +171,11 @@ public class ResultSetUtils
 			rows.add (row);
 			--limit;
 		}
-		InMemoryResultSet newRS = new InMemoryResultSet (rows, rsmd, statement);
+		InMemoryResultSet newRS = new InMemoryResultSet (rows, rsmd, stmt == null ? null : stmt.getStatement ());
 		newRS.setHasLob (hasLob);
-		return new JaqyDefaultResultSet (newRS, DummyHelper.getInstance ());
+		JaqyDefaultResultSet jqrs = new JaqyDefaultResultSet (newRS, DummyHelper.getInstance ());
+		jqrs.setStatement (stmt);
+		return jqrs;
 	}
 
 	public static JaqyDefaultResultSet getResultSet (PropertyTable pt)

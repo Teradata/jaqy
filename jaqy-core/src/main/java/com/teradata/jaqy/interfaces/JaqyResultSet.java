@@ -17,9 +17,9 @@ package com.teradata.jaqy.interfaces;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
+import com.teradata.jaqy.connection.JaqyStatement;
 
 /**
  * @author	Heng Yuan
@@ -30,7 +30,7 @@ public interface JaqyResultSet extends AutoCloseable
 
 	public JaqyResultSetMetaData getMetaData () throws SQLException;
 
-	public Statement getStatement ();
+	public JaqyStatement getStatement ();
 
 	public ResultSet getResultSet ();
 

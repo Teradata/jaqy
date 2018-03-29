@@ -17,7 +17,6 @@ package com.teradata.jaqy.connection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
@@ -31,7 +30,7 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 	private final ResultSet m_rs;
 	private final JaqyHelper m_helper;
 	private JaqyResultSetMetaData m_metaData;
-	private Statement m_statement;
+	private JaqyStatement m_statement;
 
 	public JaqyDefaultResultSet (ResultSet rs, JaqyHelper helper)
 	{
@@ -74,7 +73,7 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 	}
 
 	@Override
-	public Statement getStatement ()
+	public JaqyStatement getStatement ()
 	{
 		return m_statement;
 	}
@@ -157,7 +156,7 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 		return null;
 	}
 
-	public void setStatement (Statement statement)
+	public void setStatement (JaqyStatement statement)
 	{
 		m_statement = statement;
 	}

@@ -17,7 +17,6 @@ package com.teradata.jaqy.connection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
@@ -37,7 +36,7 @@ public class JaqyFilterResultSet implements JaqyResultSet
 	private Predicate m_predicate;
 	private Project m_project;
 	private final JaqyInterpreter m_interpreter;
-	private Statement m_statement;
+	private JaqyStatement m_statement;
 
 	public JaqyFilterResultSet (JaqyResultSet rs, JaqyHelper helper, JaqyInterpreter interpreter)
 	{
@@ -47,7 +46,7 @@ public class JaqyFilterResultSet implements JaqyResultSet
 	}
 
 	@Override
-	public Statement getStatement ()
+	public JaqyStatement getStatement ()
 	{
 		return m_statement;
 	}
@@ -155,7 +154,7 @@ public class JaqyFilterResultSet implements JaqyResultSet
 		m_predicate = predicate;
 	}
 
-	public void setStatement (Statement statement)
+	public void setStatement (JaqyStatement statement)
 	{
 		m_statement = statement;
 	}

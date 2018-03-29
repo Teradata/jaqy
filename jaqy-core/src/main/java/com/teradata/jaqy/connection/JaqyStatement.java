@@ -82,4 +82,9 @@ public class JaqyStatement
 	{
 		m_statement.setFetchSize (size);
 	}
+
+	public Statement getStatement ()
+	{
+		return m_statement;
+	}
 }
