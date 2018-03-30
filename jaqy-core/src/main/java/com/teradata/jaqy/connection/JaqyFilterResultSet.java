@@ -131,7 +131,6 @@ public class JaqyFilterResultSet implements JaqyResultSet
 			}
 			catch (Exception ex)
 			{
-				ex.printStackTrace ();
 				throw new SQLException (ex);
 			}
 		}
