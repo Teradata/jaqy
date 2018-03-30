@@ -1,7 +1,8 @@
 --------------------------------------------------------------------------
 -- .save command test
 --------------------------------------------------------------------------
-.run ../common/postgresql_setup.sql
+.run ../common/mysql_setup.sql
+USE vagrant;
 
 -- setup
 CREATE TABLE t1 (a INT);
@@ -22,12 +23,12 @@ DROP TABLE t1;
 .end if
 
 -- drop all the remaining tables
-.project table_schem, table_name
+.project TABLE_CAT, TABLE_NAME
 .save
 .list
 
 .repeat ${save.size()}
-DROP TABLE "${save.get (iteration, 1)}"."${save.get (iteration, 2)}";
+DROP TABLE `${save.get (iteration, 1)}`.`${save.get (iteration, 2)}`;
 
 -- verify t2, t3, and t4 were dropped.
 .list

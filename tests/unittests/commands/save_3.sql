@@ -1,7 +1,8 @@
 --------------------------------------------------------------------------
 -- .save command test
 --------------------------------------------------------------------------
-.run ../common/postgresql_setup.sql
+.run ../common/mysql_setup.sql
+USE vagrant;
 
 -- setup
 CREATE TABLE t1 (a INT);
@@ -22,11 +23,11 @@ DROP TABLE $(0);
 
 -- create an alias that drop all the tables in the current path
 .alias dropall
-.project table_schem, table_name
+.project TABLE_CAT, TABLE_NAME
 .save
 .list
 .repeat ${save.size()}
-DROP TABLE "${save.get (iteration, 1)}"."${save.get (iteration, 2)}";
+DROP TABLE `${save.get (iteration, 1)}`.`${save.get (iteration, 2)}`;
 .end alias
 
 .dropall
