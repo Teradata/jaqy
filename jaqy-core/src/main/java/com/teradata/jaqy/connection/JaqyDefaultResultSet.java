@@ -56,23 +56,6 @@ public class JaqyDefaultResultSet implements JaqyResultSet
 		return 0;
 	}
 
-	/**
-	 * Get a particular row.  Note that the row # here is 0 based.
-	 * The resultset must be InMemoryResultSet.
-	 *
-	 * @param	row
-	 * 			0-based row id
-	 * @return	the row retrieved.
-	 */
-	public Object[] get (int row)
-	{
-		if (m_rs instanceof InMemoryResultSet)
-		{
-			return ((InMemoryResultSet)m_rs).getRows ().get (row);
-		}
-		return null;
-	}
-
 	@Override
 	public JaqyStatement getStatement ()
 	{

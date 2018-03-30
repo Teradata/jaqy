@@ -1,0 +1,85 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .save command test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+-- setup
+CREATE TABLE t1 (a INT);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+CREATE TABLE t2 (a INT);
+-- success. update count = 0
+-- 2/2 - 0 ----------------------------------------------------------------
+CREATE TABLE t3 (a INT);
+-- success. update count = 0
+-- 3/2 - 0 ----------------------------------------------------------------
+CREATE TABLE t4 (a INT);
+-- success. update count = 0
+-- 4/2 - 0 ----------------------------------------------------------------
+
+-- drop t1 if it exists
+.list . . t1
+-- Listing tables: .public.t1
+table_cat table_schem table_name table_type remarks
+--------- ----------- ---------- ---------- -------
+?         public      t1         TABLE      ?
+-- 4/3 - 0 ----------------------------------------------------------------
+.if activityCount > 0
+-- 4/4 - 0 ----------------------------------------------------------------
+DROP TABLE t1;
+-- success. update count = 0
+-- 5/4 - 0 ----------------------------------------------------------------
+.end if
+-- 5/4 - 0 ----------------------------------------------------------------
+
+-- same query again.  DROP statement is skipped.
+.list . . t1
+-- Listing tables: .public.t1
+table_cat table_schem table_name table_type remarks
+--------- ----------- ---------- ---------- -------
+-- 5/5 - 0 ----------------------------------------------------------------
+.if activityCount > 0
+-- skip: DROP TABLE t1;
+.end if
+-- 5/6 - 0 ----------------------------------------------------------------
+
+-- drop all the remaining tables
+.project table_schem, table_name
+-- 5/7 - 0 ----------------------------------------------------------------
+.save
+-- 5/8 - 0 ----------------------------------------------------------------
+.list
+-- Listing tables: .public.%
+table_schem table_name
+----------- ----------
+public      t2
+public      t3
+public      t4
+-- 5/9 - 0 ----------------------------------------------------------------
+
+.repeat ${save.size()}
+-- 5/10 - 0 ---------------------------------------------------------------
+DROP TABLE "${save.get (iteration, 1)}"."${save.get (iteration, 2)}";
+-- iteration: 1
+-- success. update count = 0
+-- iteration: 2
+-- success. update count = 0
+-- iteration: 3
+-- success. update count = 0
+-- 6/10 - 0 ---------------------------------------------------------------
+
+-- verify t2, t3, and t4 were dropped.
+.list
+-- Listing tables: .public.%
+table_cat table_schem table_name table_type remarks
+--------- ----------- ---------- ---------- -------
+-- 6/11 - 0 ---------------------------------------------------------------
+
+.close
+-- 6/12 - 0 ---------------------------------------------------------------

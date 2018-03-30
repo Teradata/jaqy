@@ -32,6 +32,18 @@ public class SaveCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/save.sql", "../tests/unittests/commands/control/save.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/save_1.sql", "../tests/unittests/commands/control/save_1.control");
+	}
+
+	@Test
+	public void test2 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/save_2.sql", "../tests/unittests/commands/control/save_2.control");
+	}
+
+	@Test
+	public void test3 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/save_3.sql", "../tests/unittests/commands/control/save_3.control");
 	}
 }

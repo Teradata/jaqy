@@ -32,7 +32,9 @@ rem.sql
 repeat.sql
 run.sql
 s3.sql
-save.sql
+save_1.sql
+save_2.sql
+save_3.sql
 script_1.sql
 script_2.sql
 script_3.sql

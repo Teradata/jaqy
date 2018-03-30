@@ -25,7 +25,7 @@ SELECT * FROM MyTable ORDER BY a;
 
 -- use with repeat command
 .repeat ${save.size()}
-SELECT '${save.get (iteration)[1]}' AS geo;
+SELECT '${save.get (iteration, 2)}' AS geo;
 
 -- rewind before printing
 .eval save.beforeFirst ();

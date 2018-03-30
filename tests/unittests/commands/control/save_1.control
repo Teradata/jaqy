@@ -64,7 +64,7 @@ a b
 -- use with repeat command
 .repeat ${save.size()}
 -- 6/8 - 0 ----------------------------------------------------------------
-SELECT '${save.get (iteration)[1]}' AS geo;
+SELECT '${save.get (iteration, 2)}' AS geo;
 -- iteration: 1
 -- success --
 geo

@@ -413,7 +413,7 @@ public class Session
 		{
 			for (int iter = 0; iter < repeat; ++iter)
 			{
-				setIteration (iter);
+				setIteration (iter + 1);
 				if (repeat > 1)
 				{
 					interpreter.println ("-- iteration: " + (iter + 1));

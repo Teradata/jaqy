@@ -97,13 +97,13 @@ SELECT ${iteration} AS Test;
 -- success --
 test
 ----
-   0
+   1
 -- activity count = 1
 -- iteration: 2
 -- success --
 test
 ----
-   1
+   2
 -- activity count = 1
 -- 5/9 - 0 ----------------------------------------------------------------
 
