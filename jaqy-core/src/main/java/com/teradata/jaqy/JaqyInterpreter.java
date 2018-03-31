@@ -561,7 +561,7 @@ public class JaqyInterpreter implements ExpressionHandler
 			try
 			{
 				push (new ReaderLineInput (new StringReader (alias), getDirectory (), false));
-				interpret (false);
+//				interpret (false);
 			}
 			catch (Throwable t)
 			{
