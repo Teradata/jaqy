@@ -15,8 +15,6 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 

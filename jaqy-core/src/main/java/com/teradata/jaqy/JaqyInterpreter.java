@@ -99,7 +99,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private final HashMap<String, ScriptEngine> m_engines = new HashMap<String, ScriptEngine> ();
 	private final ScriptEngine m_engine;
 
-	private final StackedLineInput m_input = new StackedLineInput ();
+	private StackedLineInput m_lineInput;
 
 	private boolean m_quiet;
 	private JaqyPrinter m_printer;
@@ -215,14 +215,16 @@ public class JaqyInterpreter implements ExpressionHandler
 		return m_globals;
 	}
 
-	public void push (LineInput input)
+	/**
+	 * Push the line input to the current line input stack for immediate
+	 * processing by the interpreter.
+	 *  
+	 * @param	lineInput
+	 * 			the input to be processed.
+	 */
+	public void push (LineInput lineInput)
 	{
-		m_input.push (input);
-	}
-
-	public void interpret (boolean interactive)
-	{
-		interpret (m_input, interactive);
+		m_lineInput.push (lineInput);
 	}
 
 	/**
@@ -352,7 +354,17 @@ public class JaqyInterpreter implements ExpressionHandler
 		}
 	}
 
-	public void interpret (LineInput lineInput, boolean interactive)
+	/**
+	 * Interpret an input.
+	 * <p>
+	 * This function should be only called if it is intended to return
+	 * the control back to the caller.  Otherwise, {@link #push(LineInput)}
+	 * should be used.
+	 * 
+	 * @param	lineInput
+	 * 			stacked line input.
+	 */
+	public void interpret (StackedLineInput lineInput)
 	{
 		Display display = m_display;
 		display.showPrompt (this);
@@ -367,7 +379,11 @@ public class JaqyInterpreter implements ExpressionHandler
 		LineInput.Input input = new LineInput.Input ();
 		while (lineInput.getLine (input))
 		{
-			interactive = input.interactive;
+			// reset the current input in case this function
+			// got called recursively.
+			m_lineInput = lineInput;
+
+			boolean interactive = input.interactive;
 			String line = input.line;
 
 			ParseAction action;
@@ -561,7 +577,6 @@ public class JaqyInterpreter implements ExpressionHandler
 			try
 			{
 				push (new ReaderLineInput (new StringReader (alias), getDirectory (), false));
-//				interpret (false);
 			}
 			catch (Throwable t)
 			{
@@ -997,7 +1012,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	public File getFileDirectory ()
 	{
-		File file = m_input.getFileDirectory ();
+		File file = m_lineInput.getFileDirectory ();
 		if (file == null)
 			return m_globals.getDirectory ();
 		return file;
@@ -1005,7 +1020,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	public Path getDirectory ()
 	{
-		return m_input.getDirectory ();
+		return m_lineInput.getDirectory ();
 	}
 
 	public Path getPath (String name) throws IOException

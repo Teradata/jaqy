@@ -23,12 +23,8 @@ import org.apache.commons.cli.CommandLine;
 import org.fusesource.jansi.AnsiConsole;
 
 import com.teradata.jaqy.interfaces.Display;
-import com.teradata.jaqy.interfaces.LineInput;
 import com.teradata.jaqy.interfaces.Path;
-import com.teradata.jaqy.lineinput.CommandLineInput;
-import com.teradata.jaqy.lineinput.JLineConsoleLineInput;
-import com.teradata.jaqy.lineinput.LineInputFactory;
-import com.teradata.jaqy.lineinput.ReaderLineInput;
+import com.teradata.jaqy.lineinput.*;
 import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.JaqyShutdownHook;
 import com.teradata.jaqy.utils.StringUtils;
@@ -60,14 +56,13 @@ public class Main
 
 	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, Path initFile)
 	{
-		LineInput lineInput;
+		StackedLineInput lineInput = new StackedLineInput ();
 		try
 		{
 			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
 			Path startDir = new FilePath (new File (System.getProperty ("user.dir")));
-			lineInput = new ReaderLineInput (reader, startDir, false);
-			interpreter.push (lineInput);
-			interpreter.interpret (false);
+			lineInput.push (new ReaderLineInput (reader, startDir, false));
+			interpreter.interpret (lineInput);
 		}
 		catch (Exception ex)
 		{
@@ -79,9 +74,8 @@ public class Main
 			// check if ~/.jqrc exists
 			try
 			{
-				lineInput = LineInputFactory.getLineInput (initFile, null, false);
-				interpreter.push (lineInput);
-				interpreter.interpret (false);
+				lineInput.push (LineInputFactory.getLineInput (initFile, null, false));
+				interpreter.interpret (lineInput);
 			}
 			catch (Exception ex)
 			{
@@ -217,6 +211,7 @@ public class Main
 		Path currentDir = new FilePath (globals.getDirectory ());
 		// Current dir
 		// setup the input
+		StackedLineInput lineInput = new StackedLineInput ();
 		if (display.isInteractive ())
 		{
 			globals.getOs ();
@@ -227,20 +222,20 @@ public class Main
 				// Windows have its own readline-like support for
 				// all apps, so we can just use the default system
 				// behavior.
-				interpreter.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
+				lineInput.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
 			}
 			else
 			{
 				try
 				{
 					// we use JLine other systems.
-					interpreter.push (new JLineConsoleLineInput (currentDir));
+					lineInput.push (new JLineConsoleLineInput (currentDir));
 				}
 				catch (IOException ex)
 				{
 					// just in case we fail with JLine,
 					// fall back to default.
-					interpreter.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
+					lineInput.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
 				}
 			}
 		}
@@ -256,18 +251,18 @@ public class Main
 					// encoding at all.  Instead, use the default.
 					encoding = Charset.defaultCharset ().displayName ();
 				}
-				interpreter.push (LineInputFactory.getLineInput (System.in, currentDir, encoding, false));
+				lineInput.push (LineInputFactory.getLineInput (System.in, currentDir, encoding, false));
 			}
 		}
 
 		// Interpret any remaining command line arguments first
 		if (args.length > 0)
 		{
-			interpreter.push (new CommandLineInput (args, currentDir));
+			lineInput.push (new CommandLineInput (args, currentDir));
 		}
 
 		// parse the user commands
-		interpreter.interpret (display.isInteractive ());
+		interpreter.interpret (lineInput);
 
 		if (!skipStdin)
 		{

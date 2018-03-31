@@ -24,6 +24,7 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.lineinput.ReaderLineInput;
+import com.teradata.jaqy.lineinput.StackedLineInput;
 
 /**
  * @author	Heng Yuan
@@ -79,7 +80,9 @@ public class IfCommand extends JaqyCommandAdapter
 			globals.log (Level.INFO, "running if statement");
 			globals.log (Level.INFO, action);
 			globals.log (Level.INFO, "end if statement");
-			interpreter.interpret (new ReaderLineInput (new StringReader (action), interpreter.getDirectory (), false), false);
+			StackedLineInput lineInput = new StackedLineInput ();
+			lineInput.push (new ReaderLineInput (new StringReader (action), interpreter.getDirectory (), false));
+			interpreter.interpret (lineInput);
 			if (!silent)
 			{
 				display.echo (interpreter, ".end " + getName (), false);
