@@ -33,10 +33,12 @@ import com.teradata.jaqy.utils.FileUtils;
  */
 class FileHandler implements TypeHandler
 {
+	private final Path m_csvFile;
 	private final CSVExportInfo m_fileInfo;
 
-	public FileHandler (CSVExportInfo fileInfo)
+	public FileHandler (Path csvFile, CSVExportInfo fileInfo)
 	{
+		m_csvFile = csvFile;
 		m_fileInfo = fileInfo;
 	}
 
@@ -47,7 +49,7 @@ class FileHandler implements TypeHandler
 		if (o == null)
 			return null;
 		String fileName = m_fileInfo.nameGen.newName ();
-		Path file = interpreter.getPath (fileName);
+		Path file = m_csvFile.getRelativePath (fileName);
 		if (o instanceof byte[])
 		{
 			FileUtils.writeFile (file, (byte[])o);

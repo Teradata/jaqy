@@ -26,6 +26,7 @@ import org.apache.commons.csv.CSVFormat;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.CSVExportInfo;
 import com.teradata.jaqy.utils.CSVNameGen;
 import com.teradata.jaqy.utils.CSVUtils;
@@ -119,7 +120,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		Writer fw = new OutputStreamWriter (interpreter.getPath (args[0]).getOutputStream (), charset);
-		return new CSVExporter (format, fw, exportInfoMap);
+		Path file = interpreter.getPath (args[0]);
+		return new CSVExporter (file, charset, format, exportInfoMap);
 	}
 }

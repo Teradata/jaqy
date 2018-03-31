@@ -15,9 +15,8 @@
  */
 package com.teradata.jaqy.exporter;
 
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 import org.apache.commons.csv.CSVFormat;
@@ -28,6 +27,7 @@ import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
+import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.CSVExportInfo;
 
@@ -36,14 +36,16 @@ import com.teradata.jaqy.utils.CSVExportInfo;
  */
 class CSVExporter implements JaqyExporter
 {
+	private final Path m_file;
 	private final CSVFormat m_format;
 	private final Writer m_out;
 	private final HashMap<Integer, CSVExportInfo> m_fileInfoMap;
 
-	public CSVExporter (CSVFormat format, Writer out, HashMap<Integer, CSVExportInfo> fileInfoMap)
+	public CSVExporter (Path file, Charset charset, CSVFormat format, HashMap<Integer, CSVExportInfo> fileInfoMap) throws IOException
 	{
+		m_file = file;
 		m_format = format;
-		m_out = out;
+		m_out = new OutputStreamWriter (file.getOutputStream (), charset);
 		m_fileInfoMap = fileInfoMap;
 	}
 
@@ -72,7 +74,7 @@ class CSVExporter implements JaqyExporter
 			if (fileInfo == null)
 				handlers[i] = helper.getTypeHandler (rs, i + 1);
 			else
-				handlers[i] = new FileHandler (fileInfo);
+				handlers[i] = new FileHandler (m_file, fileInfo);
 		}
 		printer.println ();
 
