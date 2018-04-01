@@ -1,21 +1,19 @@
 .save
 -----
 
-``.save`` is used to make an in-memory copy of the current resultset being
-printed to variable named 'save'.
+``.save`` is used to make an in-memory copy of the current ResultSet being
+printed to a variable named 'save'.
 
 Example
 ~~~~~~~
 
 .. code-block:: text
 
-	-- save a resultset to variable save
+	-- list tables in the current schema and save it
+	.project TABLE_CAT, TABLE_NAME
 	.save
-	SELECT * FROM MyTable ORDER BY a;
+	.list
 
-	-- now print the resultset stored in variable save
-	.eval interpreter.print (save)
-
-	-- use with repeat command
+	-- drop these tables
 	.repeat ${save.size()}
-	SELECT '${save.get (iteration)[1]}' AS geo;
+	DROP TABLE `${save.get (iteration, 1)}`.`${save.get (iteration, 2)}`;

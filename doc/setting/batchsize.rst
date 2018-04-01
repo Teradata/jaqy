@@ -1,7 +1,9 @@
-.batchsize
-----------
+batchsize
+---------
 
-``.batchsize`` sets the data batch loading size.
+``batchsize`` setting sets the data batch loading size.
+
+This is a session setting.
 
 By default, the batchsize is 5000.
 
@@ -19,9 +21,9 @@ Syntax
 
 .. code-block:: text
 
-	usage: .batchsize [size]
+	usage: .set batchsize [size]
 
-Without arguments, the command displays the current session's batch size.
+Without the size arguments, it displays the current session's batch size.
 
 If the batch size is 1, batch mode is disabled.
 
@@ -31,12 +33,12 @@ Example
 .. code-block:: sql
 
 	-- Disable batch mode
-	.batchsize 1
+	.set batchsize 1
 	.import csv -h on batch.csv
 	INSERT INTO MyTable VALUES (?, ?);
 
 
 	-- Large batch
-	.batchsize 10000
+	.set batchsize 10000
 	.import csv -h on batch.csv
 	INSERT INTO MyTable VALUES (?, ?);

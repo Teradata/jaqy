@@ -1,8 +1,10 @@
-.fetchsize
-----------
+fetchsize
+---------
 
-``.fetchsize`` sets the number of rows to be retrieved by the JDBC driver at
-once.  This setting is useful for handling large data sets.
+``fetchsize`` setting sets the number of rows to be retrieved by the JDBC
+driver at once.  This setting is useful for handling large data sets.
+
+This is a session level setting.
 
 By default, the fetch size is 0, which uses the JDBC driver's default settings.
 
@@ -17,9 +19,9 @@ Syntax
 
 .. code-block:: text
 
-	usage: .fetchsize [size]
+	usage: .set fetchsize [size]
 
-Without arguments, the command displays the current session's fetch size.
+Without the size argument, it displays the current session's fetch size.
 
 JDBC Call
 ~~~~~~~~~
@@ -37,10 +39,10 @@ Example
 
 	-- Exporting large amount of data in PostgreSQL
 	.autocommit off
-	.fetchsize 10
+	.set fetchsize 10
 	.export csv largedataset.csv
 	SELECT * FROM MyBigTable;
 
 	-- restore settings
 	.autocommit on
-	.fetchsize 0
+	.set fetchsize 0

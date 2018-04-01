@@ -24,6 +24,7 @@
 	path
 	plugin
 	script
+	setting
 
 .. toctree::
 	:caption: Miscellaneous

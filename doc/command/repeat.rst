@@ -77,4 +77,4 @@ And the result is the following.
 See Also
 ~~~~~~~~
 
-* `.# <_repeatprev.html>`__ - which repeats a previous SQL a number of times.
+* `.# <repeatprev.html>`__ - which repeats a previous SQL a number of times.

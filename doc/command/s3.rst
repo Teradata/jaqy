@@ -1,0 +1,34 @@
+.s3
+---
+
+``.s3`` sets up necessary configurations needed to access AWS S3 buckets.
+
+This command requires ``jaqy-s3`` plugin.
+
+Syntax
+~~~~~~
+
+.. code-block:: text
+
+	usage: s3 [type] [setting]
+	type:
+	  access     set the access key
+	  secret     set the secret key
+	  region     set the region
+
+Example
+~~~~~~~
+
+.. code-block:: text
+
+	.s3 access foo
+	.s3 secret bar
+	.s3 region us-west-2
+
+	.import csv -h s3://mybucket/myfile
+	SELECT * FROM MyTable ORDER BY a;
+
+See Also
+~~~~~~~~
+
+* `Path Formats <../path.html>`__
