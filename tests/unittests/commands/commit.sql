@@ -1,19 +1,15 @@
 --------------------------------------------------------------------------
--- Transaction test
+-- .commit command test
 --------------------------------------------------------------------------
-.help autocommit
 .help commit
 .help rollback
 .commit
 .rollback
-.autocommit on
-.autocommit off
-.autocommit
 
 .run ../common/mysql_setup.sql
 USE vagrant;
 
-.autocommit
+.set autocommit
 
 CREATE TABLE MyTable
 (
@@ -21,8 +17,8 @@ CREATE TABLE MyTable
 	b	VARCHAR(200)
 );
 
-.autocommit off
-.autocommit
+.set autocommit off
+.set autocommit
 INSERT INTO MyTable VALUES (1, '1');
 INSERT INTO MyTable VALUES (2, '2');
 .commit
@@ -35,8 +31,8 @@ INSERT INTO MyTable VALUES (4, '4');
 
 SELECT * FROM MyTable ORDER BY a;
 
-.autocommit on
-.autocommit
+.set autocommit on
+.set autocommit
 
 INSERT INTO MyTable VALUES (3, '4');
 INSERT INTO MyTable VALUES (3, '4');
@@ -47,4 +43,3 @@ SELECT * FROM MyTable ORDER BY a, b;
 DROP TABLE MyTable;
 
 .close
-

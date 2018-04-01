@@ -171,6 +171,8 @@ public class SetCommand extends JaqyCommandAdapter
 		else
 		{
 			// set setting
+			if (setting.getType () == JaqySetting.Type.session)
+				SessionUtils.checkOpen (interpreter);
 			args = StringUtils.parseArgs (setting.getArgumentType (), arguments, interpreter);
 			setting.set (args, silent, interpreter);
 		}

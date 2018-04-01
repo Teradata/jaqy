@@ -33,7 +33,7 @@ CREATE TABLE TextTable
 
 .session 0
 
-.autocommit off
+.set autocommit off
 .set fetchsize 50
 .export pipe
 SELECT * FROM TextTable ORDER BY a;
@@ -49,7 +49,7 @@ SELECT COUNT(*) FROM TextTable;
 SELECT * FROM TextTable WHERE a = 40;
 
 .session 0
-.autocommit on
+.set autocommit on
 DROP TABLE TextTable;
 .close
 .session 1

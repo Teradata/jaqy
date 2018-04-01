@@ -17,12 +17,12 @@ SELECT a + (SELECT max(a) FROM TextTable),
        c1 || (SELECT c1 FROM TextTable WHERE a = (SELECT max(a) FROM TextTable))
 FROM TextTable;
 
-.autocommit off
-.fetchsize 50
+.set autocommit off
+.set fetchsize 50
 .export csv texttable.csv
 SELECT * FROM TextTable ORDER BY a;
 
-.autocommit on
+.set autocommit on
 DROP TABLE TextTable;
 
 .os wc -c texttable.csv

@@ -1,16 +1,20 @@
-.autocommit
------------
+autocommit
+----------
 
-``.autocommit`` sets the autocommit property of the queries.
+``autocommit`` setting sets the autocommit property of the queries.
+
+This is a session setting.
+
+The default value is JDBC driver dependent, although it is usually on.
 
 Syntax
 ~~~~~~
 
 .. code-block:: text
 
-	usage: .autocommit [on | off]
+	usage: .set autocommit [on | off]
 
-Executing the command without arguments will display the autocommit setting
+Executing the setting without arguments will display the autocommit setting
 for the current session.
 
 JDBC Call

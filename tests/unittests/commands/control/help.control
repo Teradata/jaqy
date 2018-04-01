@@ -8,7 +8,6 @@ Currently available commands are the following.
 
 	.# - repeats a previous SQL a number of times.
 	.alias - creates a command alias.
-	.autocommit - turns auto-commit on / off
 	.classpath - displays / sets the class path for a JDBC driver.
 	.close - closes the current session.
 	.commit - commits the current transaction.
@@ -16,7 +15,6 @@ Currently available commands are the following.
 	.debug - debug dump.
 	.desc - describes a table schema.
 	.driver - displays currently loaded JDBC drivers.
-	.echo - turns echo on / off
 	.end - ends a multi-line command.
 	.env - displays the execution environment.
 	.eval - evaluates a one line JavaScript

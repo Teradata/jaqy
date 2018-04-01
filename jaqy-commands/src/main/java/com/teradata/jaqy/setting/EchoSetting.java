@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
+package com.teradata.jaqy.setting;
 
-import java.sql.SQLException;
-
-import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Echo;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
@@ -25,7 +22,7 @@ import com.teradata.jaqy.interfaces.Display;
 /**
  * @author	Heng Yuan
  */
-public class EchoCommand extends JaqyCommandAdapter
+public class EchoSetting extends JaqySettingAdapter
 {
 	@Override
 	public String getDescription ()
@@ -34,26 +31,16 @@ public class EchoCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public String getLongDescription ()
+	public Object get (JaqyInterpreter interpreter) throws Exception
 	{
-		return "usage: " + getCommand () + " [on | off | auto]";
+		return interpreter.getDisplay ().getEcho ();
 	}
 
 	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
-
-	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
 	{
 		Display display = interpreter.getDisplay ();
-		if (args.length == 0)
-		{
-			interpreter.println (getCommand () + " " + display.getEcho ());
-		}
-		else if ("auto".equals (args[0]))
+		if ("auto".equals (args[0]))
 		{
 			display.setEcho (Echo.auto);
 		}
@@ -67,7 +54,7 @@ public class EchoCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			interpreter.error ("invalid command arguments");
+			interpreter.error ("invalid setting value");
 		}
 	}
 }

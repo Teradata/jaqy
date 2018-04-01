@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
+package com.teradata.jaqy.setting;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import com.teradata.jaqy.utils.TestUtils;
 /**
  * @author	Heng Yuan
  */
-public class EchoCommandTest
+public class AutoCommitSettingTest
 {
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder ();
@@ -32,6 +32,6 @@ public class EchoCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/echo.sql", "../tests/unittests/commands/control/echo.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/settings/autocommit.sql", "../tests/unittests/settings/control/autocommit.control");
 	}
 }

@@ -8,11 +8,13 @@ usage: .set [setting] [value]
 
 -- interpreter level settings
 
+	.set echo - turns echo on / off
 	.set expansion - sets expression expansion on / off
 	.set nullsort - sets the sort order of nulls for client side sorting.
 
 -- session level settings
 
+	.set autocommit - sets auto-commit on / off
 	.set batchsize - sets the batch execution size limit.
 	.set fetchsize - sets the statement fetch size.
 
@@ -20,6 +22,7 @@ usage: .set [setting] [value]
 
 .set
 -- interpreter level settings
+.set echo on
 .set expansion on
 .set nullsort low
 -- 0/2 - 0 ----------------------------------------------------------------
@@ -31,10 +34,12 @@ usage: .set [setting] [value]
 -- 0/4 - 0 ----------------------------------------------------------------
 .set
 -- interpreter level settings
+.set echo on
 .set expansion on
 .set nullsort low
 
 -- session level settings
+.set autocommit true
 .set batchsize 5000
 .set fetchsize 0
 -- 0/5 - 0 ----------------------------------------------------------------

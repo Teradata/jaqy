@@ -1,4 +1,6 @@
+autocommit.sql
 batchsize.sql
+echo.sql
 expansion.sql
 fetchsize.sql
 nullsort.sql

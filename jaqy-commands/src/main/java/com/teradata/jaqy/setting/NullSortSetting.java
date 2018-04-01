@@ -30,6 +30,7 @@ public class NullSortSetting extends JaqySettingAdapter
 		return "sets the sort order of nulls for client side sorting.";
 	}
 
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.file;

@@ -16,10 +16,7 @@
 package com.teradata.jaqy;
 
 import com.teradata.jaqy.interfaces.JaqySetting;
-import com.teradata.jaqy.setting.BatchSizeSetting;
-import com.teradata.jaqy.setting.ExpansionSetting;
-import com.teradata.jaqy.setting.FetchSizeSetting;
-import com.teradata.jaqy.setting.NullSortSetting;
+import com.teradata.jaqy.setting.*;
 
 /**
  * Initiate the initial settings.
@@ -33,8 +30,10 @@ class SettingSetup
 		ObjectManager<JaqySetting> manager = globals.getSettingManager ();
 		manager.addObject ("batchsize", new BatchSizeSetting ());
 		manager.addObject ("fetchsize", new FetchSizeSetting ());
+		manager.addObject ("autocommit", new AutoCommitSetting ());
 
 		manager.addObject ("nullsort", new NullSortSetting ());
 		manager.addObject ("expansion", new ExpansionSetting ());
+		manager.addObject ("echo", new EchoSetting ());
 	}
 }

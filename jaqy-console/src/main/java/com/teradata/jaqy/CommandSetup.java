@@ -57,7 +57,6 @@ class CommandSetup
 		manager.addObject ("open", new OpenCommand ());
 		manager.addObject ("close", new CloseCommand ());
 
-		manager.addObject ("autocommit", new AutoCommitCommand ());
 		manager.addObject ("commit", new CommitCommand ());
 		manager.addObject ("rollback", new RollbackCommand ());
 
@@ -65,7 +64,6 @@ class CommandSetup
 		manager.addObject ("protocol", new ProtocolCommand ());
 		manager.addObject ("classpath", new ClassPathCommand ());
 		manager.addObject ("driver", new DriverCommand ());
-		manager.addObject ("echo", new EchoCommand ());
 		manager.addObject ("env", new EnvCommand ());
 		manager.addObject ("info", new InfoCommand ());
 		manager.addObject ("os", new OsCommand ());

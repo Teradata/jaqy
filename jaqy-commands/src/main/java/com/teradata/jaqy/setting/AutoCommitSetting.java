@@ -13,36 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
-
-import java.sql.SQLException;
+package com.teradata.jaqy.setting;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.utils.SessionUtils;
 
 /**
  * @author	Heng Yuan
  */
-public class AutoCommitCommand extends OnOffCommand
+public class AutoCommitSetting extends JaqySettingAdapter
 {
 	@Override
 	public String getDescription ()
 	{
-		return "turns auto-commit on / off";
+		return "sets auto-commit on / off";
 	}
 
 	@Override
-	void execute (boolean on, JaqyInterpreter interpreter) throws SQLException
+	public Type getType ()
 	{
-		SessionUtils.checkOpen (interpreter);
-		interpreter.getSession ().getConnection ().setAutoCommit (on);
+		return Type.session;
 	}
 
 	@Override
-	void info (JaqyInterpreter interpreter) throws SQLException
+	public Object get (JaqyInterpreter interpreter) throws Exception
 	{
-		SessionUtils.checkOpen (interpreter);
-		boolean auto = interpreter.getSession ().getConnection ().getAutoCommit ();
-		interpreter.println (getCommand () + " " + (auto ? "on" : "off"));
+		return interpreter.getSession ().getConnection ().getAutoCommit ();
+	}
+
+	@Override
+	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+	{
+		if ("on".equals (args[0]))
+		{
+			interpreter.getSession ().getConnection ().setAutoCommit (true);
+		}
+		else if ("off".equals (args[0]))
+		{
+			interpreter.getSession ().getConnection ().setAutoCommit (false);
+		}
+		else
+		{
+			interpreter.error ("invalid setting value");
+		}
 	}
 }

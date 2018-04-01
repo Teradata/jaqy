@@ -35,6 +35,7 @@ public class BatchSizeSetting extends JaqySettingAdapter
 		return Type.session;
 	}
 
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.file;

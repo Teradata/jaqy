@@ -1,9 +1,9 @@
 alias.sql
 classpath.sql
 close.sql
+commit.sql
 desc.sql
 driver.sql
-echo.sql
 env.sql
 eval.sql
 exec.sql
@@ -45,6 +45,5 @@ sort_2.sql
 sort_3.sql
 #.sql
 timer.sql
-transaction.sql
 unalias.sql
 version.sql

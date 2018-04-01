@@ -1,13 +1,11 @@
 --------------------------------------------------------------------------
--- .echo command test
+-- echo setting test
 --------------------------------------------------------------------------
-.help echo
-.echo
-.echo asdf
-.echo auto
-.echo
-.echo on
-.echo
-.echo off
-.echo
-
+.set echo
+.set echo asdf
+.set echo auto
+.set echo
+.set echo on
+.set echo
+.set echo off
+.set echo
