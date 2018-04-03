@@ -52,11 +52,10 @@ public class TypeMap
 			if (typeInfo != null)
 			{
 				bestCandidate = typeInfo;
-				// check if the candidate the enough precision
-				if (typeInfo.maxPrecision == 0 &&
+				// check if the candidate has enough precision
+				if (typeInfo.maxPrecision != 0 &&
 					typeInfo.maxPrecision < precision)
 					continue;
-				m_map.put (target, typeInfo);
 				return typeInfo;
 			}
 		}
@@ -70,7 +69,6 @@ public class TypeMap
 			TypeInfo typeInfo = m_map.get (castArray[i]);
 			if (typeInfo != null)
 			{
-				m_map.put (target, typeInfo);
 				return typeInfo;
 			}
 		}
