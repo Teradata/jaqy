@@ -422,45 +422,56 @@ public class JaqyInterpreter implements ExpressionHandler
 			{
 				if (line.startsWith ("."))
 				{
-					boolean multi = parseCommand (parseCmd, line, !isVerbatim ());
-					if (isVerbatim ())
+					try
 					{
-						if ("end".equals (parseCmd.cmd))
-						{
-							action = m_actionStack.pop ();
-							if (m_actionStack.empty ())
-							{
-								popParseAction (action);
-								first = true;
-								if (!action.silent)
-									display.showPrompt (this);
-								continue;
-							}
-						}
-						appendMultiLineBuffer (line);
-						if (multi)
-						{
-							setParseAction (parseCmd.call, null);
-						}
-					}
-					else
-					{
-						if (!parseCmd.silent)
-						{
-							display.echo (this, line, interactive);
-						}
-						executeCommand (parseCmd, interactive);
-						// Check if the command setParseAction.  If so, update
-						// the silent flag.
+						boolean multi = parseCommand (parseCmd, line, !isVerbatim ());
 						if (isVerbatim ())
 						{
-							m_actionStack.peek ().silent = parseCmd.silent;
+							if ("end".equals (parseCmd.cmd))
+							{
+								action = m_actionStack.pop ();
+								if (m_actionStack.empty ())
+								{
+									popParseAction (action);
+									first = true;
+									if (!action.silent)
+										display.showPrompt (this);
+									continue;
+								}
+							}
+							appendMultiLineBuffer (line);
+							if (multi)
+							{
+								setParseAction (parseCmd.call, null);
+							}
 						}
 						else
 						{
 							if (!parseCmd.silent)
-								display.showPrompt (this);
+							{
+								display.echo (this, line, interactive);
+							}
+							executeCommand (parseCmd, interactive);
+							// Check if the command setParseAction.  If so, update
+							// the silent flag.
+							if (isVerbatim ())
+							{
+								m_actionStack.peek ().silent = parseCmd.silent;
+							}
+							else
+							{
+								if (!parseCmd.silent)
+									display.showPrompt (this);
+							}
 						}
+					}
+					catch (Exception ex)
+					{
+						m_globals.log (Level.INFO, ex);
+						++m_errorCount;
+						display.error (this, ex);
+						if (!parseCmd.silent)
+							display.showPrompt (this);
 					}
 					continue;
 				}
