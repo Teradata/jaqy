@@ -24,6 +24,9 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.utils.SortInfo;
 
 /**
+ * This is the simple implementation of JaqyResultSet to wrap around
+ * ResultSet.
+ *
  * @author	Heng Yuan
  */
 public class JaqyDefaultResultSet implements JaqyResultSet

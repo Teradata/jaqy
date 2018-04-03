@@ -37,7 +37,7 @@ public class JaqyHandlerFactoryManager<E>
 	private final Object m_lock = new Object ();
 	private final String m_rc;
 
-	public JaqyHandlerFactoryManager (Globals globals, String rc)
+	JaqyHandlerFactoryManager (Globals globals, String rc)
 	{
 		m_globals = globals;
 		m_rc = rc;

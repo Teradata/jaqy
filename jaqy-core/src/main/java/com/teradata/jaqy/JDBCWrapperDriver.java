@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * This wrapper JDBC Driver class is used to allow loading JDBC drivers
  * dynamically
  * (i.e. JDBC driver loaded by a different ClassLoader than the system).
- *
+ * <p>
  * This code is taken from http://www.kfu.com/~nsayer/Java/dyn-jdbc.html, which
  * is presumably in the public domain.
  *

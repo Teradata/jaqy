@@ -29,6 +29,10 @@ public class AliasManager
 	private final Object m_aliasLock = new Object ();
 	private final HashMap<String, String> m_aliasMap = new HashMap<String, String> ();
 
+	AliasManager ()
+	{
+	}
+
 	public void setAlias (String name, String str)
 	{
 		synchronized (m_aliasLock)

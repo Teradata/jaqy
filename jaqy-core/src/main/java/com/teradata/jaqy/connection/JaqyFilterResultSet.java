@@ -28,6 +28,9 @@ import com.teradata.jaqy.utils.ProjectColumnList;
 import com.teradata.jaqy.utils.SortInfo;
 
 /**
+ * This implementation of JaqyResultSet provides client side filtering
+ * and projection capabilities.
+ *
  * @author	Heng Yuan
  */
 public class JaqyFilterResultSet implements JaqyResultSet

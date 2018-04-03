@@ -30,6 +30,10 @@ public class Os
 	private final static String s_os = System.getProperty ("os.name").toLowerCase ();
 	private final static boolean s_windows = s_os.indexOf ("win") >= 0;
 
+	Os ()
+	{
+	}
+
 	public void shell (File dir, String cmd) throws Exception
 	{
 		CommandLine commandLine;
