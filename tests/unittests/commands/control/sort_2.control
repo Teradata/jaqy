@@ -101,9 +101,7 @@ INSERT INTO MyTable VALUES (29, CAST(X'deadefbe' AS BLOB), '2');
 -- 30/2 - 0 ---------------------------------------------------------------
 
 -- artificially sets the cache size to be very small for testing purposes.
-.script
-interpreter.setCacheSize (3);
-.end script
+.set lobcachesize 3
 -- 30/3 - 0 ---------------------------------------------------------------
 
 .sort 3 desc, 2 asc, 1 asc

@@ -1,0 +1,159 @@
+Jaqy Console 1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- lobcachesize setting test
+--------------------------------------------------------------------------
+.set lobcachesize
+.set lobcachesize 4096
+-- 0/1 - 0 ----------------------------------------------------------------
+.set lobcachesize -1
+-- error: LOB cache size cannot be negative.
+-- 0/2 - 0 ----------------------------------------------------------------
+.set lobcachesize 4096
+-- 0/3 - 0 ----------------------------------------------------------------
+
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/4 - 0 ----------------------------------------------------------------
+.open derby:memory:sortDB;create=true
+-- 0/5 - 0 ----------------------------------------------------------------
+CREATE TABLE MyTable (a INTEGER, b BLOB, c CLOB);
+-- success. update count = 0
+-- 1/5 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, CAST(X'dead' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 2/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, CAST(X'deadbeef' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 3/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (3, CAST(X'facefeed' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 4/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (4, CAST(X'face' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 5/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (5, CAST(X'deadbeef' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 6/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (6, CAST(X'dead' AS BLOB), 'A quick brown');
+-- success. update count = 1
+-- 7/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (7, CAST(X'facefeed' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 8/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (8, CAST(X'face' AS BLOB), 'A quick brown fox');
+-- success. update count = 1
+-- 9/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (9, CAST(X'facefeed' AS BLOB), null);
+-- success. update count = 1
+-- 10/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (10, CAST(X'facefeed' AS BLOB), null);
+-- success. update count = 1
+-- 11/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (11, null, 'A quick brown fox');
+-- success. update count = 1
+-- 12/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (12, null, null);
+-- success. update count = 1
+-- 13/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (13, CAST(X'de' AS BLOB), '1');
+-- success. update count = 1
+-- 14/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (14, CAST(X'de' AS BLOB), '1');
+-- success. update count = 1
+-- 15/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (15, CAST(X'dead' AS BLOB), '1');
+-- success. update count = 1
+-- 16/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (16, CAST(X'dead' AS BLOB), '2');
+-- success. update count = 1
+-- 17/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (17, CAST(X'dead' AS BLOB), '12');
+-- success. update count = 1
+-- 18/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (18, CAST(X'dead' AS BLOB), '123');
+-- success. update count = 1
+-- 19/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (19, CAST(X'dead' AS BLOB), '223');
+-- success. update count = 1
+-- 20/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (20, CAST(X'dead' AS BLOB), '1234');
+-- success. update count = 1
+-- 21/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (21, CAST(X'dead' AS BLOB), '12345');
+-- success. update count = 1
+-- 22/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (22, CAST(X'dead' AS BLOB), '12');
+-- success. update count = 1
+-- 23/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (23, CAST(X'dead' AS BLOB), '123');
+-- success. update count = 1
+-- 24/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (24, CAST(X'deadbe' AS BLOB), '1');
+-- success. update count = 1
+-- 25/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (25, CAST(X'deadbe' AS BLOB), '2');
+-- success. update count = 1
+-- 26/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (26, CAST(X'deadef' AS BLOB), '1');
+-- success. update count = 1
+-- 27/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (27, CAST(X'deadef' AS BLOB), '2');
+-- success. update count = 1
+-- 28/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (28, CAST(X'deadefbe' AS BLOB), '1');
+-- success. update count = 1
+-- 29/5 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (29, CAST(X'deadefbe' AS BLOB), '2');
+-- success. update count = 1
+-- 30/5 - 0 ---------------------------------------------------------------
+
+-- artificially sets the cache size to be very small for testing purposes.
+.set lobcachesize 3
+-- 30/6 - 0 ---------------------------------------------------------------
+
+.sort 3 desc, 2 asc, 1 asc
+-- 30/7 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+ A B        C
+-- -------- -----------------
+11 ?        A quick brown fox
+ 4 face     A quick brown fox
+ 8 face     A quick brown fox
+ 3 facefeed A quick brown fox
+ 7 facefeed A quick brown fox
+ 1 dead     A quick brown
+ 6 dead     A quick brown
+ 2 deadbeef A quick brown
+ 5 deadbeef A quick brown
+19 dead     223
+16 dead     2
+25 deadbe   2
+27 deadef   2
+29 deadefbe 2
+21 dead     12345
+20 dead     1234
+18 dead     123
+23 dead     123
+17 dead     12
+22 dead     12
+13 de       1
+14 de       1
+15 dead     1
+24 deadbe   1
+26 deadef   1
+28 deadefbe 1
+12 ?        ?
+ 9 facefeed ?
+10 facefeed ?
+-- activity count = 29
+-- 31/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 32/7 - 0 ---------------------------------------------------------------
+
+.close
+-- 32/8 - 0 ---------------------------------------------------------------

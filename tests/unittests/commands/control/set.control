@@ -10,6 +10,7 @@ usage: .set [setting] [value]
 
 	.set echo - turns echo on / off
 	.set expansion - sets expression expansion on / off
+	.set lobcachesize - sets the LOB cache size in client-side ResultSet.
 	.set nullsort - sets the sort order of nulls for client side sorting.
 
 -- session level settings
@@ -24,6 +25,7 @@ usage: .set [setting] [value]
 -- interpreter level settings
 .set echo on
 .set expansion on
+.set lobcachesize 4096
 .set nullsort low
 -- 0/2 - 0 ----------------------------------------------------------------
 
@@ -36,6 +38,7 @@ usage: .set [setting] [value]
 -- interpreter level settings
 .set echo on
 .set expansion on
+.set lobcachesize 4096
 .set nullsort low
 
 -- session level settings

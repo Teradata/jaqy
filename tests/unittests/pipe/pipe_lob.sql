@@ -3,9 +3,7 @@
 --------------------------------------------------------------------------
 
 -- artificially sets the copy threshold to be very small for testing purposes.
-.script
-interpreter.setCacheSize (4);
-.end script
+.set lobcachesize 4
 
 .run ../common/derby_setup.sql
 .open derby:memory:pipeDB;create=true

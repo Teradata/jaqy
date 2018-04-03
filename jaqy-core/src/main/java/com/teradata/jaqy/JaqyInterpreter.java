@@ -83,7 +83,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private long m_repeatCount = 1;
 	private String m_prevSQL;
 
-	private int m_cacheSize = 4096;
+	private int m_lobCacheSize = 4096;
 	/** temp byte buffer */
 	private byte[] m_byteBuffer;
 	private char[] m_charBuffer;
@@ -1161,14 +1161,14 @@ public class JaqyInterpreter implements ExpressionHandler
 		return m_charBuffer;
 	}
 
-	public int getCacheSize ()
+	public int getLobCacheSize ()
 	{
-		return m_cacheSize;
+		return m_lobCacheSize;
 	}
 
-	public void setCacheSize (int cacheSize)
+	public void setLobCacheSize (int cacheSize)
 	{
-		m_cacheSize = cacheSize;
+		m_lobCacheSize = cacheSize;
 	}
 
 	public String getQueryString (String sql, int column) throws SQLException

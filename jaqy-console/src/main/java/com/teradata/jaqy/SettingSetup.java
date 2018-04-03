@@ -35,5 +35,6 @@ class SettingSetup
 		manager.addObject ("nullsort", new NullSortSetting ());
 		manager.addObject ("expansion", new ExpansionSetting ());
 		manager.addObject ("echo", new EchoSetting ());
+		manager.addObject ("lobcachesize", new LobCacheSizeSetting ());
 	}
 }

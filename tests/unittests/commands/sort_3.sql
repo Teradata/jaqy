@@ -49,9 +49,7 @@ INSERT INTO XmlTable VALUES (5, '<a>1234</a>', '[1,2,3]');
 INSERT INTO XmlTable VALUES (5, '<a>1234</a>', '[2,3,4]');
 
 -- artificially sets the cache size to be very small for testing purposes.
-.script
-interpreter.setCacheSize (9);
-.end script
+.set lobcachesize 9
 
 .sort 2, 3
 SELECT * FROM XmlTable ORDER BY a;

@@ -3,4 +3,5 @@ batchsize.sql
 echo.sql
 expansion.sql
 fetchsize.sql
+lobcachesize.sql
 nullsort.sql

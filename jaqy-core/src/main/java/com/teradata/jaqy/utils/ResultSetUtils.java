@@ -104,7 +104,7 @@ public class ResultSetUtils
 	{
 		if (o == null)
 			return o;
-		int cacheSize = interpreter.getCacheSize ();
+		int cacheSize = interpreter.getLobCacheSize ();
 		if (o instanceof Clob)
 		{
 			if (o instanceof NClob)

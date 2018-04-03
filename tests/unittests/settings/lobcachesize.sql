@@ -1,6 +1,10 @@
 --------------------------------------------------------------------------
--- .sort command test
+-- lobcachesize setting test
 --------------------------------------------------------------------------
+.set lobcachesize
+.set lobcachesize -1
+.set lobcachesize 4096
+
 .run ../common/derby_setup.sql
 .open derby:memory:sortDB;create=true
 CREATE TABLE MyTable (a INTEGER, b BLOB, c CLOB);
@@ -39,25 +43,6 @@ INSERT INTO MyTable VALUES (29, CAST(X'deadefbe' AS BLOB), '2');
 .set lobcachesize 3
 
 .sort 3 desc, 2 asc, 1 asc
-SELECT * FROM MyTable ORDER BY a;
-
-.set nullsort low
-.sort 3 desc, 2 asc, 1 asc
-SELECT * FROM MyTable ORDER BY a;
-
-.set nullsort high
-.sort 3 desc, 2 asc, 1 asc
-SELECT * FROM MyTable ORDER BY a;
-
-.set nullsort low
-.sort c desc, b desc, 1 asc
-SELECT * FROM MyTable ORDER BY a;
-
-.sort 2, 3, 1
-SELECT * FROM MyTable ORDER BY a;
-
-.set nullsort high
-.sort 2, 3, 1
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;
