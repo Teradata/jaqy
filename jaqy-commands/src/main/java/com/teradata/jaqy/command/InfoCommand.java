@@ -57,7 +57,7 @@ public class InfoCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
 	{
 		if (args.length == 0)
 		{

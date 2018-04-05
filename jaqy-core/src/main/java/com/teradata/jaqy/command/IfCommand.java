@@ -43,7 +43,7 @@ public class IfCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		Boolean b = null;
 		try
@@ -71,7 +71,7 @@ public class IfCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws IOException
+	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws IOException
 	{
 		globals.log (Level.INFO, "if condition = " + value);
 		Display display = interpreter.getDisplay ();

@@ -44,7 +44,7 @@ public class ExitCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		interpreter.getGlobals ().log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
 		if (args.length == 0)

@@ -35,7 +35,7 @@ public class EnvCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
 		PropertyTable pt = new PropertyTable (new String[] { "Key", "Value" });
 		TreeMap<String, String> tree = new TreeMap<String, String> ();

@@ -72,7 +72,7 @@ public class OpenCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
 		Session session = interpreter.getSession ();
 		Display display = interpreter.getDisplay ();

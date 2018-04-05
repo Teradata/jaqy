@@ -43,7 +43,7 @@ public class LimitCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		SessionUtils.checkOpen (interpreter);
 		if (args.length == 0)

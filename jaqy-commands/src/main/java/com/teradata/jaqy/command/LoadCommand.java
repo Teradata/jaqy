@@ -43,7 +43,7 @@ public class LoadCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		if (args.length != 1)
 		{

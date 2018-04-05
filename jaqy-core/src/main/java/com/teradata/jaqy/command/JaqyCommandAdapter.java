@@ -166,7 +166,7 @@ public abstract class JaqyCommandAdapter implements JaqyCommand
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 	}
 }

@@ -45,7 +45,7 @@ public class EndCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		interpreter.error ("nothing to end.");
 	}

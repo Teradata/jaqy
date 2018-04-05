@@ -40,7 +40,7 @@ public class HandlerCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		String argument = args[0].trim ();
 		int i1 = argument.indexOf (' ');

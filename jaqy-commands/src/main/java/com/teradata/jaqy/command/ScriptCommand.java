@@ -61,7 +61,7 @@ public class ScriptCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
 		ScriptOptions scriptOptions = new ScriptOptions ();
 
@@ -102,13 +102,13 @@ public class ScriptCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		if (!silent)
 		{
 			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, false);
-			display.echo (interpreter, ".end " + getName (), false);
+			display.echo (interpreter, action, interactive);
+			display.echo (interpreter, ".end " + getName (), interactive);
 		}
 		interpreter.eval (action);
 	}

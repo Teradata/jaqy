@@ -407,7 +407,7 @@ public class JaqyInterpreter implements ExpressionHandler
 					m_actionStack.pop ();
 					if (m_actionStack.isEmpty ())
 					{
-						popParseAction (action);
+						popParseAction (action, interactive);
 						first = true;
 						if (!action.silent)
 							display.showPrompt (this);
@@ -432,7 +432,7 @@ public class JaqyInterpreter implements ExpressionHandler
 								action = m_actionStack.pop ();
 								if (m_actionStack.empty ())
 								{
-									popParseAction (action);
+									popParseAction (action, interactive);
 									first = true;
 									if (!action.silent)
 										display.showPrompt (this);
@@ -606,7 +606,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	
 			try
 			{
-				call.execute (cmd.args, cmd.silent, this);
+				call.execute (cmd.args, cmd.silent, interactive, this);
 			}
 			catch (Throwable t)
 			{
@@ -643,14 +643,14 @@ public class JaqyInterpreter implements ExpressionHandler
 		m_actionStack.push (action);
 	}
 
-	public void popParseAction (ParseAction action)
+	void popParseAction (ParseAction action, boolean interactive)
 	{
 		String str = m_multiLineBuffer.toString ();
 		Object value = action.value;
 		m_multiLineBuffer.setLength (0);
 		try
 		{
-			action.cmd.parse (str, value, action.silent, m_globals, this);
+			action.cmd.parse (str, value, action.silent, interactive, m_globals, this);
 		}
 		catch (Throwable t)
 		{

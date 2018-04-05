@@ -64,7 +64,7 @@ public class AliasCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		Globals globals = interpreter.getGlobals ();
 		if (args.length == 0)
@@ -88,13 +88,13 @@ public class AliasCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter)
+	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter)
 	{
 		if (!silent)
 		{
 			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, false);
-			display.echo (interpreter, ".end " + getName (), false);
+			display.echo (interpreter, action, interactive);
+			display.echo (interpreter, ".end " + getName (), interactive);
 		}
 		globals.getAliasManager ().setAlias ((String)value, action);
 	}

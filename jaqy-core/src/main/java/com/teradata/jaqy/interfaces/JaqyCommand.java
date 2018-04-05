@@ -65,12 +65,14 @@ public interface JaqyCommand extends JaqyObject
 	 *			the command arguments.
 	 * @param	silent
 	 * 			if the command is executed silently.
+	 * @param	interactive
+	 * 			if the current command is interactively executed.
 	 * @param	interpreter
 	 *			The interpreter that calls the command.
 	 * @throws	Exception
 	 *			in case of error.
 	 */
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception;
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception;
 
 	/**
 	 * Gets the command type.
@@ -98,6 +100,8 @@ public interface JaqyCommand extends JaqyObject
 	 * 			the value saved prior.
 	 * @param	silent
 	 * 			if the command is executed silently.
+	 * @param	interactive
+	 * 			if the current command is interactively executed.
 	 * @param	globals
 	 *			Global states.
 	 * @param	interpreter
@@ -105,5 +109,5 @@ public interface JaqyCommand extends JaqyObject
 	 * @throws	Exception
 	 *			in case of error.
 	 */
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception;
+	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception;
 }

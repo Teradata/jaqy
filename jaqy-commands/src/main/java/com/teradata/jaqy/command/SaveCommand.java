@@ -32,7 +32,7 @@ public class SaveCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
 	{
 		SessionUtils.checkOpen (interpreter);
 		interpreter.setSaveResultSet (true);

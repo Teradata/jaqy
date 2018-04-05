@@ -67,7 +67,7 @@ public class HelpCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter)
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
 		PrintWriter pw = interpreter.getDisplay ().getPrintWriter ();
 

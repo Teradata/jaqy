@@ -60,7 +60,7 @@ public class ExecCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
 		if (args.length == 0)
 		{
@@ -109,13 +109,13 @@ public class ExecCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void parse (String action, Object value, boolean silent, Globals globals, JaqyInterpreter interpreter) throws Exception
+	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
 	{
 		SessionUtils.checkOpen (interpreter);
 		if (!silent)
 		{
 			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, false);
+			display.echo (interpreter, action, interactive);
 		}
 		Session session = interpreter.getSession ();
 		session.executeQuery (action, interpreter, 1);
