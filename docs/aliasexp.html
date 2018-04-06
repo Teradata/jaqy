@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Aliases and Expression Expansion &mdash; Jaqy 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Jaqy 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Load and Exporting Data" href="load.html"/>
+        <link rel="prev" title="Getting Started" href="start.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Jaqy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Aliases and Expression Expansion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aliases">Aliases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expression-expansion">Expression Expansion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Load and Exporting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clientrs.html">Client Side ResultSet Handling</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Jaqy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comment.html">Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">Display Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exitcode.html">Exit Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Export Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="import.html">Import Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="largedataset.html">Large Data Set Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Path Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin.html">Plugin Loading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="script.html">Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting.html">Settings</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jdbclimitations.html">JDBC Limitations</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jaqy</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Aliases and Expression Expansion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="aliases-and-expression-expansion">
+<h1>Aliases and Expression Expansion<a class="headerlink" href="#aliases-and-expression-expansion" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline">¶</a></h2>
+<p>Aliases in Jaqy can be shortcuts to SQL statements, commands, or combinations
+of both.  <a class="reference external" href="command/alias.html">.alias</a> is used to create aliases.</p>
+<p>For example, the following is a very convenient alias for an <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>
+statement without having to type too much.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.alias ins
+INSERT INTO $0 VALUES ($(1-));
+.end alias
+
+.ins MyTable 1, 1
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$0</span></code>, <code class="docutils literal notranslate"><span class="pre">$(1)</span></code>, <code class="docutils literal notranslate"><span class="pre">$(1-)</span></code> etc are the way to specify how argument
+substitution is made.</p>
+<p>You can also combine multiple SQL statements and commands together in one
+alias, to create powerful macros.</p>
+<p>For example, the following is a simple trick of dropping a table if it
+exists, without generating error messages.  <a class="reference external" href="command/list.html">.list</a>
+command is a convenient way of listing tables in the current catalog / schema /
+database.  If the table MyTable exists, then it would show up in the search.
+By checking the number of rows returned, which is tracked by the variable
+<code class="docutils literal notranslate"><span class="pre">activityCount</span></code>, we can tell if the table exists.  And we can use
+<a class="reference external" href="command/if.html">.if</a> to conditionally execute our <code class="docutils literal notranslate"><span class="pre">DROP</span> <span class="pre">TABLE</span></code>
+statement.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">list</span> <span class="p">.</span> <span class="p">.</span> <span class="n">MyTable</span>
+<span class="p">.</span><span class="k">if</span> <span class="n">activityCount</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">MyTable</span><span class="p">;</span>
+<span class="p">.</span><span class="k">end</span> <span class="k">if</span>
+</pre></div>
+</div>
+<p>Now, it is possible to create an alias for the entire thing and apply to
+different tables.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.alias dropifexists
+.list . . $(0)
+.if activityCount &gt; 0
+DROP TABLE $(0);
+.end if
+.end alias
+
+-- test the alias
+.dropifexists MyTable
+</pre></div>
+</div>
+<p>Notice the way to execute the alias is similar to a command.  Essentially,
+having aliases is one way to create custom commands.</p>
+</div>
+<div class="section" id="expression-expansion">
+<h2>Expression Expansion<a class="headerlink" href="#expression-expansion" title="Permalink to this headline">¶</a></h2>
+<p>Expression expansion is almost like a variable substitution, except that
+functions can be called as well.  It is quite useful in generating SQL
+which might be otherwise somewhat difficult.</p>
+<p>For example, here is a simple script that generates some Well-known text (WKT)
+data using expression expansion.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>CREATE TABLE MyTable (a INT, b VARCHAR(100));
+.repeat 10
+INSERT INTO MyTable VALUES (${iteration}, &#39;POINT(${Math.sin(iteration)} ${Math.sin(iteration)})&#39;);
+</pre></div>
+</div>
+<p><a class="reference external" href="command/repeat.html">.repeat</a> command is used to repeatedly submit a SQL.
+Internally, it uses a variable <code class="docutils literal notranslate"><span class="pre">iteration</span></code> to track the iteration.
+<code class="docutils literal notranslate"><span class="pre">${</span></code> and <code class="docutils literal notranslate"><span class="pre">}</span></code> encloses any JavaScript expression that can be inline
+evaluated.</p>
+<p>The result is the following.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+
+ <span class="n">a</span> <span class="n">b</span>
+<span class="c1">-- ------------------------------------------------</span>
+ <span class="mi">1</span> <span class="n">POINT</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">8414709848078965</span> <span class="mi">0</span><span class="p">.</span><span class="mi">8414709848078965</span><span class="p">)</span>
+ <span class="mi">2</span> <span class="n">POINT</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">9092974268256817</span> <span class="mi">0</span><span class="p">.</span><span class="mi">9092974268256817</span><span class="p">)</span>
+ <span class="mi">3</span> <span class="n">POINT</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">1411200080598672</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1411200080598672</span><span class="p">)</span>
+ <span class="mi">4</span> <span class="n">POINT</span><span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">7568024953079282</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">7568024953079282</span><span class="p">)</span>
+ <span class="mi">5</span> <span class="n">POINT</span><span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">9589242746631385</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">9589242746631385</span><span class="p">)</span>
+ <span class="mi">6</span> <span class="n">POINT</span><span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">27941549819892586</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">27941549819892586</span><span class="p">)</span>
+ <span class="mi">7</span> <span class="n">POINT</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">6569865987187891</span> <span class="mi">0</span><span class="p">.</span><span class="mi">6569865987187891</span><span class="p">)</span>
+ <span class="mi">8</span> <span class="n">POINT</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">9893582466233818</span> <span class="mi">0</span><span class="p">.</span><span class="mi">9893582466233818</span><span class="p">)</span>
+ <span class="mi">9</span> <span class="n">POINT</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">4121184852417566</span> <span class="mi">0</span><span class="p">.</span><span class="mi">4121184852417566</span><span class="p">)</span>
+<span class="mi">10</span> <span class="n">POINT</span><span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5440211108893698</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5440211108893698</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Combined with <a class="reference external" href="clientrs.html">client-side ResultSet handling</a>, expression
+expansion can also be used to generate SQL DDLs that are normally fairly
+difficult to do without using a full programming language.</p>
+<p>For example, without database support, dropping all tables in a database
+can be somewhat challenging.  With Jaqy, it is quite straightforward.  See this
+<a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/tests/unittests/commands/save_3.sql">test script</a>
+and its <a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/tests/unittests/commands/control/save_3.control">output</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="load.html" class="btn btn-neutral float-right" title="Load and Exporting Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="start.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Teradata Corporation.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

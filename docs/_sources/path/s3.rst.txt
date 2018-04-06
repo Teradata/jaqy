@@ -1,0 +1,57 @@
+S3 Path
+^^^^^^^
+
+This feature requires ``jaqy-s3`` plugin.
+
+Both getting and uploading files are supported.  Uploading data to s3 requires
+local caching of the content in a file first.
+
+For the default credentials, please refer to
+`Working with AWS Credentials <https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html>`__
+for the proper setup.
+
+`.s3 <command/s3.html>`__ command can be used to configure the access
+credential and region if needed.
+
+Variables
+*********
+
+The following variables are used / set up by the path handler.
+
++---------------+----------------------------------------------------+
+| Variable      | Description                                        |
++===============+====================================================+
+| s3builder     | The builder to create the S3 client                |
++---------------+----------------------------------------------------+
+| s3client      | The currently cached s3 client                     |
++---------------+----------------------------------------------------+
+| s3access      | The s3 access key                                  |
++---------------+----------------------------------------------------+
+| s3secret      | The s3 secret key                                  |
++---------------+----------------------------------------------------+
+
+Example
+*******
+
+.. code-block:: sql
+
+	-- load jaqy-s3 plugin first.
+	.load /vagrant/jaqy-s3/target/jaqy-s3-1.0.jar
+
+	-- uses the existing s3 configuration
+	.import csv -h s3://mybucket/csv/test.csv
+	.importtable mytable
+
+	-- configures a new s3 connection property
+	.s3 access foo
+	.s3 secret bar
+	.s3 region us-west-2
+
+	.import csv -h s3://mybucket/csv/test.csv
+	.importtable mytable
+
+See Also
+********
+
+* `.s3 <command/s3.html>`__ command
+* `Working with AWS Credentials <https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html>`__

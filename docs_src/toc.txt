@@ -1,0 +1,42 @@
+.. toctree::
+	:maxdepth: 2
+	:caption: Documentation
+	:hidden:
+
+	license
+	download
+
+.. toctree::
+	:maxdepth: 2
+	:caption: Tutorial
+	:hidden:
+
+	start
+	aliasexp
+	load
+	clientrs
+
+.. toctree::
+	:maxdepth: 3
+	:caption: Manual
+	:hidden:
+
+	build
+	command
+	comment
+	config
+	format
+	exitcode
+	export
+	import
+	largedataset
+	path
+	plugin
+	script
+	setting
+
+.. toctree::
+	:caption: Miscellaneous
+	:hidden:
+
+	jdbclimitations

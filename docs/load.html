@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Load and Exporting Data &mdash; Jaqy 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Jaqy 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Client Side ResultSet Handling" href="clientrs.html"/>
+        <link rel="prev" title="Aliases and Expression Expansion" href="aliasexp.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Jaqy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aliasexp.html">Aliases and Expression Expansion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Load and Exporting Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exporting-csv">Exporting CSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#importing-csv">Importing CSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#direct-inter-database-data-transfer">Direct Inter-Database Data Transfer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="clientrs.html">Client Side ResultSet Handling</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Jaqy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comment.html">Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">Display Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exitcode.html">Exit Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Export Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="import.html">Import Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="largedataset.html">Large Data Set Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Path Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin.html">Plugin Loading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="script.html">Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting.html">Settings</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jdbclimitations.html">JDBC Limitations</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jaqy</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Load and Exporting Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="load-and-exporting-data">
+<h1>Load and Exporting Data<a class="headerlink" href="#load-and-exporting-data" title="Permalink to this headline">¶</a></h1>
+<p>One of the main goals of Jaqy is to simplify importing and exporting various
+data formats to and from the database.  In this tutorial, we are primarily
+focused on CSV format.</p>
+<div class="section" id="exporting-csv">
+<h2>Exporting CSV<a class="headerlink" href="#exporting-csv" title="Permalink to this headline">¶</a></h2>
+<p>The exporting of data from the database is illustrated in the following
+example.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">export</span> <span class="n">csv</span> <span class="n">myfile</span><span class="p">.</span><span class="n">csv</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">MyTable</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here, <a class="reference external" href="command/export.html">.export</a> command is used to setup the
+export.  <a class="reference external" href="export/csv.html">csv</a> option specifies that the output is
+going to be in CSV format.  <code class="docutils literal notranslate"><span class="pre">myfile.csv</span></code> is the output file.  In the
+interactive mode, the output file path is relative to the current directory.
+In the script mode, the path is relative to the script that contains the
+command.</p>
+<p>Jaqy has an extensible framework for handling different types of paths.
+With <code class="docutils literal notranslate"><span class="pre">jaqy-s3</span></code> plugin, it is also possible to export to S3 bucket.  The
+current implementation of <code class="docutils literal notranslate"><span class="pre">jaqy-s3</span></code> writes to a local temporary file first
+and then upload to the S3 bucket.  The following example is similar to the
+above, just with the path changed to an S3 URI instead of a local file.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">export</span> <span class="n">csv</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">mybucket</span><span class="o">/</span><span class="n">myfile</span><span class="p">.</span><span class="n">csv</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">MyTable</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="section" id="export-binary-and-character-data-files">
+<h3>Export Binary and Character Data Files<a class="headerlink" href="#export-binary-and-character-data-files" title="Permalink to this headline">¶</a></h3>
+<p>CSV exporter allows the possibility of exporting certain columns of data
+as separate files.  To facilitate the file name generation, a simple approach
+of using
+<a class="reference external" href="https://en.wikipedia.org/wiki/Printf_format_string">printf format</a>
+is used.</p>
+<p>For example, the following exports column 2 and 3 into files named <code class="docutils literal notranslate"><span class="pre">01.bin</span></code>,
+<code class="docutils literal notranslate"><span class="pre">02.bin</span></code> etc.  The encoding for character data is UTF-16LE.  The path
+is relative to the csv file.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">export</span> <span class="n">csv</span> <span class="o">-</span><span class="n">n</span> <span class="o">%</span><span class="mi">02</span><span class="n">d</span><span class="p">.</span><span class="n">bin</span> <span class="o">-</span><span class="n">e</span> <span class="n">UTF</span><span class="o">-</span><span class="mi">16</span><span class="n">LE</span> <span class="o">-</span><span class="n">f</span> <span class="mi">2</span> <span class="o">-</span><span class="n">f</span> <span class="mi">3</span> <span class="n">file1</span><span class="p">.</span><span class="n">csv</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>It is possible to have different naming patterns for each column.  The
+counter in this case would not be shared.</p>
+<p>For example, the following exports the 2nd column into files named <code class="docutils literal notranslate"><span class="pre">0001.txt</span></code>,
+<code class="docutils literal notranslate"><span class="pre">0002.txt</span></code> etc, while the 3rd column gets exported into files named
+<code class="docutils literal notranslate"><span class="pre">IMG0001.png</span></code>, <code class="docutils literal notranslate"><span class="pre">IMG0002.png</span></code>, etc.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">export</span> <span class="n">csv</span> <span class="o">-</span><span class="n">n</span> <span class="o">%</span><span class="mi">04</span><span class="n">d</span><span class="p">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">e</span> <span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">-</span><span class="n">f2</span> <span class="o">-</span><span class="n">n</span> <span class="n">IMG</span><span class="o">%</span><span class="mi">04</span><span class="n">d</span><span class="p">.</span><span class="n">png</span> <span class="o">-</span><span class="n">f3</span> <span class="n">file1</span><span class="p">.</span><span class="n">csv</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="importing-csv">
+<h2>Importing CSV<a class="headerlink" href="#importing-csv" title="Permalink to this headline">¶</a></h2>
+<p>The following example shows a simple CSV data import.
+<a class="reference external" href="command/import.html">.import</a> command is used to setup the data import.
+For <a class="reference external" href="import/csv.html">csv</a> type, <code class="docutils literal notranslate"><span class="pre">-h</span></code> option specifies that the CSV
+file has a header row.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="n">myfile</span><span class="p">.</span><span class="n">csv</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">MyTable</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The above syntax using <code class="docutils literal notranslate"><span class="pre">?</span></code> to do the import based on the position.  It is
+possible to change the column order by using <code class="docutils literal notranslate"><span class="pre">{{</span></code> and <code class="docutils literal notranslate"><span class="pre">}}</span></code> to specify
+the names.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.import csv -h myfile.csv
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}}, {{col3}});
+</pre></div>
+</div>
+<p>Again, it is possible to access S3 bucket.  Unlike the exporting case, the
+file can be directly imported.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.import csv -h s3://mybucket/myfile.csv
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}}, {{col3}});
+</pre></div>
+</div>
+<p>You can also specify <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">https</span></code> URLs for data import.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.import csv -h https://introcs.cs.princeton.edu/java/data/surnames.csv
+INSERT INTO MyTable VALUES ({{col1}}, {{col2}}, {{col3}});
+</pre></div>
+</div>
+<div class="section" id="importing-binary-and-character-data-files">
+<h3>Importing Binary and Character Data Files<a class="headerlink" href="#importing-binary-and-character-data-files" title="Permalink to this headline">¶</a></h3>
+<p>Much like the CSV export, it is possible to specify that values for certain
+entries are the file names that contains the data for import.</p>
+<p>In this example, the column 2 is treated as character data from a file, while
+the column 3 is treated as binary data from a file.  The file names are
+path relative to the csv file.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="o">-</span><span class="n">e</span> <span class="n">UTF</span><span class="o">-</span><span class="mi">16</span><span class="n">LE</span> <span class="o">-</span><span class="n">j2</span> <span class="o">-</span><span class="n">k3</span> <span class="n">file1</span><span class="p">.</span><span class="n">csv</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">MyTable</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="automatic-schema-discovery">
+<h3>Automatic Schema Discovery<a class="headerlink" href="#automatic-schema-discovery" title="Permalink to this headline">¶</a></h3>
+<p>Jaqy has a schema detection mechanism that allows SQL schema to be inferred
+from the import.  You can use it to directly import the data without trying
+to figure out of the schema yourself.  It is mostly for convenience, and not
+guaranteed to work in all cases.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">introcs</span><span class="p">.</span><span class="n">cs</span><span class="p">.</span><span class="n">princeton</span><span class="p">.</span><span class="n">edu</span><span class="o">/</span><span class="n">java</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">surnames</span><span class="p">.</span><span class="n">csv</span>
+<span class="p">.</span><span class="n">importtable</span> <span class="n">surnames</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="direct-inter-database-data-transfer">
+<h2>Direct Inter-Database Data Transfer<a class="headerlink" href="#direct-inter-database-data-transfer" title="Permalink to this headline">¶</a></h2>
+<p>Jaqy has a fairly unique feature of allowing direct inter-database data
+transfer.  You can see from the example below.  Two sessions
+(see <a class="reference external" href="command/session.html">.session</a>) are used.  Then one session export
+to <a class="reference external" href="export/pipe.html">pipe</a>, while the other session import from
+<a class="reference external" href="import/pipe.html">pipe</a>.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="k">session</span> <span class="mi">0</span>
+
+<span class="c1">-- PostgreSQL large data set export settings</span>
+
+<span class="p">.</span><span class="k">set</span> <span class="n">autocommit</span> <span class="k">off</span>
+<span class="p">.</span><span class="k">set</span> <span class="n">fetchsize</span> <span class="mi">50</span>
+<span class="p">.</span><span class="n">export</span> <span class="n">pipe</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">TextTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+
+<span class="p">.</span><span class="k">session</span> <span class="mi">1</span>
+
+<span class="p">.</span><span class="n">import</span> <span class="n">pipe</span>
+<span class="p">.</span><span class="k">set</span> <span class="n">batchsize</span> <span class="mi">50</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">TextTable</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The example here intentionally made
+batch size and fetch size small to illustrate the functionality.  Usually,
+one needs to consider the amount of memory for holding the ResultSet and
+the amount of the memory needed to submit the data.
+See <a class="reference external" href="largedataset.html">large data set handling</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="clientrs.html" class="btn btn-neutral float-right" title="Client Side ResultSet Handling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="aliasexp.html" class="btn btn-neutral" title="Aliases and Expression Expansion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Teradata Corporation.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

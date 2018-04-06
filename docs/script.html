@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scripting &mdash; Jaqy 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Jaqy 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Settings" href="setting.html"/>
+        <link rel="prev" title="Plugin Loading" href="plugin.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Jaqy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aliasexp.html">Aliases and Expression Expansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Load and Exporting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clientrs.html">Client Side ResultSet Handling</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Jaqy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comment.html">Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">Display Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exitcode.html">Exit Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Export Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="import.html">Import Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="largedataset.html">Large Data Set Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Path Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin.html">Plugin Loading</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scripting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expression-expansion">Expression Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#javascript-tips">JavaScript Tips</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setting.html">Settings</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jdbclimitations.html">JDBC Limitations</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jaqy</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Scripting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scripting">
+<h1>Scripting<a class="headerlink" href="#scripting" title="Permalink to this headline">¶</a></h1>
+<p>Since JDK 6 and later comes with a JavaScript engine, Jaqy uses it to provide
+scripting support.</p>
+<p>Each
+<a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/jaqy-core/src/main/java/com/teradata/jaqy/JaqyInterpreter.java">JaqyInterpreter</a>
+has a JavaScript engine.  Since Jaqy currently only uses a JaqyInterpreter,
+there is effectively just one script engine.</p>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="command/eval.html">.eval</a> is used to execute a one-liner JavaScript</li>
+<li><a class="reference external" href="command/script.html">.script</a> is used to execute a block of JavaScript
+from a file.</li>
+</ul>
+</div>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<p>The following variables are set up by default.  These variables are all in the
+engine scope.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>activityCount</td>
+<td>The number of rows in the SQL query or SQL update.</td>
+</tr>
+<tr class="row-odd"><td>display</td>
+<td><a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/jaqy-console/src/main/java/com/teradata/jaqy/ConsoleDisplay.java">Display</a></td>
+</tr>
+<tr class="row-even"><td>esc</td>
+<td><a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/jaqy-console/src/main/java/com/teradata/jaqy/utils/Escape.java">Escape</a></td>
+</tr>
+<tr class="row-odd"><td>globals</td>
+<td><a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/jaqy-core/src/main/java/com/teradata/jaqy/Globals.java">Globals</a></td>
+</tr>
+<tr class="row-even"><td>iteration</td>
+<td>The current repeat iteration.</td>
+</tr>
+<tr class="row-odd"><td>interpreter</td>
+<td><a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/jaqy-core/src/main/java/com/teradata/jaqy/JaqyInterpreter.java">JaqyInterpreter</a></td>
+</tr>
+<tr class="row-even"><td>parent</td>
+<td>Parent variables (i.e. variables in the global scope)</td>
+</tr>
+<tr class="row-odd"><td>session</td>
+<td>Current <a class="reference external" href="https://github.com/Teradata/jaqy/blob/master/jaqy-core/src/main/java/com/teradata/jaqy/Session.java">Session</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="expression-expansion">
+<h2>Expression Expansion<a class="headerlink" href="#expression-expansion" title="Permalink to this headline">¶</a></h2>
+<p>By default, Jaqy does expression expansion for all SQL statements.
+The general syntax is <code class="docutils literal notranslate"><span class="pre">${</span></code> <cite>expression</cite> <code class="docutils literal notranslate"><span class="pre">}</span></code>.  It should be noted that
+Jaqy does an extremely simple regular expression match by looking for the
+pair of tokens, and evaluate the text in between using JavaScript.</p>
+<p>The expression expansion can be disabled by using
+<a class="reference external" href="command/expansion.html">.expansion</a> command.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The reason to use <code class="docutils literal notranslate"><span class="pre">${</span></code> and <code class="docutils literal notranslate"><span class="pre">}</span></code> pair instead of <code class="docutils literal notranslate"><span class="pre">$(</span></code> and <code class="docutils literal notranslate"><span class="pre">)</span></code> pair
+as in bash arithmetic expansion is simply because it is possible to allow
+functions to be called without complex parsing.</p>
+<p class="last">Jaqy does use <code class="docutils literal notranslate"><span class="pre">$(</span></code> and <code class="docutils literal notranslate"><span class="pre">)</span></code> pair
+when dealing with <a class="reference external" href="command/alias.html">.alias</a> command arguments.
+So comparing to bash’s parameter expansion, the usage of the tokens are
+somewhat switched.</p>
+</div>
+<div class="section" id="expression-expansion-example-1">
+<h3>Expression Expansion Example 1<a class="headerlink" href="#expression-expansion-example-1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>CREATE TABLE MyTable (a INTEGER, b INTEGER);
+CREATE TABLE ControlTable (a INTEGER, b INTEGER);
+
+INSERT INTO MyTable VALUES (1, 1);
+INSERT INTO MyTable VALUES (2, 2);
+
+SELECT * FROM MyTable;
+
+-- Variable Substitution
+INSERT INTO ControlTable VALUES (1, ${activityCount});
+
+SELECT * FROM ControlTable;
+</pre></div>
+</div>
+<p>The result should be the following.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>a b
+- -
+1 2
+</pre></div>
+</div>
+</div>
+<div class="section" id="expression-expansion-example-2">
+<h3>Expression Expansion Example 2<a class="headerlink" href="#expression-expansion-example-2" title="Permalink to this headline">¶</a></h3>
+<p>The expression expansion evaluation ignores quotes etc.  Such behavior is
+intentional, since it allows custom string values to be generated.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">geoTable</span> <span class="p">(</span><span class="n">a</span> <span class="nb">INTEGER</span><span class="p">,</span> <span class="n">geo</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span>
+
+<span class="p">.</span><span class="n">script</span>
+<span class="n">var</span> <span class="n">rad</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">1234</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">sin</span> <span class="p">(</span><span class="n">rad</span><span class="p">);</span>
+<span class="p">.</span><span class="k">end</span> <span class="n">script</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">geoTable</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;POINT(${x} ${Math.cos(rad)})&#39;</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">geoTable</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The result should be the following.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>a geo
+- --------------------------------------------
+1 POINT(0.901576557064293 0.43261959242745307)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="javascript-tips">
+<h2>JavaScript Tips<a class="headerlink" href="#javascript-tips" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="calling-java-functions">
+<h3>Calling Java Functions<a class="headerlink" href="#calling-java-functions" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to call Java functions in JavaScript by using <cite>Packages</cite>
+variable.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nx">script</span>
+<span class="nb">Packages</span><span class="p">.</span><span class="nx">java</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span> <span class="p">(</span> <span class="s1">&#39;test&#39;</span> <span class="p">)</span>
+<span class="p">.</span><span class="nx">end</span> <span class="nx">script</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implementing-java-interface">
+<h3>Implementing Java Interface<a class="headerlink" href="#implementing-java-interface" title="Permalink to this headline">¶</a></h3>
+<p>It is entirely possible to write plugins for Jaqy purely using JavaScript.
+Of course, its performance is not going to be that great.  However, if you
+needed something done quickly, it could be an option.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nx">script</span>
+<span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">myCommand</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Packages</span><span class="p">.</span><span class="nx">com</span><span class="p">.</span><span class="nx">teradata</span><span class="p">.</span><span class="nx">jaqy</span><span class="p">.</span><span class="nx">command</span><span class="p">.</span><span class="nx">JaqyCommandAdapter</span> <span class="p">(</span>
+        <span class="p">{</span>
+                <span class="nx">getDescription</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">()</span>
+                <span class="p">{</span>
+                        <span class="k">return</span> <span class="s2">&quot;my dummy command&quot;</span><span class="p">;</span>
+                <span class="p">},</span>
+                <span class="nx">execute</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">,</span> <span class="nx">silent</span><span class="p">,</span> <span class="nx">globals</span><span class="p">,</span> <span class="nx">interpreter</span><span class="p">)</span>
+                <span class="p">{</span>
+                        <span class="nx">interpreter</span><span class="p">.</span><span class="nx">println</span> <span class="p">(</span><span class="s2">&quot;my dummy command called.&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+        <span class="p">});</span>
+        <span class="nx">globals</span><span class="p">.</span><span class="nx">getCommandManager</span> <span class="p">().</span><span class="nx">addCommand</span> <span class="p">(</span><span class="s2">&quot;mycmd&quot;</span><span class="p">,</span> <span class="nx">myCommand</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nx">end</span> <span class="nx">script</span>
+<span class="o">--</span> <span class="nx">now</span> <span class="nx">test</span> <span class="nx">the</span> <span class="k">new</span> <span class="p">.</span><span class="nx">mycmd</span> <span class="nx">command</span>
+<span class="p">.</span><span class="nx">mycmd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="setting.html" class="btn btn-neutral float-right" title="Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="plugin.html" class="btn btn-neutral" title="Plugin Loading" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Teradata Corporation.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

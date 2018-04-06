@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>JDBC Limitations &mdash; Jaqy 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Jaqy 1.0 documentation" href="index.html"/>
+        <link rel="prev" title="nullsort" href="setting/nullsort.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Jaqy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aliasexp.html">Aliases and Expression Expansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Load and Exporting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clientrs.html">Client Side ResultSet Handling</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Jaqy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comment.html">Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">Display Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exitcode.html">Exit Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Export Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="import.html">Import Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="largedataset.html">Large Data Set Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Path Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin.html">Plugin Loading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="script.html">Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting.html">Settings</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">JDBC Limitations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bit-row-position-and-activity-count">32-bit Row Position and Activity Count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lacking-good-type-information">Lacking Good Type Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poor-array-and-struct-type-support">Poor Array and Struct Type Support</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jaqy</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>JDBC Limitations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="jdbc-limitations">
+<h1>JDBC Limitations<a class="headerlink" href="#jdbc-limitations" title="Permalink to this headline">¶</a></h1>
+<p>Here are some limitations of JDBC encountered during the implementations
+of Jaqy.</p>
+<div class="section" id="bit-row-position-and-activity-count">
+<h2>32-bit Row Position and Activity Count<a class="headerlink" href="#bit-row-position-and-activity-count" title="Permalink to this headline">¶</a></h2>
+<p>There are a number of places where the use of 32-bit int that are very limited
+in today’s Big Data world.</p>
+<ul>
+<li><p class="first">In <a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">ResultSet</a></p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html#absolute-int-">boolean absolute(int row)</a></li>
+<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html#getRow--">int getRow()</a></li>
+<li>There are also no mechanisms for obtaining the ResultSet row count
+without having to either scan the rows or to use the positioning to find
+out the row count.  In
+<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html#TYPE_FORWARD_ONLY">ResultSet.TYPE_FORWARD_ONLY</a>,
+the only way to get the row count is by scanning rows.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">In <a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Statement.html">Statement</a>,</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Statement.html#getUpdateCount--">int getUpdateCount()</a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="lacking-good-type-information">
+<h2>Lacking Good Type Information<a class="headerlink" href="#lacking-good-type-information" title="Permalink to this headline">¶</a></h2>
+<p>The only thing in JDBC that provides type information is
+<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/DatabaseMetaData.html#getTypeInfo--">DatabaseMetadata.getTypeInfo()</a>.
+Yet it is not all that useful.</p>
+<ul class="simple">
+<li>There can be multiple types mapped to a single JDBC type without a way of
+indicating the default one to use.  For instance, in PostgreSQL, both
+<code class="docutils literal notranslate"><span class="pre">int4</span></code> and <code class="docutils literal notranslate"><span class="pre">serial</span></code> maps to <code class="docutils literal notranslate"><span class="pre">Types.INTEGER</span></code>.</li>
+<li>For types such as VARCHAR(100) CHARACTER SET LATIN, there are basically no
+way to infer the type name based on the type information.</li>
+</ul>
+</div>
+<div class="section" id="poor-array-and-struct-type-support">
+<h2>Poor Array and Struct Type Support<a class="headerlink" href="#poor-array-and-struct-type-support" title="Permalink to this headline">¶</a></h2>
+<p>JDBC has very poor
+<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Array.html">Array</a> and
+<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Array.html">Struct</a>
+support.</p>
+<p><a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSetMetaData.html">ResultSetMetaData</a>
+and
+<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/ParameterMetaData.html">ParameterMetaData</a>
+have only the basic type information, without any mechanism obtaining the
+element or attribute types.  Needless to say, there is no way to obtain nested
+Array or Struct information.</p>
+<p>There is also no way to obtain the Struct attributes.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="setting/nullsort.html" class="btn btn-neutral" title="nullsort" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Teradata Corporation.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
