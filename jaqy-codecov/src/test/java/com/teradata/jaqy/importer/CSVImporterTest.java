@@ -72,6 +72,12 @@ public class CSVImporterTest
 	}
 
 	@Test
+	public void test_null () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/csv_import_null.sql", "../tests/unittests/csv/control/csv_import_null.control");
+	}
+
+	@Test
 	public void test_pgsql_1 () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/csv/postgresql_data_types.sql", "../tests/unittests/csv/control/postgresql_data_types.control");

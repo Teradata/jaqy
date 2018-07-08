@@ -7,6 +7,7 @@ csv_import_4.sql
 csv_import_5.sql
 csv_import_6.sql
 csv_import_7.sql
+csv_import_null.sql
 csv_lob_1.sql
 mysql_data_types.sql
 postgresql_data_types_schema.sql

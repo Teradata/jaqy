@@ -17,6 +17,7 @@ package com.teradata.jaqy;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -25,7 +26,9 @@ import com.teradata.jaqy.importer.FieldImporter;
 import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.parser.FieldParser;
 import com.teradata.jaqy.schema.ParameterInfo;
-import com.teradata.jaqy.utils.*;
+import com.teradata.jaqy.utils.DriverManagerUtils;
+import com.teradata.jaqy.utils.FileUtils;
+import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 
 /**
  * @author Heng Yuan
@@ -215,6 +218,45 @@ public class Session
 		return prepareStatement (sql, interpreter);
 	}
 
+	private static ArrayList<Object> addFreeList (ArrayList<Object> list, Object c)
+	{
+		if (list == null)
+		{
+			list = new ArrayList<Object> ();
+		}
+		list.add (c);
+		return list;
+	}
+
+	private void freeObjects (ArrayList<Object> list)
+	{
+		if (list == null)
+			return;
+		for (Object o : list)
+		{
+			try
+			{
+				if (o instanceof Clob)
+				{
+					((Clob)o).free ();
+				}
+				else if (o instanceof Blob)
+				{
+					((Blob)o).free ();
+				}
+				else if (o instanceof SQLXML)
+				{
+					((SQLXML)o).free ();
+				}
+			}
+			catch (SQLException ex)
+			{
+				m_globals.log (Level.INFO, ex);
+			}
+		}
+		list.clear ();
+	}
+
 	public void importQuery (String sql, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyImporter<?> importer = interpreter.getImporter ();
@@ -242,6 +284,7 @@ public class Session
 			int columns = stmt.getParameterCount ();
 			long batchCount = 0;
 			long batchSize = m_connection.getBatchSize ();
+			ArrayList<Object> freeList = null;
 			while (importer.next ())
 			{
 				for (int i = 0; i < columns; ++i)
@@ -273,7 +316,7 @@ public class Session
 									SQLXML x = m_connection.createSQLXML ();
 									FileUtils.copy (x.setCharacterStream (), xml.getCharacterStream (), interpreter.getCharBuffer ());
 									stmt.setSQLXML (i + 1, x);
-									x.free ();
+									freeList = addFreeList (freeList, x);
 								}
 								else
 									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
@@ -288,14 +331,14 @@ public class Session
 									NClob c = m_connection.createNClob ();
 									FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
 									stmt.setNClob (i + 1, c);
-									c.free ();
+									freeList = addFreeList (freeList, c);
 								}
 								else if (parameterInfos[i].type == Types.CLOB)
 								{
 									Clob c = m_connection.createClob ();
 									FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
 									stmt.setClob (i + 1, c);
-									c.free ();
+									freeList = addFreeList (freeList, c);
 								}
 								else
 									stmt.setCharacterStream (i + 1, clob.getCharacterStream ());
@@ -311,10 +354,10 @@ public class Session
 									b = m_connection.createBlob ();
 									FileUtils.copy (b.setBinaryStream (1), blob.getBinaryStream (), interpreter.getByteBuffer ());
 									stmt.setBlob (i + 1, b);
-									b.free ();
+									freeList = addFreeList (freeList, b);
 								}
 								else
-									stmt.setBinaryStream (i + 1, blob.getBinaryStream ());
+									stmt.setBinaryStream (i + 1, blob.getBinaryStream (), blob.length ());
 							}
 							else
 							{
@@ -344,12 +387,14 @@ public class Session
 				if (batchSize == 1)
 				{
 					stmt.execute ();
+					freeObjects (freeList);
 					handleQueryResult (stmt, interpreter);
 				}
 				else
 				{
 					++batchCount;
 					stmt.addBatch ();
+					freeObjects (freeList);
 					if (batchCount == batchSize)
 					{
 						stmt.executeBatch ();

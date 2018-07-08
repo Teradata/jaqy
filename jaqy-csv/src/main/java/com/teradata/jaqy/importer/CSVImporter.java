@@ -214,6 +214,16 @@ public class CSVImporter implements JaqyImporter<Integer>
 	@Override
 	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
 	{
-		stmt.setNull (column, Types.VARCHAR, "VARCHAR");
+		switch (paramInfo.type)
+		{
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			case Types.BIGINT:
+				stmt.setNull (column, paramInfo.type);
+				break;
+			default:
+				stmt.setObject (column, null);
+		}
 	}
 }

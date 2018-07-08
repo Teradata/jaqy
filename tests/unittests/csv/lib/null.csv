@@ -1,0 +1,4 @@
+a,b,c,d,e,f,g,h
+1,2,NULL,a,file1.bin,file2.bin,file1.bin,file2.bin
+2,3,4,NULL,file1.bin,,file1.bin,
+3,NULL,NULL,c,,file2.bin,,file2.bin

@@ -94,9 +94,19 @@ public class JaqyPreparedStatement extends JaqyStatement
 		m_statement.setCharacterStream (parameter, reader);
     }
 
+    public void setCharacterStream(int parameter, Reader reader, long length) throws SQLException
+    {
+		m_statement.setCharacterStream (parameter, reader, length);
+    }
+
     public void setBinaryStream(int parameter, InputStream x) throws SQLException
     {
 		m_statement.setBinaryStream (parameter, x);
+    }
+
+    public void setBinaryStream(int parameter, InputStream x, long length) throws SQLException
+    {
+		m_statement.setBinaryStream (parameter, x, length);
     }
 
     public void setObject (int parameter, Object obj) throws SQLException
@@ -128,6 +138,11 @@ public class JaqyPreparedStatement extends JaqyStatement
 	{
 		m_statement.setObject (parameter, obj, sqlType);
 	}
+
+    public void setNull (int parameterIndex, int sqlType) throws SQLException
+    {
+    	m_statement.setNull (parameterIndex, sqlType);
+    }
 
     public void setNull (int parameterIndex, int sqlType, String typeName) throws SQLException
     {
