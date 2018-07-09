@@ -87,7 +87,7 @@ public class Main
 	private static void initScreen (Globals globals, Display display)
 	{
 		// print version
-		globals.printVersion (display.getPrintWriter (), "Jaqy Console", "1.0");
+		globals.printVersion (display.getPrintWriter (), "Jaqy Console", "1.0.1");
 
 		if (display.isInteractive ())
 		{

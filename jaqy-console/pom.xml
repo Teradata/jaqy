@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.teradata.jaqy</groupId>
 		<artifactId>jaqy-parent</artifactId>
-		<version>1.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>jaqy-console</artifactId>
 	<name>Jaqy Console</name>
@@ -35,27 +35,27 @@
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-core</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-commands</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-csv</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-json</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-pipe</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>

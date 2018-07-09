@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.teradata.jaqy</groupId>
 		<artifactId>jaqy-parent</artifactId>
-		<version>1.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>jaqy-s3</artifactId>
 	<name>jaqy-s3</name>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-core</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>
