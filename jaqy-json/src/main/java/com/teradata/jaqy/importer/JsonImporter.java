@@ -33,6 +33,7 @@ import javax.json.JsonValue.ValueType;
 import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonParser.Event;
 
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.yuanheng.cookjson.CookJsonParser;
@@ -55,7 +56,7 @@ import com.teradata.jaqy.utils.TypesUtils;
 /**
  * @author	Heng Yuan
  */
-class JsonImporter implements JaqyImporter<String>
+class JsonImporter implements JaqyImporter
 {
 	private final Globals m_globals;
 	private final CookJsonParser m_parser;
@@ -64,6 +65,7 @@ class JsonImporter implements JaqyImporter<String>
 	private boolean m_end;
 	private final JsonBinaryFormat m_binaryFormat;
 	private JaqyConnection m_conn;
+	private String[] m_exps;
 
 	public JsonImporter (Globals globals, JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, boolean rootAsArray) throws IOException
 	{
@@ -160,20 +162,19 @@ class JsonImporter implements JaqyImporter<String>
 	}
 
 	@Override
-	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws IOException
+	public void setParameters (String[] exps)
 	{
-		throw new IOException ("json data has to be accessed via field.");
+		m_exps = exps;
 	}
 
 	@Override
-	public String getPath (String name) throws Exception
+	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws IOException, DecoderException
 	{
-		return name;
-	}
-
-	@Override
-	public Object getObjectFromPath (String name, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
-	{
+		if (m_exps == null)
+		{
+			throw new IOException ("json data has to be accessed via field.");
+		}
+		String name = m_exps[index];
 		JsonValue v = m_node.get (name);
 		if (v == null || v.getValueType () == ValueType.NULL) 
 			return null;

@@ -42,7 +42,7 @@ import com.teradata.jaqy.utils.TypesUtils;
 /**
  * @author Heng Yuan
  */
-class AvroImporter implements JaqyImporter<String>
+class AvroImporter implements JaqyImporter
 {
 	private static Object unwrapAvroObject (Object v)
 	{
@@ -64,6 +64,7 @@ class AvroImporter implements JaqyImporter<String>
 	private boolean m_end;
 	private Iterator<GenericRecord> m_iter;
 	private GenericRecord m_record;
+	private String[] m_exps;
 
 	public AvroImporter (JaqyConnection conn, Path file) throws IOException
 	{
@@ -246,21 +247,17 @@ class AvroImporter implements JaqyImporter<String>
 	}
 
 	@Override
+	public void setParameters (String[] exps)
+	{
+		m_exps = exps;
+	}
+
+	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		return getObject (m_record.get (index), paramInfo);
-	}
-
-	@Override
-	public String getPath (String name) throws Exception
-	{
-		return name;
-	}
-
-	@Override
-	public Object getObjectFromPath (String name, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
-	{
-		return getObject (m_record.get (name), paramInfo);
+		if (m_exps == null)
+			return getObject (m_record.get (index), paramInfo);
+		return getObject (m_record.get (m_exps[index]), paramInfo);
 	}
 
 	@Override

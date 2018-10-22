@@ -33,7 +33,7 @@ import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 /**
  * @author	Heng Yuan
  */
-public class PipeImporter implements JaqyImporter<Integer>
+public class PipeImporter implements JaqyImporter
 {
 	private final Globals m_globals;
 	private final JaqyResultSet m_rs;
@@ -65,21 +65,15 @@ public class PipeImporter implements JaqyImporter<Integer>
 	}
 
 	@Override
+	public void setParameters (String[] exprs)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		return m_rs.getObject (index + 1);
-	}
-
-	@Override
-	public Integer getPath (String name) throws Exception
-	{
-		return m_rs.findColumn (name) - 1;
-	}
-
-	@Override
-	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
-	{
-		return getObject (path, paramInfo, interpreter);
 	}
 
 	@Override

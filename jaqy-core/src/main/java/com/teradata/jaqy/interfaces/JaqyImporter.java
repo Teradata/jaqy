@@ -25,7 +25,7 @@ import com.teradata.jaqy.schema.SchemaInfo;
 /**
  * @author	Heng Yuan
  */
-public interface JaqyImporter<P> extends Closeable
+public interface JaqyImporter extends Closeable
 {
 	/**
 	 * Gets the name of the importer.
@@ -47,6 +47,14 @@ public interface JaqyImporter<P> extends Closeable
 	public boolean next () throws Exception;
 
 	/**
+	 * 
+	 * @param	exps
+	 * 			expressions
+	 * @version	1.1
+	 */
+	public void setParameters (String[] exps);
+
+	/**
 	 * Gets an object based on position.  The index starts from 0.
 	 * <p>
 	 * The object obtained is directly passed to a {@link java.sql.PreparedStatement}.
@@ -54,43 +62,13 @@ public interface JaqyImporter<P> extends Closeable
 	 *			object index
 	 * @param	paramInfo
 	 * 			JDBC parameter information
-	 * @param interpreter TODO
+	 * @param	interpreter
+	 * 			the interpreter.
 	 * @return	the object at the index.
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
-
-	/**
-	 * Gets a Path object based on a name.
-	 * <p>
-	 * The intent of this function to avoid processing the name multiple times
-	 * to improve the performance.
-	 *
-	 * @param	name
-	 *			column / path for retrieving data.
-	 * @return	the object at the index.  null if the path does not
-	 * 			exist.
-	 * @throws	Exception
-	 * 			in case of invalid name.
-	 */
-	public P getPath (String name) throws Exception;
-
-	/**
-	 * Gets an object based on path (see {@link #getPath(String)}.
-	 * <p>
-	 * The object obtained is directly passed to a {@link java.sql.PreparedStatement}.
-	 * @param	path
-	 *			the path object obtained from {@link #getPath(String)}.
-	 * @param	paramInfo
-	 * 			JDBC parameter information
-	 * @param	interpreter
-	 * 			the interpreter.
-	 * @return	the object at the path.
-	 * @throws	Exception
-	 * 			in case of error.
-	 */
-	public Object getObjectFromPath (P path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
 
 	/**
 	 * Sets NULL for a particular column.

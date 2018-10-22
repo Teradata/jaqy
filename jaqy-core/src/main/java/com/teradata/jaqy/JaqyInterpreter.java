@@ -104,7 +104,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private boolean m_quiet;
 	private JaqyPrinter m_printer;
 	private JaqyExporter m_exporter;
-	private JaqyImporter<?> m_importer;
+	private JaqyImporter m_importer;
 
 	private QueryMode m_queryMode = QueryMode.Regular;
 	private boolean m_expansion = true;
@@ -974,7 +974,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	/**
 	 * @return the exporter
 	 */
-	public JaqyImporter<?> getImporter ()
+	public JaqyImporter getImporter ()
 	{
 		return m_importer;
 	}
@@ -983,9 +983,9 @@ public class JaqyInterpreter implements ExpressionHandler
 	 * @param	exporter
 	 *			the exporter to set
 	 */
-	public void setImporter (JaqyImporter<?> importer)
+	public void setImporter (JaqyImporter importer)
 	{
-		JaqyImporter<?> oldImporter = m_importer;
+		JaqyImporter oldImporter = m_importer;
 		if (oldImporter != null)
 		{
 			try

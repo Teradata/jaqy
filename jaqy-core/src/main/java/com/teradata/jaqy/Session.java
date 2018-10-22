@@ -22,12 +22,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.connection.*;
-import com.teradata.jaqy.importer.FieldImporter;
 import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.parser.FieldParser;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.DriverManagerUtils;
 import com.teradata.jaqy.utils.FileUtils;
+import com.teradata.jaqy.utils.ImportExpressionHandler;
 import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 
 /**
@@ -259,14 +259,14 @@ public class Session
 
 	public void importQuery (String sql, JaqyInterpreter interpreter) throws Exception
 	{
-		JaqyImporter<?> importer = interpreter.getImporter ();
+		JaqyImporter importer = interpreter.getImporter ();
 		m_globals.log (Level.INFO, "importQuery: " + importer);
-		FieldImporter fieldImporter = new FieldImporter (importer);
+		ImportExpressionHandler expHandler = new ImportExpressionHandler ();
 		sql = interpreter.expand (sql);
-		sql = FieldParser.getString (sql, fieldImporter);
+		sql = FieldParser.getString (sql, expHandler);
 		m_globals.log (Level.INFO, "field sql: " + sql);
-		if (fieldImporter.hasFields ())
-			importer = fieldImporter;
+		String[] exps = expHandler.getExpressions ();
+		importer.setParameters (exps);
 
 		JaqyPreparedStatement stmt = prepareQuery (sql, interpreter);
 		JaqyHelper helper = stmt.getHelper ();

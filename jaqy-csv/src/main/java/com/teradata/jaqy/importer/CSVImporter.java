@@ -42,7 +42,7 @@ import com.teradata.jaqy.utils.TypesUtils;
 /**
  * @author	Heng Yuan
  */
-public class CSVImporter implements JaqyImporter<Integer>
+public class CSVImporter implements JaqyImporter
 {
 	public final static String[] DEFAULT_NA_VALUES =
 	{
@@ -63,6 +63,7 @@ public class CSVImporter implements JaqyImporter<Integer>
 	private SchemaInfo m_schemaInfo;
 	private long m_scanThreshold;
 	private HashMap<Integer, CSVImportInfo> m_importInfoMap;
+	private int[] m_exps;
 
 	public CSVImporter (Path file, Charset charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
 	{
@@ -128,11 +129,65 @@ public class CSVImporter implements JaqyImporter<Integer>
 		return false;
 	}
 
+
+	@Override
+	public void setParameters (String[] exps)
+	{
+		if (exps == null)
+		{
+			m_exps = null;
+			return;
+		}
+		else
+		{
+			m_exps = new int[exps.length];
+			int i = 0;
+			for (String name : exps)
+			{
+				if (m_headers != null)
+				{
+					Integer index = m_headers.get (name);
+
+					if (index == null)
+					{
+						throw new IllegalArgumentException ("field not found: " + name);				
+					}
+					m_exps[i] = index;
+				}
+				else if (name.startsWith ("col"))
+				{
+					String str = name.substring (3);
+					int index = -1;
+					try
+					{
+						index = Integer.valueOf (str) - 1;
+					}
+					catch (Exception ex)
+					{
+					}
+					if (index < 0)
+						throw new IllegalArgumentException ("Invalid column name: " + name);
+					m_exps[i] = index;
+				}
+				else
+				{
+					throw new IllegalArgumentException ("Invalid column name: " + name);
+				}
+
+				++i;
+			}
+		}
+	}
+
 	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		try
 		{
+			if (m_exps != null)
+			{
+				index = m_exps[index];
+			}
 			String value = m_record.get (index);
 			if (m_naFilter)
 			{
@@ -161,35 +216,6 @@ public class CSVImporter implements JaqyImporter<Integer>
 		{
 			throw new IOException ("Column " + (index + 1) + " is not found.");
 		}
-	}
-
-	@Override
-	public Integer getPath (String name) throws Exception
-	{
-		if (m_headers != null)
-			return m_headers.get (name);
-		else if (name.startsWith ("col"))
-		{
-			String str = name.substring (3);
-			int index = -1;
-			try
-			{
-				index = Integer.valueOf (str) - 1;
-			}
-			catch (Exception ex)
-			{
-			}
-			if (index < 0)
-				throw new IllegalArgumentException ("Invalid column name: " + name);
-			return new Integer (index);
-		}
-		throw new IllegalArgumentException ("Invalid column name: " + name);
-	}
-
-	@Override
-	public Object getObjectFromPath (Integer path, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
-	{
-		return getObject ((int)path, paramInfo, interpreter);
 	}
 
 	@Override

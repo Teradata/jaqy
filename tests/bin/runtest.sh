@@ -18,7 +18,7 @@ TESTDIR=/tmp/test.$$
 INPUTDIR=${TESTDIR}/input
 OUTPUTDIR=${TESTDIR}/output
 CONTROLDIR=${TESTDIR}/control
-jq="java -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.0.1.jar"
+jq="java -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.1.0.jar"
 
 function run ()
 {

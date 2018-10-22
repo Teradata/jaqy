@@ -82,14 +82,14 @@ alias rd=rmdir
 alias where=which
 alias grep='grep --color=auto'
 
-alias jq='java -jar /vagrant/dist/jaqy-1.0.1.jar'
-alias jqe='java -ea -jar /vagrant/dist/jaqy-1.0.1.jar'
+alias jq='java -jar /vagrant/dist/jaqy-1.1.0.jar'
+alias jqe='java -ea -jar /vagrant/dist/jaqy-1.1.0.jar'
 
 cd /vagrant
 "
 echo "$BASHRC" >> ~vagrant/.bashrc
-echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.0.1.jar" > ~vagrant/.jqrc
-echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.0.1.jar" >> ~vagrant/.jqrc
+echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar" > ~vagrant/.jqrc
+echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar" >> ~vagrant/.jqrc
 
 chown vagrant ~vagrant/.jqrc
 chgrp vagrant ~vagrant/.jqrc

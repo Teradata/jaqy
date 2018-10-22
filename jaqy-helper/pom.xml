@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.teradata.jaqy</groupId>
 		<artifactId>jaqy-parent</artifactId>
-		<version>1.0.1</version>
+		<version>1.1.0</version>
 	</parent>
 	<artifactId>jaqy-helper</artifactId>
 	<name>Jaqy Helper</name>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-core</artifactId>
-			<version>1.0.1</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.json</groupId>

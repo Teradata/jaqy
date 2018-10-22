@@ -64,7 +64,7 @@ public class ImportCommand extends JaqyCommandAdapter
 	{
 		if (args.length == 0)
 		{
-			JaqyImporter<?> importer = interpreter.getImporter ();
+			JaqyImporter importer = interpreter.getImporter ();
 			if (importer == null)
 			{
 				interpreter.println ("No current imports.");
@@ -78,7 +78,7 @@ public class ImportCommand extends JaqyCommandAdapter
 		{
 			String name = args[0];
 			args = StringUtils.shiftArgs (args);
-			JaqyImporter<?> importer = interpreter.getGlobals ().getImporterManager ().getHandler (name, args, interpreter);
+			JaqyImporter importer = interpreter.getGlobals ().getImporterManager ().getHandler (name, args, interpreter);
 			if (importer == null)
 			{
 				interpreter.error ("importer type not found: " + name);

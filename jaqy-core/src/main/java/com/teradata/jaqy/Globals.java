@@ -62,7 +62,7 @@ public class Globals
 
 	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager;
 	private final JaqyHandlerFactoryManager<JaqyExporter> m_exporterManager;
-	private final JaqyHandlerFactoryManager<JaqyImporter<?>> m_importerManager;
+	private final JaqyHandlerFactoryManager<JaqyImporter> m_importerManager;
 
 	private final String m_rc = "com.teradata.jaqy.interfaces.JaqyPlugin";
 	private final File m_dir = new File (".");
@@ -106,7 +106,7 @@ public class Globals
 		m_pathHandlerManager.addPathHandler (new HttpPathHandler ());
 		m_printerManager = new JaqyHandlerFactoryManager<JaqyPrinter> (this, "com.teradata.jaqy.interfaces.JaqyPrinter");
 		m_exporterManager = new JaqyHandlerFactoryManager<JaqyExporter> (this, "com.teradata.jaqy.interfaces.JaqyExporter");
-		m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter<?>> (this, "com.teradata.jaqy.interfaces.JaqyImporter");
+		m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter> (this, "com.teradata.jaqy.interfaces.JaqyImporter");
 	}
 
 	public void printVersion (PrintWriter pw, String defaultName, String defaultVersion)
@@ -325,7 +325,7 @@ public class Globals
 	/**
 	 * @return	the importerManager
 	 */
-	public JaqyHandlerFactoryManager<JaqyImporter<?>> getImporterManager ()
+	public JaqyHandlerFactoryManager<JaqyImporter> getImporterManager ()
 	{
 		return m_importerManager;
 	}

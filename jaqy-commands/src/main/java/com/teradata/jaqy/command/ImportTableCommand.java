@@ -56,7 +56,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
-		JaqyImporter<?> importer = interpreter.getImporter ();
+		JaqyImporter importer = interpreter.getImporter ();
 		if (importer == null)
 		{
 			interpreter.error ("There is no current import.");
