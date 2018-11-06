@@ -50,7 +50,7 @@ public class JSONImporterTest
 	@Test
 	public void test4 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_4.sql", "../tests/unittests/json/control/json_import_3.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_4.sql", "../tests/unittests/json/control/json_import_4.control");
 	}
 
 	@Test
