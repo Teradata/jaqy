@@ -75,7 +75,6 @@
 						</excludes>
 					</instrumentation>
 					<format>xml</format>
-					<aggregate>true</aggregate>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -88,10 +87,7 @@
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.7</version>
 				<configuration>
-					<formats>
-						<format>xml</format>
-						<format>html</format>
-					</formats>
+					<format>xml</format>
 					<aggregate>true</aggregate>
 				</configuration>
 			</plugin>
