@@ -200,11 +200,14 @@ public class Session
 		}
 	}
 
-	public JaqyPreparedStatement prepareQuery (String sql, JaqyInterpreter interpreter) throws Exception
+	public JaqyPreparedStatement prepareQuery (String sql, JaqyInterpreter interpreter, boolean incCount) throws Exception
 	{
+		if (incCount)
+		{
+			interpreter.incSqlCount ();
+		}
 		sql = interpreter.expand (sql);
 		m_globals.log (Level.INFO, "prepareQuery: " + sql);
-		interpreter.incSqlCount ();
 		if (isClosed ())
 		{
 			interpreter.error ("session closed.");
@@ -259,28 +262,34 @@ public class Session
 
 	public void importQuery (String sql, JaqyInterpreter interpreter) throws Exception
 	{
+		interpreter.incSqlCount ();
+
+		JaqyPreparedStatement stmt = null;
 		JaqyImporter importer = interpreter.getImporter ();
-		m_globals.log (Level.INFO, "importQuery: " + importer);
-		ImportExpressionHandler expHandler = new ImportExpressionHandler ();
-		sql = interpreter.expand (sql);
-		sql = FieldParser.getString (sql, expHandler);
-		m_globals.log (Level.INFO, "field sql: " + sql);
-		String[] exps = expHandler.getExpressions ();
-		importer.setParameters (exps);
-
-		JaqyPreparedStatement stmt = prepareQuery (sql, interpreter);
-		JaqyHelper helper = stmt.getHelper ();
-		JdbcFeatures features = helper.getFeatures ();
-
-		JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
-		ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
-		if (parameterInfos.length == 0)
-			throw new IOException ("no parameters detected.");
-		for (ParameterInfo paramInfo : parameterInfos)
-			helper.fixParameterInfo (paramInfo);
 
 		try
 		{
+			m_globals.log (Level.INFO, "importQuery: " + importer);
+			ImportExpressionHandler expHandler = new ImportExpressionHandler ();
+			sql = interpreter.expand (sql);
+			sql = FieldParser.getString (sql, expHandler);
+			m_globals.log (Level.INFO, "field sql: " + sql);
+	
+			stmt = prepareQuery (sql, interpreter, false);
+
+			String[] exps = expHandler.getExpressions ();
+			importer.setParameters (exps);
+
+			JaqyHelper helper = stmt.getHelper ();
+			JdbcFeatures features = helper.getFeatures ();
+	
+			JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
+			ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
+			if (parameterInfos.length == 0)
+				throw new IOException ("no parameters detected.");
+			for (ParameterInfo paramInfo : parameterInfos)
+				helper.fixParameterInfo (paramInfo);
+
 			int columns = stmt.getParameterCount ();
 			long batchCount = 0;
 			long batchSize = m_connection.getBatchSize ();

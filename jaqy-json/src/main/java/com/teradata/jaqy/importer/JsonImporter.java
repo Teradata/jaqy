@@ -26,12 +26,11 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 import javax.json.JsonNumber;
-import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 import javax.json.spi.JsonProvider;
-import javax.json.stream.JsonParser.Event;
+import javax.json.stream.JsonParser;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
@@ -60,18 +59,31 @@ class JsonImporter implements JaqyImporter
 {
 	private final Globals m_globals;
 	private final CookJsonParser m_parser;
-	private JsonObject m_node;
-	private boolean m_rootIsArray;
 	private boolean m_end;
 	private final JsonBinaryFormat m_binaryFormat;
 	private JaqyConnection m_conn;
-	private String[] m_exps;
 
-	public JsonImporter (Globals globals, JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, boolean rootAsArray) throws IOException
+	private int m_depth;
+	private String m_rowExp;
+	private JsonValueVisitor[] m_vvs;
+	private JsonEventVisitor m_v;
+
+	private boolean m_rowEnd;
+	private JsonRowEndListener m_rowEndListener = new JsonRowEndListener ()
+	{
+		@Override
+		public void setRowEnd ()
+		{
+			m_rowEnd = true;
+		}
+	};
+
+	public JsonImporter (Globals globals, JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, String rowExp, boolean rootAsArray) throws IOException
 	{
 		m_globals = globals;
 		m_conn = conn;
 		m_binaryFormat = binaryFormat;
+		m_rowExp = rowExp;
 
 		JsonProvider provider = new CookJsonProvider ();
 
@@ -92,41 +104,6 @@ class JsonImporter implements JaqyImporter
 
 		CookJsonParser p = (CookJsonParser) provider.createParserFactory (config).createParser (is, charset);
 		m_parser = p;
-
-		// now read the first token
-		Event e = p.next ();
-		if (e == Event.START_ARRAY)
-			m_rootIsArray = true;
-		else if (e == Event.START_OBJECT)
-			m_rootIsArray = false;
-		else
-			throw new IOException ("invalid json file format.");
-	}
-
-	private JsonObject readJsonObject () throws IOException
-	{
-		if (m_rootIsArray)
-		{
-			Event e = m_parser.next ();
-			if (e == Event.END_ARRAY ||
-				e == Event.END_OBJECT)
-			{
-				m_end = true;
-				return null;
-			}
-		}
-		else
-		{
-			m_end = true;
-		}
-
-		JsonValue v = m_parser.getValue ();
-
-		if (!(v instanceof JsonObject))
-		{
-			throw new IOException ("Invalid JSON format for database import.");
-		}
-		return (JsonObject)v;
 	}
 
 	@Override
@@ -153,29 +130,56 @@ class JsonImporter implements JaqyImporter
 	{
 		if (m_end)
 			return false;
-		m_node = readJsonObject ();
-		if (m_node != null)
-			return true;
+
+		CookJsonParser p = m_parser;
+		while (p.hasNext ())
+		{
+			JsonParser.Event e = p.next ();
+			switch (e)
+			{
+				case START_OBJECT:
+				case START_ARRAY:
+					m_v.visit (e, p, m_depth);
+					++m_depth;
+					break;
+				case END_OBJECT:
+				case END_ARRAY:
+					--m_depth;
+					m_v.visit (e, p, m_depth);
+					break;
+				default:
+					m_v.visit (e, p, m_depth);
+					break;
+			}
+
+			if (m_rowEnd)
+			{
+				m_rowEnd = false;
+				return true;
+			}
+		}
+
 		m_end = true;
 		m_parser.close ();
 		return false;
 	}
 
 	@Override
-	public void setParameters (String[] exps)
+	public void setParameters (String[] exps) throws Exception
 	{
-		m_exps = exps;
+		if (exps == null)
+		{
+			throw new IOException ("json data has to be accessed via field.");
+		}
+		m_vvs = new JsonValueVisitor[exps.length];
+		m_v = JsonExpFactory.createVisitor (m_rowExp, exps, m_vvs, m_rowEndListener, false);
+		m_depth = 0;
 	}
 
 	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws IOException, DecoderException
 	{
-		if (m_exps == null)
-		{
-			throw new IOException ("json data has to be accessed via field.");
-		}
-		String name = m_exps[index];
-		JsonValue v = m_node.get (name);
+		JsonValue v = (JsonValue)m_vvs[index].getValue ();
 		if (v == null || v.getValueType () == ValueType.NULL) 
 			return null;
 		switch (paramInfo.type)

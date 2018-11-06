@@ -1,0 +1,85 @@
+{
+	"version" : 1.0,
+	"customers" : [{
+		"date" : "2001-02-03",
+		"customerId" : 1001,
+		"purchase" : {
+			"po" : 1,
+			"charge" : 1.12,
+			"saving" : 2.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1002,
+		"purchase" : {
+			"po" : 2,
+			"charge" : 3.12,
+			"saving" : 4.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1002,
+		"purchase" : {
+			"po" : 3,
+			"charge" : 4.12,
+			"saving" : 5.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1003,
+		"purchase" : {
+			"po" : 4,
+			"charge" : 3.12,
+			"saving" : 4.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1001,
+		"purchase" : {
+			"po" : 5,
+			"charge" : 3.12,
+			"saving" : 4.12
+		}
+	}],
+	"something" : [{
+		"date" : "2001-02-03",
+		"customerId" : 1001,
+		"purchase" : {
+			"po" : 1,
+			"charge" : 1.12,
+			"saving" : 2.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1002,
+		"purchase" : {
+			"po" : 2,
+			"charge" : 3.12,
+			"saving" : 4.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1002,
+		"purchase" : {
+			"po" : 3,
+			"charge" : 4.12,
+			"saving" : 5.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1003,
+		"purchase" : {
+			"po" : 4,
+			"charge" : 3.12,
+			"saving" : 4.12
+		}
+	},{
+		"date" : "2001-02-04",
+		"customerId" : 1001,
+		"purchase" : {
+			"po" : 5,
+			"charge" : 3.12,
+			"saving" : 4.12
+		}
+	}]
+}

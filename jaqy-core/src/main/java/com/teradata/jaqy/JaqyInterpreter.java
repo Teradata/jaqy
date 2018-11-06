@@ -516,7 +516,7 @@ public class JaqyInterpreter implements ExpressionHandler
 							}
 							case Prepare:
 							{
-								JaqyPreparedStatement stmt = session.prepareQuery (sql, this);
+								JaqyPreparedStatement stmt = session.prepareQuery (sql, this, true);
 								stmt.close ();
 								break;
 							}

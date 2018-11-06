@@ -39,6 +39,7 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 	{
 		addOption ("c", "charset", true, "sets the file character set");
 		addOption ("a", "array", false, "treats BSON root document as array.");
+		addOption ("r", "rowexp", true, "sets the row expression");
 
 		Option option;
 
@@ -64,6 +65,7 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 		JsonBinaryFormat binaryFormat = DEFAULT_BINARY_FORMAT;
 		JsonFormat format = DEFAULT_FORMAT;
 		boolean rootAsArray = false;
+		String rowExp = null;
 		for (Option option : cmdLine.getOptions ())
 		{
 			switch (option.getOpt ().charAt (0))
@@ -109,6 +111,11 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 						throw new IllegalArgumentException ("invalid binary option value: " + value);
 					break;
 				}
+				case 'r':
+				{
+					rowExp = option.getValue ();
+					break;
+				}
 			}
 		}
 		String[] args = cmdLine.getArgs ();
@@ -121,6 +128,6 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 		if (format == JsonFormat.Bson)
 			binaryFormat = JsonBinaryFormat.Base64;
 
-		return new JsonImporter (interpreter.getGlobals (), interpreter.getSession ().getConnection (), is, charset, format, binaryFormat, rootAsArray);
+		return new JsonImporter (interpreter.getGlobals (), interpreter.getSession ().getConnection (), is, charset, format, binaryFormat, rowExp, rootAsArray);
 	}
 }

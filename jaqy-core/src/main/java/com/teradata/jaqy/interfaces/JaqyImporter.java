@@ -42,20 +42,22 @@ public interface JaqyImporter extends Closeable
 
 	/**
 	 * Move the data to the next row.
-	 * @return	true if 
+	 *
+	 * @return	true if there is next row.
 	 */
 	public boolean next () throws Exception;
 
 	/**
-	 * 
+	 * Set the import field expressions.
+	 *
 	 * @param	exps
-	 * 			expressions
+	 * 			expressions.  If the field is imported by position, then it is null.
 	 * @version	1.1
 	 */
-	public void setParameters (String[] exps);
+	public void setParameters (String[] exps) throws Exception;
 
 	/**
-	 * Gets an object based on position.  The index starts from 0.
+	 * Gets an object.  The index starts from 0.
 	 * <p>
 	 * The object obtained is directly passed to a {@link java.sql.PreparedStatement}.
 	 * @param	index
