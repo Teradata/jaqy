@@ -54,6 +54,7 @@ json type options:
   -b,--binary <base64 | hex>   sets the binary format.
   -c,--charset <arg>           sets the file character set
   -f,--format <text | bson>    sets the JSON format.
+  -r,--rowexp <arg>            sets the row expression
 
 pipe type options:
 
