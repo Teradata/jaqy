@@ -19,5 +19,5 @@ before_script:
   - psql -U postgres -c "CREATE EXTENSION postgis"
 script: mvn clean test
 after_success:
-  - mvn clean site -Dcobertura.report.format=xml
-  - bash <(curl -s https://codecov.io/bash)
+  - mvn clean site -Dcobertura.report.format=xml coveralls:report
+
