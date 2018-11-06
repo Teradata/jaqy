@@ -275,11 +275,10 @@ public class Session
 			sql = FieldParser.getString (sql, expHandler);
 			m_globals.log (Level.INFO, "field sql: " + sql);
 	
-			stmt = prepareQuery (sql, interpreter, false);
-
 			String[] exps = expHandler.getExpressions ();
 			importer.setParameters (exps);
 
+			stmt = prepareQuery (sql, interpreter, false);
 			JaqyHelper helper = stmt.getHelper ();
 			JdbcFeatures features = helper.getFeatures ();
 	
