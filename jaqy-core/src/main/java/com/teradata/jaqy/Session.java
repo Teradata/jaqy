@@ -21,12 +21,14 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import com.teradata.jaqy.connection.*;
+import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyParameterMetaData;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
+import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.interfaces.*;
 import com.teradata.jaqy.parser.FieldParser;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.utils.DriverManagerUtils;
-import com.teradata.jaqy.utils.FileUtils;
 import com.teradata.jaqy.utils.ImportExpressionHandler;
 import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 
@@ -221,20 +223,8 @@ public class Session
 		return prepareStatement (sql, interpreter);
 	}
 
-	private static ArrayList<Object> addFreeList (ArrayList<Object> list, Object c)
-	{
-		if (list == null)
-		{
-			list = new ArrayList<Object> ();
-		}
-		list.add (c);
-		return list;
-	}
-
 	private void freeObjects (ArrayList<Object> list)
 	{
-		if (list == null)
-			return;
 		for (Object o : list)
 		{
 			try
@@ -280,7 +270,6 @@ public class Session
 
 			stmt = prepareQuery (sql, interpreter, false);
 			JaqyHelper helper = stmt.getHelper ();
-			JdbcFeatures features = helper.getFeatures ();
 	
 			JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
 			ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
@@ -292,7 +281,7 @@ public class Session
 			int columns = stmt.getParameterCount ();
 			long batchCount = 0;
 			long batchSize = m_connection.getBatchSize ();
-			ArrayList<Object> freeList = null;
+			ArrayList<Object> freeList = new ArrayList<Object> ();
 			while (importer.next ())
 			{
 				for (int i = 0; i < columns; ++i)
@@ -304,75 +293,8 @@ public class Session
 						importer.setNull (stmt, i + 1, parameterInfos[i]);
 						continue;
 					}
-					switch (parameterInfos[i].type)
-					{
-						case Types.TINYINT:
-						case Types.SMALLINT:
-						case Types.INTEGER:
-						case Types.BIGINT:
-							stmt.setObject (i + 1, o, parameterInfos[i].type);
-							break;
-						default:
-						{
-							if (o instanceof SQLXML)
-							{
-								SQLXML xml = (SQLXML)o;
-								if (features.noStream)
-									stmt.setString (i + 1, xml.getString ());
-								else if (parameterInfos[i].type == Types.SQLXML)
-								{
-									SQLXML x = m_connection.createSQLXML ();
-									FileUtils.copy (x.setCharacterStream (), xml.getCharacterStream (), interpreter.getCharBuffer ());
-									stmt.setSQLXML (i + 1, x);
-									freeList = addFreeList (freeList, x);
-								}
-								else
-									stmt.setCharacterStream (i + 1, xml.getCharacterStream ());
-							}
-							else if (o instanceof Clob)
-							{
-								Clob clob = (Clob)o;
-								if (features.noStream)
-									stmt.setString (i + 1, clob.getSubString (1, (int)clob.length ()));
-								else if (parameterInfos[i].type == Types.NCLOB)
-								{
-									NClob c = m_connection.createNClob ();
-									FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
-									stmt.setNClob (i + 1, c);
-									freeList = addFreeList (freeList, c);
-								}
-								else if (parameterInfos[i].type == Types.CLOB)
-								{
-									Clob c = m_connection.createClob ();
-									FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
-									stmt.setClob (i + 1, c);
-									freeList = addFreeList (freeList, c);
-								}
-								else
-									stmt.setCharacterStream (i + 1, clob.getCharacterStream ());
-							}
-							else if (o instanceof Blob)
-							{
-								Blob blob = (Blob)o;
-								if (features.noStream)
-									stmt.setBytes (i + 1, blob.getBytes (1, (int)blob.length ()));
-								else if (parameterInfos[i].type == Types.BLOB)
-								{
-									Blob b;
-									b = m_connection.createBlob ();
-									FileUtils.copy (b.setBinaryStream (1), blob.getBinaryStream (), interpreter.getByteBuffer ());
-									stmt.setBlob (i + 1, b);
-									freeList = addFreeList (freeList, b);
-								}
-								else
-									stmt.setBinaryStream (i + 1, blob.getBinaryStream (), blob.length ());
-							}
-							else
-							{
-								stmt.setObject (i + 1, o);
-							}
-						}
-					}
+
+					helper.setObject (stmt, i + 1, parameterInfos[i], o, freeList, interpreter);
 
 					// free Blob / Clob / SQLXML / Array
 					if (o instanceof SQLXML)

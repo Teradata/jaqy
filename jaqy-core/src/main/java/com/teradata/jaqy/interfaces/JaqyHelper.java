@@ -16,6 +16,7 @@
 package com.teradata.jaqy.interfaces;
 
 import java.sql.*;
+import java.util.Collection;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.*;
@@ -242,4 +243,34 @@ public interface JaqyHelper
 	 * 			parameter metadata
 	 */
 	public void fixParameterInfo (ParameterInfo info);
+	/**
+	 * Help setting null for a particular column.
+	 * @param	stmt
+	 * 			the prepared statement
+	 * @param	columnIndex
+	 * 			the column index
+	 * @param	paramInfo
+	 * 			the processed parameter information.
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @since	1.1
+	 */
+	public void setNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
+	/**
+	 * Help setting the object for a particular column.
+	 * @param	stmt
+	 * 			the prepared statement
+	 * @param	columnIndex
+	 * 			the column index
+	 * @param	paramInfo
+	 * 			the processed parameter information.
+	 * @param	o
+	 * 			the value to be set (it should not be null).
+	 * @param	freeList
+	 * 			if any resources should be freed, add to this list.
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @since	1.1
+	 */
+	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
 }

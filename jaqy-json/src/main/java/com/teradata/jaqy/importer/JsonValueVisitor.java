@@ -36,6 +36,13 @@ class JsonValueVisitor implements JsonEventVisitor
 	{
 	}
 
+	public void init ()
+	{
+		m_value = null;
+		m_g = null;
+		m_name = null;
+	}
+
 	public Object getValue ()
 	{
 		if (m_value instanceof JsonStructureGenerator)

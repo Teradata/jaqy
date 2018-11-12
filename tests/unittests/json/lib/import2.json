@@ -33,10 +33,14 @@
 			"saving" : 4.12
 		}
 	},{
+		"purchase" : {
+			"po" : 5
+		}
+	},{
 		"date" : "2001-02-04",
 		"customerId" : 1001,
 		"purchase" : {
-			"po" : 5,
+			"po" : 6,
 			"charge" : 3.12,
 			"saving" : 4.12
 		}

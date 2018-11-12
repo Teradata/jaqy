@@ -46,6 +46,15 @@ class JsonObjectVisitor implements JsonEventVisitor
 	}
 
 	@Override
+	public void init ()
+	{
+		for (JsonEventVisitor v : m_map.values ())
+		{
+			v.init ();
+		}
+	}
+
+	@Override
 	public void visit (JsonParser.Event e, CookJsonParser p, int depth)
 	{
 		if (depth == 0)

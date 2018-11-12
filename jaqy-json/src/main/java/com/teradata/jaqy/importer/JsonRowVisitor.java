@@ -41,6 +41,12 @@ class JsonRowVisitor implements JsonEventVisitor
 	}
 
 	@Override
+	public void init ()
+	{
+		m_v.init ();
+	}
+
+	@Override
 	public void visit (JsonParser.Event e, CookJsonParser p, int depth)
 	{
 		if (depth == 0)

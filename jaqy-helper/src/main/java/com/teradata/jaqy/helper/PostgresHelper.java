@@ -15,13 +15,13 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.sql.Array;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.Collection;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
@@ -102,5 +102,27 @@ class PostgresHelper extends DefaultHelper
 		{
 			super.fixColumnInfo (info);
 		}
+	}
+
+	@Override
+	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		// Do a workaround fix for PostgreSQL JDBC's XML streaming issue.
+		if (paramInfo.type == Types.SQLXML)
+		{
+			if (o instanceof SQLXML ||
+				o instanceof CharSequence)
+			{
+				SQLXML x = getConnection ().createSQLXML ();
+				if (o instanceof SQLXML)
+					x.setString (((SQLXML)o).getString ());
+				else
+					x.setString (o.toString ());
+				stmt.setSQLXML (columnIndex, x);
+				freeList.add (x);
+				return;
+			}
+		}
+		super.setObject (stmt, columnIndex, paramInfo, o, freeList, interpreter);
 	}
 }

@@ -15,8 +15,10 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.nio.ByteBuffer;
 import java.sql.*;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Map;
 
 import com.teradata.jaqy.Globals;
@@ -29,10 +31,7 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
-import com.teradata.jaqy.utils.ExceptionUtils;
-import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
-import com.teradata.jaqy.utils.ResultSetUtils;
-import com.teradata.jaqy.utils.SimpleQuery;
+import com.teradata.jaqy.utils.*;
 
 /**
  * @author	Heng Yuan
@@ -574,5 +573,199 @@ public class DefaultHelper implements JaqyHelper
 		DatabaseMetaData meta = m_conn.getMetaData ();
 		String quote = meta.getIdentifierQuoteString ();
 		return SchemaUtils.getQuotedIdentifier (name, quote);
+	}
+
+	public void setNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+	{
+		stmt.setNull (columnIndex, paramInfo.type, paramInfo.typeName);
+	}
+
+	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		switch (paramInfo.type)
+		{
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			case Types.BIGINT:
+			{
+				stmt.setObject (columnIndex, o, paramInfo.type);
+				return;
+			}
+			case Types.BLOB:
+			{
+				if (o instanceof Blob)
+				{
+					Blob blob = (Blob)o;
+					if (m_features.noStream)
+					{
+						stmt.setBytes (columnIndex, blob.getBytes (1, (int)blob.length ()));
+					}
+					else
+					{
+						Blob b;
+						b = m_conn.createBlob ();
+						FileUtils.copy (b.setBinaryStream (1), blob.getBinaryStream (), interpreter.getByteBuffer ());
+						stmt.setBlob (columnIndex, b);
+						freeList.add (b);
+					}
+					return;
+				}
+				else if (o instanceof byte[] ||
+						 o instanceof ByteBuffer)
+				{
+					byte[] bytes;
+					if (o instanceof byte[])
+					{
+						bytes = (byte[])o;
+					}
+					else
+					{
+						ByteBuffer bb = (ByteBuffer)o;
+						int size = bb.remaining ();
+						bytes = new byte[size];
+						bb.get (bytes);
+					}
+					if (m_features.noStream)
+					{
+						stmt.setBytes (columnIndex, bytes);
+					}
+					else
+					{
+						Blob b;
+						b = m_conn.createBlob ();
+						b.setBytes (1, bytes);
+						stmt.setBlob (columnIndex, b);
+						freeList.add (b);
+					}
+					return;
+				}
+				// go to the default handling.
+				break;
+			}
+			case Types.CLOB:
+			case Types.NCLOB:
+			{
+				if (o instanceof Clob)
+				{
+					Clob clob = (Clob)o;
+					if (m_features.noStream)
+					{
+						stmt.setString (columnIndex, clob.getSubString (1, (int)clob.length ()));
+					}
+					else if (paramInfo.type == Types.NCLOB)
+					{
+						NClob c = m_conn.createNClob ();
+						FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
+						stmt.setNClob (columnIndex, c);
+						freeList.add (c);
+					}
+					else if (paramInfo.type == Types.CLOB)
+					{
+						Clob c = m_conn.createClob ();
+						FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
+						stmt.setClob (columnIndex, c);
+						freeList.add (c);
+					}
+					else
+					{
+						stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
+					}
+					return;
+				}
+				else if (o instanceof CharSequence)
+				{
+					if (m_features.noStream)
+					{
+						stmt.setString (columnIndex, o.toString ());
+					}
+					else if (paramInfo.type == Types.NCLOB)
+					{
+						NClob c = m_conn.createNClob ();
+						c.setString (1, o.toString ());
+						stmt.setNClob (columnIndex, c);
+						freeList.add (c);
+					}
+					else	// (paramInfo.type == Types.CLOB)
+					{
+						Clob c = m_conn.createClob ();
+						c.setString (1, o.toString ());
+						stmt.setClob (columnIndex, c);
+						freeList.add (c);
+					}
+					return;
+				}
+				// go to the default handling.
+				break;
+			}
+			case Types.SQLXML:
+			{
+				if (o instanceof SQLXML)
+				{
+					SQLXML xml = (SQLXML)o;
+					if (m_features.noStream)
+					{
+						stmt.setString (columnIndex, xml.getString ());
+					}
+					else
+					{
+						SQLXML x = m_conn.createSQLXML ();
+						FileUtils.copy (x.setCharacterStream (), xml.getCharacterStream (), interpreter.getCharBuffer ());
+						stmt.setSQLXML (columnIndex, x);
+						freeList.add (x);
+					}
+					return;
+				}
+				else if (o instanceof CharSequence)
+				{
+					if (m_features.noStream)
+					{
+						stmt.setString (columnIndex, o.toString ());
+					}
+					else
+					{
+						SQLXML x = m_conn.createSQLXML ();
+						x.setString (o.toString ());
+						stmt.setSQLXML (columnIndex, x);
+						freeList.add (x);
+					}
+					return;
+				}
+				// go to the default handling.
+				break;
+			}
+			default:
+			{
+				if (o instanceof SQLXML)
+				{
+					SQLXML xml = (SQLXML)o;
+					if ( m_features.noStream)
+						stmt.setString (columnIndex, xml.getString ());
+					else
+						stmt.setCharacterStream (columnIndex, xml.getCharacterStream ());
+					return;
+				}
+				else if (o instanceof Clob)
+				{
+					Clob clob = (Clob)o;
+					if (m_features.noStream)
+						stmt.setString (columnIndex, clob.getSubString (1, (int)clob.length ()));
+					else
+						stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
+					return;
+				}
+				else if (o instanceof Blob)
+				{
+					Blob blob = (Blob)o;
+					if (m_features.noStream)
+						stmt.setBytes (columnIndex, blob.getBytes (1, (int)blob.length ()));
+					else
+						stmt.setBinaryStream (columnIndex, blob.getBinaryStream (), blob.length ());
+					return;
+				}
+				break;
+			}
+		}
+		stmt.setObject (columnIndex, o);
 	}
 }

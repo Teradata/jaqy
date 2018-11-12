@@ -131,6 +131,11 @@ class JsonImporter implements JaqyImporter
 		if (m_end)
 			return false;
 
+		for (JsonValueVisitor v : m_vvs)
+		{
+			v.init ();
+		}
+
 		CookJsonParser p = m_parser;
 		while (p.hasNext ())
 		{
