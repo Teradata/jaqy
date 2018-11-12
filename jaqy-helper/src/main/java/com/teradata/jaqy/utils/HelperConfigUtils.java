@@ -77,9 +77,9 @@ public class HelperConfigUtils
 		{
 			features.noCatalog = true;
 		}
-		if (!v.getBoolean ("stream", false))
+		if (!v.getBoolean ("stream", true))
 		{
-			features.noStream = true;
+			features.noStream = false;
 		}
 		return features;
 	}
