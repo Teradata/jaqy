@@ -12,7 +12,8 @@
 {
 	"protocol":	"mysql",
 	"features": {
-		"schema" : false
+		"schema" : false,
+		"stream" : false
 	},
 	"catalogSQL": {
 		"sql" : "SELECT DATABASE()",
