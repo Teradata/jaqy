@@ -38,6 +38,7 @@ public class PipeImporter implements JaqyImporter
 	private final Globals m_globals;
 	private final JaqyResultSet m_rs;
 	private final SchemaInfo m_schema;
+	private int[] m_indexMap;
 
 	public PipeImporter (JaqyResultSet rs, Globals globals) throws Exception
 	{
@@ -65,14 +66,29 @@ public class PipeImporter implements JaqyImporter
 	}
 
 	@Override
-	public void setParameters (String[] exprs)
+	public void setParameters (String[] exps) throws Exception
 	{
-		// TODO Auto-generated method stub
+		if (exps == null)
+		{
+			m_indexMap = null;
+			return;
+		}
+
+		int[] indexMap = new int[exps.length];
+		for (int i = 0; i < exps.length; ++i)
+		{
+			indexMap[i] = m_rs.findColumn (exps[i]) - 1;
+		}
+		m_indexMap = indexMap;
 	}
 
 	@Override
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
+		if (m_indexMap != null)
+		{
+			index = m_indexMap[index];
+		}
 		return m_rs.getObject (index + 1);
 	}
 

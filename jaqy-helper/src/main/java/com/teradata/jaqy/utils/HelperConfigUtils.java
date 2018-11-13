@@ -79,7 +79,7 @@ public class HelperConfigUtils
 		}
 		if (!v.getBoolean ("stream", true))
 		{
-			features.noStream = false;
+			features.noStream = true;
 		}
 		return features;
 	}
