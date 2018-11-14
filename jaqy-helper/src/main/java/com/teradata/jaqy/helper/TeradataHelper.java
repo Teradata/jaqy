@@ -15,13 +15,18 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.nio.ByteBuffer;
 import java.sql.*;
+import java.util.Collection;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyDefaultResultSet;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.CachedClob;
@@ -222,6 +227,72 @@ class TeradataHelper extends DefaultHelper
 				 info.className != null)
 		{
 			fixOtherType (info);
+		}
+	}
+
+	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		/*
+		 * Teradata JDBC driver does not support connection.createClob()
+		 * or connection.createBlob ().  As the result, it is necessary
+		 * to use setBinaryStream / setCharacterStream to set the values.
+		 */
+		switch (paramInfo.type)
+		{
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			case Types.BIGINT:
+			{
+				stmt.setObject (columnIndex, o, paramInfo.type);
+				return;
+			}
+			case Types.BLOB:
+			{
+				if (o instanceof Blob)
+				{
+					Blob blob = (Blob)o;
+					stmt.setBinaryStream (columnIndex, blob.getBinaryStream ());
+					return;
+				}
+				else if (o instanceof byte[] ||
+						 o instanceof ByteBuffer)
+				{
+					byte[] bytes;
+					if (o instanceof byte[])
+					{
+						bytes = (byte[])o;
+					}
+					else
+					{
+						ByteBuffer bb = (ByteBuffer)o;
+						int size = bb.remaining ();
+						bytes = new byte[size];
+						bb.get (bytes);
+					}
+					stmt.setBinaryStream (columnIndex, new ByteArrayInputStream (bytes));
+					return;
+				}
+				// go to the default handling.
+				break;
+			}
+			case Types.CLOB:
+			case Types.NCLOB:
+			{
+				if (o instanceof Clob)
+				{
+					Clob clob = (Clob)o;
+					stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
+					return;
+				}
+				else if (o instanceof CharSequence)
+				{
+					stmt.setCharacterStream (columnIndex, new StringReader (o.toString ()));
+					return;
+				}
+				// go to the default handling.
+				break;
+			}
 		}
 	}
 }

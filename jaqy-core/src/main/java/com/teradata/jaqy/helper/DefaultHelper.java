@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.sql.*;
 import java.text.MessageFormat;
@@ -603,11 +605,7 @@ public class DefaultHelper implements JaqyHelper
 					}
 					else
 					{
-						Blob b;
-						b = m_conn.createBlob ();
-						FileUtils.copy (b.setBinaryStream (1), blob.getBinaryStream (), interpreter.getByteBuffer ());
-						stmt.setBlob (columnIndex, b);
-						freeList.add (b);
+						stmt.setBinaryStream (columnIndex, blob.getBinaryStream (), blob.length ());
 					}
 					return;
 				}
@@ -632,11 +630,7 @@ public class DefaultHelper implements JaqyHelper
 					}
 					else
 					{
-						Blob b;
-						b = m_conn.createBlob ();
-						b.setBytes (1, bytes);
-						stmt.setBlob (columnIndex, b);
-						freeList.add (b);
+						stmt.setBinaryStream (columnIndex, new ByteArrayInputStream (bytes), bytes.length);
 					}
 					return;
 				}
@@ -653,20 +647,6 @@ public class DefaultHelper implements JaqyHelper
 					{
 						stmt.setString (columnIndex, clob.getSubString (1, (int)clob.length ()));
 					}
-					else if (paramInfo.type == Types.NCLOB)
-					{
-						NClob c = m_conn.createNClob ();
-						FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
-						stmt.setNClob (columnIndex, c);
-						freeList.add (c);
-					}
-					else if (paramInfo.type == Types.CLOB)
-					{
-						Clob c = m_conn.createClob ();
-						FileUtils.copy (c.setCharacterStream (1), clob.getCharacterStream (), interpreter.getCharBuffer ());
-						stmt.setClob (columnIndex, c);
-						freeList.add (c);
-					}
 					else
 					{
 						stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
@@ -679,19 +659,9 @@ public class DefaultHelper implements JaqyHelper
 					{
 						stmt.setString (columnIndex, o.toString ());
 					}
-					else if (paramInfo.type == Types.NCLOB)
+					else
 					{
-						NClob c = m_conn.createNClob ();
-						c.setString (1, o.toString ());
-						stmt.setNClob (columnIndex, c);
-						freeList.add (c);
-					}
-					else	// (paramInfo.type == Types.CLOB)
-					{
-						Clob c = m_conn.createClob ();
-						c.setString (1, o.toString ());
-						stmt.setClob (columnIndex, c);
-						freeList.add (c);
+						stmt.setCharacterStream (columnIndex, new StringReader (o.toString ()));
 					}
 					return;
 				}
@@ -709,10 +679,7 @@ public class DefaultHelper implements JaqyHelper
 					}
 					else
 					{
-						SQLXML x = m_conn.createSQLXML ();
-						FileUtils.copy (x.setCharacterStream (), xml.getCharacterStream (), interpreter.getCharBuffer ());
-						stmt.setSQLXML (columnIndex, x);
-						freeList.add (x);
+						stmt.setCharacterStream (columnIndex, xml.getCharacterStream ());
 					}
 					return;
 				}
