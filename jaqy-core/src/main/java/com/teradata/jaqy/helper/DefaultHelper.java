@@ -649,7 +649,7 @@ public class DefaultHelper implements JaqyHelper
 					}
 					else
 					{
-						stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
+						stmt.setCharacterStream (columnIndex, clob.getCharacterStream (), clob.length ());
 					}
 					return;
 				}
@@ -661,7 +661,8 @@ public class DefaultHelper implements JaqyHelper
 					}
 					else
 					{
-						stmt.setCharacterStream (columnIndex, new StringReader (o.toString ()));
+						String str = o.toString ();
+						stmt.setCharacterStream (columnIndex, new StringReader (str), str.length ());
 					}
 					return;
 				}
