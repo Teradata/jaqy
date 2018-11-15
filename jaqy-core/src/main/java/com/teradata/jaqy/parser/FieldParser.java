@@ -44,7 +44,7 @@ public class FieldParser extends GeneratedFieldParser
 		return m_buffer.toString ();
 	}
 
-	@Lex (pattern = "'{{'[^{}]+'}}'")
+	@Lex (pattern = "'{{'[^{}]*'}}'")
 	void scanField () throws IOException
 	{
 		if (m_expHandler == null)

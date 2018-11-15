@@ -47,6 +47,6 @@ public class FieldParserTest
 		String value;
 
 		value = FieldParser.getString (str, fieldHandler);
-		Assert.assertEquals ("abcd ${1} ${2} ${PATH} ${SHELL} cooler than ice {{}}  ice cold", value);
+		Assert.assertEquals ("abcd ${1} ${2} ${PATH} ${SHELL} cooler than ice   ice cold", value);
 	}
 }

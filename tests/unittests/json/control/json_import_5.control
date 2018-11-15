@@ -1,0 +1,3733 @@
+Jaqy Console 1.1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import json command test
+--------------------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 0/2 - 0 ----------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+-- Cartographic Boundary Shapefiles - States
+-- https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html
+-- Converted to GeoJSON using https://mapshaper.org/
+
+CREATE TABLE stateTable(geoId INTEGER, state VARCHAR(4), name VARCHAR(100) CHARACTER SET UTF8, shape MEDIUMTEXT);
+-- success. update count = 0
+-- 2/2 - 0 ----------------------------------------------------------------
+.import json -r features lib/cb_2017_us_state_500k.json
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO stateTable VALUES ({{properties.GEOID}}, {{properties.STUSPS}}, {{properties.NAME}}, {{geometry}});
+-- success. update count = 1
+-- 3/3 - 0 ----------------------------------------------------------------
+
+-- Cartographic Boundary Shapefiles - Urban Areas
+-- https://www.census.gov/geo/maps-data/data/cbf/cbf_ua.html
+-- Converted to GeoJSON using https://mapshaper.org/
+
+CREATE TABLE cityTable(geoId INTEGER, name VARCHAR(100) CHARACTER SET UTF8, shape MEDIUMTEXT);
+-- success. update count = 0
+-- 4/3 - 0 ----------------------------------------------------------------
+.import json -r features lib/cb_2017_us_ua10_500k.json
+-- 4/4 - 0 ----------------------------------------------------------------
+INSERT INTO cityTable VALUES ({{properties.GEOID10}}, {{properties.NAME10}}, {{geometry}});
+-- success. update count = 1
+-- 5/4 - 0 ----------------------------------------------------------------
+
+SELECT COUNT(*) FROM stateTable;
+-- success --
+COUNT(*)
+--------
+      56
+-- activity count = 1
+-- 6/4 - 0 ----------------------------------------------------------------
+SELECT geoId, state, name FROM stateTable ORDER BY 1;
+-- success --
+geoId state name
+----- ----- --------------------------------------------
+    1 AL    Alabama
+    2 AK    Alaska
+    4 AZ    Arizona
+    5 AR    Arkansas
+    6 CA    California
+    8 CO    Colorado
+    9 CT    Connecticut
+   10 DE    Delaware
+   11 DC    District of Columbia
+   12 FL    Florida
+   13 GA    Georgia
+   15 HI    Hawaii
+   16 ID    Idaho
+   17 IL    Illinois
+   18 IN    Indiana
+   19 IA    Iowa
+   20 KS    Kansas
+   21 KY    Kentucky
+   22 LA    Louisiana
+   23 ME    Maine
+   24 MD    Maryland
+   25 MA    Massachusetts
+   26 MI    Michigan
+   27 MN    Minnesota
+   28 MS    Mississippi
+   29 MO    Missouri
+   30 MT    Montana
+   31 NE    Nebraska
+   32 NV    Nevada
+   33 NH    New Hampshire
+   34 NJ    New Jersey
+   35 NM    New Mexico
+   36 NY    New York
+   37 NC    North Carolina
+   38 ND    North Dakota
+   39 OH    Ohio
+   40 OK    Oklahoma
+   41 OR    Oregon
+   42 PA    Pennsylvania
+   44 RI    Rhode Island
+   45 SC    South Carolina
+   46 SD    South Dakota
+   47 TN    Tennessee
+   48 TX    Texas
+   49 UT    Utah
+   50 VT    Vermont
+   51 VA    Virginia
+   53 WA    Washington
+   54 WV    West Virginia
+   55 WI    Wisconsin
+   56 WY    Wyoming
+   60 AS    American Samoa
+   66 GU    Guam
+   69 MP    Commonwealth of the Northern Mariana Islands
+   72 PR    Puerto Rico
+   78 VI    United States Virgin Islands
+-- activity count = 56
+-- 7/4 - 0 ----------------------------------------------------------------
+
+SELECT COUNT(*) FROM cityTable;
+-- success --
+COUNT(*)
+--------
+    3601
+-- activity count = 1
+-- 8/4 - 0 ----------------------------------------------------------------
+SELECT geoId, name FROM cityTable ORDER BY 1, 2;
+-- success --
+geoId name
+----- -----------------------------------------------
+   37 Abbeville, LA
+   64 Abbeville, SC
+   91 Abbotsford, WI
+  118 Aberdeen, MS
+  145 Aberdeen, SD
+  172 Aberdeen, WA
+  199 Aberdeen--Bel Air South--Bel Air North, MD
+  226 Abernathy, TX
+  253 Abilene, KS
+  280 Abilene, TX
+  334 Abingdon, IL
+  388 Ada, OH
+  415 Ada, OK
+  450 Adams, NY
+  469 Adel, GA
+  496 Adel, IA
+  550 Adjuntas, PR
+  577 Adrian, MI
+  604 Agat, GU
+  631 Aguadilla--Isabela--San Sebastián, PR
+  658 Ahoskie, NC
+  676 Air Force Academy, CO
+  712 Ajo, AZ
+  739 Akron, NY
+  766 Akron, OH
+  793 Alachua, FL
+  820 Alamogordo, NM
+  847 Alamosa, CO
+  901 Albany, GA
+  921 Albany, MN
+  955 Albany, OR
+  970 Albany--Schenectady, NY
+  982 Albemarle, NC
+ 1009 Albert Lea, MN
+ 1036 Albertville, AL
+ 1063 Albia, IA
+ 1090 Albion, MI
+ 1117 Albion, NY
+ 1144 Albion, PA
+ 1171 Albuquerque, NM
+ 1198 Alderson, WV
+ 1225 Aledo, IL
+ 1232 Aledo, TX
+ 1252 Alexander City, AL
+ 1279 Alexandria, LA
+ 1306 Alexandria, MN
+ 1333 Alfred, NY
+ 1360 Algoma, WI
+ 1387 Algona, IA
+ 1414 Alice, TX
+ 1441 Allegan, MI
+ 1468 Allendale, SC
+ 1495 Allentown, PA--NJ
+ 1522 Alliance, NE
+ 1549 Alliance, OH
+ 1603 Alma, GA
+ 1630 Alma--St. Louis, MI
+ 1657 Almont, MI
+ 1684 Alpena, MI
+ 1711 Alpine, TX
+ 1738 Altavista, VA
+ 1765 Alton, IL--MO
+ 1792 Altoona, PA
+ 1819 Alturas, CA
+ 1846 Altus, OK
+ 1873 Alva, OK
+ 1900 Alvarado, TX
+ 1927 Amarillo, TX
+ 1981 American Falls, ID
+ 2008 Americus, GA
+ 2035 Amery, WI
+ 2062 Ames, IA
+ 2116 Amite City, LA
+ 2143 Amory, MS
+ 2153 Amouli, AS
+ 2170 Amsterdam, NY
+ 2197 Anaconda-Deer Lodge County, MT
+ 2224 Anacortes, WA
+ 2251 Anadarko, OK
+ 2278 Anamosa, IA
+ 2305 Anchorage, AK
+ 2332 Anchorage Northeast, AK
+ 2359 Andalusia, AL
+ 2386 Anderson, IN
+ 2413 Anderson, SC
+ 2440 Andrews, SC
+ 2467 Andrews, TX
+ 2494 Angels, CA
+ 2548 Angola, IN
+ 2575 Anna, IL
+ 2581 Anna, TX
+ 2590 Annandale, MN
+ 2602 Ann Arbor, MI
+ 2629 Anniston--Oxford, AL
+ 2656 Antigo, WI
+ 2683 Antioch, CA
+ 2710 Apalachicola, FL
+ 2764 Appleton, WI
+ 2773 Apple Valley, OH
+ 2791 Arab, AL
+ 2825 Arbuckle, CA
+ 2845 Arcade, NY
+ 2899 Arcadia, LA
+ 2901 Arcadia, WI
+ 2912 Arcadia--Southeast Arcadia, FL
+ 2926 Arcata--McKinleyville, CA
+ 2953 Archbold, OH
+ 2965 Archer Lodge--Clayton, NC
+ 2980 Arcola, IL
+ 3007 Ardmore, OK
+ 3034 Arecibo, PR
+ 3088 Arizona City, AZ
+ 3115 Arkadelphia, AR
+ 3142 Arkansas City, KS
+ 3158 Arlington, TN
+ 3196 Arroyo Grande--Grover Beach, CA
+ 3223 Artesia, NM
+ 3250 Arvin, CA
+ 3277 Ashburn, GA
+ 3304 Ashdown, AR
+ 3331 Asheboro, NC
+ 3358 Asheville, NC
+ 3365 Ashland, MO
+ 3375 Ashland, NE
+ 3385 Ashland, OH
+ 3395 Ashland, PA
+ 3412 Ashland, WI
+ 3439 Ashland City, TN
+ 3466 Ashtabula, OH
+ 3493 Ashville, OH
+ 3520 Aspen, CO
+ 3547 Astoria, OR
+ 3601 Atchison, KS--MO
+ 3655 Athens, AL
+ 3682 Athens, OH
+ 3709 Athens, TN
+ 3736 Athens, TX
+ 3763 Athens-Clarke County, GA
+ 3790 Athol, MA
+ 3817 Atlanta, GA
+ 3844 Atlanta, TX
+ 3871 Atlantic, IA
+ 3898 Atlantic City, NJ
+ 3925 Atmore, AL
+ 3957 Atoka, TN
+ 3979 Attica, IN
+ 4006 Attica, NY
+ 4021 Aubrey, TX
+ 4033 Auburn, AL
+ 4054 Auburn, IL
+ 4060 Auburn, IN
+ 4087 Auburn, NE
+ 4114 Auburn, NY
+ 4130 Auburn--North Auburn, CA
+ 4168 Augusta, KS
+ 4195 Augusta, ME
+ 4222 Augusta-Richmond County, GA--SC
+ 4249 Aumsville, OR
+ 4276 Aurora, MO
+ 4303 Aurora, NE
+ 4330 Au Sable, MI
+ 4357 Austin, MN
+ 4384 Austin, TX
+ 4411 Ava, MO
+ 4438 Avalon, CA
+ 4465 Avenal, CA
+ 4519 Avon, NY
+ 4549 Avondale--Goodyear, AZ
+ 4573 Avra Valley, AZ
+ 4587 Aztec, NM
+ 4600 Bad Axe, MI
+ 4627 Bainbridge, GA
+ 4654 Baker City, OR
+ 4681 Bakersfield, CA
+ 4708 Bald Knob, AR
+ 4762 Baldwin, WI
+ 4789 Baldwin City, KS
+ 4816 Ballinger, TX
+ 4843 Baltimore, MD
+ 4870 Baltimore, OH
+ 4897 Bamberg, SC
+ 4924 Bandon, OR
+ 4951 Bangor, ME
+ 5005 Baraboo, WI
+ 5032 Barbourville, KY
+ 5059 Bardstown, KY
+ 5086 Bar Harbor, ME
+ 5113 Barnesville, GA
+ 5140 Barnesville, OH
+ 5167 Barnstable Town, MA
+ 5194 Barnwell, SC
+ 5221 Barre--Montpelier, VT
+ 5248 Barron, WI
+ 5275 Barrow, AK
+ 5302 Barstow, CA
+ 5329 Bartlesville, OK
+ 5356 Bartlett, TX
+ 5410 Basalt--El Jebel, CO
+ 5423 Basehor, KS
+ 5437 Bastrop, LA
+ 5464 Bastrop, TX
+ 5491 Batavia, NY
+ 5518 Batesburg-Leesville, SC
+ 5545 Batesville, AR
+ 5572 Batesville, IN
+ 5599 Batesville, MS
+ 5653 Bath, NY
+ 5680 Baton Rouge, LA
+ 5707 Battle Creek, MI
+ 5734 Battlement Mesa, CO
+ 5761 Battle Mountain, NV
+ 5788 Baxley, GA
+ 5815 Baxter Springs, KS
+ 5842 Bayard, NM
+ 5869 Bay City, MI
+ 5896 Bay City, TX
+ 5904 Bayfield, CO
+ 5923 Bay Minette, AL
+ 5958 Bealeton, VA
+ 5977 Beardstown, IL
+ 6004 Beatrice, NE
+ 6031 Beaufort--Port Royal, SC
+ 6058 Beaumont, TX
+ 6076 Beaver, UT
+ 6085 Beaver Dam, KY
+ 6112 Beaver Dam, WI
+ 6128 Becker, MN
+ 6139 Beckley, WV
+ 6166 Bedford, IN
+ 6186 Bedford, NY
+ 6193 Bedford, PA
+ 6220 Bedford, VA
+ 6247 Beebe, AR
+ 6261 Beecher, IL
+ 6274 Beeville, TX
+ 6301 Belding, MI
+ 6335 Belfair, WA
+ 6355 Belfast, ME
+ 6382 Belgrade, MT
+ 6436 Bellefontaine, OH
+ 6463 Bellefonte, PA
+ 6490 Belle Fourche, SD
+ 6517 Belle Glade, FL
+ 6571 Belle Plaine, MN
+ 6598 Bellevue, IA
+ 6625 Bellevue, OH
+ 6652 Bellingham, WA
+ 6679 Bellows Falls, VT--NH
+ 6692 Bells, TN
+ 6706 Bellville, TX
+ 6733 Beloit, KS
+ 6760 Beloit, WI--IL
+ 6770 Belterra, TX
+ 6779 Belton, SC
+ 6787 Belvidere, NJ--PA
+ 6814 Belzoni, MS
+ 6841 Bemidji, MN
+ 6868 Bend, OR
+ 6895 Bennettsville, SC
+ 6922 Bennington, VT
+ 6949 Benson, AZ
+ 6976 Benson, MN
+ 7003 Benson, NC
+ 7030 Benton, IL
+ 7057 Benton, KY
+ 7084 Benton, LA
+ 7111 Benton City, WA
+ 7138 Benton Harbor--St. Joseph--Fair Plain, MI
+ 7165 Berea, KY
+ 7192 Berlin, NH
+ 7219 Berlin, WI
+ 7246 Berne, IN
+ 7273 Berrien Springs, MI
+ 7300 Berryville, AR
+ 7327 Berryville, VA
+ 7354 Bethany, MO
+ 7381 Bethel, AK
+ 7408 Bethel, OH
+ 7462 Beulah, ND
+ 7489 Bicknell, IN
+ 7508 Big Bear City, CA
+ 7543 Big Lake, TX
+ 7597 Big Pine Key, FL
+ 7624 Big Rapids, MI
+ 7651 Big Spring, TX
+ 7678 Big Stone Gap, VA
+ 7705 Billings, MT
+ 7732 Binghamton, NY--PA
+ 7759 Birch Bay, WA
+ 7786 Birmingham, AL
+ 7813 Bisbee, AZ
+ 7824 Biscoe, NC
+ 7840 Bishop, CA
+ 7867 Bishop, TX
+ 7894 Bishopville, SC
+ 7921 Bismarck, ND
+ 7948 Blackfoot, ID
+ 7975 Black River Falls, WI
+ 8002 Blacksburg, VA
+ 8029 Blackshear, GA
+ 8056 Blackstone, VA
+ 8083 Blackwell, OK
+ 8137 Blair, NE
+ 8164 Blairsville, PA
+ 8191 Blakely, GA
+ 8209 Blanchard, OK
+ 8218 Blanchester, OH
+ 8245 Blanding, UT
+ 8272 Blissfield, MI
+ 8299 Bloomer, WI
+ 8326 Bloomfield, IN
+ 8353 Bloomfield, NM
+ 8380 Bloomington, IN
+ 8407 Bloomington--Normal, IL
+ 8434 Bloomsburg--Berwick, PA
+ 8461 Blountstown, FL
+ 8488 Blue Earth, MN
+ 8515 Bluefield, WV--VA
+ 8542 Bluffton, IN
+ 8569 Bluffton, OH
+ 8623 Blythe, CA--AZ
+ 8650 Blytheville, AR
+ 8677 Boardman, OR
+ 8704 Boerne, TX
+ 8731 Bogalusa, LA
+ 8749 Boiling Spring Lakes, NC
+ 8758 Boiling Springs, NC
+ 8785 Boise City, ID
+ 8812 Bolivar, MO
+ 8839 Bolivar, OH
+ 8866 Bolivar, TN
+ 8893 Bonadelle Ranchos-Madera Ranchos, CA
+ 8920 Bonham, TX
+ 8947 Bonifay, FL
+ 8974 Bonita Springs, FL
+ 8992 Bonneauville, PA
+ 9001 Bonners Ferry, ID
+ 9028 Boone, IA
+ 9055 Boone, NC
+ 9082 Booneville, AR
+ 9109 Booneville, MS
+ 9163 Boonville, IN
+ 9190 Boonville, MO
+ 9217 Borger, TX
+ 9244 Boscobel, WI
+ 9271 Boston, MA--NH--RI
+ 9298 Boulder, CO
+ 9325 Boulder City, NV
+ 9352 Bowie, TX
+ 9379 Bowling Green, KY
+ 9406 Bowling Green, MO
+ 9433 Bowling Green, OH
+ 9460 Box Elder, SD
+ 9487 Boyne City, MI
+ 9514 Bozeman, MT
+ 9532 Brackettville, TX
+ 9541 Bradford, PA--NY
+ 9568 Brady, TX
+ 9600 Braidwood--Coal City--Wilmington, IL
+ 9622 Brainerd, MN
+ 9649 Brandon, SD
+ 9676 Branson, MO
+ 9703 Brattleboro, VT--NH
+ 9730 Brawley, CA
+ 9784 Brazoria, TX
+ 9801 Breaux Bridge, LA
+ 9811 Breckenridge, CO
+ 9838 Breckenridge, TX
+ 9865 Breese, IL
+ 9892 Bremen, GA
+ 9919 Bremen, IN
+ 9946 Bremerton, WA
+ 9973 Brenham, TX
+10000 Brent, AL
+10027 Brevard, NC
+10081 Brewton, AL
+10135 Bridgeport, TX
+10162 Bridgeport--Stamford, CT--NY
+10189 Bridgeton, NJ
+10198 Bridgeville, DE
+10297 Brillion, WI
+10324 Brinkley, AR
+10351 Bristol--Bristol, TN--VA
+10378 Bristow, OK
+10405 Broadway, VA
+10418 Brockport, NY
+10426 Brockway, PA
+10459 Brodhead, WI
+10513 Broken Bow, NE
+10540 Broken Bow, OK
+10567 Brookfield, MO
+10594 Brookhaven, MS
+10621 Brookings, OR
+10648 Brookings, SD
+10675 Brooklyn, MI
+10702 Brookshire, TX
+10810 Brookville, PA
+10837 Brownfield, TX
+10864 Browning, MT
+10891 Browns Mills--Fort Dix, NJ
+10918 Brownstown, IN
+10945 Brownsville, TN
+10972 Brownsville, TX
+10999 Brownwood, TX
+11026 Brunswick, GA
+11040 Brunswick, ME
+11053 Brunswick, MD--VA
+11080 Brush, CO
+11107 Bryan, OH
+11134 Buckeye, AZ
+11161 Buckhannon, WV
+11175 Buckhead (Bryan County), GA
+11188 Buckner, MO
+11215 Bucyrus, OH
+11242 Buena Vista, CO
+11269 Buena Vista, VA
+11296 Buffalo, MN
+11323 Buffalo, MO
+11350 Buffalo, NY
+11377 Buffalo, WY
+11404 Buhl, ID
+11415 Buies Creek, NC
+11431 Bullhead City, AZ--NV
+11512 Bunkie, LA
+11539 Buras, LA
+11566 Burgaw, NC
+11575 Burgettstown, PA
+11593 Burkburnett, TX
+11620 Burley, ID
+11647 Burlington, CO
+11674 Burlington, IA--IL
+11701 Burlington, KS
+11728 Burlington, NC
+11755 Burlington, VT
+11782 Burlington, WI
+11809 Burnet, TX
+11836 Burney, CA
+11863 Burns, OR
+11872 Burnt Store Marina, FL
+11890 Bushnell, FL
+11917 Bushnell, IL
+11944 Butler, IN
+11971 Butler, MO
+11998 Butler, PA
+12025 Butner, NC
+12052 Butte-Silver Bow, MT
+12079 Byron, IL
+12106 Byron, MN
+12120 Cache, OK
+12133 Cactus, TX
+12160 Cadillac, MI
+12187 Cadiz, KY
+12214 Cadiz, OH
+12241 Cairo, GA
+12268 Cairo, IL
+12295 Calais, ME
+12322 Caldwell, OH
+12349 Caldwell, TX
+12376 Caledonia, MN
+12457 Calhoun, GA
+12511 California, MO
+12565 California City, CA
+12592 Calipatria, CA
+12646 Calistoga, CA
+12700 Camano, WA
+12713 Camano North, WA
+12754 Camarillo, CA
+12781 Cambria, CA
+12808 Cambridge, MD
+12835 Cambridge, MN
+12862 Cambridge, OH
+12872 Cambridge, WI
+12889 Cambridge City, IN
+12890 Cambridge Springs, PA
+12916 Camden, AR
+12943 Camden, ME
+12970 Camden, SC
+12997 Camden, TN
+13024 Camdenton, MO
+13051 Cameron, MO
+13078 Cameron, TX
+13132 Camilla, GA
+13159 Campbellsville, KY
+13170 Camp Verde, AZ
+13177 Canadian, TX
+13221 Canby, OR
+13240 Cannon Falls, MN
+13267 Cañon City, CO
+13294 Canton, IL
+13321 Canton, MS
+13348 Canton, NY
+13375 Canton, OH
+13402 Canton, SD
+13429 Canton, TX
+13456 Canyon, TX
+13483 Canyon Lake, TX
+13510 Cape Coral, FL
+13537 Cape Girardeau, MO--IL
+13550 Captain Cook, HI
+13564 Carbondale, CO
+13591 Carbondale, IL
+13618 Carey, OH
+13645 Caribou, ME
+13699 Carlinville, IL
+13753 Carlisle, IA
+13807 Carlsbad, NM
+13821 Carlton, OR
+13834 Carlyle, IL
+13850 Carmel Valley Village, CA
+13861 Carmi, IL
+13915 Caro, MI
+13969 Carrizo Springs, TX
+13996 Carroll, IA
+14023 Carrollton, GA
+14050 Carrollton, KY
+14077 Carrollton, MO
+14104 Carrollton, OH
+14158 Carson City, NV
+14185 Cartersville, GA
+14212 Carthage, IL
+14239 Carthage, MS
+14266 Carthage, MO
+14320 Carthage, TN
+14347 Carthage, TX
+14374 Caruthersville, MO
+14401 Casa Grande, AZ
+14428 Casey, IL
+14455 Cashmere, WA
+14482 Casper, WY
+14536 Cassville, MO
+14556 Castle Dale, UT
+14570 Castle Rock, WA
+14590 Castroville, TX
+14644 Catskill, NY
+14671 Cazenovia, NY
+14698 Cedar City, UT
+14705 Cedaredge, CO
+14752 Cedar Rapids, IA
+14779 Cedar Springs, MI
+14806 Cedartown, GA
+14833 Cedarville, OH
+14860 Celina, OH
+14887 Center, TX
+14914 Centerville, IA
+14968 Central City, NE
+14995 Central City--Greenville, KY
+15022 Centralia, IL
+15049 Centralia, MO
+15076 Centralia, WA
+15083 Centre, AL
+15090 Centreville, MD
+15103 Century, FL--AL
+15130 Chadron, NE
+15157 Chaffee, MO
+15184 Chambersburg, PA
+15211 Champaign, IL
+15238 Chandler, OK
+15265 Chanute, KS
+15292 Chaparral, NM
+15319 Chardon, OH
+15346 Chariton, IA
+15373 Charles City, IA
+15400 Charleston, IL
+15427 Charleston, MS
+15454 Charleston, MO
+15481 Charleston, WV
+15508 Charleston--North Charleston, SC
+15535 Charlestown, IN
+15562 Charlestown, NH
+15589 Charlestown, RI
+15600 Charles Town--Ranson, WV
+15616 Charlevoix, MI
+15643 Charlotte, MI
+15670 Charlotte, NC--SC
+15697 Charlotte Amalie--Tutu, VI
+15724 Charlottesville, VA
+15751 Chase City, VA
+15769 Chatfield, MN
+15805 Chattahoochee, FL
+15832 Chattanooga, TN--GA
+15859 Cheboygan, MI
+15886 Checotah, OK
+15913 Chelan, WA
+15940 Chelsea, MI
+15967 Cheney, WA
+15994 Cheraw, SC
+16021 Cherokee, IA
+16048 Cherokee Village, AR
+16075 Cherryville, NC
+16102 Chesapeake Beach, MD
+16140 Chesnee, SC
+16156 Chester, IL
+16171 Chester, NY
+16183 Chester, SC
+16210 Chestertown, MD
+16223 Chetek, WI
+16237 Cheyenne, WY
+16264 Chicago, IL--IN
+16291 Chickasha, OK
+16318 Chico, CA
+16372 Childress, TX
+16426 Chillicothe, MO
+16453 Chillicothe, OH
+16480 Chilton, WI
+16534 Chinle, AZ
+16561 Chino Valley, AZ
+16588 Chipley, FL
+16615 Chisholm, MN
+16642 Chittenango, NY
+16696 Chowchilla, CA
+16750 Christiansted, VI
+16777 Christopher, IL
+16831 Church Point, LA
+16858 Churchville, NY
+16885 Cincinnati, OH--KY--IN
+16912 Circleville, OH
+16939 Cisco, TX
+17047 Clanton, AL
+17074 Clare, MI
+17101 Claremont, NH
+17128 Claremore, OK
+17155 Clarinda, IA
+17182 Clarion, IA
+17209 Clarion, PA
+17236 Clarksburg, WV
+17263 Clarksdale, MS
+17290 Clarksville, AR
+17317 Clarksville, TN--KY
+17344 Clarksville, TX
+17371 Claxton, GA
+17398 Clay Center, KS
+17420 Clayton, GA
+17452 Clearfield, PA
+17479 Clearlake, CA
+17506 Clear Lake, IA
+17514 Clearlake Riviera, CA
+17524 Clearwood, WA
+17533 Cleburne, TX
+17560 Cle Elum, WA
+17625 Cleveland, GA
+17641 Cleveland, MS
+17668 Cleveland, OH
+17695 Cleveland, OK
+17722 Cleveland, TN
+17749 Cleveland, TX
+17776 Clewiston, FL
+17803 Clifton, AZ
+17830 Clifton, TX
+17857 Clifton Forge, VA
+17870 Clifton Springs, NY
+17884 Clinton, IL
+17911 Clinton, IN
+17938 Clinton, IA--IL
+17965 Clinton, MO
+17992 Clinton, NC
+18019 Clinton, OK
+18046 Clinton, SC
+18100 Clintonville, WI
+18127 Cloquet, MN
+18154 Clover, SC
+18181 Cloverdale, CA
+18208 Clovis, NM
+18235 Clyde, OH
+18262 Clyde, TX
+18289 Coalinga, CA
+18316 Coamo, PR
+18343 Cobleskill, NY
+18370 Cochran, GA
+18383 Coco--Salinas, PR
+18397 Cody, WY
+18424 Coeburn, VA
+18451 Coeur d'Alene, ID
+18478 Coffeyville, KS--OK
+18505 Cokato, MN
+18532 Colby, KS
+18559 Colchester, CT
+18586 Cold Spring, MN
+18613 Cold Spring, NY
+18667 Coldwater, MI
+18680 Coldwater, OH
+18694 Coleman, TX
+18712 Colfax, CA
+18721 Colfax, WA
+18748 College Station--Bryan, TX
+18760 Collinsville, OK
+18775 Colonial Beach, VA
+18802 Colorado City, AZ--UT
+18829 Colorado City, TX
+18856 Colorado Springs, CO
+18883 Columbia, KY
+18910 Columbia, MS
+18937 Columbia, MO
+18964 Columbia, SC
+18991 Columbia, TN
+19018 Columbia City, IN
+19045 Columbia Falls, MT
+19060 Columbiana, AL
+19072 Columbiana, OH
+19099 Columbus, GA--AL
+19126 Columbus, IN
+19153 Columbus, KS
+19180 Columbus, MS
+19207 Columbus, NE
+19234 Columbus, OH
+19261 Columbus, TX
+19288 Columbus, WI
+19315 Columbus AFB, MS
+19342 Colusa, CA
+19369 Colville, WA
+19396 Comanche, TX
+19423 Comfort, TX
+19450 Commerce, GA
+19477 Commerce, TX
+19504 Concord, CA
+19531 Concord, NH
+19558 Concord, NC
+19585 Concordia, KS
+19597 Conesus Lake, NY
+19612 Conneaut, OH
+19666 Connell, WA
+19693 Connersville, IN
+19720 Conrad, MT
+19755 Conroe--The Woodlands, TX
+19774 Constantine, MI
+19801 Conway, AR
+19828 Cookeville, TN
+19882 Coolidge, AZ
+19909 Coopersville, MI
+19936 Coos Bay, OR
+19990 Coquille, OR
+20044 Corcoran, CA
+20071 Cordele, GA
+20098 Corinth, MS
+20125 Corinth, NY
+20152 Cornelia--Baldwin, GA
+20179 Corning, AR
+20206 Corning, CA
+20233 Corning, NY
+20247 Corona de Tucson, AZ
+20287 Corpus Christi, TX
+20314 Corry, PA
+20341 Corsicana, TX
+20368 Cortez, CO
+20395 Cortland, NY
+20422 Corvallis, OR
+20449 Corydon, IN
+20476 Coshocton, OH
+20503 Cottage Grove, OR
+20530 Cottonport, LA
+20584 Cottonwood, CA
+20595 Cottonwood--Verde Village, AZ
+20611 Cotulla, TX
+20632 Country Lakes, MD
+20665 Covington, IN
+20692 Covington, OH
+20719 Covington, TN
+20746 Covington, VA
+20773 Coxsackie, NY
+20800 Cozad, NE
+20827 Craig, CO
+20854 Crane, TX
+20881 Crawfordsville, IN
+20890 Crawfordville, FL
+20908 Crescent City, CA
+20935 Crescent City, FL
+20962 Cresco, IA
+20980 Cresson, PA
+21016 Creston, IA
+21043 Crestview, FL
+21070 Creswell, OR
+21097 Crete, NE
+21124 Crewe, VA
+21151 Crisfield, MD
+21178 Crittenden, KY
+21205 Crockett, TX
+21220 Crooked Lake Park, FL
+21232 Crookston, MN
+21259 Crooksville, OH
+21286 Crosby, MN
+21313 Cross City, FL
+21340 Crossett, AR
+21394 Crossville, TN
+21421 Crowley, LA
+21448 Crozet, VA
+21475 Cruz Bay, VI
+21502 Crystal City, TX
+21529 Crystal River, FL
+21556 Crystal Springs, MS
+21583 Cuba, MO
+21610 Cuero, TX
+21637 Cullman, AL
+21664 Cullowhee, NC
+21691 Culpeper, VA
+21718 Cumberland, KY
+21745 Cumberland, MD--WV--PA
+21760 Curwensville, PA
+21772 Cushing, OK
+21799 Cut Bank, MT
+21826 Cuthbert, GA
+21853 Cynthiana, KY
+21928 Dahlgren, VA--MD
+21934 Dahlonega, GA
+21961 Daingerfield, TX
+21988 Dalhart, TX
+22015 Dallas, OR
+22042 Dallas--Fort Worth--Arlington, TX
+22069 Dalton, GA
+22079 Dalton, OH
+22096 Danbury, CT--NY
+22110 Dandridge, TN
+22177 Dansville, NY
+22204 Danville, IL
+22231 Danville, KY
+22253 Danville, VA--NC
+22285 Daphne--Fairhope, AL
+22301 Darbydale, OH
+22312 Darien, GA
+22366 Davenport, IA--IL
+22393 David City, NE
+22420 Davis, CA
+22427 Davis, OK
+22435 Davis Junction, IL
+22447 Dawson, GA
+22501 Dayton, NV
+22528 Dayton, OH
+22555 Dayton, TN
+22582 Dayton, TX
+22609 Dayton, WA
+22690 Decatur, AL
+22717 Decatur, IL
+22744 Decatur, IN
+22771 Decatur, TX
+22798 Decorah, IA
+22811 Dededo--Machanao--Apotgan, GU
+22825 Deer Lodge, MT
+22852 Deer Park, WA
+22864 Deerwood, TX
+22879 Defiance, OH
+22933 De Funiak Springs, FL
+22960 DeKalb, IL
+22987 Delano, CA
+22995 Delano, MN
+23041 Delavan, WI
+23095 Delhi, LA
+23102 Delhi, NY
+23122 Dell Rapids, SD
+23149 Delphi, IN
+23176 Delphos, OH
+23203 Del Rio, TX
+23230 Delta, CO
+23257 Delta, OH
+23284 Delta, UT
+23311 Deltona, FL
+23338 Deming, NM
+23365 Demopolis, AL
+23392 De Motte, IN
+23419 Denison, IA
+23446 Denmark, SC
+23473 Denton, MD
+23500 Denton--Lewisville, TX
+23513 Denton Southwest, TX
+23527 Denver--Aurora, CO
+23554 Denver City, TX
+23608 De Queen, AR
+23635 DeQuincy, LA
+23662 DeRidder, LA
+23689 Dermott, AR
+23716 Desert Hot Springs, CA
+23743 Des Moines, IA
+23770 De Soto, KS
+23797 De Soto, MO
+23824 Detroit, MI
+23851 Detroit Lakes, MN
+23878 Devils Lake, ND
+23905 Devine, TX
+23959 DeWitt, AR
+23986 De Witt, IA
+24013 Dexter, MO
+24040 Diamondhead, MS
+24067 Diboll, TX
+24094 Dickinson, ND
+24121 Dickson, TN
+24148 Dilley, TX
+24175 Dillon, MT
+24202 Dillon, SC
+24229 Dimmitt, TX
+24256 Discovery Bay, CA
+24283 Dixon, CA
+24310 Dixon, IL
+24329 Dodge Center, MN
+24337 Dodge City, KS
+24364 Dodgeville, WI
+24391 Donaldsonville, LA
+24418 Donalsonville, GA
+24433 Dorr, MI
+24445 Dos Palos, CA
+24472 Dothan, AL
+24499 Douglas, AZ
+24526 Douglas, GA
+24539 Douglas, MI
+24553 Douglas, WY
+24580 Dover, DE
+24607 Dover--Rochester, NH--ME
+24634 Dowagiac, MI
+24646 Downs, IL
+24688 Dryden, NY
+24715 Dublin, GA
+24769 Dublin, TX
+24796 DuBois, PA
+24823 Dubuque, IA--IL
+24850 Duluth, MN--WI
+24877 Dumas, AR
+24904 Dumas, TX
+24931 Duncan, OK
+24958 Dundee, MI
+24985 Dunkirk, IN
+25012 Dunkirk--Fredonia, NY
+25025 Dunlap, TN
+25039 Dunn, NC
+25093 Du Quoin, IL
+25120 Durand, MI
+25147 Durango, CO
+25174 Durant, MS
+25201 Durant, OK
+25228 Durham, NC
+25255 Dwight, IL
+25282 Dyer, TN
+25309 Dyersburg, TN
+25336 Dyersville, IA
+25363 Eagar, AZ
+25390 Eagle, CO
+25417 Eagle Grove, IA
+25444 Eagle Lake, TX
+25480 Eagle Mountain South, UT
+25498 Eagle Pass, TX
+25579 Earlimart, CA
+25598 East Aurora, NY
+25660 Eastland, TX
+25687 East Liverpool, OH--WV--PA
+25714 Eastman, GA
+25741 Easton, MD
+25768 East Palestine, OH
+25795 East Prairie, MO
+25802 East Prospect, PA
+25813 East Quincy, CA
+25849 East Stroudsburg, PA--NJ
+25876 East Tawas, MI
+25903 East Troy, WI
+25930 Eaton, CO
+25957 Eaton, OH
+25984 Eaton Rapids, MI
+26011 Eatonton, GA
+26024 Eatonville, WA
+26038 Eau Claire, WI
+26065 Ebensburg, PA
+26092 Eden, NC
+26119 Edenton, NC
+26146 Edgefield, SC
+26173 Edgerton, WI
+26200 Edgewood, NM
+26227 Edinboro, PA
+26254 Edna, TX
+26275 Edwards, CO
+26308 Effingham, IL
+26345 Eielson AFB, AK
+26362 Elberton, GA
+26389 El Campo, TX
+26416 El Centro--Calexico, CA
+26443 Eldon, MO
+26470 El Dorado, AR
+26497 Eldorado, IL
+26524 El Dorado, KS
+26551 Eldorado at Santa Fe, NM
+26578 El Dorado Springs, MO
+26632 Electra, TX
+26659 Elgin, TX
+26686 Elizabeth City, NC
+26713 Elizabethtown, NC
+26750 Elizabethtown--Radcliff, KY
+26767 Elk City, OK
+26794 Elkhart, IN--MI
+26821 Elkhorn, WI
+26848 Elkin, NC
+26875 Elkins, WV
+26902 Elko, NV
+26912 Elko New Market, MN
+26956 Elkton, VA
+26983 Ellensburg, WA
+27010 Ellenville, NY
+27037 Ellijay, GA
+27064 Ellsworth, KS
+27070 Ellsworth, ME
+27076 Ellsworth, WI
+27085 Ellwood City, PA
+27118 Elmira, NY
+27172 Elmwood, IL
+27199 Eloy, AZ
+27226 El Paso, IL
+27253 El Paso, TX--NM
+27261 El Paso de Robles (Paso Robles)--Atascadero, CA
+27280 El Reno, OK
+27290 Elroy, TX
+27300 Elverson, PA
+27307 Elwood, IN
+27334 Ely, MN
+27361 Ely, NV
+27372 Emajagua, PR
+27380 Emerald Bay, TX
+27442 Emmetsburg, IA
+27469 Emmett, ID
+27496 Emmitsburg, MD--PA
+27523 Emporia, KS
+27550 Emporia, VA
+27577 Emporium, PA
+27592 Enfield, NC
+27604 England, AR
+27631 Enid, OK
+27658 Ennis, TX
+27685 Enterprise, AL
+27712 Ephraim, UT
+27739 Ephrata, WA
+27750 Epping, NH
+27766 Erie, PA
+27793 Erwin, TN
+27820 Escalon, CA
+27847 Escanaba, MI
+27874 Espanola, NM
+27885 Esparto, CA
+27901 Estacada, OR
+27928 Estes Park, CO
+27955 Estherville, IA
+27991 Estrella, AZ
+28009 Etowah, TN
+28063 Eudora, KS
+28090 Eufaula, AL--GA
+28117 Eugene, OR
+28144 Eunice, LA
+28171 Eunice, NM
+28198 Eureka, CA
+28225 Eureka, IL
+28252 Eureka, KS
+28262 Eureka, MO
+28306 Evanston, WY
+28333 Evansville, IN--KY
+28360 Evansville, WI
+28387 Evarts, KY
+28414 Everett, PA
+28431 Evergreen, AL
+28441 Evergreen, CO
+28468 Everson, WA
+28495 Excelsior Springs, MO
+28522 Fabens, TX
+28549 Fairbanks, AK
+28576 Fairbury, IL
+28603 Fairbury, NE
+28624 Fairdale, PA
+28657 Fairfield, CA
+28684 Fairfield, IL
+28711 Fairfield, IA
+28738 Fairfield, TX
+28765 Fairfield Glade, TN
+28782 Fairfield Harbour, NC
+28819 Fair Haven, VT
+28846 Fairmont, MN
+28860 Fairmont, NC
+28873 Fairmont, WV
+28900 Fairmount, IN
+28954 Fairview, TN
+28981 Fajardo, PR
+29008 Falfurrias, TX
+29035 Fallon, NV
+29062 Falls City, NE
+29089 Fargo, ND--MN
+29116 Faribault, MN
+29143 Farmersville, TX
+29170 Farmerville, LA
+29224 Farmington, ME
+29251 Farmington, MO
+29265 Farmington, NH
+29278 Farmington, NM
+29305 Farmville, NC
+29332 Farmville, VA
+29359 Fayette, AL
+29413 Fayette, MO
+29440 Fayetteville, NC
+29467 Fayetteville, TN
+29494 Fayetteville--Springdale--Rogers, AR--MO
+29510 Fearrington Village, NC
+29521 Federalsburg, MD
+29548 Fellsmere, FL
+29575 Fergus Falls, MN
+29602 Fernandina Beach, FL
+29656 Fernley, NV
+29683 Ferriday, LA
+29698 Filer, ID
+29710 Fillmore, CA
+29737 Findlay, OH
+29764 Firebaugh, CA
+29775 Firestone--Frederick, CO
+29791 Fitzgerald, GA
+29818 Flagstaff, AZ
+29845 Flemingsburg, KY
+29872 Flint, MI
+29899 Flora, IL
+29953 Florence, AL
+29980 Florence, AZ
+30007 Florence, CO
+30034 Florence, OR
+30061 Florence, SC
+30088 Floresville, TX
+30115 Florida--Imbéry--Barceloneta, PR
+30142 Floydada, TX
+30171 Foley, AL
+30196 Folkston, GA
+30223 Fond du Lac, WI
+30250 Fordyce, AR
+30277 Forest, MS
+30304 Forest City, IA
+30331 Forest City, NC
+30358 Forest Lake, MN
+30385 Forestville, CA
+30412 Forks, WA
+30439 Forney, TX
+30466 Forrest City, AR
+30493 Forsyth, GA
+30520 Forsyth, MO
+30547 Fort Atkinson, WI
+30574 Fort Bragg, CA
+30601 Fort Branch, IN
+30628 Fort Collins, CO
+30655 Fort Defiance, AZ--NM
+30682 Fort Dodge, IA
+30736 Fort Irwin, CA
+30748 Fort Leonard Wood, MO
+30755 Fort Lupton, CO
+30763 Fort Madison, IA--IL
+30790 Fort Meade, FL
+30817 Fort Morgan, CO
+30844 Fort Payne, AL
+30858 Fort Plain, NY
+30871 Fort Polk, LA
+30898 Fort Scott, KS
+30925 Fort Smith, AR--OK
+30952 Fort Stockton, TX
+30979 Fortuna, CA
+31033 Fort Valley, GA
+31060 Fort Walton Beach--Navarre--Wright, FL
+31087 Fort Wayne, IN
+31114 Fostoria, OH
+31150 Four Corners, FL
+31158 Four Corners, MT
+31168 Fowlerville, MI
+31195 Frankenmuth, MI
+31222 Frankfort, IN
+31249 Frankfort, KY
+31276 Franklin, KY
+31303 Franklin, LA
+31330 Franklin, NH
+31384 Franklin, NC
+31411 Franklin (Venango County), PA
+31438 Franklin, VA
+31450 Franklin--Highland Lake, NJ
+31465 Franklinton, LA
+31478 Fraser, CO
+31492 Frazier Park, CA
+31519 Frederick, MD
+31546 Frederick, OK
+31573 Fredericksburg, TX
+31600 Fredericksburg, VA
+31627 Fredericktown, MO
+31681 Freeport, IL
+31735 Fremont, MI
+31762 Fremont, NE
+31789 Fremont, OH
+31843 Fresno, CA
+31870 Friona, TX
+31897 Fritch, TX
+31924 Front Royal, VA
+31978 Frostproof, FL
+32032 Fulton, KY--TN
+32059 Fulton, MS
+32086 Fulton, MO
+32113 Gadsden, AL
+32140 Gaffney, SC
+32167 Gainesville, FL
+32194 Gainesville, GA
+32221 Gainesville, TX
+32248 Galax, VA
+32275 Galena, IL
+32302 Galena, KS--MO
+32329 Galesburg, IL
+32356 Galion, OH
+32383 Galliano--Larose--Cut Off, LA
+32437 Gallup, NM
+32451 Galt, CA
+32491 Galveston, TX
+32506 Garapan--Dandan, MP
+32518 Garden City, KS
+32572 Gardnerville Ranchos, NV
+32599 Garner, IA
+32626 Garnett, KS
+32637 Garrettsville, OH
+32653 Gastonia, NC--SC
+32707 Gatesville, TX
+32720 Gautier, MS
+32734 Gaylord, MI
+32761 Geneseo, IL
+32788 Geneseo, NY
+32815 Geneva, AL
+32842 Geneva, NY
+32850 Geneva, OH
+32869 Genoa, IL
+32896 Genoa, OH
+32950 Georgetown, DE
+32977 Georgetown, KY
+33004 Georgetown, OH
+33031 Georgetown, SC
+33166 Gibson City, IL
+33193 Giddings, TX
+33220 Gillespie, IL
+33247 Gillette, WY
+33274 Gilman, IL
+33301 Gilmer, TX
+33328 Gilroy--Morgan Hill, CA
+33355 Girard, KS
+33409 Gladwin, MI
+33436 Glasgow, KY
+33463 Glasgow, MT
+33490 Glencoe, MN
+33517 Glendive, MT
+33544 Glennville, GA
+33598 Glens Falls, NY
+33612 Glenville, WV
+33625 Glenwood, IA
+33635 Glenwood, MD
+33652 Glenwood Springs, CO
+33679 Globe, AZ
+33695 Gloucester Courthouse, VA
+33706 Glouster, OH
+33733 Gloversville, NY
+33749 Gold Beach, OR
+33760 Golden Beach, MD
+33787 Goldendale, WA
+33798 Golden Gate Estates, FL
+33814 Goldsboro, NC
+33841 Gonzales, CA
+33868 Gonzales, TX
+33895 Gooding, ID
+33922 Goodland, KS
+33938 Goodrich, MI
+34003 Gothenburg, NE
+34030 Gouverneur, NY
+34057 Gowanda, NY
+34072 Graceville, FL
+34084 Grafton, ND
+34111 Grafton, WV
+34138 Graham, TX
+34151 Gramercy--Lutcher, LA
+34165 Granbury, TX
+34192 Grand Bay, AL
+34219 Grand Forks, ND--MN
+34229 Grand Forks AFB, ND
+34246 Grand Island, NE
+34273 Grand Junction, CO
+34300 Grand Rapids, MI
+34327 Grand Rapids, MN
+34354 Grand Saline, TX
+34381 Grandview, WA
+34397 Granger, WA
+34408 Grangerland, TX
+34435 Grangeville, ID
+34462 Granite Falls, MN
+34470 Granite Falls, WA
+34478 Granite Shoals, TX
+34489 Grants, NM
+34516 Grants Pass, OR
+34543 Grantsville, UT
+34554 Grantville, GA
+34570 Granville, NY--VT
+34597 Grass Valley, CA
+34613 Gray, GA
+34624 Grayling, MI
+34651 Grayson, KY
+34678 Great Barrington, MA
+34705 Great Bend, KS
+34759 Great Falls, MT
+34786 Greeley, CO
+34813 Green Bay, WI
+34826 Greenbrier, AR
+34840 Greencastle, IN
+34894 Greeneville, TN
+34921 Greenfield, CA
+34975 Greenfield, MA
+35002 Greenfield, OH
+35029 Green Forest, AR
+35083 Green River, WY
+35137 Greensboro, GA
+35164 Greensboro, NC
+35191 Greensburg, IN
+35218 Greentown, IN
+35272 Greenville, AL
+35299 Greenville, IL
+35326 Greenville, MI
+35353 Greenville, MS
+35380 Greenville, NC
+35407 Greenville, OH
+35434 Greenville, PA
+35461 Greenville, SC
+35488 Greenville, TX
+35515 Greenwich, NY
+35542 Greenwood, AR
+35569 Greenwood, MS
+35596 Greenwood, SC
+35623 Grenada, MS
+35677 Gridley, CA
+35690 Grifton, NC
+35704 Grinnell, IA
+35716 Grissom AFB, IN
+35731 Groesbeck, TX
+35758 Grottoes, VA
+35785 Grove, OK
+35812 Grove City, PA
+35839 Guadalupe, CA
+35866 Guayama, PR
+35893 Guerneville, CA
+35920 Gulfport, MS
+35974 Gun Barrel City, TX
+35987 Gun Lake, MI
+36001 Gunnison, CO
+36028 Gunnison, UT
+36055 Gustine, CA
+36082 Guthrie, OK
+36109 Guymon, OK
+36136 Gypsum, CO
+36190 Hagerstown, MD--WV--PA
+36217 Hailey, ID
+36231 Haleiwa--Waialua--Pupukea, HI
+36244 Haleyville, AL
+36271 Half Moon Bay, CA
+36298 Halls, TN
+36325 Hallsville, TX
+36352 Hamburg, AR
+36396 Hamilton, AL
+36406 Hamilton, MT
+36433 Hamilton, NY
+36460 Hamilton, TX
+36514 Hammond, LA
+36541 Hammonton, NJ
+36568 Hampshire, IL
+36585 Hampstead, NC
+36622 Hampton, IA
+36649 Hampton, SC
+36676 Hanceville, AL
+36703 Hanford, CA
+36730 Hannibal, MO
+36784 Hanover, PA
+36798 Hardeeville, SC
+36811 Hardin, MT
+36823 Hardyston Township West, NJ
+36838 Harlan, IA
+36865 Harlan, KY
+36878 Harlem, GA
+36892 Harlingen, TX
+36919 Harrah, OK
+36946 Harriman--Kingston--Rockwood, TN
+36973 Harrington, DE
+37000 Harrisburg, IL
+37054 Harrisburg, OR
+37081 Harrisburg, PA
+37091 Harrisburg, SD
+37108 Harrison, AR
+37135 Harrison, MI
+37145 Harrison, OH--IN
+37162 Harrisonburg, VA
+37189 Harrisonville, MO
+37216 Harrodsburg, KY
+37232 Hart, MI
+37243 Hartford, CT
+37324 Hartford City, IN
+37378 Hartshorne, OK
+37405 Hartsville, SC
+37432 Hartwell, GA
+37459 Harvard, IL
+37486 Haskell, TX
+37513 Hastings, MI
+37540 Hastings, MN
+37567 Hastings, NE
+37594 Hattiesburg, MS
+37621 Havana, FL
+37648 Havana, IL
+37675 Havelock, NC
+37702 Havre, MT
+37716 Hawaiian Paradise Park, HI
+37729 Hawkinsville, GA
+37756 Hawthorne, NV
+37783 Hays, KS
+37810 Hayti, MO
+37823 Hayward, WI
+37837 Hazard, KY
+37864 Hazel Green, AL
+37891 Hazlehurst, GA
+37918 Hazlehurst, MS
+37945 Hazleton, PA
+37959 Headland, AL
+37972 Hearne, TX
+37999 Heavener, OK
+38026 Hebbronville, TX
+38053 Heber, UT
+38080 Heber Springs, AR
+38134 Hebron, IN
+38161 Helena, MT
+38172 Helena-West Helena, AR
+38215 Hemet, CA
+38242 Hempstead, TX
+38269 Henderson, NC
+38296 Henderson, TN
+38323 Henderson, TX
+38350 Henrietta, TX
+38404 Henryetta, OK
+38431 Hereford, TX
+38445 Heritage Lake, IN
+38485 Hermiston, OR
+38566 Hesston, KS
+38580 Heyworth, IL
+38593 Hiawatha, KS
+38620 Hibbing, MN
+38647 Hickory, NC
+38674 Hicksville, OH
+38713 Hidden Valley Lake, CA
+38728 Higginsville, MO
+38755 Highland, IL
+38794 Highland Oaks, TX
+38809 High Point, NC
+38823 High Springs, FL
+38863 Hillsboro, IL
+38890 Hillsboro, KS
+38903 Hillsboro, MO
+38917 Hillsboro, OH
+38944 Hillsboro, TX
+38971 Hillsborough, NH
+38998 Hillsdale, MI
+39025 Hilmar-Irwin, CA
+39052 Hilo, HI
+39079 Hilton Head Island, SC
+39133 Hinesville, GA
+39160 Hinton, WV
+39187 Hobart, OK
+39214 Hobbs, NM
+39241 Hodgenville, KY
+39268 Hohenwald, TN
+39295 Hoisington, KS
+39322 Holbrook, AZ
+39349 Holden Beach, NC
+39376 Holdenville, OK
+39403 Holdrege, NE
+39416 Holiday Shores, IL
+39430 Holland, MI
+39457 Hollandale, MS
+39511 Hollister, CA
+39524 Holloman AFB, NM
+39538 Holly, MI
+39565 Holly Springs, MS
+39592 Holton, KS
+39619 Holtville, CA
+39646 Homedale, ID
+39673 Homer, LA
+39700 Homerville, GA
+39712 Homesteads Addition, TX
+39727 Hominy, OK
+39758 Homosassa Springs--Beverly Hills--Citrus Spring
+39781 Hondo, TX
+39808 Honea Path, SC
+39821 Honeoye Falls, NY
+39835 Honesdale, PA
+39862 Honokaa, HI
+39916 Hood River, OR--WA
+39943 Hooks, TX
+39970 Hoopeston, IL
+39997 Hoosick Falls, NY
+40024 Hope, AR
+40078 Hopkinsville, KY
+40105 Horicon, WI
+40132 Hornell, NY
+40186 Horse Cave, KY
+40189 Horseshoe Bay, TX
+40213 Hot Springs, AR
+40240 Hot Springs, SD
+40267 Hot Springs Village, AR
+40294 Houghton, MI
+40321 Houghton Lake, MI
+40348 Houlton, ME
+40375 Houma, LA
+40402 Houston, MS
+40429 Houston, TX
+40456 Houtzdale, PA
+40537 Hudson, NY
+40547 Hudson, WI--MN
+40564 Hugo, OK
+40591 Hugoton, KS
+40618 Humboldt, IA
+40645 Humboldt, TN
+40672 Huntingburg, IN
+40699 Huntingdon, PA
+40726 Huntington, IN
+40753 Huntington, WV--KY--OH
+40780 Huntsville, AL
+40807 Huntsville, TX
+40834 Huron, CA
+40861 Huron, SD
+40888 Hurricane, UT
+40915 Hutchinson, KS
+40942 Hutchinson, MN
+40955 Huxley, IA
+40969 Idabel, OK
+40996 Idaho Falls, ID
+41023 Ilion--Herkimer, NY
+41050 Imlay City, MI
+41077 Immokalee, FL
+41100 Incline Village, NV--CA
+41131 Independence, IA
+41158 Independence, KS
+41185 Indiana, PA
+41212 Indianapolis, IN
+41239 Indianola, IA
+41266 Indianola, MS
+41293 Indianola, WA
+41320 Indiantown, FL
+41347 Indio--Cathedral City, CA
+41360 Ingleside--Aransas Pass, TX
+41374 Interlachen, FL
+41401 International Falls, MN
+41482 Iola, KS
+41509 Ione, CA
+41536 Ionia, MI
+41563 Iowa, LA
+41590 Iowa City, IA
+41617 Iowa Falls, IA
+41644 Iowa Park, TX
+41671 Iron Mountain--Kingsford, MI--WI
+41698 Iron River, MI
+41725 Ironton, MO
+41752 Ironwood, MI--WI
+41779 Irrigon, OR
+41806 Irvine, KY
+41833 Ishpeming, MI
+41914 Ithaca, NY
+41941 Itta Bena, MS
+41995 Jacksboro, TX
+42022 Jackson, AL
+42049 Jackson, CA
+42076 Jackson, GA
+42103 Jackson, KY
+42157 Jackson, MI
+42184 Jackson, MN
+42211 Jackson, MS
+42265 Jackson, TN
+42319 Jackson, WY
+42346 Jacksonville, FL
+42373 Jacksonville, IL
+42400 Jacksonville, NC
+42427 Jacksonville, TX
+42439 Jackson--Wellston, OH
+42454 Jaffrey, NH
+42481 Jamestown, NY
+42508 Jamestown, ND
+42535 Jamestown, OH
+42562 Janesville, WI
+42616 Jasper, AL
+42643 Jasper, FL
+42670 Jasper, GA
+42697 Jasper, IN
+42724 Jasper, TN
+42751 Jasper, TX
+42778 Jayuya, PR
+42805 Jeanerette, LA
+42832 Jean Lafitte, LA
+42849 Jefferson, GA
+42859 Jefferson, IA
+42870 Jefferson, NC
+42913 Jefferson, OH
+42967 Jefferson City, MO
+42978 Jefferson Township North, NJ
+42994 Jena, LA
+43021 Jennings, LA
+43048 Jerome, ID
+43064 Jersey Shore, PA
+43075 Jerseyville, IL
+43102 Jesup, GA
+43115 Jewett City, CT
+43129 Jim Thorpe, PA
+43210 Johnson City, TN
+43217 Johnson Creek, WI
+43227 Johnson Lane, NV
+43237 Johnston City, IL
+43253 Johnstown, CO
+43264 Johnstown, OH
+43291 Johnstown, PA
+43345 Jonesboro, AR
+43372 Jonesboro, LA
+43383 Jones Creek, TX
+43399 Joplin, MO
+43426 Jordan, MN
+43453 Juana Díaz, PR
+43480 Junction, TX
+43507 Junction City, KS
+43534 Junction City, OR
+43561 Juneau, AK
+43571 Juneau, WI
+43595 Jupiter Farms, FL
+43604 Justin, TX
+43615 Kahului, HI
+43642 Kailua (Hawaii County)--Holualoa, HI
+43669 Kailua (Honolulu County)--Kaneohe, HI
+43696 Kalaheo, HI
+43711 Kalama, WA
+43723 Kalamazoo, MI
+43777 Kalispell, MT
+43804 Kalkaska, MI
+43818 Kamas, UT
+43831 Kanab, UT
+43858 Kane, PA
+43885 Kankakee, IL
+43912 Kansas City, MO--KS
+43939 Kapaa, HI
+43966 Kapaau, HI
+43993 Kaplan, LA
+44020 Karnes City, TX
+44047 Kasson, MN
+44074 Kaufman, TX
+44128 Kayenta, AZ
+44155 Kearney, MO
+44182 Kearney, NE
+44209 Keene, NH
+44236 Kekaha, HI
+44263 Kellogg, ID
+44290 Kelseyville, CA
+44317 Kemmerer, WY
+44344 Kenai, AK
+44371 Kendallville, IN
+44398 Kenedy, TX
+44425 Kennebunk, ME
+44452 Kennett, MO
+44479 Kennewick--Pasco, WA
+44506 Kenosha, WI--IL
+44533 Kenton, OH
+44560 Keokuk, IA--IL
+44587 Kerman, CA
+44614 Kermit, TX
+44641 Kerrville, TX
+44668 Ketchikan, AK
+44695 Ketchum, ID
+44722 Kewanee, IL
+44738 Kewaunee, WI
+44789 Key Largo, FL
+44803 Keyser, WV--MD
+44830 Keystone Heights, FL
+44857 Key West, FL
+44884 Kiel--New Holstein, WI
+44911 Kihei, HI
+44925 Kilauea, HI
+44938 Kilgore, TX
+44965 Kill Devil Hills, NC
+44992 Killeen, TX
+45032 Kimberling City, MO
+45073 King City, CA
+45100 Kingfisher, OK
+45112 King George, VA
+45127 Kingman, AZ
+45154 Kingman, KS
+45181 Kingsland, TX
+45235 Kingsport, TN--VA
+45262 Kingston, NY
+45289 Kingstree, SC
+45316 Kingsville, TX
+45343 Kingwood, WV
+45370 Kinross, MI
+45397 Kinston, NC
+45424 Kirksville, MO
+45436 Kirtland, NM
+45451 Kissimmee, FL
+45478 Kittanning--Ford City, PA
+45505 Klamath Falls--Altamont, OR
+45532 Knightstown, IN
+45586 Knox, IN
+45613 Knoxville, IA
+45640 Knoxville, TN
+45667 Kodiak, AK
+45694 Kokomo, IN
+45721 Kosciusko, MS
+45748 Kotzebue, AK
+45761 Krum, TX
+45775 Kuna, ID
+45802 Kutztown, PA
+45829 LaBelle--Port LaBelle, FL
+45844 La Center, WA
+45856 Laconia, NH
+45883 La Conner, WA
+45910 La Crosse, WI--MN
+45937 Lady Lake--The Villages, FL
+45964 Ladysmith, WI
+45991 LaFayette, GA
+46018 Lafayette, IN
+46045 Lafayette, LA
+46099 Lafayette, TN
+46126 Lafayette--Louisville--Erie, CO
+46153 La Follette, TN
+46180 Lago Vista, TX
+46207 La Grande, OR
+46234 LaGrange, GA
+46261 Lagrange, IN
+46315 La Grange, NC
+46328 LaGrange, OH
+46342 La Grange, TX
+46396 Lahaina, HI
+46423 Laie--Hauula, HI
+46450 La Junta, CO
+46465 Lake Arrowhead--Crestline, CA
+46477 Lake Arthur, LA
+46489 Lake Bryant, FL
+46504 Lake Butler, FL
+46531 Lake Charles, LA
+46558 Lake City, FL
+46585 Lake City, MN
+46612 Lake City, SC
+46639 Lake Conroe Eastshore, TX
+46652 Lake Conroe Northshore, TX
+46666 Lake Conroe Westshore, TX
+46675 Lake Crystal, MN
+46684 Lake Delton, WI
+46693 Lake Geneva, WI
+46747 Lake Havasu City, AZ
+46760 Lake Holiday, IL
+46774 Lake Isabella, CA
+46801 Lake Jackson--Angleton, TX
+46814 Lake Lakengren, OH
+46828 Lakeland, FL
+46836 Lakeland, GA
+46845 Lake Land'Or, VA
+46855 Lake Los Angeles, CA
+46868 Lake Meade, PA
+46882 Lake Mills, WI
+46895 Lake Montezuma, AZ
+46909 Lake Monticello, VA
+46918 Lake Murray North Shore, SC
+46927 Lake Norman of Catawba, NC
+46963 Lake of the Pines, CA
+46972 Lake of the Woods, VA
+46980 Lake of the Woods--Pinetop-Lakeside, AZ
+46990 Lake Panasoffkee, FL
+47000 Lake Park, GA
+47010 Lake Placid, FL
+47017 Lake Placid, NY
+47044 Lake Pocotopaug--East Hampton, CT
+47071 Lakeport, CA
+47098 Lake Providence, LA
+47109 Lake Rancho Viejo, CA
+47132 Lakes--Knik-Fairview--Wasilla, AK
+47142 Lake View, AL
+47152 Lakeview, OR
+47179 Lake Village, AR
+47233 Lake Wildwood, CA
+47287 Lamar, CO
+47314 Lamar, MO
+47395 Lamesa, TX
+47422 Lampasas, TX
+47449 Lanai City, HI
+47476 Lancaster, KY
+47503 Lancaster, OH
+47530 Lancaster, PA
+47557 Lancaster, SC
+47584 Lancaster, WI
+47611 Lancaster--Palmdale, CA
+47638 Lander, WY
+47665 Landrum, SC--NC
+47719 Lansing, MI
+47746 Lapeer, MI
+47758 La Pine Northwest, OR
+47827 Laramie, WY
+47854 Laredo, TX
+47881 Larned, KS
+47908 Las Animas, CO
+47935 Las Cruces, NM
+47989 Las Vegas, NM
+47995 Las Vegas--Henderson, NV
+48016 Laughlin, NV
+48043 Laurel, MS
+48070 Laurel, MT
+48124 Laurel Lake, NJ
+48151 Laurens, SC
+48178 Laurinburg, NC
+48205 Laurium, MI
+48232 Lawrence, KS
+48259 Lawrenceburg, KY
+48286 Lawrenceburg, TN
+48313 Lawrenceburg--Greendale--Aurora, IN
+48340 Lawrenceville, IL
+48367 Lawrenceville, VA
+48394 Lawton, OK
+48421 Lead, SD
+48448 Leadville, CO
+48475 Leavenworth, KS
+48485 Leavenworth, WA
+48502 Lebanon, IN
+48529 Lebanon, KY
+48556 Lebanon, MO
+48637 Lebanon, OR
+48664 Lebanon, PA
+48691 Lebanon, TN
+48718 Lebanon, VA
+48728 Lebanon--Hanover, NH--VT
+48745 Lee, MA
+48785 Leesburg, GA
+48799 Leesburg--Eustis--Tavares, FL
+48826 Lee's Summit, MO
+48853 Leesville, LA
+48934 Leitchfield, KY
+48961 Leland, MS
+48988 Le Mars, IA
+49042 Lemoore Station, CA
+49069 Lena, IL
+49096 Leominster--Fitchburg, MA
+49109 Leonardtown, MD
+49123 Le Roy, IL
+49150 Le Roy, NY
+49177 Le Sueur, MN
+49204 Levelland, TX
+49231 Lewes, DE
+49258 Lewisburg, TN
+49285 Lewisburg, WV
+49312 Lewiston, ID--WA
+49339 Lewiston, ME
+49366 Lewistown, MT
+49393 Lewistown, PA
+49447 Lexington, MO
+49474 Lexington, NE
+49528 Lexington, TN
+49555 Lexington, VA
+49582 Lexington-Fayette, KY
+49594 Lexington Park--California--Chesapeake Ranch Es
+49609 Libby, MT
+49636 Liberal, KS
+49663 Liberty, NY
+49690 Liberty, TX
+49717 Ligonier, IN
+49744 Ligonier, PA
+49771 Lihue, HI
+49798 Lillington, NC
+49852 Lima, OH
+49906 Lincoln, IL
+49933 Lincoln, NE
+49934 Lincoln, ND
+49960 Lincoln City, OR
+49987 Lincolnton, NC
+50014 Lindale--Hideaway, TX
+50041 Lindsay, CA
+50068 Lindsay, OK
+50095 Lindsborg, KS
+50122 Lindstrom--Chisago City, MN
+50149 Linton, IN
+50176 Lisbon, OH
+50213 Litchfield, CT
+50230 Litchfield, IL
+50257 Litchfield, MN
+50311 Little Falls, MN
+50338 Little Falls, NY
+50365 Littlefield, TX
+50392 Little Rock, AR
+50419 Littlestown, PA
+50446 Littleton, NH
+50473 Live Oak (Sutter County), CA
+50500 Live Oak, FL
+50527 Livermore, CA
+50554 Livermore Falls, ME
+50608 Livingston, MT
+50635 Livingston, TN
+50662 Livingston, TX
+50679 Livonia, LA
+50716 Llano, TX
+50730 Lochbuie, CO
+50743 Lockhart, TX
+50770 Lock Haven, PA
+50797 Lockport, NY
+50813 Locust, NC
+50851 Lodi, CA
+50878 Lodi, OH
+50905 Lodi, WI
+50932 Logan, OH
+50959 Logan, UT
+50986 Logan, WV
+51013 Logansport, IN
+51026 Lolo, MT
+51040 Lompoc, CA
+51121 London, OH
+51131 London--Corbin, KY
+51142 Long Beach, MD
+51175 Longmont, CO
+51202 Long Neck, DE
+51229 Long Prairie, MN
+51256 Longview, TX
+51283 Longview, WA--OR
+51310 Lonoke, AR
+51322 Lonsdale, MN
+51337 Loogootee, IN
+51364 Lorain--Elyria, OH
+51418 Los Alamos, NM
+51445 Los Angeles--Long Beach--Anaheim, CA
+51472 Los Banos, CA
+51499 Los Lunas, NM
+51513 Los Molinos, CA
+51580 Louisa, KY--WV
+51607 Louisburg, KS
+51634 Louisburg, NC
+51661 Louisiana, MO
+51688 Louisville, GA
+51742 Louisville, MS
+51755 Louisville/Jefferson County, KY--IN
+51769 Lovington, NM
+51796 Lowell, IN
+51823 Lowell, MI
+51850 Lowville, NY
+51877 Lubbock, TX
+51904 Lucasville, OH
+51920 Lucedale, MS
+51958 Ludington, MI
+51985 Lufkin, TX
+52001 Lula, GA
+52039 Luling, TX
+52066 Lumberton, NC
+52093 Luray, VA
+52147 Luverne, MN
+52174 Lykens, PA
+52201 Lynchburg, VA
+52228 Lynden, WA
+52255 Lyndonville, VT
+52309 Lyons, KS
+52341 Lytle, TX
+52352 Mabton, WA
+52363 McAlester, OK
+52390 McAllen, TX
+52417 Macclenny, FL
+52471 McComb, MS
+52498 McConnelsville, OH
+52525 McCook, NE
+52552 McFarland, CA
+52579 McGehee, AR
+52606 McGregor, TX
+52633 McKenzie, TN
+52660 Mackinaw, IL
+52687 McKinney, TX
+52714 McLeansboro, IL
+52741 McMinnville, OR
+52768 McMinnville, TN
+52795 Macomb, IL
+52822 Macon, GA
+52849 Macon, MS
+52876 Macon, MO
+52903 McPherson, KS
+52930 McRae, GA
+52984 Madera, CA
+53011 Madill, OK
+53038 Madison, FL
+53065 Madison, GA
+53092 Madison, IN--KY
+53146 Madison, SD
+53173 Madison, WV
+53200 Madison, WI
+53227 Madisonville, KY
+53254 Madisonville, TN
+53281 Madisonville, TX
+53308 Madras, OR
+53335 Magee, MS
+53362 Magnolia, AR
+53372 Magnolia, TX
+53416 Mahomet, IL
+53443 Maiden, NC
+53470 Malakoff, TX
+53497 Malden, MO
+53524 Malone, NY
+53551 Malvern, AR
+53578 Malvern, OH
+53605 Mammoth Lakes, CA
+53632 Mamou, LA
+53659 Manchester, GA
+53686 Manchester, IA
+53713 Manchester, KY
+53726 Manchester, MD
+53740 Manchester, NH
+53767 Manchester, TN
+53794 Mandeville--Covington, LA
+53821 Mangum, OK
+53848 Manhattan, KS
+53875 Manila, AR
+53902 Manistee, MI
+53929 Manistique, MI
+53956 Manitowoc, WI
+53983 Mankato, MN
+54010 Mannford, OK
+54037 Manning, SC
+54050 Manor, TX
+54064 Mansfield, LA
+54091 Mansfield, OH
+54118 Mansfield, PA
+54145 Manteca, CA
+54199 Manteo, NC
+54226 Manti, UT
+54253 Many, LA
+54280 Maquoketa, IA
+54295 Marana West, AZ
+54307 Marathon, FL
+54334 Marble Falls, TX
+54388 Marengo, IL
+54415 Marianna, AR
+54442 Marianna, FL
+54469 Maricao, PR
+54477 Maricopa, AZ
+54486 Marietta, OH--WV
+54496 Marinette--Menominee, WI--MI
+54577 Marion, IN
+54604 Marion, KY
+54631 Marion, NC
+54658 Marion, OH
+54685 Marion, SC
+54712 Marion, VA
+54739 Marion Oaks, FL
+54778 Marks, MS
+54793 Marksville, LA
+54820 Marlin, TX
+54847 Marlow, OK
+54874 Marquette, MI
+54901 Marseilles, IL
+54928 Marshall, IL
+54955 Marshall, MI
+54982 Marshall, MN
+55009 Marshall, MO
+55036 Marshall, TX
+55063 Marshall, WI
+55090 Marshalltown, IA
+55117 Marshfield, MO
+55144 Marshfield, WI
+55171 Martin, TN
+55198 Martinsburg, PA
+55225 Martinsville, IN
+55252 Martinsville, VA
+55279 Marysville, KS
+55306 Marysville, OH
+55333 Marysville, WA
+55360 Maryville, MO
+55375 Mascoutah, IL
+55414 Mason City, IA
+55441 Masontown, PA
+55468 Massena, NY
+55495 Mathis, TX
+55522 Mattawa, WA
+55576 Mattoon, IL
+55603 Mauldin--Simpsonville, SC
+55684 Mauston, WI
+55738 Mayagüez, PR
+55750 Maybrook, NY
+55765 Mayfield, KY
+55792 Mayodan, NC
+55819 Maysville, KY--OH
+55846 Mayville, WI
+55860 Mazomanie, WI
+55900 Meadville, PA
+55927 Mecca, CA
+55981 Medford, OR
+56008 Medford, WI
+56023 Medical Lake, WA
+56035 Medina, NY
+56072 Medina, TN
+56089 Melrose, MN
+56116 Memphis, TN--MS--AR
+56143 Mena, AR
+56170 Mendota, CA
+56197 Mendota, IL
+56224 Menomonie, WI
+56251 Merced, CA
+56278 Mercer, PA
+56305 Meridian, MS
+56359 Merrill, WI
+56386 Mescalero Park, TX
+56413 Mesquite, NV--AZ
+56440 Metamora, IL
+56467 Metropolis, IL
+56494 Metter, GA
+56521 Mexia, TX
+56548 Mexico, MO
+56575 Meyersdale, PA
+56602 Miami, FL
+56629 Miami, OK
+56656 Michigan City--La Porte, IN--MI
+56710 Middlebury, IN
+56737 Middlebury, VT
+56764 Middlefield, OH
+56791 Middleport, OH--WV
+56818 Middlesborough, KY--TN--VA
+56845 Middletown, DE
+56872 Middletown, IN
+56899 Middletown, NY
+56926 Middletown, OH
+56953 Middleville, MI
+56980 Midland, MI
+57007 Midland, TX
+57061 Mifflinburg, PA
+57069 Mifflintown, PA
+57079 Milaca, MN
+57088 Milan, MI
+57115 Milan, TN
+57142 Milbank, SD
+57169 Miles City, MT
+57196 Milford, DE
+57206 Milford, NJ--PA
+57223 Milledgeville, GA
+57250 Millen, GA
+57277 Millersburg, OH
+57304 Millersburg, PA
+57331 Millinocket, ME
+57358 Millsboro, DE
+57368 Millsboro, PA
+57385 Millstadt, IL
+57395 Milton, DE
+57402 Milton, VT
+57439 Milton--Lewisburg, PA
+57466 Milwaukee, WI
+57493 Minden, LA
+57520 Minden, NE
+57547 Mineola, TX
+57574 Mineral Wells, TX
+57601 Minerva, OH
+57628 Minneapolis--St. Paul, MN--WI
+57655 Minot, ND
+57682 Minot AFB, ND
+57709 Mission Viejo--Lake Forest--San Clemente, CA
+57736 Missoula, MT
+57763 Missouri Valley, IA
+57790 Mitchell, IN
+57817 Mitchell, SD
+57844 Moab, UT
+57871 Moapa Valley, NV
+57898 Moberly, MO
+57925 Mobile, AL
+57952 Mobridge, SD
+57979 Mocksville, NC
+58006 Modesto, CA
+58020 Mojave, CA
+58033 Molalla, OR
+58060 Momence, IL
+58087 Monahans, TX
+58168 Monessen--California, PA
+58195 Monett, MO
+58222 Monmouth, IL
+58249 Monmouth--Independence, OR
+58303 Monroe, GA
+58330 Monroe, LA
+58357 Monroe, MI
+58384 Monroe, WI
+58411 Monroeville, AL
+58420 Montauk, NY
+58428 Mont Belvieu, TX
+58438 Monterey, TN
+58469 Montesano--Elma, WA
+58519 Montevideo, MN
+58546 Monte Vista, CO
+58573 Montezuma, GA
+58600 Montgomery, AL
+58627 Montgomery, MN
+58654 Montgomery, PA
+58664 Montgomery, WV
+58675 Montgomery City, MO
+58708 Monticello, AR
+58721 Monticello, GA
+58735 Monticello, IL
+58762 Monticello, IN
+58789 Monticello, IA
+58816 Monticello, KY
+58843 Monticello, NY
+58870 Monticello--Big Lake, MN
+58924 Montpelier, OH
+58951 Montrose, CO
+58961 Montrose, MN
+58972 Moodus, CT
+58992 Moorefield, WV
+59005 Moore Haven, FL
+59059 Moorhead, MS
+59098 Moose Lake, MN
+59113 Mora, MN
+59167 Morehead, KY
+59194 Morehead City, NC
+59210 Morgan, UT
+59221 Morgan City, LA
+59248 Morganfield, KY
+59275 Morgantown, WV
+59302 Morrilton, AR
+59329 Morris, IL
+59356 Morris, MN
+59383 Morrison, IL
+59410 Morristown, TN
+59437 Morro Bay--Los Osos, CA
+59464 Morton, MS
+59491 Moscow, ID
+59501 Moscow, PA
+59518 Moses Lake, WA
+59545 Moulton, AL
+59572 Moultrie, GA
+59605 Moundville, AL
+59626 Mountain City, TN
+59653 Mountain Grove, MO
+59680 Mountain Home, AR
+59707 Mountain Home, ID
+59734 Mountain Home AFB, ID
+59745 Mountain House, CA
+59761 Mountain Lake Park, MD
+59815 Mount Airy, NC--VA
+59827 Mount Angel, OR
+59842 Mount Carmel, IL
+59896 Mount Gilead, OH
+59910 Mount Holly Springs, PA
+59923 Mount Hood Village, OR
+59950 Mount Horeb, WI
+59977 Mount Morris, IL
+60004 Mount Morris, NY
+60031 Mount Olive, NC
+60058 Mount Orab, OH
+60085 Mount Pleasant, IA
+60112 Mount Pleasant, MI
+60139 Mount Pleasant, TN
+60166 Mount Pleasant, TX
+60176 Mount Pleasant, UT
+60195 Mount Pocono--Emerald Lakes, PA
+60223 Mount Shasta--Weed, CA
+60247 Mount Sterling, IL
+60274 Mount Sterling, KY
+60301 Mount Union, PA
+60328 Mount Vernon, IL
+60355 Mount Vernon, IN
+60382 Mount Vernon, IA
+60409 Mount Vernon, KY
+60436 Mount Vernon, MO
+60463 Mount Vernon, OH
+60473 Mount Vernon, TX
+60490 Mount Vernon, WA
+60517 Mukwonago, WI
+60546 Muldrow--Roland, OK
+60571 Muleshoe, TX
+60598 Mullins, SC
+60625 Muncie, IN
+60652 Muncy, PA
+60684 Munising, MI
+60706 Murfreesboro, NC
+60733 Murfreesboro, TN
+60760 Murphysboro, IL
+60787 Murray, KY
+60799 Murrieta--Temecula--Menifee, CA
+60814 Muscatine, IA
+60841 Muskegon, MI
+60868 Muskogee, OK
+60895 Myrtle Beach--Socastee, SC--NC
+60930 Mystic Island, NJ
+60949 Nacogdoches, TX
+60976 Nampa, ID
+61003 Nantucket, MA
+61030 Nanty-Glo, PA
+61057 Napa, CA
+61084 Napoleon, OH
+61111 Nappanee, IN
+61138 Narrows, VA--WV
+61165 Nashua, NH--MA
+61192 Nashville, AR
+61219 Nashville, GA
+61246 Nashville, IL
+61273 Nashville-Davidson, TN
+61300 Nassau Village-Ratliff, FL
+61327 Natchez, MS--LA
+61354 Natchitoches, LA
+61381 Navasota, TX
+61408 Nebraska City, NE
+61435 Needles, CA--AZ
+61462 Needville, TX
+61478 Nelson, GA
+61489 Nelsonville, OH
+61516 Neodesha, KS
+61543 Neosho, MO
+61570 Nephi, UT
+61597 Nevada, IA
+61624 Nevada, MO
+61651 New Albany, MS
+61678 Newark, NY
+61705 Newark, OH
+61732 Newaygo, MI
+61759 New Baden, IL
+61786 New Bedford, MA
+61813 Newberg, OR
+61840 New Bern, NC
+61867 Newberry, MI
+61894 Newberry, SC
+61921 New Boston, TX
+61975 New Bremen--Minster, OH
+62056 New Carlisle, IN
+62110 New Castle, CO
+62137 New Castle, IN
+62164 New Castle, PA
+62191 Newcastle, WY
+62218 Newcomerstown, OH
+62245 New Concord, OH
+62272 New Cordell, OK
+62326 Newfane, NY
+62353 New Freedom--Shrewsbury, PA--MD
+62380 New Hampton, IA
+62407 New Haven, CT
+62461 New Lebanon, OH
+62488 New Lexington, OH
+62505 New London, MN
+62515 New London, WI
+62542 New Madrid, MO
+62569 Newman, CA
+62623 New Martinsville, WV--OH
+62677 New Orleans, LA
+62731 New Philadelphia--Dover, OH
+62758 Newport, AR
+62785 Newport, NH
+62839 Newport, OR
+62866 Newport, PA
+62893 Newport, TN
+62920 Newport, VT
+62930 Newport, WA--ID
+62947 New Prague, MN
+62964 New Richmond, OH
+62974 New Richmond, WI
+63001 New Roads, LA
+63028 New Tazewell, TN
+63055 Newton, IL
+63082 Newton, IA
+63109 Newton, KS
+63136 Newton, MS
+63137 Newton, NJ
+63163 New Ulm, MN
+63190 New Wilmington, PA
+63217 New York--Newark, NY--NJ--CT
+63244 Nicholasville, KY
+63271 Nine Mile Falls, WA
+63282 Nipomo, CA
+63298 Nocona, TX
+63325 Nogales, AZ
+63352 Nokomis, IL
+63379 Nome, AK
+63406 Norfolk, NE
+63433 Norman, OK
+63447 Norris, TN
+63460 North Adams, MA--VT
+63487 North Baltimore, OH
+63541 North Branch, MN
+63568 North Brookfield, MA
+63579 North Conway, NH
+63588 North Eagle Butte, SD
+63622 North East, PA
+63649 Northern Cambria, PA
+63676 Northfield, MN
+63703 Northfield, VT
+63784 North Manchester, IN
+63811 North Platte, NE
+63838 North Port--Port Charlotte, FL
+63851 North Shore, CA
+63865 North Vernon, IN
+63892 North Webster, IN
+63946 North Wilkesboro--Wilkesboro, NC
+64000 Norton, KS
+64027 Norton--Wise, VA
+64054 Norwalk, OH
+64108 Norwich, NY
+64135 Norwich--New London, CT--RI
+64189 Norwood Young America, MN
+64216 Nowata, OK
+64243 Nyssa, OR
+64297 Oakdale, LA
+64351 Oak Harbor, OH
+64378 Oak Harbor, WA
+64432 Oakhurst, CA
+64459 Oak Island, NC
+64475 Oakland, TN
+64486 Oakland City, IN
+64513 Oakridge, OR
+64550 Oberlin, OH
+64567 Ocala, FL
+64577 Ocala Estates, FL
+64594 Oceana, WV
+64648 Ocean Park, WA
+64660 Ocean Pines, MD--DE
+64675 Ocean Shores, WA
+64702 Ocean View, DE
+64729 Ocilla, GA
+64756 Oconto, WI
+64783 Oconto Falls, WI
+64810 Odem, TX
+64837 Odessa, MO
+64864 Odessa, TX
+64891 Oelwein, IA
+64918 Ogallala, NE
+64945 Ogden--Layton, UT
+64972 Ogdensburg, NY
+64999 Oil City, PA
+65026 Okeechobee--Taylor Creek, FL
+65053 Okemah, OK
+65080 Oklahoma City, OK
+65107 Okmulgee, OK
+65161 Olean, NY
+65188 Olney, IL
+65215 Olney, TX
+65242 Olympia--Lacey, WA
+65269 Omaha, NE--IA
+65296 Omak, WA
+65323 Omro, WI
+65338 Onalaska, TX
+65350 Onawa, IA
+65404 Oneida, NY
+65431 Oneida, TN
+65458 O'Neill, NE
+65485 Oneonta, AL
+65512 Oneonta, NY
+65539 Ontario, OR--ID
+65566 Oostburg, WI
+65593 Opelousas, LA
+65620 Opp, AL
+65674 Orange, VA
+65701 Orangeburg, SC
+65728 Orange City, IA
+65755 Orange Cove, CA
+65767 Orangetree, FL
+65782 Oregon, IL
+65809 Oregon, WI
+65836 Orland, CA
+65863 Orlando, FL
+65890 Orofino, ID
+65917 Orosi, CA
+65944 Oroville, CA
+65971 Orrville, OH
+66025 Orwigsburg, PA
+66052 Osage, IA
+66060 Osage Beach, MO
+66068 Osage City, KS
+66079 Osawatomie, KS
+66093 Osburn, ID
+66106 Osceola, AR
+66133 Osceola, IA
+66134 Osceola, WI
+66160 Oshkosh, WI
+66187 Oskaloosa, IA
+66214 Ossian, IN
+66241 Oswego, NY
+66268 Othello, WA
+66276 Otisville, NY
+66285 Otsego--Plainwell, MI
+66295 Ottawa, IL
+66322 Ottawa, KS
+66349 Ottawa, OH
+66376 Ottumwa, IA
+66430 Owatonna, MN
+66457 Owego, NY
+66484 Owensboro, KY
+66511 Owensville, MO
+66538 Owosso, MI
+66565 Oxford, MS
+66592 Oxford, NC
+66619 Oxford, OH
+66673 Oxnard, CA
+66690 Ozark, AL
+66700 Ozark, AR
+66727 Ozona, TX
+66740 Pacific, MO
+66754 Paden City, WV
+66781 Paducah, KY--IL
+66808 Page, AZ
+66835 Pageland, SC
+66889 Pagosa Springs, CO
+66916 Pahokee, FL
+66943 Pahrump, NV
+66997 Paintsville, KY
+67024 Palacios, TX
+67051 Palatka, FL
+67078 Palestine, TX
+67105 Palm Bay--Melbourne, FL
+67134 Palm Coast--Daytona Beach--Port Orange, FL
+67213 Palmyra, MO
+67223 Palmyra, NY
+67231 Paloma Creek South--Paloma Creek, TX
+67240 Pampa, TX
+67267 Pana, IL
+67294 Panama City, FL
+67305 Panama City Northeast, FL
+67321 Paola, KS
+67348 Paoli, IN
+67375 Paradise, CA
+67402 Paragould, AR
+67456 Paris, AR
+67483 Paris, IL
+67510 Paris, KY
+67537 Paris, TN
+67564 Paris, TX
+67618 Park City, UT
+67645 Parker, AZ--CA
+67672 Parkersburg, WV--OH
+67726 Park Rapids, MN
+67753 Parlier, CA
+67765 Parowan, UT
+67780 Parsons, KS
+67807 Pascagoula, MS
+67861 Patterson, CA
+67882 Patton, PA
+67915 Paulding, OH
+67942 Pauls Valley, OK
+67969 Pawhuska, OK
+67996 Pawleys Island, SC
+68050 Pawnee, IL
+68077 Paw Paw, MI
+68106 Paw Paw Lake--Hartford, MI
+68131 Paxton, IL
+68158 Payson, AZ
+68171 Peaceful Valley, WA
+68196 Pearisburg, VA
+68212 Pearsall, TX
+68228 Pecan Acres, TX
+68239 Pecan Plantation, TX
+68266 Pecos, TX
+68320 Pelham, GA
+68347 Pella, IA
+68374 Pell City, AL
+68401 Pembroke, NC
+68428 Pendleton, OR
+68455 Penn Yan, NY
+68482 Pensacola, FL--AL
+68509 Peoria, IL
+68536 Peotone, IL
+68572 Perham, MN
+68590 Perry, FL
+68644 Perry, IA
+68671 Perry, MI
+68698 Perry, NY
+68725 Perry, OK
+68752 Perryton, TX
+68779 Perryville, MO
+68806 Peru, IN
+68833 Peru--LaSalle, IL
+68860 Peshtigo, WI
+68887 Petaluma, CA
+68900 Peterborough, NH
+68941 Petersburg, IL
+68995 Petersburg, WV
+69022 Petoskey, MI
+69034 Phelan, CA
+69049 Philadelphia, MS
+69076 Philadelphia, PA--NJ--DE--MD
+69103 Philippi, WV
+69130 Philipsburg, PA
+69157 Phillipsburg, KS
+69184 Phoenix--Mesa, AZ
+69211 Picayune, MS
+69238 Picture Rocks, AZ
+69265 Piedmont, AL
+69292 Pierre, SD
+69319 Pierre Part, LA
+69346 Piggott, AR
+69373 Pikeville, KY
+69400 Pilot Point, TX
+69427 Pinckneyville, IL
+69454 Pine Bluff, AR
+69481 Pine City, MN
+69508 Pine Grove, PA
+69517 Pinehurst--Southern Pines, NC
+69526 Pine Island, MN
+69535 Pine Ridge, SD
+69589 Pipestone, MN
+69616 Piqua, OH
+69632 Pittsboro, NC
+69643 Pittsburg, KS
+69670 Pittsburg, TX
+69697 Pittsburgh, PA
+69724 Pittsfield, IL
+69751 Pittsfield, ME
+69778 Pittsfield, MA
+69832 Placerville--Diamond Springs, CA
+69886 Plain City, OH
+69940 Plainview, MN
+69967 Plainview, TX
+70021 Planada, CA
+70102 Platte City, MO
+70129 Platteville, WI
+70156 Plattsburgh, NY
+70183 Plattsmouth, NE
+70210 Pleasant Hill, MO
+70237 Pleasanton, TX
+70270 Pleasant View, TN
+70280 Plumas Lake, CA
+70291 Plymouth, IN
+70318 Plymouth, NH
+70345 Plymouth, NC
+70372 Plymouth, WI
+70399 Pocahontas, AR
+70426 Pocatello, ID
+70453 Pocomoke City, MD
+70465 Pocono Woodland Lakes, PA
+70480 Poinciana, FL
+70490 Poinciana Southwest, FL
+70507 Point Pleasant--Gallipolis, OH--WV
+70534 Pojoaque, NM
+70548 Polk City, IA
+70588 Polson, MT
+70615 Ponca City, OK
+70642 Ponce, PR
+70669 Pontiac, IL
+70696 Pontotoc, MS
+70750 Poolesville, MD
+70777 Poplar, MT
+70804 Poplar Bluff, MO
+70815 Poplar-Cotton Center, CA
+70831 Portage, PA
+70858 Portage, WI
+70885 Portageville, MO
+70912 Portales, NM
+70939 Port Angeles, WA
+70993 Port Arthur, TX
+71020 Port Barre, LA
+71047 Port Clinton, OH
+71074 Porterville, CA
+71128 Port Hadlock-Irondale, WA
+71155 Port Huron, MI
+71182 Port Isabel--Laguna Heights, TX
+71209 Port Jervis, NY--PA
+71236 Portland, IN
+71263 Portland, ME
+71290 Portland, MI
+71317 Portland, OR--WA
+71344 Portland, TN--KY
+71371 Port Lavaca, TX
+71398 Portola, CA
+71452 Port St. Joe, FL
+71479 Port St. Lucie, FL
+71506 Portsmouth, NH--ME
+71533 Portsmouth, OH--KY
+71560 Port Townsend, WA
+71614 Post, TX
+71641 Poteau, OK
+71668 Poteet, TX
+71695 Potosi, MO
+71722 Potsdam, NY
+71749 Pottstown, PA
+71776 Pottsville, PA
+71803 Poughkeepsie--Newburgh, NY--NJ
+71830 Powell, WY
+71857 Prairie du Chien, WI--IA
+71884 Prairie du Sac--Sauk City, WI
+71911 Prairie Grove, AR
+71938 Prairie View, TX
+71965 Pratt, KS
+72019 Premont, TX
+72073 Prescott, AR
+72100 Prescott, WI
+72112 Prescott Valley--Prescott, AZ
+72120 Presidential Lakes Estates, NJ
+72127 Presidio, TX
+72154 Presque Isle, ME
+72181 Preston, ID
+72208 Prestonsburg, KY
+72235 Price, UT
+72244 Priceville, AL
+72253 Prince Frederick, MD
+72262 Princess Anne, MD
+72289 Princeton, IL
+72316 Princeton, IN
+72343 Princeton, KY
+72370 Princeton, MN
+72410 Princeville, HI
+72424 Prineville, OR
+72505 Providence, RI--MA
+72532 Provincetown, MA
+72559 Provo--Orem, UT
+72586 Pryor Creek, OK
+72613 Pueblo, CO
+72640 Pukalani--Makawao--Haiku-Pauwela, HI
+72667 Pulaski, TN
+72694 Pulaski, VA
+72721 Pulaski, WI
+72748 Pullman, WA
+72775 Punxsutawney, PA
+72829 Purcell, OK
+72856 Purcellville, VA
+72910 Quarryville, PA
+72937 Quartzsite, AZ
+73018 Quincy, FL
+73045 Quincy, IL
+73072 Quincy, WA
+73126 Quitman, GA
+73136 Quitman, TX
+73153 Racine, WI
+73245 Rainbow Lakes Estates, FL
+73261 Raleigh, NC
+73288 Ramona, CA
+73300 Ramseur, NC
+73315 Rancho Calaveras--Valley Springs, CA
+73342 Rancho Murieta, CA
+73369 Rantoul, IL
+73396 Rapid City, SD
+73423 Rathdrum, ID
+73450 Raton, NM
+73477 Ravena, NY
+73504 Ravenswood, WV
+73531 Rawlins, WY
+73554 Raymond, MS
+73585 Raymond, WA
+73612 Raymondville, TX
+73639 Rayne, LA
+73666 Rayville, LA
+73693 Reading, PA
+73720 Red Bluff, CA
+73747 Red Bud, IL
+73774 Redding, CA
+73828 Red Hook, NY
+73882 Redmond, OR
+73909 Red Oak, IA
+73936 Red Springs, NC
+73963 Red Wing, MN
+73990 Redwood Falls, MN
+74044 Reedley--Dinuba, CA
+74071 Reedsburg, WI
+74098 Reedsport, OR
+74125 Refugio, TX
+74142 Reidsville, GA
+74152 Reidsville, NC
+74179 Reno, NV--CA
+74206 Rensselaer, IN
+74260 Rexburg, ID
+74287 Reynoldsville, PA
+74314 Rhinebeck, NY
+74341 Rhinelander, WI
+74368 Rice Lake, WI
+74395 Richfield, UT
+74449 Richgrove, CA
+74557 Richland Center, WI
+74584 Richlands, VA
+74601 Richlands South, NC
+74638 Richmond, IN--OH
+74665 Richmond, KY
+74692 Richmond, MI
+74719 Richmond, MO
+74746 Richmond, VA
+74827 Ridgecrest, CA
+74840 Ridgefield, WA
+74854 Ridgeland, SC
+74881 Ridge Manor, FL
+74908 Ridgway, PA
+74935 Rifle, CO
+74962 Rigby, ID
+74989 Rincon, GA
+75016 Rio Bravo--El Cenizo, TX
+75043 Rio Dell, CA
+75072 Rio Grande City--Roma, TX
+75080 Rio Hondo, TX
+75089 Rio Rico Northeast, AZ
+75097 Rio Vista, CA
+75124 Ripley, MS
+75151 Ripley, TN
+75178 Ripley, WV
+75205 Ripon, WI
+75270 Riverdale, CA
+75286 River Falls, WI
+75340 Riverside--San Bernardino, CA
+75367 Riverton, WY
+75394 Roanoke, AL
+75421 Roanoke, VA
+75448 Roanoke Rapids, NC
+75475 Roaring Spring, PA
+75502 Robertsdale, AL
+75529 Robinson, IL
+75556 Robstown, TX
+75583 Rochelle, IL
+75610 Rochester, IN
+75637 Rochester, MN
+75664 Rochester, NY
+75691 Rockdale, TX
+75718 Rockford, IL
+75732 Rockford, MN
+75745 Rock Hill, SC
+75772 Rockingham--Hamlet, NC
+75799 Rockland, ME
+75826 Rockmart, GA
+75853 Rockport, TX
+75880 Rock Springs, WY
+75907 Rock Valley, IA
+75934 Rockville, IN
+75961 Rocky Ford, CO
+75988 Rocky Mount, NC
+76015 Rocky Mount, VA
+76042 Rogers City, MI
+76059 Rogersville, MO
+76069 Rogersville, TN
+76123 Rolla, MO
+76177 Romancoke, MD
+76204 Rome, GA
+76231 Rome, NY
+76258 Roosevelt, UT
+76285 Rosamond, CA
+76312 Roseau, MN
+76339 Roseburg, OR
+76366 Rose Hill, KS
+76447 Roswell, NM
+76474 Round Lake Beach--McHenry--Grayslake, IL--WI
+76501 Roxboro, NC
+76528 Roxborough Park, CO
+76582 Royston, GA
+76595 Ruckersville, VA
+76609 Rugby, ND
+76636 Ruidoso, NM
+76663 Ruleville, MS
+76690 Rumford, ME
+76717 Running Springs, CA
+76744 Rupert, ID
+76759 Rush City, MN
+76771 Rushville, IL
+76798 Rushville, IN
+76825 Rusk, TX
+76852 Russell, KS
+76879 Russells Point, OH
+76906 Russellville, AL
+76933 Russellville, AR
+76960 Russellville, KY
+76987 Ruston, LA
+77014 Rutland, VT
+77027 Sabetha, KS
+77041 Sabina, OH
+77068 Sacramento, CA
+77095 Safford, AZ
+77149 Saginaw, MI
+77161 Sahuarita--Green Valley, AZ
+77176 St. Albans, VT
+77203 St. Anthony, ID
+77230 St. Augustine, FL
+77284 St. Charles, MN
+77311 St. Clair, MO
+77338 St. Cloud, MN
+77365 Ste. Genevieve, MO
+77392 St. Francis, MN
+77446 St. George, UT
+77500 St. Helena, CA
+77527 St. Helens, OR
+77554 St. Ignace, MI
+77581 St. James, MN
+77608 St. James, MO
+77618 St. James, NC
+77635 St. Johns, AZ
+77662 St. Johns, MI
+77689 St. Johnsbury, VT
+77716 St. Joseph, IL
+77743 St. Joseph, MO--KS
+77770 St. Louis, MO--IL
+77797 St. Maries, ID
+77824 St. Martinville, LA
+77841 St. Marys, KS
+77851 St. Marys, OH
+77878 St. Marys, PA
+77905 St. Marys, WV--OH
+77932 St. Marys--Kingsland, GA
+77986 St. Pauls, NC
+78013 St. Peter, MN
+78026 St. Simons, GA
+78067 Salamanca, NY
+78094 Salem, IL
+78121 Salem, IN
+78148 Salem, MO
+78175 Salem, NJ
+78202 Salem, OH
+78229 Salem, OR
+78256 Salida, CO
+78283 Salina, KS
+78310 Salinas, CA
+78364 Salisbury, MD--DE
+78418 Sallisaw, OK
+78445 Salmon, ID
+78472 Saltillo, MS
+78499 Salt Lake City--West Valley City, UT
+78526 Saluda, SC
+78553 San Angelo, TX
+78580 San Antonio, TX
+78607 San Carlos, AZ
+78634 Sandersville, GA
+78661 San Diego, CA
+78688 San Diego, TX
+78715 Sandpoint, ID
+78742 Sandusky, MI
+78769 Sandusky, OH
+78823 Sandy, OR
+78850 Sanford, ME
+78877 Sanford, NC
+78904 San Francisco--Oakland, CA
+78931 Sanger, CA
+78958 Sanger, TX
+78985 San Germán--Cabo Rojo--Sabana Grande, PR
+79012 San Joaquin, CA
+79039 San Jose, CA
+79066 San Jose (Tinian Municipality), MP
+79093 San Juan, PR
+79120 San Luis, AZ
+79147 San Luis Obispo, CA
+79174 San Manuel, AZ
+79201 San Marcos, TX
+79255 San Saba, TX
+79282 Santa Barbara, CA
+79309 Santa Clarita, CA
+79336 Santa Cruz, CA
+79363 Santa Fe, NM
+79390 Santa Isabel, PR
+79417 Santa Maria, CA
+79444 Santa Paula, CA
+79471 Santaquin, UT
+79498 Santa Rosa, CA
+79525 Santa Rosa, NM
+79537 Santa Rosa Beach, FL
+79552 Santo Domingo Pueblo, NM
+79579 Saranac Lake, NY
+79606 Sarasota--Bradenton, FL
+79633 Saratoga Springs, NY
+79687 Sauk Centre, MN
+79714 Sault Ste. Marie, MI
+79741 Savanna, IL--IA
+79768 Savannah, GA
+79795 Savannah, MO
+79822 Savannah, TN
+79834 Saw Creek, PA
+79876 Sayre, OK
+79903 Sayre--Waverly, PA--NY
+79930 Schulenburg, TX
+79957 Schuyler, NE
+80011 Scott City, KS
+80038 Scott City, MO
+80065 Scottsbluff, NE
+80092 Scottsboro, AL
+80119 Scottsburg, IN
+80173 Scottsville, KY
+80227 Scranton, PA
+80281 Sealy, TX
+80308 Searcy, AR
+80335 Seaside, OR
+80362 Seaside--Monterey, CA
+80389 Seattle, WA
+80400 Sebastian--Vero Beach South--Florida Ridge, FL
+80416 Sebring--Avon Park, FL
+80443 Sedalia, MO
+80470 Sedona, AZ
+80497 Seguin, TX
+80524 Selma, AL
+80551 Selma, CA
+80578 Selmer, TN
+80605 Seminole, OK
+80632 Seminole, TX
+80659 Senatobia, MS
+80671 Seneca, SC
+80686 Sequim, WA
+80695 Seven Lakes, NC
+80704 Severance, CO
+80713 Sevierville, TN
+80740 Seville, OH
+80767 Seward, NE
+80794 Seymour, IN
+80848 Seymour (Outagamie County), WI
+80875 Shady Cove, OR
+80902 Shady Side--Deale, MD
+80929 Shafter, CA
+80956 Shallowater, TX
+80985 Shamokin--Mount Carmel, PA
+81002 Shannondale, WV
+81064 Shawano, WI
+81091 Shawnee, OK
+81118 Sheboygan, WI
+81172 Shelby, MT
+81199 Shelby, NC
+81226 Shelby, OH
+81253 Shelbyville, IL
+81280 Shelbyville, IN
+81307 Shelbyville, KY
+81334 Shelbyville, TN
+81361 Sheldon, IA
+81388 Shelley, ID
+81415 Shelton, WA
+81442 Shenandoah, IA
+81472 Shenandoah--Mahanoy City--Frackville, PA
+81496 Shepherdstown, WV--MD
+81523 Sheridan, AR
+81550 Sheridan, IN
+81577 Sheridan, OR
+81604 Sheridan, WY
+81631 Sherman, TX
+81658 Shippensburg, PA
+81685 Shiprock, NM
+81701 Shorewood Forest, IN
+81712 Show Low, AZ
+81739 Shreveport, LA
+81766 Sibley, IA
+81793 Sidney, MT
+81820 Sidney, NE
+81847 Sidney, NY
+81874 Sidney, OH
+81889 Sierra View--Indian Mountain Lake, PA
+81901 Sierra Vista, AZ
+81928 Sikeston, MO
+81955 Siler City, NC
+81982 Siloam Springs, AR--OK
+82009 Silsbee, TX
+82023 Silt, CO
+82036 Silver City, NM
+82063 Silver Creek, NY
+82076 Silver Lakes, CA
+82090 Silverthorne--Frisco, CO
+82117 Silverton, OR
+82144 Simi Valley, CA
+82171 Sinton, TX
+82198 Sioux Center, IA
+82225 Sioux City, IA--NE--SD
+82252 Sioux Falls, SD
+82279 Sissonville, WV
+82306 Sitka, AK
+82333 Skaneateles, NY
+82360 Skiatook, OK
+82387 Skowhegan, ME
+82414 Slaton, TX
+82441 Sleepy Eye, MN
+82468 Slidell, LA
+82495 Slippery Rock, PA
+82522 Smithfield, NC
+82549 Smithfield, VA
+82562 Smithton, IL
+82603 Smithville, TN
+82630 Smithville, TX
+82641 Smithville North, MO
+82665 Sneads Ferry, NC
+82675 Snoqualmie, WA
+82684 Snowflake, AZ
+82711 Snyder, TX
+82724 Social Circle, GA
+82738 Socorro, NM
+82765 Soda Springs, ID
+82792 Sodus, NY
+82819 Soldotna, AK
+82846 Soledad, CA
+82873 Solvang--Buellton--Santa Ynez, CA
+82900 Somerset, KY
+82913 Somerset, MI
+82927 Somerset, PA
+82937 Somerset, WI
+82981 Somerton, AZ
+83008 Sonoma, CA
+83062 Sonora, TX
+83073 Sonora--Jamestown--Phoenix Lake, CA
+83089 Soperton, GA
+83116 South Bend, IN--MI
+83143 South Boston, VA
+83156 South Deerfield, MA
+83210 South Fallsburg, NY
+83251 South Haven, MI
+83278 South Hill, VA
+83305 South Lake Tahoe, CA--NV
+83332 South Lyon--Howell, MI
+83359 Southold, NY
+83368 South Paris, ME
+83377 South Pittsburg, TN--AL
+83386 South Vacherie, LA
+83440 Sparta, GA
+83467 Sparta, IL
+83480 Sparta, MI
+83494 Sparta, TN
+83521 Sparta, WI
+83548 Spartanburg, SC
+83575 Spearfish, SD
+83602 Spearman, TX
+83629 Spencer, IA
+83656 Spencer, WV
+83710 Spirit Lake, IA
+83764 Spokane, WA
+83791 Spooner, WI
+83818 Spout Springs, NC
+83851 Spring Creek North, NV
+83859 Spring Creek South, NV
+83872 Springfield, GA
+83899 Springfield, IL
+83926 Springfield, MA--CT
+83953 Springfield, MO
+83980 Springfield, OH
+83993 Springfield, TN
+84007 Springfield, VT
+84024 Spring Hill, FL
+84034 Spring Hill, KS
+84061 Springhill, LA
+84088 Spring Hill, TN
+84115 Springs, NY
+84124 Springtown, TX
+84132 Springville, AL
+84142 Springville, NY
+84155 Spruce Pine, NC
+84169 Stafford Springs, CT
+84223 Stamford, TX
+84277 Stanford, KY
+84290 Stanley, WI
+84304 Stansbury Park, UT
+84331 Stanton, KY
+84385 Stanwood, WA
+84412 Staples, MN
+84429 Star, ID
+84439 Starke, FL
+84466 Starkville, MS
+84493 State College, PA
+84547 Statesboro, GA
+84601 Staunton, IL
+84630 Staunton--Waynesboro, VA
+84655 Stayton, OR
+84682 Steamboat Springs, CO
+84736 Steeleville, IL
+84763 Stephenville, TX
+84790 Sterling, CO
+84817 Sterling, IL
+84871 Stevens Point, WI
+84925 Stewartstown, PA
+84952 Stewartville, MN
+84979 Stigler, OK
+85033 Stillwater, OK
+85060 Stilwell, OK
+85087 Stockton, CA
+85114 Storm Lake, IA
+85168 Story City, IA
+85195 Strasburg, VA
+85208 Strawberry Plains, TN
+85222 Streator, IL
+85249 Stuarts Draft, VA
+85276 Sturgeon Bay, WI
+85303 Sturgis, MI
+85330 Sturgis, SD
+85357 Stuttgart, AR
+85390 Sugarmill Woods, FL
+85411 Sullivan, IL
+85438 Sullivan, IN
+85465 Sullivan, MO
+85492 Sullivan City, TX
+85519 Sulphur, OK
+85546 Sulphur Springs, TX
+85573 Sultan, WA
+85600 Sumiton, AL
+85627 Summersville, WV
+85654 Summerville, GA
+85681 Summit Park, UT
+85708 Sumter, SC
+85762 Sunbury, PA
+85775 Sun City Hilton Head, SC
+85789 Sunnyside, WA
+85802 Sunrise Shores, TX
+85816 Sunset, LA
+85843 Superior, AZ
+85870 Susanville, CA
+85924 Susquehanna Depot, PA
+85978 Sutherlin, OR
+86005 Swainsboro, GA
+86024 Swansboro, NC
+86059 Swanton, VT
+86086 Sweeny, TX
+86113 Sweet Home, OR
+86140 Sweetwater, TN
+86167 Sweetwater, TX
+86194 Sylacauga, AL
+86210 Sylvan Beach, NY
+86221 Sylvania, GA
+86248 Sylvester, GA
+86275 Syracuse, IN
+86302 Syracuse, NY
+86315 Tabor City, NC--SC
+86329 Taft, CA
+86356 Taft, TX
+86369 Tafuna, AS
+86383 Tahlequah, OK
+86410 Tahoka, TX
+86437 Talladega, AL
+86464 Tallahassee, FL
+86491 Tallassee, AL
+86518 Tallulah, LA
+86545 Tama, IA
+86572 Tamaqua, PA
+86599 Tampa--St. Petersburg, FL
+86626 Taneytown, MD
+86653 Taos, NM
+86680 Tappahannock, VA
+86707 Tarboro, NC
+86734 Taylor, TX
+86761 Taylorsville, NC
+86788 Taylorville, IL
+86815 Tazewell, VA
+86830 Tea, SD
+86842 Teague, TX
+86869 Tehachapi--Golden Hills, CA
+86950 Tell City, IN--KY
+87058 Temple, TX
+87112 Terra Bella, CA
+87139 Terre Haute, IN
+87166 Terrell, TX
+87193 Texarkana--Texarkana, TX--AR
+87220 Texas City, TX
+87247 Thayer, MO--AR
+87263 The Dalles, OR--WA
+87301 Thermopolis, WY
+87355 Thief River Falls, MN
+87382 Thomaston, GA
+87409 Thomasville, AL
+87436 Thomasville, GA
+87463 Thomson, GA
+87490 Thousand Oaks, CA
+87517 Three Rivers, MI
+87544 Thurmont, MD
+87571 Ticonderoga, NY
+87598 Tiffin, OH
+87625 Tifton, GA
+87652 Tillamook, OR
+87669 Tipton, CA
+87679 Tipton, IN
+87706 Tipton, IA
+87733 Tipton, MO
+87787 Titusville, FL
+87814 Titusville, PA
+87841 Toccoa, GA
+87868 Toledo, OH--MI
+87895 Toledo, OR
+87922 Tomah, WI
+87949 Tomahawk, WI
+88003 Tonganoxie, KS
+88030 Tonkawa, OK
+88057 Tooele, UT
+88084 Topeka, KS
+88111 Toppenish, WA
+88165 Tornillo, TX
+88192 Torrington, CT
+88219 Torrington, WY
+88246 Towanda, PA
+88273 Tracy, CA
+88300 Traverse City, MI
+88327 Treasure Lake, PA
+88354 Tremonton, UT
+88371 Trenton, FL
+88381 Trenton, GA
+88408 Trenton, IL
+88435 Trenton, MO
+88462 Trenton, NJ
+88489 Trenton, TN
+88504 Tri-City--Myrtle Creek, OR
+88516 Trinidad, CO
+88526 Trinity, TX
+88543 Troy, AL
+88570 Troy, MO
+88597 Troy, NC
+88624 Truckee, CA
+88651 Trumann, AR
+88678 Truth or Consequences, NM
+88705 Tuba City, AZ
+88732 Tucson, AZ
+88813 Tucumcari, NM
+88867 Tularosa, NM
+88894 Tulia, TX
+88921 Tullahoma, TN
+88948 Tulsa, OK
+88975 Tunica, MS
+89002 Tunkhannock, PA
+89029 Tupelo, MS
+89056 Tupper Lake, NY
+89083 Turlock, CA
+89110 Tuscaloosa, AL
+89137 Tuscola, IL
+89164 Tuskegee, AL
+89177 Tuttle, OK
+89191 Twentynine Palms, CA
+89218 Twentynine Palms Base, CA
+89245 Twin Falls, ID
+89254 Twin Lakes, VA
+89263 Twin Rivers--Hightstown, NJ
+89272 Two Harbors, MN
+89299 Tybee Island, GA
+89326 Tyler, TX
+89353 Tyrone, PA
+89380 Ukiah, CA
+89407 Ulysses, KS
+89425 Unadilla, GA
+89461 Union, MO
+89488 Union, SC
+89515 Union City, IN--OH
+89542 Union City, PA
+89569 Union City, TN
+89596 Union Grove, WI
+89623 Union Springs, AL
+89650 Uniontown--Connellsville, PA
+89704 Upland, IN
+89719 Upper Greenwood Lake, NJ
+89731 Upper Sandusky, OH
+89758 Urbana, OH
+89770 Urban Honolulu, HI
+89785 Utica, NY
+89839 Uvalde, TX
+89866 Vacaville, CA
+89893 Vado, NM
+89910 Vail, AZ
+89920 Vail, CO
+89947 Valatie, NY
+89974 Valdosta, GA
+90001 Valentine, NE
+90028 Vallejo, CA
+90055 Valley City, ND
+90082 Valley--Lanett, AL--GA
+90122 Van, TX
+90136 Vandalia, IL
+90163 Vandalia, MO
+90182 Vandenberg AFB, CA
+90217 Van Wert, OH
+90244 Vassar, MI
+90271 Veneta, OR
+90282 Venus, TX
+90298 Vergennes, VT
+90325 Vermillion, SD
+90352 Vernal, UT
+90379 Vernon, TX
+90433 Versailles, KY
+90460 Versailles, OH
+90487 Vicksburg, MS--LA
+90514 Victoria, TX
+90541 Victorville--Hesperia, CA
+90568 Vidalia, GA
+90595 Vienna, GA
+90622 Vieques (Vieques Municipio), PR
+90631 Village of Four Seasons, MO
+90640 Village of Oak Creek (Big Park), AZ
+90658 Villas, NJ
+90676 Ville Platte, LA
+90703 Vincennes, IN
+90730 Vineland, NJ
+90757 Vineyard Haven, MA
+90784 Vinita, OK
+90811 Vinton, IA
+90838 Vinton, LA
+90851 Virden, IL
+90865 Virginia, MN
+90892 Virginia Beach, VA
+90919 Viroqua, WI
+90946 Visalia, CA
+90959 Vistancia, AZ
+90973 Vivian, LA
+91000 Wabash, IN
+91027 Waco, TX
+91054 Waconia, MN
+91081 Wadena, MN
+91108 Wadesboro, NC
+91135 Wagoner, OK
+91162 Wahoo, NE
+91189 Wahpeton, ND--MN
+91216 Waikoloa Village, HI
+91243 Waimea (Hawaii County), HI
+91252 Walden, NY
+91261 Waldorf, MD
+91270 Waldport, OR
+91297 Waldron, AR
+91351 Walkerton, IN
+91378 Wallace, NC
+91405 Walla Walla, WA--OR
+91459 Walnut Ridge, AR
+91486 Walsenburg, CO
+91513 Walterboro, SC
+91540 Walters, OK
+91567 Walton, NY
+91584 Walworth, NY
+91594 Walworth, WI
+91648 Wamego, KS
+91675 Wapakoneta, OH
+91702 Wapato, WA
+91741 Warden, WA
+91756 Ware, MA
+91783 Warner Robins, GA
+91810 Warren, AR
+91837 Warren, PA
+91864 Warrensburg, MO
+91891 Warrensburg, NY
+91918 Warrenton, MO
+91999 Warsaw, IN
+92012 Warsaw, MO
+92026 Warsaw, NY
+92053 Warsaw, NC
+92134 Warwick, NY
+92161 Wasco, CA
+92215 Waseca, MN
+92242 Washington, DC--VA--MD
+92269 Washington, GA
+92296 Washington, IN
+92323 Washington, IA
+92350 Washington, MO
+92377 Washington, NJ
+92404 Washington, NC
+92431 Washington Court House, OH
+92445 Washoe Valley, NV
+92470 Watchtower, NY
+92485 Waterbury, CT
+92512 Waterbury, VT
+92539 Waterford, CA
+92566 Waterloo, IL
+92593 Waterloo, IA
+92620 Waterloo, WI
+92647 Watertown, MN
+92674 Watertown, NY
+92701 Watertown, SD
+92728 Watertown, WI
+92755 Water Valley, MS
+92782 Waterville, ME
+92809 Watkins Glen, NY
+92836 Watonga, OK
+92863 Watseka, IL
+92890 Watsonville, CA
+92917 Wauchula, FL
+92944 Waukon, IA
+92971 Waupaca, WI
+92998 Waupun, WI
+93025 Wausau, WI
+93052 Wauseon, OH
+93065 Wautoma, WI
+93079 Waverly, IA
+93092 Waverly, NE
+93106 Waverly, TN
+93133 Waverly City, OH
+93187 Waycross, GA
+93214 Wayland, MI
+93241 Wayne, NE
+93268 Waynesboro, GA
+93295 Waynesboro, MS
+93322 Waynesboro, PA--MD
+93376 Waynesburg, PA
+93457 Weatherford, OK
+93484 Weatherford, TX
+93511 Webster City, IA
+93525 Wedgefield, FL
+93565 Weedsport, NY
+93592 Weirton--Steubenville, WV--OH--PA
+93619 Weiser, ID--OR
+93646 Welch, WV
+93673 Wellington, CO
+93700 Wellington, KS
+93727 Wellington, OH
+93808 Wellsville, NY
+93835 Welsh, LA
+93862 Wenatchee, WA
+93871 Wendell, ID
+93880 Wendell--Zebulon, NC
+93889 West, TX
+93916 West Bend, WI
+93970 West Columbia, TX
+94005 Westernport, MD--WV
+94024 Westfield, NY
+94051 West Frankfort, IL
+94132 West Jefferson, OH
+94186 West Lafayette, OH
+94213 West Liberty, IA
+94294 Westminster--Eldersburg, MD
+94321 Weston, WV
+94345 Weston Lakes, TX
+94375 West Plains, MO
+94402 West Point, MS
+94429 West Point, NE
+94442 West Point, NY
+94456 West Point, VA
+94520 West Tawakoni, TX
+94537 West Union, OH
+94564 Westville, IN
+94591 West Wendover, NV--UT
+94618 Wetumpka, AL
+94645 Wewoka, OK
+94658 Weyers Cave, VA
+94672 Wharton, TX
+94685 Wheatland, CA
+94699 Wheatland, WY
+94726 Wheeling, WV--OH
+94739 Whispering Pines, NC
+94753 Whitefish, MT
+94780 White Hall, IL
+94807 Whitehall, MI
+94870 Whiteman AFB, MO
+94879 White Pine, TN
+94888 Whiteriver, AZ
+94915 White Rock, NM
+94942 Whitesboro, TX
+94969 White Sulphur Springs, WV
+94996 Whiteville, NC
+95050 Whitewater, WI
+95077 Wichita, KS
+95104 Wichita Falls, TX
+95158 Wickenburg, AZ
+95185 Wiggins, MS
+95212 Wilburton, OK
+95310 Willard, MO
+95320 Willard, OH
+95347 Willcox, AZ
+95364 Williams, AZ
+95374 Williams, CA
+95391 Williamsburg, IA
+95401 Williamsburg, KY
+95411 Williamsburg, VA
+95428 Williamson, WV--KY
+95455 Williamsport, PA
+95482 Williamston, MI
+95509 Williamston, NC
+95553 Williamstown, KY
+95563 Williamstown, PA
+95590 Willimantic, CT
+95634 Williston, FL
+95644 Williston, ND
+95671 Willits, CA
+95698 Willmar, MN
+95725 Willows, CA
+95752 Wills Point, TX
+95833 Wilmington, NC
+95860 Wilmington, OH
+95887 Wilmore, KY
+95914 Wilson, NC
+95941 Wilton, IA
+95968 Winamac, IN
+96022 Winchester, IN
+96049 Winchester, KY
+96076 Winchester, TN
+96103 Winchester, VA
+96130 Winder, GA
+96211 Windom, MN
+96223 Window Rock, AZ--NM
+96265 Windsor, MO
+96278 Windsor, NC
+96292 Windsor, VT--NH
+96319 Winfield, KS
+96350 Winneconne, WI
+96373 Winnemucca, NV
+96400 Winner, SD
+96427 Winnfield, LA
+96454 Winnie, TX
+96481 Winnsboro, LA
+96508 Winnsboro, SC
+96535 Winnsboro, TX
+96562 Winona, MN
+96589 Winona, MS
+96616 Winslow, AZ
+96670 Winston-Salem, NC
+96697 Winter Haven, FL
+96724 Winters, CA
+96751 Winters, TX
+96778 Winterset, IA
+96832 Wisconsin Rapids, WI
+96859 Wolf Point, MT
+96886 Wonder Lake, IL
+96913 Woodburn, OR
+96926 Woodbury, TN
+96940 Woodcreek, TX
+96967 Woodlake, CA
+96994 Woodland, CA
+97021 Woodland, WA
+97048 Woodland Park, CO
+97102 Woodruff, SC
+97119 Woodstock, AL
+97129 Woodstock, IL
+97156 Woodstock, VA
+97183 Woodstown, NJ
+97200 Woodville, FL
+97210 Woodville, TX
+97237 Woodward, OK
+97264 Wooster, OH
+97291 Worcester, MA--CT
+97318 Worland, WY
+97331 World Golf Village, FL
+97345 Worthington, MN
+97352 Wright City, MO
+97359 Wrightstown, WI
+97366 Wrightsville, GA
+97372 Wrightwood, CA
+97399 Wurtsboro, NY
+97426 Wynne, AR
+97453 Wytheville, VA
+97480 Yadkinville, NC
+97507 Yakima, WA
+97534 Yankton, SD
+97561 Yauco, PR
+97588 Yazoo City, MS
+97615 Yellow Springs, OH
+97642 Yelm, WA
+97669 Yerington, NV
+97696 Yoakum, TX
+97723 York, NE
+97750 York, PA
+97777 York, SC
+97812 Yorkville, GA
+97831 Youngstown, OH--PA
+97858 Youngsville, PA
+97885 Yountville, CA
+97912 Yreka, CA
+97939 Yuba City, CA
+97966 Yucca Valley, CA
+97993 Yulee, FL
+98020 Yuma, AZ--CA
+98047 Yuma, CO
+98074 Zanesville, OH
+98101 Zapata--Medina, TX
+98182 Zephyrhills, FL
+98209 Zimmerman, MN
+98236 Zumbrota, MN
+98263 Zuni Pueblo, NM
+-- activity count = 3601
+-- 9/4 - 0 ----------------------------------------------------------------
+
+DROP TABLE stateTable;
+-- success. update count = 0
+-- 10/4 - 0 ---------------------------------------------------------------
+DROP TABLE cityTable;
+-- success. update count = 0
+-- 11/4 - 0 ---------------------------------------------------------------
+.close
+-- 11/5 - 0 ---------------------------------------------------------------

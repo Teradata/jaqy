@@ -45,7 +45,7 @@ class JsonExpFactory
 
 	private static JsonEventVisitor createVisitors (JsonEventVisitor ev, String[] exps, JsonEventVisitor v)
 	{
-		if (exps.length == 0)
+		if (exps.length == 0 || (exps.length == 1 && exps[0].length () == 0))
 		{
 			return combineVisitor (ev, v);
 		}
@@ -140,22 +140,20 @@ class JsonExpFactory
 			rootVisitor = createVisitors (null, exps, rv);
 		}
 
-		TreeMap<String, Integer> expMap = new TreeMap<String, Integer> ();
-		int id = 0;
+		TreeMap<String, JsonValueVisitor> expMap = new TreeMap<String, JsonValueVisitor> ();
 		JsonEventVisitor colRootVisitor = null;
 		for (int i = 0; i < colExps.length; ++i)
 		{
 			String colExp = colExps[i];
-			Integer prevId = expMap.get (colExp);
-			if (prevId != null)
+			JsonValueVisitor prevVV = expMap.get (colExp);
+			if (prevVV != null)
 			{
-				valueVisitors[i] = valueVisitors[prevId];
+				valueVisitors[i] = prevVV;
 				continue;
 			}
 			JsonValueVisitor vv = new JsonValueVisitor ();
-			valueVisitors[id] = vv;
-			expMap.put (colExp, id);
-			++id;
+			valueVisitors[i] = vv;
+			expMap.put (colExp, vv);
 
 			exps = colExp.split ("[.]");
 			colRootVisitor = createVisitors (colRootVisitor, exps, vv);

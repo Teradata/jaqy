@@ -56,17 +56,23 @@ public class JSONImporterTest
 	@Test
 	public void test5 () throws Exception
 	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_5.sql", "../tests/unittests/json/control/json_import_5.control");
+	}
+
+	@Test
+	public void test_pg_data_types () throws Exception
+	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/postgresql_data_types.sql", "../tests/unittests/json/control/postgresql_data_types.control");
 	}
 
 	@Test
-	public void test6 () throws Exception
+	public void test_pg_array_types () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/postgresql_array_types.sql", "../tests/unittests/json/control/postgresql_array_types.control");
 	}
 
 	@Test
-	public void test7 () throws Exception
+	public void test_pg_composite_types () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/postgresql_composite_types.sql", "../tests/unittests/json/control/postgresql_composite_types.control");
 	}

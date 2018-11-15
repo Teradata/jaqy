@@ -15,18 +15,13 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.io.ByteArrayInputStream;
-import java.io.StringReader;
-import java.nio.ByteBuffer;
 import java.sql.*;
-import java.util.Collection;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyDefaultResultSet;
-import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.CachedClob;
