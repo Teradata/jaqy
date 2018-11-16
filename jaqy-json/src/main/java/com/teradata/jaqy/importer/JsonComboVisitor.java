@@ -39,13 +39,6 @@ class JsonComboVisitor implements JsonEventVisitor
 	}
 
 	@Override
-	public void init ()
-	{
-		m_v1.init ();
-		m_v2.init ();
-	}
-
-	@Override
 	public void visit (Event e, CookJsonParser p, int depth)
 	{
 		m_v1.visit (e, p, depth);

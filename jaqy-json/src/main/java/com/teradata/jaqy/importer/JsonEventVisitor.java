@@ -25,11 +25,6 @@ import org.yuanheng.cookjson.CookJsonParser;
 interface JsonEventVisitor
 {
 	/**
-	 * Initialize the visitor to reset states and values.
-	 */
-	public void init ();
-
-	/**
 	 * Handle a particular event.
 	 * 
 	 * @param	e
