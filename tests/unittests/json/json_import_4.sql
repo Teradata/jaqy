@@ -4,7 +4,7 @@
 .run ../common/derby_setup.sql
 .open derby:memory:jsonDB;create=true
 
-CREATE TABLE MyTable(po INTEGER PRIMARY KEY, customerId INTEGER, date VARCHAR(20), date2 VARCHAR(20), row VARCHAR(100));
+CREATE TABLE MyTable(po INTEGER PRIMARY KEY, customerId INTEGER, date VARCHAR(20), date2 VARCHAR(20), row VARCHAR(200));
 
 .import json -r=customers lib/import2.json
 INSERT INTO MyTable VALUES ({{purchase.po}}, {{customerId}}, {{date}}, {{date}}, {{}});

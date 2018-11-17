@@ -30,7 +30,13 @@
 		"purchase" : {
 			"po" : 4,
 			"charge" : 3.12,
-			"saving" : 4.12
+			"saving" : 4.12,
+			"dummy1" : null,
+			"dummy2" : [],
+			"dummy3" : {},
+			"dummy4" : true,
+			"dummy5" : false,
+			"dummy6" : [false, true, null]
 		}
 	},{
 		"purchase" : {

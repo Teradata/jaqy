@@ -9,7 +9,7 @@ Jaqy Console 1.1.0
 .open derby:memory:jsonDB;create=true
 -- 0/2 - 0 ----------------------------------------------------------------
 
-CREATE TABLE MyTable(po INTEGER PRIMARY KEY, customerId INTEGER, date VARCHAR(20), date2 VARCHAR(20), row VARCHAR(100));
+CREATE TABLE MyTable(po INTEGER PRIMARY KEY, customerId INTEGER, date VARCHAR(20), date2 VARCHAR(20), row VARCHAR(200));
 -- success. update count = 0
 -- 1/2 - 0 ----------------------------------------------------------------
 
@@ -22,11 +22,11 @@ INSERT INTO MyTable VALUES ({{purchase.po}}, {{customerId}}, {{date}}, {{date}},
 SELECT * FROM MyTable ORDER BY 1, 2, 3;
 -- success --
 PO CUSTOMERID DATE       DATE2      ROW
--- ---------- ---------- ---------- ---------------------------------------------------------------------------------------
+-- ---------- ---------- ---------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  1       1001 2001-02-03 2001-02-03 {"date":"2001-02-03","customerId":1001,"purchase":{"saving":2.12,"charge":1.12,"po":1}}
  2       1002 2001-02-04 2001-02-04 {"date":"2001-02-04","customerId":1002,"purchase":{"saving":4.12,"charge":3.12,"po":2}}
  3       1002 2001-02-04 2001-02-04 {"date":"2001-02-04","customerId":1002,"purchase":{"saving":5.12,"charge":4.12,"po":3}}
- 4       1003 2001-02-04 2001-02-04 {"date":"2001-02-04","customerId":1003,"purchase":{"saving":4.12,"charge":3.12,"po":4}}
+ 4       1003 2001-02-04 2001-02-04 {"date":"2001-02-04","customerId":1003,"purchase":{"saving":4.12,"dummy1":null,"dummy2":[],"charge":3.12,"dummy3":{},"dummy4":true,"dummy5":false,"dummy6":[false,true,null],"po":4}}
  5          ? ?          ?          {"purchase":{"po":5}}
  6       1001 2001-02-04 2001-02-04 {"date":"2001-02-04","customerId":1001,"purchase":{"saving":4.12,"charge":3.12,"po":6}}
 -- activity count = 6
