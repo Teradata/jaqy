@@ -1,5 +1,3 @@
--- error: invalid classpath: /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar
--- error: invalid classpath: /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar
 Jaqy Console 1.1.0
 -- 0/0 - 0 ----------------------------------------------------------------
 --------------------------------------------------------------------------
