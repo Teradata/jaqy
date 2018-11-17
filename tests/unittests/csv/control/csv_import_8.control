@@ -1,0 +1,101 @@
+-- error: invalid classpath: /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar
+-- error: invalid classpath: /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar
+Jaqy Console 1.1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+-- Statistics downloaded from https://www.flysfo.com/media/facts-statistics/air-traffic-statistics
+
+.import csv -h lib/Air_Traffic_Passenger_Statistics.csv
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable AirTraffic
+-- Table Schema --
+CREATE TABLE AirTraffic
+(
+	"Activity Period" int4 NOT NULL,
+	"Operating Airline" varchar(40) NOT NULL,
+	"Operating Airline IATA Code" varchar(3),
+	"Published Airline" varchar(40) NOT NULL,
+	"Published Airline IATA Code" varchar(3),
+	"GEO Summary" varchar(13) NOT NULL,
+	"GEO Region" varchar(19) NOT NULL,
+	"Activity Type Code" varchar(14) NOT NULL,
+	"Price Category Code" varchar(8) NOT NULL,
+	"Terminal" varchar(13) NOT NULL,
+	"Boarding Area" varchar(5) NOT NULL,
+	"Passenger Count" int4 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO AirTraffic VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+-- 2/4 - 0 ----------------------------------------------------------------
+SELECT COUNT(*) FROM AirTraffic;
+-- success --
+count
+-----
+19361
+-- activity count = 1
+-- 3/4 - 0 ----------------------------------------------------------------
+DROP TABLE AirTraffic;
+-- success. update count = 0
+-- 4/4 - 0 ----------------------------------------------------------------
+
+.close
+-- 4/5 - 0 ----------------------------------------------------------------
+
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 4/6 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+-- 4/7 - 0 ----------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 5/7 - 0 ----------------------------------------------------------------
+
+.import csv -h lib/Air_Traffic_Passenger_Statistics.csv
+-- 5/8 - 0 ----------------------------------------------------------------
+.importtable AirTraffic
+-- Table Schema --
+CREATE TABLE AirTraffic
+(
+	`Activity Period` INTEGER NOT NULL,
+	`Operating Airline` TEXT NOT NULL,
+	`Operating Airline IATA Code` TEXT,
+	`Published Airline` TEXT NOT NULL,
+	`Published Airline IATA Code` TEXT,
+	`GEO Summary` TEXT NOT NULL,
+	`GEO Region` TEXT NOT NULL,
+	`Activity Type Code` TEXT NOT NULL,
+	`Price Category Code` TEXT NOT NULL,
+	`Terminal` TEXT NOT NULL,
+	`Boarding Area` TEXT NOT NULL,
+	`Passenger Count` INTEGER NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO AirTraffic VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+-- success. update count = 1
+-- success. update count = 1
+-- success. update count = 1
+-- success. update count = 1
+-- 7/9 - 0 ----------------------------------------------------------------
+SELECT COUNT(*) FROM AirTraffic;
+-- success --
+COUNT(*)
+--------
+   19361
+-- activity count = 1
+-- 8/9 - 0 ----------------------------------------------------------------
+DROP TABLE AirTraffic;
+-- success. update count = 0
+-- 9/9 - 0 ----------------------------------------------------------------
+
+.close
+-- 9/10 - 0 ---------------------------------------------------------------

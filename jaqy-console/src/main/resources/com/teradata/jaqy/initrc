@@ -15,6 +15,9 @@
 		"schema" : false,
 		"stream" : false
 	},
+	"typeMap": [
+		{ "name" : "TEXT", "type" : 12, "maxPrecision" : 65535 }
+	],
 	"catalogSQL": {
 		"sql" : "SELECT DATABASE()",
 		"field" : 1
