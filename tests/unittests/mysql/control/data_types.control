@@ -1579,8 +1579,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
-    Display Size                                 8
-    Precision                                    8
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1716,8 +1716,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
-    Display Size                                 8
-    Precision                                    8
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N

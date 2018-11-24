@@ -38,7 +38,7 @@ sudo swapon /swapfile
 # ==== MySQL ====
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password vagrant'
-sudo apt-get -y install mysql-server-5.5
+sudo apt-get -y install mysql-server-5.6
 
 # Travis CI MySQL database user is travis, password is blank
 mysql -u root --password=vagrant <<EOF
