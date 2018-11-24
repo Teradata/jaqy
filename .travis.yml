@@ -4,7 +4,11 @@ sudo: required
 jdk:
   - oraclejdk8
 addons:
-    postgresql: 10
+  postgresql: 10
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
 services:
   - mysql
   - postgresql
@@ -16,4 +20,3 @@ before_script:
 script: mvn clean test
 after_success:
   - mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
-
