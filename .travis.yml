@@ -4,10 +4,10 @@ sudo: required
 jdk:
   - oraclejdk8
 addons:
-    postgresql: 10
+    postgresql: 9.4
     apt:
         packages:
-        - postgresql-10-postgis-2.4
+        - postgresql-9.4-postgis-2.3
 services:
   - mysql
   - postgresql
