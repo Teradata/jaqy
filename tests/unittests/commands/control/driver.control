@@ -41,7 +41,7 @@ com.mysql.jdbc.Driver  5.1    F
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 0/11 - 0 ---------------------------------------------------------------
-.open -u postgres postgresql://localhost/?stringtype=unspecified
+.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
 -- 0/12 - 0 ---------------------------------------------------------------
 .close
 -- 0/13 - 0 ---------------------------------------------------------------

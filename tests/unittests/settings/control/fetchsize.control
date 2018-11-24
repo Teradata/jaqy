@@ -10,7 +10,7 @@ Jaqy Console 1.1.0
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 0/2 - 0 ----------------------------------------------------------------
-.open -u postgres postgresql://localhost/?stringtype=unspecified
+.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
 -- 0/3 - 0 ----------------------------------------------------------------
 
 .set fetchsize
@@ -108,7 +108,7 @@ DROP TABLE TextTable;
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 5/13 - 0 ---------------------------------------------------------------
-.open -u postgres postgresql://localhost/?stringtype=unspecified
+.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
 -- 5/14 - 0 ---------------------------------------------------------------
 .set fetchsize
 .set fetchsize 0

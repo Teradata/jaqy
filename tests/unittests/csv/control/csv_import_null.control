@@ -114,7 +114,7 @@ DROP TABLE MyTable;
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 16/14 - 0 --------------------------------------------------------------
-.open -u postgres postgresql://localhost/?stringtype=unspecified
+.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
 -- 16/15 - 0 --------------------------------------------------------------
 
 CREATE TABLE MyTable(a INTEGER, b INTEGER, c INTEGER, d VARCHAR(100), e VARCHAR(100), f bytea, g TEXT, h bytea);

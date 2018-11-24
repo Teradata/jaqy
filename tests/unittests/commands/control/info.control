@@ -32,7 +32,7 @@ type:
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 0/5 - 0 ----------------------------------------------------------------
-.open -u postgres postgresql://localhost/?stringtype=unspecified
+.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
 -- 0/6 - 0 ----------------------------------------------------------------
 .info behavior
 Name,Value

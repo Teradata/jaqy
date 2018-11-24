@@ -12,8 +12,6 @@ addons:
 services:
   - mysql
   - postgresql
-env:
-  - PGPORT=5433
 before_install:
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS vagrant;' -uroot
