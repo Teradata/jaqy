@@ -340,7 +340,6 @@ TABLE_CAT
 information_schema
 mysql
 performance_schema
-sys
 travis
 vagrant
 -- 0/24 - 0 ---------------------------------------------------------------
@@ -349,7 +348,6 @@ TABLE_CAT
 information_schema
 mysql
 performance_schema
-sys
 travis
 vagrant
 -- 0/25 - 0 ---------------------------------------------------------------

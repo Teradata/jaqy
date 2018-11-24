@@ -21,13 +21,13 @@ sudo apt-get install -y postgresql-10
 # Let PostgreSQL to listen connections from all ips (not just local host)
 sudo cp /vagrant/vmsetup/p*.conf /etc/postgresql/10/main/
 # Restart the PostgreSQL server
-sudo /etc/init.d/postgresql restart
+sudo systemctl restart postgresql.service
 sudo -u postgres psql -c "alter user postgres with password '';"
 
 # ---- PostGIS ----
-# sudo apt-get install -y --force-yes postgis postgresql-10-postgis-2.4
-# sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgres
-# sudo /etc/init.d/postgresql restart
+sudo apt-get install -y --force-yes postgis postgresql-10-postgis-2.4
+sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgres
+sudo systemctl restart postgresql.service
 
 # Create the swap file for running MySQL
 sudo fallocate -l 4G /swapfile
@@ -58,7 +58,7 @@ FLUSH PRIVILEGES;
 EOF
 
 # Let MySQL to listen connections from all ips (not just local host)
-sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf
+sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Restart the MySQL server
 sudo /etc/init.d/mysql restart
@@ -70,7 +70,7 @@ sudo apt-get -y install meld
 PROFILE='
 PATH=${PATH}:/vagrant/tests/bin/
 '
-echo "$PROFILE" >> ~vagrant/.profile
+echo "$PROFILE" >> ~ubuntu/.profile
 
 # ---- Setup .bashrc ----
 BASHRC="
@@ -86,9 +86,9 @@ alias jqe='java -ea -jar /vagrant/dist/jaqy-1.1.0.jar'
 
 cd /vagrant
 "
-echo "$BASHRC" >> ~vagrant/.bashrc
-echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar" > ~vagrant/.jqrc
-echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar" >> ~vagrant/.jqrc
+echo "$BASHRC" >> ~ubuntu/.bashrc
+echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar" > ~ubuntu/.jqrc
+echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar" >> ~ubuntu/.jqrc
 
-chown ubuntu ~vagrant/.jqrc
-chgrp ubuntu ~vagrant/.jqrc
+chown ubuntu ~ubuntu/.jqrc
+chgrp ubuntu ~ubuntu/.jqrc

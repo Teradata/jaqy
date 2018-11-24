@@ -276,9 +276,6 @@ CREATE TABLE MyTable2
 		"TABLE_CAT" : "performance_schema"
 	},
 	{
-		"TABLE_CAT" : "sys"
-	},
-	{
 		"TABLE_CAT" : "travis"
 	},
 	{
