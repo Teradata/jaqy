@@ -1,8 +1,8 @@
 language: java
-dist: xenial
+dist: trusty
 sudo: required
 jdk:
-  - openjdk8
+  - oraclejdk8
 addons:
     postgresql: 10
     apt:
@@ -20,3 +20,4 @@ before_script:
 script: mvn clean test
 after_success:
   - mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
+
