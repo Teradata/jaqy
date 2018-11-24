@@ -61,7 +61,7 @@ FROM TextTable;
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 4/5 - 1 ----------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 4/6 - 1 ----------------------------------------------------------------
 USE vagrant;
 -- success. update count = 0

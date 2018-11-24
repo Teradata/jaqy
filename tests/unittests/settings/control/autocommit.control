@@ -16,7 +16,7 @@ Jaqy Console 1.1.0
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 0/4 - 0 ----------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 0/5 - 0 ----------------------------------------------------------------
 USE vagrant;
 -- success. update count = 0

@@ -209,7 +209,7 @@ DROP TABLE MyTable2;
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 4/17 - 0 ---------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 4/18 - 0 ---------------------------------------------------------------
 USE vagrant;
 -- success. update count = 0
@@ -274,6 +274,9 @@ CREATE TABLE MyTable2
 	},
 	{
 		"TABLE_CAT" : "performance_schema"
+	},
+	{
+		"TABLE_CAT" : "sys"
 	},
 	{
 		"TABLE_CAT" : "travis"

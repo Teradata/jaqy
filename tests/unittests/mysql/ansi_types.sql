@@ -2,6 +2,7 @@
 -- test SQL types
 --------------------------------------------------------------------------
 .run ../common/mysql_setup.sql
+USE vagrant;
 .run ../common/ansi_types.sql
 .close
 

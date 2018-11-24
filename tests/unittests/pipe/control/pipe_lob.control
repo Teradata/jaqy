@@ -55,7 +55,7 @@ INSERT INTO LobTable VALUES (9, NULL, NULL);
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 10/5 - 1 ---------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 10/6 - 1 ---------------------------------------------------------------
 USE vagrant;
 -- success. update count = 0
@@ -67,7 +67,7 @@ USE vagrant;
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 11/8 - 2 ---------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 11/9 - 2 ---------------------------------------------------------------
 USE vagrant;
 -- success. update count = 0

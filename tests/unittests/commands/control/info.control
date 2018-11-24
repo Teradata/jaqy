@@ -247,10 +247,10 @@ System functions,"database,ifnull,user"
 Date/Time functions,"curdate,curtime,dayname,dayofmonth,dayofweek,dayofyear,hour,minute,month,monthname,now,quarter,second,week,year,timestampadd"
 -- 0/13 - 0 ---------------------------------------------------------------
 .info keyword
-abort,access,aggregate,also,analyse,analyze,backward,bit,cache,checkpoint,class,cluster,comment,comments,concurrently,configuration,connection,content,conversion,copy,cost,csv,current_catalog,current_schema,database,delimiter,delimiters,dictionary,disable,discard,do,document,enable,encoding,encrypted,enum,event,exclusive,explain,extension,family,force,forward,freeze,functions,greatest,handler,header,if,ilike,immutable,implicit,index,indexes,inherit,inherits,inline,instead,isnull,label,lc_collate,lc_ctype,leakproof,least,limit,listen,load,location,lock,mapping,materialized,mode,move,nothing,notify,notnull,nowait,off,offset,oids,operator,owned,owner,parser,passing,password,plans,prepared,procedural,program,quote,reassign,recheck,refresh,reindex,rename,replace,replica,reset,restrict,returning,rule,sequences,server,setof,share,show,snapshot,stable,standalone,statistics,stdin,stdout,storage,strict,strip,sysid,tables,tablespace,temp,template,text,truncate,trusted,types,unencrypted,unlisten,unlogged,until,vacuum,valid,validate,validator,variadic,verbose,version,volatile,whitespace,wrapper,xml,xmlattributes,xmlconcat,xmlelement,xmlexists,xmlforest,xmlparse,xmlpi,xmlroot,xmlserialize,yes
+abort,access,aggregate,also,analyse,analyze,attach,backward,bit,cache,checkpoint,class,cluster,columns,comment,comments,concurrently,configuration,conflict,connection,content,conversion,copy,cost,csv,current_catalog,current_schema,database,delimiter,delimiters,depends,detach,dictionary,disable,discard,do,document,enable,encoding,encrypted,enum,event,exclusive,explain,extension,family,force,forward,freeze,functions,generated,greatest,handler,header,if,ilike,immutable,implicit,import,index,indexes,inherit,inherits,inline,instead,isnull,label,leakproof,least,limit,listen,load,location,lock,locked,logged,mapping,materialized,mode,move,nothing,notify,notnull,nowait,off,offset,oids,operator,owned,owner,parallel,parser,passing,password,plans,policy,prepared,procedural,program,publication,quote,reassign,recheck,refresh,reindex,rename,replace,replica,reset,restrict,returning,rule,schemas,sequences,server,setof,share,show,skip,snapshot,stable,standalone,statistics,stdin,stdout,storage,strict,strip,subscription,sysid,tables,tablespace,temp,template,text,truncate,trusted,types,unencrypted,unlisten,unlogged,until,vacuum,valid,validate,validator,variadic,verbose,version,views,volatile,whitespace,wrapper,xml,xmlattributes,xmlconcat,xmlelement,xmlexists,xmlforest,xmlnamespaces,xmlparse,xmlpi,xmlroot,xmlserialize,xmltable,yes
 -- 0/14 - 0 ---------------------------------------------------------------
 .info keywords
-abort,access,aggregate,also,analyse,analyze,backward,bit,cache,checkpoint,class,cluster,comment,comments,concurrently,configuration,connection,content,conversion,copy,cost,csv,current_catalog,current_schema,database,delimiter,delimiters,dictionary,disable,discard,do,document,enable,encoding,encrypted,enum,event,exclusive,explain,extension,family,force,forward,freeze,functions,greatest,handler,header,if,ilike,immutable,implicit,index,indexes,inherit,inherits,inline,instead,isnull,label,lc_collate,lc_ctype,leakproof,least,limit,listen,load,location,lock,mapping,materialized,mode,move,nothing,notify,notnull,nowait,off,offset,oids,operator,owned,owner,parser,passing,password,plans,prepared,procedural,program,quote,reassign,recheck,refresh,reindex,rename,replace,replica,reset,restrict,returning,rule,sequences,server,setof,share,show,snapshot,stable,standalone,statistics,stdin,stdout,storage,strict,strip,sysid,tables,tablespace,temp,template,text,truncate,trusted,types,unencrypted,unlisten,unlogged,until,vacuum,valid,validate,validator,variadic,verbose,version,volatile,whitespace,wrapper,xml,xmlattributes,xmlconcat,xmlelement,xmlexists,xmlforest,xmlparse,xmlpi,xmlroot,xmlserialize,yes
+abort,access,aggregate,also,analyse,analyze,attach,backward,bit,cache,checkpoint,class,cluster,columns,comment,comments,concurrently,configuration,conflict,connection,content,conversion,copy,cost,csv,current_catalog,current_schema,database,delimiter,delimiters,depends,detach,dictionary,disable,discard,do,document,enable,encoding,encrypted,enum,event,exclusive,explain,extension,family,force,forward,freeze,functions,generated,greatest,handler,header,if,ilike,immutable,implicit,import,index,indexes,inherit,inherits,inline,instead,isnull,label,leakproof,least,limit,listen,load,location,lock,locked,logged,mapping,materialized,mode,move,nothing,notify,notnull,nowait,off,offset,oids,operator,owned,owner,parallel,parser,passing,password,plans,policy,prepared,procedural,program,publication,quote,reassign,recheck,refresh,reindex,rename,replace,replica,reset,restrict,returning,rule,schemas,sequences,server,setof,share,show,skip,snapshot,stable,standalone,statistics,stdin,stdout,storage,strict,strip,subscription,sysid,tables,tablespace,temp,template,text,truncate,trusted,types,unencrypted,unlisten,unlogged,until,vacuum,valid,validate,validator,variadic,verbose,version,views,volatile,whitespace,wrapper,xml,xmlattributes,xmlconcat,xmlelement,xmlexists,xmlforest,xmlnamespaces,xmlparse,xmlpi,xmlroot,xmlserialize,xmltable,yes
 -- 0/15 - 0 ---------------------------------------------------------------
 .info limit
 Name,Limit
@@ -330,7 +330,7 @@ postgres
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 0/21 - 0 ---------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 0/22 - 0 ---------------------------------------------------------------
 .open sqlite::memory:
 -- error: The current session already has a connection open.
@@ -340,6 +340,7 @@ TABLE_CAT
 information_schema
 mysql
 performance_schema
+sys
 travis
 vagrant
 -- 0/24 - 0 ---------------------------------------------------------------
@@ -348,6 +349,7 @@ TABLE_CAT
 information_schema
 mysql
 performance_schema
+sys
 travis
 vagrant
 -- 0/25 - 0 ---------------------------------------------------------------

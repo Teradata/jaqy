@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
 
   # Be sure to have the following vagrant plugin installed.
   # vagrant plugin install vagrant-vbguest
@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
     jaqy.vm.network "forwarded_port", guest: 3306, host: 3306
     # postgresql
     jaqy.vm.network "forwarded_port", guest: 5432, host: 5432
+    jaqy.vm.network "forwarded_port", guest: 5433, host: 5433
   end
 
   config.ssh.forward_x11 = true

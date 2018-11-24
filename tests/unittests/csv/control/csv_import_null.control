@@ -77,7 +77,7 @@ DROP TABLE MyTable;
 .run ../common/mysql_setup.sql
 -- Running script: ../common/mysql_setup.sql
 -- 10/10 - 0 --------------------------------------------------------------
-.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
 -- 10/11 - 0 --------------------------------------------------------------
 USE vagrant;
 -- success. update count = 0

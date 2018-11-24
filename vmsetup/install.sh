@@ -13,22 +13,21 @@ sudo apt-get install -y oracle-java8-set-default
 
 # ---- Install a few different databases for testing ----
 # ==== PostgreSQL ====
-sudo apt-get -y install postgresql
-# setup the password
-sudo -u postgres psql -c "alter user postgres with password '';"
+sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
+sudo apt-get update
+sudo apt-get install -y postgresql-10
+
 # Let PostgreSQL to listen connections from all ips (not just local host)
-ver=`/bin/ls -C1 /etc/postgresql`
-sudo cp /vagrant/vmsetup/p*.conf /etc/postgresql/${ver}/main/
+sudo cp /vagrant/vmsetup/p*.conf /etc/postgresql/10/main/
 # Restart the PostgreSQL server
-sudo /etc/init.d/postgresql restart
+sudo systemctl restart postgresql.service
+sudo -u postgres psql -c "alter user postgres with password '';"
 
 # ---- PostGIS ----
-sudo echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list
-sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install -y --force-yes postgis postgresql-9.3-postgis-2.3
+sudo apt-get install -y --force-yes postgis postgresql-10-postgis-2.4
 sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgres
-sudo /etc/init.d/postgresql restart
+sudo systemctl restart postgresql.service
 
 # Create the swap file for running MySQL
 sudo fallocate -l 4G /swapfile
@@ -39,7 +38,7 @@ sudo swapon /swapfile
 # ==== MySQL ====
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password vagrant'
-sudo apt-get -y install mysql-server-5.6
+sudo apt-get -y install mysql-server-5.7
 
 # Travis CI MySQL database user is travis, password is blank
 mysql -u root --password=vagrant <<EOF
@@ -59,7 +58,7 @@ FLUSH PRIVILEGES;
 EOF
 
 # Let MySQL to listen connections from all ips (not just local host)
-sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf
+sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Restart the MySQL server
 sudo /etc/init.d/mysql restart
@@ -71,7 +70,7 @@ sudo apt-get -y install meld
 PROFILE='
 PATH=${PATH}:/vagrant/tests/bin/
 '
-echo "$PROFILE" >> ~vagrant/.profile
+echo "$PROFILE" >> ~ubuntu/.profile
 
 # ---- Setup .bashrc ----
 BASHRC="
@@ -87,9 +86,9 @@ alias jqe='java -ea -jar /vagrant/dist/jaqy-1.1.0.jar'
 
 cd /vagrant
 "
-echo "$BASHRC" >> ~vagrant/.bashrc
-echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar" > ~vagrant/.jqrc
-echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar" >> ~vagrant/.jqrc
+echo "$BASHRC" >> ~ubuntu/.bashrc
+echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar" > ~ubuntu/.jqrc
+echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar" >> ~ubuntu/.jqrc
 
-chown vagrant ~vagrant/.jqrc
-chgrp vagrant ~vagrant/.jqrc
+chown ubuntu ~ubuntu/.jqrc
+chgrp ubuntu ~ubuntu/.jqrc
