@@ -90,6 +90,10 @@ class JsonRowVisitor implements JsonEventVisitor
 					m_v.visit (e, p, depth);
 					break;
 				}
+				case KEY_NAME:
+				{
+					break;
+				}
 				default:
 				{
 					m_v.visit (e, p, depth);
