@@ -19,6 +19,8 @@ before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS vagrant;' -uroot
   - mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'localhost';" -uroot
   - mysql -e "FLUSH PRIVILEGES;" -uroot
+  - sudo cp vmsetup/p*.conf /etc/postgresql/10/main/
+  - sudo /etc/init.d/postgresql restart
   - sudo -u postgres psql -c "alter user postgres with password '';"
 script: mvn clean test
 after_success:
