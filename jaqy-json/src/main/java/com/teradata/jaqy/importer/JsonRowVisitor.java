@@ -86,19 +86,16 @@ class JsonRowVisitor implements JsonEventVisitor
 			{
 				case START_ARRAY:
 				case START_OBJECT:
-				case END_ARRAY:
 				{
 					m_v.visit (e, p, depth);
 					break;
 				}
-				case END_OBJECT:
+				default:
 				{
 					m_v.visit (e, p, depth);
 					m_listener.setRowEnd ();
 					break;
 				}
-				default:
-					break;
 			}
 			return;
 		}

@@ -60,6 +60,12 @@ public class JSONImporterTest
 	}
 
 	@Test
+	public void test6 () throws Exception
+	{
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/json_import_6.sql", "../tests/unittests/json/control/json_import_6.control");
+	}
+
+	@Test
 	public void test_pg_data_types () throws Exception
 	{
 		TestUtils.jaqyTest (testFolder, "../tests/unittests/json/postgresql_data_types.sql", "../tests/unittests/json/control/postgresql_data_types.control");
