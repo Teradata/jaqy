@@ -8,6 +8,7 @@ json_import_3.sql
 json_import_4.sql
 json_import_5.sql
 json_import_6.sql
+json_import_7.sql
 postgresql_array_types.sql
 postgresql_composite_types.sql
 postgresql_data_types.sql
