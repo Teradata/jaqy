@@ -56,6 +56,29 @@ SELECT 7;
 SELECT 8;
 .end if
 
+
+-- Testing SQL Error Code
+
+SELECT asdf;
+
+-- Should print the code
+.if sqlError != null
+.eval print(sqlError.errorCode);
+.end if
+
+SELECT asdf;
+
+.if sqlError != null && sqlError.errorCode > 0
+SELECT 'Error' AS "SQL Error";
+.end if
+
+SELECT "OK";
+
+-- Should skip
+.if sqlError != null
+SELECT 'Error' AS "SQL Error";
+.end if
+
 DROP TABLE MyTable;
 
 .close
