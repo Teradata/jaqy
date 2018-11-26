@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import com.teradata.jaqy.ConsoleDisplay;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
-import com.teradata.jaqy.interfaces.ErrorStateHandler;
 import com.teradata.jaqy.interfaces.StateHandler;
 
 /**
@@ -118,15 +117,16 @@ public class DefaultStateHandlers
 			return buffer.toString ();
 		}
 	};
-	public final static ErrorStateHandler errorHandler = new ErrorStateHandler ()
+	public final static StateHandler errorHandler = new StateHandler ()
 	{
 		@Override
-		public String getString (Throwable t, String msg, JaqyInterpreter interpreter)
+		public String getString (JaqyInterpreter interpreter)
 		{
 			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+			Throwable t = interpreter.getException ();
 			if (t == null)
 			{
-				return "-- error: " + msg;
+				return "-- error: unknown error";
 			}
 
 			StringBuffer buffer = new StringBuffer ();

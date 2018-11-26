@@ -19,11 +19,10 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.interfaces.Display;
-import com.teradata.jaqy.interfaces.ErrorStateHandler;
 import com.teradata.jaqy.interfaces.StateHandler;
+import com.teradata.jaqy.utils.DefaultStateHandlers;
 import com.teradata.jaqy.utils.Escape;
 import com.teradata.jaqy.utils.FixedVariable;
-import com.teradata.jaqy.utils.DefaultStateHandlers;
 import com.teradata.jaqy.utils.TitleUtils;
 
 /**
@@ -50,7 +49,7 @@ public class ConsoleDisplay implements Display
 	private StateHandler m_successHandler = DefaultStateHandlers.successHandler;
 	private StateHandler m_updateHandler = DefaultStateHandlers.updateHandler;
 	private StateHandler m_activityCountHandler = DefaultStateHandlers.activityCountHandler;
-	private ErrorStateHandler m_errorHandler = DefaultStateHandlers.errorHandler;
+	private StateHandler m_errorHandler = DefaultStateHandlers.errorHandler;
 
 	public ConsoleDisplay (Globals globals)
 	{
@@ -84,8 +83,7 @@ public class ConsoleDisplay implements Display
 	{
 		if (m_console == null)
 		{
-			error (interpreter, "Cannot get password in non-interactive mode.");
-			return null;
+			throw new JaqyException ("Cannot get password in non-interactive mode.");
 		}
 		m_pw.print (prompt);
 		m_pw.flush ();
@@ -109,14 +107,8 @@ public class ConsoleDisplay implements Display
 	public void error (JaqyInterpreter interpreter, Throwable t)
 	{
 		m_globals.log (Level.WARNING, t);
-		String msg = getErrorHandler().getString (t, null, interpreter);
-		m_pw.println (msg);
-	}
-
-	@Override
-	public void error (JaqyInterpreter interpreter, String msg)
-	{
-		msg = getErrorHandler().getString (null, msg, interpreter);
+		interpreter.setException (t);
+		String msg = getErrorHandler().getString (interpreter);
 		m_pw.println (msg);
 	}
 
@@ -327,7 +319,7 @@ public class ConsoleDisplay implements Display
 	/**
 	 * @return	the errorHandler
 	 */
-	public ErrorStateHandler getErrorHandler ()
+	public StateHandler getErrorHandler ()
 	{
 		return m_errorHandler;
 	}
@@ -336,7 +328,7 @@ public class ConsoleDisplay implements Display
 	 * @param	errorHandler
 	 *			the errorHandler to set
 	 */
-	public void setErrorHandler (ErrorStateHandler errorHandler)
+	public void setErrorHandler (StateHandler errorHandler)
 	{
 		if (errorHandler == null)
 			errorHandler = DefaultStateHandlers.errorHandler;

@@ -38,7 +38,7 @@ SELECT 1234 AS Test;
 .handler update
 
 .handler error
-.handler error "-- javascript error: " + ((error == null) ? message : (sqlex == null ? error.message : ("SQL Error: " + sqlex.message)))
+.handler error "-- javascript error: " + (sqlError == null ? "" : "SQL Error: ") + message
 SELECT asdf;
 .handler error
 .handler error default

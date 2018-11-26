@@ -36,8 +36,6 @@ public interface Display
 
 	public void error (JaqyInterpreter interpreter, Throwable t);
 
-	public void error (JaqyInterpreter interpreter, String msg);
-
 	public void echo (JaqyInterpreter interpreter, String msg, boolean interactive);
 
 	public PrintWriter getPrintWriter ();

@@ -141,13 +141,13 @@ Test
 .handler error
 .handler error default
 -- 6/25 - 0 ---------------------------------------------------------------
-.handler error "-- javascript error: " + ((error == null) ? message : (sqlex == null ? error.message : ("SQL Error: " + sqlex.message)))
+.handler error "-- javascript error: " + (sqlError == null ? "" : "SQL Error: ") + message
 -- 6/26 - 0 ---------------------------------------------------------------
 SELECT asdf;
 -- javascript error: SQL Error: [SQLITE_ERROR] SQL error or missing database (no such column: asdf)
 -- 7/26 - 0 ---------------------------------------------------------------
 .handler error
-.handler error "-- javascript error: " + ((error == null) ? message : (sqlex == null ? error.message : ("SQL Error: " + sqlex.message)))
+.handler error "-- javascript error: " + (sqlError == null ? "" : "SQL Error: ") + message
 -- 7/27 - 0 ---------------------------------------------------------------
 .handler error default
 -- 7/28 - 0 ---------------------------------------------------------------

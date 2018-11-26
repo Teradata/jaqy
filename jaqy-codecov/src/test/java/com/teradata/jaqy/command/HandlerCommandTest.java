@@ -32,6 +32,6 @@ public class HandlerCommandTest
 	@Test
 	public void test1 () throws Exception
 	{
-		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/pwd.sql", "../tests/unittests/commands/control/pwd.control");
+		TestUtils.jaqyTest (testFolder, "../tests/unittests/commands/handler.sql", "../tests/unittests/commands/control/handler.control");
 	}
 }

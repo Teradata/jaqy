@@ -17,11 +17,9 @@ package com.teradata.jaqy.command;
 
 import com.teradata.jaqy.ConsoleDisplay;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.interfaces.ErrorStateHandler;
 import com.teradata.jaqy.interfaces.StateHandler;
-import com.teradata.jaqy.utils.ScriptErrorStateHandler;
-import com.teradata.jaqy.utils.ScriptStateHandler;
 import com.teradata.jaqy.utils.DefaultStateHandlers;
+import com.teradata.jaqy.utils.ScriptStateHandler;
 
 /**
  * @author	Heng Yuan
@@ -187,12 +185,12 @@ public class HandlerCommand extends JaqyCommandAdapter
 		{
 			if (argument.length () == 0)
 			{
-				ErrorStateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getErrorHandler ();
+				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getErrorHandler ();
 				String script = null;
 				if (handler == DefaultStateHandlers.errorHandler)
 					script = "default";
-				else if (handler instanceof ScriptErrorStateHandler)
-					script = ((ScriptErrorStateHandler)handler).getScript ();
+				else if (handler instanceof ScriptStateHandler)
+					script = ((ScriptStateHandler)handler).getScript ();
 				if (script != null)
 				{
 					interpreter.println (getCommand () + " " + type + " " + script);
@@ -201,12 +199,12 @@ public class HandlerCommand extends JaqyCommandAdapter
 			}
 			else
 			{
-				ScriptErrorStateHandler handler;
+				ScriptStateHandler handler;
 				if ("default".equals (argument))
 					handler = null;
 				else
 				{
-					handler = new ScriptErrorStateHandler ();
+					handler = new ScriptStateHandler ();
 					handler.setScript (argument);
 				}
 				((ConsoleDisplay)interpreter.getDisplay ()).setErrorHandler (handler);

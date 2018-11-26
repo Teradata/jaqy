@@ -82,6 +82,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	private long m_limit = 0;
 	private long m_repeatCount = 1;
 	private String m_prevSQL;
+	private Throwable m_ex;
 
 	private int m_lobCacheSize = 4096;
 	/** temp byte buffer */
@@ -179,6 +180,73 @@ public class JaqyInterpreter implements ExpressionHandler
 		public String getName ()
 		{
 			return "iteration";
+		}
+	};
+
+	private final Variable m_errorVar = new Variable ()
+	{
+		@Override
+		public Object get ()
+		{
+			return m_ex;
+		}
+
+		@Override
+		public boolean set (Object value)
+		{
+			return false;
+		}
+
+		@Override
+		public String getName ()
+		{
+			return "error";
+		}
+	};
+
+	private final Variable m_sqlErrorVar = new Variable ()
+	{
+		@Override
+		public Object get ()
+		{
+			if (m_ex instanceof SQLException)
+				return m_ex;
+			return null;
+		}
+
+		@Override
+		public boolean set (Object value)
+		{
+			return false;
+		}
+
+		@Override
+		public String getName ()
+		{
+			return "sqlError";
+		}
+	};
+
+	private final Variable m_messageVar = new Variable ()
+	{
+		@Override
+		public Object get ()
+		{
+			if (m_ex != null)
+				return m_ex.getMessage ();
+			return null;
+		}
+
+		@Override
+		public boolean set (Object value)
+		{
+			return false;
+		}
+
+		@Override
+		public String getName ()
+		{
+			return "message";
 		}
 	};
 
@@ -401,7 +469,8 @@ public class JaqyInterpreter implements ExpressionHandler
 					if (!match.equals (action.cmd.getName ()))
 					{
 						++m_errorCount;
-						display.error (this, "end " + match + " does not match " + action.cmd.getName () + ".");
+						m_ex = new JaqyException ("end " + match + " does not match " + action.cmd.getName () + ".");
+						display.error (this, m_ex);
 						continue;
 					}
 					m_actionStack.pop ();
@@ -501,6 +570,7 @@ public class JaqyInterpreter implements ExpressionHandler
 				{
 					Session session = m_session;
 					boolean errorCleanup = false;
+					m_ex = null;
 					try
 					{
 						display.echo (this, sql, interactive);
@@ -529,12 +599,14 @@ public class JaqyInterpreter implements ExpressionHandler
 					}
 					catch (SQLException ex)
 					{
+						m_ex = ex;
 						++m_failureCount;
 						errorCleanup = true;
 						display.error (this, ex);
 					}
 					catch (Throwable t)
 					{
+						m_ex = t;
 						++m_errorCount;
 						errorCleanup = true;
 						display.error (this, t);
@@ -600,7 +672,8 @@ public class JaqyInterpreter implements ExpressionHandler
 			if (call == null)
 			{
 				++m_errorCount;
-				m_display.error (this, "unknown command: " + cmd.cmd);
+				m_ex = new JaqyException ("unknown command: " + cmd.cmd);
+				m_display.error (this, m_ex);
 				return;
 			}
 	
@@ -708,8 +781,8 @@ public class JaqyInterpreter implements ExpressionHandler
 	}
 
 	/**
-	 * @param session
-	 *            the session to set
+	 * @param	session
+	 *			the session to set
 	 */
 	public void setSession (Session session)
 	{
@@ -728,6 +801,9 @@ public class JaqyInterpreter implements ExpressionHandler
 		varManager.setVariable (m_sessionVar);
 		varManager.setVariable (m_activityCountVar);
 		varManager.setVariable (m_iterationVar);
+		varManager.setVariable (m_errorVar);
+		varManager.setVariable (m_sqlErrorVar);
+		varManager.setVariable (m_messageVar);
 		m_scriptContext.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
 	}
 
@@ -1256,5 +1332,15 @@ public class JaqyInterpreter implements ExpressionHandler
 	public void setCaseInsensitive (boolean caseInsensitive)
 	{
 		m_caseInsensitive = caseInsensitive;
+	}
+
+	public void setException (Throwable ex)
+	{
+		m_ex = ex;
+	}
+
+	public Throwable getException ()
+	{
+		return m_ex;
 	}
 }
