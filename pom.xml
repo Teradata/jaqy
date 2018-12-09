@@ -49,6 +49,7 @@
 		<module>jaqy-pipe</module>
 		<module>jaqy-avro</module>
 		<module>jaqy-s3</module>
+		<module>jaqy-azure</module>
 		<module>jaqy-codecov</module>
 	</modules>
 
