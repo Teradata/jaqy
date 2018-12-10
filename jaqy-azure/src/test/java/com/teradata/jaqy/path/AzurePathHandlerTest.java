@@ -18,6 +18,9 @@ package com.teradata.jaqy.path;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
+
 /**
  * @author	Heng Yuan
  */
@@ -31,5 +34,16 @@ public class AzurePathHandlerTest
 		Assert.assertTrue (handler.canHandle ("wasb:///examples/"));
 		Assert.assertTrue (handler.canHandle ("wasbs:///examples"));
 		Assert.assertFalse (handler.canHandle ("wasba:///examples"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)  
+	public void test2 () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+
+		AzurePathHandler handler = new AzurePathHandler ();
+
+		handler.getPath ("asdf", interpreter);
 	}
 }

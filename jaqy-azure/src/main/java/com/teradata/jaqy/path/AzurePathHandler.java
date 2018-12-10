@@ -50,7 +50,7 @@ public class AzurePathHandler implements PathHandler
 			}
 			return new WasbPath (container, info.file, interpreter, blobClient);
 		}
-		return null;
+		throw new IllegalArgumentException ("Invalid path: " + path);
 	}
 
 	@Override
