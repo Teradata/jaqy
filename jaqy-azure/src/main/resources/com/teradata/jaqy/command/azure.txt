@@ -1,4 +1,0 @@
-usage: azure [type] [setting]
-type:
-  name       set the account name
-  key        set the access key

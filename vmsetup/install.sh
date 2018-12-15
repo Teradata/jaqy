@@ -63,6 +63,14 @@ sudo sed -i 's/bind-address.*=.*/bind-address=0.0.0.0/' /etc/mysql/my.cnf
 # Restart the MySQL server
 sudo /etc/init.d/mysql restart
 
+# ---- Setup Docker ----
+sudo apt-get install -y docker.io
+
+# ==== Azurite (Azure Storage emulator)
+sudo docker pull arafato/azurite
+mkdir /tmp/azurite
+sudo docker run -e executable=blob -d -t -p 10000:10000 -v /tmp/azurite:/opt/azurite/folder arafato/azurite
+
 # ---- Install a graphical file comparison tool ----
 sudo apt-get -y install meld
 

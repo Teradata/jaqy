@@ -1,0 +1,5 @@
+usage: wasb [type] [setting]
+type:
+  account    set the account name
+  key        set the access key
+  endpoint   set the end point

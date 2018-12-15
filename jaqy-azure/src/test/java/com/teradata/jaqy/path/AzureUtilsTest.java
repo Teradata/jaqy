@@ -31,13 +31,25 @@ public class AzureUtilsTest
 	{
 		AzurePathInfo info;
 
+		info = AzureUtils.getPathInfo ("wasb:///examples/abc.json");
+		Assert.assertEquals ("wasb", info.protocol);
+		Assert.assertNull (info.account);
+		Assert.assertNull (info.container);
+		Assert.assertEquals ("examples/abc.json", info.file);
+
 		info = AzureUtils.getPathInfo ("wasbs:///examples/abc.json");
 		Assert.assertEquals ("wasbs", info.protocol);
 		Assert.assertNull (info.account);
 		Assert.assertNull (info.container);
-		Assert.assertEquals ("/examples/abc.json", info.file);
+		Assert.assertEquals ("examples/abc.json", info.file);
 
 		info = AzureUtils.getPathInfo ("wasbs://a@b/examples.json");
+		Assert.assertEquals ("wasbs", info.protocol);
+		Assert.assertEquals ("b", info.account);
+		Assert.assertEquals ("a", info.container);
+		Assert.assertEquals ("examples.json", info.file);
+
+		info = AzureUtils.getPathInfo ("wasbs://a@b.blob.core.windows.net/examples.json");
 		Assert.assertEquals ("wasbs", info.protocol);
 		Assert.assertEquals ("b", info.account);
 		Assert.assertEquals ("a", info.container);

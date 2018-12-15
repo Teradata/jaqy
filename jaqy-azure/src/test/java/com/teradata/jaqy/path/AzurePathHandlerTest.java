@@ -15,11 +15,20 @@
  */
 package com.teradata.jaqy.path;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.azure.AzureUtils;
+import com.teradata.jaqy.interfaces.Path;
 
 /**
  * @author	Heng Yuan
@@ -45,5 +54,39 @@ public class AzurePathHandlerTest
 		AzurePathHandler handler = new AzurePathHandler ();
 
 		handler.getPath ("asdf", interpreter);
+	}
+
+	@Test
+	public void testGetPath () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+		AzurePathHandler handler = new AzurePathHandler ();
+		AzureUtils.setAccount ("devstoreaccount1", interpreter);
+		AzureUtils.setKey ("Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==", interpreter);
+		AzureUtils.setEndPoint ("http://127.0.0.1:10000/devstoreaccount1", interpreter);
+
+		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
+		CloudBlobContainer container = client.getContainerReference ("testcontainer");
+		container.create ();
+
+		Path path = handler.getPath ("wasb://testcontainer@/abc/test.txt", interpreter);
+		Assert.assertNotNull (path);
+		OutputStream os = path.getOutputStream ();
+		os.write ("Hello World".getBytes ("utf-8"));
+		os.close ();
+
+		path = handler.getPath ("wasb://testcontainer@/abc/test.txt", interpreter);
+		Assert.assertNotNull (path);
+		Assert.assertTrue (path.exists ());
+		Assert.assertEquals (11, path.length ());
+		Assert.assertTrue (path.isFile ());
+		InputStream is = path.getInputStream ();
+		BufferedReader r = new BufferedReader (new InputStreamReader (is, "utf-8"));
+		String line = r.readLine ();
+		Assert.assertEquals ("Hello World", line);
+		is.close ();
+
+		container.delete ();
 	}
 }

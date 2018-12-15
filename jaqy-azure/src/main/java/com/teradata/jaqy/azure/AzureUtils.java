@@ -29,28 +29,39 @@ import com.teradata.jaqy.VariableManager;
  */
 public class AzureUtils
 {
-	public final static String AZURECLIENT_VAR = "AzureClient";
-	public final static String AZUREACCOUNTNAME_VAR = "AzureAccountName";
-	public final static String AZUREKEY_VAR = "AzureKey";
+	public final static String WASB_CLIENT_VAR = "WasbClient";
+	public final static String WASB_ACCOUNT_VAR = "WasbAccountName";
+	public final static String WASB_KEY_VAR = "WasbKey";
+	public final static String WASB_ENDPOINT_VAR = "WasbEndpoint";
+	private final static String BLOB_SERVER = ".blob.core.windows.net";
 
-	private final static Pattern s_pattern = Pattern.compile ("(http|https|wasb|wasbs|adl)://([^/@]+@)?([^/]+)?(/.*)");
+	private final static Pattern s_pattern = Pattern.compile ("(http|https|wasb|wasbs)://([^/@]+@)?([^/]+)?(/.*)");
 
-	public static void setName (String access, JaqyInterpreter interpreter)
+	public static void setAccount (String access, JaqyInterpreter interpreter)
 	{
 		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (AZUREACCOUNTNAME_VAR, access);
+		vm.setVariable (WASB_ACCOUNT_VAR, access);
 
 		// clear the current client
-		vm.setVariable (AZURECLIENT_VAR, null);
+		vm.setVariable (WASB_CLIENT_VAR, null);
 	}
 
 	public static void setKey (String secret, JaqyInterpreter interpreter)
 	{
 		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (AZUREKEY_VAR, secret);
+		vm.setVariable (WASB_KEY_VAR, secret);
 
 		// clear the current client
-		vm.setVariable (AZURECLIENT_VAR, null);
+		vm.setVariable (WASB_CLIENT_VAR, null);
+	}
+
+	public static void setEndPoint (String endPoint, JaqyInterpreter interpreter)
+	{
+		VariableManager vm = interpreter.getVariableManager ();
+		vm.setVariable (WASB_ENDPOINT_VAR, endPoint);
+
+		// clear the current client
+		vm.setVariable (WASB_CLIENT_VAR, null);
 	}
 
 	private static String getAccountString (JaqyInterpreter interpreter, String account)
@@ -60,7 +71,7 @@ public class AzureUtils
 		Object o;
 		if (account == null)
 		{
-			o = vm.getVariableString (AZUREACCOUNTNAME_VAR);
+			o = vm.getVariableString (WASB_ACCOUNT_VAR);
 		}
 		else
 		{
@@ -70,7 +81,7 @@ public class AzureUtils
 		{
 			sb.append ("AccountName=").append (o.toString ());
 		}
-		o = vm.getVariableString (AZUREKEY_VAR);
+		o = vm.getVariableString (WASB_KEY_VAR);
 		if (o != null)
 		{
 			if (sb.length () > 0)
@@ -79,13 +90,22 @@ public class AzureUtils
 			}
 			sb.append ("AccountKey=").append (o.toString ());
 		}
+		o = vm.getVariableString (WASB_ENDPOINT_VAR);
+		if (o != null)
+		{
+			if (sb.length () > 0)
+			{
+				sb.append (';');
+			}
+			sb.append ("BlobEndpoint=").append (o.toString ());
+		}
 		return sb.toString ();
 	}
 
     public static CloudBlobClient getBlobClient(JaqyInterpreter interpreter, String account) throws IOException
 	{
 		VariableManager vm = interpreter.getVariableManager ();
-		Object o = vm.getVariableString (AZURECLIENT_VAR);
+		Object o = vm.getVariableString (WASB_CLIENT_VAR);
 		if (o instanceof CloudBlobClient)
 		{
 			return (CloudBlobClient)o;
@@ -95,7 +115,7 @@ public class AzureUtils
 		{
 			CloudStorageAccount storageAccount = CloudStorageAccount.parse(getAccountString (interpreter, account));
 	        CloudBlobClient client = storageAccount.createCloudBlobClient();
-	        vm.setVariable (AZURECLIENT_VAR, client);
+	        vm.setVariable (WASB_CLIENT_VAR, client);
 	        return client;
 		}
 		catch (Exception ex)
@@ -118,6 +138,14 @@ public class AzureUtils
 			info.container = info.container.substring (0, info.container.length () - 1);
 		}
 		info.account = m.group (3);
+		if (info.account != null)
+		{
+			info.account = info.account.toLowerCase ();
+			if (info.account.endsWith (BLOB_SERVER))
+			{
+				info.account = info.account.substring (0, info.account.length () - BLOB_SERVER.length ());
+			}
+		}
 		info.file = m.group (4);
 		if (info.file != null)
 		{

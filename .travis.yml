@@ -12,6 +12,7 @@ addons:
     - postgresql-10
     - postgresql-client-10
 services:
+  - docker
   - mysql
   - postgresql
 before_install:
@@ -22,6 +23,9 @@ before_script:
   - sudo cp vmsetup/p*.conf /etc/postgresql/10/main/
   - sudo /etc/init.d/postgresql restart
   - sudo -u postgres psql -c "alter user postgres with password '';"
+  - sudo docker pull arafato/azurite
+  - mkdir /tmp/azurite
+  - sudo docker run -e executable=blob -d -t -p 10000:10000 -v /tmp/azurite:/opt/azurite/folder arafato/azurite
 script: mvn clean test
 after_success:
   - mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report

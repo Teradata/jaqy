@@ -24,17 +24,17 @@ import com.teradata.jaqy.azure.AzureUtils;
 /**
  * @author	Heng Yuan
  */
-public class AzureCommand extends JaqyCommandAdapter
+public class WasbCommand extends JaqyCommandAdapter
 {
-	public AzureCommand ()
+	public WasbCommand ()
 	{
-		super ("azure.txt");
+		super ("wasb.txt");
 	}
 
 	@Override
 	public String getDescription ()
 	{
-		return "configures Azure storage client.";
+		return "configures Windows Azure Blob Storage client.";
 	}
 
 	@Override
@@ -58,9 +58,13 @@ public class AzureCommand extends JaqyCommandAdapter
 		{
 			AzureUtils.setKey (setting, interpreter);
 		}
-		else if ("name".equals (type))
+		else if ("account".equals (type))
 		{
-			AzureUtils.setName (setting, interpreter);
+			AzureUtils.setAccount (setting, interpreter);
+		}
+		else if ("endpoint".equals (type))
+		{
+			AzureUtils.setEndPoint (setting, interpreter);
 		}
 		else
 		{

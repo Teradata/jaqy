@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.name = "jaqy"
     vb.gui = false
-    vb.memory = "512"
+    vb.memory = "3072"
   end
 
   config.vm.define "jaqy" do |jaqy|
@@ -23,6 +23,7 @@ Vagrant.configure("2") do |config|
     # postgresql
     jaqy.vm.network "forwarded_port", guest: 5432, host: 5432
     jaqy.vm.network "forwarded_port", guest: 5433, host: 5433
+    jaqy.vm.network "forwarded_port", guest: 10000, host: 10000
   end
 
   config.ssh.forward_x11 = true

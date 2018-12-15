@@ -16,7 +16,7 @@
 package com.teradata.jaqy.azure;
 
 import com.teradata.jaqy.Globals;
-import com.teradata.jaqy.command.AzureCommand;
+import com.teradata.jaqy.command.WasbCommand;
 import com.teradata.jaqy.interfaces.JaqyPlugin;
 import com.teradata.jaqy.path.AzurePathHandler;
 
@@ -28,7 +28,7 @@ public class AzurePlugin implements JaqyPlugin
 	@Override
 	public void init (Globals globals)
 	{
-		globals.getCommandManager ().addObject ("wasb", new AzureCommand ());
+		globals.getCommandManager ().addObject ("wasb", new WasbCommand ());
 		globals.getPathHandlerManager ().addPathHandler (new AzurePathHandler ());
 	}
 }

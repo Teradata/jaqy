@@ -43,6 +43,14 @@ public class AzurePathHandler implements PathHandler
 			try
 			{
 				container = blobClient.getContainerReference (info.container);
+				if (!container.exists ())
+				{
+					throw new IOException ("Invalid Azure path: " + path);
+				}
+			}
+			catch (IOException ex)
+			{
+				throw ex;
 			}
 			catch (Exception ex)
 			{
@@ -50,7 +58,7 @@ public class AzurePathHandler implements PathHandler
 			}
 			return new WasbPath (container, info.file, interpreter, blobClient);
 		}
-		throw new IllegalArgumentException ("Invalid path: " + path);
+		throw new IOException ("Invalid Azure path: " + path);
 	}
 
 	@Override
