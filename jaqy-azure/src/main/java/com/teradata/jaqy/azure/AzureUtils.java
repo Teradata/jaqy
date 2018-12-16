@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.StorageCredentials;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.VariableManager;
@@ -105,18 +106,28 @@ public class AzureUtils
     public static CloudBlobClient getBlobClient(JaqyInterpreter interpreter, String account) throws IOException
 	{
 		VariableManager vm = interpreter.getVariableManager ();
-		Object o = vm.getVariableString (WASB_CLIENT_VAR);
+		Object o = vm.get (WASB_CLIENT_VAR);
 		if (o instanceof CloudBlobClient)
 		{
-			return (CloudBlobClient)o;
+			CloudBlobClient client = (CloudBlobClient)o;
+			if (account == null)
+			{
+				return client;
+			}
+			StorageCredentials credential = client.getCredentials ();
+			if (credential != null &&
+				account.equals (credential.getAccountName ()))
+			{
+				return client;
+			}
 		}
 
 		try
 		{
 			CloudStorageAccount storageAccount = CloudStorageAccount.parse(getAccountString (interpreter, account));
-	        CloudBlobClient client = storageAccount.createCloudBlobClient();
-	        vm.setVariable (WASB_CLIENT_VAR, client);
-	        return client;
+			CloudBlobClient client = storageAccount.createCloudBlobClient();
+			vm.setVariable (WASB_CLIENT_VAR, client);
+			return client;
 		}
 		catch (Exception ex)
 		{

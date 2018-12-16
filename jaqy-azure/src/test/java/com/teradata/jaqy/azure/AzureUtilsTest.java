@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.path;
+package com.teradata.jaqy.azure;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.azure.AzurePathInfo;
 import com.teradata.jaqy.azure.AzureUtils;
 
@@ -27,7 +31,7 @@ import com.teradata.jaqy.azure.AzureUtils;
 public class AzureUtilsTest
 {
 	@Test
-	public void testGetPath () throws Exception
+	public void testGetPathInfo () throws Exception
 	{
 		AzurePathInfo info;
 
@@ -54,5 +58,31 @@ public class AzureUtilsTest
 		Assert.assertEquals ("b", info.account);
 		Assert.assertEquals ("a", info.container);
 		Assert.assertEquals ("examples.json", info.file);
+	}
+
+	@Test
+	public void testGetBlobClient () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+
+		AzureUtils.setAccount ("devstoreaccount1", interpreter);
+		AzureUtils.setKey ("Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==", interpreter);
+		AzureUtils.setEndPoint ("http://127.0.0.1:10000/devstoreaccount1", interpreter);
+
+		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
+		CloudBlobContainer container = client.getContainerReference ("testcontainer");
+		if (!container.exists ())
+		{
+			container.create ();
+		}
+
+		CloudBlobClient client2 = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
+		Assert.assertSame (client2, client);
+
+		client2 = AzureUtils.getBlobClient (interpreter, "abcdefg");
+		Assert.assertNotSame (client2, client);
+
+		container.delete ();
 	}
 }

@@ -76,7 +76,7 @@ public class AzurePathHandlerTest
 		os.write ("Hello World".getBytes ("utf-8"));
 		os.close ();
 
-		path = handler.getPath ("wasb://testcontainer@/abc/test.txt", interpreter);
+		path = handler.getPath ("wasbs://testcontainer@/abc/test.txt", interpreter);
 		Assert.assertNotNull (path);
 		Assert.assertTrue (path.exists ());
 		Assert.assertEquals (11, path.length ());
