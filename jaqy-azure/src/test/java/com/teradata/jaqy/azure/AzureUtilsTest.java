@@ -79,6 +79,8 @@ public class AzureUtilsTest
 
 		CloudBlobClient client2 = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
 		Assert.assertSame (client2, client);
+		client2 = AzureUtils.getBlobClient (interpreter, null);
+		Assert.assertSame (client2, client);
 
 		client2 = AzureUtils.getBlobClient (interpreter, "abcdefg");
 		Assert.assertNotSame (client2, client);

@@ -97,7 +97,7 @@ public class WasbPath implements Path
 			file = name.substring (1);
 		else
 		{
-			file = m_blobName;
+			file = getParentFile (m_blobName);
 			while (name.startsWith ("../"))
 			{
 				name = name.substring (3);
@@ -118,7 +118,8 @@ public class WasbPath implements Path
 	@Override
 	public String getPath ()
 	{
-		return "wasbs://" + m_container + '/' + m_blobName;
+        String accountName = m_container.getServiceClient().getCredentials().getAccountName();
+		return "wasbs://" + m_container.getName () + '@' + accountName + '/' + m_blobName;
 	}
 
 	@Override

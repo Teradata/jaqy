@@ -15,10 +15,7 @@
  */
 package com.teradata.jaqy.path;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -88,5 +85,27 @@ public class AzurePathHandlerTest
 		is.close ();
 
 		container.delete ();
+	}
+
+	@Test(expected = IOException.class)
+	public void testGetPathError1 () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+		AzurePathHandler handler = new AzurePathHandler ();
+		AzureUtils.setAccount ("devstoreaccount1", interpreter);
+		AzureUtils.setKey ("Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==", interpreter);
+		AzureUtils.setEndPoint ("http://127.0.0.1:10000/devstoreaccount1", interpreter);
+
+		handler.getPath ("wasb://abcdefg@/abc/test.txt", interpreter);
+	}
+
+	@Test(expected = IOException.class)
+	public void testGetPathError2 () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+		AzurePathHandler handler = new AzurePathHandler ();
+		handler.getPath ("http://abcdefg@example.com/abc/test.txt", interpreter);
 	}
 }

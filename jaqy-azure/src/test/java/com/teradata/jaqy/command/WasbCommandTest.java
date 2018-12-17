@@ -61,4 +61,18 @@ public class WasbCommandTest
 
 		cmd.execute (new String[]{ "asdf" }, false, false, interpreter);
 	}
+
+	@Test(expected = JaqyException.class)
+	public void testSettingsError2 () throws Exception
+	{
+		Globals globals = new Globals ();
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+
+		WasbCommand cmd = new WasbCommand ();
+
+		Assert.assertNotNull (cmd.getDescription ());
+		Assert.assertNotNull (cmd.getLongDescription ());
+
+		cmd.execute (new String[]{ }, false, false, interpreter);
+	}
 }
