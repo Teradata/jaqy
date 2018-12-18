@@ -69,7 +69,7 @@ public class AzureUtils
 	{
 		StringBuilder sb = new StringBuilder ();
 		VariableManager vm = interpreter.getVariableManager ();
-		Object o;
+		String o;
 		if (account == null)
 		{
 			o = vm.getVariableString (WASB_ACCOUNT_VAR);
@@ -78,12 +78,12 @@ public class AzureUtils
 		{
 			o = account;
 		}
-		if (o != null)
+		if (o.length () > 0)
 		{
 			sb.append ("AccountName=").append (o.toString ());
 		}
 		o = vm.getVariableString (WASB_KEY_VAR);
-		if (o != null)
+		if (o.length () > 0)
 		{
 			if (sb.length () > 0)
 			{
@@ -92,7 +92,7 @@ public class AzureUtils
 			sb.append ("AccountKey=").append (o.toString ());
 		}
 		o = vm.getVariableString (WASB_ENDPOINT_VAR);
-		if (o != null)
+		if (o.length () > 0)
 		{
 			if (sb.length () > 0)
 			{
