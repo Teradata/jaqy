@@ -38,7 +38,8 @@ public class AzurePathHandler implements PathHandler
 		if ("wasb".equals (info.protocol) ||
 			"wasbs".equals (info.protocol))
 		{
-			CloudBlobClient blobClient = AzureUtils.getBlobClient (interpreter, info.account);
+			boolean encrypt = "wasbs".equals (info.protocol);
+			CloudBlobClient blobClient = AzureUtils.getBlobClient (interpreter, info.account, encrypt);
 			CloudBlobContainer container;
 			try
 			{

@@ -119,7 +119,13 @@ public class WasbPath implements Path
 	public String getPath ()
 	{
         String accountName = m_container.getServiceClient().getCredentials().getAccountName();
-		return "wasbs://" + m_container.getName () + '@' + accountName + '/' + m_blobName;
+        boolean encrypted = m_container.getServiceClient().getDefaultRequestOptions ().requireEncryption();
+        String protocol;
+        if (encrypted)
+        	protocol = "wasbs://";
+        else
+        	protocol = "wasb://";
+		return protocol + m_container.getName () + '@' + accountName + '/' + m_blobName;
 	}
 
 	@Override

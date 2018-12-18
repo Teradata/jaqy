@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>.pwd &mdash; Jaqy 1.1.0 documentation</title>
+  <title>.wasb &mdash; Jaqy 1.1.0 documentation</title>
   
 
   
@@ -39,8 +39,8 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Jaqy 1.1.0 documentation" href="../index.html"/>
         <link rel="up" title="Commands" href="../command.html"/>
-        <link rel="next" title=".quiet" href="quiet.html"/>
-        <link rel="prev" title=".protocol" href="protocol.html"/> 
+        <link rel="next" title="Comments" href="../comment.html"/>
+        <link rel="prev" title=".version" href="version.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -141,7 +141,7 @@
 <li class="toctree-l2"><a class="reference internal" href="prepare.html">.prepare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project.html">.project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocol.html">.protocol</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">.pwd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pwd.html">.pwd</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quiet.html">.quiet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rem.html">.rem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="repeat.html">.repeat</a></li>
@@ -157,7 +157,7 @@
 <li class="toctree-l2"><a class="reference internal" href="timer.html">.timer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="unalias.html">.unalias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version.html">.version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wasb.html">.wasb</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">.wasb</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../comment.html">Comments</a></li>
@@ -221,7 +221,7 @@
         
           <li><a href="../command.html">Commands</a> &raquo;</li>
         
-      <li>.pwd</li>
+      <li>.wasb</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -238,41 +238,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pwd">
-<h1>.pwd<a class="headerlink" href="#pwd" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">.pwd</span></code> displays the current catalog and schema.</p>
-<div class="section" id="jdbc-call">
-<h2>JDBC Call<a class="headerlink" href="#jdbc-call" title="Permalink to this headline">¶</a></h2>
-<p>Without database extension, the command calls to JDBC
-<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html">Connection</a>
-class’s
-<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html#getCatalog--">getCatalog()</a>
-and
-<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html#getSchema--">getSchema()</a>
-functions.</p>
+  <div class="section" id="wasb">
+<h1>.wasb<a class="headerlink" href="#wasb" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">.wasb</span></code> sets up necessary configurations needed to access Windows Azure
+Blob Storage (wasb).</p>
+<p>This command requires <code class="docutils literal notranslate"><span class="pre">jaqy-azure</span></code> plugin.</p>
+<div class="section" id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: wasb [type] [setting]
+type:
+  account    set the optional account name
+  key        set the access key
+  endpoint   set the end point (for debugging purpose)
+</pre></div>
 </div>
-<div class="section" id="database-extension">
-<h2>Database Extension<a class="headerlink" href="#database-extension" title="Permalink to this headline">¶</a></h2>
-<p>Some databases may choose not to implement <code class="docutils literal notranslate"><span class="pre">getCatalog()</span></code> and <code class="docutils literal notranslate"><span class="pre">getSchema()</span></code>
-functions due to the difficulties of reliably tracking the current catalog /
-schema.  That do not mean they do not have SQL for reporting the current
-catalog or schema.  See <a class="reference external" href="../config/database.html">database configurations</a> to learn more.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="k">open</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="n">mysql</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="o">/</span>
-<span class="c1">-- 0/9 - 0 - root@localhost @ localhost --</span>
-<span class="p">.</span><span class="n">pwd</span>
-<span class="k">database</span> <span class="p">:</span> <span class="k">null</span>
-<span class="c1">-- 0/10 - 0 - root@localhost @ localhost --</span>
-<span class="n">USE</span> <span class="n">vagrant</span><span class="p">;</span>
-<span class="c1">-- success. update count = 0</span>
-<span class="c1">-- 1/10 - 0 - root@localhost @ localhost --</span>
-<span class="p">.</span><span class="n">pwd</span>
-<span class="k">database</span> <span class="p">:</span> <span class="n">vagrant</span>
-<span class="c1">-- 1/11 - 0 - root@localhost @ localhost --</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.wasb account jaqy
+.wasb key SomeSecretKey
+.wasb endpoint http://127.0.0.1:10000/devstoreaccount1
+
+.import csv -h wasb://containerName@accountName/myfile
+SELECT * FROM MyTable ORDER BY a;
 </pre></div>
 </div>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="../path.html">Path Formats</a></li>
+</ul>
 </div>
 </div>
 
@@ -286,10 +282,10 @@ catalog or schema.  See <a class="reference external" href="../config/database.h
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quiet.html" class="btn btn-neutral float-right" title=".quiet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../comment.html" class="btn btn-neutral float-right" title="Comments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="protocol.html" class="btn btn-neutral" title=".protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="version.html" class="btn btn-neutral" title=".version" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

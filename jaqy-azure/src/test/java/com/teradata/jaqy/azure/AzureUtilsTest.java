@@ -70,19 +70,19 @@ public class AzureUtilsTest
 		AzureUtils.setKey ("Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==", interpreter);
 		AzureUtils.setEndPoint ("http://127.0.0.1:10000/devstoreaccount1", interpreter);
 
-		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
+		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1", true);
 		CloudBlobContainer container = client.getContainerReference ("testcontainer");
 		if (!container.exists ())
 		{
 			container.create ();
 		}
 
-		CloudBlobClient client2 = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
+		CloudBlobClient client2 = AzureUtils.getBlobClient (interpreter, "devstoreaccount1", true);
 		Assert.assertSame (client2, client);
-		client2 = AzureUtils.getBlobClient (interpreter, null);
+		client2 = AzureUtils.getBlobClient (interpreter, null, true);
 		Assert.assertSame (client2, client);
 
-		client2 = AzureUtils.getBlobClient (interpreter, "abcdefg");
+		client2 = AzureUtils.getBlobClient (interpreter, "abcdefg", true);
 		Assert.assertNotSame (client2, client);
 
 		container.delete ();
