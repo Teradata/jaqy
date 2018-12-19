@@ -248,18 +248,20 @@ Blob Storage (wasb).</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: wasb [type] [setting]
 type:
   account    set the optional account name
-  key        set the access key
+  container  set the optional container name
   endpoint   set the end point (for debugging purpose)
+  key        set the access key
 </pre></div>
 </div>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.wasb account jaqy
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.wasb account myaccount
+.wasb container mycontainer
 .wasb key SomeSecretKey
 .wasb endpoint http://127.0.0.1:10000/devstoreaccount1
 
-.import csv -h wasb://containerName@accountName/myfile
+.import csv -h wasb://mycontainer@myaccount/myfile
 SELECT * FROM MyTable ORDER BY a;
 </pre></div>
 </div>

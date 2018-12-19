@@ -103,6 +103,11 @@ public class AzureUtils
 		return sb.toString ();
 	}
 
+	private static void setEncryption (CloudBlobClient client, boolean encrypt, JaqyInterpreter interpreter)
+	{
+//		client.getDefaultRequestOptions().setRequireEncryption (encrypt);
+	}
+
     public static CloudBlobClient getBlobClient(JaqyInterpreter interpreter, String account, boolean encrypt) throws IOException
 	{
 		VariableManager vm = interpreter.getVariableManager ();
@@ -112,14 +117,14 @@ public class AzureUtils
 			CloudBlobClient client = (CloudBlobClient)o;
 			if (account == null)
 			{
-				client.getDefaultRequestOptions().setRequireEncryption (encrypt);
+				setEncryption (client, encrypt, interpreter);
 				return client;
 			}
 			StorageCredentials credential = client.getCredentials ();
 			if (credential != null &&
 				account.equals (credential.getAccountName ()))
 			{
-				client.getDefaultRequestOptions().setRequireEncryption (encrypt);
+				setEncryption (client, encrypt, interpreter);
 				return client;
 			}
 		}
@@ -128,7 +133,7 @@ public class AzureUtils
 		{
 			CloudStorageAccount storageAccount = CloudStorageAccount.parse(getAccountString (interpreter, account));
 			CloudBlobClient client = storageAccount.createCloudBlobClient();
-			client.getDefaultRequestOptions().setRequireEncryption (encrypt);
+			setEncryption (client, encrypt, interpreter);
 			vm.setVariable (WASB_CLIENT_VAR, client);
 			return client;
 		}

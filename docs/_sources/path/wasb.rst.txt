@@ -6,7 +6,8 @@ This feature requires ``jaqy-azure`` plugin.
 `.wasb <command/wasb.html>`__ command can be used to configure the access
 credential if needed.
 
-For importing, wasb
+For importing, any types of blobs can be read.  For exporting, block blobs
+are used for output.  Blob encryption is not supported.
 
 Path Syntax
 ***********
@@ -16,10 +17,10 @@ See this
 Basically, the path syntax is the following
 
 	``wasb://containerName@accountName/filePath``
-
-or with encrypted connection
-
+or
 	``wasbs://containerName@accountName/filePath``
+
+They are handled the same.
 
 Example
 *******
@@ -29,16 +30,21 @@ Example
 	-- load jaqy-azure plugin first.
 	.load /vagrant/jaqy-azure/target/jaqy-azure-1.1.0.jar
 
-	-- configures a new WASB connection property
+	-- configures a WASB access key
 	.wasb key somesecretkey
-	.wasb account accountName
 
-	-- uses the existing WASB configuration for the account name
-	.import csv -h wasb://mycontainer@/csv/test.csv
+	-- explicits specify the container and account names
+	.import csv -h wasb://mycontainer@myaccount/myfolder/test.csv
 	.importtable mytable
 
-	-- 
-	.import csv -h wasb://mycontainer@/csv/test.csv
+	-- uses the WASB configuration for the account name
+	.wasb account myaccount
+	.import csv -h wasb://mycontainer@/myfolder/test.csv
+	.importtable mytable
+
+	-- uses the WASB configuration for the container name as well
+	.wasb container mycontainer
+	.import csv -h wasb:///myfolder/test.csv
 	.importtable mytable
 
 See Also

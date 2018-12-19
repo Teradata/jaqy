@@ -57,13 +57,13 @@ public class WasbPathTest
 		Path parent = path.getParent ();
 		Assert.assertNotNull (parent);
 		Assert.assertFalse (parent.exists ());
-		Assert.assertEquals ("wasbs://testcontainer@devstoreaccount1/abc", parent.getPath ());
+		Assert.assertEquals ("wasb://testcontainer@devstoreaccount1/abc", parent.getPath ());
 
 		Path relative = path.getRelativePath ("def.txt");
 		Assert.assertEquals (0L, relative.length ());
 		Assert.assertFalse (relative.exists ());
-		Assert.assertEquals ("wasbs://testcontainer@devstoreaccount1/abc/def.txt", relative.getPath ());
-		Assert.assertEquals ("wasbs://testcontainer@devstoreaccount1/abc/def.txt", relative.getCanonicalPath ());
+		Assert.assertEquals ("wasb://testcontainer@devstoreaccount1/abc/def.txt", relative.getPath ());
+		Assert.assertEquals ("wasb://testcontainer@devstoreaccount1/abc/def.txt", relative.getCanonicalPath ());
 
 		container.delete ();
 	}

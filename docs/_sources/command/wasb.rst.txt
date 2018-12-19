@@ -14,19 +14,21 @@ Syntax
 	usage: wasb [type] [setting]
 	type:
 	  account    set the optional account name
-	  key        set the access key
+	  container  set the optional container name
 	  endpoint   set the end point (for debugging purpose)
+	  key        set the access key
 
 Example
 ~~~~~~~
 
 .. code-block:: text
 
-	.wasb account jaqy
+	.wasb account myaccount
+	.wasb container mycontainer
 	.wasb key SomeSecretKey
 	.wasb endpoint http://127.0.0.1:10000/devstoreaccount1
 
-	.import csv -h wasb://containerName@accountName/myfile
+	.import csv -h wasb://mycontainer@myaccount/myfile
 	SELECT * FROM MyTable ORDER BY a;
 
 See Also

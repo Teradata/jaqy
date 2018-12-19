@@ -198,7 +198,8 @@
 <p>This feature requires <code class="docutils literal notranslate"><span class="pre">jaqy-azure</span></code> plugin.</p>
 <p><a class="reference external" href="command/wasb.html">.wasb</a> command can be used to configure the access
 credential if needed.</p>
-<p>For importing, wasb</p>
+<p>For importing, any types of blobs can be read.  For exporting, block blobs
+are used for output.  Blob encryption is not supported.</p>
 <div class="section" id="path-syntax">
 <h2>Path Syntax<a class="headerlink" href="#path-syntax" title="Permalink to this headline">¶</a></h2>
 <p>See this
@@ -206,25 +207,32 @@ credential if needed.</p>
 Basically, the path syntax is the following</p>
 <blockquote>
 <div><code class="docutils literal notranslate"><span class="pre">wasb://containerName&#64;accountName/filePath</span></code></div></blockquote>
-<p>or with encrypted connection</p>
-<blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">wasbs://containerName&#64;accountName/filePath</span></code></div></blockquote>
+<dl class="docutils">
+<dt>or</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">wasbs://containerName&#64;accountName/filePath</span></code></dd>
+</dl>
+<p>They are handled the same.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- load jaqy-azure plugin first.</span>
 <span class="p">.</span><span class="k">load</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">jaqy</span><span class="o">-</span><span class="n">azure</span><span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">jaqy</span><span class="o">-</span><span class="n">azure</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="n">jar</span>
 
-<span class="c1">-- configures a new WASB connection property</span>
+<span class="c1">-- configures a WASB access key</span>
 <span class="p">.</span><span class="n">wasb</span> <span class="k">key</span> <span class="n">somesecretkey</span>
-<span class="p">.</span><span class="n">wasb</span> <span class="n">account</span> <span class="n">accountName</span>
 
-<span class="c1">-- uses the existing WASB configuration for the account name</span>
-<span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="n">wasb</span><span class="p">:</span><span class="o">//</span><span class="n">mycontainer</span><span class="o">@/</span><span class="n">csv</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">csv</span>
+<span class="c1">-- explicits specify the container and account names</span>
+<span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="n">wasb</span><span class="p">:</span><span class="o">//</span><span class="n">mycontainer</span><span class="o">@</span><span class="n">myaccount</span><span class="o">/</span><span class="n">myfolder</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">csv</span>
 <span class="p">.</span><span class="n">importtable</span> <span class="n">mytable</span>
 
-<span class="c1">--</span>
-<span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="n">wasb</span><span class="p">:</span><span class="o">//</span><span class="n">mycontainer</span><span class="o">@/</span><span class="n">csv</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">csv</span>
+<span class="c1">-- uses the WASB configuration for the account name</span>
+<span class="p">.</span><span class="n">wasb</span> <span class="n">account</span> <span class="n">myaccount</span>
+<span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="n">wasb</span><span class="p">:</span><span class="o">//</span><span class="n">mycontainer</span><span class="o">@/</span><span class="n">myfolder</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">csv</span>
+<span class="p">.</span><span class="n">importtable</span> <span class="n">mytable</span>
+
+<span class="c1">-- uses the WASB configuration for the container name as well</span>
+<span class="p">.</span><span class="n">wasb</span> <span class="n">container</span> <span class="n">mycontainer</span>
+<span class="p">.</span><span class="n">import</span> <span class="n">csv</span> <span class="o">-</span><span class="n">h</span> <span class="n">wasb</span><span class="p">:</span><span class="o">///</span><span class="n">myfolder</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">csv</span>
 <span class="p">.</span><span class="n">importtable</span> <span class="n">mytable</span>
 </pre></div>
 </div>
