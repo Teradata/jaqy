@@ -81,6 +81,8 @@ PATH=${PATH}:/vagrant/tests/bin/
 echo "$PROFILE" >> ~vagrant/.profile
 
 # ---- Setup .bashrc ----
+JQ_VERSION="1.1.0"
+
 BASHRC="
 alias dir='ls -l'
 alias ll='dir -a'
@@ -89,14 +91,19 @@ alias rd=rmdir
 alias where=which
 alias grep='grep --color=auto'
 
-alias jq='java -jar /vagrant/dist/jaqy-1.1.0.jar'
-alias jqe='java -ea -jar /vagrant/dist/jaqy-1.1.0.jar'
+alias jq='java -jar /vagrant/dist/jaqy-${JQ_VERSION}.jar'
+alias jqe='java -ea -jar /vagrant/dist/jaqy-${JQ_VERSION}.jar'
 
 cd /vagrant
 "
 echo "$BASHRC" >> ~vagrant/.bashrc
-echo ".@load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar" > ~vagrant/.jqrc
-echo ".@load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar" >> ~vagrant/.jqrc
+
+JQRC="
+.@load /vagrant/jaqy-avro/target/jaqy-avro-${JQ_VERSION}.jar
+.@load /vagrant/jaqy-s3/target/jaqy-s3-${JQ_VERSION}.jar
+.@load /vagrant/jaqy-azure/target/jaqy-azure-${JQ_VERSION}.jar
+"
+echo "$JQRC" > ~vagrant/.jqrc
 
 chown ubuntu ~vagrant/.jqrc
 chgrp ubuntu ~vagrant/.jqrc

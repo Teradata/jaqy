@@ -1,0 +1,146 @@
+Jaqy Console 1.1.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .wasb command test
+--------------------------------------------------------------------------
+.help wasb
+usage: wasb [type] [setting]
+type:
+  account    sets the account name
+  key        sets the access key
+  endpoint   sets the end point
+  create     creates a container if it does not exist.
+  delete     deletes a container if it exists.
+  list       lists blobs in a container
+  remove     removes a blob
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.wasb
+-- error: missing type.
+-- 0/2 - 0 ----------------------------------------------------------------
+.wasb asdf
+-- error: unknown type.
+-- 0/3 - 0 ----------------------------------------------------------------
+
+.wasb endpoint
+-- 0/4 - 0 ----------------------------------------------------------------
+.wasb endpoint http://127.0.0.1:10000/devstoreaccount1
+-- 0/5 - 0 ----------------------------------------------------------------
+.wasb account
+-- 0/6 - 0 ----------------------------------------------------------------
+.wasb account devstoreaccount1
+-- 0/7 - 0 ----------------------------------------------------------------
+.wasb key Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+-- 0/8 - 0 ----------------------------------------------------------------
+
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/9 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/10 - 0 ---------------------------------------------------------------
+.format csv
+-- 0/11 - 0 ---------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b VARCHAR(200), c VARCHAR(200));
+-- success. update count = 0
+-- 1/11 - 0 ---------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'abc', 'def');
+-- success. update count = 1
+-- 2/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, 'john', 'doe');
+-- success. update count = 1
+-- 3/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (3, 'a"b', 'c"d');
+-- success. update count = 1
+-- 4/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (4, 'a,b', 'c,d');
+-- success. update count = 1
+-- 5/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (5, 'a''b', 'c''d');
+-- success. update count = 1
+-- 6/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d');
+-- success. update count = 1
+-- 7/11 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (7, 'a       b', 'c,d');
+-- success. update count = 1
+-- 8/11 - 0 ---------------------------------------------------------------
+
+.wasb create testcontainer
+-- 8/12 - 0 ---------------------------------------------------------------
+.wasb create
+-- error: missing container name.
+-- 8/13 - 0 ---------------------------------------------------------------
+.wasb create A#!@#$
+-- error: Bad Request
+-- 8/14 - 0 ---------------------------------------------------------------
+
+.export csv -c utf-8 wasb://testcontainer@/file1.csv
+-- 8/15 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+-- activity count = 7
+-- 9/15 - 0 ---------------------------------------------------------------
+
+.wasb list testcontainer
+URIs
+http://127.0.0.1:10000/devstoreaccount1/testcontainer/file1.csv
+-- 9/16 - 0 ---------------------------------------------------------------
+.wasb list
+-- error: missing container name.
+-- 9/17 - 0 ---------------------------------------------------------------
+.wasb list asdf
+-- error: container does not exist.
+-- 9/18 - 0 ---------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 7
+-- 10/18 - 0 --------------------------------------------------------------
+.import csv -h wasb://testcontainer@/file1.csv
+-- 10/19 - 0 --------------------------------------------------------------
+INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}});
+-- success. update count = 1
+-- 11/19 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+a,b,c
+1,abc,def
+2,john,doe
+3,"a""b","c""d"
+4,"a,b","c,d"
+5,a'b,c'd
+6,"a'"",b","c'"",d"
+7,a       b,"c,d"
+-- activity count = 7
+-- 12/19 - 0 --------------------------------------------------------------
+
+.wasb remove wasb://testcontainer@/file1.csv
+-- 12/20 - 0 --------------------------------------------------------------
+.wasb remove
+-- error: missing blob name.
+-- 12/21 - 0 --------------------------------------------------------------
+.wasb remove wasb://asdf@/
+-- error: container does not exist.
+-- 12/22 - 0 --------------------------------------------------------------
+.wasb remove wasb://testcontainer@/
+-- error: invalid blob name.
+-- 12/23 - 0 --------------------------------------------------------------
+.wasb remove wasb://testcontainer@/file2.csv
+-- error: blob does not exist.
+-- 12/24 - 0 --------------------------------------------------------------
+.wasb remove adl://testcontainer@/file1.csv
+-- error: invalid protocol.
+-- 12/25 - 0 --------------------------------------------------------------
+
+.wasb delete testcontainer
+-- 12/26 - 0 --------------------------------------------------------------
+.wasb delete asdf
+-- 12/27 - 0 --------------------------------------------------------------
+.wasb delete
+-- error: missing container name.
+-- 12/28 - 0 --------------------------------------------------------------
+.wasb delete A#@%
+-- 12/29 - 0 --------------------------------------------------------------
+.close
+-- 12/30 - 0 --------------------------------------------------------------

@@ -18,8 +18,6 @@ package com.teradata.jaqy.path;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.microsoft.azure.storage.blob.CloudBlobClient;
-import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.azure.AzureUtils;
@@ -40,12 +38,7 @@ public class WasbPathTest
 		AzureUtils.setKey ("Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==", interpreter);
 		AzureUtils.setEndPoint ("http://127.0.0.1:10000/devstoreaccount1", interpreter);
 
-		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1", true);
-		CloudBlobContainer container = client.getContainerReference ("testcontainer");
-		if (!container.exists ())
-		{
-			container.create ();
-		}
+		AzureUtils.createContainer ("testcontainer", interpreter);
 
 		Path path = handler.getPath ("wasb://testcontainer@/abc/test.txt", interpreter);
 		Assert.assertNotNull (path);
@@ -65,6 +58,6 @@ public class WasbPathTest
 		Assert.assertEquals ("wasb://testcontainer@devstoreaccount1/abc/def.txt", relative.getPath ());
 		Assert.assertEquals ("wasb://testcontainer@devstoreaccount1/abc/def.txt", relative.getCanonicalPath ());
 
-		container.delete ();
+		AzureUtils.deleteContainer ("testcontainer", interpreter);
 	}
 }

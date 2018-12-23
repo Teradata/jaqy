@@ -15,11 +15,16 @@
  */
 package com.teradata.jaqy.command;
 
-import java.sql.SQLException;
-
+import com.microsoft.azure.storage.blob.CloudBlob;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.ListBlobItem;
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.PropertyTable;
+import com.teradata.jaqy.azure.AzurePathInfo;
 import com.teradata.jaqy.azure.AzureUtils;
+import com.teradata.jaqy.azure.ErrorMessage;
 
 /**
  * @author	Heng Yuan
@@ -44,7 +49,7 @@ public class WasbCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
 		if (args.length == 0)
 			interpreter.error ("missing type.");
@@ -62,9 +67,82 @@ public class WasbCommand extends JaqyCommandAdapter
 		{
 			AzureUtils.setAccount (setting, interpreter);
 		}
+		else if ("container".equals (type))
+		{
+			AzureUtils.setAccount (setting, interpreter);
+		}
 		else if ("endpoint".equals (type))
 		{
 			AzureUtils.setEndPoint (setting, interpreter);
+		}
+		else if ("create".equals (type))
+		{
+			if (args.length < 2)
+			{
+				interpreter.error (ErrorMessage.CONTAINER_NAME_MISSING);
+			}
+			AzureUtils.createContainer (args[1], interpreter);
+		}
+		else if ("delete".equals (type))
+		{
+			if (args.length < 2)
+			{
+				interpreter.error (ErrorMessage.CONTAINER_NAME_MISSING);
+			}
+			AzureUtils.deleteContainer (args[1], interpreter);
+		}
+		else if ("list".equals (type))
+		{
+			if (args.length < 2)
+			{
+				interpreter.error (ErrorMessage.CONTAINER_NAME_MISSING);
+			}
+			CloudBlobClient client = AzureUtils.getBlobClient (interpreter, null);
+			CloudBlobContainer container = client.getContainerReference (args[1]);
+			if (!container.exists ())
+			{
+				interpreter.error (ErrorMessage.CONTAINER_NOT_EXIST);
+			}
+			Iterable<ListBlobItem> items = container.listBlobs ();
+			PropertyTable pt = new PropertyTable (new String[]{ "URIs" });
+			for (ListBlobItem item : items)
+			{
+				pt.addRow (new String[]{ item.getUri ().toString () });
+			}
+			interpreter.print (pt);
+		}
+		else if ("remove".equals (type))
+		{
+			if (args.length < 2)
+			{
+				interpreter.error (ErrorMessage.BLOB_NAME_MISSING);
+			}
+			AzurePathInfo info = AzureUtils.getPathInfo (args[1]);
+			if (!("wasb".equals (info.protocol) ||
+			      "wasbs".equals (info.protocol)))
+			{
+				interpreter.error (ErrorMessage.PROTOCOL_INVALID);
+			}
+			CloudBlobContainer container = AzureUtils.getContainer(info.account, info.container, interpreter);
+			if (!container.exists ())
+			{
+				interpreter.error (ErrorMessage.CONTAINER_NOT_EXIST);
+			}
+			if (info.file == null ||
+				info.file.length () == 0)
+			{
+				interpreter.error (ErrorMessage.BLOB_INVALID_NAME);
+			}
+			//
+			// We use getBlockBlobReference call here since it does not check
+			// if the blob's type
+			//
+			CloudBlob blob = container.getBlockBlobReference (info.file);
+			if (!blob.exists ())
+			{
+				interpreter.error (ErrorMessage.BLOB_NOT_EXIST);
+			}
+			blob.delete ();
 		}
 		else
 		{

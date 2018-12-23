@@ -86,6 +86,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.teradata.jaqy</groupId>
+			<artifactId>jaqy-azure</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>

@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageCredentials;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.VariableManager;
 
@@ -32,25 +34,35 @@ public class AzureUtils
 {
 	public final static String WASB_CLIENT_VAR = "WasbClient";
 	public final static String WASB_ACCOUNT_VAR = "WasbAccountName";
+	public final static String WASB_CONTAINER_VAR = "WasbContainerName";
 	public final static String WASB_KEY_VAR = "WasbKey";
 	public final static String WASB_ENDPOINT_VAR = "WasbEndpoint";
 	private final static String BLOB_SERVER = ".blob.core.windows.net";
 
-	private final static Pattern s_pattern = Pattern.compile ("(http|https|wasb|wasbs)://([^/@]+@)?([^/]+)?(/.*)");
+	private final static Pattern s_pattern = Pattern.compile ("(http|https|wasb|wasbs|adl)://([^/@]+@)?([^/]+)?(/.*)?");
 
-	public static void setAccount (String access, JaqyInterpreter interpreter)
+	public static void setAccount (String account, JaqyInterpreter interpreter)
 	{
 		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (WASB_ACCOUNT_VAR, access);
+		vm.setVariable (WASB_ACCOUNT_VAR, account);
 
 		// clear the current client
 		vm.setVariable (WASB_CLIENT_VAR, null);
 	}
 
-	public static void setKey (String secret, JaqyInterpreter interpreter)
+	public static void setContainer (String container, JaqyInterpreter interpreter)
 	{
 		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (WASB_KEY_VAR, secret);
+		vm.setVariable (WASB_CONTAINER_VAR, container);
+
+		// clear the current client
+		vm.setVariable (WASB_CLIENT_VAR, null);
+	}
+
+	public static void setKey (String key, JaqyInterpreter interpreter)
+	{
+		VariableManager vm = interpreter.getVariableManager ();
+		vm.setVariable (WASB_KEY_VAR, key);
 
 		// clear the current client
 		vm.setVariable (WASB_CLIENT_VAR, null);
@@ -103,12 +115,7 @@ public class AzureUtils
 		return sb.toString ();
 	}
 
-	private static void setEncryption (CloudBlobClient client, boolean encrypt, JaqyInterpreter interpreter)
-	{
-//		client.getDefaultRequestOptions().setRequireEncryption (encrypt);
-	}
-
-    public static CloudBlobClient getBlobClient(JaqyInterpreter interpreter, String account, boolean encrypt) throws IOException
+    public static CloudBlobClient getBlobClient(JaqyInterpreter interpreter, String account) throws IOException
 	{
 		VariableManager vm = interpreter.getVariableManager ();
 		Object o = vm.get (WASB_CLIENT_VAR);
@@ -117,14 +124,12 @@ public class AzureUtils
 			CloudBlobClient client = (CloudBlobClient)o;
 			if (account == null)
 			{
-				setEncryption (client, encrypt, interpreter);
 				return client;
 			}
 			StorageCredentials credential = client.getCredentials ();
 			if (credential != null &&
 				account.equals (credential.getAccountName ()))
 			{
-				setEncryption (client, encrypt, interpreter);
 				return client;
 			}
 		}
@@ -133,7 +138,6 @@ public class AzureUtils
 		{
 			CloudStorageAccount storageAccount = CloudStorageAccount.parse(getAccountString (interpreter, account));
 			CloudBlobClient client = storageAccount.createCloudBlobClient();
-			setEncryption (client, encrypt, interpreter);
 			vm.setVariable (WASB_CLIENT_VAR, client);
 			return client;
 		}
@@ -174,4 +178,55 @@ public class AzureUtils
 
 		return info;
     }
+
+	public static CloudBlobContainer getContainer (String account, String container, JaqyInterpreter interpreter) throws IOException
+	{
+		CloudBlobClient client = getBlobClient (interpreter, account);
+		try
+		{
+			if (container == null ||
+				container.length () == 0)
+			{
+				VariableManager vm = interpreter.getVariableManager ();
+				container = vm.getVariableString (WASB_CONTAINER_VAR);
+			}
+			return client.getContainerReference (container);
+		}
+		catch (Exception ex)
+		{
+			throw new IOException (ex.getMessage (), ex);
+		}
+	}
+
+	public static void createContainer (String container, JaqyInterpreter interpreter) throws IOException
+	{
+		CloudBlobClient client = getBlobClient (interpreter, null);
+		try
+		{
+			CloudBlobContainer c = client.getContainerReference (container);
+			c.createIfNotExists ();
+		}
+		catch (Exception ex)
+		{
+			throw new IOException (ex.getMessage (), ex);
+		}
+	}
+
+	public static void deleteContainer (String container, JaqyInterpreter interpreter) throws IOException
+	{
+		CloudBlobClient client = getBlobClient (interpreter, null);
+		try
+		{
+			CloudBlobContainer c = client.getContainerReference (container);
+			c.deleteIfExists ();
+		}
+		catch (JaqyException ex)
+		{
+			throw ex;
+		}
+		catch (Exception ex)
+		{
+			throw new IOException (ex.getMessage (), ex);
+		}
+	}
 }

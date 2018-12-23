@@ -53,6 +53,7 @@ Currently available commands are the following.
 	.timer - sets a timer.
 	.unalias - removes a command alias.
 	.version - displays version information
+	.wasb - configures Windows Azure Blob Storage client.
 
 Use .help [command] to know more about a command.
 -- 0/1 - 0 ----------------------------------------------------------------

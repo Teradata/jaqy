@@ -58,6 +58,12 @@ public class AzureUtilsTest
 		Assert.assertEquals ("b", info.account);
 		Assert.assertEquals ("a", info.container);
 		Assert.assertEquals ("examples.json", info.file);
+
+		info = AzureUtils.getPathInfo ("wasbs://a@b.blob.core.windows.net");
+		Assert.assertEquals ("wasbs", info.protocol);
+		Assert.assertEquals ("b", info.account);
+		Assert.assertEquals ("a", info.container);
+		Assert.assertEquals (null, info.file);
 	}
 
 	@Test
@@ -70,19 +76,19 @@ public class AzureUtilsTest
 		AzureUtils.setKey ("Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==", interpreter);
 		AzureUtils.setEndPoint ("http://127.0.0.1:10000/devstoreaccount1", interpreter);
 
-		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1", true);
+		CloudBlobClient client = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
 		CloudBlobContainer container = client.getContainerReference ("testcontainer");
 		if (!container.exists ())
 		{
 			container.create ();
 		}
 
-		CloudBlobClient client2 = AzureUtils.getBlobClient (interpreter, "devstoreaccount1", true);
+		CloudBlobClient client2 = AzureUtils.getBlobClient (interpreter, "devstoreaccount1");
 		Assert.assertSame (client2, client);
-		client2 = AzureUtils.getBlobClient (interpreter, null, true);
+		client2 = AzureUtils.getBlobClient (interpreter, null);
 		Assert.assertSame (client2, client);
 
-		client2 = AzureUtils.getBlobClient (interpreter, "abcdefg", true);
+		client2 = AzureUtils.getBlobClient (interpreter, "abcdefg");
 		Assert.assertNotSame (client2, client);
 
 		container.delete ();
