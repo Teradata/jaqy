@@ -37,7 +37,10 @@ SELECT * FROM MyTable ORDER BY a;
 .wasb list asdf
 
 DELETE FROM MyTable;
-.import csv -h wasb://testcontainer@/file1.csv
+
+.wasb container testcontainer
+
+.import csv -h wasb:///file1.csv
 INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}});
 SELECT * FROM MyTable ORDER BY a;
 

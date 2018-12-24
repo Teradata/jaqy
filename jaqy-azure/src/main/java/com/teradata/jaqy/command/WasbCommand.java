@@ -69,7 +69,7 @@ public class WasbCommand extends JaqyCommandAdapter
 		}
 		else if ("container".equals (type))
 		{
-			AzureUtils.setAccount (setting, interpreter);
+			AzureUtils.setContainer (setting, interpreter);
 		}
 		else if ("endpoint".equals (type))
 		{
@@ -105,9 +105,12 @@ public class WasbCommand extends JaqyCommandAdapter
 			}
 			Iterable<ListBlobItem> items = container.listBlobs ();
 			PropertyTable pt = new PropertyTable (new String[]{ "URIs" });
+			String prefix = container.getUri ().toString ();
+			int prefixLen = prefix.length () + 1;
 			for (ListBlobItem item : items)
 			{
-				pt.addRow (new String[]{ item.getUri ().toString () });
+				String n = item.getUri ().toString ().substring (prefixLen);
+				pt.addRow (new String[]{ n });
 			}
 			interpreter.print (pt);
 		}

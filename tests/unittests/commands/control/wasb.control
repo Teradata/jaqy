@@ -6,7 +6,8 @@ Jaqy Console 1.1.0
 .help wasb
 usage: wasb [type] [setting]
 type:
-  account    sets the account name
+  account    sets the default account name
+  container  sets the default container name
   key        sets the access key
   endpoint   sets the end point
   create     creates a container if it does not exist.
@@ -85,7 +86,7 @@ SELECT * FROM MyTable ORDER BY a;
 
 .wasb list testcontainer
 URIs
-http://127.0.0.1:10000/devstoreaccount1/testcontainer/file1.csv
+file1.csv
 -- 9/16 - 0 ---------------------------------------------------------------
 .wasb list
 -- error: missing container name.
@@ -97,11 +98,15 @@ http://127.0.0.1:10000/devstoreaccount1/testcontainer/file1.csv
 DELETE FROM MyTable;
 -- success. update count = 7
 -- 10/18 - 0 --------------------------------------------------------------
-.import csv -h wasb://testcontainer@/file1.csv
+
+.wasb container testcontainer
 -- 10/19 - 0 --------------------------------------------------------------
+
+.import csv -h wasb:///file1.csv
+-- 10/20 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}});
 -- success. update count = 1
--- 11/19 - 0 --------------------------------------------------------------
+-- 11/20 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
 a,b,c
@@ -113,34 +118,34 @@ a,b,c
 6,"a'"",b","c'"",d"
 7,a       b,"c,d"
 -- activity count = 7
--- 12/19 - 0 --------------------------------------------------------------
+-- 12/20 - 0 --------------------------------------------------------------
 
 .wasb remove wasb://testcontainer@/file1.csv
--- 12/20 - 0 --------------------------------------------------------------
+-- 12/21 - 0 --------------------------------------------------------------
 .wasb remove
 -- error: missing blob name.
--- 12/21 - 0 --------------------------------------------------------------
+-- 12/22 - 0 --------------------------------------------------------------
 .wasb remove wasb://asdf@/
 -- error: container does not exist.
--- 12/22 - 0 --------------------------------------------------------------
+-- 12/23 - 0 --------------------------------------------------------------
 .wasb remove wasb://testcontainer@/
 -- error: invalid blob name.
--- 12/23 - 0 --------------------------------------------------------------
+-- 12/24 - 0 --------------------------------------------------------------
 .wasb remove wasb://testcontainer@/file2.csv
 -- error: blob does not exist.
--- 12/24 - 0 --------------------------------------------------------------
+-- 12/25 - 0 --------------------------------------------------------------
 .wasb remove adl://testcontainer@/file1.csv
 -- error: invalid protocol.
--- 12/25 - 0 --------------------------------------------------------------
+-- 12/26 - 0 --------------------------------------------------------------
 
 .wasb delete testcontainer
--- 12/26 - 0 --------------------------------------------------------------
-.wasb delete asdf
 -- 12/27 - 0 --------------------------------------------------------------
+.wasb delete asdf
+-- 12/28 - 0 --------------------------------------------------------------
 .wasb delete
 -- error: missing container name.
--- 12/28 - 0 --------------------------------------------------------------
-.wasb delete A#@%
 -- 12/29 - 0 --------------------------------------------------------------
-.close
+.wasb delete A#@%
 -- 12/30 - 0 --------------------------------------------------------------
+.close
+-- 12/31 - 0 --------------------------------------------------------------

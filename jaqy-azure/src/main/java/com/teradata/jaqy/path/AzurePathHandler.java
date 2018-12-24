@@ -17,7 +17,6 @@ package com.teradata.jaqy.path;
 
 import java.io.IOException;
 
-import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.azure.AzurePathInfo;
@@ -38,11 +37,9 @@ public class AzurePathHandler implements PathHandler
 		if ("wasb".equals (info.protocol) ||
 			"wasbs".equals (info.protocol))
 		{
-			CloudBlobClient blobClient = AzureUtils.getBlobClient (interpreter, info.account);
-			CloudBlobContainer container;
+			CloudBlobContainer container = AzureUtils.getContainer (info.account, info.container, interpreter);
 			try
 			{
-				container = blobClient.getContainerReference (info.container);
 				if (!container.exists ())
 				{
 					throw new IOException ("Invalid Azure path: " + path);
@@ -56,7 +53,7 @@ public class AzurePathHandler implements PathHandler
 			{
 				throw new IOException (ex.getMessage (), ex);
 			}
-			return new WasbPath (container, info.file, interpreter, blobClient);
+			return new WasbPath (container, info.file, interpreter);
 		}
 		throw new IOException ("Invalid Azure path: " + path);
 	}

@@ -21,7 +21,6 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 
 import com.microsoft.azure.storage.blob.CloudBlob;
-import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.teradata.jaqy.JaqyInterpreter;
@@ -34,19 +33,17 @@ public class WasbPath implements Path
 {
 	private final CloudBlobContainer m_container;
 	private final String m_blobName;
-	private final CloudBlobClient m_blobClient;
 	private final JaqyInterpreter m_interpreter;
 
 	private CloudBlob m_blob;
 	private long m_length;
 
-	public WasbPath (CloudBlobContainer container, String blobName, JaqyInterpreter interpreter, CloudBlobClient blobCLient)
+	public WasbPath (CloudBlobContainer container, String blobName, JaqyInterpreter interpreter)
 	{
 		m_container = container;
 		m_blobName = blobName;
 		m_length = -1;
 		m_interpreter = interpreter;
-		m_blobClient = blobCLient;
 	}
 
 	private void getLength ()
@@ -86,7 +83,7 @@ public class WasbPath implements Path
 	@Override
 	public Path getParent ()
 	{
-		return new WasbPath (m_container, getParentFile (m_blobName), m_interpreter, m_blobClient);
+		return new WasbPath (m_container, getParentFile (m_blobName), m_interpreter);
 	}
 
 	@Override
@@ -112,7 +109,7 @@ public class WasbPath implements Path
 				file = name;
 		}
 
-		return new WasbPath (m_container, file, m_interpreter, m_blobClient);
+		return new WasbPath (m_container, file, m_interpreter);
 	}
 
 	@Override
