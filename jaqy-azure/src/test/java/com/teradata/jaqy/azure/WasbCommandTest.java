@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
+package com.teradata.jaqy.azure;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,6 +22,7 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.azure.WasbCommand;
 
 /**
  * @author	Heng Yuan

@@ -207,11 +207,13 @@ are used for output.  Blob encryption is not supported.</p>
 Basically, the path syntax is the following</p>
 <blockquote>
 <div><code class="docutils literal notranslate"><span class="pre">wasb://containerName&#64;accountName/filePath</span></code></div></blockquote>
-<dl class="docutils">
-<dt>or</dt>
-<dd><code class="docutils literal notranslate"><span class="pre">wasbs://containerName&#64;accountName/filePath</span></code></dd>
-</dl>
+<p>or</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">wasbs://containerName&#64;accountName/filePath</span></code></div></blockquote>
 <p>They are handled the same.</p>
+<p>Also, <code class="docutils literal notranslate"><span class="pre">.blob.core.windows.net</span></code> is optional in Jaqy implementation.  Thus
+<code class="docutils literal notranslate"><span class="pre">wasb://containerName&#64;accountName/filePath</span></code> is the same as
+<code class="docutils literal notranslate"><span class="pre">wasb://containerName&#64;accountName.blob.core.windows.net/filePath</span></code>.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>

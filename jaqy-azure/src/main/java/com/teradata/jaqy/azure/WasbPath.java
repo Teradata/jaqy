@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.path;
+package com.teradata.jaqy.azure;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +29,7 @@ import com.teradata.jaqy.interfaces.Path;
 /**
  * @author Heng Yuan
  */
-public class WasbPath implements Path
+class WasbPath implements Path
 {
 	private final CloudBlobContainer m_container;
 	private final String m_blobName;

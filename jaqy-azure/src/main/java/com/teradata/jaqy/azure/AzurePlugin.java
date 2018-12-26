@@ -16,9 +16,7 @@
 package com.teradata.jaqy.azure;
 
 import com.teradata.jaqy.Globals;
-import com.teradata.jaqy.command.WasbCommand;
 import com.teradata.jaqy.interfaces.JaqyPlugin;
-import com.teradata.jaqy.path.AzurePathHandler;
 
 /**
  * @author	Heng Yuan

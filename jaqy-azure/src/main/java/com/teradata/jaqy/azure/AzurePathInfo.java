@@ -18,7 +18,7 @@ package com.teradata.jaqy.azure;
 /**
  * @author	Heng Yuan
  */
-public class AzurePathInfo
+class AzurePathInfo
 {
 	public String protocol;
 	public String account;

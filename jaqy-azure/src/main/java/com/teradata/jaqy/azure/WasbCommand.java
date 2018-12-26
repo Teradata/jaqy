@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.command;
+package com.teradata.jaqy.azure;
 
 import com.microsoft.azure.storage.blob.CloudBlob;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
@@ -22,14 +22,12 @@ import com.microsoft.azure.storage.blob.ListBlobItem;
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
-import com.teradata.jaqy.azure.AzurePathInfo;
-import com.teradata.jaqy.azure.AzureUtils;
-import com.teradata.jaqy.azure.ErrorMessage;
+import com.teradata.jaqy.command.JaqyCommandAdapter;
 
 /**
  * @author	Heng Yuan
  */
-public class WasbCommand extends JaqyCommandAdapter
+class WasbCommand extends JaqyCommandAdapter
 {
 	public WasbCommand ()
 	{

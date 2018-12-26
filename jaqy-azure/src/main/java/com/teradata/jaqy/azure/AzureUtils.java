@@ -30,7 +30,7 @@ import com.teradata.jaqy.VariableManager;
 /**
  * @author	Heng Yuan
  */
-public class AzureUtils
+class AzureUtils
 {
 	public final static String WASB_CLIENT_VAR = "WasbClient";
 	public final static String WASB_ACCOUNT_VAR = "WasbAccountName";

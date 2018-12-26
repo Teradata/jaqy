@@ -17,10 +17,16 @@ See this
 Basically, the path syntax is the following
 
 	``wasb://containerName@accountName/filePath``
+
 or
+
 	``wasbs://containerName@accountName/filePath``
 
 They are handled the same.
+
+Also, ``.blob.core.windows.net`` is optional in Jaqy implementation.  Thus
+``wasb://containerName@accountName/filePath`` is the same as
+``wasb://containerName@accountName.blob.core.windows.net/filePath``.
 
 Example
 *******

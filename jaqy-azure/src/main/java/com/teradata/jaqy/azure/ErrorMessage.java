@@ -18,7 +18,7 @@ package com.teradata.jaqy.azure;
 /**
  * @author	Heng Yuan
  */
-public class ErrorMessage
+class ErrorMessage
 {
 	public static String PROTOCOL_INVALID = "invalid protocol.";
 	public static String CONTAINER_NAME_MISSING = "missing container name.";

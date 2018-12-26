@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.path;
+package com.teradata.jaqy.azure;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.azure.AzurePathHandler;
 import com.teradata.jaqy.azure.AzureUtils;
 import com.teradata.jaqy.interfaces.Path;
 

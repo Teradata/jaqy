@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.path;
+package com.teradata.jaqy.azure;
 
 import java.io.IOException;
 
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.azure.AzurePathInfo;
-import com.teradata.jaqy.azure.AzureUtils;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.interfaces.PathHandler;
 
 /**
  * @author	Heng Yuan
  */
-public class AzurePathHandler implements PathHandler
+class AzurePathHandler implements PathHandler
 {
 	@Override
 	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
