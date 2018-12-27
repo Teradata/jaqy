@@ -55,4 +55,4 @@ Example
 See Also
 ~~~~~~~~
 
-* `Path Formats <../path.html>`__
+* `WASB Path <../path/wasb.html>`__

@@ -3,7 +3,7 @@ WASB Path
 
 This feature requires ``jaqy-azure`` plugin.
 
-`.wasb <command/wasb.html>`__ command can be used to configure the access
+`.wasb <../command/wasb.html>`__ command can be used to configure the access
 credential if needed.
 
 For importing, any types of blobs can be read.  For exporting, block blobs
@@ -56,5 +56,5 @@ Example
 See Also
 ********
 
-* `.wasb <command/wasb.html>`__ command
+* `.wasb <../command/wasb.html>`__ command
 * `Introduction to Azure Blob storage <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction>`__
