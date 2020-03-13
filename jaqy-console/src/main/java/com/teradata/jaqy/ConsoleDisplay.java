@@ -109,8 +109,11 @@ public class ConsoleDisplay implements Display
 	{
 		m_globals.log (Level.WARNING, t);
 		interpreter.setException (t);
-		String msg = getErrorHandler().getString (interpreter);
-		m_pw.println (msg);
+		String msg = m_errorHandler.getString (interpreter);
+		if (msg != null)
+		{
+			m_pw.println (msg);
+		}
 	}
 
 	@Override
@@ -239,25 +242,41 @@ public class ConsoleDisplay implements Display
 	@Override
 	public void showSuccess (JaqyInterpreter interpreter)
 	{
-		m_pw.println (m_successHandler.getString (interpreter));
+		String str = m_successHandler.getString (interpreter);
+		if (str != null)
+		{
+			m_pw.println (str);
+		}
 	}
 
 	@Override
 	public void showSuccessUpdate (JaqyInterpreter interpreter)
 	{
-		m_pw.println (m_updateHandler.getString (interpreter));
+		String str = m_updateHandler.getString (interpreter);
+		if (str != null)
+		{
+			m_pw.println (str);
+		}
 	}
 
 	@Override
 	public void showActivityCount (JaqyInterpreter interpreter)
 	{
-		m_pw.println (m_activityCountHandler.getString (interpreter));
+		String str = m_activityCountHandler.getString (interpreter);
+		if (str != null)
+		{
+			m_pw.println (str);
+		}
 	}
 
 	@Override
 	public void showIteration (JaqyInterpreter interpreter)
 	{
-		m_pw.println (m_iterationHandler.getString (interpreter));
+		String str = m_iterationHandler.getString (interpreter);
+		if (str != null)
+		{
+			m_pw.println (str);
+		}
 	}
 
 	/**
