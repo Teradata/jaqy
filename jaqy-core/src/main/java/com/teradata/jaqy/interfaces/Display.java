@@ -45,6 +45,7 @@ public interface Display
 	public void showSuccess (JaqyInterpreter interpreter);
 	public void showSuccessUpdate (JaqyInterpreter interpreter);
 	public void showActivityCount (JaqyInterpreter interpreter);
+	public void showIteration (JaqyInterpreter interpreter);
 
 	public Echo getEcho ();
 

@@ -50,6 +50,7 @@ public class ConsoleDisplay implements Display
 	private StateHandler m_updateHandler = DefaultStateHandlers.updateHandler;
 	private StateHandler m_activityCountHandler = DefaultStateHandlers.activityCountHandler;
 	private StateHandler m_errorHandler = DefaultStateHandlers.errorHandler;
+	private StateHandler m_iterationHandler = DefaultStateHandlers.iterationHandler;
 
 	public ConsoleDisplay (Globals globals)
 	{
@@ -253,6 +254,12 @@ public class ConsoleDisplay implements Display
 		m_pw.println (m_activityCountHandler.getString (interpreter));
 	}
 
+	@Override
+	public void showIteration (JaqyInterpreter interpreter)
+	{
+		m_pw.println (m_iterationHandler.getString (interpreter));
+	}
+
 	/**
 	 * @return	the promptHandler
 	 */
@@ -345,5 +352,15 @@ public class ConsoleDisplay implements Display
 		if (activityCountHandler == null)
 			activityCountHandler = DefaultStateHandlers.activityCountHandler;
 		m_activityCountHandler = activityCountHandler;
+	}
+
+	public StateHandler getIterationHandler ()
+	{
+		return m_iterationHandler;
+	}
+
+	public void setIterationHandler (StateHandler iterationHandler)
+	{
+		m_iterationHandler = iterationHandler;
 	}
 }

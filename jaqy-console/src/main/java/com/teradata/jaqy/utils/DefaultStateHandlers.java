@@ -154,4 +154,19 @@ public class DefaultStateHandlers
 			return buffer.toString ();
 		}
 	};
+	public final static StateHandler iterationHandler = new StateHandler ()
+	{
+		@Override
+		public String getString (JaqyInterpreter interpreter)
+		{
+			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+			StringBuffer buffer = new StringBuffer ();
+			if (display.isColorEnabled ())
+				buffer.append (display.getEscape ().fgColor ("green"));
+			buffer.append ("-- iteration: " + interpreter.getIteration ());
+			if (display.isColorEnabled ())
+				buffer.append (display.getEscape ().reset ());
+			return buffer.toString ();
+		}
+	};
 }

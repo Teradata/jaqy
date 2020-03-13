@@ -264,13 +264,13 @@ public class Session
 			sql = interpreter.expand (sql);
 			sql = FieldParser.getString (sql, expHandler);
 			m_globals.log (Level.INFO, "field sql: " + sql);
-	
+
 			String[] exps = expHandler.getExpressions ();
 			importer.setParameters (exps);
 
 			stmt = prepareQuery (sql, interpreter, false);
 			JaqyHelper helper = stmt.getHelper ();
-	
+
 			JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
 			ParameterInfo[] parameterInfos = ParameterMetaDataUtils.getParameterInfos (metaData, m_globals);
 			if (parameterInfos.length == 0)
@@ -391,7 +391,7 @@ public class Session
 				setIteration (iter + 1);
 				if (repeat > 1)
 				{
-					interpreter.println ("-- iteration: " + (iter + 1));
+					interpreter.getDisplay ().showIteration (interpreter);
 				}
 				String actualSql = interpreter.expand (sql);
 				m_globals.log (Level.INFO, "executeQuery: " + actualSql);

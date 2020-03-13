@@ -286,7 +286,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	/**
 	 * Push the line input to the current line input stack for immediate
 	 * processing by the interpreter.
-	 *  
+	 *
 	 * @param	lineInput
 	 * 			the input to be processed.
 	 */
@@ -300,7 +300,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	 *
 	 * @param	cmdLine
 	 * @return	null if it is not .end command.
-	 * 			string if it is .end command and 
+	 * 			string if it is .end command and
 	 */
 	private String checkEndCmd (String cmdLine)
 	{
@@ -428,7 +428,7 @@ public class JaqyInterpreter implements ExpressionHandler
 	 * This function should be only called if it is intended to return
 	 * the control back to the caller.  Otherwise, {@link #push(LineInput)}
 	 * should be used.
-	 * 
+	 *
 	 * @param	lineInput
 	 * 			stacked line input.
 	 */
@@ -676,7 +676,7 @@ public class JaqyInterpreter implements ExpressionHandler
 				m_display.error (this, m_ex);
 				return;
 			}
-	
+
 			try
 			{
 				call.execute (cmd.args, cmd.silent, interactive, this);
@@ -734,7 +734,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	/**
 	 * The current sql count
-	 * 
+	 *
 	 * @return the current sql count
 	 */
 	public int getSqlCount ()
@@ -754,7 +754,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	/**
 	 * Gets the current count of commands.
-	 * 
+	 *
 	 * @return the current count of commands.
 	 */
 	public int getCommandCount ()
@@ -1142,7 +1142,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	/**
 	 * Sets the activity count.
-	 * 
+	 *
 	 * @param activity
 	 *            count the activity count
 	 */
@@ -1153,7 +1153,7 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	/**
 	 * Gets the activity count.
-	 * 
+	 *
 	 * @return the activity count
 	 */
 	public long getActivityCount ()
@@ -1168,6 +1168,11 @@ public class JaqyInterpreter implements ExpressionHandler
 			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
 		}
 		m_repeatCount = repeatCount;
+	}
+
+	public long getIteration ()
+	{
+		return m_session.getIteration ();
 	}
 
 	public long getLimit ()
