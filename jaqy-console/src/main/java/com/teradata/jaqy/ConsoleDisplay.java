@@ -380,6 +380,8 @@ public class ConsoleDisplay implements Display
 
 	public void setIterationHandler (StateHandler iterationHandler)
 	{
+		if (iterationHandler == null)
+			iterationHandler = DefaultStateHandlers.iterationHandler;
 		m_iterationHandler = iterationHandler;
 	}
 }

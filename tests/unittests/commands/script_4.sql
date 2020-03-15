@@ -14,7 +14,7 @@ var dummyHandler = new Packages.com.teradata.jaqy.interfaces.StateHandler ()
 .repeat 2
 SELECT 1;
 
--- disable prompts
+-- disable handlers
 .script
 display.setIterationHandler (dummyHandler);
 display.setSuccessHandler (dummyHandler);
@@ -26,8 +26,13 @@ display.setUpdateHandler (dummyHandler);
 SELECT 1;
 
 -- restore handlers
-.scripts
-.end scripts
+.script
+display.setIterationHandler (null);
+display.setSuccessHandler (null);
+display.setActivityCountHandler (null);
+display.setErrorHandler (null);
+display.setUpdateHandler (null);
+.end script
 .repeat 2
 SELECT 1;
 
