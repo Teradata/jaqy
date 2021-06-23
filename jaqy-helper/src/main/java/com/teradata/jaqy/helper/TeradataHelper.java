@@ -224,4 +224,10 @@ class TeradataHelper extends DefaultHelper
 			fixOtherType (info);
 		}
 	}
+
+	@Override
+	public String getStagingTableIndex ()
+	{
+		return "\nNO PRIMARY INDEX";
+	}
 }

@@ -67,7 +67,12 @@ public interface JaqyHelper
 	 * 			in case of error.
 	 */
 	public String getURL () throws SQLException;
-
+	/**
+	 * Get the type to string name map.
+	 * @return	the type to string name map.
+	 * @throws	SQLException
+	 * 			in case of error.
+	 */
 	public TypeMap getTypeMap () throws SQLException;
 	/**
 	 * Utility function for getting catalog.
@@ -273,4 +278,8 @@ public interface JaqyHelper
 	 * @since	1.1
 	 */
 	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
+	/**
+	 * Get the staging table primary index.
+	 */
+	public String getStagingTableIndex ();
 }

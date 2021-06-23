@@ -389,7 +389,7 @@ public class DefaultHelper implements JaqyHelper
 				throw ExceptionUtils.getTableNotFound ();
 			JaqyResultSetMetaData meta = rs.getMetaData ();
 			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), null);
-			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true);
+			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true, false);
 			rs.close ();
 
 			return schema;
@@ -735,5 +735,11 @@ public class DefaultHelper implements JaqyHelper
 			}
 		}
 		stmt.setObject (columnIndex, o);
+	}
+
+	@Override
+	public String getStagingTableIndex ()
+	{
+		return "";
 	}
 }

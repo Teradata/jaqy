@@ -62,7 +62,7 @@ public class SchemaUtils
 		return builder.toString ();
 	}
 
-	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName, boolean exact) throws SQLException
+	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName, boolean exact, boolean staging) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
 		StringBuilder buffer = new StringBuilder ();
@@ -96,6 +96,10 @@ public class SchemaUtils
 				buffer.append (" NOT NULL");
 		}
 		buffer.append ("\n)");
+		if (staging)
+		{
+			buffer.append (helper.getStagingTableIndex ());
+		}
 		return buffer.toString ();
 	}
 
