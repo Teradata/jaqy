@@ -41,6 +41,10 @@ public class TypeHandlerRegistry
 		s_typePrinterMap.put (Types.LONGVARBINARY, BinaryTypeHandler.getInstance ());
 		s_typePrinterMap.put (Types.BLOB, BinaryTypeHandler.getInstance ());
 
+		s_typePrinterMap.put (Types.REAL, DoubleTypeHandler.getInstance ());
+		s_typePrinterMap.put (Types.FLOAT, DoubleTypeHandler.getInstance ());
+		s_typePrinterMap.put (Types.DOUBLE, DoubleTypeHandler.getInstance ());
+
 		s_typePrinterMap.put (Types.SQLXML, XmlTypeHandler.getInstance ());
 		s_typePrinterMap.put (Types.OTHER, ObjectTypeHandler.getInstance ());
 	}
