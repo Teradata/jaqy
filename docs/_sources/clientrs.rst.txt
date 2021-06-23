@@ -17,7 +17,7 @@ of ``WHERE`` clause in SQL.
 	.filter a > 10 AND b < 100
 	SELECT * FROM MyTable ORDER BY a;
 
-It is possible to JavaScript or Java functions as well.
+It is possible to use JavaScript or Java functions as well.
 
 .. code-block:: text
 
