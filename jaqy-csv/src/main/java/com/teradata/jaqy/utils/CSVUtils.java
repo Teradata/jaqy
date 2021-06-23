@@ -215,7 +215,8 @@ public class CSVUtils
 		for (int i = 0; i < count; ++i)
 		{
 			columnInfos[i] = new FullColumnInfo ();
-			if (headers != null)
+			if (headers != null &&
+				i < headers.length)
 			{
 				columnInfos[i].name = headers[i];
 			}
