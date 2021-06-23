@@ -25,15 +25,21 @@ Making the Build
 	cd jaqy
 	mvn clean package -Dmaven.test.skip=true
 
-There are two jars built.
+There are severals jars built.
 
-.. code-block::	bash
+.. list-table::
+	:header-rows: 1
 
-	dist/jaqy-1.0.jar
-	jaqy-avro/target/jaqy-avro-1.0.jar
-
-``jaqy-1.0.jar`` is the standalone package.  ``jaqy-avro-1.0.jar`` is a separate
-addon for AVRO import / export format.
+	* - Jar Path
+	  - Description
+	* - dist/jaqy-1.1.0.jar
+	  - Main program
+	* - jaqy-avro/target/jaqy-avro-1.1.0.jar
+	  - Addon to import / export AVRO format.
+	* - jaqy-s3/target/jaqy-s3-1.1.0.jar
+	  - Addon to access AWS S3
+	* - jaqy-azure/target/jaqy-azure-1.1.0.jar
+	  - Addon to access Azure
 
 Testing Environment
 -------------------

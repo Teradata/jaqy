@@ -1,60 +1,66 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Client Side ResultSet Handling &mdash; Jaqy 1.1.0 documentation</title>
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
   
+  
+
   
   
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Jaqy 1.1.0 documentation" href="index.html"/>
-        <link rel="next" title="Building Jaqy" href="build.html"/>
-        <link rel="prev" title="Load and Exporting Data" href="load.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building Jaqy" href="build.html" />
+    <link rel="prev" title="Load and Exporting Data" href="load.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,6 +91,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -133,13 +140,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Jaqy</a>
@@ -147,10 +155,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -170,14 +181,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Client Side ResultSet Handling</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
         
       </li>
     
@@ -198,13 +209,13 @@ client side ResultSet handling can come in handy.</p>
 <h2>Client-Side Filtering<a class="headerlink" href="#client-side-filtering" title="Permalink to this headline">¶</a></h2>
 <p>Jaqy offers client-side ResultSet filtering using
 <a class="reference external" href="command/filter.html">.filter</a> command.  Its syntax is very similar to that
-of <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause in SQL.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.filter a &gt; 10 AND b &lt; 100
+of <code class="docutils literal"><span class="pre">WHERE</span></code> clause in SQL.</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>.filter a &gt; 10 AND b &lt; 100
 SELECT * FROM MyTable ORDER BY a;
 </pre></div>
 </div>
 <p>It is possible to JavaScript or Java functions as well.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.eval var myfunc = function(a,b) { return a + b; }
+<div class="highlight-text"><div class="highlight"><pre><span></span>.eval var myfunc = function(a,b) { return a + b; }
 .filter a &gt; myfunc(3,4) and a &lt; 10
 SELECT * FROM MyTable ORDER BY a;
 </pre></div>
@@ -213,8 +224,8 @@ SELECT * FROM MyTable ORDER BY a;
 <div class="section" id="client-side-sorting">
 <h2>Client-Side Sorting<a class="headerlink" href="#client-side-sorting" title="Permalink to this headline">¶</a></h2>
 <p>Client-side ResultSet sorting can be done using <a class="reference external" href="command/sort.html">.sort</a>
-command.  The syntax is very similar the <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> syntax in SQL.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-- do descending sort on the 2nd column, then ascending sort on the 1st column
+command.  The syntax is very similar the <code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></code> syntax in SQL.</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>-- do descending sort on the 2nd column, then ascending sort on the 1st column
 .sort 2 DESC, 1 ASC
 SELECT * FROM MyTable;
 
@@ -228,7 +239,7 @@ SELECT * FROM MyTable;
 <h2>Client-Side Projection<a class="headerlink" href="#client-side-projection" title="Permalink to this headline">¶</a></h2>
 <p>Client-side projection is used to pick or rename a few columns from the
 ResultSet.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">project</span> <span class="n">a</span> <span class="k">AS</span> <span class="ss">&quot;Column 1&quot;</span><span class="p">,</span> <span class="n">b</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">project</span> <span class="n">a</span> <span class="k">AS</span> <span class="ss">&quot;Column 1&quot;</span><span class="p">,</span> <span class="n">b</span>
 <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -239,34 +250,32 @@ together to do some silly things.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="build.html" class="btn btn-neutral float-right" title="Building Jaqy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="load.html" class="btn btn-neutral" title="Load and Exporting Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="build.html" class="btn btn-neutral float-right" title="Building Jaqy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="load.html" class="btn btn-neutral float-left" title="Load and Exporting Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2018, Teradata Corporation.
+        &#169; Copyright 2017-2018, Teradata Corporation.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -275,37 +284,15 @@ together to do some silly things.</p>
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.1.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

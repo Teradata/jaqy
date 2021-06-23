@@ -1,60 +1,66 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Aliases and Expression Expansion &mdash; Jaqy 1.1.0 documentation</title>
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
   
+  
+
   
   
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Jaqy 1.1.0 documentation" href="index.html"/>
-        <link rel="next" title="Load and Exporting Data" href="load.html"/>
-        <link rel="prev" title="Getting Started" href="start.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Load and Exporting Data" href="load.html" />
+    <link rel="prev" title="Getting Started" href="start.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,6 +91,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -132,13 +139,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Jaqy</a>
@@ -146,10 +154,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -169,14 +180,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Aliases and Expression Expansion</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
         
       </li>
     
@@ -194,16 +205,16 @@
 <h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline">¶</a></h2>
 <p>Aliases in Jaqy can be shortcuts to SQL statements, commands, or combinations
 of both.  <a class="reference external" href="command/alias.html">.alias</a> is used to create aliases.</p>
-<p>For example, the following is a very convenient alias for an <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>
+<p>For example, the following is a very convenient alias for an <code class="docutils literal"><span class="pre">INSERT</span></code>
 statement without having to type too much.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.alias ins
+<div class="highlight-sql"><div class="highlight"><pre><span></span>.alias ins
 INSERT INTO $0 VALUES ($(1-));
 .end alias
 
 .ins MyTable 1, 1
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">$0</span></code>, <code class="docutils literal notranslate"><span class="pre">$(1)</span></code>, <code class="docutils literal notranslate"><span class="pre">$(1-)</span></code> etc are the way to specify how argument
+<p><code class="docutils literal"><span class="pre">$0</span></code>, <code class="docutils literal"><span class="pre">$(1)</span></code>, <code class="docutils literal"><span class="pre">$(1-)</span></code> etc are the way to specify how argument
 substitution is made.</p>
 <p>You can also combine multiple SQL statements and commands together in one
 alias, to create powerful macros.</p>
@@ -212,10 +223,10 @@ exists, without generating error messages.  <a class="reference external" href="
 command is a convenient way of listing tables in the current catalog / schema /
 database.  If the table MyTable exists, then it would show up in the search.
 By checking the number of rows returned, which is tracked by the variable
-<code class="docutils literal notranslate"><span class="pre">activityCount</span></code>, we can tell if the table exists.  And we can use
-<a class="reference external" href="command/if.html">.if</a> to conditionally execute our <code class="docutils literal notranslate"><span class="pre">DROP</span> <span class="pre">TABLE</span></code>
+<code class="docutils literal"><span class="pre">activityCount</span></code>, we can tell if the table exists.  And we can use
+<a class="reference external" href="command/if.html">.if</a> to conditionally execute our <code class="docutils literal"><span class="pre">DROP</span> <span class="pre">TABLE</span></code>
 statement.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">list</span> <span class="p">.</span> <span class="p">.</span> <span class="n">MyTable</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">list</span> <span class="p">.</span> <span class="p">.</span> <span class="n">MyTable</span>
 <span class="p">.</span><span class="k">if</span> <span class="n">activityCount</span> <span class="o">&gt;</span> <span class="mi">0</span>
 <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">MyTable</span><span class="p">;</span>
 <span class="p">.</span><span class="k">end</span> <span class="k">if</span>
@@ -223,7 +234,7 @@ statement.</p>
 </div>
 <p>Now, it is possible to create an alias for the entire thing and apply to
 different tables.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>.alias dropifexists
+<div class="highlight-sql"><div class="highlight"><pre><span></span>.alias dropifexists
 .list . . $(0)
 .if activityCount &gt; 0
 DROP TABLE $(0);
@@ -244,17 +255,17 @@ functions can be called as well.  It is quite useful in generating SQL
 which might be otherwise somewhat difficult.</p>
 <p>For example, here is a simple script that generates some Well-known text (WKT)
 data using expression expansion.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>CREATE TABLE MyTable (a INT, b VARCHAR(100));
+<div class="highlight-sql"><div class="highlight"><pre><span></span>CREATE TABLE MyTable (a INT, b VARCHAR(100));
 .repeat 10
 INSERT INTO MyTable VALUES (${iteration}, &#39;POINT(${Math.sin(iteration)} ${Math.sin(iteration)})&#39;);
 </pre></div>
 </div>
 <p><a class="reference external" href="command/repeat.html">.repeat</a> command is used to repeatedly submit a SQL.
-Internally, it uses a variable <code class="docutils literal notranslate"><span class="pre">iteration</span></code> to track the iteration.
-<code class="docutils literal notranslate"><span class="pre">${</span></code> and <code class="docutils literal notranslate"><span class="pre">}</span></code> encloses any JavaScript expression that can be inline
+Internally, it uses a variable <code class="docutils literal"><span class="pre">iteration</span></code> to track the iteration.
+<code class="docutils literal"><span class="pre">${</span></code> and <code class="docutils literal"><span class="pre">}</span></code> encloses any JavaScript expression that can be inline
 evaluated.</p>
 <p>The result is the following.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
 
  <span class="n">a</span> <span class="n">b</span>
 <span class="c1">-- ------------------------------------------------</span>
@@ -282,34 +293,32 @@ and its <a class="reference external" href="https://github.com/Teradata/jaqy/blo
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="load.html" class="btn btn-neutral float-right" title="Load and Exporting Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="start.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="load.html" class="btn btn-neutral float-right" title="Load and Exporting Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="start.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2018, Teradata Corporation.
+        &#169; Copyright 2017-2018, Teradata Corporation.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -318,37 +327,15 @@ and its <a class="reference external" href="https://github.com/Teradata/jaqy/blo
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.1.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>
