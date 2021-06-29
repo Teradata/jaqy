@@ -44,6 +44,9 @@ public class CSVUtils
 		int scale;
 
 		int notNullCount;
+
+		BigDecimal	maxValue = BigDecimal.ZERO;
+		BigDecimal	minValue = BigDecimal.ZERO;
 	}
 
 	public static char getChar (String str)
@@ -81,7 +84,9 @@ public class CSVUtils
 			autoStop = true;
 		}
 		else if (limit == 0)
+		{
 			limit = Long.MAX_VALUE;
+		}
 		boolean needScan;
 		while (iterator.hasNext () && rowCount < limit)
 		{
@@ -138,6 +143,14 @@ public class CSVUtils
 							BigDecimal dec = new BigDecimal (s);
 							int precision = dec.precision ();
 							int scale = dec.scale ();
+							if (columns[i].maxValue.compareTo (dec) < 0)
+							{
+								columns[i].maxValue = dec;
+							}
+							else if (columns[i].minValue.compareTo (dec) > 0)
+							{
+								columns[i].minValue = dec;
+							}
 							// if precision is smaller than or equal to scale, then we have leading "0."
 							if (precision <= scale)
 								precision = scale + 1;
@@ -244,7 +257,9 @@ public class CSVUtils
 					columnInfos[i].scale = 0;
 				}
 				else if (columns[i].scale <= 0 &&
-				         columns[i].precision < 11)
+				         columns[i].precision < 11 &&
+				         columns[i].maxValue.compareTo (new BigDecimal (Integer.MAX_VALUE)) <= 0 &&
+				         columns[i].minValue.compareTo (new BigDecimal (Integer.MIN_VALUE)) >= 0)
 				{
 					columnInfos[i].type = Types.INTEGER;
 					columnInfos[i].scale = 0;
