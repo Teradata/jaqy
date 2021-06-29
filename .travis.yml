@@ -1,12 +1,12 @@
 language: java
-dist: trusty
+dist: bionic
 sudo: required
 env:
   - PGPORT=5433
 jdk:
-  - oraclejdk8
+  - openjdk8
 addons:
-  postgresql: 10
+  postgresql: "11"
   apt:
     packages:
     - postgresql-10
