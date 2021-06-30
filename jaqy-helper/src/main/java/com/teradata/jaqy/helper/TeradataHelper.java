@@ -118,7 +118,7 @@ class TeradataHelper extends DefaultHelper
 			}
 			default:
 			{
-				setObject (stmt, columnIndex, paramInfo, o, freeList, interpreter);
+				stmt.setString (columnIndex, o.toString ());
 			}
 		}
 	}
@@ -126,7 +126,23 @@ class TeradataHelper extends DefaultHelper
 	@Override
 	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		stmt.setNull (columnIndex, paramInfo.type);
+		switch (paramInfo.type)
+		{
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			case Types.BIGINT:
+			case Types.FLOAT:
+			case Types.DECIMAL:
+			{
+				stmt.setNull (columnIndex, paramInfo.type);
+				break;
+			}
+			default:
+			{
+				stmt.setNull (columnIndex, Types.VARCHAR);
+			}
+		}
 	}
 
 	@Override
