@@ -577,11 +577,19 @@ public class DefaultHelper implements JaqyHelper
 		return SchemaUtils.getQuotedIdentifier (name, quote);
 	}
 
+	@Override
 	public void setNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		stmt.setNull (columnIndex, paramInfo.type, paramInfo.typeName);
 	}
 
+	@Override
+	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+	{
+		stmt.setNull (columnIndex, paramInfo.type, paramInfo.typeName);
+	}
+
+	@Override
 	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
 	{
 		switch (paramInfo.type)
@@ -735,6 +743,12 @@ public class DefaultHelper implements JaqyHelper
 			}
 		}
 		stmt.setObject (columnIndex, o);
+	}
+
+	@Override
+	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		setObject (stmt, columnIndex, paramInfo, o, freeList, interpreter);
 	}
 
 	@Override

@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Types;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -182,6 +183,20 @@ class JsonImporter implements JaqyImporter
 	}
 
 	@Override
+	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		Object obj = getObject (column - 1, paramInfo, interpreter);
+		if (obj == null)
+		{
+			setNull (stmt, column, paramInfo);
+		}
+		else
+		{
+			stmt.getHelper ().setObject (stmt, column, paramInfo, obj, freeList, interpreter);
+		}
+		return obj;
+	}
+
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws IOException, DecoderException
 	{
 		JsonValue v = (JsonValue)m_vvs[index].getValue ();
@@ -364,7 +379,6 @@ class JsonImporter implements JaqyImporter
 		throw new IOException ("Unable to convert from " + v.getValueType () + " to " + TypesUtils.getTypeName (paramInfo.type));
 	}
 
-	@Override
 	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
 	{
 		stmt.setNull (column, paramInfo.type, paramInfo.typeName);

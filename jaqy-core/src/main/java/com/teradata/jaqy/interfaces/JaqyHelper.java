@@ -262,6 +262,19 @@ public interface JaqyHelper
 	 */
 	public void setNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
 	/**
+	 * Help setting null for a particular column from CSV-like importers.
+	 * @param	stmt
+	 * 			the prepared statement
+	 * @param	columnIndex
+	 * 			the column index
+	 * @param	paramInfo
+	 * 			the processed parameter information.
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @since	1.1
+	 */
+	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
+	/**
 	 * Help setting the object for a particular column.
 	 * @param	stmt
 	 * 			the prepared statement
@@ -278,6 +291,24 @@ public interface JaqyHelper
 	 * @since	1.1
 	 */
 	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
+	/**
+	 * Help setting the object for a particular column from CSV-like
+	 * importers.
+	 * @param	stmt
+	 * 			the prepared statement
+	 * @param	columnIndex
+	 * 			the column index
+	 * @param	paramInfo
+	 * 			the processed parameter information.
+	 * @param	o
+	 * 			the value to be set (it should not be null).
+	 * @param	freeList
+	 * 			if any resources should be freed, add to this list.
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @since	1.1
+	 */
+	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Get the staging table primary index.
 	 */

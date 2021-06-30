@@ -15,9 +15,12 @@
  */
 package com.teradata.jaqy.importer;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
-import java.sql.Types;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,6 +31,7 @@ import org.apache.commons.csv.CSVRecord;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
+import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.resultset.FileBlob;
@@ -180,6 +184,21 @@ public class CSVImporter implements JaqyImporter
 	}
 
 	@Override
+	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		Object obj = getObject (column - 1, paramInfo, interpreter);
+		JaqyHelper helper = stmt.getHelper();
+		if (obj == null)
+		{
+			helper.setCSVNull (stmt, column, paramInfo, interpreter);
+		}
+		else
+		{
+			helper.setCSVObject (stmt, column, paramInfo, obj, freeList, interpreter);
+		}
+		return obj;
+	}
+
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		try
@@ -235,21 +254,5 @@ public class CSVImporter implements JaqyImporter
 			m_naValues = DEFAULT_NA_VALUES;
 		else
 			m_naValues = naValues;
-	}
-
-	@Override
-	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
-	{
-		switch (paramInfo.type)
-		{
-			case Types.TINYINT:
-			case Types.SMALLINT:
-			case Types.INTEGER:
-			case Types.BIGINT:
-				stmt.setNull (column, paramInfo.type);
-				break;
-			default:
-				stmt.setObject (column, null);
-		}
 	}
 }

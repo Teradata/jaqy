@@ -286,15 +286,11 @@ public class Session
 			{
 				for (int i = 0; i < columns; ++i)
 				{
-					Object o = importer.getObject (i, parameterInfos[i], interpreter);
+					Object o = importer.importColumn (stmt, i + 1, parameterInfos[i], freeList, interpreter);
 					if (o == null)
 					{
-						//stmt.setNull (i + 1, parameterInfos[i].type, parameterInfos[i].typeName);
-						importer.setNull (stmt, i + 1, parameterInfos[i]);
 						continue;
 					}
-
-					helper.setObject (stmt, i + 1, parameterInfos[i], o, freeList, interpreter);
 
 					// free Blob / Clob / SQLXML / Array
 					if (o instanceof SQLXML)

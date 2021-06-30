@@ -16,6 +16,7 @@
 package com.teradata.jaqy.interfaces;
 
 import java.io.Closeable;
+import java.util.Collection;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
@@ -57,31 +58,20 @@ public interface JaqyImporter extends Closeable
 	public void setParameters (String[] exps) throws Exception;
 
 	/**
-	 * Gets an object.  The index starts from 0.
-	 * <p>
-	 * The object obtained is directly passed to a {@link java.sql.PreparedStatement}.
-	 * @param	index
-	 *			object index
-	 * @param	paramInfo
-	 * 			JDBC parameter information
-	 * @param	interpreter
-	 * 			the interpreter.
-	 * @return	the object at the index.
-	 * @throws	Exception
-	 * 			in case of error.
-	 */
-	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception;
-
-	/**
-	 * Sets NULL for a particular column.
+	 * Get an object and set the value.
 	 * @param	stmt
 	 * 			the prepared statement.
 	 * @param	column
 	 * 			the column index
 	 * @param	paramInfo
 	 * 			parameter information.
+	 * @param	freeList
+	 * 			if any resources should be freed, add to this list.
+	 * @param	interpreter
+	 * 			the interpreter.
+	 * @return	the object involved for additional processing.
 	 * @throws	Exception
 	 * 			in case of error.
 	 */
-	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception;
+	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
 }

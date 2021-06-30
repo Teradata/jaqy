@@ -18,6 +18,7 @@ package com.teradata.jaqy.importer;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
@@ -83,6 +84,20 @@ public class PipeImporter implements JaqyImporter
 	}
 
 	@Override
+	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		Object obj = getObject (column - 1, paramInfo, interpreter);
+		if (obj == null)
+		{
+			setNull (stmt, column, paramInfo);
+		}
+		else
+		{
+			stmt.getHelper ().setObject (stmt, column, paramInfo, obj, freeList, interpreter);
+		}
+		return obj;
+	}
+
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		if (m_indexMap != null)
@@ -90,6 +105,15 @@ public class PipeImporter implements JaqyImporter
 			index = m_indexMap[index];
 		}
 		return m_rs.getObject (index + 1);
+	}
+
+	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
+	{
+		// If possible, we use the source type info since
+		// 1. We need to match the source type
+		// 2. ParamInfo may be dummy (as in case of MySQL)
+		FullColumnInfo info = getColumnInfo (column);
+		stmt.setNull (column, info.type, info.typeName);
 	}
 
 	@Override
@@ -110,15 +134,5 @@ public class PipeImporter implements JaqyImporter
 	private FullColumnInfo getColumnInfo (int column)
 	{
 		return m_schema.columns[column - 1];
-	}
-
-	@Override
-	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
-	{
-		// If possible, we use the source type info since
-		// 1. We need to match the source type
-		// 2. ParamInfo may be dummy (as in case of MySQL)
-		FullColumnInfo info = getColumnInfo (column);
-		stmt.setNull (column, info.type, info.typeName);
 	}
 }

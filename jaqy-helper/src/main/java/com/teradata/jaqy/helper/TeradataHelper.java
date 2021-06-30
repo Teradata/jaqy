@@ -15,13 +15,16 @@
  */
 package com.teradata.jaqy.helper;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.util.Collection;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyDefaultResultSet;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.CachedClob;
@@ -80,6 +83,50 @@ class TeradataHelper extends DefaultHelper
 	public TeradataHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
 		super (features, conn, globals);
+	}
+
+	@Override
+	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		switch (paramInfo.type)
+		{
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			{
+				BigDecimal dec = new BigDecimal (o.toString ());
+				setObject (stmt, columnIndex, paramInfo, dec.intValue (), freeList, interpreter);
+				break;
+			}
+			case Types.BIGINT:
+			{
+				BigDecimal dec = new BigDecimal (o.toString ());
+				setObject (stmt, columnIndex, paramInfo, dec.longValue (), freeList, interpreter);
+				break;
+			}
+			case Types.FLOAT:
+			{
+				BigDecimal dec = new BigDecimal (o.toString ());
+				setObject (stmt, columnIndex, paramInfo, dec.floatValue (), freeList, interpreter);
+				break;
+			}
+			case Types.DECIMAL:
+			{
+				BigDecimal dec = new BigDecimal (o.toString ());
+				setObject (stmt, columnIndex, paramInfo, dec, freeList, interpreter);
+				break;
+			}
+			default:
+			{
+				setObject (stmt, columnIndex, paramInfo, o, freeList, interpreter);
+			}
+		}
+	}
+
+	@Override
+	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+	{
+		stmt.setNull (columnIndex, paramInfo.type);
 	}
 
 	@Override

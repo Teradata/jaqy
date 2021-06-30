@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.sql.Types;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -253,16 +254,24 @@ class AvroImporter implements JaqyImporter
 	}
 
 	@Override
+	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+	{
+		Object obj = getObject (column - 1, paramInfo, interpreter);
+		if (obj == null)
+		{
+			stmt.setNull (column, paramInfo.type, paramInfo.typeName);
+		}
+		else
+		{
+			stmt.getHelper ().setObject (stmt, column, paramInfo, obj, freeList, interpreter);
+		}
+		return obj;
+	}
+
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		if (m_exps == null)
 			return getObject (m_record.get (index), paramInfo);
 		return getObject (m_record.get (m_exps[index]), paramInfo);
-	}
-
-	@Override
-	public void setNull (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo) throws Exception
-	{
-		stmt.setNull (column, paramInfo.type, paramInfo.typeName);
 	}
 }
