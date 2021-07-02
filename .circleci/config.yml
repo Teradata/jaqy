@@ -1,0 +1,43 @@
+version: 2.1
+orbs:
+  coveralls: coveralls/coveralls@1.0.6
+jobs:
+  build_and_test:
+    docker:
+      - image: cimg/base:stable-18.04
+    steps:
+      - checkout
+      - run:
+          name: Update repo
+          command: sudo apt-get update
+      - run:
+          name: Install openjdk8
+          command: sudo apt-get install -y openjdk8
+      - run:
+          name: Install postgresql 10
+          command: |
+            sudo apt-get install -y postgresql-10
+            sudo cp vmsetup/p*.conf /etc/postgresql/10/main/
+            sudo /etc/init.d/postgresql restart
+      - run:
+          name: Install mysql server 5.7
+          command: |
+            sudo apt-get install -y mysql-server-5.7
+            mysql -e 'CREATE DATABASE IF NOT EXISTS vagrant;' -uroot
+            mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'localhost';" -uroot
+      - run:
+          name: azurite
+          command: |
+            sudo docker pull arafato/azurite
+            sudo docker run -e executable=blob -d -t -p 10000:10000 -v /tmp/azurite:/opt/azurite/folder arafato/azurite
+      - run:
+          name: Build and test
+          command: mvn clean test
+      - run:
+          name: Generate code coverage
+          command: 
+      - coveralls/upload
+workflows:
+  all:
+    jobs:
+      - build_and_test
