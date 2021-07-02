@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  maven: circleci/maven@1.2.0
 jobs:
   build_and_test:
     docker:
@@ -18,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: Install maven
-          command: sudo apt-get update && sudo maven
+          command: sudo apt-get update && sudo apt-get install -y maven
       - run:
           name: Run unit tests
           command: mvn clean test
