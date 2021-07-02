@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  maven: circleci/maven@1.2.0
 jobs:
   build_and_test:
     docker:
@@ -11,21 +13,10 @@ jobs:
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: vagrant
-      - image: circleci/postgresql:10
+      - image: circleci/postgresql:10-alpine-postgis
+      - image: circleci/openjdk:8u131-jdk
     steps:
       - checkout
-      - run:
-          name: Update repo
-          command: sudo apt-get update
-      - run:
-          name: Install openjdk 8 and maven
-          command: sudo apt-get install -y openjdk-8-jdk maven
-      - run:
-          name: Install postgresql 10
-          command: |
-            sudo apt-get install -y postgresql-10
-            sudo cp vmsetup/p*.conf /etc/postgresql/10/main/
-            sudo /etc/init.d/postgresql restart
       - run:
           name: Setup mysql
           command: |
