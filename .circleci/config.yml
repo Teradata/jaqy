@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   maven: circleci/maven@1.2.0
 jobs:
-  buildimage:
+  build_and_test:
     docker:
       - image: cimg/base:stable-18.04
       - image: circleci/mysql:5.7
@@ -16,14 +16,16 @@ jobs:
           executable: blob
     steps:
       - checkout
+      - run:
+          name: Install maven
+          command: sudo apt-get update && sudo maven
+      - run:
+          name: Run unit tests
+          command: mvn clean test
+      - run:
+          name: Generate code coverage
+          command: mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
 workflows:
-  buildimg:
+  all:
     jobs:
-      - buildimage
-  maven_test:
-    jobs:
-      - maven/test:
-  maven_coverall:
-    jobs:
-      - maven/test:
-        command: "clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report"
+      - build_and_test
