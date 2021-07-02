@@ -10,7 +10,6 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
         environment:
-          MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: vagrant
       - image: circleci/postgres:10-alpine-postgis
