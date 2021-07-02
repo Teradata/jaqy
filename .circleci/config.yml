@@ -12,7 +12,7 @@ jobs:
           command: sudo apt-get update
       - run:
           name: Install openjdk8
-          command: sudo apt-get install -y openjdk8
+          command: sudo apt-get install -y openjdk8 maven
       - run:
           name: Install postgresql 10
           command: |
@@ -35,7 +35,7 @@ jobs:
           command: mvn clean test
       - run:
           name: Generate code coverage
-          command: 
+          command: mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
       - coveralls/upload
 workflows:
   all:
