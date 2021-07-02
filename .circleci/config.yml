@@ -3,6 +3,15 @@ jobs:
   build_and_test:
     docker:
       - image: cimg/base:stable-18.04
+      - image: circleci/mysql:5.7
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment:
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_DATABASE: vagrant
+      - image: circleci/postgresql:10
     steps:
       - checkout
       - run:
@@ -17,10 +26,6 @@ jobs:
             sudo apt-get install -y postgresql-10
             sudo cp vmsetup/p*.conf /etc/postgresql/10/main/
             sudo /etc/init.d/postgresql restart
-      - image: mysql:5.7
-          environment:
-            MYSQL_USER: root
-            MYSQL_ALLOW_EMPTY_PASSWORD: true
       - run:
           name: Setup mysql
           command: |
