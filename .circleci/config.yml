@@ -6,26 +6,16 @@ jobs:
     docker:
       - image: cimg/base:stable-18.04
       - image: circleci/mysql:5.7
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: vagrant
       - image: circleci/postgres:10-alpine-postgis
       - image: circleci/openjdk:8u131-jdk
+      - image: arafato/azurite
+        environment:
+          executable: blob
     steps:
       - checkout
-      - run:
-          name: Setup mysql
-          command: |
-            mysql -e 'CREATE DATABASE IF NOT EXISTS vagrant;' -uroot
-            mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'localhost';" -uroot
-      - run:
-          name: azurite
-          command: |
-            sudo docker pull arafato/azurite
-            sudo docker run -e executable=blob -d -t -p 10000:10000 -v /tmp/azurite:/opt/azurite/folder arafato/azurite
       - run:
           name: Build and test
           command: mvn clean test
