@@ -17,10 +17,13 @@ jobs:
             sudo apt-get install -y postgresql-10
             sudo cp vmsetup/p*.conf /etc/postgresql/10/main/
             sudo /etc/init.d/postgresql restart
+      - image: mysql:5.7
+          environment:
+            MYSQL_USER: root
+            MYSQL_ALLOW_EMPTY_PASSWORD: true
       - run:
-          name: Install mysql server 5.7
+          name: Setup mysql
           command: |
-            sudo apt-get install -y mysql-server-5.7
             mysql -e 'CREATE DATABASE IF NOT EXISTS vagrant;' -uroot
             mysql -e "GRANT ALL PRIVILEGES ON vagrant.* TO 'vagrant'@'localhost';" -uroot
       - run:
