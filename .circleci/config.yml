@@ -19,10 +19,14 @@ jobs:
           command: sudo apt-get update && sudo apt-get install -y maven
       - run:
           name: Run unit tests
-          command: mvn clean test
+          command: |
+            export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
+            mvn -X clean test
       - run:
           name: Generate code coverage
-          command: mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
+          command: |
+            export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
+            mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
 workflows:
   all:
     jobs:

@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: circleci/mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=vagrant
+  postgres:
+    image: circleci/postgres:10-alpine-postgis
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+    ports:
+      - "5433:5433"
+  azurite:
+    image: arafato/azurite:2.6.5
+    ports:
+      - 10000:10000
+    environment:
+      executable: blob

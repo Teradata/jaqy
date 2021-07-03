@@ -81,8 +81,8 @@
 		</dependency>
 		<dependency>
 			<groupId>io.findify</groupId>
-			<artifactId>s3mock_2.12</artifactId>
-			<version>0.2.4</version>
+			<artifactId>s3mock_2.13</artifactId>
+			<version>0.2.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
