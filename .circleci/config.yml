@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build_and_test:
     docker:
-      - image: cimg/base:stable-18.04
+      - image: maven:3.6-openjdk-8
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: ''
@@ -14,15 +14,11 @@ jobs:
           POSTGRES_PASSWORD: ''
           TZ: GMT+2
           PGTZ: GMT+2
-      - image: maven:3.6-openjdk-8
       - image: arafato/azurite
         environment:
           executable: blob
     steps:
       - checkout
-      - run:
-          name: Install java / maven
-          command: sudo apt-get install -y maven openjdk-8-jdk
       - run:
           name: Maven Unit Tests
           command: mvn -X clean package
