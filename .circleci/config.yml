@@ -4,23 +4,17 @@ jobs:
     docker:
       - image: circleci/mysql:5.7
         environment:
-          - MYSQL_ROOT_PASSWORD=
-          - MYSQL_ALLOW_EMPTY_PASSWORD=true
-          - MYSQL_DATABASE=vagrant
-        ports:
-          - "3306:3306"
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_DATABASE: vagrant
       - image: circleci/postgres:10-alpine-postgis
         environment:
-          - POSTGRES_USER=postgres
-          - POSTGRES_PASSWORD=
-          - TZ=GMT+2
-          - PGTZ=GMT+2
-        ports:
-          - "5433:5432"
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ''
+          TZ: GMT+2
+          PGTZ: GMT+2
       - image: maven/3.6-openjdk-8
       - image: arafato/azurite
-        ports:
-          - 10000:10000
         environment:
           executable: blob
     steps:

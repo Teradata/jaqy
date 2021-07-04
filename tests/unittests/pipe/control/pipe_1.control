@@ -42,7 +42,7 @@ INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 5/4 - 1 ----------------------------------------------------------------
-.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
+.open -u postgres postgresql://localhost/?stringtype=unspecified
 -- 5/5 - 1 ----------------------------------------------------------------
 
 CREATE TABLE NumTable

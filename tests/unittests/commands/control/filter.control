@@ -28,7 +28,7 @@ Examples:
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 0/3 - 0 ----------------------------------------------------------------
-.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
+.open -u postgres postgresql://localhost/?stringtype=unspecified
 -- 0/4 - 0 ----------------------------------------------------------------
 
 CREATE TABLE MyTable (a INTEGER, b VARCHAR(10000));

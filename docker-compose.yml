@@ -15,7 +15,7 @@ services:
       - TZ=GMT+2
       - PGTZ=GMT+2
     ports:
-      - "5433:5432"
+      - "5432:5432"
   azurite:
     image: arafato/azurite:2.6.5
     ports:

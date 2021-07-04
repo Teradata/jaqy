@@ -6,7 +6,7 @@ Jaqy Console 1.1.0
 .run ../common/postgresql_setup.sql
 -- Running script: ../common/postgresql_setup.sql
 -- 0/1 - 0 ----------------------------------------------------------------
-.open -u postgres postgresql://localhost:5433/?stringtype=unspecified
+.open -u postgres postgresql://localhost/?stringtype=unspecified
 -- 0/2 - 0 ----------------------------------------------------------------
 SET TIME ZONE '-04:00';
 -- success. update count = 0
