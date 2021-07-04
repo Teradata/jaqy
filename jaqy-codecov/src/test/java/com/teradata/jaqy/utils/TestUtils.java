@@ -17,9 +17,11 @@ package com.teradata.jaqy.utils;
 
 import java.io.*;
 
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.rules.TemporaryFolder;
-
-import junitx.framework.FileAssert;
 
 /**
  * @author	Heng Yuan
@@ -41,7 +43,27 @@ public class TestUtils
 
 	public static void fileCompare (File f1, File f2) throws IOException
 	{
-		FileAssert.assertEquals (f1, f2);
+		String prog;
+		if (SystemUtils.IS_OS_UNIX)
+		{
+			prog = "diff";
+		}
+		else
+		{
+			prog = "fc";
+		}
+		CommandLine cmdLine = CommandLine.parse (prog + " " + f1.getCanonicalPath () + " " + f2.getCanonicalPath ());
+		DefaultExecutor executor = new DefaultExecutor ();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PumpStreamHandler streamHandler = new PumpStreamHandler (outputStream);
+		executor.setStreamHandler (streamHandler);
+		executor.execute(cmdLine);
+		int exitValue = executor.execute(cmdLine);
+		if (exitValue != 0)
+		{
+			String diffString = outputStream.toString ();
+			throw new IOException ("Input / output mismatch:\n" + diffString);
+		}
 	}
 
 	public static void jaqyTest (TemporaryFolder testFolder, String srcFile, String controlFile) throws Exception
