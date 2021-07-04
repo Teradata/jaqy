@@ -13,7 +13,7 @@ jobs:
           POSTGRES_PASSWORD: ''
           TZ: GMT+2
           PGTZ: GMT+2
-      - image: maven/3.6-openjdk-8
+      - image: maven:3.6-openjdk-8
       - image: arafato/azurite
         environment:
           executable: blob
