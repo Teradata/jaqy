@@ -22,7 +22,7 @@ jobs:
       - checkout
       - run:
           name: Install java / maven
-          sudo: apt-get install -y maven openjdk-8-jdk
+          command: sudo apt-get install -y maven openjdk-8-jdk
       - run:
           name: Maven Unit Tests
           command: mvn -X clean package
