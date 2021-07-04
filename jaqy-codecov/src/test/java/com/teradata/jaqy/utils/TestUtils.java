@@ -15,12 +15,12 @@
  */
 package com.teradata.jaqy.utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.LogOutputStream;
-import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.exec.*;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.rules.TemporaryFolder;
 
@@ -35,26 +35,13 @@ public class TestUtils
 	    @Override
 	    protected void processLine (String line, int level)
 	    {
-	    	m_builder.append (line);
+	    	m_builder.append (line).append ('\n');
 	    }
 	    @Override
 		public String toString ()
 	    {
 	        return m_builder.toString ();
 	    }
-	}
-
-	private static String readFile (File file) throws IOException
-	{
-		StringBuilder builder = new StringBuilder ();
-		BufferedReader reader = new BufferedReader (new FileReader (file));
-		String line;
-		while ((line = reader.readLine ()) != null)
-		{
-			builder.append (line).append ('\n');
-		}
-		reader.close ();
-		return builder.toString ();
 	}
 
 	public static void fileCompare (File f1, File f2) throws IOException
@@ -71,15 +58,14 @@ public class TestUtils
 		CommandLine cmdLine = CommandLine.parse (prog + " " + f1.getCanonicalPath () + " " + f2.getCanonicalPath ());
 		DefaultExecutor executor = new DefaultExecutor ();
 		CollectingLogOutputStream outStream = new CollectingLogOutputStream ();
-		PumpStreamHandler streamHandler = new PumpStreamHandler (outStream);
+		PumpStreamHandler streamHandler = new PumpStreamHandler (outStream, outStream);
 		executor.setStreamHandler (streamHandler);
-		executor.execute(cmdLine);
 		int exitValue = 0;
 		try
 		{
 			exitValue = executor.execute (cmdLine);
 		}
-		catch (Exception ex)
+		catch (ExecuteException ex)
 		{
 			exitValue = 1;
 		}
