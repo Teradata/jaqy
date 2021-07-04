@@ -19,6 +19,7 @@ import java.io.*;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.LogOutputStream;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.rules.TemporaryFolder;
@@ -28,6 +29,21 @@ import org.junit.rules.TemporaryFolder;
  */
 public class TestUtils
 {
+	private static class CollectingLogOutputStream extends LogOutputStream
+	{
+		private final StringBuilder m_builder = new StringBuilder ();
+	    @Override
+	    protected void processLine (String line, int level)
+	    {
+	    	m_builder.append (line);
+	    }
+	    @Override
+		public String toString ()
+	    {
+	        return m_builder.toString ();
+	    }
+	}
+
 	private static String readFile (File file) throws IOException
 	{
 		StringBuilder builder = new StringBuilder ();
@@ -54,14 +70,22 @@ public class TestUtils
 		}
 		CommandLine cmdLine = CommandLine.parse (prog + " " + f1.getCanonicalPath () + " " + f2.getCanonicalPath ());
 		DefaultExecutor executor = new DefaultExecutor ();
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		PumpStreamHandler streamHandler = new PumpStreamHandler (outputStream);
+		CollectingLogOutputStream outStream = new CollectingLogOutputStream ();
+		PumpStreamHandler streamHandler = new PumpStreamHandler (outStream);
 		executor.setStreamHandler (streamHandler);
 		executor.execute(cmdLine);
-		int exitValue = executor.execute(cmdLine);
+		int exitValue = 0;
+		try
+		{
+			exitValue = executor.execute (cmdLine);
+		}
+		catch (Exception ex)
+		{
+			exitValue = 1;
+		}
 		if (exitValue != 0)
 		{
-			String diffString = outputStream.toString ();
+			String diffString = outStream.toString ();
 			throw new IOException ("Input / output mismatch:\n" + diffString);
 		}
 	}
