@@ -18,7 +18,12 @@ TESTDIR=/tmp/test.$$
 INPUTDIR=${TESTDIR}/input
 OUTPUTDIR=${TESTDIR}/output
 CONTROLDIR=${TESTDIR}/control
-jq="java -Xmx256m -Dnashorn.args=--no-deprecation-warning -jar ${JAQY_HOME}/dist/jaqy-1.1.0.jar"
+
+JAVA=java
+if [ -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java ]; then
+	JAVA=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
+fi
+jq="${JAVA} -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.1.0.jar"
 
 function run ()
 {

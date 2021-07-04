@@ -128,7 +128,7 @@ SELECT 6;
 -- 8/11 - 0 ---------------------------------------------------------------
 
 .if activityCount
--- error: class java.lang.Long cannot be cast to class java.lang.Boolean (java.lang.Long and java.lang.Boolean are in module java.base of loader 'bootstrap')
+-- error: java.lang.Long cannot be cast to java.lang.Boolean
 -- skip: SELECT 8;
 .end if
 -- 8/12 - 0 ---------------------------------------------------------------

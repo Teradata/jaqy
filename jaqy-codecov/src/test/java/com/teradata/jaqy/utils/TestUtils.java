@@ -15,15 +15,11 @@
  */
 package com.teradata.jaqy.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 
-import org.junit.Assert;
 import org.junit.rules.TemporaryFolder;
+
+import junitx.framework.FileAssert;
 
 /**
  * @author	Heng Yuan
@@ -45,17 +41,7 @@ public class TestUtils
 
 	public static void fileCompare (File f1, File f2) throws IOException
 	{
-//		boolean diff = (f1.length () != f2.length ());
-//		if (diff)
-//		{
-//			System.out.println (f1 + " is different from " + f2);
-//			System.exit (1);
-//		}
-
-		String s1 = readFile (f1);
-		String s2 = readFile (f2);
-
-		Assert.assertEquals (s1, s2);
+		FileAssert.assertEquals (f1, f2);
 	}
 
 	public static void jaqyTest (TemporaryFolder testFolder, String srcFile, String controlFile) throws Exception
