@@ -340,7 +340,7 @@ TABLE_CAT
 information_schema
 mysql
 performance_schema
-travis
+sys
 vagrant
 -- 0/24 - 0 ---------------------------------------------------------------
 .info catalogs
@@ -348,7 +348,7 @@ TABLE_CAT
 information_schema
 mysql
 performance_schema
-travis
+sys
 vagrant
 -- 0/25 - 0 ---------------------------------------------------------------
 .info schema

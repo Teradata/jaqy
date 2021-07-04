@@ -60,7 +60,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
 		Charset charset = DEFAULT_CHARSET;
-		CSVFormat format = CSVFormat.DEFAULT;
+		CSVFormat format = CSVUtils.getDefaultFormat ();
 
 		HashMap<Integer, CSVExportInfo> exportInfoMap = new HashMap<Integer, CSVExportInfo> ();
 		CSVNameGen nameGen = new CSVNameGen (DEFAULT_NAME_PATTERN);

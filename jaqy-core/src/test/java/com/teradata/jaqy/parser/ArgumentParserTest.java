@@ -18,8 +18,6 @@ package com.teradata.jaqy.parser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.teradata.jaqy.parser.ArgumentParser;
-
 /**
  * @author	Heng Yuan
  */

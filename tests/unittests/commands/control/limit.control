@@ -89,8 +89,8 @@ SELECT * FROM MyTable ORDER BY b;
 -- success --
  a b
 -- ------------
-10 POINT(10 10)
  1 POINT(1 1)
+10 POINT(10 10)
 11 POINT(11 11)
 12 POINT(12 12)
 13 POINT(13 13)
@@ -100,7 +100,7 @@ SELECT * FROM MyTable ORDER BY b;
 17 POINT(17 17)
 18 POINT(18 18)
 19 POINT(19 19)
-20 POINT(20 20)
+ 2 POINT(2 2)
 -- activity count = 12
 -- 6/15 - 0 ---------------------------------------------------------------
 
@@ -112,7 +112,6 @@ SELECT * FROM MyTable ORDER BY b;
 -- success --
  a b
 -- ------------
-20 POINT(20 20)
 19 POINT(19 19)
 18 POINT(18 18)
 17 POINT(17 17)
@@ -123,6 +122,7 @@ SELECT * FROM MyTable ORDER BY b;
 12 POINT(12 12)
 11 POINT(11 11)
 10 POINT(10 10)
+ 2 POINT(2 2)
  1 POINT(1 1)
 -- activity count = 12
 -- 7/17 - 0 ---------------------------------------------------------------

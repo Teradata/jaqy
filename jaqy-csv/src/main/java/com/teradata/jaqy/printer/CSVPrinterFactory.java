@@ -46,7 +46,7 @@ public class CSVPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	@Override
 	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		CSVFormat format = CSVFormat.DEFAULT;
+		CSVFormat format = CSVUtils.getDefaultFormat ();
 
 		for (Option option : cmdLine.getOptions ())
 		{

@@ -57,7 +57,7 @@ CREATE TABLE `NumTable` (
   `c7` bigint(20) DEFAULT NULL,
   `c8` float DEFAULT NULL,
   `c9` double DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 -- 2/6 - 0 ----------------------------------------------------------------
 
 INSERT INTO NumTable VALUES (1, 12, -127, true, -12345, -123456, -123456789, -1234567890, -1234.5, -4.5e15);
@@ -286,8 +286,8 @@ ResultSet Column Count                       10
     Writable                                     Y
 -- success --
 a,c1,c2,c3,c4,c5,c6,c7,c8,c9
-1,000000000000000c,-127,1,-12345,-123456,-123456789,-1234567890,-1234.5,-4.5e15
-2,0000000000000050,127,0,12345,1234567,123456789,1234567890,1234.5,4.5e15
+1,000000000000000c,-127,1,-12345,-123456,-123456789,-1234567890,-1234.5,-4500000000000000
+2,0000000000000050,127,0,12345,1234567,123456789,1234567890,1234.5,4500000000000000
 3,,,,,,,,,
 -- activity count = 3
 -- 6/7 - 0 ----------------------------------------------------------------
@@ -579,7 +579,7 @@ CREATE TABLE `DecTable` (
   `c2` decimal(9,2) DEFAULT NULL,
   `c3` decimal(22,2) DEFAULT NULL,
   `c4` decimal(31,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 -- 9/11 - 0 ---------------------------------------------------------------
 
 INSERT INTO DecTable VALUES (1, -1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
@@ -874,12 +874,12 @@ c5    set('one','two') YES      ?
 .desc -s StrTable
 CREATE TABLE `StrTable` (
   `a` int(11) DEFAULT NULL,
-  `c1` varchar(255) DEFAULT NULL,
-  `c2` char(1) DEFAULT NULL,
-  `c3` char(5) DEFAULT NULL,
-  `c4` text,
-  `c5` set('one','two') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+  `c1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `c2` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `c3` char(5) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `c4` text COLLATE utf8_unicode_ci,
+  `c5` set('one','two') COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 -- 16/16 - 0 --------------------------------------------------------------
 
 INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa', 'one');
@@ -989,8 +989,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
-    Display Size                                 65535
-    Precision                                    65535
+    Display Size                                 21845
+    Precision                                    21845
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1126,8 +1126,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
-    Display Size                                 65535
-    Precision                                    65535
+    Display Size                                 21845
+    Precision                                    21845
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1221,7 +1221,7 @@ CREATE TABLE `BinTable` (
   `c2` varbinary(10) DEFAULT NULL,
   `c3` blob,
   `c4` enum('a','b','c') CHARACTER SET binary DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 -- 23/21 - 0 --------------------------------------------------------------
 
 INSERT INTO BinTable VALUES (1, X'deadbeef', X'deadbeef', X'deadbeef', 'a');

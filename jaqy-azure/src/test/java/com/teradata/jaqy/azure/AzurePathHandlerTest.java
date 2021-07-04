@@ -24,8 +24,6 @@ import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.azure.AzurePathHandler;
-import com.teradata.jaqy.azure.AzureUtils;
 import com.teradata.jaqy.interfaces.Path;
 
 /**
@@ -43,7 +41,7 @@ public class AzurePathHandlerTest
 		Assert.assertFalse (handler.canHandle ("wasba:///examples"));
 	}
 
-	@Test(expected = IllegalArgumentException.class)  
+	@Test(expected = IllegalArgumentException.class)
 	public void test2 () throws Exception
 	{
 		Globals globals = new Globals ();

@@ -16,8 +16,8 @@ Column                Type        Nullable
 --------------------- ----------- --------
 beginning IP Address  varchar(15) No
 ending IP Address     varchar(15) No
-beginning IP Number   int4        No
-ending IP Number      int4        No
+beginning IP Number   float8      No
+ending IP Number      float8      No
 ISO 3166 Country Code bpchar(2)   Yes
 Country Name          varchar(36) No
 -- 0/4 - 0 ----------------------------------------------------------------
@@ -27,22 +27,21 @@ CREATE TABLE mytable
 (
 	"beginning IP Address" varchar(15) NOT NULL,
 	"ending IP Address" varchar(15) NOT NULL,
-	"beginning IP Number" int4 NOT NULL,
-	"ending IP Number" int4 NOT NULL,
+	"beginning IP Number" float8 NOT NULL,
+	"ending IP Number" float8 NOT NULL,
 	"ISO 3166 Country Code" bpchar(2),
 	"Country Name" varchar(36) NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
 INSERT INTO mytable VALUES (?,?,?,?,?,?)
--- failure 0: [07006] Cannot convert an instance of java.lang.String to type int
 -- 2/5 - 0 ----------------------------------------------------------------
 
 SELECT COUNT(*) FROM mytable;
 -- success --
 count
 -----
-15000
+70865
 -- activity count = 1
 -- 3/5 - 0 ----------------------------------------------------------------
 .limit 5
@@ -52,10 +51,10 @@ SELECT * FROM mytable ORDER BY 1;
 beginning IP Address ending IP Address beginning IP Number ending IP Number ISO 3166 Country Code Country Name
 -------------------- ----------------- ------------------- ---------------- --------------------- -------------
 11.0.0.0             12.1.52.63                  184549376        201405503 US                    United States
-12.10.192.0          12.10.199.255               202031104        202033151 IN                    India
-12.10.200.0          12.10.207.255               202033152        202035199 US                    United States
-12.10.208.0          12.10.209.255               202035200        202035711 IN                    India
-12.10.210.0          12.14.128.135               202035712        202276999 US                    United States
+111.0.0.0            111.0.0.255                1862270976       1862271231 KR                    Korea
+112.63.162.116       112.63.162.119             1883218548       1883218551 ES                    Spain
+112.63.162.120       112.63.162.123             1883218552       1883218555 FR                    France
+112.63.162.148       112.63.162.151             1883218580       1883218583 BE                    Belgium
 -- activity count = 5
 -- 4/6 - 0 ----------------------------------------------------------------
 .limit 0

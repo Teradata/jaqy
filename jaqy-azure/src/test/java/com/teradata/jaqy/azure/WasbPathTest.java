@@ -20,8 +20,6 @@ import org.junit.Test;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.azure.AzurePathHandler;
-import com.teradata.jaqy.azure.AzureUtils;
 import com.teradata.jaqy.interfaces.Path;
 
 /**

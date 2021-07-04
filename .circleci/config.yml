@@ -2,31 +2,38 @@ version: 2.1
 jobs:
   build_and_test:
     docker:
-      - image: cimg/base:stable-18.04
       - image: circleci/mysql:5.7
         environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_DATABASE: vagrant
+          - MYSQL_ROOT_PASSWORD=
+          - MYSQL_ALLOW_EMPTY_PASSWORD=true
+          - MYSQL_DATABASE=vagrant
+        ports:
+          - "3306:3306"
       - image: circleci/postgres:10-alpine-postgis
-      - image: circleci/openjdk:8u131-jdk
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=
+          - TZ=GMT+2
+          - PGTZ=GMT+2
+        ports:
+          - "5433:5432"
+      - image: maven/3.6-openjdk-8
       - image: arafato/azurite
+        ports:
+          - 10000:10000
         environment:
           executable: blob
     steps:
       - checkout
       - run:
-          name: Install maven
-          command: sudo apt-get update && sudo apt-get install -y maven
+          name: Maven Unit Tests
+          command: mvn -X clean package
       - run:
-          name: Run unit tests
-          command: |
-            export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
-            mvn -X clean test
+          name: CLI Tests
+          command: tests/bin/testall.sh
       - run:
           name: Generate code coverage
-          command: |
-            export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
-            mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
+          command: ./make.sh coverage
 workflows:
   all:
     jobs:

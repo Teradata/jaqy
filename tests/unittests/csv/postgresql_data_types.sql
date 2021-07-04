@@ -2,6 +2,7 @@
 -- test PostgreSQL various data types
 --------------------------------------------------------------------------
 .run ../common/postgresql_setup.sql
+SET TIME ZONE '-04:00';
 .debug resultset on
 .debug preparedstatement on
 .format json -p on -b hex

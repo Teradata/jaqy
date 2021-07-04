@@ -18,7 +18,7 @@ TESTDIR=/tmp/test.$$
 INPUTDIR=${TESTDIR}/input
 OUTPUTDIR=${TESTDIR}/output
 CONTROLDIR=${TESTDIR}/control
-jq="java -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.1.0.jar"
+jq="java -Xmx256m -Dnashorn.args=--no-deprecation-warning -jar ${JAQY_HOME}/dist/jaqy-1.1.0.jar"
 
 function run ()
 {
@@ -63,6 +63,7 @@ cp -r * $INPUTDIR
 
 ln -s "${UNITTESTDIR}/common/" $TESTDIR/common
 ln -s "${UNITTESTDIR}/drivers/" $TESTDIR/drivers
+ln -s ${JAQY_HOME} $TESTDIR/home
 mv ${INPUTDIR}/control ${CONTROLDIR}
 pwd > ${TESTDIR}/testpath.txt
 
@@ -85,4 +86,5 @@ if [ $HASERROR -eq 0 ]; then
 	rm -rf $TESTDIR
 else
 	echo "test directory is at $TESTDIR"
+	exit 1
 fi

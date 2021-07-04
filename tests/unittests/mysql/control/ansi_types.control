@@ -247,7 +247,7 @@ SELECT CAST('<a>123</a>' AS XML) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'XML) AS Test' at line 1
 -- 44/3 - 0 ---------------------------------------------------------------
 SELECT XMLELEMENT(NAME 'Customer', XMLATTRIBUTES('123' AS id), XMLFOREST('Joe' AS Name)) AS Test;
--- failure 1584: [42000] Incorrect parameters in the call to stored function 'XMLATTRIBUTES'
+-- failure 1584: [42000] Incorrect parameters in the call to stored function `XMLELEMENT`
 -- 45/3 - 0 ---------------------------------------------------------------
 
 --------------------------------------------------------------------------

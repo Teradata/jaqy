@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 import com.teradata.jaqy.schema.FullColumnInfo;
@@ -57,10 +58,22 @@ public class CSVUtils
 		return charStr.charAt (0);
 	}
 
+	public static CSVFormat getDefaultFormat ()
+	{
+		// Instead of always using CRLF, use LF on Unix systems
+		if (SystemUtils.IS_OS_UNIX)
+		{
+			return CSVFormat.DEFAULT.withRecordSeparator ('\n');
+		}
+		return CSVFormat.DEFAULT;
+	}
+
 	public static CSVFormat getFormat (String format)
 	{
 		if ("default".equals (format))
-			return CSVFormat.DEFAULT;
+		{
+			return getDefaultFormat ();
+		}
 		else if ("excel".equals (format))
 			return CSVFormat.EXCEL;
 		else if ("rfc4180".equals (format))

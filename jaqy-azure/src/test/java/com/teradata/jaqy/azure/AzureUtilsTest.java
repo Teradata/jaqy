@@ -22,8 +22,6 @@ import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.azure.AzurePathInfo;
-import com.teradata.jaqy.azure.AzureUtils;
 
 /**
  * @author	Heng Yuan

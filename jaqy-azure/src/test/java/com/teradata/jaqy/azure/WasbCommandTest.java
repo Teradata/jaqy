@@ -22,7 +22,6 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.azure.WasbCommand;
 
 /**
  * @author	Heng Yuan
