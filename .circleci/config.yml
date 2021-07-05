@@ -23,7 +23,7 @@ jobs:
       - checkout
       - run:
           name: Install hexdump
-          run: sudo apt-get install -y bsdmainutils
+          command: sudo apt-get install -y bsdmainutils
       - run:
           name: Maven Unit Tests
           command: mvn -X clean package
