@@ -32,7 +32,7 @@ jobs:
           command: chmod +x tests/bin/*.sh && tests/bin/testall.sh
       - run:
           name: Generate code coverage
-          command: ./make.sh coverage
+          command: chmod +x make.sh && ./make.sh coverage
 workflows:
   all:
     jobs:
