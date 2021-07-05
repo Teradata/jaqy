@@ -2,6 +2,7 @@
 -- test PostgreSQL various data types
 --------------------------------------------------------------------------
 .run ../common/postgresql_setup.sql
+SET TIME ZONE '-04:00';
 .format table
 
 CREATE TABLE NumTable

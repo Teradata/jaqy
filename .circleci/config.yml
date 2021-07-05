@@ -12,13 +12,15 @@ jobs:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ''
-          TZ: GMT+2
-          PGTZ: GMT+2
+          TZ: 'GMT+2'
       - image: arafato/azurite
         environment:
           executable: blob
     steps:
       - checkout
+      - run:
+          name: Get hexdump
+          command: sudo apt-get install -y bsdmainutils
       - run:
           name: Maven Unit Tests
           command: mvn -X clean package
