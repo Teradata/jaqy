@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  codecov: codecov/codecov@1.0.2
 jobs:
   build_and_test:
     docker:
@@ -34,8 +32,9 @@ jobs:
       - run:
           name: Generate code coverage
           command: mvn clean site -Dcobertura.report.format=xml
-      - codecov/upload:
-          file: target
+      - run:
+          name: Upload
+          command: bash <(curl -s https://codecov.io/bash)
 workflows:
   all:
     jobs:
