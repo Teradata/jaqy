@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.teradata.jaqy</groupId>
 		<artifactId>jaqy-parent</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 	</parent>
 	<artifactId>jaqy-console</artifactId>
 	<name>Jaqy Console</name>
@@ -35,27 +35,27 @@
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-core</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-commands</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-csv</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-json</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.teradata.jaqy</groupId>
 			<artifactId>jaqy-pipe</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -80,7 +80,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.0</version>
+				<version>3.5.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

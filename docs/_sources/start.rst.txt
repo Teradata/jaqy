@@ -16,32 +16,32 @@ Thus, ``/* */`` is not recognized by Jaqy.
 Launching Jaqy
 --------------
 
-Once `downloaded <download.html>`__ ``jaqy-1.0.jar``, it can be run using
+Once `downloaded <download.html>`__ ``jaqy-1.1.0.jar``, it can be run using
 the following command.
 
 .. code-block:: bash
 
-	java -jar jaqy-1.0.jar
+	java -jar jaqy-1.1.0.jar
 
 If you need to load / export large amount of data though, it can be necessary
 to allocate a bit more memory.
 
 .. code-block:: bash
 
-	java -Xmx256m -jar jaqy-1.0.jar
+	java -Xmx256m -jar jaqy-1.1.0.jar
 
 If you are going to have Unicode outputs, it may be necessary to specify the
 encoding for the standard output.
 
 .. code-block:: bash
 
-	java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.0.jar
+	java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.1.0.jar
 
 It is recommended to have the above script in an alias
 
 .. code-block:: bash
 
-	alias jq='java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.0.jar'
+	alias jq='java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.1.0.jar'
 
 or a batch file.
 
