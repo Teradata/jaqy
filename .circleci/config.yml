@@ -28,7 +28,7 @@ jobs:
           command: mvn clean package
       - run:
           name: Aggregate Unit Test Report
-          command: jacoco:report-aggregate
+          command: mvn jacoco:report-aggregate
       - run:
           name: Upload
           command: bash <(curl -s https://codecov.io/bash)
