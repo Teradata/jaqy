@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  codecov: codecov/codecov@1.2.3
 jobs:
   build_and_test:
     docker:
@@ -24,14 +26,13 @@ jobs:
           name: Install hexdump
           command: apt-get update && apt-get install -y bsdmainutils
       - run:
-          name: Maven Unit Tests
+          name: Maven unit tests
           command: mvn clean package
       - run:
-          name: Aggregate Unit Test Report
+          name: Aggregate code coverage report
           command: mvn jacoco:report-aggregate
-      - run:
-          name: Upload
-          command: bash <(curl -s https://codecov.io/bash)
+      - codecov/upload:
+          file: jaqy-codecov/target/site/jacoco-aggregate/jacoco.xml
 workflows:
   all:
     jobs:
