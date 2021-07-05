@@ -2,8 +2,8 @@ version: 2.1
 jobs:
   build_and_test:
     docker:
-      - image: maven:3.6-openjdk-8
-        command: sudo apt-get update && sudo apt-get install -y bsdmainutils
+      - image: cimg/base:stable-18.04
+        command: sudo apt-get update && sudo apt-get install -y bsdmainutils maven openjdk-8-jdk
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: ''
