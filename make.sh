@@ -21,17 +21,13 @@ case "$BUILD" in
 		make docs
 		;;
 	pkg)
-		export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
 		mvn clean package -Dmaven.test.skip=true
 		;;
 	test)
-		# Java / Maven based tests
-		export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
-		mvn -X clean package
+		mvn clean package
 		;;
 	coverage)
-		export JVM_ARGS="-Dnashorn.args=--no-deprecation-warning"
-		mvn clean site -Dcobertura.report.format=xml org.eluder.coveralls:coveralls-maven-plugin:report
+		mvn jacoco:report-aggregate
 		;;
 	clitest)
 		# Jaqy based tests
@@ -40,3 +36,4 @@ case "$BUILD" in
 		tests/bin/testall.sh
 		;;
 esac
+

@@ -25,10 +25,10 @@ jobs:
           command: apt-get update && apt-get install -y bsdmainutils
       - run:
           name: Maven Unit Tests
-          command: mvn -X clean package
+          command: mvn clean package
       - run:
-          name: Generate code coverage
-          command: mvn clean site -Dcobertura.report.format=xml
+          name: Aggregate Unit Test Report
+          command: jacoco:report-aggregate
       - run:
           name: Upload
           command: bash <(curl -s https://codecov.io/bash)

@@ -109,6 +109,33 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<configuration>
+					<excludes>
+						<exclude>com/teradata/jaqy/helper/Teradata*.class</exclude>
+						<exclude>com/teradata/jaqy/option/*.class</exclude>
+						<exclude>com/teradata/jaqy/lineinput/JLineConsoleLineInput.class</exclude>
+						<exclude>com/teradata/jaqy/command/PromptCommand.class</exclude>
+						<exclude>com/teradata/jaqy/command/TitleCommand.class</exclude>
+						<exclude>com/teradata/jaqy/command/ExitCommand.class</exclude>
+						<exclude>com/teradata/jaqy/command/VersionCommand.class</exclude>
+						<exclude>com/teradata/jaqy/resultset/*Wrapper.class</exclude>
+						<exclude>com/teradata/jaqy/parser/*Generated*.class</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>report-aggregate</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

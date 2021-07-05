@@ -54,65 +54,27 @@
 	</modules>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>	
-					<artifactId>maven-site-plugin</artifactId>	
-					<version>3.7.1</version>	
-				</plugin>	
-				<plugin>	
-					<groupId>org.apache.maven.plugins</groupId>	
-					<artifactId>maven-project-info-reports-plugin</artifactId>	
-					<version>3.0.0</version>	
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>cobertura-maven-plugin</artifactId>
-					<version>2.7</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<configuration>
-					<instrumentation>
-						<excludes>
-							<exclude>com/teradata/jaqy/helper/Teradata*.class</exclude>
-							<exclude>com/teradata/jaqy/option/*.class</exclude>
-							<exclude>com/teradata/jaqy/lineinput/JLineConsoleLineInput.class</exclude>
-							<exclude>com/teradata/jaqy/command/PromptCommand.class</exclude>
-							<exclude>com/teradata/jaqy/command/TitleCommand.class</exclude>
-							<exclude>com/teradata/jaqy/command/ExitCommand.class</exclude>
-							<exclude>com/teradata/jaqy/command/VersionCommand.class</exclude>
-							<exclude>com/teradata/jaqy/resultset/*Wrapper.class</exclude>
-							<exclude>com/teradata/jaqy/parser/*Generated*.class</exclude>
-						</excludes>
-					</instrumentation>
-					<format>xml</format>
-				</configuration>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<format>xml</format>
-					<aggregate>true</aggregate>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.3.0</version>
-			</plugin>
-		</plugins>
-	</reporting>
 </project>
