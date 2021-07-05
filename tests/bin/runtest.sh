@@ -23,7 +23,7 @@ JAVA=java
 if [ -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java ]; then
 	JAVA=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
 fi
-jq="${JAVA} -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.1.0.jar"
+jq="${JAVA} -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.2.0.jar"
 
 function run ()
 {
