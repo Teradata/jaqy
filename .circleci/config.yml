@@ -3,6 +3,7 @@ jobs:
   build_and_test:
     docker:
       - image: maven:3.6-openjdk-8
+        command: sudo apt-get update && sudo apt-get install -y bsdmainutils
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: ''
@@ -18,9 +19,6 @@ jobs:
           executable: blob
     steps:
       - checkout
-      - run:
-          name: Get hexdump
-          command: sudo apt-get install -y bsdmainutils
       - run:
           name: Maven Unit Tests
           command: mvn -X clean package
