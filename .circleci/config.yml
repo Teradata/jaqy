@@ -34,7 +34,8 @@ jobs:
       - run:
           name: Generate code coverage
           command: mvn clean site -Dcobertura.report.format=xml
-      - codecov/upload
+      - codecov/upload:
+          file: target
 workflows:
   all:
     jobs:
