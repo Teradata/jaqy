@@ -1,11 +1,12 @@
 version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build_and_test:
     docker:
       - image: maven:3.6.0-jdk-8
         environment:
          TZ: "America/Los_Angeles"
-#       command: sudo apt-get update && sudo apt-get install -y bsdmainutils maven openjdk-8-jdk
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: ''
@@ -33,8 +34,7 @@ jobs:
       - run:
           name: Generate code coverage
           command: mvn clean site -Dcobertura.report.format=xml
-      - store_artifacts:
-          path: target
+      - codecov/upload
 workflows:
   all:
     jobs:
