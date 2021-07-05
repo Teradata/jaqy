@@ -27,9 +27,6 @@ jobs:
           name: Maven Unit Tests
           command: mvn -X clean package
       - run:
-          name: CLI Tests
-          command: chmod +x tests/bin/*.sh && tests/bin/testall.sh
-      - run:
           name: Generate code coverage
           command: mvn clean site -Dcobertura.report.format=xml
       - run:
