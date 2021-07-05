@@ -32,7 +32,9 @@ jobs:
           command: chmod +x tests/bin/*.sh && tests/bin/testall.sh
       - run:
           name: Generate code coverage
-          command: chmod +x make.sh && ./make.sh coverage
+          command: mvn clean site -Dcobertura.report.format=xml
+      - store_artifacts:
+          path: target
 workflows:
   all:
     jobs:
