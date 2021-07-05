@@ -3,6 +3,8 @@ jobs:
   build_and_test:
     docker:
       - image: cimg/base:stable-18.04
+        environment:
+         TZ: "America/Los_Angeles"
         command: sudo apt-get update && sudo apt-get install -y bsdmainutils maven openjdk-8-jdk
       - image: circleci/mysql:5.7
         environment:
