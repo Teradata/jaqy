@@ -30,7 +30,7 @@ jobs:
           command: mvn clean package
       - run:
           name: CLI unit tests
-          command: chmod +x tests/bin/*.sh && tests/bin/testall.sh
+          command: chmod +x tests/bin/*.sh && tests/bin/testall.sh -j
       - run:
           name: Aggregate code coverage report
           command: mvn jacoco:report-aggregate
