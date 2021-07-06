@@ -26,14 +26,13 @@ case "$BUILD" in
 	test)
 		mvn clean package
 		;;
-	coverage)
-		mvn jacoco:report-aggregate
-		;;
 	clitest)
 		# Jaqy based tests
 		#
 		# Need to run after ./make.sh pkg build all the jars
 		tests/bin/testall.sh
 		;;
+	coverage)
+		mvn clean package && tests/bin/testall.sh -j && mvn jacoco:report-aggregate
+		;;
 esac
-

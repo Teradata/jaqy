@@ -114,6 +114,9 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.7</version>
 				<configuration>
+					<dataFileIncludes>
+						target/jacoco.exec
+					</dataFileIncludes>
 					<excludes>
 						<exclude>com/teradata/jaqy/helper/Teradata*.class</exclude>
 						<exclude>com/teradata/jaqy/option/*.class</exclude>

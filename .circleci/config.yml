@@ -29,6 +29,9 @@ jobs:
           name: Maven unit tests
           command: mvn clean package
       - run:
+          name: CLI unit tests
+          command: chmod +x tests/bin/*.sh && tests/bin/testall.sh
+      - run:
           name: Aggregate code coverage report
           command: mvn jacoco:report-aggregate
       - codecov/upload:

@@ -3,6 +3,36 @@
 # A simple file based test framework.
 #
 
+JACOCO=0
+
+usage ()
+{
+cat <<<EOF
+$0 [options]
+
+options:
+    -h		help
+	-j		run with jacoco offline instrumentation.
+EOF
+}
+
+while getopts "hj" opt; do
+	case "${opt}" in
+		h)
+			usage
+			exit 0
+			;;
+		j)
+			JACOCO=1
+			;;
+		*)
+			usage
+			exit 1
+			;;
+	esac
+done
+shift $((OPTIND-1))
+
 if [ -z "$JAQY_HOME" ]; then
 	JAQY_HOME=`dirname $0`/../..
 fi
@@ -23,7 +53,14 @@ JAVA=java
 if [ -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java ]; then
 	JAVA=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
 fi
-jq="${JAVA} -Xmx256m -jar ${JAQY_HOME}/dist/jaqy-1.2.0.jar"
+
+JACOCO_STR="-javaagent:${JAQY_HOME}/lib/org.jacoco.agent-0.8.7-runtime.jar=destfile=${JAQY_HOME}/jaqy-codecov/target/jacoco.exec,append=true"
+JAQY_STR="-classpath ${JAQY_HOME}/dist/jaqy-1.2.0.jar:${JAQY_HOME}/jaqy-s3/target/jaqy-s3-1.2.0.jar:${JAQY_HOME}/jaqy-azure/target/jaqy-azure-1.2.0.jar:${JAQY_HOME}/jaqy-avro/target/jaqy-avro-1.2.0.jar com.teradata.jaqy.Main"
+
+jq="${JAVA} -Xmx256m ${JAQY_STR}"
+if [ $JACOCO -eq 1 ]; then
+	jq="${JAVA} -Xmx256m ${JACOCO_STR} ${JAQY_STR}"
+fi
 
 function run ()
 {
