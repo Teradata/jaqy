@@ -15,6 +15,7 @@ INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d');
 INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 
 .format json
+.format
 SELECT * FROM MyTable ORDER BY a;
 .format json -p off
 SELECT * FROM MyTable ORDER BY a;

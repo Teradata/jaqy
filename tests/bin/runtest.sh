@@ -4,6 +4,7 @@
 #
 
 JACOCO=0
+SHOWCMD=0
 
 usage ()
 {
@@ -11,8 +12,9 @@ cat <<<EOF
 $0 [options]
 
 options:
-    -h		help
+    -h		show this help message.
 	-j		run with jacoco offline instrumentation.
+	-c		show the testing command.
 EOF
 }
 
@@ -21,6 +23,9 @@ while getopts "hj" opt; do
 		h)
 			usage
 			exit 0
+			;;
+		c)
+			SHOWCMD=1
 			;;
 		j)
 			JACOCO=1
@@ -73,20 +78,23 @@ function run ()
 	CONTROL="${CONTROLDIR}/${BASE}.control"
 	OUTPUT="${OUTPUTDIR}/${BASE}.txt"
 	ERROR="${OUTPUTDIR}/${BASE}.diff"
-	echo "$jq $INIT < ${FILE} > ${OUTPUT}"
+	if [ $SHOWCMD -eq 1 ]; then
+		echo "$jq $INIT < ${FILE} > ${OUTPUT}"
+	else
+		echo "... ${FILE} => ${OUTPUT}"
+	fi
 	$jq $INIT < ${FILE} > ${OUTPUT}
 	if [ -f "$CONTROL" ]; then
 		diff "$CONTROL" "$OUTPUT" > $ERROR 2>/dev/null
 		if [ $? -eq 0 ]; then
-			echo "$FILE passed."
 			rm -f "$ERROR"
 			rm -f "$OUTPUT"
 		else
-			echo "$FILE failed."
+			echo ">>> $FILE failed. <<<"
 			return 1
 		fi
 	else
-		echo "Control file for $FILE is not found."
+		echo ">>> $FILE control not found. <<<"
 		return 1
 	fi
 

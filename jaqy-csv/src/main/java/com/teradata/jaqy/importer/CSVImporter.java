@@ -154,7 +154,7 @@ public class CSVImporter implements JaqyImporter
 
 					if (index == null)
 					{
-						throw new IllegalArgumentException ("field not found: " + name);				
+						throw new IllegalArgumentException ("field not found: " + name);
 					}
 					m_exps[i] = index;
 				}
@@ -221,7 +221,7 @@ public class CSVImporter implements JaqyImporter
 					return null;
 				Path file = m_file.getRelativePath (value);
 				if (!file.isFile ())
-					throw new FileNotFoundException ("External file " + file.getPath () + " is not found.");
+					throw new FileNotFoundException ("External file " + file.getPath () + " was not found.");
 				if (importInfo.charset == null)
 					return new FileBlob (file);
 				else

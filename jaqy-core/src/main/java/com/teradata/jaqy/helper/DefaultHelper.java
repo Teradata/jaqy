@@ -33,7 +33,10 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
-import com.teradata.jaqy.utils.*;
+import com.teradata.jaqy.utils.ExceptionUtils;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
+import com.teradata.jaqy.utils.ResultSetUtils;
+import com.teradata.jaqy.utils.SimpleQuery;
 
 /**
  * @author	Heng Yuan
@@ -60,6 +63,7 @@ public class DefaultHelper implements JaqyHelper
 		m_globals = globals;
 	}
 
+	@Override
 	public JdbcFeatures getFeatures ()
 	{
 		return m_features;
@@ -242,7 +246,7 @@ public class DefaultHelper implements JaqyHelper
 		String schema = getSchemaInternal ();
 		if (catalog == null || catalog.length () == 0)
 		{
-			path = schema; 
+			path = schema;
 		}
 		else
 		{
@@ -515,7 +519,7 @@ public class DefaultHelper implements JaqyHelper
 			 * child data.
 			 *
 			 * So the simplest approach is to treat Struct / Array
-			 * as array of string. 
+			 * as array of string.
 			 */
 			info.type = Types.ARRAY;
 			info.children = createElementType (Types.VARCHAR, "varchar");
@@ -586,7 +590,7 @@ public class DefaultHelper implements JaqyHelper
 	@Override
 	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		stmt.setNull (columnIndex, paramInfo.type, paramInfo.typeName);
+		setNull (stmt, columnIndex, paramInfo, interpreter);
 	}
 
 	@Override

@@ -9,18 +9,23 @@ cat <<<EOF
 $0 [options]
 
 options:
-    -h		help
+    -h		show this help message.
 	-j		run with jacoco offline instrumentation.
+	-c		show the testing command.
 EOF
 }
 
 JACOCO=0
+SHOWCMD=0
 
 while getopts "hj" opt; do
 	case "${opt}" in
 		h)
 			usage
 			exit 0
+			;;
+		c)
+			SHOWCMD=1
 			;;
 		j)
 			JACOCO=1
@@ -40,8 +45,12 @@ export JAQY_HOME=`readlink -f "$JAQY_HOME"`
 
 RUNNER=${JAQY_HOME}/tests/bin/runtest.sh
 
+if [ $SHOWCMD -eq 1 ]; then
+	RUNNER="${RUNNER} -c"
+fi
+
 if [ $JACOCO -eq 1 ]; then
-	RUNNER="${JAQY_HOME}/tests/bin/runtest.sh -j"
+	RUNNER="${RUNNER} -j"
 fi
 
 runTest ()
