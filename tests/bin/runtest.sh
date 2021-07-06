@@ -67,6 +67,16 @@ if [ $JACOCO -eq 1 ]; then
 	jq="${JAVA} -Xmx256m ${JACOCO_STR} ${JAQY_STR}"
 fi
 
+function compare ()
+{
+	CONTROL=$1
+	OUTPUT=$2
+	ERROR=$3
+	sed -i '/-- ignore begin/,/-- ignore end/d' $OUTPUT
+	diff "$CONTROL" "$OUTPUT" > $ERROR 2>/dev/null
+	return $?
+}
+
 function run ()
 {
 	INIT=
@@ -85,7 +95,7 @@ function run ()
 	fi
 	$jq $INIT < ${FILE} > ${OUTPUT}
 	if [ -f "$CONTROL" ]; then
-		diff "$CONTROL" "$OUTPUT" > $ERROR 2>/dev/null
+		compare "$CONTROL" "$OUTPUT" "$ERROR"
 		if [ $? -eq 0 ]; then
 			rm -f "$ERROR"
 			rm -f "$OUTPUT"
