@@ -58,6 +58,18 @@
 				<groupId>org.openclover</groupId>
 				<artifactId>clover-maven-plugin</artifactId>
 				<version>4.4.1</version>
+				<configuration>
+					<includesTestSourceRoots>false</includesTestSourceRoots>
+					<excludes>
+						<exclude>com/teradata/jaqy/helper/Teradata*.java</exclude>
+						<exclude>com/teradata/jaqy/option/*.class</exclude>
+						<exclude>com/teradata/jaqy/lineinput/JLineConsoleLineInput.java</exclude>
+						<exclude>com/teradata/jaqy/command/PromptCommand.java</exclude>
+						<exclude>com/teradata/jaqy/command/TitleCommand.java</exclude>
+						<exclude>com/teradata/jaqy/resultset/*Wrapper.java</exclude>
+						<exclude>com/teradata/jaqy/parser/*Generated*.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

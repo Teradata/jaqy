@@ -34,8 +34,7 @@ jobs:
       - run:
           name: Aggregate code coverage report
           command: mvn clover:aggregate clover:clover
-      - codecov/upload:
-          file: target
+      - codecov/upload
 workflows:
   all:
     jobs:
