@@ -26,16 +26,16 @@ jobs:
           name: Install hexdump
           command: apt-get update && apt-get install -y bsdmainutils
       - run:
-          name: Maven unit tests
-          command: mvn clean package
+          name: Maven unit tests and make package
+          command: mvn clean clover:setup package
       - run:
           name: CLI unit tests
-          command: chmod +x tests/bin/*.sh && tests/bin/testall.sh -j
+          command: chmod +x tests/bin/*.sh && tests/bin/testall.sh -c
       - run:
           name: Aggregate code coverage report
-          command: mvn jacoco:report-aggregate
+          command: mvn clover:aggregate clover:clover
       - codecov/upload:
-          file: jaqy-codecov/target/site/jacoco-aggregate/jacoco.xml
+          file: target
 workflows:
   all:
     jobs:

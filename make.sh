@@ -33,6 +33,6 @@ case "$BUILD" in
 		tests/bin/testall.sh
 		;;
 	coverage)
-		mvn clean package && tests/bin/testall.sh -j && mvn jacoco:report-aggregate
+		mvn clean clover:setup package && tests/bin/testall.sh -c && mvn clover:aggregate clover:clover
 		;;
 esac

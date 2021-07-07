@@ -10,25 +10,25 @@ $0 [options]
 
 options:
     -h		show this help message.
-	-j		run with jacoco offline instrumentation.
-	-c		show the testing command.
+	-c		run with code coverage offline instrumentation.
+	-s		show the testing command.
 EOF
 }
 
-JACOCO=0
+CODECOV=0
 SHOWCMD=0
 
-while getopts "hj" opt; do
+while getopts "hcs" opt; do
 	case "${opt}" in
 		h)
 			usage
 			exit 0
 			;;
 		c)
-			SHOWCMD=1
+			CODECOV=1
 			;;
-		j)
-			JACOCO=1
+		s)
+			SHOWCMD=1
 			;;
 		*)
 			usage
@@ -46,11 +46,11 @@ export JAQY_HOME=`readlink -f "$JAQY_HOME"`
 RUNNER=${JAQY_HOME}/tests/bin/runtest.sh
 
 if [ $SHOWCMD -eq 1 ]; then
-	RUNNER="${RUNNER} -c"
+	RUNNER="${RUNNER} -s"
 fi
 
-if [ $JACOCO -eq 1 ]; then
-	RUNNER="${RUNNER} -j"
+if [ $CODECOV -eq 1 ]; then
+	RUNNER="${RUNNER} -c"
 fi
 
 runTest ()

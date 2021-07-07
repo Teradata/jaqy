@@ -3,7 +3,7 @@
 # A simple file based test framework.
 #
 
-JACOCO=0
+CODECOV=0
 SHOWCMD=0
 
 usage ()
@@ -13,22 +13,22 @@ $0 [options]
 
 options:
     -h		show this help message.
-	-j		run with jacoco offline instrumentation.
-	-c		show the testing command.
+	-c		run with code coverage offline instrumentation.
+	-s		show the testing command.
 EOF
 }
 
-while getopts "hj" opt; do
+while getopts "hcs" opt; do
 	case "${opt}" in
 		h)
 			usage
 			exit 0
 			;;
 		c)
-			SHOWCMD=1
+			CODECOV=1
 			;;
-		j)
-			JACOCO=1
+		s)
+			SHOWCMD=1
 			;;
 		*)
 			usage
@@ -59,12 +59,13 @@ if [ -f /usr/lib/jvm/java-8-openjdk-amd64/bin/java ]; then
 	JAVA=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
 fi
 
-JACOCO_STR="-javaagent:${JAQY_HOME}/lib/org.jacoco.agent-0.8.7-runtime.jar=destfile=${JAQY_HOME}/jaqy-codecov/target/jacoco.exec,append=true"
-JAQY_STR="-classpath ${JAQY_HOME}/dist/jaqy-1.2.0.jar:${JAQY_HOME}/jaqy-s3/target/jaqy-s3-1.2.0.jar:${JAQY_HOME}/jaqy-azure/target/jaqy-azure-1.2.0.jar:${JAQY_HOME}/jaqy-avro/target/jaqy-avro-1.2.0.jar com.teradata.jaqy.Main"
+CODECOV_STR="${JAQY_HOME}/lib/clover-runtime-4.4.1.jar"
+JAQY_STR="-classpath ${JAQY_HOME}/dist/jaqy-1.2.0.jar:${JAQY_HOME}/jaqy-s3/target/jaqy-s3-1.2.0.jar:${JAQY_HOME}/jaqy-azure/target/jaqy-azure-1.2.0.jar:${JAQY_HOME}/jaqy-avro/target/jaqy-avro-1.2.0.jar"
+MAIN_STR="com.teradata.jaqy.Main"
 
-jq="${JAVA} -Xmx256m ${JAQY_STR}"
-if [ $JACOCO -eq 1 ]; then
-	jq="${JAVA} -Xmx256m ${JACOCO_STR} ${JAQY_STR}"
+jq="${JAVA} -Xmx256m ${JAQY_STR} ${MAIN_STR}"
+if [ $CODECOV -eq 1 ]; then
+	jq="${JAVA} -Xmx256m ${JAQY_STR}:${CODECOV_STR} ${MAIN_STR}"
 fi
 
 function compare ()
