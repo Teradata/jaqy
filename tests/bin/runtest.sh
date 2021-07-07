@@ -112,6 +112,19 @@ function run ()
 	return 0
 }
 
+function runTest ()
+{
+	file=$1
+	if [ -f "su_$file" ]; then
+		run "su_$file" || return 1
+	fi
+	run $file || return 1
+	if [ -f "cu_$file" ]; then
+		run "cu_$file" || return 1
+	fi
+	return 0
+}
+
 # setup the test directory
 rm -rf "$TESTDIR"
 
@@ -131,15 +144,16 @@ pwd > ${TESTDIR}/testpath.txt
 cd "$INPUTDIR"
 
 HASERROR=0
-for file in `cat FILELIST`; do
-	if [ -f "su_$file" ]; then
-		run "su_$file" || HASERROR=1
-	fi
-	run $file || HASERROR=1
-	if [ -f "cu_$file" ]; then
-		run "cu_$file" || HASERROR=1
-	fi
-done
+
+if [ $# -gt 0 ]; then
+	for file in $@; do
+		runTest $file || HASERROR=1 || break
+	done
+else
+	for file in `cat FILELIST`; do
+		runTest $file || HASERROR=1 || break
+	done
+fi
 
 if [ $HASERROR -eq 0 ]; then
 	echo "test passed."

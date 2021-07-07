@@ -63,36 +63,8 @@ public class TimerCommand extends JaqyCommandAdapter
 
 	private void printTime (long start, JaqyInterpreter interpreter)
 	{
-		long current = System.nanoTime ();
-		long diff = current - start;
-		long seconds = diff / 1000000000;
-		long remain = diff % 1000000000;
-		long hours = seconds / 3600;
-		seconds = seconds % 3600;
-		int min = (int) (seconds / 60);
-		seconds = seconds % 60;
-
-		String hh;
-		if (hours < 10)
-			hh = "0" + hours;
-		else
-			hh = Long.toString (hours);
-		String mm;
-		if (min < 10)
-			mm = "0" + min;
-		else
-			mm = Integer.toString (min);
-		String ss;
-		if (seconds < 10)
-			ss = "0" + seconds;
-		else
-			ss = Integer.toString ((int)seconds);
-		String nano = Long.toString (remain);
-		if (nano.length () < 9)
-		{
-			nano = "000000000".substring (nano.length ()) + nano;
-		}
-		interpreter.println ("-- timer: " + hh + ':' + mm + ':' + ss + '.' + nano);
+		String timerString = getTimerString (System.nanoTime () - start);
+		interpreter.println ("-- timer: " + timerString);
 	}
 
 	@Override
@@ -124,4 +96,37 @@ public class TimerCommand extends JaqyCommandAdapter
 			}
 		}
 	}
+
+	public static String getTimerString (long diff)
+	{
+		long seconds = diff / 1000000000;
+		long remain = diff % 1000000000;
+		long hours = seconds / 3600;
+		seconds = seconds % 3600;
+		int min = (int) (seconds / 60);
+		seconds = seconds % 60;
+
+		String hh;
+		if (hours < 10)
+			hh = "0" + hours;
+		else
+			hh = Long.toString (hours);
+		String mm;
+		if (min < 10)
+			mm = "0" + min;
+		else
+			mm = Integer.toString (min);
+		String ss;
+		if (seconds < 10)
+			ss = "0" + seconds;
+		else
+			ss = Integer.toString ((int)seconds);
+		String nano = Long.toString (remain);
+		if (nano.length () < 9)
+		{
+			nano = "000000000".substring (nano.length ()) + nano;
+		}
+		return hh + ':' + mm + ':' + ss + '.' + nano;
+	}
+
 }
