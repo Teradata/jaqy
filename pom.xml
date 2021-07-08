@@ -63,6 +63,7 @@
 					<excludes>
 						<exclude>com/teradata/jaqy/helper/Teradata*.java</exclude>
 						<exclude>com/teradata/jaqy/option/*.java</exclude>
+						<exclude>com/teradata/jaqy/utils/DummyConnection.java</exclude>
 						<exclude>com/teradata/jaqy/utils/Escape.java</exclude>
 						<exclude>com/teradata/jaqy/utils/TitleUtils.java</exclude>
 						<exclude>com/teradata/jaqy/lineinput/JLineConsoleLineInput.java</exclude>

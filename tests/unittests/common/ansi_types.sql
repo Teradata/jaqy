@@ -46,7 +46,9 @@ SELECT CAST('A quick brown fox' AS NATIONAL CHARACTER VARYING(20)) AS Test;
 SELECT CAST('A quick brown fox' AS NATIONAL CHAR VARYING(20)) AS Test;
 SELECT CAST('A quick brown fox' AS NCHAR VARYING(20)) AS Test;
 
+-- Unicode support check
 SELECT '你好，世界' AS Test;
+SELECT N'你好，世界' AS Test;
 
 -- Date/Time/Timestamp
 SELECT CAST('2001-02-03' AS DATE) AS Test;

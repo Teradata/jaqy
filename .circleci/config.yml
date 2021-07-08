@@ -17,6 +17,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ''
           TZ: 'GMT+2'
+      - image: mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
+        environment:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: yourStrong(!)Password
+          ports: 1433
       - image: arafato/azurite
         environment:
           executable: blob

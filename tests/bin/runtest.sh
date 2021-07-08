@@ -65,7 +65,7 @@ MAIN_STR="com.teradata.jaqy.Main"
 
 jq="${JAVA} -Xmx256m ${JAQY_STR} ${MAIN_STR}"
 if [ $CODECOV -eq 1 ]; then
-	jq="${JAVA} -Xmx256m ${JAQY_STR}:${CODECOV_STR} ${MAIN_STR}"
+	jq="${JAVA} -Xmx256m -Dfile.encoding=UTF-8 ${JAQY_STR}:${CODECOV_STR} ${MAIN_STR}"
 fi
 
 function compare ()

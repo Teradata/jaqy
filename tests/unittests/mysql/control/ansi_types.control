@@ -156,6 +156,7 @@ SELECT CAST('A quick brown fox' AS NCHAR VARYING(20)) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VARYING(20)) AS Test' at line 1
 -- 28/3 - 0 ---------------------------------------------------------------
 
+-- Unicode support check
 SELECT '你好，世界' AS Test;
 -- success --
 Test
@@ -163,6 +164,13 @@ Test
 你好，世界
 -- activity count = 1
 -- 29/3 - 0 ---------------------------------------------------------------
+SELECT N'你好，世界' AS Test;
+-- success --
+Test
+-----
+你好，世界
+-- activity count = 1
+-- 30/3 - 0 ---------------------------------------------------------------
 
 -- Date/Time/Timestamp
 SELECT CAST('2001-02-03' AS DATE) AS Test;
@@ -171,39 +179,39 @@ Test
 ----------
 2001-02-03
 -- activity count = 1
--- 30/3 - 0 ---------------------------------------------------------------
+-- 31/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04' AS TIME) AS Test;
 -- success --
 Test
 --------
 12:03:04
 -- activity count = 1
--- 31/3 - 0 ---------------------------------------------------------------
+-- 32/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04.12' AS TIME(2)) AS Test;
 -- success --
 Test
 --------
 12:03:04
 -- activity count = 1
--- 32/3 - 0 ---------------------------------------------------------------
+-- 33/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIME ZONE) AS Test' at line 1
--- 33/3 - 0 ---------------------------------------------------------------
+-- 34/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04.12-08:00' AS TIME(2) WITH TIME ZONE) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIME ZONE) AS Test' at line 1
--- 34/3 - 0 ---------------------------------------------------------------
+-- 35/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04' AS TIMESTAMP) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIMESTAMP) AS Test' at line 1
--- 35/3 - 0 ---------------------------------------------------------------
+-- 36/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04.12' AS TIMESTAMP(2)) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIMESTAMP(2)) AS Test' at line 1
--- 36/3 - 0 ---------------------------------------------------------------
+-- 37/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04-08:00' AS TIMESTAMP WITH TIME ZONE) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIMESTAMP WITH TIME ZONE) AS Test' at line 1
--- 37/3 - 0 ---------------------------------------------------------------
+-- 38/3 - 0 ---------------------------------------------------------------
 SELECT CAST('2001-02-03 12:03:04.12-08:00' AS TIMESTAMP(2) WITH TIME ZONE) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIMESTAMP(2) WITH TIME ZONE) AS Test' at line 1
--- 38/3 - 0 ---------------------------------------------------------------
+-- 39/3 - 0 ---------------------------------------------------------------
 
 --------------------------------------------------------------------------
 -- SQL99 types
@@ -216,27 +224,27 @@ Test
 ----
    1
 -- activity count = 1
--- 39/3 - 0 ---------------------------------------------------------------
+-- 40/3 - 0 ---------------------------------------------------------------
 SELECT FALSE AS Test;
 -- success --
 Test
 ----
    0
 -- activity count = 1
--- 40/3 - 0 ---------------------------------------------------------------
+-- 41/3 - 0 ---------------------------------------------------------------
 
 -- Distinct Types
 CREATE TYPE MyInt AS INTEGER FINAL;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TYPE MyInt AS INTEGER FINAL' at line 1
--- 41/3 - 0 ---------------------------------------------------------------
+-- 42/3 - 0 ---------------------------------------------------------------
 
 SELECT CAST(123 AS MyINT) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'MyINT) AS Test' at line 1
--- 42/3 - 0 ---------------------------------------------------------------
+-- 43/3 - 0 ---------------------------------------------------------------
 
 DROP TYPE MyInt;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TYPE MyInt' at line 1
--- 43/3 - 0 ---------------------------------------------------------------
+-- 44/3 - 0 ---------------------------------------------------------------
 
 --------------------------------------------------------------------------
 -- SQL2003 types
@@ -245,20 +253,20 @@ DROP TYPE MyInt;
 -- XML
 SELECT CAST('<a>123</a>' AS XML) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'XML) AS Test' at line 1
--- 44/3 - 0 ---------------------------------------------------------------
+-- 45/3 - 0 ---------------------------------------------------------------
 SELECT XMLELEMENT(NAME 'Customer', XMLATTRIBUTES('123' AS id), XMLFOREST('Joe' AS Name)) AS Test;
 -- failure 1584: [42000] Incorrect parameters in the call to stored function `XMLELEMENT`
--- 45/3 - 0 ---------------------------------------------------------------
+-- 46/3 - 0 ---------------------------------------------------------------
 
 --------------------------------------------------------------------------
 -- ST_GEOMETRY
 --------------------------------------------------------------------------
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY) AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ST_GEOMETRY) AS Test' at line 1
--- 46/3 - 0 ---------------------------------------------------------------
+-- 47/3 - 0 ---------------------------------------------------------------
 SELECT CAST('POINT(1 1)' AS ST_GEOMETRY).ST_MBR () AS Test;
 -- failure 1064: [42000] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ST_GEOMETRY).ST_MBR () AS Test' at line 1
--- 47/3 - 0 ---------------------------------------------------------------
+-- 48/3 - 0 ---------------------------------------------------------------
 .close
--- 47/4 - 0 ---------------------------------------------------------------
+-- 48/4 - 0 ---------------------------------------------------------------
 

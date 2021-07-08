@@ -16,6 +16,13 @@ services:
       - PGTZ=GMT+2
     ports:
       - "5432:5432"
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+    ports:
+      - "1433:1433"
   azurite:
     image: arafato/azurite:2.6.5
     ports:

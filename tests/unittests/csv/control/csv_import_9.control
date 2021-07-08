@@ -1,0 +1,91 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import csv -h lib/utf8.csv
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable tableutf8
+-- Table Schema --
+CREATE TABLE tableutf8
+(
+	"a" int4 NOT NULL,
+	"b" int4 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO tableutf8 VALUES (?,?)
+-- 2/4 - 0 ----------------------------------------------------------------
+SELECT * FROM tableutf8 ORDER BY 1;
+-- success --
+a b
+- -
+1 1
+2 2
+3 3
+-- activity count = 3
+-- 3/4 - 0 ----------------------------------------------------------------
+DROP TABLE tableutf8;
+-- success. update count = 0
+-- 4/4 - 0 ----------------------------------------------------------------
+
+.import csv -h lib/utf16le.csv
+-- 4/5 - 0 ----------------------------------------------------------------
+.importtable tableutf16le
+-- Table Schema --
+CREATE TABLE tableutf16le
+(
+	"a" int4 NOT NULL,
+	"b" int4 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO tableutf16le VALUES (?,?)
+-- 6/6 - 0 ----------------------------------------------------------------
+SELECT * FROM tableutf16le ORDER BY 1;
+-- success --
+a b
+- -
+1 1
+2 2
+3 3
+-- activity count = 3
+-- 7/6 - 0 ----------------------------------------------------------------
+DROP TABLE tableutf16le;
+-- success. update count = 0
+-- 8/6 - 0 ----------------------------------------------------------------
+
+.import csv -h lib/utf16be.csv
+-- 8/7 - 0 ----------------------------------------------------------------
+.importtable tableutf16be
+-- Table Schema --
+CREATE TABLE tableutf16be
+(
+	"a" int4 NOT NULL,
+	"b" int4 NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO tableutf16be VALUES (?,?)
+-- 10/8 - 0 ---------------------------------------------------------------
+SELECT * FROM tableutf16be ORDER BY 1;
+-- success --
+a b
+- -
+1 1
+2 2
+3 3
+-- activity count = 3
+-- 11/8 - 0 ---------------------------------------------------------------
+DROP TABLE tableutf16be;
+-- success. update count = 0
+-- 12/8 - 0 ---------------------------------------------------------------
+
+.quit
+-- 12/9 - 0 ---------------------------------------------------------------

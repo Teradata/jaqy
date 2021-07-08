@@ -17,9 +17,7 @@ package com.teradata.jaqy.importer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,10 +36,7 @@ import com.teradata.jaqy.resultset.FileBlob;
 import com.teradata.jaqy.resultset.FileClob;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
-import com.teradata.jaqy.utils.CSVImportInfo;
-import com.teradata.jaqy.utils.CSVUtils;
-import com.teradata.jaqy.utils.StringUtils;
-import com.teradata.jaqy.utils.TypesUtils;
+import com.teradata.jaqy.utils.*;
 
 /**
  * @author	Heng Yuan
@@ -55,7 +50,7 @@ public class CSVImporter implements JaqyImporter
 	};
 
 	private final Path m_file;
-	private final Charset m_charset;
+	private final String m_charset;
 	private final CSVFormat m_format;
 	private final boolean m_precise;
 	private CSVParser m_parser;
@@ -69,7 +64,7 @@ public class CSVImporter implements JaqyImporter
 	private HashMap<Integer, CSVImportInfo> m_importInfoMap;
 	private int[] m_exps;
 
-	public CSVImporter (Path file, Charset charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
+	public CSVImporter (Path file, String charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
 	{
 		m_file = file;
 		m_charset = charset;
@@ -80,9 +75,9 @@ public class CSVImporter implements JaqyImporter
 		openFile (file, charset, format);
 	}
 
-	private void openFile (Path file, Charset charset, CSVFormat format) throws IOException
+	private void openFile (Path file, String charset, CSVFormat format) throws IOException
 	{
-		Reader reader = new InputStreamReader (file.getInputStream (), charset);
+		Reader reader = FileUtils.getReader (file.getInputStream (), charset);
 		m_parser = format.parse (reader);
 		m_headers = m_parser.getHeaderMap ();
 		m_iterator = m_parser.iterator ();

@@ -60,7 +60,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 	@Override
 	public CSVImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		Charset charset = DEFAULT_CHARSET;
+		String charset = null;
 		CSVFormat format = CSVFormat.DEFAULT;
 		HashMap<Integer, CSVImportInfo> importInfoMap = new HashMap<Integer, CSVImportInfo> ();
 		boolean naFilter = false;
@@ -75,7 +75,11 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 			{
 				case 'c':
 				{
-					charset = Charset.forName (option.getValue ());
+					Charset cs = Charset.forName (option.getValue ());
+					if (cs != null)
+					{
+						charset = cs.toString ();
+					}
 					break;
 				}
 				case 'd':
