@@ -1,0 +1,20 @@
+--------------------------------------------------------------------------
+-- .info command test
+--------------------------------------------------------------------------
+.run ../common/sqlserver_setup.sql
+.info behavior
+.info catalog
+.info client
+.info feature
+.info function
+.info keyword
+.info limit
+.info schema
+.info server
+.info table
+.format csv
+.info type
+.format table
+.info user
+.quit
+

@@ -42,16 +42,22 @@ public class ByteArrayUtils
 
 	private static void printAscii (PrintStream pw, byte[] bytes, int start)
 	{
-		int num = bytes.length - start;
-		char[] ch = new char[num + 4];
+		char[] ch = new char[16 + 5];
+		for (int i = 0; i < ch.length; ++i)
+		{
+			ch[i] = ' ';
+		}
 		ch[0] = ' ';
 		ch[1] = ' ';
 		ch[2] = '|';
-		ch[num + 3] = '|';
+		ch[ch.length - 1] = '|';
 		int j = 3;
-		for (int i = start; i < bytes.length && i < (start + 16); ++i)
+		for (int i = 0; ((start + i) < bytes.length) && (i < 16); ++i)
 		{
-			byte b = bytes[i - start];
+			byte b = bytes[start + i];
+
+			if (i == 8)
+				++j;
 			if (b >= ' ' && b < 0x7f)
 				ch[j] = (char)b;
 			else

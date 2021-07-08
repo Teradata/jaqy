@@ -1,0 +1,249 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .info command test
+--------------------------------------------------------------------------
+.run ../common/sqlserver_setup.sql
+-- Running script: ../common/sqlserver_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u sa -p yourStrong(!)Password sqlserver://localhost
+-- 0/2 - 0 ----------------------------------------------------------------
+.info behavior
+Name                                      Value
+----------------------------------------- ------------------------
+Catalog Term                              database
+Schema Term                               schema
+Procedure Term                            stored procedure
+NULLs are sorted high                     No
+NULLs are sorted low                      Yes
+NULLs are sorted at start                 No
+NULLs are sorted at end                   No
+NULL + non-null is NULL                   Yes
+Use local files                           No
+Use local file per table                  No
+Identifier quote string                   "
+Search string escape                      \
+Extra name characters                     $#@
+Is catalog at start                       Yes
+Catalog separator                         .
+Default Transaction Isolation             Read committed
+ResultSet holdability                     Hold cursors over commit
+LOB update on copy                        Yes
+Row ID lifetime                           ROWID_UNSUPPORTED
+Auto-commit failure closes all ResultSets No
+Auto-generated key always return          Yes
+-- 0/3 - 0 ----------------------------------------------------------------
+.info catalog
+TABLE_CAT
+---------
+master
+model
+msdb
+tempdb
+-- 0/4 - 0 ----------------------------------------------------------------
+.info client
+NAME MAX_LEN DEFAULT_VALUE DESCRIPTION
+---- ------- ------------- -----------
+-- 0/5 - 0 ----------------------------------------------------------------
+.info feature
+Name                                   Supported
+-------------------------------------- ---------
+All Procedures are callable            Yes
+All tables are selectable              Yes
+ALT TABLE ADD column                   Yes
+ALT TABLE DROP column                  Yes
+Column aliasing                        Yes
+CONVERT                                Yes
+Table correlation names                Yes
+Different table correlation names      No
+Expression in ORDER BY                 Yes
+ORDER BY unrelated                     Yes
+GROUP BY                               Yes
+GROUP BY unrelated                     Yes
+GROUP BY beyond select                 Yes
+LIKE escape clause                     Yes
+Multiple result set                    Yes
+Multple transactions                   Yes
+Non-nullable columns                   Yes
+Minimum SQL grammar                    Yes
+Core SQL grammar                       Yes
+Extended SQL grammar                   No
+SQL92 entry                            Yes
+SQL92 intermediate                     No
+SQL92 full                             No
+Integrity Enhancement Facility         No
+OUTER JOIN                             Yes
+Full OUTER JOIN                        Yes
+Limited OUTER JOIN                     Yes
+Schemas in DML                         Yes
+Schemas in procedure calls             Yes
+Schemas in table DDL                   Yes
+Schemas in index DDL                   Yes
+Schemas in privilege definitions       Yes
+Catalog in DML                         Yes
+Catalog in procedure calls             Yes
+Catalog in table DDL                   Yes
+Catalog in index DDL                   Yes
+Catalog in privilege definitions       Yes
+Positioned DELETE                      Yes
+Positioned UPDATE                      Yes
+SELECT FOR UPDATE                      No
+Stored Procedure                       Yes
+Subqueries in comparisons              Yes
+Subqueries in EXISTS                   Yes
+Subqueries in IN                       Yes
+Subqueries in quantified expressions   Yes
+Correlated subqueries                  Yes
+UNION                                  Yes
+UNION ALL                              Yes
+Open cursor across commits             No
+Open cursor across rollbacks           No
+Open statement across commits          Yes
+Open statement across rollbacks        Yes
+Transactions                           Yes
+DDL and DML in one transaction         Yes
+Only DML in one transaction            No
+DDL causes transaction commit          No
+DDL ignored in transactions            No
+Batch updates                          Yes
+Save points                            Yes
+Named parameters                       Yes
+Multiple open results                  No
+Get auto-generated keys                Yes
+Statement pooling                      No
+SQL Function                           Yes
+REF CURSOR                             No
+Supports Mixed Case Identifiers        Yes
+Stores Upper Case Identifiers          No
+Stores Lower Case Identifiers          No
+Stores Mixed Case Identifiers          Yes
+Supports Mixed Case Quoted Identifiers Yes
+Stores Upper Case Quoted Identifiers   No
+Stores Lower Case Quoted Identifiers   No
+Stores Mixed Case Quoted Identifiers   Yes
+-- 0/6 - 0 ----------------------------------------------------------------
+.info function
+Name                Value
+------------------- ------------------------------------------------------------------------------------------------------------------------------------------
+Numeric functions   ABS,ACOS,ASIN,ATAN,ATAN2,CEILING,COS,COT,DEGREES,EXP,FLOOR,LOG,LOG10,MOD,PI,POWER,RADIANS,RAND,ROUND,SIGN,SIN,SQRT,TAN,TRUNCATE
+String functions    ASCII,CHAR,CONCAT,DIFFERENCE,INSERT,LCASE,LEFT,LENGTH,LOCATE,LTRIM,REPEAT,REPLACE,RIGHT,RTRIM,SOUNDEX,SPACE,SUBSTRING,UCASE
+System functions    DATABASE,IFNULL,USER
+Date/Time functions CURDATE,CURTIME,DAYNAME,DAYOFMONTH,DAYOFWEEK,DAYOFYEAR,HOUR,MINUTE,MONTH,MONTHNAME,NOW,QUARTER,SECOND,TIMESTAMPADD,TIMESTAMPDIFF,WEEK,YEAR
+-- 0/7 - 0 ----------------------------------------------------------------
+.info keyword
+ADD,ALL,ALTER,AND,ANY,AS,ASC,AUTHORIZATION,BACKUP,BEGIN,BETWEEN,BREAK,BROWSE,BULK,BY,CASCADE,CASE,CHECK,CHECKPOINT,CLOSE,CLUSTERED,COALESCE,COLLATE,COLUMN,COMMIT,COMPUTE,CONSTRAINT,CONTAINS,CONTAINSTABLE,CONTINUE,CONVERT,CREATE,CROSS,CURRENT,CURRENT_DATE,CURRENT_TIME,CURRENT_TIMESTAMP,CURRENT_USER,CURSOR,DATABASE,DBCC,DEALLOCATE,DECLARE,DEFAULT,DELETE,DENY,DESC,DISK,DISTINCT,DISTRIBUTED,DOUBLE,DROP,DUMP,ELSE,END,ERRLVL,ESCAPE,EXCEPT,EXEC,EXECUTE,EXISTS,EXIT,EXTERNAL,FETCH,FILE,FILLFACTOR,FOR,FOREIGN,FREETEXT,FREETEXTTABLE,FROM,FULL,FUNCTION,GOTO,GRANT,GROUP,HAVING,HOLDLOCK,IDENTITY,IDENTITY_INSERT,IDENTITYCOL,IF,IN,INDEX,INNER,INSERT,INTERSECT,INTO,IS,JOIN,KEY,KILL,LEFT,LIKE,LINENO,LOAD,MERGE,NATIONAL,NOCHECK,NONCLUSTERED,NOT,NULL,NULLIF,OF,OFF,OFFSETS,ON,OPEN,OPENDATASOURCE,OPENQUERY,OPENROWSET,OPENXML,OPTION,OR,ORDER,OUTER,OVER,PERCENT,PIVOT,PLAN,PRECISION,PRIMARY,PRINT,PROC,PROCEDURE,PUBLIC,RAISERROR,READ,READTEXT,RECONFIGURE,REFERENCES,REPLICATION,RESTORE,RESTRICT,RETURN,REVERT,REVOKE,RIGHT,ROLLBACK,ROWCOUNT,ROWGUIDCOL,RULE,SAVE,SCHEMA,SECURITYAUDIT,SELECT,SEMANTICKEYPHRASETABLE,SEMANTICSIMILARITYDETAILSTABLE,SEMANTICSIMILARITYTABLE,SESSION_USER,SET,SETUSER,SHUTDOWN,SOME,STATISTICS,SYSTEM_USER,TABLE,TABLESAMPLE,TEXTSIZE,THEN,TO,TOP,TRAN,TRANSACTION,TRIGGER,TRUNCATE,TRY_CONVERT,TSEQUAL,UNION,UNIQUE,UNPIVOT,UPDATE,UPDATETEXT,USE,USER,VALUES,VARYING,VIEW,WAITFOR,WHEN,WHERE,WHILE,WITH,WITHIN GROUP,WRITETEXT
+-- 0/8 - 0 ----------------------------------------------------------------
+.info limit
+Name                         Limit
+---------------------------- ----------
+Max binary literal length    0
+Max character literal length 0
+Max column name length       128
+Max columns in GROUP BY      0
+Max columns in an index      16
+Max columns in ORDER BY      0
+Max columns in SELECT        4096
+Max columns in a table       1024
+Max connections              32767
+Max cursor name length       0
+Max index length             900
+Max schema name length       128
+Max procedure name length    128
+Max catalog name length      128
+Max row size                 8060
+Max row size include BLOB    No
+Max statement length         524288000
+Max statements               0
+Max table name length        128
+Max tables in SELECT         256
+Max user name length         128
+Max logical LOB size         2147483647
+-- 0/9 - 0 ----------------------------------------------------------------
+.info schema
+TABLE_SCHEM        TABLE_CATALOG
+------------------ -------------
+db_accessadmin     ?
+db_backupoperator  ?
+db_datareader      ?
+db_datawriter      ?
+db_ddladmin        ?
+db_denydatareader  ?
+db_denydatawriter  ?
+db_owner           ?
+db_securityadmin   ?
+dbo                ?
+guest              ?
+INFORMATION_SCHEMA ?
+sys                ?
+-- 0/10 - 0 ---------------------------------------------------------------
+.info server
+Name                     Value
+------------------------ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+User                     sa
+URL                      jdbc:sqlserver://localhost:1433;maxResultBuffer=-1;sendTemporalDataTypesAsStringForBulkCopy=true;delayLoadingLobs=true;useFmtOnly=false;useBulkCopyForBatchInsert=false;cancelQueryTimeout=-1;sslProtocol=TLS;jaasConfigurationName=SQLJDBCDriver;statementPoolingCacheSize=0;serverPreparedStatementDiscardThreshold=10;enablePrepareOnFirstPreparedStatementCall=false;fips=false;socketTimeout=0;authentication=NotSpecified;authenticationScheme=nativeAuthentication;xopenStates=false;sendTimeAsDatetime=true;trustStoreType=JKS;trustServerCertificate=false;TransparentNetworkIPResolution=true;serverNameAsACE=false;sendStringParametersAsUnicode=true;selectMethod=direct;responseBuffering=adaptive;queryTimeout=-1;packetSize=8000;multiSubnetFailover=false;loginTimeout=15;lockTimeout=-1;lastUpdateCount=true;encrypt=false;disableStatementPooling=true;columnEncryptionSetting=Disabled;applicationName=Microsoft JDBC Driver for SQL Server;applicationIntent=readwrite;
+Ready only               No
+Database product name    Microsoft SQL Server
+Database product version 14.00.3029
+Database major version   14
+Database major version   0
+Driver name              Microsoft JDBC Driver 9.2 for SQL Server
+Driver version           9.2.1.0
+JDBC major version       4
+JDBC minor version       2
+-- 0/11 - 0 ---------------------------------------------------------------
+.info table
+TABLE_TYPE
+------------
+SYSTEM TABLE
+TABLE
+VIEW
+-- 0/12 - 0 ---------------------------------------------------------------
+.format csv
+-- 0/13 - 0 ---------------------------------------------------------------
+.info type
+TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX,INTERVAL_PRECISION,USERTYPE
+datetimeoffset,-155,34,',',scale,1,0,3,,0,,datetimeoffset,0,7,-155,0,,,0
+time,92,16,',',scale,1,0,3,,0,,time,0,7,-154,0,,,0
+xml,-16,0,N',',,1,1,0,,0,,xml,,,-152,,,,0
+sql_variant,-150,8000,,,,1,0,2,,0,,sql_variant,0,0,-150,,10,,0
+uniqueidentifier,1,36,',',,1,0,2,,0,,uniqueidentifier,,,-11,,,,0
+ntext,-16,1073741823,N',',,1,0,1,,0,,ntext,,,-10,,,,0
+nvarchar,-9,4000,N',',max length,1,0,3,,0,,nvarchar,,,-9,,,,0
+sysname,-9,128,N',',,0,0,3,,0,,sysname,,,-9,,,,18
+nchar,-15,4000,N',',length,1,0,3,,0,,nchar,,,-8,,,,0
+bit,-7,1,,,,1,0,2,,0,,bit,0,0,-7,,,,16
+tinyint,-6,3,,,,1,0,2,1,0,0,tinyint,0,0,-6,,10,,5
+tinyint identity,-6,3,,,,0,0,2,1,0,1,tinyint identity,0,0,-6,,10,,5
+bigint,-5,19,,,,1,0,2,0,0,0,bigint,0,0,-5,,10,,0
+bigint identity,-5,19,,,,0,0,2,0,0,1,bigint identity,0,0,-5,,10,,0
+image,-4,2147483647,0x,,,1,0,0,,0,,image,,,-4,,,,20
+varbinary,-3,8000,0x,,max length,1,0,2,,0,,varbinary,,,-3,,,,4
+binary,-2,8000,0x,,length,1,0,2,,0,,binary,,,-2,,,,3
+timestamp,-2,8,0x,,,0,0,2,,0,,timestamp,,,-2,,,,80
+text,-1,2147483647,',',,1,0,1,,0,,text,,,-1,,,,19
+char,1,8000,',',length,1,0,3,,0,,char,,,1,,,,1
+numeric,2,38,,,"precision,scale",1,0,2,0,0,0,numeric,0,38,2,,10,,10
+numeric() identity,2,38,,,precision,0,0,2,0,0,1,numeric() identity,0,0,2,,10,,10
+decimal,3,38,,,"precision,scale",1,0,2,0,0,0,decimal,0,38,3,,10,,24
+money,3,19,$,,,1,0,2,0,1,0,money,4,4,3,,10,,11
+smallmoney,3,10,$,,,1,0,2,0,1,0,smallmoney,4,4,3,,10,,21
+decimal() identity,3,38,,,precision,0,0,2,0,0,1,decimal() identity,0,0,3,,10,,24
+int,4,10,,,,1,0,2,0,0,0,int,0,0,4,,10,,7
+int identity,4,10,,,,0,0,2,0,0,1,int identity,0,0,4,,10,,7
+smallint,5,5,,,,1,0,2,0,0,0,smallint,0,0,5,,10,,6
+smallint identity,5,5,,,,0,0,2,0,0,1,smallint identity,0,0,5,,10,,6
+float,8,53,,,,1,0,2,0,0,0,float,,,6,,2,,8
+real,7,24,,,,1,0,2,0,0,0,real,,,7,,2,,23
+varchar,12,8000,',',max length,1,0,3,,0,,varchar,,,12,,,,2
+date,91,10,',',,1,0,3,,0,,date,,0,9,1,,,0
+datetime2,93,27,',',scale,1,0,3,,0,,datetime2,0,7,9,3,,,0
+datetime,93,23,',',,1,0,3,,0,,datetime,3,3,9,3,,,12
+smalldatetime,93,16,',',,1,0,3,,0,,smalldatetime,0,0,9,3,,,22
+-- 0/14 - 0 ---------------------------------------------------------------
+.format table
+-- 0/15 - 0 ---------------------------------------------------------------
+.info user
+sa
+-- 0/16 - 0 ---------------------------------------------------------------
+.quit
+-- 0/17 - 0 ---------------------------------------------------------------

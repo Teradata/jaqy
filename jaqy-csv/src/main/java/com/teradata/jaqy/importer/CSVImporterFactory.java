@@ -75,11 +75,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 			{
 				case 'c':
 				{
-					Charset cs = Charset.forName (option.getValue ());
-					if (cs != null)
-					{
-						charset = cs.toString ();
-					}
+					charset = Charset.forName (option.getValue ()).toString ();
 					break;
 				}
 				case 'd':
