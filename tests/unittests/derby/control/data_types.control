@@ -525,21 +525,21 @@ CREATE TABLE StrTable
 .format table
 -- 15/14 - 0 --------------------------------------------------------------
 .desc StrTable
-Column Type                      Nullable
------- ------------------------- --------
-A      INTEGER                   Yes
-C1     VARCHAR(255)              Yes
-C2     LONG VARCHAR FOR BIT DATA Yes
-C3     LONG VARCHAR FOR BIT DATA Yes
-C4     LONG VARCHAR              Yes
+Column Type         Nullable
+------ ------------ --------
+A      INTEGER      Yes
+C1     VARCHAR(255) Yes
+C2     CHAR(1)      Yes
+C3     CHAR(5)      Yes
+C4     LONG VARCHAR Yes
 -- 15/15 - 0 --------------------------------------------------------------
 .desc -s StrTable
 CREATE TABLE StrTable
 (
 	"A" INTEGER,
 	"C1" VARCHAR(255),
-	"C2" LONG VARCHAR FOR BIT DATA,
-	"C3" LONG VARCHAR FOR BIT DATA,
+	"C2" CHAR(1),
+	"C3" CHAR(5),
 	"C4" LONG VARCHAR
 )
 -- 15/16 - 0 --------------------------------------------------------------

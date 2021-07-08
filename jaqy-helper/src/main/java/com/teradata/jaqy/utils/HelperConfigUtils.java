@@ -17,6 +17,7 @@ package com.teradata.jaqy.utils;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.TextJsonParser;
 
 import com.teradata.jaqy.HelperManager;
+import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.helper.DefaultHelperFactory;
 import com.teradata.jaqy.schema.TypeInfo;
@@ -41,11 +43,15 @@ public class HelperConfigUtils
 	private static void loadType (Map<Integer, TypeInfo> map, JsonObject v)
 	{
 		TypeInfo typeInfo = new TypeInfo ();
-		typeInfo.type = v.getInt ("type");
+		typeInfo.type = TypesUtils.getType (v.getString ("type"));
+		if (typeInfo.type == Types.NULL)
+		{
+			throw new JaqyException ("Unknown type");
+		}
 		typeInfo.typeName = v.getString ("name");
 		if (typeInfo.typeName.indexOf ('{') >= 0)
 		{
-			typeInfo.maxPrecision = v.getInt ("maxPrecision");
+			typeInfo.maxPrecision = v.getJsonNumber ("maxPrecision").longValue ();
 			typeInfo.typeFormat = new MessageFormat (typeInfo.typeName);
 		}
 		map.put (typeInfo.type, typeInfo);
@@ -59,7 +65,7 @@ public class HelperConfigUtils
 		HashMap<Integer, TypeInfo> map = new HashMap<Integer, TypeInfo> ();
 		for (int i = 0; i < size; ++i)
 		{
-			loadType (map, (JsonObject)v.getJsonObject (i));
+			loadType (map, v.getJsonObject (i));
 		}
 		return map;
 	}

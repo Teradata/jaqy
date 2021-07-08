@@ -16,7 +16,7 @@
 		"stream" : false
 	},
 	"typeMap": [
-		{ "name" : "TEXT", "type" : 12, "maxPrecision" : 65535 }
+		{ "name" : "TEXT", "type" : "VARCHAR", "maxPrecision" : 65535 }
 	],
 	"catalogSQL": {
 		"sql" : "SELECT DATABASE()",
@@ -34,12 +34,12 @@
 {
 	"protocol":	"postgresql",
 	"typeMap": [
-		{ "name" : "char({0,number,#})", "type" : 1, "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : 12, "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : 2005, "maxPrecision" : 2147483648 },
-		{ "name" : "char({0,number,#})", "type" : -15, "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : -9, "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : 2011, "maxPrecision" : 2147483648 }
+		{ "name" : "char({0,number,#})", "type" : "CHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "CLOB", "maxPrecision" : 2147483648 },
+		{ "name" : "char({0,number,#})", "type" : "NCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : "NVARCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "NCLOB", "maxPrecision" : 2147483648 }
 	]
 },
 {
@@ -59,31 +59,39 @@
 {
 	"protocol":	"derby",
 	"typeMap": [
-		{ "name" : "CHAR ({0,number,#}) FOR BIT DATA", "type" : -2, "maxPrecision" : 254 },
-		{ "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "type" : -3, "maxPrecision" : 32672 },
-		{ "name" : "LONG VARCHAR FOR BIT DATA", "type" : 1, "maxPrecision" : 32700 }
+		{ "name" : "CHAR ({0,number,#}) FOR BIT DATA", "type" : "BINARY", "maxPrecision" : 254 },
+		{ "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "type" : "VARBINARY", "maxPrecision" : 32672 },
+		{ "name" : "LONG VARCHAR FOR BIT DATA", "type" : "LONGVARBINARY", "maxPrecision" : 32700 }
 	]
 },
 {
 	"protocol":	"sqlserver",
+	"catalogSQL": {
+		"sql" : "SELECT DB_NAME()",
+		"field" : 1
+	},
 	"typeMap": [
-		{ "name" : "char({0,number,#})", "type" : 1, "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : 12, "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : 2005, "maxPrecision" : 2147483648 },
-		{ "name" : "nchar({0,number,#})", "type" : -15, "maxPrecision" : 1073741824 },
-		{ "name" : "nvarchar({0,number,#})", "type" : -9, "maxPrecision" : 1073741824 },
-		{ "name" : "nvarchar({0,number,#})", "type" : 2011, "maxPrecision" : 1073741824 }
+		{ "name" : "char({0,number,#})", "type" : "CHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : "LONGVARCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : "CLOB", "maxPrecision" : 2147483648 },
+		{ "name" : "nchar({0,number,#})", "type" : "NCHAR", "maxPrecision" : 1073741824 },
+		{ "name" : "nvarchar({0,number,#})", "type" : "NVARCHAR", "maxPrecision" : 1073741824 },
+		{ "name" : "nvarchar({0,number,#})", "type" : "LONGNVARCHAR", "maxPrecision" : 1073741824 },
+		{ "name" : "nvarchar({0,number,#})", "type" : "NCLOB", "maxPrecision" : 1073741824 }
 	]
 },
 {
 	"protocol":	"teradata",
 	"typeMap": [
-		{ "name" : "CHAR({0,number,#}) CHARACTER SET LATIN", "type" : 1, "maxPrecision" : 64000 },
-		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "type" : 12, "maxPrecision" : 64000 },
-		{ "name" : "CLOB({0,number,#}) CHARACTER SET LATIN", "type" : 2005, "maxPrecision" : 2097088000 },
-		{ "name" : "CHAR({0,number,#}) CHARACTER SET UNICODE", "type" : -15, "maxPrecision" : 32000 },
-		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "type" : -9, "maxPrecision" : 32000 },
-		{ "name" : "CLOB({0,number,#}) CHARACTER SET UNICODE", "type" : 2011, "maxPrecision" : 1048544000 }
+		{ "name" : "CHAR({0,number,#}) CHARACTER SET LATIN", "type" : "CHAR", "maxPrecision" : 64000 },
+		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "type" : "VARCHAR", "maxPrecision" : 64000 },
+		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "type" : "LONGVARCHAR", "maxPrecision" : 64000 },
+		{ "name" : "CLOB({0,number,#}) CHARACTER SET LATIN", "type" : "CLOB", "maxPrecision" : 2097088000 },
+		{ "name" : "CHAR({0,number,#}) CHARACTER SET UNICODE", "type" : "NCHAR", "maxPrecision" : 32000 },
+		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "type" : "NVARCHAR", "maxPrecision" : 32000 },
+		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "type" : "LONGNVARCHAR", "maxPrecision" : 32000 },
+		{ "name" : "CLOB({0,number,#}) CHARACTER SET UNICODE", "type" : "NCLOB", "maxPrecision" : 1048544000 }
 	],
 	"features": {
 		"catalog" : false

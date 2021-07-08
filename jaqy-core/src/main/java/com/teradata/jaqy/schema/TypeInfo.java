@@ -25,7 +25,7 @@ public class TypeInfo
 	public String typeName;
 	public MessageFormat typeFormat;
 	public int type;
-	public int maxPrecision;
+	public long maxPrecision;
 //	public String literalPrefix;
 //	public String literalSuffix;
 //	public String createParams;
