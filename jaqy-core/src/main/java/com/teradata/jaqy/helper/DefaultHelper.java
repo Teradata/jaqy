@@ -54,7 +54,9 @@ public class DefaultHelper implements JaqyHelper
 	private MessageFormat m_tableColumnFormat;
 
 	private TypeMap m_typeMap;
+	private TypeMap m_importTypeMap;
 	private Map<Integer, TypeInfo> m_customTypeMap;
+	private Map<Integer, TypeInfo> m_customImportTypeMap;
 
 	public DefaultHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
@@ -122,17 +124,48 @@ public class DefaultHelper implements JaqyHelper
 		return new JaqyPreparedStatement (conn.prepareStatement (sql), m_conn);
 	}
 
-	@Override
-	public TypeMap getTypeMap () throws SQLException
+	private void createTypeMap () throws SQLException
 	{
 		if (m_typeMap != null)
-			return m_typeMap;
+			return;
 		m_typeMap = SchemaUtils.getTypeMap (m_conn);
 		if (m_typeMap != null && m_customTypeMap != null)
 		{
 			m_typeMap.setCustomMap (m_customTypeMap);
 		}
-		return m_typeMap;
+	}
+
+	private void createImportTypeMap () throws SQLException
+	{
+		if (m_importTypeMap != null)
+			return;
+		m_importTypeMap = SchemaUtils.getTypeMap (m_conn);
+		if (m_importTypeMap != null)
+		{
+			if (m_customTypeMap != null)
+			{
+				m_importTypeMap.setCustomMap (m_customTypeMap);
+			}
+			if (m_customImportTypeMap != null)
+			{
+				m_importTypeMap.setCustomMap (m_customImportTypeMap);
+			}
+		}
+	}
+
+	@Override
+	public TypeMap getTypeMap (boolean forImport) throws SQLException
+	{
+		if (forImport)
+		{
+			createImportTypeMap ();
+			return m_importTypeMap;
+		}
+		else
+		{
+			createTypeMap ();
+			return m_typeMap;
+		}
 	}
 
 	private String getCatalogInternal () throws SQLException
@@ -295,20 +328,20 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public String getTypeName (int type, int precision, int scale, boolean exact) throws SQLException
+	public String getTypeName (int type, int precision, int scale, boolean exact, boolean forImport) throws SQLException
 	{
-		TypeMap typeMap = getTypeMap ();
+		TypeMap typeMap = getTypeMap (forImport);
 		if (typeMap == null)
 			return null;
 		return typeMap.getTypeName (type, precision, scale, exact);
 	}
 
 	@Override
-	public String getTypeName (BasicColumnInfo columnInfo) throws SQLException
+	public String getTypeName (BasicColumnInfo columnInfo, boolean forImport) throws SQLException
 	{
 		if (columnInfo.typeName == null)
 		{
-			TypeMap typeMap = getTypeMap ();
+			TypeMap typeMap = getTypeMap (forImport);
 			if (typeMap == null)
 				return null;
 			return typeMap.getTypeName (columnInfo.type, columnInfo.precision, columnInfo.scale, true);
@@ -333,7 +366,7 @@ public class DefaultHelper implements JaqyHelper
 				{
 					precision = 1;
 				}
-				TypeMap typeMap = getTypeMap ();
+				TypeMap typeMap = getTypeMap (forImport);
 				if (typeMap != null)
 				{
 					String preciseName = typeMap.getTypeName (columnInfo.type, columnInfo.precision, columnInfo.scale, true);
@@ -441,7 +474,7 @@ public class DefaultHelper implements JaqyHelper
 			for (int i = 0; i < count; ++i)
 			{
 				String columnName = schemaInfo.columns[i].name;
-				String columnType = getTypeName (schemaInfo.columns[i]);
+				String columnType = getTypeName (schemaInfo.columns[i], false);
 				String nullable = (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNoNulls) ? "No" : (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
 				pt.addRow (new String[]{ columnName, columnType, nullable });
 			}
@@ -571,6 +604,11 @@ public class DefaultHelper implements JaqyHelper
 	public void setCustomTypeMap (Map<Integer, TypeInfo> map)
 	{
 		m_customTypeMap = map;
+	}
+
+	public void setCustomImportTypeMap (Map<Integer, TypeInfo> map)
+	{
+		m_customImportTypeMap = map;
 	}
 
 	@Override
@@ -756,7 +794,7 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public String getStagingTableIndex ()
+	public String getImportTableIndex ()
 	{
 		return "";
 	}

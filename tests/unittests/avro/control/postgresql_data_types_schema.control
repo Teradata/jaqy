@@ -134,10 +134,10 @@ DELETE FROM DecTable;
 CREATE TABLE DecTable2
 (
 	"a" int4,
-	"c1" varchar(5),
-	"c2" varchar(11),
-	"c3" varchar(24),
-	"c4" varchar(33)
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -254,10 +254,10 @@ DELETE FROM StrTable;
 CREATE TABLE StrTable2
 (
 	"a" int4,
-	"c1" varchar(3),
-	"c2" varchar(1),
-	"c3" varchar(5),
-	"c4" varchar(5)
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -265,11 +265,11 @@ INSERT INTO StrTable2 VALUES (?,?,?,?,?)
 -- 41/16 - 0 --------------------------------------------------------------
 SELECT * FROM StrTable2 ORDER BY a;
 -- success --
-a c1   c2 c3    c4
-- ---- -- ----- -----
-1 aa   A  abcde aaaaa
-2 bbb  B  fghij bbbbb
-3 ?    ?  ?     ?
+a c1   c2   c3    c4
+- ---- ---- ----- -----
+1 aa   A    abcde aaaaa
+2 bbb  B    fghij bbbbb
+3 ?    ?    ?     ?
 -- activity count = 3
 -- 42/16 - 0 --------------------------------------------------------------
 
@@ -375,11 +375,11 @@ DELETE FROM TimeTable;
 CREATE TABLE TimeTable2
 (
 	"a" int4,
-	"c1" varchar(10),
-	"c2" varchar(8),
-	"c3" varchar(8),
-	"c4" varchar(21),
-	"c5" varchar(21)
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text,
+	"c5" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -436,7 +436,7 @@ DELETE FROM XmlTable;
 CREATE TABLE XmlTable2
 (
 	"a" int4,
-	"c1" varchar(15)
+	"c1" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -490,7 +490,7 @@ DELETE FROM JsonTable;
 CREATE TABLE JsonTable2
 (
 	"a" int4,
-	"c1" varchar(31)
+	"c1" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -551,12 +551,12 @@ DELETE FROM GeoTable;
 CREATE TABLE GeoTable2
 (
 	"a" int4,
-	"c1" varchar(9),
-	"c2" varchar(21),
-	"c3" varchar(19),
-	"c4" varchar(51),
-	"c5" varchar(51),
-	"c6" varchar(15)
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text,
+	"c5" text,
+	"c6" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -615,9 +615,9 @@ DELETE FROM NetTable;
 CREATE TABLE NetTable2
 (
 	"a" int4,
-	"c1" varchar(18),
-	"c2" varchar(11),
-	"c3" varchar(17)
+	"c1" text,
+	"c2" text,
+	"c3" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -679,12 +679,12 @@ DELETE FROM RangeTable;
 CREATE TABLE RangeTable2
 (
 	"a" int4,
-	"c1" varchar(5),
-	"c2" varchar(13),
-	"c3" varchar(15),
-	"c4" varchar(45),
-	"c5" varchar(51),
-	"c6" varchar(23)
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text,
+	"c5" text,
+	"c6" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -747,9 +747,9 @@ CREATE TABLE MiscTable12
 (
 	"a" int4,
 	"c1" int2,
-	"c2" varchar(4),
-	"c3" varchar(36),
-	"c4" varchar(5)
+	"c2" text,
+	"c3" text,
+	"c4" text
 )
 -- success. update count = 0
 -- INSERTION --
@@ -807,8 +807,8 @@ DELETE FROM MiscTable2;
 CREATE TABLE MiscTable22
 (
 	"a" int4,
-	"c1" varchar(50),
-	"c2" varchar(13)
+	"c1" text,
+	"c2" text
 )
 -- success. update count = 0
 -- INSERTION --

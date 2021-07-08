@@ -292,7 +292,7 @@ class TeradataHelper extends DefaultHelper
 	}
 
 	@Override
-	public String getStagingTableIndex ()
+	public String getImportTableIndex ()
 	{
 		return "\nNO PRIMARY INDEX";
 	}

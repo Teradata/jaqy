@@ -40,6 +40,14 @@
 		{ "name" : "char({0,number,#})", "type" : "NCHAR", "maxPrecision" : 2147483648 },
 		{ "name" : "varchar({0,number,#})", "type" : "NVARCHAR", "maxPrecision" : 2147483648 },
 		{ "name" : "text", "type" : "NCLOB", "maxPrecision" : 2147483648 }
+	],
+	"importTypeMap": [
+		{ "name" : "text", "type" : "CHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "CLOB", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "NCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "NVARCHAR", "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : "NCLOB", "maxPrecision" : 2147483648 }
 	]
 },
 {

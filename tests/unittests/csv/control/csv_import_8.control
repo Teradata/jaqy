@@ -18,16 +18,16 @@ Jaqy Console 1.2.0
 CREATE TABLE AirTraffic
 (
 	"Activity Period" int4 NOT NULL,
-	"Operating Airline" varchar(40) NOT NULL,
-	"Operating Airline IATA Code" varchar(3),
-	"Published Airline" varchar(40) NOT NULL,
-	"Published Airline IATA Code" varchar(3),
-	"GEO Summary" varchar(13) NOT NULL,
-	"GEO Region" varchar(19) NOT NULL,
-	"Activity Type Code" varchar(14) NOT NULL,
-	"Price Category Code" varchar(8) NOT NULL,
-	"Terminal" varchar(13) NOT NULL,
-	"Boarding Area" varchar(5) NOT NULL,
+	"Operating Airline" text NOT NULL,
+	"Operating Airline IATA Code" text,
+	"Published Airline" text NOT NULL,
+	"Published Airline IATA Code" text,
+	"GEO Summary" text NOT NULL,
+	"GEO Region" text NOT NULL,
+	"Activity Type Code" text NOT NULL,
+	"Price Category Code" text NOT NULL,
+	"Terminal" text NOT NULL,
+	"Boarding Area" text NOT NULL,
 	"Passenger Count" int4 NOT NULL
 )
 -- success. update count = 0

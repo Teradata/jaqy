@@ -16,7 +16,7 @@ Jaqy Console 1.2.0
 CREATE TABLE unicodeTable1
 (
 	"甲" int4 NOT NULL,
-	"乙" char(1) NOT NULL
+	"乙" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -24,10 +24,10 @@ INSERT INTO unicodeTable1 VALUES (?,?)
 -- 2/4 - 0 ----------------------------------------------------------------
 
 .desc unicodeTable1
-Column Type      Nullable
------- --------- --------
-甲      int4      No
-乙      bpchar(1) No
+Column Type Nullable
+------ ---- --------
+甲      int4 No
+乙      text No
 -- 2/5 - 0 ----------------------------------------------------------------
 SELECT * FROM unicodeTable1 ORDER BY 1;
 -- success --
@@ -49,7 +49,7 @@ DROP TABLE unicodeTable1;
 CREATE TABLE unicodeTable2
 (
 	"a" int4 NOT NULL,
-	"b" char(1) NOT NULL
+	"b" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -57,10 +57,10 @@ INSERT INTO unicodeTable2 VALUES (?,?)
 -- 6/7 - 0 ----------------------------------------------------------------
 
 .desc unicodeTable2
-Column Type      Nullable
------- --------- --------
-a      int4      No
-b      bpchar(1) No
+Column Type Nullable
+------ ---- --------
+a      int4 No
+b      text No
 -- 6/8 - 0 ----------------------------------------------------------------
 SELECT * FROM unicodeTable2 ORDER BY 1;
 -- success --
@@ -82,7 +82,7 @@ DROP TABLE unicodeTable2;
 CREATE TABLE unicodeTable3
 (
 	"a" int4 NOT NULL,
-	"b" varchar(2) NOT NULL
+	"b" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -90,10 +90,10 @@ INSERT INTO unicodeTable3 VALUES (?,?)
 -- 10/10 - 0 --------------------------------------------------------------
 
 .desc unicodeTable3
-Column Type       Nullable
------- ---------- --------
-a      int4       No
-b      varchar(2) No
+Column Type Nullable
+------ ---- --------
+a      int4 No
+b      text No
 -- 10/11 - 0 --------------------------------------------------------------
 SELECT * FROM unicodeTable3 ORDER BY 1;
 -- success --

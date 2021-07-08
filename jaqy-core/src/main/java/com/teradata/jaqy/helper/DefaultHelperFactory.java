@@ -40,6 +40,7 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 	private Hashtable<String,SimpleQuery> m_sqlMap = new Hashtable<String,SimpleQuery> ();
 	private JdbcFeatures m_features = new JdbcFeatures ();
 	private Map<Integer, TypeInfo> m_customTypeMap;
+	private Map<Integer, TypeInfo> m_customImportTypeMap;
 
 	public DefaultHelperFactory ()
 	{
@@ -65,6 +66,7 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 		helper.setTableSchemaQuery (m_sqlMap.get (TABLE_SCHEMA));
 		helper.setTableColumnQuery (m_sqlMap.get (TABLE_COLUMN));
 		helper.setCustomTypeMap (m_customTypeMap);
+		helper.setCustomImportTypeMap (m_customImportTypeMap);
 	}
 
 	public JdbcFeatures getFeatures ()
@@ -80,6 +82,12 @@ public class DefaultHelperFactory implements JaqyHelperFactory
 	public void setCustomTypeMap (Map<Integer, TypeInfo> map)
 	{
 		m_customTypeMap = map;
+	}
+
+
+	public void setCustomImportTypeMap (Map<Integer, TypeInfo> map)
+	{
+		m_customImportTypeMap = map;
 	}
 
 

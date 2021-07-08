@@ -22,8 +22,8 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.schema.SchemaUtils;
 import com.teradata.jaqy.utils.SessionUtils;
@@ -92,7 +92,7 @@ public class ImportSchemaCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false, interpreter);
+			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false, true, interpreter);
 			interpreter.print (rs);
 			rs.close ();
 		}

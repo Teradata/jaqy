@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import com.teradata.jaqy.schema.TypeMap;
 import com.teradata.jaqy.typehandler.TypeHandler;
 
 /**
- * 
+ *
  * @author	Heng Yuan
  */
 public interface JaqyHelper
@@ -69,11 +69,15 @@ public interface JaqyHelper
 	public String getURL () throws SQLException;
 	/**
 	 * Get the type to string name map.
+	 *
+	 * @param	forImport
+	 * 			if true, the type map is for import purposes.
+	 * 			otherwise, the type map is for describing table schema.
 	 * @return	the type to string name map.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public TypeMap getTypeMap () throws SQLException;
+	public TypeMap getTypeMap (boolean forImport) throws SQLException;
 	/**
 	 * Utility function for getting catalog.
 	 * @param	interpreter
@@ -188,19 +192,23 @@ public interface JaqyHelper
 	 * @param	exact
 	 * 			if exact is false, the closest type (based on casting rule)
 	 * 			is used.
+	 * @param	forImport
+	 * 			if the type name is for import.
 	 * @return	a type name.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public String getTypeName (int type, int precision, int scale, boolean exact) throws SQLException;
+	public String getTypeName (int type, int precision, int scale, boolean exact, boolean forImport) throws SQLException;
 	/**
 	 * Based on the typeInfo, infer the SQL type.
 	 * @param	typeInfo
 	 * 			the basic type information.
+	 * @param	forImport
+	 * 			if the type name is for import.
 	 * @throws	SQLException
 	 * 			in case of error.
 	 */
-	public String getTypeName (BasicColumnInfo typeInfo) throws SQLException;
+	public String getTypeName (BasicColumnInfo typeInfo, boolean forImport) throws SQLException;
 	/**
 	 * Gets the quoted identifier
 	 * @param	name
@@ -310,7 +318,10 @@ public interface JaqyHelper
 	 */
 	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
 	/**
-	 * Get the staging table primary index.
+	 * Get the staging table primary index for import.
+	 *
+	 * Databases such as Teradata with NO PRIMARY INDEX can import
+	 * significantly faster if no primary index is used.
 	 */
-	public String getStagingTableIndex ();
+	public String getImportTableIndex ();
 }

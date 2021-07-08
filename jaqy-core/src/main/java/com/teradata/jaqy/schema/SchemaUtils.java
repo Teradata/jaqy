@@ -62,7 +62,7 @@ public class SchemaUtils
 		return builder.toString ();
 	}
 
-	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName, boolean exact, boolean staging) throws SQLException
+	public static String getTableSchema (JaqyHelper helper, SchemaInfo schemaInfo, String tableName, boolean exact, boolean forImport) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
 		StringBuilder buffer = new StringBuilder ();
@@ -80,11 +80,11 @@ public class SchemaUtils
 			String columnType;
 			if (exact)
 			{
-				columnType = helper.getTypeName (schemaInfo.columns[i]);
+				columnType = helper.getTypeName (schemaInfo.columns[i], forImport);
 			}
 			else
 			{
-				columnType = helper.getTypeName (schemaInfo.columns[i].type, schemaInfo.columns[i].precision, schemaInfo.columns[i].scale, false);
+				columnType = helper.getTypeName (schemaInfo.columns[i].type, schemaInfo.columns[i].precision, schemaInfo.columns[i].scale, false, forImport);
 			}
 			if (i == 0)
 				buffer.append ('\n');
@@ -96,14 +96,14 @@ public class SchemaUtils
 				buffer.append (" NOT NULL");
 		}
 		buffer.append ("\n)");
-		if (staging)
+		if (forImport)
 		{
-			buffer.append (helper.getStagingTableIndex ());
+			buffer.append (helper.getImportTableIndex ());
 		}
 		return buffer.toString ();
 	}
 
-	public static JaqyResultSet getSchemaResultSet (JaqyHelper helper, SchemaInfo schemaInfo, boolean exact, JaqyInterpreter interpreter) throws SQLException
+	public static JaqyResultSet getSchemaResultSet (JaqyHelper helper, SchemaInfo schemaInfo, boolean exact, boolean forImport, JaqyInterpreter interpreter) throws SQLException
 	{
 		int count = schemaInfo.columns.length;
 		PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
@@ -113,11 +113,11 @@ public class SchemaUtils
 			String columnType;
 			if (exact)
 			{
-				columnType = helper.getTypeName (schemaInfo.columns[i]);
+				columnType = helper.getTypeName (schemaInfo.columns[i], forImport);
 			}
 			else
 			{
-				columnType = helper.getTypeName (schemaInfo.columns[i].type, schemaInfo.columns[i].precision, schemaInfo.columns[i].scale, false);
+				columnType = helper.getTypeName (schemaInfo.columns[i].type, schemaInfo.columns[i].precision, schemaInfo.columns[i].scale, false, forImport);
 			}
 			String nullable = (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNoNulls) ? "No" : (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
 			pt.addRow (new String[]{ columnName, columnType, nullable });

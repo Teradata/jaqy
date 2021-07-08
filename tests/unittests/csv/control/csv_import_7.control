@@ -12,25 +12,25 @@ Jaqy Console 1.2.0
 .import csv -h -f https://introcs.cs.princeton.edu/java/data/ip-by-country.csv
 -- 0/3 - 0 ----------------------------------------------------------------
 .importschema
-Column                Type        Nullable
---------------------- ----------- --------
-beginning IP Address  varchar(15) No
-ending IP Address     varchar(15) No
-beginning IP Number   float8      No
-ending IP Number      float8      No
-ISO 3166 Country Code char(2)     Yes
-Country Name          varchar(36) No
+Column                Type   Nullable
+--------------------- ------ --------
+beginning IP Address  text   No
+ending IP Address     text   No
+beginning IP Number   float8 No
+ending IP Number      float8 No
+ISO 3166 Country Code text   Yes
+Country Name          text   No
 -- 0/4 - 0 ----------------------------------------------------------------
 .importtable mytable
 -- Table Schema --
 CREATE TABLE mytable
 (
-	"beginning IP Address" varchar(15) NOT NULL,
-	"ending IP Address" varchar(15) NOT NULL,
+	"beginning IP Address" text NOT NULL,
+	"ending IP Address" text NOT NULL,
 	"beginning IP Number" float8 NOT NULL,
 	"ending IP Number" float8 NOT NULL,
-	"ISO 3166 Country Code" char(2),
-	"Country Name" varchar(36) NOT NULL
+	"ISO 3166 Country Code" text,
+	"Country Name" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --

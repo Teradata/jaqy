@@ -115,6 +115,7 @@ public class HelperConfigUtils
 		DefaultHelperFactory factory = (DefaultHelperFactory) manager.getHelperFactory (protocol);
 		JdbcFeatures features = getFeatures (v.getJsonObject ("features"));
 		HashMap<Integer, TypeInfo> typeMap = getTypeMap (v.getJsonArray ("typeMap"));
+		HashMap<Integer, TypeInfo> importTypeMap = getTypeMap (v.getJsonArray ("importTypeMap"));
 		HashMap<String, SimpleQuery> sqlMap = new HashMap<String, SimpleQuery> ();
 		updateMap (sqlMap, "catalogSQL", v);
 		updateMap (sqlMap, "schemaSQL", v);
@@ -125,6 +126,8 @@ public class HelperConfigUtils
 			factory.setFeatures (features);
 		if (typeMap != null)
 			factory.setCustomTypeMap (typeMap);
+		if (importTypeMap != null)
+			factory.setCustomImportTypeMap (importTypeMap);
 	}
 
 	public static void load (HelperManager manager, JsonArray v) throws IOException

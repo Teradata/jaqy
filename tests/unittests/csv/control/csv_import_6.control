@@ -12,13 +12,13 @@ Jaqy Console 1.2.0
 .import csv -h lib/sin.csv
 -- 0/3 - 0 ----------------------------------------------------------------
 .importschema
-Column Type       Nullable
------- ---------- --------
-x      float8     No
-sin(x) float8     No
-id     int4       No
-hex    varchar(3) No
-hex2   char(4)    No
+Column Type   Nullable
+------ ------ --------
+x      float8 No
+sin(x) float8 No
+id     int4   No
+hex    text   No
+hex2   text   No
 -- 0/4 - 0 ----------------------------------------------------------------
 .importtable SinTable
 -- Table Schema --
@@ -27,8 +27,8 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" varchar(3) NOT NULL,
-	"hex2" char(4) NOT NULL
+	"hex" text NOT NULL,
+	"hex2" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -40,8 +40,8 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" varchar(3) NOT NULL,
-	"hex2" bpchar(4) NOT NULL
+	"hex" text NOT NULL,
+	"hex2" text NOT NULL
 )
 -- 2/6 - 0 ----------------------------------------------------------------
 
@@ -59,13 +59,13 @@ DROP TABLE SinTable;
 .import csv -h -r 0 lib/sin.csv
 -- 4/7 - 0 ----------------------------------------------------------------
 .importschema
-Column Type       Nullable
------- ---------- --------
-x      float8     No
-sin(x) float8     No
-id     int4       No
-hex    varchar(3) No
-hex2   char(4)    No
+Column Type   Nullable
+------ ------ --------
+x      float8 No
+sin(x) float8 No
+id     int4   No
+hex    text   No
+hex2   text   No
 -- 4/8 - 0 ----------------------------------------------------------------
 .importtable SinTable
 -- Table Schema --
@@ -74,8 +74,8 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" varchar(3) NOT NULL,
-	"hex2" char(4) NOT NULL
+	"hex" text NOT NULL,
+	"hex2" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -87,8 +87,8 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" varchar(3) NOT NULL,
-	"hex2" bpchar(4) NOT NULL
+	"hex" text NOT NULL,
+	"hex2" text NOT NULL
 )
 -- 6/10 - 0 ---------------------------------------------------------------
 
@@ -106,13 +106,13 @@ DROP TABLE SinTable;
 .import csv -h -r 12 lib/sin.csv
 -- 8/11 - 0 ---------------------------------------------------------------
 .importschema
-Column Type    Nullable
------- ------- --------
-x      float8  No
-sin(x) float8  No
-id     int4    No
-hex    char(1) No
-hex2   char(4) No
+Column Type   Nullable
+------ ------ --------
+x      float8 No
+sin(x) float8 No
+id     int4   No
+hex    text   No
+hex2   text   No
 -- 8/12 - 0 ---------------------------------------------------------------
 .importtable SinTable
 -- Table Schema --
@@ -121,14 +121,12 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" char(1) NOT NULL,
-	"hex2" char(4) NOT NULL
+	"hex" text NOT NULL,
+	"hex2" text NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
 INSERT INTO SinTable VALUES (?,?,?,?,?)
--- failure 0: [22001] Batch entry 16 INSERT INTO SinTable VALUES ('0.16','0.159318207',16,'10','0010') was aborted: ERROR: value too long for type character(1)  Call getNextException to see other errors in the batch.
--- cause   0: [22001] ERROR: value too long for type character(1)
 -- 10/13 - 0 --------------------------------------------------------------
 .desc -s SinTable
 CREATE TABLE SinTable
@@ -136,16 +134,16 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" bpchar(1) NOT NULL,
-	"hex2" bpchar(4) NOT NULL
+	"hex" text NOT NULL,
+	"hex2" text NOT NULL
 )
 -- 10/14 - 0 --------------------------------------------------------------
 
 SELECT COUNT(*), min(x), max(x) FROM SinTable;
 -- success --
-count  min  max
------ ---- ----
-    0    ?    ?
+count min  max
+----- --- ----
+ 1051   0 10.5
 -- activity count = 1
 -- 11/14 - 0 --------------------------------------------------------------
 DROP TABLE SinTable;
@@ -199,10 +197,10 @@ DROP TABLE SinTable;
 .import csv -h lib/numstr.csv
 -- 16/21 - 0 --------------------------------------------------------------
 .importschema
-Column Type       Nullable
------- ---------- --------
-a      int4       No
-b      varchar(4) No
+Column Type Nullable
+------ ---- --------
+a      int4 No
+b      text No
 -- 16/22 - 0 --------------------------------------------------------------
 
 .close
