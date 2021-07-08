@@ -32,6 +32,17 @@
 	}
 },
 {
+	"protocol":	"postgresql",
+	"typeMap": [
+		{ "name" : "char({0,number,#})", "type" : 1, "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : 12, "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : 2005, "maxPrecision" : 2147483648 },
+		{ "name" : "char({0,number,#})", "type" : -15, "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : -9, "maxPrecision" : 2147483648 },
+		{ "name" : "text", "type" : 2011, "maxPrecision" : 2147483648 }
+	]
+},
+{
 	"protocol":	"sqlite",
 	"features": {
 		"stream" : false
@@ -51,6 +62,17 @@
 		{ "name" : "CHAR ({0,number,#}) FOR BIT DATA", "type" : -2, "maxPrecision" : 254 },
 		{ "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "type" : -3, "maxPrecision" : 32672 },
 		{ "name" : "LONG VARCHAR FOR BIT DATA", "type" : 1, "maxPrecision" : 32700 }
+	]
+},
+{
+	"protocol":	"sqlserver",
+	"typeMap": [
+		{ "name" : "char({0,number,#})", "type" : 1, "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : 12, "maxPrecision" : 2147483648 },
+		{ "name" : "varchar({0,number,#})", "type" : 2005, "maxPrecision" : 2147483648 },
+		{ "name" : "nchar({0,number,#})", "type" : -15, "maxPrecision" : 1073741824 },
+		{ "name" : "nvarchar({0,number,#})", "type" : -9, "maxPrecision" : 1073741824 },
+		{ "name" : "nvarchar({0,number,#})", "type" : 2011, "maxPrecision" : 1073741824 }
 	]
 },
 {

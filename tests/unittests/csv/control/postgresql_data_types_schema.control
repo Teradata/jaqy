@@ -287,9 +287,9 @@ CREATE TABLE StrTable2
 (
 	"a" int4 NOT NULL,
 	"c1" varchar(3),
-	"c2" bpchar(1),
-	"c3" bpchar(5),
-	"c4" bpchar(5)
+	"c2" char(1),
+	"c3" char(5),
+	"c4" char(5)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -346,7 +346,7 @@ DELETE FROM BinTable;
 CREATE TABLE BinTable2
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(8)
+	"c1" char(8)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -407,11 +407,11 @@ DELETE FROM TimeTable;
 CREATE TABLE TimeTable2
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(10),
-	"c2" bpchar(8),
-	"c3" bpchar(11),
-	"c4" bpchar(19),
-	"c5" bpchar(22)
+	"c1" char(10),
+	"c2" char(8),
+	"c3" char(11),
+	"c4" char(19),
+	"c5" char(22)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -468,7 +468,7 @@ DELETE FROM XmlTable;
 CREATE TABLE XmlTable2
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(15)
+	"c1" char(15)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -583,12 +583,12 @@ DELETE FROM GeoTable;
 CREATE TABLE GeoTable2
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(9),
-	"c2" bpchar(21),
-	"c3" bpchar(19),
+	"c1" char(9),
+	"c2" char(21),
+	"c3" char(19),
 	"c4" varchar(51),
 	"c5" varchar(51),
-	"c6" bpchar(15)
+	"c6" char(15)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -649,7 +649,7 @@ CREATE TABLE NetTable2
 	"a" int4 NOT NULL,
 	"c1" varchar(18),
 	"c2" varchar(11),
-	"c3" bpchar(17)
+	"c3" char(17)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -711,12 +711,12 @@ DELETE FROM RangeTable;
 CREATE TABLE RangeTable2
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(5),
-	"c2" bpchar(13),
-	"c3" bpchar(15),
-	"c4" bpchar(45),
-	"c5" bpchar(51),
-	"c6" bpchar(23)
+	"c1" char(5),
+	"c2" char(13),
+	"c3" char(15),
+	"c4" char(45),
+	"c5" char(51),
+	"c6" char(23)
 )
 -- success. update count = 0
 -- INSERTION --
@@ -778,9 +778,9 @@ DELETE FROM MiscTable1;
 CREATE TABLE MiscTable12
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(1),
+	"c1" char(1),
 	"c2" int4,
-	"c3" bpchar(36),
+	"c3" char(36),
 	"c4" float8
 )
 -- success. update count = 0
@@ -839,8 +839,8 @@ DELETE FROM MiscTable2;
 CREATE TABLE MiscTable22
 (
 	"a" int4 NOT NULL,
-	"c1" bpchar(50),
-	"c2" bpchar(13)
+	"c1" char(50),
+	"c2" char(13)
 )
 -- success. update count = 0
 -- INSERTION --

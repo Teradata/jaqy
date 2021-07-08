@@ -18,7 +18,7 @@ x      float8     No
 sin(x) float8     No
 id     int4       No
 hex    varchar(3) No
-hex2   bpchar(4)  No
+hex2   char(4)    No
 -- 0/4 - 0 ----------------------------------------------------------------
 .importtable SinTable
 -- Table Schema --
@@ -28,7 +28,7 @@ CREATE TABLE SinTable
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
 	"hex" varchar(3) NOT NULL,
-	"hex2" bpchar(4) NOT NULL
+	"hex2" char(4) NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -65,7 +65,7 @@ x      float8     No
 sin(x) float8     No
 id     int4       No
 hex    varchar(3) No
-hex2   bpchar(4)  No
+hex2   char(4)    No
 -- 4/8 - 0 ----------------------------------------------------------------
 .importtable SinTable
 -- Table Schema --
@@ -75,7 +75,7 @@ CREATE TABLE SinTable
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
 	"hex" varchar(3) NOT NULL,
-	"hex2" bpchar(4) NOT NULL
+	"hex2" char(4) NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -106,13 +106,13 @@ DROP TABLE SinTable;
 .import csv -h -r 12 lib/sin.csv
 -- 8/11 - 0 ---------------------------------------------------------------
 .importschema
-Column Type      Nullable
------- --------- --------
-x      float8    No
-sin(x) float8    No
-id     int4      No
-hex    bpchar(1) No
-hex2   bpchar(4) No
+Column Type    Nullable
+------ ------- --------
+x      float8  No
+sin(x) float8  No
+id     int4    No
+hex    char(1) No
+hex2   char(4) No
 -- 8/12 - 0 ---------------------------------------------------------------
 .importtable SinTable
 -- Table Schema --
@@ -121,8 +121,8 @@ CREATE TABLE SinTable
 	"x" float8 NOT NULL,
 	"sin(x)" float8 NOT NULL,
 	"id" int4 NOT NULL,
-	"hex" bpchar(1) NOT NULL,
-	"hex2" bpchar(4) NOT NULL
+	"hex" char(1) NOT NULL,
+	"hex2" char(4) NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --

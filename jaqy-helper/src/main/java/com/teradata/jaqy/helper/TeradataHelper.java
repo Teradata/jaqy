@@ -85,6 +85,11 @@ class TeradataHelper extends DefaultHelper
 		super (features, conn, globals);
 	}
 
+	/**
+	 * For numbers, we want to convert them to the appropriate data type
+	 * to avoid the hassle that sometimes Teradata JDBC driver error out
+	 * on type conversion.
+	 */
 	@Override
 	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
 	{
@@ -104,13 +109,16 @@ class TeradataHelper extends DefaultHelper
 				setObject (stmt, columnIndex, paramInfo, dec.longValue (), freeList, interpreter);
 				break;
 			}
+			case Types.REAL:
 			case Types.FLOAT:
+			case Types.DOUBLE:
 			{
 				BigDecimal dec = new BigDecimal (o.toString ());
-				setObject (stmt, columnIndex, paramInfo, dec.floatValue (), freeList, interpreter);
+				setObject (stmt, columnIndex, paramInfo, dec.doubleValue (), freeList, interpreter);
 				break;
 			}
 			case Types.DECIMAL:
+			case Types.NUMERIC:
 			{
 				BigDecimal dec = new BigDecimal (o.toString ());
 				setObject (stmt, columnIndex, paramInfo, dec, freeList, interpreter);
@@ -123,25 +131,20 @@ class TeradataHelper extends DefaultHelper
 		}
 	}
 
+	/**
+	 * Because we change the number types handling in setCSVObject, we need
+	 * to use the right type for setNull call.
+	 */
 	@Override
 	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
-		switch (paramInfo.type)
+		if (TypesUtils.isNumber (paramInfo.type))
 		{
-			case Types.TINYINT:
-			case Types.SMALLINT:
-			case Types.INTEGER:
-			case Types.BIGINT:
-			case Types.FLOAT:
-			case Types.DECIMAL:
-			{
-				stmt.setNull (columnIndex, paramInfo.type);
-				break;
-			}
-			default:
-			{
-				stmt.setNull (columnIndex, Types.VARCHAR);
-			}
+			stmt.setNull (columnIndex, paramInfo.type);
+		}
+		else
+		{
+			stmt.setNull (columnIndex, Types.VARCHAR);
 		}
 	}
 
@@ -239,7 +242,7 @@ class TeradataHelper extends DefaultHelper
 	public Struct createStruct (ParameterInfo paramInfo, Object[] elements) throws SQLException
 	{
 		/*
-		 * Handle Teradata PERIOD data types here. 
+		 * Handle Teradata PERIOD data types here.
 		 */
 		String typeName = paramInfo.typeName;
 		if (elements.length == 2 &&

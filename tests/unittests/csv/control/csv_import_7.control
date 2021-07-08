@@ -18,7 +18,7 @@ beginning IP Address  varchar(15) No
 ending IP Address     varchar(15) No
 beginning IP Number   float8      No
 ending IP Number      float8      No
-ISO 3166 Country Code bpchar(2)   Yes
+ISO 3166 Country Code char(2)     Yes
 Country Name          varchar(36) No
 -- 0/4 - 0 ----------------------------------------------------------------
 .importtable mytable
@@ -29,7 +29,7 @@ CREATE TABLE mytable
 	"ending IP Address" varchar(15) NOT NULL,
 	"beginning IP Number" float8 NOT NULL,
 	"ending IP Number" float8 NOT NULL,
-	"ISO 3166 Country Code" bpchar(2),
+	"ISO 3166 Country Code" char(2),
 	"Country Name" varchar(36) NOT NULL
 )
 -- success. update count = 0

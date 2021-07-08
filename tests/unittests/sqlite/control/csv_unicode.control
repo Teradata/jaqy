@@ -1,0 +1,115 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- CSV unicode test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_1.csv
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable unicodeTable1
+-- Table Schema --
+CREATE TABLE unicodeTable1
+(
+	甲 INTEGER NOT NULL,
+	乙 TEXT NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO unicodeTable1 VALUES (?,?)
+-- success. update count = 1
+-- 2/4 - 0 ----------------------------------------------------------------
+
+.desc unicodeTable1
+cid name type    notnull dflt_value pk
+--- ---- ------- ------- ---------- --
+  0 甲    INTEGER       1 ?           0
+  1 乙    TEXT          1 ?           0
+-- 2/5 - 0 ----------------------------------------------------------------
+SELECT * FROM unicodeTable1 ORDER BY 1;
+-- success --
+甲 乙
+- -
+1 a
+2 b
+3 c
+-- activity count = 3
+-- 3/5 - 0 ----------------------------------------------------------------
+DROP TABLE unicodeTable1;
+-- success. update count = 1
+-- 4/5 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_2.csv
+-- 4/6 - 0 ----------------------------------------------------------------
+.importtable unicodeTable2
+-- Table Schema --
+CREATE TABLE unicodeTable2
+(
+	a INTEGER NOT NULL,
+	b TEXT NOT NULL
+)
+-- success. update count = 1
+-- INSERTION --
+INSERT INTO unicodeTable2 VALUES (?,?)
+-- success. update count = 1
+-- 6/7 - 0 ----------------------------------------------------------------
+
+.desc unicodeTable2
+cid name type    notnull dflt_value pk
+--- ---- ------- ------- ---------- --
+  0 a    INTEGER       1 ?           0
+  1 b    TEXT          1 ?           0
+-- 6/8 - 0 ----------------------------------------------------------------
+SELECT * FROM unicodeTable2 ORDER BY 1;
+-- success --
+a b
+- -
+1 甲
+2 乙
+3 c
+-- activity count = 3
+-- 7/8 - 0 ----------------------------------------------------------------
+DROP TABLE unicodeTable2;
+-- success. update count = 1
+-- 8/8 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_3.csv
+-- 8/9 - 0 ----------------------------------------------------------------
+.importtable unicodeTable3
+-- Table Schema --
+CREATE TABLE unicodeTable3
+(
+	a INTEGER NOT NULL,
+	b TEXT NOT NULL
+)
+-- success. update count = 1
+-- INSERTION --
+INSERT INTO unicodeTable3 VALUES (?,?)
+-- success. update count = 1
+-- 10/10 - 0 --------------------------------------------------------------
+
+.desc unicodeTable3
+cid name type    notnull dflt_value pk
+--- ---- ------- ------- ---------- --
+  0 a    INTEGER       1 ?           0
+  1 b    TEXT          1 ?           0
+-- 10/11 - 0 --------------------------------------------------------------
+SELECT * FROM unicodeTable3 ORDER BY 1;
+-- success --
+a b
+- --
+1 甲
+2 乙
+3 cd
+-- activity count = 3
+-- 11/11 - 0 --------------------------------------------------------------
+DROP TABLE unicodeTable3;
+-- success. update count = 1
+-- 12/11 - 0 --------------------------------------------------------------
+
+.quit
+-- 12/12 - 0 --------------------------------------------------------------

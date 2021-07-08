@@ -44,13 +44,19 @@ There are severals jars built.
 Testing Environment
 -------------------
 
-For the unit tests, use Vagrant in the jaqy/ directory to start up a testing
-VM.  It has PostgreSQL and MySQL setup, matching the Travis CI environment,
-with the appropriate port forwarding.
+For the unit tests, use `docker-compose <https://docs.docker.com/compose/>`__
+in the jaqy/ directory to start up a testing docker environment.
+
+.. code-block::	bash
+
+	docker-compose up -d
 
 Once the testing environment is set up, just run the following maven command
 to execute the unit tests.
 
 .. code-block::	bash
 
-	mvn clean test
+	# run junit tests then build the package
+	mvn clean package
+	# run standalone CLI tests
+	tests/bin/testall.sh
