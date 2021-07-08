@@ -46,7 +46,7 @@ public class ByteArrayUtilsTest
 		String str = new String (bos.toByteArray (), "UTF-8");
 		String expected = "";
 		expected += "00000000  00 01 02 03 04 05 06 07  08 09 0a 0b 0c 0d 0e 0f  |........ ........|" + nl;
-		expected += "10000000  10 11 12 13 14                                    |.....            |" + nl;
+		expected += "00000010  10 11 12 13 14                                    |.....            |" + nl;
 		Assert.assertEquals (expected, str);
 	}
 }

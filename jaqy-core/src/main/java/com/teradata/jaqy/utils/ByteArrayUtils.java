@@ -72,7 +72,7 @@ public class ByteArrayUtils
 		String str = Long.toHexString (address);
 		if (str.length () < 8)
 		{
-			str += "00000000".substring (str.length ());
+			str = "00000000".substring (str.length ()) + str;
 		}
 		return str;
 	}
