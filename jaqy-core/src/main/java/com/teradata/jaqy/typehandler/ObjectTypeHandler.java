@@ -15,13 +15,10 @@
  */
 package com.teradata.jaqy.typehandler;
 
-import java.sql.Blob;
-import java.sql.Clob;
 import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
-import com.teradata.jaqy.utils.StringUtils;
 
 /**
  * @author	Heng Yuan
@@ -45,29 +42,7 @@ class ObjectTypeHandler implements TypeHandler
 		Object obj = rs.getObject (columnIndex);
 		if (obj == null)
 			return null;
-		String value = null;
-		if (obj instanceof Clob)
-		{
-			Clob clob = (Clob)obj;
-			value = clob.getSubString (1, (int) clob.length ());
-			clob.free ();
-		}
-		else if (obj instanceof byte[])
-		{
-			value = StringUtils.getHexString ((byte[])obj);
-		}
-		else if (obj instanceof Blob)
-		{
-			Blob blob = ((Blob)obj);
-			byte[] bytes = blob.getBytes (1, (int)blob.length ());
-			value = StringUtils.getHexString ((byte[])bytes);
-			blob.free ();
-		}
-		else
-		{
-			value = obj.toString ();
-		}
-		return value;
+		return obj.toString ();
 	}
 
 	@Override
@@ -76,21 +51,6 @@ class ObjectTypeHandler implements TypeHandler
 		Object obj = rs.getObject (column);
 		if (obj == null)
 			return -1;
-		if (obj instanceof Clob)
-		{
-			return (int)((Clob)obj).length ();
-		}
-		else if (obj instanceof byte[])
-		{
-			return ((byte[])obj).length * 2;
-		}
-		else if (obj instanceof Blob)
-		{
-			return (int)((Blob)obj).length () * 2;
-		}
-		else
-		{
-			return obj.toString ().length ();
-		}
+		return obj.toString ().length ();
 	}
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2016 Heng Yuan
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import java.math.BigInteger;
  * Permission to copy this software, to modify it, to redistribute it,
  * to distribute modified versions, and to use it for any purpose is
  * granted, subject to the following restrictions and understandings.
- * 
+ *
  * 1.  Any copy made of this software must include this copyright notice
  * in full.
  *
@@ -167,6 +167,124 @@ public class DoubleUtils
 			{
 				point--;
 				lquo = rq (num.multiply (BigInteger.TEN), den);
+			}
+		}
+		String sman = Long.toString (lquo);
+		int len = sman.length (), lent = len;
+		while (sman.charAt (lent - 1) == '0')
+		{
+			lent--;
+		}
+		int exp = point + len - 1;
+
+		if (exp >= 0 && exp < len)
+		{
+			// length string is longer than exp
+			// so the period is in the middle of sman
+			++exp; // exp is now the period location
+			str.append (sman, 0, exp);
+			if (lent > exp)
+			{
+				str.append ('.');
+				str.append (sman, exp, lent);
+			}
+		}
+		else if (exp < 0 && exp > -5)
+		{
+			str.append ("0.");
+			str.append ("0000".substring (0, -exp - 1));
+			str.append (sman, 0, lent);
+		}
+		else
+		{
+			// scientific notation
+
+			str.append (sman, 0, 1);
+			if (lent > 1)
+			{
+				str.append ('.');
+				str.append (sman, 1, lent);
+			}
+			if (exp != 0)
+			{
+				str.append ('e');
+				str.append (exp);
+			}
+		}
+		return str.toString ();
+	}
+
+	private final static int s_floatDigits = 24;
+
+	private static float float_metd (int lmant, int point)
+	{
+		BigInteger mant = BigInteger.valueOf (lmant);
+		if (point >= 0)
+		{
+			BigInteger num = mant.multiply (bp5 (point));
+			int bex = num.bitLength () - s_floatDigits;
+			if (bex <= 0)
+				return Math.scalb (num.floatValue (), point);
+			int quo = (int)rq (num, BigInteger.ONE.shiftLeft (bex));
+			return Math.scalb (quo, bex + point);
+		}
+		int maxpow = bp5a.length - 1;
+		BigInteger scl = (-point <= maxpow) ? bp5 (-point) : bp5 (maxpow).multiply (bp5 (-point - maxpow));
+		int bex = mant.bitLength () - scl.bitLength () - s_floatDigits;
+		BigInteger num = mant.shiftLeft (-bex);
+		int quo = (int)rq (num, scl);
+		if (32 - Integer.numberOfLeadingZeros (quo) > s_floatDigits)
+		{
+			bex++;
+			quo = (int)rq (num, scl.shiftLeft (1));
+		}
+		return Math.scalb (quo, bex + point);
+	}
+
+	/**
+	 * This function converts a float representation to a string format.
+	 *
+	 * @param	f
+	 *			A float value.
+	 * @return	A string representation of the float value f.
+	 */
+	public static String floatToString (float f)
+	{
+		int lbits = Float.floatToIntBits (f);
+		if (f != f)
+			return "NaN";
+		if (f + f == f)
+			return (f == 0.0) ? "0" : ((f > 0) ? "Infinity" : "-Infinity");
+		StringBuilder str = new StringBuilder (24);
+		if (f < 0)
+		{
+			str.append ('-');
+			// there is a rounding bug for negative values with positive
+			// exp, such as -5e100.  Negate the value to avoid the issue.
+			f = -f;
+		}
+		int ue2 = lbits >>> 23 & 0xff;
+		int e2 = ue2 - 0x7f - 23 + (ue2 == 0 ? 1 : 0);
+		int point = (int) Math.ceil (e2 * llog2);
+		int lquo;
+		int lmant = (lbits & ((1 << 23) - 1)) + (ue2 == 0 ? 0 : 1 << 23);
+		BigInteger mant = BigInteger.valueOf (lmant);
+		if (e2 > 0)
+		{
+			BigInteger num = mant.shiftLeft (e2 - point);
+			lquo = (int)rq (num, bp5 (point));
+			if (float_metd (lquo, point) != f)
+				lquo = (int)rq (num.shiftLeft (1), bp5 (--point));
+		}
+		else
+		{
+			BigInteger num = mant.multiply (bp5 (-point));
+			BigInteger den = BigInteger.ONE.shiftLeft (point - e2);
+			lquo = (int)rq (num, den);
+			if (float_metd (lquo, point) != f)
+			{
+				point--;
+				lquo = (int)rq (num.multiply (BigInteger.TEN), den);
 			}
 		}
 		String sman = Long.toString (lquo);

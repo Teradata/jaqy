@@ -87,15 +87,15 @@ SELECT CAST(-1234567.89 AS FLOAT) AS Test FROM MyTable;
 SELECT CAST(-1234567.89 AS FLOAT(2)) AS Test FROM MyTable;
 -- success --
 TEST
-------------
--1234567.875
+----------
+-1234567.9
 -- activity count = 1
 -- 13/2 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS REAL) AS Test FROM MyTable;
 -- success --
 TEST
-------------
--1234567.875
+----------
+-1234567.9
 -- activity count = 1
 -- 14/2 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DOUBLE PRECISION) AS Test FROM MyTable;
