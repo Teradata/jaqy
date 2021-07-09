@@ -1,0 +1,118 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- CSV unicode test
+--------------------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
+-- 0/2 - 0 ----------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_1.csv
+-- 1/3 - 0 ----------------------------------------------------------------
+.importtable unicodeTable1
+-- Table Schema --
+CREATE TABLE unicodeTable1
+(
+	`甲` INTEGER NOT NULL,
+	`乙` CHAR(1) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO unicodeTable1 VALUES (?,?)
+-- success. update count = 1
+-- 3/4 - 0 ----------------------------------------------------------------
+
+.desc unicodeTable1
+Field Type    Null Key Default Extra
+----- ------- ---- --- ------- -----
+甲     int(11) NO       ?       
+乙     char(1) NO       ?       
+-- 3/5 - 0 ----------------------------------------------------------------
+SELECT * FROM unicodeTable1 ORDER BY 1;
+-- success --
+甲 乙
+- -
+1 a
+2 b
+3 c
+-- activity count = 3
+-- 4/5 - 0 ----------------------------------------------------------------
+DROP TABLE unicodeTable1;
+-- success. update count = 0
+-- 5/5 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_2.csv
+-- 5/6 - 0 ----------------------------------------------------------------
+.importtable unicodeTable2
+-- Table Schema --
+CREATE TABLE unicodeTable2
+(
+	`a` INTEGER NOT NULL,
+	`b` CHAR(1) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO unicodeTable2 VALUES (?,?)
+-- success. update count = 1
+-- 7/7 - 0 ----------------------------------------------------------------
+
+.desc unicodeTable2
+Field Type    Null Key Default Extra
+----- ------- ---- --- ------- -----
+a     int(11) NO       ?       
+b     char(1) NO       ?       
+-- 7/8 - 0 ----------------------------------------------------------------
+SELECT * FROM unicodeTable2 ORDER BY 1;
+-- success --
+a b
+- -
+1 甲
+2 乙
+3 c
+-- activity count = 3
+-- 8/8 - 0 ----------------------------------------------------------------
+DROP TABLE unicodeTable2;
+-- success. update count = 0
+-- 9/8 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_3.csv
+-- 9/9 - 0 ----------------------------------------------------------------
+.importtable unicodeTable3
+-- Table Schema --
+CREATE TABLE unicodeTable3
+(
+	`a` INTEGER NOT NULL,
+	`b` CHAR(2) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO unicodeTable3 VALUES (?,?)
+-- success. update count = 1
+-- 11/10 - 0 --------------------------------------------------------------
+
+.desc unicodeTable3
+Field Type    Null Key Default Extra
+----- ------- ---- --- ------- -----
+a     int(11) NO       ?       
+b     char(2) NO       ?       
+-- 11/11 - 0 --------------------------------------------------------------
+SELECT * FROM unicodeTable3 ORDER BY 1;
+-- success --
+a b
+- --
+1 甲
+2 乙
+3 cd
+-- activity count = 3
+-- 12/11 - 0 --------------------------------------------------------------
+DROP TABLE unicodeTable3;
+-- success. update count = 0
+-- 13/11 - 0 --------------------------------------------------------------
+
+.quit
+-- 13/12 - 0 --------------------------------------------------------------

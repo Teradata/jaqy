@@ -1,0 +1,101 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- CSV number test
+--------------------------------------------------------------------------
+.run ../common/sqlserver_setup.sql
+-- Running script: ../common/sqlserver_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u sa -p yourStrong(!)Password sqlserver://localhost
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import csv -h ../common/data/number_1.csv
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable numTable1
+-- Table Schema --
+CREATE TABLE numTable1
+(
+	"id" int NOT NULL,
+	"int1" int NOT NULL,
+	"int2" int NOT NULL,
+	"int4" int NOT NULL,
+	"int8" float NOT NULL,
+	"dec" float NOT NULL,
+	"f4" float NOT NULL,
+	"f8" float NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO numTable1 VALUES (?,?,?,?,?,?,?,?)
+-- 2/4 - 0 ----------------------------------------------------------------
+
+.desc numTable1
+Column Type  Nullable
+------ ----- --------
+id     int   No
+int1   int   No
+int2   int   No
+int4   int   No
+int8   float No
+dec    float No
+f4     float No
+f8     float No
+-- 2/5 - 0 ----------------------------------------------------------------
+SELECT * FROM numTable1 ORDER BY 1;
+-- success --
+id int1   int2        int4                  int8  dec       f4        f8
+-- ---- ------ ----------- --------------------- ---- -------- ---------
+ 1    0      0           0                     0    0        0         0
+ 2  127  32767  2147483647  9.223372036854776e18 3.14   3.4e38   3.4e300
+ 3 -128 -32768 -2147483648 -9.223372036854776e16  -12 -3.4e-38 -3.4e-300
+-- activity count = 3
+-- 3/5 - 0 ----------------------------------------------------------------
+DROP TABLE numTable1;
+-- success. update count = 0
+-- 4/5 - 0 ----------------------------------------------------------------
+
+CREATE TABLE numTable1
+(
+    "id"    INTEGER,
+    "int1"  TINYINT,
+    "int2"  SMALLINT,
+    "int4"  INTEGER,
+    "int8"  BIGINT,
+    "dec"   DECIMAL(5,2),
+    "f4"    REAL,
+    "f8"    FLOAT
+);
+-- success. update count = 0
+-- 5/5 - 0 ----------------------------------------------------------------
+.import csv -h ../common/data/number_1.csv
+-- 5/6 - 0 ----------------------------------------------------------------
+INSERT INTO numTable1 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+-- 6/6 - 0 ----------------------------------------------------------------
+
+.desc numTable1
+Column Type         Nullable
+------ ------------ --------
+id     int          Yes
+int1   tinyint      Yes
+int2   smallint     Yes
+int4   int          Yes
+int8   bigint       Yes
+dec    decimal(5,2) Yes
+f4     real         Yes
+f8     float        Yes
+-- 6/7 - 0 ----------------------------------------------------------------
+SELECT * FROM numTable1 ORDER BY 1;
+-- success --
+id int1   int2        int4                int8    dec f4                             f8
+-- ---- ------ ----------- ------------------- ------ ----------------------- ---------
+ 1    0      0           0                   0   0.00 0                               0
+ 2  127  32767  2147483647 9223372036854775807   3.14 3.3999999521443642e38     3.4e300
+ 3  128 -32768 -2147483648  -92233720368547758 -12.00 -3.3999998912590545e-38 -3.4e-300
+-- activity count = 3
+-- 7/7 - 0 ----------------------------------------------------------------
+DROP TABLE numTable1;
+-- success. update count = 0
+-- 8/7 - 0 ----------------------------------------------------------------
+
+.quit
+-- 8/8 - 0 ----------------------------------------------------------------

@@ -178,30 +178,49 @@ public class CSVImporter implements JaqyImporter
 		}
 	}
 
+	private int getIndex (int index)
+	{
+		return m_exps == null ? index : m_exps[index];
+	}
+
 	@Override
 	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
 	{
-		Object obj = getObject (column - 1, paramInfo, interpreter);
-		JaqyHelper helper = stmt.getHelper();
+		JaqyHelper 		helper = stmt.getHelper();
+		int 			index = getIndex (column - 1);
+		CSVImportInfo 	importInfo = m_importInfoMap.get (index);
+
+		Object obj = getObject (index, importInfo, paramInfo, interpreter);
+
 		if (obj == null)
 		{
-			helper.setCSVNull (stmt, column, paramInfo, interpreter);
+			if (importInfo == null)
+			{
+				helper.setCSVNull (stmt, column, paramInfo, interpreter);
+			}
+			else
+			{
+				helper.setNull (stmt, column, paramInfo, interpreter);
+			}
 		}
 		else
 		{
-			helper.setCSVObject (stmt, column, paramInfo, obj, freeList, interpreter);
+			if (importInfo == null)
+			{
+				helper.setCSVObject (stmt, column, paramInfo, obj, freeList, interpreter);
+			}
+			else
+			{
+				helper.setObject (stmt, column, paramInfo, obj, freeList, interpreter);
+			}
 		}
 		return obj;
 	}
 
-	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+	private Object getObject (int index, CSVImportInfo importInfo, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		try
 		{
-			if (m_exps != null)
-			{
-				index = m_exps[index];
-			}
 			String value = m_record.get (index);
 			if (m_naFilter)
 			{
@@ -209,7 +228,6 @@ public class CSVImporter implements JaqyImporter
 					if (value.equals (f))
 						return null;
 			}
-			CSVImportInfo importInfo = m_importInfoMap.get (index);
 			if (importInfo != null)
 			{
 				if (value.length () == 0)

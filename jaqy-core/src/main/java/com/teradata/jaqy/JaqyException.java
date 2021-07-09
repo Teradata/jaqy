@@ -31,4 +31,9 @@ public class JaqyException extends RuntimeException
 	{
 		super (ex.getMessage (), ex);
 	}
+
+	public JaqyException (String msg, Exception ex)
+	{
+		super (msg, ex);
+	}
 }

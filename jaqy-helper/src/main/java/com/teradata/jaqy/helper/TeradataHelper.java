@@ -15,16 +15,13 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.math.BigDecimal;
 import java.sql.*;
-import java.util.Collection;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JaqyDefaultResultSet;
-import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.resultset.CachedClob;
@@ -83,69 +80,6 @@ class TeradataHelper extends DefaultHelper
 	public TeradataHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
 	{
 		super (features, conn, globals);
-	}
-
-	/**
-	 * For numbers, we want to convert them to the appropriate data type
-	 * to avoid the hassle that sometimes Teradata JDBC driver error out
-	 * on type conversion.
-	 */
-	@Override
-	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
-	{
-		switch (paramInfo.type)
-		{
-			case Types.TINYINT:
-			case Types.SMALLINT:
-			case Types.INTEGER:
-			{
-				BigDecimal dec = new BigDecimal (o.toString ());
-				setObject (stmt, columnIndex, paramInfo, dec.intValue (), freeList, interpreter);
-				break;
-			}
-			case Types.BIGINT:
-			{
-				BigDecimal dec = new BigDecimal (o.toString ());
-				setObject (stmt, columnIndex, paramInfo, dec.longValue (), freeList, interpreter);
-				break;
-			}
-			case Types.REAL:
-			case Types.FLOAT:
-			case Types.DOUBLE:
-			{
-				BigDecimal dec = new BigDecimal (o.toString ());
-				setObject (stmt, columnIndex, paramInfo, dec.doubleValue (), freeList, interpreter);
-				break;
-			}
-			case Types.DECIMAL:
-			case Types.NUMERIC:
-			{
-				BigDecimal dec = new BigDecimal (o.toString ());
-				setObject (stmt, columnIndex, paramInfo, dec, freeList, interpreter);
-				break;
-			}
-			default:
-			{
-				stmt.setString (columnIndex, o.toString ());
-			}
-		}
-	}
-
-	/**
-	 * Because we change the number types handling in setCSVObject, we need
-	 * to use the right type for setNull call.
-	 */
-	@Override
-	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
-	{
-		if (TypesUtils.isNumber (paramInfo.type))
-		{
-			stmt.setNull (columnIndex, paramInfo.type);
-		}
-		else
-		{
-			stmt.setNull (columnIndex, Types.VARCHAR);
-		}
 	}
 
 	@Override

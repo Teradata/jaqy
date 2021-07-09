@@ -188,7 +188,7 @@ Parameter Count                              2
     Nullable                                     1
     Signed                                       Y
     Mode                                         IN
--- failure 20000: [22018] Invalid character string format for type INTEGER.
+-- error: Invalid number format: a
 -- 13/11 - 0 --------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;

@@ -17,6 +17,7 @@ package com.teradata.jaqy.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.sql.*;
 import java.text.MessageFormat;
@@ -24,6 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.teradata.jaqy.Globals;
+import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.*;
@@ -33,10 +35,7 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
-import com.teradata.jaqy.utils.ExceptionUtils;
-import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
-import com.teradata.jaqy.utils.ResultSetUtils;
-import com.teradata.jaqy.utils.SimpleQuery;
+import com.teradata.jaqy.utils.*;
 
 /**
  * @author	Heng Yuan
@@ -626,12 +625,6 @@ public class DefaultHelper implements JaqyHelper
 	}
 
 	@Override
-	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
-	{
-		setNull (stmt, columnIndex, paramInfo, interpreter);
-	}
-
-	@Override
 	public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
 	{
 		switch (paramInfo.type)
@@ -787,10 +780,92 @@ public class DefaultHelper implements JaqyHelper
 		stmt.setObject (columnIndex, o);
 	}
 
+	/**
+	 * For numbers, we want to convert them to the appropriate data type
+	 * to avoid the hassle that sometimes some JDBC driver error out
+	 * on type conversion in edge cases.
+	 */
 	@Override
 	public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
 	{
-		setObject (stmt, columnIndex, paramInfo, o, freeList, interpreter);
+		try
+		{
+			if (o instanceof String)
+			{
+				switch (paramInfo.type)
+				{
+					case Types.TINYINT:
+					{
+						BigDecimal dec = new BigDecimal (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, dec.byteValue (), freeList, interpreter);
+						break;
+					}
+					case Types.SMALLINT:
+					{
+						BigDecimal dec = new BigDecimal (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, dec.shortValue (), freeList, interpreter);
+						break;
+					}
+					case Types.INTEGER:
+					{
+						BigDecimal dec = new BigDecimal (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, dec.intValue (), freeList, interpreter);
+						break;
+					}
+					case Types.BIGINT:
+					{
+						BigDecimal dec = new BigDecimal (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, dec.longValueExact (), freeList, interpreter);
+						break;
+					}
+					case Types.REAL:
+					case Types.FLOAT:
+					case Types.DOUBLE:
+					{
+						BigDecimal dec = new BigDecimal (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, dec.doubleValue (), freeList, interpreter);
+						break;
+					}
+					case Types.DECIMAL:
+					case Types.NUMERIC:
+					{
+						BigDecimal dec = new BigDecimal (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, dec, freeList, interpreter);
+						break;
+					}
+					default:
+					{
+						stmt.setString (columnIndex, o.toString ());
+					}
+				}
+			}
+			else
+			{
+				setObject (stmt, columnIndex, paramInfo, o, freeList, interpreter);
+			}
+		}
+		catch (NumberFormatException ex)
+		{
+			throw new JaqyException ("Invalid number format: " + o, ex);
+		}
+	}
+
+	/**
+	 * Because we change the number types handling in setCSVObject, we need
+	 * to use the right type for setNull call.
+	 */
+	@Override
+	public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+	{
+		if (TypesUtils.isNumber (paramInfo.type) ||
+			TypesUtils.isBinary (paramInfo.type))
+		{
+			stmt.setNull (columnIndex, paramInfo.type);
+		}
+		else
+		{
+			stmt.setNull (columnIndex, Types.VARCHAR);
+		}
 	}
 
 	@Override

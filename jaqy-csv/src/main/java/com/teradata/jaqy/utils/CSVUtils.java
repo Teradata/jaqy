@@ -16,8 +16,6 @@
 package com.teradata.jaqy.utils;
 
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
 import java.sql.ResultSetMetaData;
 import java.sql.Types;
 import java.util.Iterator;
@@ -35,8 +33,6 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class CSVUtils
 {
-	private final static CharsetEncoder s_asciiEncoder = Charset.forName ("US-ASCII").newEncoder ();
-
 	public final static int AUTO_STOP_MINIMUM = 1000;
 
 	public static class ScanColumnType
@@ -88,11 +84,6 @@ public class CSVUtils
 		else if ("tdf".equals (format))
 			return CSVFormat.TDF;
 		throw new IllegalArgumentException ("unknown csv format: " + format);
-	}
-
-	private static boolean isAscii (String str)
-	{
-		return s_asciiEncoder.canEncode (str);
 	}
 
 	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues, boolean precise, long limit)
@@ -198,10 +189,7 @@ public class CSVUtils
 						}
 						catch (Exception ex)
 						{
-							if (columns[i].ascii)
-							{
-								columns[i].ascii = isAscii (s);
-							}
+							columns[i].ascii = StringUtils.isAscii (s);
 							if (columns[i].minLength == columns[i].maxLength)
 							{
 								// Check if we are in a fixed char column.
@@ -221,7 +209,7 @@ public class CSVUtils
 					{
 						if (columns[i].ascii)
 						{
-							columns[i].ascii = isAscii (s);
+							columns[i].ascii = StringUtils.isAscii (s);
 						}
 						if (columns[i].minLength == columns[i].maxLength)
 						{

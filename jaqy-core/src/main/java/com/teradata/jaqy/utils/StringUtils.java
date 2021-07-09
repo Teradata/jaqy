@@ -292,4 +292,15 @@ public class StringUtils
 			interpreter.error ("error parsing argument.");
 		return args;
 	}
+
+	public static boolean isAscii (String str)
+	{
+		char[] chars = str.toCharArray ();
+		for (int i = 0; i < chars.length; ++i)
+		{
+			if (chars[i] > 127)
+				return false;
+		}
+		return true;
+	}
 }
