@@ -73,7 +73,6 @@ class CommandSetup
 		manager.addObject ("config", new ConfigCommand ());
 		manager.addObject ("handler", new HandlerCommand ());
 		manager.addObject ("timer", new TimerCommand ());
-		manager.addObject ("typemap", new TypeMapCommand ());
 
 		// I/O
 		manager.addObject ("format", new FormatCommand ());

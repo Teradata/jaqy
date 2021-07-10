@@ -25,7 +25,9 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyDefaultResultSet;
 import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.schema.TypeMap;
 import com.teradata.jaqy.utils.DatabaseMetaDataUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 
@@ -65,7 +67,7 @@ public class InfoCommand extends JaqyCommandAdapter
 		}
 
 		SessionUtils.checkOpen (interpreter);
-			
+
 		String type = args[0].toLowerCase ();
 		Session session = interpreter.getSession ();
 		JaqyConnection conn = session.getConnection ();
@@ -86,6 +88,8 @@ public class InfoCommand extends JaqyCommandAdapter
 		else if ("function".equals (type) ||
 				 "functions".equals (type))
 			listFunctions (interpreter, metaData, helper);
+		else if ("importmap".equals (type))
+			listImportTypeMap (interpreter, helper);
 		else if ("keyword".equals (type) ||
 				 "keywords".equals (type))
 			listKeywords (interpreter, metaData, helper);
@@ -99,6 +103,8 @@ public class InfoCommand extends JaqyCommandAdapter
 			listServer (interpreter, metaData, helper);
 		else if ("table".equals (type))
 			listTableTypes (interpreter, metaData, helper);
+		else if ("typemap".equals (type))
+			listTypeMap (interpreter, helper);
 		else if ("type".equals (type) ||
 				 "types".equals (type))
 			listTypes (interpreter, metaData, helper);
@@ -176,20 +182,20 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "NULLs are sorted at start", getYesNo (metaData.nullsAreSortedAtStart ()) });
 			pt.addRow (new String[]{ "NULLs are sorted at end", getYesNo (metaData.nullsAreSortedAtEnd ()) });
 			pt.addRow (new String[]{ "NULL + non-null is NULL", getYesNo (metaData.nullPlusNonNullIsNull ()) });
-	
+
 			pt.addRow (new String[]{ "Use local files", getYesNo (metaData.usesLocalFiles ()) });
 			pt.addRow (new String[]{ "Use local file per table", getYesNo (metaData.usesLocalFilePerTable ()) });
-	
+
 			pt.addRow (new String[]{ "Identifier quote string", metaData.getIdentifierQuoteString () });
 			pt.addRow (new String[]{ "Search string escape", metaData.getSearchStringEscape () });
 			pt.addRow (new String[]{ "Extra name characters", metaData.getExtraNameCharacters () });
-	
+
 			pt.addRow (new String[]{ "Is catalog at start", getYesNo (metaData.isCatalogAtStart ()) });
 			pt.addRow (new String[]{ "Catalog separator", metaData.getCatalogSeparator () });
 
 			pt.addRow (new String[]{ "Default Transaction Isolation", DatabaseMetaDataUtils.getIsolationLevel (metaData.getDefaultTransactionIsolation ()) });
 			pt.addRow (new String[]{ "ResultSet holdability", DatabaseMetaDataUtils.getHoldability (metaData.getResultSetHoldability ()) });
-	
+
 			pt.addRow (new String[]{ "LOB update on copy", getYesNo (metaData.locatorsUpdateCopy ()) });
 			pt.addRow (new String[]{ "Row ID lifetime", metaData.getRowIdLifetime ().toString () });
 			pt.addRow (new String[]{ "Auto-commit failure closes all ResultSets", getYesNo (metaData.autoCommitFailureClosesAllResultSets ()) });
@@ -212,38 +218,38 @@ public class InfoCommand extends JaqyCommandAdapter
 
 			pt.addRow (new String[]{ "ALT TABLE ADD column", getYesNo (metaData.supportsAlterTableWithAddColumn ()) });
 			pt.addRow (new String[]{ "ALT TABLE DROP column", getYesNo (metaData.supportsAlterTableWithDropColumn ()) });
-	
+
 			pt.addRow (new String[]{ "Column aliasing", getYesNo (metaData.supportsColumnAliasing ()) });
 			pt.addRow (new String[]{ "CONVERT", getYesNo (metaData.supportsConvert ()) });
 			pt.addRow (new String[]{ "Table correlation names", getYesNo (metaData.supportsTableCorrelationNames ()) });
 			pt.addRow (new String[]{ "Different table correlation names", getYesNo (metaData.supportsDifferentTableCorrelationNames ()) });
-	
+
 			pt.addRow (new String[]{ "Expression in ORDER BY", getYesNo (metaData.supportsExpressionsInOrderBy ()) });
 			pt.addRow (new String[]{ "ORDER BY unrelated", getYesNo (metaData.supportsOrderByUnrelated ()) });
-			
+
 			pt.addRow (new String[]{ "GROUP BY", getYesNo (metaData.supportsGroupBy ()) });
 			pt.addRow (new String[]{ "GROUP BY unrelated", getYesNo (metaData.supportsGroupByUnrelated ()) });
 			pt.addRow (new String[]{ "GROUP BY beyond select", getYesNo (metaData.supportsGroupByBeyondSelect ()) });
-	
+
 			pt.addRow (new String[]{ "LIKE escape clause", getYesNo (metaData.supportsLikeEscapeClause ()) });
-	
+
 			pt.addRow (new String[]{ "Multiple result set", getYesNo (metaData.supportsMultipleResultSets ()) });
 			pt.addRow (new String[]{ "Multple transactions", getYesNo (metaData.supportsMultipleTransactions ()) });
 			pt.addRow (new String[]{ "Non-nullable columns", getYesNo (metaData.supportsNonNullableColumns ()) });
-	
+
 			pt.addRow (new String[]{ "Minimum SQL grammar", getYesNo (metaData.supportsMinimumSQLGrammar ()) });
 			pt.addRow (new String[]{ "Core SQL grammar", getYesNo (metaData.supportsCoreSQLGrammar ()) });
 			pt.addRow (new String[]{ "Extended SQL grammar", getYesNo (metaData.supportsExtendedSQLGrammar ()) });
-	
+
 			pt.addRow (new String[]{ "SQL92 entry", getYesNo (metaData.supportsANSI92EntryLevelSQL ()) });
 			pt.addRow (new String[]{ "SQL92 intermediate", getYesNo (metaData.supportsANSI92IntermediateSQL ()) });
 			pt.addRow (new String[]{ "SQL92 full", getYesNo (metaData.supportsANSI92FullSQL ()) });
-	
+
 			pt.addRow (new String[]{ "Integrity Enhancement Facility", getYesNo (metaData.supportsIntegrityEnhancementFacility ()) });
 			pt.addRow (new String[]{ "OUTER JOIN", getYesNo (metaData.supportsOuterJoins ()) });
 			pt.addRow (new String[]{ "Full OUTER JOIN", getYesNo (metaData.supportsFullOuterJoins ()) });
 			pt.addRow (new String[]{ "Limited OUTER JOIN", getYesNo (metaData.supportsLimitedOuterJoins ()) });
-	
+
 			pt.addRow (new String[]{ "Schemas in DML", getYesNo (metaData.supportsSchemasInDataManipulation ()) });
 			pt.addRow (new String[]{ "Schemas in procedure calls", getYesNo (metaData.supportsSchemasInProcedureCalls ()) });
 			pt.addRow (new String[]{ "Schemas in table DDL", getYesNo (metaData.supportsSchemasInTableDefinitions ()) });
@@ -269,23 +275,23 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "Open cursor across rollbacks", getYesNo (metaData.supportsOpenCursorsAcrossRollback ()) });
 			pt.addRow (new String[]{ "Open statement across commits", getYesNo (metaData.supportsOpenStatementsAcrossCommit ()) });
 			pt.addRow (new String[]{ "Open statement across rollbacks", getYesNo (metaData.supportsOpenStatementsAcrossRollback ()) });
-	
+
 			pt.addRow (new String[]{ "Transactions", getYesNo (metaData.supportsTransactions ()) });
 			pt.addRow (new String[]{ "DDL and DML in one transaction", getYesNo (metaData.supportsDataDefinitionAndDataManipulationTransactions ()) });
 			pt.addRow (new String[]{ "Only DML in one transaction", getYesNo (metaData.supportsDataManipulationTransactionsOnly ()) });
 			pt.addRow (new String[]{ "DDL causes transaction commit", getYesNo (metaData.dataDefinitionCausesTransactionCommit ()) });
 			pt.addRow (new String[]{ "DDL ignored in transactions", getYesNo (metaData.dataDefinitionIgnoredInTransactions ()) });
-	
+
 			pt.addRow (new String[]{ "Batch updates", getYesNo (metaData.supportsBatchUpdates ()) });
 			pt.addRow (new String[]{ "Save points", getYesNo (metaData.supportsSavepoints ()) });
 			pt.addRow (new String[]{ "Named parameters", getYesNo (metaData.supportsNamedParameters ()) });
 			pt.addRow (new String[]{ "Multiple open results", getYesNo (metaData.supportsMultipleOpenResults ()) });
 			pt.addRow (new String[]{ "Get auto-generated keys", getYesNo (metaData.supportsGetGeneratedKeys ()) });
-	
+
 			pt.addRow (new String[]{ "Statement pooling", getYesNo (metaData.supportsStatementPooling ()) });
-	
+
 			pt.addRow (new String[]{ "SQL Function", getYesNo (metaData.supportsStoredFunctionsUsingCallSyntax ()) });
-	
+
 			pt.addRow (new String[]{ "REF CURSOR", getYesNo (metaData.supportsRefCursors ()) });
 
 			pt.addRow (new String[]{ "Supports Mixed Case Identifiers", getYesNo (metaData.supportsMixedCaseIdentifiers ()) });
@@ -484,6 +490,22 @@ public class InfoCommand extends JaqyCommandAdapter
 			{
 			}
 		}
+	}
+
+	private void listTypeMap (JaqyInterpreter interpreter, JaqyHelper helper) throws SQLException
+	{
+		TypeMap typeMap = helper.getTypeMap (false);
+		JaqyDefaultResultSet rs = TypeMap.getTypeMapTable (typeMap);
+		interpreter.print (rs);
+		rs.close ();
+	}
+
+	private void listImportTypeMap (JaqyInterpreter interpreter, JaqyHelper helper) throws SQLException
+	{
+		TypeMap typeMap = helper.getTypeMap (true);
+		JaqyDefaultResultSet rs = TypeMap.getTypeMapTable (typeMap);
+		interpreter.print (rs);
+		rs.close ();
 	}
 
 	private static String getNumberString (int value)

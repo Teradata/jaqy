@@ -11,12 +11,14 @@ type:
   client     client info properties
   feature    database features
   function   database functions
+  importmap  jdbc type to sql type map for import
   keyword    SQL keywords
   limit      database limits
   schema     database schemas
   server     database server
   table      database table types
   type       database type info
+  typemap    jdbc type to sql type map
   user       logon user
 
 -- 0/1 - 0 ----------------------------------------------------------------
@@ -395,6 +397,76 @@ NULL,0,0,,,,1,1,3,0,0,0,,0,0,0,0,10
 REAL,7,0,,,,1,1,3,0,0,0,,0,0,0,0,10
 TEXT,12,0,,,,1,1,3,0,0,0,,0,0,0,0,10
 -- 0/33 - 0 ---------------------------------------------------------------
-.close
+.info typemap
+JDBC Type,SQL Type,Max Precision
+BIT,,
+BOOLEAN,,
+TINYINT,,
+SMALLINT,,
+INTEGER,INTEGER,
+BIGINT,,
+REAL,REAL,
+FLOAT,,
+DOUBLE,,
+DECIMAL,,
+NUMERIC,,
+BINARY,,
+VARBINARY,,
+LONGVARBINARY,,
+BLOB,BLOB,
+CHAR,,
+VARCHAR,TEXT,
+LONGVARCHAR,,
+CLOB,,
+NCHAR,,
+NVARCHAR,,
+LONGNVARCHAR,,
+NCLOB,,
+DATE,,
+TIME,,
+TIME_WITH_TIMEZONE,,
+TIMESTAMP,,
+TIMESTAMP_WITH_TIMEZONE,,
+DATALINK,,
+NULL,NULL,
+ROWID,,
+SQLXML,,
 -- 0/34 - 0 ---------------------------------------------------------------
+.info importmap
+JDBC Type,SQL Type,Max Precision
+BIT,,
+BOOLEAN,,
+TINYINT,,
+SMALLINT,,
+INTEGER,INTEGER,
+BIGINT,,
+REAL,REAL,
+FLOAT,,
+DOUBLE,,
+DECIMAL,,
+NUMERIC,,
+BINARY,,
+VARBINARY,,
+LONGVARBINARY,,
+BLOB,BLOB,
+CHAR,,
+VARCHAR,TEXT,
+LONGVARCHAR,,
+CLOB,,
+NCHAR,,
+NVARCHAR,,
+LONGNVARCHAR,,
+NCLOB,,
+DATE,,
+TIME,,
+TIME_WITH_TIMEZONE,,
+TIMESTAMP,,
+TIMESTAMP_WITH_TIMEZONE,,
+DATALINK,,
+NULL,NULL,
+ROWID,,
+SQLXML,,
+-- 0/35 - 0 ---------------------------------------------------------------
+.close
+-- 0/36 - 0 ---------------------------------------------------------------
 

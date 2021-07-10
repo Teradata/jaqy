@@ -1124,7 +1124,7 @@ ResultSet Column Count                       3
   Index                                        2
     Name                                         C2
     Label                                        C2
-    Type                                         Type 2005
+    Type                                         CLOB
     SQL Type                                     CLOB
     Java Class                                   java.sql.Clob
     Catalog                                      
@@ -1198,7 +1198,7 @@ ResultSet Column Count                       3
   Index                                        2
     Name                                         C2
     Label                                        C2
-    Type                                         Type 2005
+    Type                                         CLOB
     SQL Type                                     CLOB
     Java Class                                   java.sql.Clob
     Catalog                                      

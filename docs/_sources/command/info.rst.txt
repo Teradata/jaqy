@@ -15,12 +15,14 @@ Syntax
 	  client     client info properties
 	  feature    database features
 	  function   database functions
+	  importmap  jdbc type to sql type map for import
 	  keyword    SQL keywords
 	  limit      database limits
 	  schema     database schemas
 	  server     database server
 	  table      database table types
 	  type       database type info
+	  typemap    jdbc type to sql type map
 	  user       logon user
 
 Example

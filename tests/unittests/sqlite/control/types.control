@@ -18,7 +18,7 @@ ResultSet Column Count                       1
   Index                                        1
     Name                                         Test
     Label                                        Test
-    Type                                         Type 0
+    Type                                         NULL
     SQL Type                                     NULL
     Java Class                                   java.lang.Object
     Catalog                                      

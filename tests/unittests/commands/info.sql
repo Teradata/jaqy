@@ -35,5 +35,7 @@
 .info server
 .info type
 .info types
+.info typemap
+.info importmap
 .close
 
