@@ -1,0 +1,54 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import csv command test
+--------------------------------------------------------------------------
+.run ../common/sqlserver_setup.sql
+-- Running script: ../common/sqlserver_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u sa -p yourStrong(!)Password sqlserver://localhost
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import csv -h lib/import6.csv
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable myTable
+-- Table Schema --
+CREATE TABLE myTable
+(
+	"a" char(2) NOT NULL,
+	"b" int NOT NULL,
+	"c" char(2) NOT NULL,
+	"d" varchar(2) NOT NULL,
+	"e" varchar(2) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO myTable VALUES (?,?,?,?,?)
+-- 2/4 - 0 ----------------------------------------------------------------
+
+.desc myTable
+Column Type       Nullable
+------ ---------- --------
+a      char(2)    No
+b      int        No
+c      char(2)    No
+d      varchar(2) No
+e      varchar(2) No
+-- 2/5 - 0 ----------------------------------------------------------------
+
+SELECT * FROM myTable ORDER BY 1;
+-- success --
+a  b c  d  e
+-- - -- -- --
+aa 1 11 11 aa
+bb 2 22 2  bb
+cc 3 33 33 cc
+dd 3 ee ee d
+-- activity count = 4
+-- 3/5 - 0 ----------------------------------------------------------------
+DROP TABLE myTable;
+-- success. update count = 0
+-- 4/5 - 0 ----------------------------------------------------------------
+
+.quit
+-- 4/6 - 0 ----------------------------------------------------------------
