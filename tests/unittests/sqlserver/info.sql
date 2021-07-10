@@ -12,6 +12,8 @@
 .info schema
 .info server
 .info table
+.info typemap
+.info importmap
 .format csv
 .info type
 .format table

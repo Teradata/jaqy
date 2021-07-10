@@ -16,7 +16,7 @@
 		"stream" : false
 	},
 	"typeMap": [
-		{ "name" : "TEXT", "type" : "VARCHAR", "maxPrecision" : 65535 }
+		{ "type" : "VARCHAR", "name" : "TEXT", "maxPrecision" : 65535 }
 	],
 	"catalogSQL": {
 		"sql" : "SELECT DATABASE()",
@@ -34,20 +34,20 @@
 {
 	"protocol":	"postgresql",
 	"typeMap": [
-		{ "name" : "char({0,number,#})", "type" : "CHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "CLOB", "maxPrecision" : 2147483648 },
-		{ "name" : "char({0,number,#})", "type" : "NCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : "NVARCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "NCLOB", "maxPrecision" : 2147483648 }
+		{ "type" : "CHAR", "name" : "char({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "VARCHAR", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "CLOB", "name" : "text", "maxPrecision" : 2147483648 },
+		{ "type" : "NCHAR", "name" : "char({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "NVARCHAR", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "NCLOB", "name" : "text" }
 	],
 	"importTypeMap": [
-		{ "name" : "text", "type" : "CHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "CLOB", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "NCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "NVARCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "text", "type" : "NCLOB", "maxPrecision" : 2147483648 }
+		{ "type" : "CHAR", "name" : "text" },
+		{ "type" : "VARCHAR", "name" : "text" },
+		{ "type" : "CLOB", "name" : "text" },
+		{ "type" : "NCHAR", "name" : "text" },
+		{ "type" : "NVARCHAR", "name" : "text" },
+		{ "type" : "NCLOB", "name" : "text" }
 	]
 },
 {
@@ -67,9 +67,9 @@
 {
 	"protocol":	"derby",
 	"typeMap": [
-		{ "name" : "CHAR ({0,number,#}) FOR BIT DATA", "type" : "BINARY", "maxPrecision" : 254 },
-		{ "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "type" : "VARBINARY", "maxPrecision" : 32672 },
-		{ "name" : "LONG VARCHAR FOR BIT DATA", "type" : "LONGVARBINARY", "maxPrecision" : 32700 }
+		{ "type" : "BINARY", "name" : "CHAR ({0,number,#}) FOR BIT DATA", "maxPrecision" : 254 },
+		{ "type" : "VARBINARY", "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "maxPrecision" : 32672 },
+		{ "type" : "LONGVARBINARY", "name" : "LONG VARCHAR FOR BIT DATA", "maxPrecision" : 32700 }
 	]
 },
 {
@@ -79,28 +79,31 @@
 		"field" : 1
 	},
 	"typeMap": [
-		{ "name" : "bit", "type" : "BOOLEAN" },
-		{ "name" : "char({0,number,#})", "type" : "CHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : "LONGVARCHAR", "maxPrecision" : 2147483648 },
-		{ "name" : "varchar({0,number,#})", "type" : "CLOB", "maxPrecision" : 2147483648 },
-		{ "name" : "nchar({0,number,#})", "type" : "NCHAR", "maxPrecision" : 1073741824 },
-		{ "name" : "nvarchar({0,number,#})", "type" : "NVARCHAR", "maxPrecision" : 1073741824 },
-		{ "name" : "nvarchar({0,number,#})", "type" : "LONGNVARCHAR", "maxPrecision" : 1073741824 },
-		{ "name" : "nvarchar({0,number,#})", "type" : "NCLOB", "maxPrecision" : 1073741824 }
+		{ "type" : "BOOLEAN", "name" : "bit" },
+		{ "type" : "BINARY", "name" : "binary({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "VARBINARY", "name" : "varbinary({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "LONGVARBINARY", "name" : "varbinary({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "CHAR", "name" : "char({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "VARCHAR", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "LONGVARCHAR", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "CLOB", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
+		{ "type" : "NCHAR", "name" : "nchar({0,number,#})", "maxPrecision" : 1073741824 },
+		{ "type" : "NVARCHAR", "name" : "nvarchar({0,number,#})", "maxPrecision" : 1073741824 },
+		{ "type" : "LONGNVARCHAR", "name" : "nvarchar({0,number,#})", "maxPrecision" : 1073741824 },
+		{ "type" : "NCLOB", "name" : "nvarchar({0,number,#})", "maxPrecision" : 1073741824 }
 	]
 },
 {
 	"protocol":	"teradata",
 	"typeMap": [
-		{ "name" : "CHAR({0,number,#}) CHARACTER SET LATIN", "type" : "CHAR", "maxPrecision" : 64000 },
-		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "type" : "VARCHAR", "maxPrecision" : 64000 },
-		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "type" : "LONGVARCHAR", "maxPrecision" : 64000 },
-		{ "name" : "CLOB({0,number,#}) CHARACTER SET LATIN", "type" : "CLOB", "maxPrecision" : 2097088000 },
-		{ "name" : "CHAR({0,number,#}) CHARACTER SET UNICODE", "type" : "NCHAR", "maxPrecision" : 32000 },
-		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "type" : "NVARCHAR", "maxPrecision" : 32000 },
-		{ "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "type" : "LONGNVARCHAR", "maxPrecision" : 32000 },
-		{ "name" : "CLOB({0,number,#}) CHARACTER SET UNICODE", "type" : "NCLOB", "maxPrecision" : 1048544000 }
+		{ "type" : "CHAR", "name" : "CHAR({0,number,#}) CHARACTER SET LATIN", "maxPrecision" : 64000 },
+		{ "type" : "VARCHAR", "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "maxPrecision" : 64000 },
+		{ "type" : "LONGVARCHAR", "name" : "VARCHAR({0,number,#}) CHARACTER SET LATIN", "maxPrecision" : 64000 },
+		{ "type" : "CLOB", "name" : "CLOB({0,number,#}) CHARACTER SET LATIN", "maxPrecision" : 2097088000 },
+		{ "type" : "NCHAR", "name" : "CHAR({0,number,#}) CHARACTER SET UNICODE", "maxPrecision" : 32000 },
+		{ "type" : "NVARCHAR", "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "maxPrecision" : 32000 },
+		{ "type" : "LONGNVARCHAR", "name" : "VARCHAR({0,number,#}) CHARACTER SET UNICODE", "maxPrecision" : 32000 },
+		{ "type" : "NCLOB", "name" : "CLOB({0,number,#}) CHARACTER SET UNICODE", "maxPrecision" : 1048544000 }
 	],
 	"features": {
 		"catalog" : false
