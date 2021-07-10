@@ -17,9 +17,10 @@ package com.teradata.jaqy.typehandler;
 
 import java.sql.SQLException;
 
+import org.yuanheng.double2string.Double2String;
+
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
-import com.teradata.jaqy.utils.DoubleUtils;
 
 /**
  * @author	Heng Yuan
@@ -41,11 +42,11 @@ class DoubleTypeHandler implements TypeHandler
 	{
 		if (obj instanceof Double)
 		{
-			return DoubleUtils.toString ((Double)obj);
+			return Double2String.getDoubleString ((Double)obj);
 		}
 		else if (obj instanceof Float)
 		{
-			return DoubleUtils.floatToString ((Float)obj);
+			return Double2String.getFloatString ((Float)obj);
 		}
 		return obj.toString ();
 	}
