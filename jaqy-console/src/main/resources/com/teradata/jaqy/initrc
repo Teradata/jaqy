@@ -79,6 +79,7 @@
 		"field" : 1
 	},
 	"typeMap": [
+		{ "name" : "bit", "type" : "BOOLEAN" },
 		{ "name" : "char({0,number,#})", "type" : "CHAR", "maxPrecision" : 2147483648 },
 		{ "name" : "varchar({0,number,#})", "type" : "VARCHAR", "maxPrecision" : 2147483648 },
 		{ "name" : "varchar({0,number,#})", "type" : "LONGVARCHAR", "maxPrecision" : 2147483648 },
