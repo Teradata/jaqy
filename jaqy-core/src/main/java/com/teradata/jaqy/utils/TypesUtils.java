@@ -96,6 +96,8 @@ public class TypesUtils
 				return "BOOLEAN";
 			case Types.CHAR:
 				return "CHAR";
+			case Types.CLOB:
+				return "CLOB";
 			case Types.DATALINK:				// Java 1.4
 				return "DATALINK";
 			case Types.DATE:
@@ -122,6 +124,8 @@ public class TypesUtils
 				return "NCHAR";
 			case Types.NCLOB:					// Java 1.6
 				return "NCLOB";
+			case Types.NULL:
+				return "NULL";
 			case Types.NUMERIC:
 				return "NUMERIC";
 			case Types.NVARCHAR:				// Java 1.6

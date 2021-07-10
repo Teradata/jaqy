@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,6 +73,7 @@ class CommandSetup
 		manager.addObject ("config", new ConfigCommand ());
 		manager.addObject ("handler", new HandlerCommand ());
 		manager.addObject ("timer", new TimerCommand ());
+		manager.addObject ("typemap", new TypeMapCommand ());
 
 		// I/O
 		manager.addObject ("format", new FormatCommand ());

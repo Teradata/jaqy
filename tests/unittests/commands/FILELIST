@@ -46,6 +46,7 @@ sort_2.sql
 sort_3.sql
 #.sql
 timer.sql
+typemap.sql
 unalias.sql
 version.sql
 wasb.sql

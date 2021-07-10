@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,11 @@ package com.teradata.jaqy.schema;
 import java.sql.Types;
 import java.util.Map;
 
+import com.teradata.jaqy.PropertyTable;
+import com.teradata.jaqy.connection.JaqyDefaultResultSet;
+import com.teradata.jaqy.utils.ResultSetUtils;
+import com.teradata.jaqy.utils.TypesUtils;
+
 /**
  * @author	Heng Yuan
  */
@@ -28,7 +33,65 @@ public class TypeMap
 	private final static int[] BINARY_CAST = { Types.BINARY, Types.VARBINARY, Types.LONGVARBINARY, Types.BLOB };
 	private final static int[] NUMBER_CAST = { Types.BOOLEAN, Types.TINYINT, Types.SMALLINT, Types.INTEGER, Types.BIGINT, Types.DECIMAL, Types.NUMERIC, Types.FLOAT, Types.REAL, Types.DOUBLE };
 
-	private final Map<Integer, TypeInfo> m_map; 
+	private final static int[] s_typeMapTableList =
+	{
+		Types.BIT,
+		Types.BOOLEAN,
+
+		// numeric types
+		Types.TINYINT,
+		Types.SMALLINT,
+		Types.INTEGER,
+		Types.BIGINT,
+		Types.REAL,
+		Types.FLOAT,
+		Types.DOUBLE,
+		Types.DECIMAL,
+		Types.NUMERIC,
+
+		// binary types
+		Types.BINARY,
+		Types.VARBINARY,
+		Types.LONGVARBINARY,
+		Types.BLOB,
+
+		// character types
+		Types.CHAR,
+		Types.VARCHAR,
+		Types.LONGVARCHAR,
+		Types.CLOB,
+
+		// unicode character types
+		Types.NCHAR,
+		Types.NVARCHAR,
+		Types.LONGNVARCHAR,
+		Types.NCLOB,
+
+		// date time
+		Types.DATE,
+		Types.TIME,
+		Types.TIME_WITH_TIMEZONE,
+		Types.TIMESTAMP,
+		Types.TIMESTAMP_WITH_TIMEZONE,
+
+		// misc
+		Types.DATALINK,
+		Types.NULL,
+		Types.ROWID,
+		Types.SQLXML,
+
+		// The following are not listed because they are usually
+		// for multiple types
+		// Types.ARRAY
+		// Types.DISTINCT
+		// Types.JAVA_OBJECT
+		// Types.OTHER
+		// Types.STRUCT
+		// Types.REF,
+		// Types.REF_CURSOR
+	};
+
+	private final Map<Integer, TypeInfo> m_map;
 
 	public TypeMap (Map<Integer, TypeInfo> map)
 	{
@@ -229,6 +292,11 @@ public class TypeMap
 		}
 	}
 
+	Map<Integer, TypeInfo> getMap ()
+	{
+		return m_map;
+	}
+
 	/**
 	 * Check if a string refers to the same type as the other string.
 	 * <p>
@@ -274,5 +342,34 @@ public class TypeMap
 		if (i == 0)
 			return false;
 		return src.substring (i).indexOf (sub.substring (i)) >= 0;
+	}
+
+	private static void addTypeMapTableEntry (PropertyTable pt, Map<Integer, TypeInfo> map, int type)
+	{
+		String jdbcTypeName = TypesUtils.getTypeName (type);
+		TypeInfo typeInfo = map.get (type);
+		String sqlTypeName = "";
+		String maxPrecision = "";
+		if (typeInfo != null)
+		{
+			sqlTypeName = typeInfo.typeName;
+			if (sqlTypeName.indexOf ('{') >= 0)
+			{
+				maxPrecision = Long.toString (typeInfo.maxPrecision);
+			}
+		}
+		pt.addRow (new String[] { jdbcTypeName, sqlTypeName, maxPrecision });
+	}
+
+	public static JaqyDefaultResultSet getTypeMapTable (TypeMap typeMap)
+	{
+		PropertyTable pt = new PropertyTable (new String[]{ "JDBC Type", "SQL Type", "Max Precision" });
+		Map<Integer, TypeInfo> map = typeMap.getMap ();
+		for (int i = 0; i < s_typeMapTableList.length; ++i)
+		{
+			addTypeMapTableEntry (pt, map, s_typeMapTableList[i]);
+		}
+
+		return ResultSetUtils.getResultSet (pt);
 	}
 }
