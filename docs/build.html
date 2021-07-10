@@ -252,12 +252,17 @@ mvn clean package -Dmaven.test.skip<span class="o">=</span><span class="nb">true
 </div>
 <div class="section" id="testing-environment">
 <h2>Testing Environment<a class="headerlink" href="#testing-environment" title="Permalink to this headline">¶</a></h2>
-<p>For the unit tests, use Vagrant in the jaqy/ directory to start up a testing
-VM.  It has PostgreSQL and MySQL setup, matching the Travis CI environment,
-with the appropriate port forwarding.</p>
+<p>For the unit tests, use <a class="reference external" href="https://docs.docker.com/compose/">docker-compose</a>
+in the jaqy/ directory to start up a testing docker environment.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker-compose up -d
+</pre></div>
+</div>
 <p>Once the testing environment is set up, just run the following maven command
 to execute the unit tests.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mvn clean <span class="nb">test</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run junit tests then build the package</span>
+mvn clean package
+<span class="c1"># run standalone CLI tests</span>
+tests/bin/testall.sh
 </pre></div>
 </div>
 </div>

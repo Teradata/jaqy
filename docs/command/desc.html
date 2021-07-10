@@ -161,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="set.html">.set</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort.html">.sort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timer.html">.timer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typemap.html">.typemap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="unalias.html">.unalias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version.html">.version</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wasb.html">.wasb</a></li>
@@ -289,7 +290,9 @@ the column list.  And from the column list, infer the table schema.</p>
 </div>
 <p>Obviously, it will not contain information such as indexes, triggers,
 constraints, etc.  Sometimes, the table column type may not be exact, due to
-the limitations in JDBC capabilities providing the type information.</p>
+the limitations in JDBC capabilities providing the type information.  The
+mapping of the JDBC type to SQL type for the current database can be found
+using <a class="reference external" href="typemap.html">.typemap</a> command.</p>
 <p><strong>Known issues</strong> XML type in Apache Derby cannot be directly selected out using
 the approach above.  The command will fail as the result.  TBH, it is Apache
 Derby’s design issue.</p>

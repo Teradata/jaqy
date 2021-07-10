@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>.rem &mdash; Jaqy 1.1.0 documentation</title>
+  <title>.typemap &mdash; Jaqy 1.1.0 documentation</title>
   
 
   
@@ -49,8 +49,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title=".repeat" href="repeat.html" />
-    <link rel="prev" title=".quiet" href="quiet.html" /> 
+    <link rel="next" title=".unalias" href="unalias.html" />
+    <link rel="prev" title=".timer" href="timer.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -149,7 +149,7 @@
 <li class="toctree-l2"><a class="reference internal" href="protocol.html">.protocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pwd.html">.pwd</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quiet.html">.quiet</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">.rem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rem.html">.rem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="repeat.html">.repeat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="repeatprev.html">.#</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rollback.html">.rollback</a></li>
@@ -161,7 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="set.html">.set</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort.html">.sort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timer.html">.timer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="typemap.html">.typemap</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">.typemap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="unalias.html">.unalias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version.html">.version</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wasb.html">.wasb</a></li>
@@ -232,7 +232,7 @@
         
           <li><a href="../command.html">Commands</a> &raquo;</li>
         
-      <li>.rem</li>
+      <li>.typemap</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -249,24 +249,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="rem">
-<h1>.rem<a class="headerlink" href="#rem" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal"><span class="pre">.rem</span></code> (remark) does block comment.</p>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">rem</span> <span class="k">nothing</span> <span class="n">gets</span> <span class="n">executed</span>
-<span class="k">SELECT</span> <span class="mi">1234</span><span class="p">;</span>
-<span class="k">SELECT</span> <span class="mi">1234</span><span class="p">;</span>
-<span class="k">SELECT</span> <span class="mi">1234</span><span class="p">;</span>
-<span class="p">.</span><span class="k">end</span> <span class="n">rem</span>
+  <div class="section" id="typemap">
+<h1>.typemap<a class="headerlink" href="#typemap" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal"><span class="pre">.typemap</span></code> displays the mapping of JDBC to SQL types.</p>
+<div class="section" id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text"><div class="highlight"><pre><span></span>usage: usage: .typemap [options]
+options:
+  -i,--import   display import type map
 </pre></div>
 </div>
+<p>The type map displayed by default is the type map used to describe database
+table column types, which is used by <a class="reference external" href="desc.html">.desc</a> when there are no
+conveninet way of such info using SQL commands.</p>
+<p>The import type map is the preferred types to be used when importing data
+into the database using <a class="reference external" href="import.html">.import</a>.</p>
 </div>
-<div class="section" id="see-also">
-<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="../comment.html">Comments</a></li>
-</ul>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- display the default type map</span>
+<span class="p">.</span><span class="n">typemap</span>
+
+<span class="c1">-- display import type map</span>
+<span class="p">.</span><span class="n">typemap</span> <span class="o">-</span><span class="n">i</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -276,8 +283,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="repeat.html" class="btn btn-neutral float-right" title=".repeat" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="quiet.html" class="btn btn-neutral float-left" title=".quiet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="unalias.html" class="btn btn-neutral float-right" title=".unalias" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="timer.html" class="btn btn-neutral float-left" title=".timer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

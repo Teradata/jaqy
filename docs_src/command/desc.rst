@@ -47,7 +47,9 @@ the column list.  And from the column list, infer the table schema.
 
 Obviously, it will not contain information such as indexes, triggers,
 constraints, etc.  Sometimes, the table column type may not be exact, due to
-the limitations in JDBC capabilities providing the type information.
+the limitations in JDBC capabilities providing the type information.  The
+mapping of the JDBC type to SQL type for the current database can be found
+using `.typemap <typemap.html>`__ command.
 
 **Known issues** XML type in Apache Derby cannot be directly selected out using
 the approach above.  The command will fail as the result.  TBH, it is Apache
