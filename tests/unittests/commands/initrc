@@ -1,3 +1,0 @@
-.@load ../home/jaqy-avro/target/jaqy-avro-1.2.0.jar
-.@load ../home/jaqy-azure/target/jaqy-azure-1.2.0.jar
-.@load ../home/jaqy-s3/target/jaqy-s3-1.2.0.jar

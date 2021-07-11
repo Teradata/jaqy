@@ -1,0 +1,11 @@
+usage: java -jar jaqy.jar [options] [commands]
+options:
+     --color <on | off>         turns color support on / off
+  -e,--echo <on | off | auto>   turns echo on / off / auto
+  -h,--help                     displays this help information, then exit
+     --norc                     does not read the initialization file
+     --rcfile <file>            specifies the initialization file. Default is
+                                ~/.jqrc
+  -v,--version                  displays version information, then exit
+commands:
+  a series of commands separated by ;

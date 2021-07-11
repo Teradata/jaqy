@@ -1,0 +1,10 @@
+coloroff.sql
+coloron.sql
+echoauto.sql
+echooff.sql
+echoon.sql
+help.sql
+multi.sql
+norc.sql
+rcfile.sql
+version.sql

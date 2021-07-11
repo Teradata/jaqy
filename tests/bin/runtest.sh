@@ -63,9 +63,9 @@ CODECOV_STR="${JAQY_HOME}/lib/clover-runtime-4.4.1.jar"
 JAQY_STR="-classpath ${JAQY_HOME}/dist/jaqy-1.2.0.jar:${JAQY_HOME}/jaqy-s3/target/jaqy-s3-1.2.0.jar:${JAQY_HOME}/jaqy-azure/target/jaqy-azure-1.2.0.jar:${JAQY_HOME}/jaqy-avro/target/jaqy-avro-1.2.0.jar"
 MAIN_STR="com.teradata.jaqy.Main"
 
-jq="${JAVA} -Xmx256m ${JAQY_STR} ${MAIN_STR}"
+export JAQY_CMD="${JAVA} -Xmx256m ${JAQY_STR} ${MAIN_STR}"
 if [ $CODECOV -eq 1 ]; then
-	jq="${JAVA} -Xmx256m -Dfile.encoding=UTF-8 ${JAQY_STR}:${CODECOV_STR} ${MAIN_STR}"
+	export JAQY_CMD="${JAVA} -Xmx256m -Dfile.encoding=UTF-8 ${JAQY_STR}:${CODECOV_STR} ${MAIN_STR}"
 fi
 
 function compare ()
@@ -80,21 +80,29 @@ function compare ()
 
 function run ()
 {
-	INIT=
-	if [ -f initrc ]; then
-		INIT="--rcfile initrc"
-	fi
 	FILE=$1
+
 	BASE=${FILE%.sql}
+	FILE_SHELL=${BASE}.sh
 	CONTROL="${CONTROLDIR}/${BASE}.control"
 	OUTPUT="${OUTPUTDIR}/${BASE}.txt"
 	ERROR="${OUTPUTDIR}/${BASE}.diff"
-	if [ $SHOWCMD -eq 1 ]; then
-		echo "$jq $INIT < ${FILE} > ${OUTPUT}"
-	else
-		echo "... ${FILE} => ${OUTPUT}"
+
+	CMD="$JAQY_CMD < ${FILE} > ${OUTPUT}"
+	if [ -f $FILE_SHELL ]; then
+		CMD="./$FILE_SHELL $FILE $OUTPUT"
 	fi
-	$jq $INIT < ${FILE} > ${OUTPUT}
+
+	if [ $SHOWCMD -eq 1 ]; then
+		echo "$CMD"
+	else
+		echo "... ${FILE}"
+	fi
+	if [ -f $FILE_SHELL ]; then
+		$CMD
+	else
+		$JAQY_CMD < ${FILE} > ${OUTPUT}
+	fi
 	if [ -f "$CONTROL" ]; then
 		compare "$CONTROL" "$OUTPUT" "$ERROR"
 		if [ $? -eq 0 ]; then
