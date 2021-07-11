@@ -12,4 +12,4 @@ pom.xml.versionsBackup
 /dist
 /tests/unittests/teradata/lib/
 /docs_src/_build
-
+/coverage
