@@ -1,8 +1,8 @@
 ansi_types.sql
 array_types.sql
 composite_types.sql
-csv_number_1.sql
-csv_unicode.sql
+csv_import_number_1.sql
+csv_import_unicode.sql
 data_types.sql
 json_type.sql
 transaction.sql
