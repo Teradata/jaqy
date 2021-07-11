@@ -2,6 +2,7 @@ avro_export_1.sql
 avro_import_1.sql
 avro_io_1.sql
 avro_io_2.sql
+avro_io_3.sql
 postgresql_array_types.sql
 postgresql_composite_types.sql
 postgresql_data_types.sql
