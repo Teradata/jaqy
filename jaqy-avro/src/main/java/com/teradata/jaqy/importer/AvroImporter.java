@@ -153,6 +153,7 @@ class AvroImporter implements JaqyImporter
 			case Types.SMALLINT:
 			case Types.INTEGER:
 			case Types.BIGINT:
+			case Types.REAL:
 			case Types.FLOAT:
 			case Types.DOUBLE:
 			case Types.DECIMAL:
@@ -171,18 +172,20 @@ class AvroImporter implements JaqyImporter
 					return v.toString ();
 				break;
 			}
-			case Types.DATE:
-			case Types.TIME:
-			case Types.TIMESTAMP:
 			case Types.CHAR:
 			case Types.VARCHAR:
+			case Types.LONGVARCHAR:
+			case Types.CLOB:
 			case Types.NCHAR:
 			case Types.NVARCHAR:
 			case Types.LONGNVARCHAR:
-			case Types.LONGVARCHAR:
-			case Types.CLOB:
 			case Types.NCLOB:
 			case Types.SQLXML:
+			case Types.DATE:
+			case Types.TIME:
+			case Types.TIMESTAMP:
+			case Types.TIME_WITH_TIMEZONE:
+			case Types.TIMESTAMP_WITH_TIMEZONE:
 			{
 				if (v instanceof CharSequence)
 					return v.toString ();
@@ -268,7 +271,7 @@ class AvroImporter implements JaqyImporter
 		return obj;
 	}
 
-	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+	private Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
 	{
 		if (m_exps == null)
 			return getObject (m_record.get (index), paramInfo);

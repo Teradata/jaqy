@@ -29,6 +29,7 @@ import org.apache.avro.generic.GenericRecord;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
+import com.teradata.jaqy.schema.BasicColumnInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
@@ -37,9 +38,20 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class AvroUtils
 {
-	static Schema.Type getAvroType (int sqlType)
+	public static class ScanColumnInfo
 	{
-		switch (sqlType)
+		String	name;
+		int 	type;
+		int 	maxLength = -1;
+
+		boolean nullable;
+		boolean varlength;
+		boolean	ascii = true;
+	}
+
+	static Schema.Type getAvroType (BasicColumnInfo columnInfo)
+	{
+		switch (columnInfo.type)
 		{
 			case Types.BIT:
 				return Schema.Type.BOOLEAN;
@@ -54,11 +66,30 @@ public class AvroUtils
 			case Types.DECIMAL:
 			case Types.NUMERIC:
 			case Types.REAL:
-				return Schema.Type.STRING;
 			case Types.FLOAT:
-				return Schema.Type.FLOAT;
 			case Types.DOUBLE:
-				return Schema.Type.DOUBLE;
+			{
+				if (columnInfo.className != null)
+				{
+					if ("java.lang.Float".equals (columnInfo.className))
+					{
+						return Schema.Type.FLOAT;
+					}
+					else if ("java.lang.Double".equals (columnInfo.className))
+
+					{
+						return Schema.Type.DOUBLE;
+					}
+				}
+				switch (columnInfo.type)
+				{
+					case Types.REAL:
+					case Types.FLOAT:
+					case Types.DOUBLE:
+						return Schema.Type.DOUBLE;
+				}
+				return Schema.Type.STRING;
+			}
 			case Types.BINARY:
 			case Types.BLOB:
 			case Types.VARBINARY:
@@ -83,7 +114,7 @@ public class AvroUtils
 			// We cannot handle this case.
 			throw new RuntimeException ("Cannot handle column " + columnInfo.label + " type.");
 		}
-		Schema.Type childAvroType = getAvroType (childrenInfos[0].type);
+		Schema.Type childAvroType = getAvroType (childrenInfos[0]);
 		if (childAvroType == Schema.Type.ARRAY)
 		{
 			// We cannot handle this case.
@@ -111,8 +142,7 @@ public class AvroUtils
 		for (int i = 0; i < columns; ++i)
 		{
 			String header = columnInfos[i].label;
-			int type = columnInfos[i].type;
-			Schema.Type avroType = getAvroType (type);
+			Schema.Type avroType = getAvroType (columnInfos[i]);
 			Schema fieldSchema;
 			if (avroType == Schema.Type.ARRAY)
 			{
@@ -120,7 +150,7 @@ public class AvroUtils
 			}
 			else
 			{
-				fieldSchema = Schema.create (getAvroType (type));
+				fieldSchema = Schema.create (getAvroType (columnInfos[i]));
 			}
 
 			if (columnInfos[i].nullable != ResultSetMetaData.columnNoNulls)
@@ -194,7 +224,7 @@ public class AvroUtils
 					break;
 				ResultSet rs = ((Array)obj).getResultSet ();
 				GenericArray<Object> arr = new GenericData.Array<Object> (1, childSchema);
-				Schema.Type childType = getAvroType (columnInfo.children[0].type);
+				Schema.Type childType = getAvroType (columnInfo.children[0]);
 				while (rs.next ())
 				{
 					Object o = rs.getObject (2);
@@ -220,7 +250,7 @@ public class AvroUtils
 
 		for (int i = 0; i < columns; ++i)
 		{
-			avroTypes[i] = getAvroType (columnInfos[i].type);
+			avroTypes[i] = getAvroType (columnInfos[i]);
 			if (avroTypes[i] == Schema.Type.ARRAY)
 			{
 				avroSchemas[i] = getArraySchema (columnInfos[i]);
@@ -258,24 +288,27 @@ public class AvroUtils
 	 * 			the type info to be updated.
 	 * @return	true if we need to scan rows for variable length data.
 	 */
-	private static boolean updateType (Schema fieldSchema, FullColumnInfo typeInfo)
+	private static boolean updateType (Schema fieldSchema, ScanColumnInfo typeInfo)
 	{
 		switch (fieldSchema.getType ())
 		{
 			case STRING:
 			{
 				if (typeInfo.type != 0 &&
-					typeInfo.type != Types.NVARCHAR)
+					typeInfo.type != Types.CHAR)
 					throw new RuntimeException ("Cannot handle the AVRO schema.");
-				typeInfo.type = Types.NVARCHAR;
+				if (typeInfo.type == 0)
+				{
+					typeInfo.type = Types.CHAR;
+				}
 				return true;
 			}
 			case BYTES:
 			{
 				if (typeInfo.type != 0 &&
-					typeInfo.type != Types.VARBINARY)
+					typeInfo.type != Types.BINARY)
 					throw new RuntimeException ("Cannot handle the AVRO schema.");
-				typeInfo.type = Types.VARBINARY;
+				typeInfo.type = Types.BINARY;
 				return true;
 			}
 			case INT:
@@ -320,7 +353,7 @@ public class AvroUtils
 			}
 			case NULL:
 			{
-				typeInfo.nullable = ResultSetMetaData.columnNullable;
+				typeInfo.nullable = true;
 				break;
 			}
 			case UNION:
@@ -340,6 +373,59 @@ public class AvroUtils
 		return false;
 	}
 
+	public static SchemaInfo getSchemaInfo (ScanColumnInfo[] scanColumnInfos, boolean doScan)
+	{
+		int numColumns = scanColumnInfos.length;
+		FullColumnInfo[] columnInfos = new FullColumnInfo[numColumns];
+		for (int i = 0; i < numColumns; ++i)
+		{
+			FullColumnInfo columnInfo = new FullColumnInfo ();
+			ScanColumnInfo scanColumnInfo = scanColumnInfos[i];
+			columnInfos[i] = columnInfo;
+			columnInfo.name = scanColumnInfo.name;
+			columnInfo.label = scanColumnInfo.name;
+
+			if (!doScan)
+			{
+				scanColumnInfo.nullable = true;
+			}
+
+			columnInfo.nullable = scanColumnInfo.nullable ? ResultSetMetaData.columnNullable : ResultSetMetaData.columnNoNulls;
+			columnInfo.type = scanColumnInfo.type;
+
+			if (scanColumnInfo.type == Types.CHAR)
+			{
+				if (scanColumnInfo.maxLength < 1)
+				{
+					scanColumnInfo.maxLength = 1;
+					scanColumnInfo.varlength = true;
+				}
+
+				if (scanColumnInfo.ascii)
+				{
+					columnInfo.type = scanColumnInfo.varlength ? Types.VARCHAR : Types.CHAR;
+				}
+				else
+				{
+					columnInfo.type = scanColumnInfo.varlength ? Types.NVARCHAR : Types.NCHAR;
+				}
+				columnInfo.precision = scanColumnInfo.maxLength;
+			}
+			else if (scanColumnInfo.type == Types.BINARY)
+			{
+				if (scanColumnInfo.maxLength < 1)
+				{
+					scanColumnInfo.maxLength = 1;
+					scanColumnInfo.varlength = true;
+				}
+
+				columnInfo.type = scanColumnInfo.varlength ? Types.VARBINARY : Types.BINARY;
+				columnInfo.precision = scanColumnInfo.maxLength;
+			}
+		}
+		return new SchemaInfo (columnInfos);
+	}
+
 	/**
 	 * Get the database schema from AVRO schema
 	 * @param	avroSchema
@@ -350,17 +436,16 @@ public class AvroUtils
 	{
 		List<Schema.Field> fields = avroSchema.getFields ();
 		int numCols = fields.size ();
-		FullColumnInfo[] columnInfos = new FullColumnInfo[numCols];
+		ScanColumnInfo[] scanColumnInfos = new ScanColumnInfo[numCols];
 		int i = 0;
 		boolean doScan = false;
 		for (Schema.Field field  : fields)
 		{
-			FullColumnInfo typeInfo = new FullColumnInfo ();
-			columnInfos[i++] = typeInfo;
+			ScanColumnInfo scanColumnInfo = new ScanColumnInfo ();
+			scanColumnInfos[i++] = scanColumnInfo;
 
-			typeInfo.name = field.name ();
-			typeInfo.label = typeInfo.name;
-			doScan |= updateType (field.schema (), typeInfo);
+			scanColumnInfo.name = field.name ();
+			doScan |= updateType (field.schema (), scanColumnInfo);
 		}
 		int numFields = i;
 
@@ -372,38 +457,72 @@ public class AvroUtils
 				GenericRecord record = iter.next ();
 				for (i = 0; i < numFields; ++i)
 				{
-					FullColumnInfo typeInfo = columnInfos[i];
-					switch (typeInfo.type)
+					ScanColumnInfo typeInfo = scanColumnInfos[i];
+					if (typeInfo.type == Types.CHAR)
 					{
-						case Types.NVARCHAR:
+						CharSequence o = (CharSequence)record.get (i);
+						if (o == null)
 						{
-							CharSequence o = (CharSequence)record.get (i);
-							if (o == null)
-								continue;
-							int len = o.length ();
-							if (typeInfo.precision < len)
-								typeInfo.precision = len;
-							break;
+							typeInfo.nullable = true;
+							continue;
 						}
-						case Types.VARBINARY:
+						if (typeInfo.ascii)
 						{
-							ByteBuffer bb = (ByteBuffer)record.get (i);
-							if (bb == null)
-								continue;
-							int len = bb.remaining ();
-							if (typeInfo.precision < len)
-								typeInfo.precision = len;
-							break;
+							typeInfo.ascii = StringUtils.isAscii (o.toString ());
 						}
-						default:
+						int len = o.length ();
+						if (typeInfo.maxLength != len)
 						{
-							break;
+							if (typeInfo.maxLength < 0)
+							{
+								typeInfo.maxLength = len;
+							}
+							else
+							{
+								typeInfo.varlength = true;
+								if (typeInfo.maxLength < len)
+								{
+									typeInfo.maxLength = len;
+								}
+							}
+						}
+					}
+					else if (typeInfo.type == Types.BINARY)
+					{
+						ByteBuffer bb = (ByteBuffer)record.get (i);
+						if (bb == null)
+						{
+							typeInfo.nullable = true;
+							continue;
+						}
+						int len = bb.remaining ();
+						if (typeInfo.maxLength != len)
+						{
+							if (typeInfo.maxLength < 0)
+							{
+								typeInfo.maxLength = len;
+							}
+							else
+							{
+								typeInfo.varlength = true;
+								if (typeInfo.maxLength < len)
+								{
+									typeInfo.maxLength = len;
+								}
+							}
+						}
+					}
+					else
+					{
+						if (record.get (i) == null)
+						{
+							typeInfo.nullable = true;
 						}
 					}
 				}
 			}
 		}
 
-		return new SchemaInfo (columnInfos);
+		return getSchemaInfo (scanColumnInfos, doScan);
 	}
 }

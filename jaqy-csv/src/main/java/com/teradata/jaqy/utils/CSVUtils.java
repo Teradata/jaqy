@@ -35,7 +35,7 @@ public class CSVUtils
 {
 	public final static int AUTO_STOP_MINIMUM = 1000;
 
-	public static class ScanColumnType
+	public static class ScanColumnInfo
 	{
 		boolean nullable;
 		int 	type;
@@ -46,6 +46,7 @@ public class CSVUtils
 
 		int 	notNullCount;
 		boolean	ascii = true;
+		boolean	varlength;
 
 		BigDecimal	maxValue = BigDecimal.ZERO;
 		BigDecimal	minValue = BigDecimal.ZERO;
@@ -86,10 +87,82 @@ public class CSVUtils
 		throw new IllegalArgumentException ("unknown csv format: " + format);
 	}
 
+	private static SchemaInfo getSchemaInfo (String[] headers, ScanColumnInfo[] scanColumnInfos, boolean precise)
+	{
+		int numColumns = scanColumnInfos.length;
+		FullColumnInfo[] columnInfos = new FullColumnInfo[numColumns];
+		for (int i = 0; i < numColumns; ++i)
+		{
+			FullColumnInfo columnInfo = new FullColumnInfo ();
+			columnInfos[i] = columnInfo;
+			ScanColumnInfo scanColumnInfo = scanColumnInfos[i];
+			if (headers != null &&
+				i < headers.length)
+			{
+				columnInfo.name = headers[i];
+			}
+			if (columnInfo.name == null ||
+				columnInfo.name.trim ().length () == 0)
+			{
+				columnInfo.name = "col" + (i + 1);
+			}
+			columnInfo.label = columnInfo.name;
+
+			columnInfo.nullable = scanColumnInfo.nullable ? ResultSetMetaData.columnNullable : ResultSetMetaData.columnNoNulls;
+
+			if (scanColumnInfo.type == Types.CHAR)
+			{
+				if (scanColumnInfo.maxLength < 1)
+				{
+					scanColumnInfo.maxLength = 1;
+					scanColumnInfo.varlength = true;
+				}
+
+				if (scanColumnInfo.ascii)
+				{
+					columnInfo.type = scanColumnInfo.varlength ? Types.VARCHAR : Types.CHAR;
+				}
+				else
+				{
+					columnInfo.type = scanColumnInfo.varlength ? Types.NVARCHAR : Types.NCHAR;
+				}
+				columnInfo.precision = scanColumnInfo.maxLength;
+			}
+			else
+			{
+				columnInfo.precision = scanColumnInfo.precision;
+				if (scanColumnInfo.scale == Integer.MAX_VALUE)
+				{
+					columnInfo.type = Types.DOUBLE;
+					columnInfo.scale = 0;
+				}
+				else if (scanColumnInfo.scale <= 0 &&
+				         scanColumnInfo.precision < 11 &&
+				         scanColumnInfo.maxValue.compareTo (new BigDecimal (Integer.MAX_VALUE)) <= 0 &&
+				         scanColumnInfo.minValue.compareTo (new BigDecimal (Integer.MIN_VALUE)) >= 0)
+				{
+					columnInfo.type = Types.INTEGER;
+					columnInfo.scale = 0;
+				}
+				else if (precise && scanColumnInfo.scale > 0)
+				{
+					columnInfo.type = Types.DECIMAL;
+					columnInfo.scale = scanColumnInfo.scale;
+				}
+				else
+				{
+					columnInfo.type = Types.DOUBLE;
+					columnInfo.scale = 0;
+				}
+			}
+		}
+		return new SchemaInfo (columnInfos);
+	}
+
 	public static SchemaInfo getSchemaInfo (String[] headers, Iterator<CSVRecord> iterator, String[] naValues, boolean precise, long limit)
 	{
-		int count = -1;
-		ScanColumnType[] columns = null;
+		int numColumns = -1;
+		ScanColumnInfo[] scanColumnInfos = null;
 		int rowCount = 0;
 		boolean autoStop = false;
 		if (limit < 0)
@@ -108,22 +181,23 @@ public class CSVUtils
 			++rowCount;
 			int size = record.size ();
 			needScan = false;
-			if (count == -1)
+			if (numColumns == -1)
 			{
-				count = size;
-				columns = new ScanColumnType[count];
-				for (int i = 0; i < count; ++i)
+				numColumns = size;
+				scanColumnInfos = new ScanColumnInfo[numColumns];
+				for (int i = 0; i < numColumns; ++i)
 				{
-					columns[i] = new ScanColumnType ();
-					columns[i].type = Types.NULL;
-					columns[i].nullable = false;
-					columns[i].minLength = Integer.MAX_VALUE;
-					columns[i].maxLength = -1;
+					scanColumnInfos[i] = new ScanColumnInfo ();
+					scanColumnInfos[i].type = Types.NULL;
+					scanColumnInfos[i].nullable = false;
+					scanColumnInfos[i].minLength = Integer.MAX_VALUE;
+					scanColumnInfos[i].maxLength = -1;
 				}
 				needScan = true;
 			}
-			for (int i = 0; i < count; ++i)
+			for (int i = 0; i < numColumns; ++i)
 			{
+				ScanColumnInfo scanColumnInfo = scanColumnInfos[i];
 				String s = record.get (i);
 				boolean isNa = false;
 				if (naValues != null)
@@ -139,85 +213,85 @@ public class CSVUtils
 				}
 				if (isNa)
 				{
-					columns[i].nullable = true;
+					scanColumnInfo.nullable = true;
 				}
 				else
 				{
 					int len = s.length ();
-					if (columns[i].maxLength < len)
-						columns[i].maxLength = len;
-					if (columns[i].minLength > len)
-						columns[i].minLength = len;
+					if (scanColumnInfo.maxLength < len)
+						scanColumnInfo.maxLength = len;
+					if (scanColumnInfo.minLength > len)
+						scanColumnInfo.minLength = len;
 
-					if (columns[i].type == Types.NUMERIC ||
-						columns[i].type == Types.NULL)
+					if (scanColumnInfo.type == Types.NUMERIC ||
+						scanColumnInfo.type == Types.NULL)
 					{
 						try
 						{
 							BigDecimal dec = new BigDecimal (s);
 							int precision = dec.precision ();
 							int scale = dec.scale ();
-							if (columns[i].maxValue.compareTo (dec) < 0)
+							if (scanColumnInfo.maxValue.compareTo (dec) < 0)
 							{
-								columns[i].maxValue = dec;
+								scanColumnInfo.maxValue = dec;
 							}
-							else if (columns[i].minValue.compareTo (dec) > 0)
+							else if (scanColumnInfo.minValue.compareTo (dec) > 0)
 							{
-								columns[i].minValue = dec;
+								scanColumnInfo.minValue = dec;
 							}
 							// if precision is smaller than or equal to scale, then we have leading "0."
 							if (precision <= scale)
 								precision = scale + 1;
-							if (columns[i].type == Types.NULL)
+							if (scanColumnInfo.type == Types.NULL)
 							{
-								columns[i].type = Types.NUMERIC;
-								columns[i].precision = precision;
-								columns[i].scale = scale;
+								scanColumnInfo.type = Types.NUMERIC;
+								scanColumnInfo.precision = precision;
+								scanColumnInfo.scale = scale;
 							}
 							else
 							{
-								if (columns[i].scale != scale)
+								if (scanColumnInfo.scale != scale)
 								{
-									columns[i].scale = Integer.MAX_VALUE;
+									scanColumnInfo.scale = Integer.MAX_VALUE;
 								}
-								if (columns[i].precision < precision)
+								if (scanColumnInfo.precision < precision)
 								{
-									columns[i].precision = precision;
+									scanColumnInfo.precision = precision;
 								}
 							}
-							++columns[i].notNullCount;
+							++scanColumnInfo.notNullCount;
 						}
 						catch (Exception ex)
 						{
-							columns[i].ascii = StringUtils.isAscii (s);
-							if (columns[i].minLength == columns[i].maxLength)
+							scanColumnInfo.ascii = StringUtils.isAscii (s);
+							scanColumnInfo.type = Types.CHAR;
+							if (scanColumnInfo.minLength == scanColumnInfo.maxLength)
 							{
 								// Check if we are in a fixed char column.
-								columns[i].type = Types.CHAR;
-								++columns[i].notNullCount;
+								++scanColumnInfo.notNullCount;
 							}
 							else
 							{
-								columns[i].type = Types.VARCHAR;
+								scanColumnInfo.varlength = true;
 								// For varchar columns, we basically have to scan
 								// all the rows to find the maximum string length.
 								autoStop = false;
 							}
 						}
 					}
-					else if (columns[i].type == Types.CHAR)
+					else if (scanColumnInfo.type == Types.CHAR)
 					{
-						if (columns[i].ascii)
+						if (scanColumnInfo.ascii)
 						{
-							columns[i].ascii = StringUtils.isAscii (s);
+							scanColumnInfo.ascii = StringUtils.isAscii (s);
 						}
-						if (columns[i].minLength == columns[i].maxLength)
+						if (scanColumnInfo.minLength == scanColumnInfo.maxLength)
 						{
-							++columns[i].notNullCount;
+							++scanColumnInfo.notNullCount;
 						}
 						else
 						{
-							columns[i].type = Types.VARCHAR;
+							scanColumnInfo.varlength = true;
 							// For varchar columns, we basically have to scan
 							// all the rows to find the maximum string length.
 							autoStop = false;
@@ -226,7 +300,7 @@ public class CSVUtils
 				}
 
 				if (autoStop &&
-					columns[i].notNullCount < AUTO_STOP_MINIMUM)
+					scanColumnInfo.notNullCount < AUTO_STOP_MINIMUM)
 				{
 					// For each number column, we basically need enough
 					// confidence to say that additional scan is not
@@ -245,70 +319,6 @@ public class CSVUtils
 		if (rowCount == 0)
 			return null;
 
-		FullColumnInfo[] columnInfos = new FullColumnInfo[count];
-		for (int i = 0; i < count; ++i)
-		{
-			columnInfos[i] = new FullColumnInfo ();
-			if (headers != null &&
-				i < headers.length)
-			{
-				columnInfos[i].name = headers[i];
-			}
-			if (columnInfos[i].name == null ||
-				columnInfos[i].name.trim ().length () == 0)
-			{
-				columnInfos[i].name = "col" + (i + 1);
-			}
-			columnInfos[i].label = columnInfos[i].name;
-
-			columnInfos[i].nullable = columns[i].nullable ? ResultSetMetaData.columnNullable : ResultSetMetaData.columnNoNulls;
-
-			if (columns[i].type == Types.CHAR ||
-				columns[i].type == Types.VARCHAR)
-			{
-				columnInfos[i].type = columns[i].type;
-				columnInfos[i].precision = columns[i].maxLength;
-				if (!columns[i].ascii)
-				{
-					if (columnInfos[i].type == Types.CHAR)
-					{
-						columnInfos[i].type = Types.NCHAR;
-					}
-					else if (columnInfos[i].type == Types.VARCHAR)
-					{
-						columnInfos[i].type = Types.NVARCHAR;
-					}
-
-				}
-			}
-			else
-			{
-				columnInfos[i].precision = columns[i].precision;
-				if (columns[i].scale == Integer.MAX_VALUE)
-				{
-					columnInfos[i].type = Types.DOUBLE;
-					columnInfos[i].scale = 0;
-				}
-				else if (columns[i].scale <= 0 &&
-				         columns[i].precision < 11 &&
-				         columns[i].maxValue.compareTo (new BigDecimal (Integer.MAX_VALUE)) <= 0 &&
-				         columns[i].minValue.compareTo (new BigDecimal (Integer.MIN_VALUE)) >= 0)
-				{
-					columnInfos[i].type = Types.INTEGER;
-					columnInfos[i].scale = 0;
-				}
-				else if (precise && columns[i].scale > 0)
-				{
-					columnInfos[i].type = Types.DECIMAL;
-					columnInfos[i].scale = columns[i].scale;
-				}
-				else
-				{
-					columnInfos[i].type = Types.DOUBLE;
-					columnInfos[i].scale = 0;
-				}
-			}
-		}
-		return new SchemaInfo (columnInfos);
+		return getSchemaInfo (headers, scanColumnInfos, precise);
 	}
 }

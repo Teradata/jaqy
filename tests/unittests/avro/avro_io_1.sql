@@ -3,16 +3,16 @@
 --------------------------------------------------------------------------
 .run ../common/sqlserver_setup.sql
 
-CREATE TABLE MyTable(a INTEGER, b BIT, c FLOAT, d varbinary (100));
+CREATE TABLE MyTable(a INTEGER, b BIT, c REAL, d FLOAT, e varbinary (100));
 .desc MyTable
 
 .export avro file_io_1.avro
 SELECT * FROM MyTable ORDER BY a;
 
-INSERT INTO MyTable VALUES (1, 1, 1.1, CONVERT(VARBINARY, 0xdeadbeef));
-INSERT INTO MyTable VALUES (2, 0, 1.2, CONVERT(VARBINARY, 0xdeadbeef));
-INSERT INTO MyTable VALUES (3, 1, 1.33, CONVERT(VARBINARY, 0xfacefeed));
-INSERT INTO MyTable VALUES (4, 0, 2.55, CONVERT(VARBINARY, 0xfacefeed));
+INSERT INTO MyTable VALUES (1, 1, 1.1, 1.1, CONVERT(VARBINARY, 0xdeadbeef));
+INSERT INTO MyTable VALUES (2, 0, 1.2, 1.2, CONVERT(VARBINARY, 0xdeadbeef));
+INSERT INTO MyTable VALUES (3, 1, 1.32, 1.33, CONVERT(VARBINARY, 0xfacefeed));
+INSERT INTO MyTable VALUES (4, 0, 2.54, 2.55, CONVERT(VARBINARY, 0xfacefeed));
 
 SELECT * FROM MyTable ORDER BY a;
 
@@ -22,11 +22,11 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 .import avro file_io_1.avro
-INSERT INTO MyTable VALUES (?, ?, ?, ?);
+INSERT INTO MyTable VALUES (?, ?, ?, ?, ?);
 SELECT * FROM MyTable ORDER BY a;
 
 .import avro file_io_2.avro
-INSERT INTO MyTable VALUES (?, ?, ?, ?);
+INSERT INTO MyTable VALUES (?, ?, ?, ?, ?);
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;

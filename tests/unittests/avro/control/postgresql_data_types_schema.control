@@ -193,9 +193,9 @@ DELETE FROM SerialTable;
 CREATE TABLE SerialTable2
 (
 	"a" int4,
-	"c1" int4 NOT NULL,
-	"c2" int4 NOT NULL,
-	"c3" int8 NOT NULL
+	"c1" int4,
+	"c2" int4,
+	"c3" int8
 )
 -- success. update count = 0
 -- INSERTION --

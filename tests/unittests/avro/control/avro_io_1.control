@@ -9,7 +9,7 @@ Jaqy Console 1.2.0
 .open -u sa -p yourStrong(!)Password sqlserver://localhost
 -- 0/2 - 0 ----------------------------------------------------------------
 
-CREATE TABLE MyTable(a INTEGER, b BIT, c FLOAT, d varbinary (100));
+CREATE TABLE MyTable(a INTEGER, b BIT, c REAL, d FLOAT, e varbinary (100));
 -- success. update count = 0
 -- 1/2 - 0 ----------------------------------------------------------------
 .desc MyTable
@@ -17,8 +17,9 @@ Column Type           Nullable
 ------ -------------- --------
 a      int            Yes
 b      bit            Yes
-c      float          Yes
-d      varbinary(100) Yes
+c      real           Yes
+d      float          Yes
+e      varbinary(100) Yes
 -- 1/3 - 0 ----------------------------------------------------------------
 
 .export avro file_io_1.avro
@@ -28,27 +29,27 @@ SELECT * FROM MyTable ORDER BY a;
 -- activity count = 0
 -- 2/4 - 0 ----------------------------------------------------------------
 
-INSERT INTO MyTable VALUES (1, 1, 1.1, CONVERT(VARBINARY, 0xdeadbeef));
+INSERT INTO MyTable VALUES (1, 1, 1.1, 1.1, CONVERT(VARBINARY, 0xdeadbeef));
 -- success. update count = 1
 -- 3/4 - 0 ----------------------------------------------------------------
-INSERT INTO MyTable VALUES (2, 0, 1.2, CONVERT(VARBINARY, 0xdeadbeef));
+INSERT INTO MyTable VALUES (2, 0, 1.2, 1.2, CONVERT(VARBINARY, 0xdeadbeef));
 -- success. update count = 1
 -- 4/4 - 0 ----------------------------------------------------------------
-INSERT INTO MyTable VALUES (3, 1, 1.33, CONVERT(VARBINARY, 0xfacefeed));
+INSERT INTO MyTable VALUES (3, 1, 1.32, 1.33, CONVERT(VARBINARY, 0xfacefeed));
 -- success. update count = 1
 -- 5/4 - 0 ----------------------------------------------------------------
-INSERT INTO MyTable VALUES (4, 0, 2.55, CONVERT(VARBINARY, 0xfacefeed));
+INSERT INTO MyTable VALUES (4, 0, 2.54, 2.55, CONVERT(VARBINARY, 0xfacefeed));
 -- success. update count = 1
 -- 6/4 - 0 ----------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b    c d
-- - ---- --------
-1 1  1.1 deadbeef
-2 0  1.2 deadbeef
-3 1 1.33 facefeed
-4 0 2.55 facefeed
+a b c       d e
+- - ---- ---- --------
+1 1 1.1   1.1 deadbeef
+2 0 1.2   1.2 deadbeef
+3 1 1.32 1.33 facefeed
+4 0 2.54 2.55 facefeed
 -- activity count = 4
 -- 7/4 - 0 ----------------------------------------------------------------
 
@@ -65,27 +66,27 @@ DELETE FROM MyTable;
 
 .import avro file_io_1.avro
 -- 9/6 - 0 ----------------------------------------------------------------
-INSERT INTO MyTable VALUES (?, ?, ?, ?);
+INSERT INTO MyTable VALUES (?, ?, ?, ?, ?);
 -- 10/6 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b c d
-- - - -
+a b c d e
+- - - - -
 -- activity count = 0
 -- 11/6 - 0 ---------------------------------------------------------------
 
 .import avro file_io_2.avro
 -- 11/7 - 0 ---------------------------------------------------------------
-INSERT INTO MyTable VALUES (?, ?, ?, ?);
+INSERT INTO MyTable VALUES (?, ?, ?, ?, ?);
 -- 12/7 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b    c d
-- - ---- --------
-1 1  1.1 deadbeef
-2 0  1.2 deadbeef
-3 1 1.33 facefeed
-4 0 2.55 facefeed
+a b c       d e
+- - ---- ---- --------
+1 1 1.1   1.1 deadbeef
+2 0 1.2   1.2 deadbeef
+3 1 1.32 1.33 facefeed
+4 0 2.54 2.55 facefeed
 -- activity count = 4
 -- 13/7 - 0 ---------------------------------------------------------------
 
@@ -100,8 +101,9 @@ Column Type         Nullable
 ------ ------------ --------
 a      int          Yes
 b      bit          Yes
-c      float        Yes
-d      varbinary(1) Yes
+c      real         Yes
+d      float        Yes
+e      varbinary(1) Yes
 -- 14/9 - 0 ---------------------------------------------------------------
 .importtable MyTable
 -- Table Schema --
@@ -109,12 +111,13 @@ CREATE TABLE MyTable
 (
 	"a" int,
 	"b" bit,
-	"c" float,
-	"d" varbinary(1)
+	"c" real,
+	"d" float,
+	"e" varbinary(1)
 )
 -- success. update count = 0
 -- INSERTION --
-INSERT INTO MyTable VALUES (?,?,?,?)
+INSERT INTO MyTable VALUES (?,?,?,?,?)
 -- 16/10 - 0 --------------------------------------------------------------
 
 .desc MyTable
@@ -122,13 +125,14 @@ Column Type         Nullable
 ------ ------------ --------
 a      int          Yes
 b      bit          Yes
-c      float        Yes
-d      varbinary(1) Yes
+c      real         Yes
+d      float        Yes
+e      varbinary(1) Yes
 -- 16/11 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b c d
-- - - -
+a b c d e
+- - - - -
 -- activity count = 0
 -- 17/11 - 0 --------------------------------------------------------------
 
@@ -139,12 +143,13 @@ DROP TABLE MyTable;
 .import avro file_io_2.avro
 -- 18/12 - 0 --------------------------------------------------------------
 .importschema
-Column Type         Nullable
------- ------------ --------
-a      int          Yes
-b      bit          Yes
-c      float        Yes
-d      varbinary(4) Yes
+Column Type      Nullable
+------ --------- --------
+a      int       Yes
+b      bit       Yes
+c      real      Yes
+d      float     Yes
+e      binary(4) Yes
 -- 18/13 - 0 --------------------------------------------------------------
 .importtable MyTable
 -- Table Schema --
@@ -152,30 +157,32 @@ CREATE TABLE MyTable
 (
 	"a" int,
 	"b" bit,
-	"c" float,
-	"d" varbinary(4)
+	"c" real,
+	"d" float,
+	"e" binary(4)
 )
 -- success. update count = 0
 -- INSERTION --
-INSERT INTO MyTable VALUES (?,?,?,?)
+INSERT INTO MyTable VALUES (?,?,?,?,?)
 -- 20/14 - 0 --------------------------------------------------------------
 
 .desc MyTable
-Column Type         Nullable
------- ------------ --------
-a      int          Yes
-b      bit          Yes
-c      float        Yes
-d      varbinary(4) Yes
+Column Type      Nullable
+------ --------- --------
+a      int       Yes
+b      bit       Yes
+c      real      Yes
+d      float     Yes
+e      binary(4) Yes
 -- 20/15 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b    c d
-- - ---- --------
-1 1  1.1 deadbeef
-2 0  1.2 deadbeef
-3 1 1.33 facefeed
-4 0 2.55 facefeed
+a b c       d e
+- - ---- ---- --------
+1 1 1.1   1.1 deadbeef
+2 0 1.2   1.2 deadbeef
+3 1 1.32 1.33 facefeed
+4 0 2.54 2.55 facefeed
 -- activity count = 4
 -- 21/15 - 0 --------------------------------------------------------------
 
