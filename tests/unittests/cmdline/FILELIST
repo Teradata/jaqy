@@ -3,6 +3,7 @@ coloron.sql
 echoauto.sql
 echooff.sql
 echoon.sql
+escape.sql
 help.sql
 multi.sql
 norc.sql

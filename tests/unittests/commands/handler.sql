@@ -53,4 +53,22 @@ SELECT 1234 AS Test;
 SELECT 1234 AS Test;
 .handler activity
 
+.handler none
+SELECT 1 AS Test;
+SELECT 2 AS Test;
+SELECT 3 AS Test;
+
+.handler activity
+.handler default
+SELECT 1 AS Test;
+SELECT 2 AS Test;
+SELECT 3 AS Test;
+.handler activity
+
+.handler	 activity		  none
+.handler	 activity
+.handler	 activity		  default
+.handler	 activity
+
+.handler asdf
 .close

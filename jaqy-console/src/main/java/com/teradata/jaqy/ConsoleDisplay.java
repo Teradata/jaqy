@@ -137,7 +137,10 @@ public class ConsoleDisplay implements Display
 		if (!m_initiated)
 			return;
 		String prompt = m_promptHandler.getString (interpreter);
-		m_pw.print (prompt);
+		if (prompt != null)
+		{
+			m_pw.print (prompt);
+		}
 		m_pw.flush ();
 	}
 
@@ -152,7 +155,10 @@ public class ConsoleDisplay implements Display
 			return;
 
 		String title = m_titleHandler.getString (interpreter);
-		TitleUtils.showTitle (title, this, m_globals.getOs ());
+		if (title != null)
+		{
+			TitleUtils.showTitle (title, this, m_globals.getOs ());
+		}
 	}
 
 	@Override

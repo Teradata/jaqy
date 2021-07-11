@@ -33,8 +33,38 @@ public class HandlerCommand extends JaqyCommandAdapter
 
 	@Override
 	public String getDescription ()
-	{	
+	{
 		return "displays / sets handlers.";
+	}
+
+	private void printHandler (StateHandler currentHandler, StateHandler defaultHandler, String type, JaqyInterpreter interpreter)
+	{
+		String script = null;
+		if (currentHandler == defaultHandler)
+			script = "default";
+		else if (currentHandler == DefaultStateHandlers.noneHandler)
+			script = "none";
+		else if (currentHandler instanceof ScriptStateHandler)
+			script = ((ScriptStateHandler)currentHandler).getScript ();
+		if (script != null)
+		{
+			interpreter.println (getCommand () + " " + type + " " + script);
+		}
+	}
+
+	private StateHandler getStateHandler (String argument)
+	{
+		StateHandler handler;
+		if ("default".equals (argument))
+			handler = null;
+		else if ("none".equals (argument))
+			handler = DefaultStateHandlers.noneHandler;
+		else
+		{
+			handler = new ScriptStateHandler ();
+			((ScriptStateHandler)handler).setScript (argument);
+		}
+		return handler;
 	}
 
 	@Override
@@ -61,185 +91,102 @@ public class HandlerCommand extends JaqyCommandAdapter
 			argument = argument.substring (i1 + 1).trim ();
 		}
 
+		ConsoleDisplay display = (ConsoleDisplay)interpreter.getDisplay ();
 		if ("prompt".equals (type))
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getPromptHandler ();
-				String script = null;
-				if (handler == DefaultStateHandlers.promptHandler)
-					script = "default";
-				else if (handler instanceof ScriptStateHandler)
-					script = ((ScriptStateHandler)handler).getScript ();
-				if (script != null)
-				{
-					interpreter.println (getCommand () + " " + type + " " + script);
-					return;
-				}
+				StateHandler handler = display.getPromptHandler ();
+				printHandler (handler, DefaultStateHandlers.promptHandler, type, interpreter);
 			}
 			else
 			{
-				ScriptStateHandler handler;
-				if ("default".equals (argument))
-					handler = null;
-				else
-				{
-					handler = new ScriptStateHandler ();
-					handler.setScript (argument);
-				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setPromptHandler (handler);
-				return;
+				StateHandler handler = getStateHandler (argument);
+				display.setPromptHandler (handler);
 			}
 		}
 		else if ("title".equals (type))
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getTitleHandler ();
-				String script = null;
-				if (handler == DefaultStateHandlers.titleHandler)
-					script = "default";
-				else if (handler instanceof ScriptStateHandler)
-					script = ((ScriptStateHandler)handler).getScript ();
-				if (script != null)
-				{
-					interpreter.println (getCommand () + " " + type + " " + script);
-					return;
-				}
+				StateHandler handler = display.getTitleHandler ();
+				printHandler (handler, DefaultStateHandlers.titleHandler, type, interpreter);
 			}
 			else
 			{
-				ScriptStateHandler handler;
-				if ("default".equals (argument))
-					handler = null;
-				else
-				{
-					handler = new ScriptStateHandler ();
-					handler.setScript (argument);
-				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setTitleHandler (handler, interpreter);
-				return;
+				StateHandler handler = getStateHandler (argument);
+				display.setTitleHandler (handler, interpreter);
 			}
 		}
 		else if ("success".equals (type))
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getSuccessHandler ();
-				String script = null;
-				if (handler == DefaultStateHandlers.successHandler)
-					script = "default";
-				else if (handler instanceof ScriptStateHandler)
-					script = ((ScriptStateHandler)handler).getScript ();
-				if (script != null)
-				{
-					interpreter.println (getCommand () + " " + type + " " + script);
-					return;
-				}
+				StateHandler handler = display.getSuccessHandler ();
+				printHandler (handler, DefaultStateHandlers.successHandler, type, interpreter);
 			}
 			else
 			{
-				ScriptStateHandler handler;
-				if ("default".equals (argument))
-					handler = null;
-				else
-				{
-					handler = new ScriptStateHandler ();
-					handler.setScript (argument);
-				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setSuccessHandler (handler);
-				return;
+				StateHandler handler = getStateHandler (argument);
+				display.setSuccessHandler (handler);
 			}
 		}
 		else if ("update".equals (type))
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getUpdateHandler ();
-				String script = null;
-				if (handler == DefaultStateHandlers.updateHandler)
-					script = "default";
-				else if (handler instanceof ScriptStateHandler)
-					script = ((ScriptStateHandler)handler).getScript ();
-				if (script != null)
-				{
-					interpreter.println (getCommand () + " " + type + " " + script);
-					return;
-				}
+				StateHandler handler = display.getUpdateHandler ();
+				printHandler (handler, DefaultStateHandlers.updateHandler, type, interpreter);
 			}
 			else
 			{
-				ScriptStateHandler handler;
-				if ("default".equals (argument))
-					handler = null;
-				else
-				{
-					handler = new ScriptStateHandler ();
-					handler.setScript (argument);
-				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setUpdateHandler (handler);
-				return;
+				StateHandler handler = getStateHandler (argument);
+				display.setUpdateHandler (handler);
 			}
 		}
 		else if ("error".equals (type))
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getErrorHandler ();
-				String script = null;
-				if (handler == DefaultStateHandlers.errorHandler)
-					script = "default";
-				else if (handler instanceof ScriptStateHandler)
-					script = ((ScriptStateHandler)handler).getScript ();
-				if (script != null)
-				{
-					interpreter.println (getCommand () + " " + type + " " + script);
-					return;
-				}
+				StateHandler handler = display.getErrorHandler ();
+				printHandler (handler, DefaultStateHandlers.errorHandler, type, interpreter);
 			}
 			else
 			{
-				ScriptStateHandler handler;
-				if ("default".equals (argument))
-					handler = null;
-				else
-				{
-					handler = new ScriptStateHandler ();
-					handler.setScript (argument);
-				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setErrorHandler (handler);
-				return;
+				StateHandler handler = getStateHandler (argument);
+				display.setErrorHandler (handler);
 			}
 		}
 		else if ("activity".equals (type))
 		{
 			if (argument.length () == 0)
 			{
-				StateHandler handler = ((ConsoleDisplay)interpreter.getDisplay ()).getActivityCountHandler ();
-				String script = null;
-				if (handler == DefaultStateHandlers.activityCountHandler)
-					script = "default";
-				else if (handler instanceof ScriptStateHandler)
-					script = ((ScriptStateHandler)handler).getScript ();
-				if (script != null)
-				{
-					interpreter.println (getCommand () + " " + type + " " + script);
-					return;
-				}
+				StateHandler handler = display.getActivityCountHandler ();
+				printHandler (handler, DefaultStateHandlers.activityCountHandler, type, interpreter);
 			}
 			else
 			{
-				ScriptStateHandler handler;
-				if ("default".equals (argument))
-					handler = null;
-				else
-				{
-					handler = new ScriptStateHandler ();
-					handler.setScript (argument);
-				}
-				((ConsoleDisplay)interpreter.getDisplay ()).setActivityCountHandler (handler);
-				return;
+				StateHandler handler = getStateHandler (argument);
+				display.setActivityCountHandler (handler);
 			}
+		}
+		else if ("none".equals (type))
+		{
+			display.setPromptHandler (DefaultStateHandlers.noneHandler);
+			display.setSuccessHandler (DefaultStateHandlers.noneHandler);
+			display.setUpdateHandler (DefaultStateHandlers.noneHandler);
+			display.setErrorHandler (DefaultStateHandlers.noneHandler);
+			display.setActivityCountHandler (DefaultStateHandlers.noneHandler);
+			display.setTitleHandler (DefaultStateHandlers.noneHandler, interpreter);
+		}
+		else if ("default".equals (type))
+		{
+			display.setPromptHandler (DefaultStateHandlers.promptHandler);
+			display.setSuccessHandler (DefaultStateHandlers.successHandler);
+			display.setUpdateHandler (DefaultStateHandlers.updateHandler);
+			display.setErrorHandler (DefaultStateHandlers.errorHandler);
+			display.setActivityCountHandler (DefaultStateHandlers.activityCountHandler);
+			display.setTitleHandler (DefaultStateHandlers.titleHandler, interpreter);
 		}
 		else
 		{
@@ -248,6 +195,5 @@ public class HandlerCommand extends JaqyCommandAdapter
 			else
 				interpreter.error ("unknown handler type: " + type);
 		}
-		interpreter.println ("unknown " + type + " handler.");
 	}
 }

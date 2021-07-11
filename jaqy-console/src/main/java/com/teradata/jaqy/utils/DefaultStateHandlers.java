@@ -27,6 +27,15 @@ import com.teradata.jaqy.interfaces.StateHandler;
  */
 public class DefaultStateHandlers
 {
+	public final static StateHandler noneHandler = new StateHandler ()
+	{
+		@Override
+		public String getString (JaqyInterpreter interpreter)
+		{
+			return null;
+		}
+	};
+
 	public final static StateHandler promptHandler = new StateHandler ()
 	{
 		@Override

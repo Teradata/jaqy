@@ -1,0 +1,75 @@
+Jaqy Console 1.2.0
+[32;1m-- 0/0 - 0 ----------------------------------------------------------------[0m
+--------------------------------------------------------------------------
+-- .script command test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+[32;1m-- 0/1 - 0 ----------------------------------------------------------------[0m
+.open sqlite::memory:
+[32;1m-- 0/2 - 0 ----------------------------------------------------------------[0m
+
+.script
+var promptFGColor = "red";
+var promptBGColor = "black";
+var promptBold = false;
+var esc = display.getEscape ();
+function colorPrompt ()
+{
+    return esc.color (promptFGColor, promptBGColor, promptBold) + "---- fg: " + promptFGColor + ", bg: " + promptBGColor + ", bold: " + promptBold + esc.reset ();
+}
+.end script
+[32;1m-- 0/3 - 0 ----------------------------------------------------------------[0m
+
+.handler prompt colorPrompt ()
+[31;40m---- fg: red, bg: black, bold: false[0m
+SELECT 1 AS Test;
+[32m-- success --[0m
+Test
+----
+   1
+[32m-- activity count = 1[0m
+[31;40m---- fg: red, bg: black, bold: false[0m
+.script
+promptFGColor = "green";
+promptBGColor = "yellow";
+.end script
+[32;43m---- fg: green, bg: yellow, bold: false[0m
+SELECT 1 AS Test;
+[32m-- success --[0m
+Test
+----
+   1
+[32m-- activity count = 1[0m
+[32;43m---- fg: green, bg: yellow, bold: false[0m
+.script
+promptFGColor = "blue";
+promptBGColor = "white";
+promptBold = true;
+.end script
+[34;47;1m---- fg: blue, bg: white, bold: true[0m
+SELECT 1 AS Test;
+[32m-- success --[0m
+Test
+----
+   1
+[32m-- activity count = 1[0m
+[34;47;1m---- fg: blue, bg: white, bold: true[0m
+.script
+promptFGColor = "purple";
+promptBGColor = "cyan";
+promptBold = false;
+.end script
+[35;46m---- fg: purple, bg: cyan, bold: false[0m
+SELECT 1 AS Test;
+[32m-- success --[0m
+Test
+----
+   1
+[32m-- activity count = 1[0m
+[35;46m---- fg: purple, bg: cyan, bold: false[0m
+.handler default
+[32;1m-- 4/8 - 0 ----------------------------------------------------------------[0m
+
+.close
+[32;1m-- 4/9 - 0 ----------------------------------------------------------------[0m
