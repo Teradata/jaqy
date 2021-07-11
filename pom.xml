@@ -64,11 +64,8 @@
 						<exclude>com/teradata/jaqy/helper/Teradata*.java</exclude>
 						<exclude>com/teradata/jaqy/option/*.java</exclude>
 						<exclude>com/teradata/jaqy/utils/DummyConnection.java</exclude>
-						<exclude>com/teradata/jaqy/utils/Escape.java</exclude>
 						<exclude>com/teradata/jaqy/utils/TitleUtils.java</exclude>
 						<exclude>com/teradata/jaqy/lineinput/JLineConsoleLineInput.java</exclude>
-						<exclude>com/teradata/jaqy/command/PromptCommand.java</exclude>
-						<exclude>com/teradata/jaqy/command/TitleCommand.java</exclude>
 						<exclude>com/teradata/jaqy/resultset/*Wrapper.java</exclude>
 						<exclude>com/teradata/jaqy/parser/*Generated*.java</exclude>
 					</excludes>
