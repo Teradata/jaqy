@@ -353,7 +353,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 		{
 			// milisecond precision time
 			int t = ((Integer)o).intValue ();
-			return new Time ((long)t);
+			return new Time (t);
 		}
 
 		throw ExceptionUtils.getCannotCast ();
@@ -641,8 +641,10 @@ public class InMemoryResultSet extends ResultSetWrapper
 			case FETCH_REVERSE:
 				m_dir = -1;
 				break;
+			default:
+				ExceptionUtils.getIllegalArgument ();
+				break;
 		}
-		ExceptionUtils.getIllegalArgument ();
 	}
 
 	@Override

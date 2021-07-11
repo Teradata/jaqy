@@ -29,6 +29,7 @@ import com.teradata.jaqy.connection.JaqyDefaultResultSet;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.schema.TypeMap;
 import com.teradata.jaqy.utils.DatabaseMetaDataUtils;
+import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
@@ -194,7 +195,7 @@ public class InfoCommand extends JaqyCommandAdapter
 			pt.addRow (new String[]{ "Catalog separator", metaData.getCatalogSeparator () });
 
 			pt.addRow (new String[]{ "Default Transaction Isolation", DatabaseMetaDataUtils.getIsolationLevel (metaData.getDefaultTransactionIsolation ()) });
-			pt.addRow (new String[]{ "ResultSet holdability", DatabaseMetaDataUtils.getHoldability (metaData.getResultSetHoldability ()) });
+			pt.addRow (new String[]{ "ResultSet holdability", ResultSetMetaDataUtils.getHoldability (metaData.getResultSetHoldability ()) });
 
 			pt.addRow (new String[]{ "LOB update on copy", getYesNo (metaData.locatorsUpdateCopy ()) });
 			pt.addRow (new String[]{ "Row ID lifetime", metaData.getRowIdLifetime ().toString () });

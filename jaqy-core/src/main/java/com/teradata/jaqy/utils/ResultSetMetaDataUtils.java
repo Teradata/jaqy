@@ -16,6 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -37,6 +38,19 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class ResultSetMetaDataUtils
 {
+	public static String getHoldability (int value)
+	{
+		switch (value)
+		{
+			case ResultSet.CLOSE_CURSORS_AT_COMMIT:
+				return "Close cursors at commit";
+			case ResultSet.HOLD_CURSORS_OVER_COMMIT:
+				return "Hold cursors over commit";
+			default:
+				return "Unknown";
+		}
+	}
+
 	public static FullColumnInfo getColumnInfo (ResultSetMetaData meta, int column, JaqyHelper helper) throws SQLException
 	{
 		FullColumnInfo columnInfo = new FullColumnInfo ();

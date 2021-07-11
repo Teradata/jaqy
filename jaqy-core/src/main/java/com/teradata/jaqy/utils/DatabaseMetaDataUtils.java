@@ -16,7 +16,6 @@
 package com.teradata.jaqy.utils;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 
 /**
  * @author	Heng Yuan
@@ -37,19 +36,6 @@ public class DatabaseMetaDataUtils
 				return "Repeatable read";
 			case Connection.TRANSACTION_SERIALIZABLE:
 				return "Serializable";
-			default:
-				return "Unknown";
-		}
-	}
-
-	public static String getHoldability (int value)
-	{
-		switch (value)
-		{
-			case ResultSet.CLOSE_CURSORS_AT_COMMIT:
-				return "Close cursors at commit";
-			case ResultSet.HOLD_CURSORS_OVER_COMMIT:
-				return "Hold cursors over commit";
 			default:
 				return "Unknown";
 		}
