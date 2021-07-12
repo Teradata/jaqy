@@ -98,27 +98,33 @@ public class OpenCommand extends JaqyCommandAdapter
 		boolean hasPassword = false;
 		for (Option option : cmdLine.getOptions ())
 		{
-			if ("p".equals (option.getOpt ()))
+			switch (option.getOpt ().charAt (0))
 			{
-				prop.setProperty ("password", option.getValue ());
-				hasPassword = true;
-			}
-			else if ("f".equals (option.getOpt ()))
-			{
-				String password = display.getPassword (interpreter, "Password: ");
-				prop.setProperty ("password", password);
-				hasPassword = true;
-			}
-			else if ("u".equals (option.getOpt ()))
-			{
-				prop.setProperty ("user", option.getValue ());
-				hasUser = true;
-			}
-			else if ("D".equals (option.getOpt ()))
-			{
-				String key = option.getValue (0);
-				String value = option.getValue (1);
-				prop.setProperty (key, value);
+				case 'u':
+				{
+					prop.setProperty ("user", option.getValue ());
+					hasUser = true;
+					break;
+				}
+				case 'p':
+				{
+					prop.setProperty ("password", option.getValue ());
+					hasPassword = true;
+					break;
+				}
+				case 'f':
+				{
+					String password = display.getPassword (interpreter, "Password: ");
+					prop.setProperty ("password", password);
+					hasPassword = true;
+				}
+				case 'D':
+				{
+					String key = option.getValue (0);
+					String value = option.getValue (1);
+					prop.setProperty (key, value);
+					break;
+				}
 			}
 		}
 
