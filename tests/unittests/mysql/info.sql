@@ -10,7 +10,6 @@
 .info keyword
 .info limit
 .info schema
-.info server
 .info table
 .info typemap
 .info importmap
@@ -18,6 +17,7 @@
 .info type
 .format table
 -- ignore begin
+.info server
 .info user
 -- ignore end
 .quit

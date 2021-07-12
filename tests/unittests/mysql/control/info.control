@@ -164,21 +164,6 @@ Max logical LOB size         0
 TABLE_SCHEM TABLE_CATALOG
 ----------- -------------
 -- 0/10 - 0 ---------------------------------------------------------------
-.info server
-Name                     Value
------------------------- --------------------------------------------------------------------------------
-User                     root@172.19.0.1
-URL                      jdbc:mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
-Ready only               No
-Database product name    MySQL
-Database product version 5.7.34
-Database major version   5
-Database major version   7
-Driver name              MySQL Connector/J
-Driver version           mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)
-JDBC major version       4
-JDBC minor version       2
--- 0/11 - 0 ---------------------------------------------------------------
 .info table
 TABLE_TYPE
 ---------------
@@ -187,7 +172,7 @@ SYSTEM TABLE
 SYSTEM VIEW
 TABLE
 VIEW
--- 0/12 - 0 ---------------------------------------------------------------
+-- 0/11 - 0 ---------------------------------------------------------------
 .info typemap
 JDBC Type               SQL Type              Max Precision
 ----------------------- --------------------- -------------
@@ -223,7 +208,7 @@ DATALINK
 NULL                                          
 ROWID                                         
 SQLXML                                        
--- 0/13 - 0 ---------------------------------------------------------------
+-- 0/12 - 0 ---------------------------------------------------------------
 .info importmap
 JDBC Type               SQL Type   Max Precision
 ----------------------- ---------- -------------
@@ -259,9 +244,9 @@ DATALINK
 NULL                               
 ROWID                              
 SQLXML                             
--- 0/14 - 0 ---------------------------------------------------------------
+-- 0/13 - 0 ---------------------------------------------------------------
 .format csv
--- 0/15 - 0 ---------------------------------------------------------------
+-- 0/14 - 0 ---------------------------------------------------------------
 .info type
 TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
 BIT,-7,1,,,[(M)],1,true,3,false,false,false,BIT,0,0,0,0,10
@@ -305,8 +290,28 @@ YEAR,91,4,,,[(4)],1,true,3,false,false,false,YEAR,0,0,0,0,10
 TIME,92,16,',',[(fsp)],1,true,3,false,false,false,TIME,0,0,0,0,10
 DATETIME,93,26,',',[(fsp)],1,true,3,false,false,false,DATETIME,0,0,0,0,10
 TIMESTAMP,93,26,',',[(fsp)],1,true,3,false,false,false,TIMESTAMP,0,0,0,0,10
--- 0/16 - 0 ---------------------------------------------------------------
+-- 0/15 - 0 ---------------------------------------------------------------
 .format table
+-- 0/16 - 0 ---------------------------------------------------------------
+-- ignore begin
+.info server
+Name                     Value
+------------------------ --------------------------------------------------------------------------------
+User                     root@172.19.0.1
+URL                      jdbc:mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
+Ready only               No
+Database product name    MySQL
+Database product version 5.7.34
+Database major version   5
+Database major version   7
+Driver name              MySQL Connector/J
+Driver version           mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)
+JDBC major version       4
+JDBC minor version       2
 -- 0/17 - 0 ---------------------------------------------------------------
+.info user
+root@172.19.0.1
+-- 0/18 - 0 ---------------------------------------------------------------
+-- ignore end
 .quit
 -- 0/19 - 0 ---------------------------------------------------------------

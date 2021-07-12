@@ -4,10 +4,10 @@
 .help timer
 .timer
 .timer asdf
+.timer set
 -- ignore begin
-.timer set
 .timer
 .timer
-.timer set
 -- ignore end
+.timer set
 
