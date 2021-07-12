@@ -15,8 +15,8 @@ Jaqy Console 1.2.0
 -- Table Schema --
 CREATE TABLE unicodeTable1
 (
-	甲 INTEGER NOT NULL,
-	乙 TEXT NOT NULL
+	"甲" INTEGER NOT NULL,
+	"乙" TEXT NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -27,8 +27,8 @@ INSERT INTO unicodeTable1 VALUES (?,?)
 .desc unicodeTable1
 cid name type    notnull dflt_value pk
 --- ---- ------- ------- ---------- --
-  0 甲    INTEGER       1 ?           0
-  1 乙    TEXT          1 ?           0
+  0 甲    INTEGER       1          ?  0
+  1 乙    TEXT          1          ?  0
 -- 2/5 - 0 ----------------------------------------------------------------
 SELECT * FROM unicodeTable1 ORDER BY 1;
 -- success --
@@ -49,8 +49,8 @@ DROP TABLE unicodeTable1;
 -- Table Schema --
 CREATE TABLE unicodeTable2
 (
-	a INTEGER NOT NULL,
-	b TEXT NOT NULL
+	"a" INTEGER NOT NULL,
+	"b" TEXT NOT NULL
 )
 -- success. update count = 1
 -- INSERTION --
@@ -61,8 +61,8 @@ INSERT INTO unicodeTable2 VALUES (?,?)
 .desc unicodeTable2
 cid name type    notnull dflt_value pk
 --- ---- ------- ------- ---------- --
-  0 a    INTEGER       1 ?           0
-  1 b    TEXT          1 ?           0
+  0 a    INTEGER       1          ?  0
+  1 b    TEXT          1          ?  0
 -- 6/8 - 0 ----------------------------------------------------------------
 SELECT * FROM unicodeTable2 ORDER BY 1;
 -- success --
@@ -83,8 +83,8 @@ DROP TABLE unicodeTable2;
 -- Table Schema --
 CREATE TABLE unicodeTable3
 (
-	a INTEGER NOT NULL,
-	b TEXT NOT NULL
+	"a" INTEGER NOT NULL,
+	"b" TEXT NOT NULL
 )
 -- success. update count = 1
 -- INSERTION --
@@ -95,8 +95,8 @@ INSERT INTO unicodeTable3 VALUES (?,?)
 .desc unicodeTable3
 cid name type    notnull dflt_value pk
 --- ---- ------- ------- ---------- --
-  0 a    INTEGER       1 ?           0
-  1 b    TEXT          1 ?           0
+  0 a    INTEGER       1          ?  0
+  1 b    TEXT          1          ?  0
 -- 10/11 - 0 --------------------------------------------------------------
 SELECT * FROM unicodeTable3 ORDER BY 1;
 -- success --

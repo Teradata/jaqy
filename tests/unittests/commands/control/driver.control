@@ -34,7 +34,7 @@ Driver Version Compliant
 .driver
 Driver                Version Compliant
 --------------------- ------- ---------
-org.sqlite.JDBC        3.8    F
+org.sqlite.JDBC        3.36   F
 com.mysql.jdbc.Driver  5.1    F
 -- 0/10 - 0 ---------------------------------------------------------------
 
@@ -49,7 +49,7 @@ com.mysql.jdbc.Driver  5.1    F
 .driver
 Driver                Version Compliant
 --------------------- ------- ---------
-org.sqlite.JDBC        3.8    F
+org.sqlite.JDBC        3.36   F
 com.mysql.jdbc.Driver  5.1    F
 org.postgresql.Driver 42.2    F
 -- 0/14 - 0 ---------------------------------------------------------------

@@ -37,10 +37,10 @@ CREATE TABLE SqliteTypes
 .desc SqliteTypes
 cid name type    notnull dflt_value pk
 --- ---- ------- ------- ---------- --
-  0 a    INTEGER       0 ?           0
-  1 b    REAL          0 ?           0
-  2 c    TEXT          0 ?           0
-  3 d    BLOB          0 ?           0
+  0 a    INTEGER       0          ?  0
+  1 b    REAL          0          ?  0
+  2 c    TEXT          0          ?  0
+  3 d    BLOB          0          ?  0
 -- 1/7 - 0 ----------------------------------------------------------------
 .desc -s SqliteTypes
 CREATE TABLE SqliteTypes
@@ -64,10 +64,10 @@ CREATE TABLE SqliteTypes2
 .desc SqliteTypes2
 cid name type          notnull dflt_value pk
 --- ---- ------------- ------- ---------- --
-  0 a    INTEGER             0 ?           0
-  1 b    DECIMAL(10,2)       0 ?           0
-  2 c    VARCHAR(100)        0 ?           0
-  3 d    BLOB(100)           0 ?           0
+  0 a    INTEGER             0          ?  0
+  1 b    DECIMAL(10,2)       0          ?  0
+  2 c    VARCHAR(100)        0          ?  0
+  3 d    BLOB(100)           0          ?  0
 -- 2/9 - 0 ----------------------------------------------------------------
 .desc -s SqliteTypes2
 CREATE TABLE SqliteTypes2

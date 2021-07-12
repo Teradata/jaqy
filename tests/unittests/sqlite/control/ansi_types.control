@@ -251,10 +251,16 @@ SELECT CAST('2001-02-03 12:03:04.12-08:00' AS TIMESTAMP(2) WITH TIME ZONE) AS Te
 
 -- Boolean type
 SELECT TRUE AS Test;
--- failure 1: [SQLITE_ERROR] SQL error or missing database (no such column: TRUE)
+-- success --
+Test
+1
+-- activity count = 1
 -- 39/4 - 0 ---------------------------------------------------------------
 SELECT FALSE AS Test;
--- failure 1: [SQLITE_ERROR] SQL error or missing database (no such column: FALSE)
+-- success --
+Test
+0
+-- activity count = 1
 -- 40/4 - 0 ---------------------------------------------------------------
 
 -- Distinct Types

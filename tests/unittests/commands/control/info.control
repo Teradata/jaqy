@@ -373,11 +373,11 @@ User,
 URL,jdbc:sqlite::memory:
 Ready only,No
 Database product name,SQLite
-Database product version,3.8.11
+Database product version,3.36.0
 Database major version,3
-Database major version,0
-Driver name,SQLiteJDBC
-Driver version,native
+Database major version,36
+Driver name,SQLite JDBC
+Driver version,3.36.0.1
 JDBC major version,2
 JDBC minor version,1
 -- 0/31 - 0 ---------------------------------------------------------------

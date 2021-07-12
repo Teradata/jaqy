@@ -15,14 +15,14 @@ Jaqy Console 1.2.0
 -- Table Schema --
 CREATE TABLE numTable1
 (
-	id INTEGER NOT NULL,
-	int1 INTEGER NOT NULL,
-	int2 INTEGER NOT NULL,
-	int4 INTEGER NOT NULL,
-	int8 REAL NOT NULL,
-	dec REAL NOT NULL,
-	f4 REAL NOT NULL,
-	f8 REAL NOT NULL
+	"id" INTEGER NOT NULL,
+	"int1" INTEGER NOT NULL,
+	"int2" INTEGER NOT NULL,
+	"int4" INTEGER NOT NULL,
+	"int8" REAL NOT NULL,
+	"dec" REAL NOT NULL,
+	"f4" REAL NOT NULL,
+	"f8" REAL NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -33,14 +33,14 @@ INSERT INTO numTable1 VALUES (?,?,?,?,?,?,?,?)
 .desc numTable1
 cid name type    notnull dflt_value pk
 --- ---- ------- ------- ---------- --
-  0 id   INTEGER       1 ?           0
-  1 int1 INTEGER       1 ?           0
-  2 int2 INTEGER       1 ?           0
-  3 int4 INTEGER       1 ?           0
-  4 int8 REAL          1 ?           0
-  5 dec  REAL          1 ?           0
-  6 f4   REAL          1 ?           0
-  7 f8   REAL          1 ?           0
+  0 id   INTEGER       1          ?  0
+  1 int1 INTEGER       1          ?  0
+  2 int2 INTEGER       1          ?  0
+  3 int4 INTEGER       1          ?  0
+  4 int8 REAL          1          ?  0
+  5 dec  REAL          1          ?  0
+  6 f4   REAL          1          ?  0
+  7 f8   REAL          1          ?  0
 -- 2/5 - 0 ----------------------------------------------------------------
 SELECT * FROM numTable1 ORDER BY 1;
 -- success --
@@ -77,14 +77,14 @@ INSERT INTO numTable1 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 .desc numTable1
 cid name type    notnull dflt_value pk
 --- ---- ------- ------- ---------- --
-  0 id   INTEGER       0 ?           0
-  1 int1 INTEGER       0 ?           0
-  2 int2 INTEGER       0 ?           0
-  3 int4 INTEGER       0 ?           0
-  4 int8 BIGINT        0 ?           0
-  5 dec  REAL          0 ?           0
-  6 f4   REAL          0 ?           0
-  7 f8   REAL          0 ?           0
+  0 id   INTEGER       0          ?  0
+  1 int1 INTEGER       0          ?  0
+  2 int2 INTEGER       0          ?  0
+  3 int4 INTEGER       0          ?  0
+  4 int8 BIGINT        0          ?  0
+  5 dec  REAL          0          ?  0
+  6 f4   REAL          0          ?  0
+  7 f8   REAL          0          ?  0
 -- 6/7 - 0 ----------------------------------------------------------------
 SELECT * FROM numTable1 ORDER BY 1;
 -- success --

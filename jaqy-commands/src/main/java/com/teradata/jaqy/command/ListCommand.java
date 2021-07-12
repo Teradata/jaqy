@@ -110,20 +110,26 @@ public class ListCommand extends JaqyCommandAdapter
 		String sep = meta.getCatalogSeparator ();
 		if (sep == null)
 			sep = "/";
-		if (listType == 0)
+		try
 		{
-			interpreter.println ("-- Listing catalogs");
-			rs = meta.getCatalogs ();
+			if (listType == 0)
+			{
+				interpreter.println ("-- Listing catalogs");
+				rs = meta.getCatalogs ();
+			}
+			else if (listType == 1)
+			{
+				interpreter.println ("-- Listing schema: " + catalogPattern + sep + schemaPattern);
+				rs = meta.getSchemas (catalogPattern, schemaPattern);
+			}
+			else if (listType == 2)
+			{
+				interpreter.println ("-- Listing tables: " + catalogPattern + sep + schemaPattern + sep + tablePattern);
+				rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
+			}
 		}
-		else if (listType == 1)
+		catch (SQLException ex)
 		{
-			interpreter.println ("-- Listing schema: " + catalogPattern + sep + schemaPattern);
-			rs = meta.getSchemas (catalogPattern, schemaPattern);
-		}
-		else if (listType == 2)
-		{
-			interpreter.println ("-- Listing tables: " + catalogPattern + sep + schemaPattern + sep + tablePattern);
-			rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
 		}
 		if (rs == null)
 			return;

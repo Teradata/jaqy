@@ -1,1 +1,1 @@
-.@classpath sqlite ../drivers/sqlite-jdbc-3.8.11.2.jar
+.@classpath sqlite ../drivers/sqlite-jdbc-3.36.0.1.jar

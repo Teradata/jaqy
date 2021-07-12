@@ -67,7 +67,7 @@ ResultSet Column Count                       2
     Nullable                                     1
     Read Only                                    N
     Searchable                                   Y
-    Signed                                       N
+    Signed                                       Y
     Writable                                     Y
   Index                                        2
     Name                                         b
@@ -88,7 +88,7 @@ ResultSet Column Count                       2
     Nullable                                     1
     Read Only                                    N
     Searchable                                   Y
-    Signed                                       N
+    Signed                                       Y
     Writable                                     Y
 -- success --
 Test b

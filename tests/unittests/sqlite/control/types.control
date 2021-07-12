@@ -18,8 +18,8 @@ ResultSet Column Count                       1
   Index                                        1
     Name                                         Test
     Label                                        Test
-    Type                                         NULL
-    SQL Type                                     NULL
+    Type                                         NUMERIC
+    SQL Type                                     NUMERIC
     Java Class                                   java.lang.Object
     Catalog                                      
     Schema                                       
@@ -34,12 +34,12 @@ ResultSet Column Count                       1
     Nullable                                     1
     Read Only                                    N
     Searchable                                   Y
-    Signed                                       N
+    Signed                                       Y
     Writable                                     Y
 -- success --
 Test
 ----
-?
+   ?
 -- activity count = 1
 -- 1/3 - 0 ----------------------------------------------------------------
 .debug resultset off
@@ -82,7 +82,7 @@ ResultSet Column Count                       4
     Nullable                                     1
     Read Only                                    N
     Searchable                                   Y
-    Signed                                       N
+    Signed                                       Y
     Writable                                     Y
   Index                                        2
     Name                                         b
@@ -103,7 +103,7 @@ ResultSet Column Count                       4
     Nullable                                     1
     Read Only                                    N
     Searchable                                   Y
-    Signed                                       N
+    Signed                                       Y
     Writable                                     Y
   Index                                        3
     Name                                         c

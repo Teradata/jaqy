@@ -135,10 +135,10 @@ SELECT * FROM MyTable ORDER BY a;
 -- Table Schema --
 CREATE TABLE MyTable2
 (
-	a INTEGER NOT NULL,
-	b TEXT NOT NULL,
-	c TEXT NOT NULL,
-	d TEXT
+	"a" INTEGER NOT NULL,
+	"b" TEXT NOT NULL,
+	"c" TEXT NOT NULL,
+	"d" TEXT
 )
 -- success. update count = 1
 -- INSERTION --
@@ -172,10 +172,10 @@ d      TEXT    Yes
 .importschema -s
 CREATE TABLE TABLENAME
 (
-	a INTEGER NOT NULL,
-	b TEXT NOT NULL,
-	c TEXT NOT NULL,
-	d TEXT
+	"a" INTEGER NOT NULL,
+	"b" TEXT NOT NULL,
+	"c" TEXT NOT NULL,
+	"d" TEXT
 )
 -- 12/18 - 0 --------------------------------------------------------------
 .importtable
@@ -185,10 +185,10 @@ CREATE TABLE TABLENAME
 -- Table Schema --
 CREATE TABLE MyTable3
 (
-	a INTEGER NOT NULL,
-	b TEXT NOT NULL,
-	c TEXT NOT NULL,
-	d TEXT
+	"a" INTEGER NOT NULL,
+	"b" TEXT NOT NULL,
+	"c" TEXT NOT NULL,
+	"d" TEXT
 )
 -- success. update count = 1
 -- INSERTION --
