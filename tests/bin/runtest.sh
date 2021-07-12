@@ -110,6 +110,7 @@ function run ()
 			rm -f "$OUTPUT"
 		else
 			echo ">>> $FILE failed. <<<"
+			cat $ERROR
 			return 1
 		fi
 	else
