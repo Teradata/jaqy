@@ -190,8 +190,8 @@ Test
 SELECT CAST('12:03:04.12' AS TIME(2)) AS Test;
 -- success --
 Test
---------
-12:03:04
+-----------
+12:03:04.12
 -- activity count = 1
 -- 33/3 - 0 ---------------------------------------------------------------
 SELECT CAST('12:03:04-08:00' AS TIME WITH TIME ZONE) AS Test;

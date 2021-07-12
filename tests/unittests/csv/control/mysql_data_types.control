@@ -212,8 +212,8 @@ INSERT INTO BinTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
 SELECT * FROM BinTable ORDER BY a;
 -- success --
 a,c1,c2,c3,c4,c5
-1,000000000000000c,deadbeef000000000000,deadbeef,deadbeef,61
-2,0000000000000050,facefeed000000000000,facefeed,facefeed,62
+1,12,deadbeef000000000000,deadbeef,deadbeef,61
+2,80,facefeed000000000000,facefeed,facefeed,62
 3,,,,,
 -- activity count = 3
 -- 36/9 - 0 ---------------------------------------------------------------
@@ -231,7 +231,7 @@ DELETE FROM BinTable;
 .import csv -h -f BinTable.csv
 -- 38/11 - 0 --------------------------------------------------------------
 INSERT INTO BinTable VALUES (?, ?, ?, ?, ?, ?);
--- failure 1406: [22001] Data truncation: Data too long for column 'c1' at row 1
+-- failure 1406: [22001] Data truncation: Data too long for column 'c2' at row 1
 -- 39/11 - 0 --------------------------------------------------------------
 SELECT * FROM BinTable ORDER BY a;
 -- success --
@@ -268,9 +268,9 @@ INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, '2001-03-04 12:34:56');
 SELECT * FROM TimeTable ORDER BY a;
 -- success --
 a,c1,c2,c3,c4
-1,2001-02-03,12:34:56,2001-02-03 12:34:56.0,2001-02-03 12:34:56.0
-2,2001-03-04,12:34:56,2002-03-04 12:34:56.0,2001-03-04 12:34:56.0
-3,,,,2001-03-04 12:34:56.0
+1,2001-02-03,12:34:56,2001-02-03 12:34:56,2001-02-03 12:34:56
+2,2001-03-04,12:34:56,2002-03-04 12:34:56,2001-03-04 12:34:56
+3,,,,2001-03-04 12:34:56
 -- activity count = 3
 -- 46/11 - 0 --------------------------------------------------------------
 .export csv TimeTable.csv

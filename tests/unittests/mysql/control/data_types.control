@@ -83,8 +83,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -98,9 +98,9 @@ ResultSet Column Count                       10
   Index                                        2
     Name                                         c1
     Label                                        c1
-    Type                                         VARBINARY
+    Type                                         BIT
     SQL Type                                     BIT
-    Java Class                                   [B
+    Java Class                                   java.lang.Boolean
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -108,7 +108,7 @@ ResultSet Column Count                       10
     Precision                                    64
     Scale                                        0
     Auto Increment                               N
-    Case Sensitive                               Y
+    Case Sensitive                               N
     Currency                                     N
     Definitely Writable                          Y
     Nullable                                     1
@@ -125,8 +125,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 4
-    Precision                                    4
+    Display Size                                 3
+    Precision                                    3
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -141,7 +141,7 @@ ResultSet Column Count                       10
     Name                                         c3
     Label                                        c3
     Type                                         BIT
-    SQL Type                                     TINYINT
+    SQL Type                                     BIT
     Java Class                                   java.lang.Boolean
     Catalog                                      vagrant
     Schema                                       
@@ -167,8 +167,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 6
-    Precision                                    6
+    Display Size                                 5
+    Precision                                    5
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -188,8 +188,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 9
-    Precision                                    9
+    Display Size                                 7
+    Precision                                    7
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -209,8 +209,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -230,8 +230,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 20
-    Precision                                    20
+    Display Size                                 19
+    Precision                                    19
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -253,7 +253,7 @@ ResultSet Column Count                       10
     Table Name                                   NumTable
     Display Size                                 12
     Precision                                    12
-    Scale                                        31
+    Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
     Currency                                     N
@@ -274,7 +274,7 @@ ResultSet Column Count                       10
     Table Name                                   NumTable
     Display Size                                 22
     Precision                                    22
-    Scale                                        31
+    Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
     Currency                                     N
@@ -286,8 +286,8 @@ ResultSet Column Count                       10
     Writable                                     Y
 -- success --
 a,c1,c2,c3,c4,c5,c6,c7,c8,c9
-1,000000000000000c,-127,1,-12345,-123456,-123456789,-1234567890,-1234.5,-4500000000000000
-2,0000000000000050,127,0,12345,1234567,123456789,1234567890,1234.5,4500000000000000
+1,12,-127,1,-12345,-123456,-123456789,-1234567890,-1234.5,-4500000000000000
+2,80,127,0,12345,1234567,123456789,1234567890,1234.5,4500000000000000
 3,,,,,,,,,
 -- activity count = 3
 -- 6/7 - 0 ----------------------------------------------------------------
@@ -304,8 +304,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -319,9 +319,9 @@ ResultSet Column Count                       10
   Index                                        2
     Name                                         c1
     Label                                        c1
-    Type                                         VARBINARY
+    Type                                         BIT
     SQL Type                                     BIT
-    Java Class                                   [B
+    Java Class                                   java.lang.Boolean
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
@@ -329,7 +329,7 @@ ResultSet Column Count                       10
     Precision                                    64
     Scale                                        0
     Auto Increment                               N
-    Case Sensitive                               Y
+    Case Sensitive                               N
     Currency                                     N
     Definitely Writable                          Y
     Nullable                                     1
@@ -346,8 +346,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 4
-    Precision                                    4
+    Display Size                                 3
+    Precision                                    3
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -362,7 +362,7 @@ ResultSet Column Count                       10
     Name                                         c3
     Label                                        c3
     Type                                         BIT
-    SQL Type                                     TINYINT
+    SQL Type                                     BIT
     Java Class                                   java.lang.Boolean
     Catalog                                      vagrant
     Schema                                       
@@ -388,8 +388,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 6
-    Precision                                    6
+    Display Size                                 5
+    Precision                                    5
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -409,8 +409,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 9
-    Precision                                    9
+    Display Size                                 7
+    Precision                                    7
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -430,8 +430,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -451,8 +451,8 @@ ResultSet Column Count                       10
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   NumTable
-    Display Size                                 20
-    Precision                                    20
+    Display Size                                 19
+    Precision                                    19
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -474,7 +474,7 @@ ResultSet Column Count                       10
     Table Name                                   NumTable
     Display Size                                 12
     Precision                                    12
-    Scale                                        31
+    Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
     Currency                                     N
@@ -495,7 +495,7 @@ ResultSet Column Count                       10
     Table Name                                   NumTable
     Display Size                                 22
     Precision                                    22
-    Scale                                        31
+    Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
     Currency                                     N
@@ -605,8 +605,8 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -626,7 +626,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 5
+    Display Size                                 3
     Precision                                    3
     Scale                                        2
     Auto Increment                               N
@@ -647,7 +647,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 11
+    Display Size                                 9
     Precision                                    9
     Scale                                        2
     Auto Increment                               N
@@ -668,7 +668,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 24
+    Display Size                                 22
     Precision                                    22
     Scale                                        2
     Auto Increment                               N
@@ -689,7 +689,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 33
+    Display Size                                 31
     Precision                                    31
     Scale                                        2
     Auto Increment                               N
@@ -721,8 +721,8 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -742,7 +742,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 5
+    Display Size                                 3
     Precision                                    3
     Scale                                        2
     Auto Increment                               N
@@ -763,7 +763,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 11
+    Display Size                                 9
     Precision                                    9
     Scale                                        2
     Auto Increment                               N
@@ -784,7 +784,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 24
+    Display Size                                 22
     Precision                                    22
     Scale                                        2
     Auto Increment                               N
@@ -805,7 +805,7 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   DecTable
-    Display Size                                 33
+    Display Size                                 31
     Precision                                    31
     Scale                                        2
     Auto Increment                               N
@@ -905,8 +905,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -984,7 +984,7 @@ ResultSet Column Count                       6
     Name                                         c4
     Label                                        c4
     Type                                         LONGVARCHAR
-    SQL Type                                     VARCHAR
+    SQL Type                                     TEXT
     Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
@@ -1042,8 +1042,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   StrTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1121,7 +1121,7 @@ ResultSet Column Count                       6
     Name                                         c4
     Label                                        c4
     Type                                         LONGVARCHAR
-    SQL Type                                     VARCHAR
+    SQL Type                                     TEXT
     Java Class                                   java.lang.String
     Catalog                                      vagrant
     Schema                                       
@@ -1247,8 +1247,8 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1363,8 +1363,8 @@ ResultSet Column Count                       5
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   BinTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1537,8 +1537,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1596,7 +1596,7 @@ ResultSet Column Count                       6
     Label                                        c3
     Type                                         TIMESTAMP
     SQL Type                                     DATETIME
-    Java Class                                   java.sql.Timestamp
+    Java Class                                   java.time.LocalDateTime
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1656,9 +1656,9 @@ ResultSet Column Count                       6
     Writable                                     Y
 -- success --
 a,c1,c2,c3,c4,c5
-1,2001-02-03,12:34:56,2001-02-03 12:34:56.0,2001-02-03 12:34:56.0,2001-01-01
-2,2001-03-04,12:34:56,2002-03-04 12:34:56.0,2001-03-04 12:34:56.0,2002-01-01
-3,,,,2001-03-04 12:34:56.0,
+1,2001-02-03,12:34:56,2001-02-03 12:34:56,2001-02-03 12:34:56,2001-01-01
+2,2001-03-04,12:34:56,2002-03-04 12:34:56,2001-03-04 12:34:56,2002-01-01
+3,,,,2001-03-04 12:34:56,
 -- activity count = 3
 -- 34/26 - 0 --------------------------------------------------------------
 .format json -p on
@@ -1674,8 +1674,8 @@ ResultSet Column Count                       6
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
-    Display Size                                 11
-    Precision                                    11
+    Display Size                                 10
+    Precision                                    10
     Scale                                        0
     Auto Increment                               N
     Case Sensitive                               N
@@ -1733,7 +1733,7 @@ ResultSet Column Count                       6
     Label                                        c3
     Type                                         TIMESTAMP
     SQL Type                                     DATETIME
-    Java Class                                   java.sql.Timestamp
+    Java Class                                   java.time.LocalDateTime
     Catalog                                      vagrant
     Schema                                       
     Table Name                                   TimeTable
@@ -1797,7 +1797,7 @@ ResultSet Column Count                       6
 		"a" : 1,
 		"c1" : "2001-02-03",
 		"c2" : "12:34:56",
-		"c3" : "2001-02-03 12:34:56.0",
+		"c3" : "2001-02-03T12:34:56",
 		"c4" : "2001-02-03 12:34:56.0",
 		"c5" : "2001-01-01"
 	},
@@ -1805,7 +1805,7 @@ ResultSet Column Count                       6
 		"a" : 2,
 		"c1" : "2001-03-04",
 		"c2" : "12:34:56",
-		"c3" : "2002-03-04 12:34:56.0",
+		"c3" : "2002-03-04T12:34:56",
 		"c4" : "2001-03-04 12:34:56.0",
 		"c5" : "2002-01-01"
 	},

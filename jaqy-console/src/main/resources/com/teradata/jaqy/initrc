@@ -1,5 +1,5 @@
 .protocol oracle oracle.jdbc.driver.OracleDriver
-.protocol mysql com.mysql.jdbc.Driver
+.protocol mysql com.mysql.cj.jdbc.Driver
 .protocol postgresql org.postgresql.Driver
 .protocol sqlite org.sqlite.JDBC
 .protocol sqlserver com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -16,7 +16,22 @@
 		"stream" : false
 	},
 	"typeMap": [
-		{ "type" : "VARCHAR", "name" : "TEXT", "maxPrecision" : 65535 }
+		{ "type" : "CHAR", "name" : "CHAR({0,number,#})", "maxPrecision" : 255 },
+		{ "type" : "VARCHAR", "name" : "VARCHAR({0,number,#})", "maxPrecision" : 21845 }
+	],
+	"importTypeMap": [
+		{ "type" : "CHAR", "name" : "TEXT", "maxPrecision" : 65535 },
+		{ "type" : "VARCHAR", "name" : "TEXT", "maxPrecision" : 65535 },
+		{ "type" : "LONGVARCHAR", "name" : "MEDIUMTEXT", "maxPrecision" : 16777215 },
+		{ "type" : "CLOB", "name" : "LONGTEXT", "maxPrecision" : 2147483647 },
+		{ "type" : "NCHAR", "name" : "TEXT", "maxPrecision" : 32767 },
+		{ "type" : "NVARCHAR", "name" : "TEXT", "maxPrecision" : 32767 },
+		{ "type" : "LONGNVARCHAR", "name" : "MEDIUMTEXT", "maxPrecision" : 8388607 },
+		{ "type" : "NCLOB", "name" : "LONGTEXT", "maxPrecision" : 1073741823 },
+		{ "type" : "BINARY", "name" : "BLOB", "maxPrecision" : 65535 },
+		{ "type" : "VARBINARY", "name" : "BLOB", "maxPrecision" : 65535 },
+		{ "type" : "LONGVARBINARY", "name" : "MEDIUMBLOB", "maxPrecision" : 16777215 },
+		{ "type" : "BLOB", "name" : "LONGBLOB", "maxPrecision" : 2147483647 }
 	],
 	"catalogSQL": {
 		"sql" : "SELECT DATABASE()",

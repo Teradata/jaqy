@@ -32,10 +32,10 @@ Driver Version Compliant
 -- 0/9 - 0 ----------------------------------------------------------------
 
 .driver
-Driver                Version Compliant
---------------------- ------- ---------
-org.sqlite.JDBC        3.36   F
-com.mysql.jdbc.Driver  5.1    F
+Driver                   Version Compliant
+------------------------ ------- ---------
+org.sqlite.JDBC           3.36   F
+com.mysql.cj.jdbc.Driver  8.0    F
 -- 0/10 - 0 ---------------------------------------------------------------
 
 .run ../common/postgresql_setup.sql
@@ -47,10 +47,10 @@ com.mysql.jdbc.Driver  5.1    F
 -- 0/13 - 0 ---------------------------------------------------------------
 
 .driver
-Driver                Version Compliant
---------------------- ------- ---------
-org.sqlite.JDBC        3.36   F
-com.mysql.jdbc.Driver  5.1    F
-org.postgresql.Driver 42.2    F
+Driver                   Version Compliant
+------------------------ ------- ---------
+org.sqlite.JDBC           3.36   F
+com.mysql.cj.jdbc.Driver  8.0    F
+org.postgresql.Driver    42.2    F
 -- 0/14 - 0 ---------------------------------------------------------------
 

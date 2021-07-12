@@ -103,10 +103,10 @@ DROP TABLE BinTable;
 CREATE TABLE BinTable
 (
 	`a` INTEGER,
-	`c1` BINARY(10),
-	`c2` VARBINARY(4),
-	`c3` VARBINARY(4),
-	`c4` BINARY(1)
+	`c1` BLOB,
+	`c2` BLOB,
+	`c3` BLOB,
+	`c4` BLOB
 )
 -- success. update count = 0
 -- INSERTION --
@@ -116,7 +116,7 @@ INSERT INTO BinTable VALUES (?,?,?,?,?)
 SELECT * FROM BinTable ORDER BY 1;
 -- success --
 a c1                   c2       c3       c4
-- -------------------- -------- -------- --
+- -------------------- -------- -------- ----
 1 deadbeef000000000000 deadbeef deadbeef 61
 2 facefeed000000000000 facefeed facefeed 62
 3 facefeed000000000000 face     feed     63

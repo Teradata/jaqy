@@ -1,0 +1,315 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .info command test
+--------------------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
+-- 0/2 - 0 ----------------------------------------------------------------
+.info behavior
+Name                                      Value
+----------------------------------------- ------------------------
+Catalog Term                              database
+Schema Term                               
+Procedure Term                            PROCEDURE
+NULLs are sorted high                     No
+NULLs are sorted low                      Yes
+NULLs are sorted at start                 No
+NULLs are sorted at end                   No
+NULL + non-null is NULL                   Yes
+Use local files                           No
+Use local file per table                  No
+Identifier quote string                   `
+Search string escape                      \
+Extra name characters                     #@
+Is catalog at start                       Yes
+Catalog separator                         .
+Default Transaction Isolation             Read committed
+ResultSet holdability                     Hold cursors over commit
+LOB update on copy                        Yes
+Row ID lifetime                           ROWID_UNSUPPORTED
+Auto-commit failure closes all ResultSets No
+Auto-generated key always return          Yes
+-- 0/3 - 0 ----------------------------------------------------------------
+.info catalog
+TABLE_CAT
+------------------
+information_schema
+mysql
+performance_schema
+sys
+vagrant
+-- 0/4 - 0 ----------------------------------------------------------------
+.info client
+NAME MAX_LEN DEFAULT_VALUE DESCRIPTION
+---- ------- ------------- -----------
+-- 0/5 - 0 ----------------------------------------------------------------
+.info feature
+Name                                   Supported
+-------------------------------------- ---------
+All Procedures are callable            No
+All tables are selectable              No
+ALT TABLE ADD column                   Yes
+ALT TABLE DROP column                  Yes
+Column aliasing                        Yes
+CONVERT                                No
+Table correlation names                Yes
+Different table correlation names      Yes
+Expression in ORDER BY                 Yes
+ORDER BY unrelated                     No
+GROUP BY                               Yes
+GROUP BY unrelated                     Yes
+GROUP BY beyond select                 Yes
+LIKE escape clause                     Yes
+Multiple result set                    Yes
+Multple transactions                   Yes
+Non-nullable columns                   Yes
+Minimum SQL grammar                    Yes
+Core SQL grammar                       Yes
+Extended SQL grammar                   No
+SQL92 entry                            Yes
+SQL92 intermediate                     No
+SQL92 full                             No
+Integrity Enhancement Facility         No
+OUTER JOIN                             Yes
+Full OUTER JOIN                        No
+Limited OUTER JOIN                     Yes
+Schemas in DML                         No
+Schemas in procedure calls             No
+Schemas in table DDL                   No
+Schemas in index DDL                   No
+Schemas in privilege definitions       No
+Catalog in DML                         Yes
+Catalog in procedure calls             Yes
+Catalog in table DDL                   Yes
+Catalog in index DDL                   Yes
+Catalog in privilege definitions       Yes
+Positioned DELETE                      No
+Positioned UPDATE                      No
+SELECT FOR UPDATE                      Yes
+Stored Procedure                       Yes
+Subqueries in comparisons              Yes
+Subqueries in EXISTS                   Yes
+Subqueries in IN                       Yes
+Subqueries in quantified expressions   Yes
+Correlated subqueries                  Yes
+UNION                                  Yes
+UNION ALL                              Yes
+Open cursor across commits             No
+Open cursor across rollbacks           No
+Open statement across commits          No
+Open statement across rollbacks        No
+Transactions                           Yes
+DDL and DML in one transaction         No
+Only DML in one transaction            No
+DDL causes transaction commit          Yes
+DDL ignored in transactions            No
+Batch updates                          Yes
+Save points                            Yes
+Named parameters                       No
+Multiple open results                  Yes
+Get auto-generated keys                Yes
+Statement pooling                      No
+SQL Function                           Yes
+REF CURSOR                             No
+Supports Mixed Case Identifiers        Yes
+Stores Upper Case Identifiers          No
+Stores Lower Case Identifiers          No
+Stores Mixed Case Identifiers          Yes
+Supports Mixed Case Quoted Identifiers Yes
+Stores Upper Case Quoted Identifiers   Yes
+Stores Lower Case Quoted Identifiers   No
+Stores Mixed Case Quoted Identifiers   Yes
+-- 0/6 - 0 ----------------------------------------------------------------
+.info function
+Name                Value
+------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Numeric functions   ABS,ACOS,ASIN,ATAN,ATAN2,BIT_COUNT,CEILING,COS,COT,DEGREES,EXP,FLOOR,LOG,LOG10,MAX,MIN,MOD,PI,POW,POWER,RADIANS,RAND,ROUND,SIN,SQRT,TAN,TRUNCATE
+String functions    ASCII,BIN,BIT_LENGTH,CHAR,CHARACTER_LENGTH,CHAR_LENGTH,CONCAT,CONCAT_WS,CONV,ELT,EXPORT_SET,FIELD,FIND_IN_SET,HEX,INSERT,INSTR,LCASE,LEFT,LENGTH,LOAD_FILE,LOCATE,LOCATE,LOWER,LPAD,LTRIM,MAKE_SET,MATCH,MID,OCT,OCTET_LENGTH,ORD,POSITION,QUOTE,REPEAT,REPLACE,REVERSE,RIGHT,RPAD,RTRIM,SOUNDEX,SPACE,STRCMP,SUBSTRING,SUBSTRING,SUBSTRING,SUBSTRING,SUBSTRING_INDEX,TRIM,UCASE,UPPER
+System functions    DATABASE,USER,SYSTEM_USER,SESSION_USER,PASSWORD,ENCRYPT,LAST_INSERT_ID,VERSION
+Date/Time functions DAYOFWEEK,WEEKDAY,DAYOFMONTH,DAYOFYEAR,MONTH,DAYNAME,MONTHNAME,QUARTER,WEEK,YEAR,HOUR,MINUTE,SECOND,PERIOD_ADD,PERIOD_DIFF,TO_DAYS,FROM_DAYS,DATE_FORMAT,TIME_FORMAT,CURDATE,CURRENT_DATE,CURTIME,CURRENT_TIME,NOW,SYSDATE,CURRENT_TIMESTAMP,UNIX_TIMESTAMP,FROM_UNIXTIME,SEC_TO_TIME,TIME_TO_SEC
+-- 0/7 - 0 ----------------------------------------------------------------
+.info keyword
+ACCESSIBLE,ADD,ANALYZE,ASC,BEFORE,CASCADE,CHANGE,CONTINUE,DATABASE,DATABASES,DAY_HOUR,DAY_MICROSECOND,DAY_MINUTE,DAY_SECOND,DELAYED,DESC,DISTINCTROW,DIV,DUAL,ELSEIF,EMPTY,ENCLOSED,ESCAPED,EXIT,EXPLAIN,FIRST_VALUE,FLOAT4,FLOAT8,FORCE,FULLTEXT,GENERATED,GROUPS,HIGH_PRIORITY,HOUR_MICROSECOND,HOUR_MINUTE,HOUR_SECOND,IF,IGNORE,INDEX,INFILE,INT1,INT2,INT3,INT4,INT8,IO_AFTER_GTIDS,IO_BEFORE_GTIDS,ITERATE,JSON_TABLE,KEY,KEYS,KILL,LAG,LAST_VALUE,LEAD,LEAVE,LIMIT,LINEAR,LINES,LOAD,LOCK,LONG,LONGBLOB,LONGTEXT,LOOP,LOW_PRIORITY,MASTER_BIND,MASTER_SSL_VERIFY_SERVER_CERT,MAXVALUE,MEDIUMBLOB,MEDIUMINT,MEDIUMTEXT,MIDDLEINT,MINUTE_MICROSECOND,MINUTE_SECOND,NO_WRITE_TO_BINLOG,NTH_VALUE,NTILE,OPTIMIZE,OPTIMIZER_COSTS,OPTION,OPTIONALLY,OUTFILE,PERSIST,PERSIST_ONLY,PURGE,READ,READ_WRITE,REGEXP,RENAME,REPEAT,REPLACE,REQUIRE,RESIGNAL,RESTRICT,RLIKE,SCHEMA,SCHEMAS,SECOND_MICROSECOND,SEPARATOR,SHOW,SIGNAL,SPATIAL,SQL_BIG_RESULT,SQL_CALC_FOUND_ROWS,SQL_SMALL_RESULT,SSL,STARTING,STORED,STRAIGHT_JOIN,TERMINATED,TINYBLOB,TINYINT,TINYTEXT,UNDO,UNLOCK,UNSIGNED,USAGE,USE,UTC_DATE,UTC_TIME,UTC_TIMESTAMP,VARBINARY,VARCHARACTER,VIRTUAL,WHILE,WRITE,XOR,YEAR_MONTH,ZEROFILL
+-- 0/8 - 0 ----------------------------------------------------------------
+.info limit
+Name                         Limit
+---------------------------- ----------
+Max binary literal length    16777208
+Max character literal length 16777208
+Max column name length       64
+Max columns in GROUP BY      64
+Max columns in an index      16
+Max columns in ORDER BY      64
+Max columns in SELECT        256
+Max columns in a table       512
+Max connections              0
+Max cursor name length       64
+Max index length             256
+Max schema name length       0
+Max procedure name length    0
+Max catalog name length      32
+Max row size                 2147483639
+Max row size include BLOB    Yes
+Max statement length         65531
+Max statements               0
+Max table name length        64
+Max tables in SELECT         256
+Max user name length         16
+Max logical LOB size         0
+-- 0/9 - 0 ----------------------------------------------------------------
+.info schema
+TABLE_SCHEM TABLE_CATALOG
+----------- -------------
+-- 0/10 - 0 ---------------------------------------------------------------
+.info server
+Name                     Value
+------------------------ --------------------------------------------------------------------------------
+User                     root@172.19.0.1
+URL                      jdbc:mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
+Ready only               No
+Database product name    MySQL
+Database product version 5.7.34
+Database major version   5
+Database major version   7
+Driver name              MySQL Connector/J
+Driver version           mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)
+JDBC major version       4
+JDBC minor version       2
+-- 0/11 - 0 ---------------------------------------------------------------
+.info table
+TABLE_TYPE
+---------------
+LOCAL TEMPORARY
+SYSTEM TABLE
+SYSTEM VIEW
+TABLE
+VIEW
+-- 0/12 - 0 ---------------------------------------------------------------
+.info typemap
+JDBC Type               SQL Type              Max Precision
+----------------------- --------------------- -------------
+BIT                     BIT                   
+BOOLEAN                 BOOL                  
+TINYINT                 TINYINT               
+SMALLINT                SMALLINT              
+INTEGER                 INTEGER               
+BIGINT                  BIGINT                
+REAL                    FLOAT                 
+FLOAT                                         
+DOUBLE                  DOUBLE                
+DECIMAL                 DECIMAL               
+NUMERIC                                       
+BINARY                  BINARY                
+VARBINARY               TINYBLOB              
+LONGVARBINARY           LONG VARBINARY        
+BLOB                                          
+CHAR                    CHAR({0,number,#})    255
+VARCHAR                 VARCHAR({0,number,#}) 21845
+LONGVARCHAR             LONG VARCHAR          
+CLOB                                          
+NCHAR                                         
+NVARCHAR                                      
+LONGNVARCHAR                                  
+NCLOB                                         
+DATE                    DATE                  
+TIME                    TIME                  
+TIME_WITH_TIMEZONE                            
+TIMESTAMP               DATETIME              
+TIMESTAMP_WITH_TIMEZONE                       
+DATALINK                                      
+NULL                                          
+ROWID                                         
+SQLXML                                        
+-- 0/13 - 0 ---------------------------------------------------------------
+.info importmap
+JDBC Type               SQL Type   Max Precision
+----------------------- ---------- -------------
+BIT                     BIT        
+BOOLEAN                 BOOL       
+TINYINT                 TINYINT    
+SMALLINT                SMALLINT   
+INTEGER                 INTEGER    
+BIGINT                  BIGINT     
+REAL                    FLOAT      
+FLOAT                              
+DOUBLE                  DOUBLE     
+DECIMAL                 DECIMAL    
+NUMERIC                            
+BINARY                  BLOB       
+VARBINARY               BLOB       
+LONGVARBINARY           MEDIUMBLOB 
+BLOB                    LONGBLOB   
+CHAR                    TEXT       
+VARCHAR                 TEXT       
+LONGVARCHAR             MEDIUMTEXT 
+CLOB                    LONGTEXT   
+NCHAR                   TEXT       
+NVARCHAR                TEXT       
+LONGNVARCHAR            MEDIUMTEXT 
+NCLOB                   LONGTEXT   
+DATE                    DATE       
+TIME                    TIME       
+TIME_WITH_TIMEZONE                 
+TIMESTAMP               DATETIME   
+TIMESTAMP_WITH_TIMEZONE            
+DATALINK                           
+NULL                               
+ROWID                              
+SQLXML                             
+-- 0/14 - 0 ---------------------------------------------------------------
+.format csv
+-- 0/15 - 0 ---------------------------------------------------------------
+.info type
+TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
+BIT,-7,1,,,[(M)],1,true,3,false,false,false,BIT,0,0,0,0,10
+BOOL,16,3,,,,1,true,3,false,false,false,BOOLEAN,0,0,0,0,10
+TINYINT,-6,3,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,false,false,false,TINYINT,0,0,0,0,10
+TINYINT UNSIGNED,-6,3,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,true,false,false,TINYINT UNSIGNED,0,0,0,0,10
+BIGINT,-5,19,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,false,false,false,BIGINT,0,0,0,0,10
+BIGINT UNSIGNED,-5,20,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,true,false,false,BIGINT UNSIGNED,0,0,0,0,10
+LONG VARBINARY,-4,16777215,',',,1,true,3,false,false,false,MEDIUMBLOB,0,0,0,0,10
+MEDIUMBLOB,-4,16777215,',',,1,true,3,false,false,false,MEDIUMBLOB,0,0,0,0,10
+LONGBLOB,-4,2147483647,',',,1,true,3,false,false,false,LONGBLOB,0,0,0,0,10
+BLOB,-4,65535,',',[(M)],1,true,3,false,false,false,BLOB,0,0,0,0,10
+VARBINARY,-3,65535,',',(M),1,true,3,false,false,false,VARBINARY,0,0,0,0,10
+TINYBLOB,-3,255,',',,1,true,3,false,false,false,TINYBLOB,0,0,0,0,10
+BINARY,-2,255,',',(M),1,true,3,false,false,false,BINARY,0,0,0,0,10
+LONG VARCHAR,-1,16777215,','," [CHARACTER SET charset_name] [COLLATE collation_name]",1,true,3,false,false,false,MEDIUMTEXT,0,0,0,0,10
+MEDIUMTEXT,-1,16777215,','," [CHARACTER SET charset_name] [COLLATE collation_name]",1,true,3,false,false,false,MEDIUMTEXT,0,0,0,0,10
+LONGTEXT,-1,2147483647,','," [CHARACTER SET charset_name] [COLLATE collation_name]",1,true,3,false,false,false,LONGTEXT,0,0,0,0,10
+TEXT,-1,65535,',',[(M)] [CHARACTER SET charset_name] [COLLATE collation_name],1,true,3,false,false,false,TEXT,0,0,0,0,10
+CHAR,1,255,',',[(M)] [CHARACTER SET charset_name] [COLLATE collation_name],1,true,3,false,false,false,CHAR,0,0,0,0,10
+ENUM,1,65535,',',"('value1','value2',...) [CHARACTER SET charset_name] [COLLATE collation_name]",1,true,3,false,false,false,ENUM,0,0,0,0,10
+SET,1,64,',',"('value1','value2',...) [CHARACTER SET charset_name] [COLLATE collation_name]",1,true,3,false,false,false,SET,0,0,0,0,10
+DECIMAL,3,65,,,"[(M[,D])] [UNSIGNED] [ZEROFILL]",1,true,3,false,false,false,DECIMAL,-308,308,0,0,10
+NUMERIC,3,65,,,"[(M[,D])] [UNSIGNED] [ZEROFILL]",1,true,3,false,false,false,DECIMAL,-308,308,0,0,10
+INTEGER,4,10,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,false,false,false,INT,0,0,0,0,10
+INTEGER UNSIGNED,4,10,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,true,false,false,INT UNSIGNED,0,0,0,0,10
+INT,4,10,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,false,false,false,INT,0,0,0,0,10
+INT UNSIGNED,4,10,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,true,false,false,INT UNSIGNED,0,0,0,0,10
+MEDIUMINT,4,7,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,false,false,false,MEDIUMINT,0,0,0,0,10
+MEDIUMINT UNSIGNED,4,8,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,true,false,false,MEDIUMINT UNSIGNED,0,0,0,0,10
+SMALLINT,5,5,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,false,false,false,SMALLINT,0,0,0,0,10
+SMALLINT UNSIGNED,5,5,,,[(M)] [UNSIGNED] [ZEROFILL],1,true,3,true,false,false,SMALLINT UNSIGNED,0,0,0,0,10
+FLOAT,7,12,,,"[(M,D)] [UNSIGNED] [ZEROFILL]",1,true,3,false,false,false,FLOAT,-38,38,0,0,10
+DOUBLE,8,22,,,"[(M,D)] [UNSIGNED] [ZEROFILL]",1,true,3,false,false,false,DOUBLE,-308,308,0,0,10
+DOUBLE PRECISION,8,22,,,"[(M,D)] [UNSIGNED] [ZEROFILL]",1,true,3,false,false,false,DOUBLE,-308,308,0,0,10
+REAL,8,22,,,"[(M,D)] [UNSIGNED] [ZEROFILL]",1,true,3,false,false,false,DOUBLE,-308,308,0,0,10
+VARCHAR,12,65535,',',(M) [CHARACTER SET charset_name] [COLLATE collation_name],1,true,3,false,false,false,VARCHAR,0,0,0,0,10
+TINYTEXT,12,255,','," [CHARACTER SET charset_name] [COLLATE collation_name]",1,true,3,false,false,false,TINYTEXT,0,0,0,0,10
+DATE,91,10,',',,1,true,3,false,false,false,DATE,0,0,0,0,10
+YEAR,91,4,,,[(4)],1,true,3,false,false,false,YEAR,0,0,0,0,10
+TIME,92,16,',',[(fsp)],1,true,3,false,false,false,TIME,0,0,0,0,10
+DATETIME,93,26,',',[(fsp)],1,true,3,false,false,false,DATETIME,0,0,0,0,10
+TIMESTAMP,93,26,',',[(fsp)],1,true,3,false,false,false,TIMESTAMP,0,0,0,0,10
+-- 0/16 - 0 ---------------------------------------------------------------
+.format table
+-- 0/17 - 0 ---------------------------------------------------------------
+.info user
+root@172.19.0.1
+-- 0/18 - 0 ---------------------------------------------------------------
+.quit
+-- 0/19 - 0 ---------------------------------------------------------------

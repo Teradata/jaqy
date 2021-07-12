@@ -78,7 +78,7 @@ DROP TABLE MyTable;
 Column Type    Nullable
 ------ ------- --------
 a      INTEGER Yes
-b      CHAR(1) Yes
+b      TEXT    Yes
 c      DOUBLE  Yes
 -- 11/7 - 0 ---------------------------------------------------------------
 .importtable MyTable
@@ -86,7 +86,7 @@ c      DOUBLE  Yes
 CREATE TABLE MyTable
 (
 	`a` INTEGER,
-	`b` CHAR(1),
+	`b` TEXT,
 	`c` DOUBLE
 )
 -- success. update count = 0
@@ -99,16 +99,16 @@ INSERT INTO MyTable VALUES (?,?,?)
 Field Type    Null Key Default Extra
 ----- ------- ---- --- ------- -----
 a     int(11) YES      ?       
-b     char(1) YES      ?       
+b     text    YES      ?       
 c     double  YES      ?       
 -- 13/9 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b    c
-- - ----
-1 a 1.25
-2 甲 2.45
-3 ? 3.33
+a b       c
+- ---- ----
+1 a    1.25
+2 甲    2.45
+3 ?    3.33
 -- activity count = 3
 -- 14/9 - 0 ---------------------------------------------------------------
 DROP TABLE MyTable;

@@ -19,7 +19,7 @@ USE vagrant;
 CREATE TABLE unicodeTable1
 (
 	`甲` INTEGER NOT NULL,
-	`乙` CHAR(1) NOT NULL
+	`乙` TEXT NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -31,7 +31,7 @@ INSERT INTO unicodeTable1 VALUES (?,?)
 Field Type    Null Key Default Extra
 ----- ------- ---- --- ------- -----
 甲     int(11) NO       ?       
-乙     char(1) NO       ?       
+乙     text    NO       ?       
 -- 3/5 - 0 ----------------------------------------------------------------
 SELECT * FROM unicodeTable1 ORDER BY 1;
 -- success --
@@ -53,7 +53,7 @@ DROP TABLE unicodeTable1;
 CREATE TABLE unicodeTable2
 (
 	`a` INTEGER NOT NULL,
-	`b` CHAR(1) NOT NULL
+	`b` TEXT NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -65,7 +65,7 @@ INSERT INTO unicodeTable2 VALUES (?,?)
 Field Type    Null Key Default Extra
 ----- ------- ---- --- ------- -----
 a     int(11) NO       ?       
-b     char(1) NO       ?       
+b     text    NO       ?       
 -- 7/8 - 0 ----------------------------------------------------------------
 SELECT * FROM unicodeTable2 ORDER BY 1;
 -- success --
@@ -87,7 +87,7 @@ DROP TABLE unicodeTable2;
 CREATE TABLE unicodeTable3
 (
 	`a` INTEGER NOT NULL,
-	`b` CHAR(2) NOT NULL
+	`b` TEXT NOT NULL
 )
 -- success. update count = 0
 -- INSERTION --
@@ -99,7 +99,7 @@ INSERT INTO unicodeTable3 VALUES (?,?)
 Field Type    Null Key Default Extra
 ----- ------- ---- --- ------- -----
 a     int(11) NO       ?       
-b     char(2) NO       ?       
+b     text    NO       ?       
 -- 11/11 - 0 --------------------------------------------------------------
 SELECT * FROM unicodeTable3 ORDER BY 1;
 -- success --

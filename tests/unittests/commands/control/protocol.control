@@ -9,7 +9,7 @@ usage: .protocol [protocol name] [JDBC driver name]
 .protocol
 Protocol   Driver
 ---------- --------------------------------------------
-mysql      com.mysql.jdbc.Driver
+mysql      com.mysql.cj.jdbc.Driver
 oracle     oracle.jdbc.driver.OracleDriver
 postgresql org.postgresql.Driver
 sqlite     org.sqlite.JDBC
@@ -25,7 +25,7 @@ teradata   com.teradata.jdbc.TeraDriver
 Protocol   Driver
 ---------- --------------------------------------------
 dummy      com.dummy.DummyDriver
-mysql      com.mysql.jdbc.Driver
+mysql      com.mysql.cj.jdbc.Driver
 oracle     oracle.jdbc.driver.OracleDriver
 postgresql org.postgresql.Driver
 sqlite     org.sqlite.JDBC

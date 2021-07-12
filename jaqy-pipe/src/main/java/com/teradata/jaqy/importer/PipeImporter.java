@@ -24,8 +24,8 @@ import java.util.logging.Level;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyPreparedStatement;
-import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
@@ -89,7 +89,7 @@ public class PipeImporter implements JaqyImporter
 		Object obj = getObject (column - 1, paramInfo, interpreter);
 		if (obj == null)
 		{
-			setNull (stmt, column, paramInfo);
+			stmt.getHelper ().setNull (stmt, column, paramInfo, interpreter);
 		}
 		else
 		{
