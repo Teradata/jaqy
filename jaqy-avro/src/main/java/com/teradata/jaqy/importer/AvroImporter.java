@@ -246,6 +246,20 @@ class AvroImporter implements JaqyImporter
 				}
 				break;
 			}
+			case Types.NULL:
+			{
+				// MySQL do not provide type info
+				if (v instanceof CharSequence)
+					return v.toString ();
+				if (v instanceof ByteBuffer)
+				{
+					ByteBuffer bb = (ByteBuffer) v;
+					byte[] bytes = new byte[bb.remaining ()];
+					bb.get (bytes);
+					return bytes;
+				}
+				return v;
+			}
 		}
 		throw new IOException ("Type mismatch: object is " + v.getClass () + ", target type is " + TypesUtils.getTypeName (paramInfo.type));
 	}

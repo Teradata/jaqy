@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.exporter;
+package com.teradata.jaqy.utils;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -25,13 +25,11 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.typehandler.TypeHandler;
-import com.teradata.jaqy.utils.CSVExportInfo;
-import com.teradata.jaqy.utils.FileUtils;
 
 /**
  * @author	Heng Yuan
  */
-class FileHandler implements TypeHandler
+public class FileHandler implements TypeHandler
 {
 	private final Path m_csvFile;
 	private final CSVExportInfo m_fileInfo;

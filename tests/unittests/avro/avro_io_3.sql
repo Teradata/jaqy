@@ -14,6 +14,12 @@ SELECT * FROM MyTable ORDER BY a;
 
 .export avro file_io_1.avro
 SELECT * FROM MyTable ORDER BY a;
+
+DELETE FROM MyTable;
+
+.import avro file_io_1.avro
+INSERT INTO MyTable VALUES (?, ?);
+SELECT * FROM MyTable ORDER BY a;
 DROP TABLE MyTable;
 
 .import avro file_io_1.avro

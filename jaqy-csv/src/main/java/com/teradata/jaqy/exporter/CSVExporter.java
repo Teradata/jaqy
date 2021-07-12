@@ -30,6 +30,7 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.CSVExportInfo;
+import com.teradata.jaqy.utils.FileHandler;
 
 /**
  * @author	Heng Yuan
