@@ -17,6 +17,8 @@
 .format csv
 .info type
 .format table
+-- ignore begin
 .info user
+-- ignore end
 .quit
 
