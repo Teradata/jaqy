@@ -50,6 +50,11 @@ public class ReaderLineInput implements LineInput
 		{
 			input.interactive = m_interactive;
 			input.line = m_reader.readLine ();
+			if (input.line == null)
+			{
+				m_reader.close ();
+				m_reader = null;
+			}
 			return input.line != null;
 		}
 		catch (IOException ex)
