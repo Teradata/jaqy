@@ -44,10 +44,10 @@ INSERT INTO MyTable VALUES (4, 0, 2.54, 2.55, CONVERT(VARBINARY, 0xfacefeed));
 
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b c       d e
+a b    c    d e
 - - ---- ---- --------
-1 1 1.1   1.1 deadbeef
-2 0 1.2   1.2 deadbeef
+1 1  1.1  1.1 deadbeef
+2 0  1.2  1.2 deadbeef
 3 1 1.32 1.33 facefeed
 4 0 2.54 2.55 facefeed
 -- activity count = 4
@@ -81,10 +81,10 @@ INSERT INTO MyTable VALUES (?, ?, ?, ?, ?);
 -- 12/7 - 0 ---------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b c       d e
+a b    c    d e
 - - ---- ---- --------
-1 1 1.1   1.1 deadbeef
-2 0 1.2   1.2 deadbeef
+1 1  1.1  1.1 deadbeef
+2 0  1.2  1.2 deadbeef
 3 1 1.32 1.33 facefeed
 4 0 2.54 2.55 facefeed
 -- activity count = 4
@@ -177,10 +177,10 @@ e      binary(4) Yes
 -- 20/15 - 0 --------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --
-a b c       d e
+a b    c    d e
 - - ---- ---- --------
-1 1 1.1   1.1 deadbeef
-2 0 1.2   1.2 deadbeef
+1 1  1.1  1.1 deadbeef
+2 0  1.2  1.2 deadbeef
 3 1 1.32 1.33 facefeed
 4 0 2.54 2.55 facefeed
 -- activity count = 4

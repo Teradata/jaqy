@@ -200,7 +200,7 @@ class JsonImporter implements JaqyImporter
 	public Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws IOException, DecoderException
 	{
 		JsonValue v = (JsonValue)m_vvs[index].getValue ();
-		if (v == null || v.getValueType () == ValueType.NULL) 
+		if (v == null || v.getValueType () == ValueType.NULL)
 			return null;
 		switch (paramInfo.type)
 		{
@@ -240,18 +240,8 @@ class JsonImporter implements JaqyImporter
 				}
 				break;
 			}
+			case Types.REAL:
 			case Types.FLOAT:
-			{
-				if (v instanceof JsonString)
-				{
-					return Float.parseFloat (((JsonString)v).getString ());
-				}
-				else if (v instanceof JsonNumber)
-				{
-					return ((JsonNumber)v).doubleValue ();
-				}
-				break;
-			}
 			case Types.DOUBLE:
 			{
 				if (v instanceof JsonString)

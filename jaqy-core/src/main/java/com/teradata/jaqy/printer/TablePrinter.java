@@ -17,16 +17,16 @@ package com.teradata.jaqy.printer;
 
 import java.io.PrintWriter;
 import java.sql.ResultSet;
-import java.sql.Types;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.interfaces.JaqyHelper;
-import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.StringUtils;
+import com.teradata.jaqy.utils.TypesUtils;
 
 /**
  * @author	Heng Yuan
@@ -73,6 +73,7 @@ class TablePrinter implements JaqyPrinter
 		pw.println ();
 	}
 
+	@Override
 	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyHelper helper = rs.getHelper ();
@@ -200,20 +201,7 @@ class TablePrinter implements JaqyPrinter
 
 	private boolean isLeftAlign (int type)
 	{
-		switch (type)
-		{
-			case Types.DECIMAL:
-			case Types.TINYINT:
-			case Types.SMALLINT:
-			case Types.INTEGER:
-			case Types.BIGINT:
-			case Types.FLOAT:
-			case Types.DOUBLE:
-			case Types.NUMERIC:
-				return false;
-			default:
-				return true;
-		}
+		return !TypesUtils.isNumber (type);
 	}
 
 	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers, long limit, JaqyInterpreter interpreter)

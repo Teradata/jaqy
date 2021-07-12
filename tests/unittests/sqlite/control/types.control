@@ -148,7 +148,7 @@ ResultSet Column Count                       4
     Signed                                       N
     Writable                                     Y
 -- success --
-        a b     c     d
+        a     b c     d
 --------- ----- ----- --------
 123456789 10.12 你好，世界 deadbeef
 -- activity count = 1
