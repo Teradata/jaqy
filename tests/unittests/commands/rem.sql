@@ -15,6 +15,10 @@ asd;
 a//z/
 .end rem
 
+.@rem
+This is a test.
+.end rem
+
 .set echo off
 .quiet on
 .rem

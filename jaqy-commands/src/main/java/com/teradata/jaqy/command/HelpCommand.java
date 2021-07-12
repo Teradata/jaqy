@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.teradata.jaqy.CommandArgumentType;
-import com.teradata.jaqy.ObjectManager;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.ObjectManager;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.StringUtils;
 
@@ -85,7 +85,7 @@ public class HelpCommand extends JaqyCommandAdapter
 			{
 				interpreter.error ("-- unknown command: " + cmdName);
 			}
-			if (cmd != null)
+			else
 			{
 				helpCommand (pw, cmdName, cmd, StringUtils.shiftArgs (args));
 			}
