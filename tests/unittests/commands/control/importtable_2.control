@@ -1,0 +1,93 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .importtable command test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b VARCHAR(200), c VARCHAR(200));
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'abc', 'def');
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, 'john', 'doe');
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (3, 'a"b', 'c"d');
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (4, 'a,b', 'c,d');
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (5, 'a''b', 'c''d');
+-- success. update count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (6, 'a''",b', 'c''",d');
+-- success. update count = 1
+-- 7/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
+-- success. update count = 1
+-- 8/2 - 0 ----------------------------------------------------------------
+
+.export csv file1.csv
+-- 8/3 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+-- activity count = 7
+-- 9/3 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable2(a INTEGER PRIMARY KEY, b VARCHAR(200));
+-- success. update count = 1
+-- 10/3 - 0 ---------------------------------------------------------------
+
+.import csv file1.csv
+-- 10/4 - 0 ---------------------------------------------------------------
+.importtable -c MyTable2
+-- INSERTION --
+INSERT INTO MyTable2 VALUES (?,?)
+-- failure 20: [SQLITE_MISMATCH]  Data type mismatch (datatype mismatch)
+-- 11/5 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable2 ORDER BY a;
+-- success --
+a b
+- -
+-- activity count = 0
+-- 12/5 - 0 ---------------------------------------------------------------
+DROP TABLE MyTable2;
+-- success. update count = 0
+-- 13/5 - 0 ---------------------------------------------------------------
+
+CREATE TABLE MyTable2(a INTEGER PRIMARY KEY, b VARCHAR(200), c VARCHAR(200), d INTEGER);
+-- success. update count = 0
+-- 14/5 - 0 ---------------------------------------------------------------
+
+.import csv file1.csv
+-- 14/6 - 0 ---------------------------------------------------------------
+.importtable -c MyTable2
+-- INSERTION --
+INSERT INTO MyTable2 VALUES (?,?,?,?)
+-- error: Column 4 is not found.
+-- 15/7 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable2 ORDER BY a;
+-- success --
+a b c d
+- - - -
+-- activity count = 0
+-- 16/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 17/7 - 0 ---------------------------------------------------------------
+DROP TABLE MyTable2;
+-- success. update count = 0
+-- 18/7 - 0 ---------------------------------------------------------------
+
+.os rm -f file1.csv
+-- 18/8 - 0 ---------------------------------------------------------------
+

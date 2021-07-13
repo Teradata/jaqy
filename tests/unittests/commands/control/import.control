@@ -67,7 +67,10 @@ options:
 
 -- 0/2 - 0 ----------------------------------------------------------------
 .help importtable
-usage: .importtable [tablename]
+usage: .importtable [options] [tablename]
+options:
+  -c,--check   check if the table already exists
+
 -- 0/3 - 0 ----------------------------------------------------------------
 .import
 No current imports.
@@ -76,10 +79,10 @@ No current imports.
 -- error: There is no current import.
 -- 0/5 - 0 ----------------------------------------------------------------
 .importtable
--- error: There is no current import.
+-- error: Staging table name is not specified.
 -- 0/6 - 0 ----------------------------------------------------------------
 .importtable MyTable2
--- error: There is no current import.
+-- error: Current session is closed.
 -- 0/7 - 0 ----------------------------------------------------------------
 
 .run ../common/sqlite_setup.sql
