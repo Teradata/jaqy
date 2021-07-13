@@ -37,5 +37,7 @@
 .info types
 .info typemap
 .info importmap
+
+.info dummy
 .close
 

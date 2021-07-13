@@ -17,7 +17,9 @@ Syntax
 
 .. code-block:: text
 
-	usage: .importtable [tablename]
+	usage: .importtable [options] [tablename]
+	options:
+	  -c,--check   check if the table already exists
 
 Example
 ~~~~~~~
@@ -32,6 +34,11 @@ Example
 
 	-- create a table named MyTable and import data into it.
 	.importtable MyTable
+
+
+	-- check if MyTable exists.  If so, skip the table creation and just
+	-- import data into the existing table.
+	.importtable -c MyTable
 
 See Also
 ~~~~~~~~

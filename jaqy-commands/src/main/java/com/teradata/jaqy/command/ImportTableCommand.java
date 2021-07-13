@@ -15,6 +15,9 @@
  */
 package com.teradata.jaqy.command;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.QueryMode;
@@ -33,6 +36,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 {
 	public ImportTableCommand ()
 	{
+		addOption ("c", "check", false, "check if the table already exists");
 	}
 
 	@Override
@@ -42,9 +46,9 @@ public class ImportTableCommand extends JaqyCommandAdapter
 	}
 
 	@Override
-	public String getLongDescription ()
+	protected String getSyntax ()
 	{
-		return "usage: " + getCommand () + " [tablename]";
+		return getCommand () + " [options] [tablename]";
 	}
 
 	@Override
@@ -56,43 +60,80 @@ public class ImportTableCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
 	{
-		JaqyImporter importer = interpreter.getImporter ();
-		if (importer == null)
+		CommandLine cmdLine = getCommandLine (args);
+		args = cmdLine.getArgs ();
+		boolean checkExist = false;
+
+		for (Option option : cmdLine.getOptions ())
 		{
-			interpreter.error ("There is no current import.");
+			switch (option.getOpt ().charAt (0))
+			{
+				case 'c':
+				{
+					checkExist = true;
+					break;
+				}
+			}
 		}
-		SchemaInfo schemaInfo = importer.getSchema ();
-		if (schemaInfo == null)
-		{
-			interpreter.error ("Current import schema is not available.");
-		}
+
 		if (args.length == 0)
 		{
 			interpreter.error ("Staging table name is not specified.");
 		}
-		StringBuilder buffer = new StringBuilder ();
-		for (String arg : args)
-			buffer.append (arg);
-		String tableName = buffer.toString ();
+		String tableName = args[0];
 
 		SessionUtils.checkOpen (interpreter);
 		Session session = interpreter.getSession ();
 		JaqyConnection conn = session.getConnection ();
 		JaqyHelper helper = conn.getHelper ();
-		String sql = SchemaUtils.getTableSchema (helper, schemaInfo, tableName, false, true);
 
-		boolean prevCommit = conn.getAutoCommit ();
-		if (!prevCommit)
-			conn.setAutoCommit (true);
-		interpreter.println ("-- Table Schema --");
-		interpreter.println (sql);
-		session.executeQuery (sql, interpreter, 1);
-		sql = null;
-		if (!prevCommit)
-			conn.setAutoCommit (false);
-		buffer.setLength (0);
+		boolean tableExists = false;
+		if (checkExist)
+		{
+			tableExists = SessionUtils.tableExists (session, tableName);
+		}
+		int columnCount = 0;
+
+		JaqyImporter importer = interpreter.getImporter ();
+		if (importer == null)
+		{
+			interpreter.error ("There is no current import.");
+		}
+		if (!tableExists)
+		{
+			SchemaInfo schemaInfo = importer.getSchema ();
+			if (schemaInfo == null)
+			{
+				interpreter.error ("Current import schema is not available.");
+			}
+
+			String sql = SchemaUtils.getTableSchema (helper, schemaInfo, tableName, false, true);
+
+			boolean prevCommit = conn.getAutoCommit ();
+			if (!prevCommit)
+				conn.setAutoCommit (true);
+
+			interpreter.println ("-- Table Schema --");
+			interpreter.println (sql);
+			session.executeQuery (sql, interpreter, 1);
+
+			if (!prevCommit)
+				conn.setAutoCommit (false);
+
+			columnCount = schemaInfo.columns.length;
+		}
+		else
+		{
+			columnCount = SessionUtils.getNumColumns (session, interpreter, tableName);
+		}
+
+		if (columnCount < 1)
+		{
+			interpreter.error ("Error determining the number of import column.");
+		}
+
+		StringBuilder buffer = new StringBuilder ();
 		buffer.append ("INSERT INTO ").append (tableName).append (" VALUES (");
-		int columnCount = schemaInfo.columns.length;
 		for (int i = 0; i < columnCount; ++i)
 		{
 			if (i > 0)
@@ -100,7 +141,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 			buffer.append ('?');
 		}
 		buffer.append (')');
-		sql = buffer.toString ();
+		String sql = buffer.toString ();
 		interpreter.println ("-- INSERTION --");
 		interpreter.println (sql);
 		try

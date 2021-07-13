@@ -82,7 +82,6 @@ public class ImportCommand extends JaqyCommandAdapter
 			if (importer == null)
 			{
 				interpreter.error ("importer type not found: " + name);
-				return;
 			}
 
 			// we need to have an open session to do the import

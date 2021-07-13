@@ -17,6 +17,8 @@ handler.sql
 help.sql
 if.sql
 import.sql
+importtable_1.sql
+importtable_2.sql
 info.sql
 limit.sql
 list.sql

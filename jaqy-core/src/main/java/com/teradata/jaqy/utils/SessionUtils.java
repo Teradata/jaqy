@@ -15,8 +15,15 @@
  */
 package com.teradata.jaqy.utils;
 
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
+import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
  * @author	Heng Yuan
@@ -37,5 +44,73 @@ public class SessionUtils
 				interpreter.error ("Current session is closed.");
 			}
 		}
+	}
+
+	public static boolean tableExists (Session session, String tableName)
+	{
+		try
+		{
+			JaqyConnection conn = session.getConnection ();
+			DatabaseMetaData meta = conn.getMetaData ();
+			ResultSet rs = null;
+			try
+			{
+				rs = meta.getTables (".", ".", tableName, null);
+
+				if (rs.next ())
+				{
+					rs.close ();
+					return true;
+				}
+			}
+			catch (SQLException ex)
+			{
+				session.getGlobals ().log (Level.INFO, ex);
+				if (rs != null)
+				{
+					try
+					{
+						rs.close ();
+					}
+					catch (SQLException ex2)
+					{
+					}
+				}
+			}
+		}
+		catch (SQLException ex)
+		{
+			session.getGlobals ().log (Level.INFO, ex);
+		}
+		return false;
+	}
+
+	public static int getNumColumns (Session session, JaqyInterpreter interpreter, String tableName)
+	{
+		JaqyResultSet rs = null;
+		try
+		{
+			rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName, interpreter);
+			int count = 0;
+			while (rs.next ())
+				++count;
+			rs.close ();
+			return count;
+		}
+		catch (Exception ex)
+		{
+			session.getGlobals ().log (Level.INFO, ex);
+			if (rs != null)
+			{
+				try
+				{
+					rs.close ();
+				}
+				catch (SQLException ex2)
+				{
+				}
+			}
+		}
+		return 0;
 	}
 }

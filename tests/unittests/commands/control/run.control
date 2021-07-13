@@ -15,10 +15,14 @@ options:
 .run asdf.asdf
 -- error: invalid file: asdf.asdf
 -- 0/3 - 0 ----------------------------------------------------------------
-.run ../common/sqlite_setup.sql
--- Running script: ../common/sqlite_setup.sql
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
 -- 0/4 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
+-- 0/5 - 0 ----------------------------------------------------------------
+.close
+-- 0/6 - 0 ----------------------------------------------------------------
 .close
 -- error: Current session is closed.
--- 0/5 - 0 ----------------------------------------------------------------
+-- 0/7 - 0 ----------------------------------------------------------------
 

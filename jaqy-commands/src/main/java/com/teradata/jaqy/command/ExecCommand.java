@@ -71,13 +71,19 @@ public class ExecCommand extends JaqyCommandAdapter
 			CommandLine cmdLine = getCommandLine (args);
 			args = cmdLine.getArgs ();
 			String charset = null;
+
 			for (Option option : cmdLine.getOptions ())
 			{
-				if ("c".equals (option.getOpt ()))
+				switch (option.getOpt ().charAt (0))
 				{
-					charset = option.getValue ();
+					case 'c':
+					{
+						charset = option.getValue ();
+						break;
+					}
 				}
 			}
+
 			if (args.length > 0)
 			{
 				Path file = interpreter.getPath (args[0]);
