@@ -48,6 +48,7 @@ if [ ! -f FILELIST ]; then
 	exit 1;
 fi
 
+export SCRIPTDIR=`readlink -f ../../bin`
 UNITTESTDIR=`readlink -f ..`
 TESTDIR=/tmp/test.$$
 INPUTDIR=${TESTDIR}/input
@@ -151,12 +152,20 @@ mkdir $INPUTDIR
 mkdir $OUTPUTDIR
 
 # copy all the files into output direct
-cp -r * $INPUTDIR
+cp * $INPUTDIR >/dev/null 2>&1
+if [ -d lib ]; then
+	ln -s `readlink -f lib` ${INPUTDIR}/lib
+fi
+if [ -d data ]; then
+	ln -s `readlink -f data` ${INPUTDIR}/data
+fi
+if [ -d control ]; then
+	ln -s `readlink -f control` $CONTROLDIR
+fi
 
 ln -s "${UNITTESTDIR}/common/" $TESTDIR/common
 ln -s "${UNITTESTDIR}/drivers/" $TESTDIR/drivers
 ln -s ${JAQY_HOME} $TESTDIR/home
-mv ${INPUTDIR}/control ${CONTROLDIR}
 pwd > ${TESTDIR}/testpath.txt
 
 cd "$INPUTDIR"

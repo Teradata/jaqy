@@ -26,4 +26,29 @@ public class SchemaInfo
 	{
 		columns = cols;
 	}
+
+	public int getNumColumns ()
+	{
+		return columns.length;
+	}
+
+	public String getLabel (int columnIndex)
+	{
+		return columns[columnIndex - 1].label;
+	}
+
+	public int getType (int columnIndex)
+	{
+		return columns[columnIndex - 1].type;
+	}
+
+	public int getPrecision (int columnIndex)
+	{
+		return columns[columnIndex - 1].precision;
+	}
+
+	public int getScale (int columnIndex)
+	{
+		return columns[columnIndex - 1].scale;
+	}
 }

@@ -82,6 +82,11 @@ public class ResultSetMetaDataUtils
 		return columnInfo;
 	}
 
+	public static SchemaInfo getColumnInfo (JaqyResultSetMetaData meta, JaqyHelper helper) throws SQLException
+	{
+		return getColumnInfo (meta.getMetaData (), helper);
+	}
+
 	public static SchemaInfo getColumnInfo (ResultSetMetaData meta, JaqyHelper helper) throws SQLException
 	{
 		int columnCount = meta.getColumnCount ();

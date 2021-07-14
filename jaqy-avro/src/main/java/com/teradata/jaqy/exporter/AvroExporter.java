@@ -57,7 +57,7 @@ class AvroExporter implements JaqyExporter
 	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
 	{
 		JaqyHelper helper = rs.getHelper ();
-		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData ().getMetaData (), helper);
+		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData (), helper);
 		Schema schema = AvroUtils.getSchema (schemaInfo, helper);
 		interpreter.getGlobals ().log (Level.INFO, "schema is " + schema.toString (true));
 
