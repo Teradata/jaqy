@@ -16,7 +16,9 @@ INSERT INTO MyTable VALUES (7, 'a	b', 'c,d');
 
 SELECT * FROM MyTable ORDER BY a;
 
+.export excel
 .export excel file1.xlsx
+.export
 SELECT * FROM MyTable ORDER BY a;
 
 .os ${SCRIPTDIR}/cmpexcel.sh data/file1.xlsx file1.xlsx && rm -f file1.xlsx

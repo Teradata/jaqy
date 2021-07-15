@@ -1,0 +1,38 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import excel test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import excel -h data/import2.xlsx
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"a" INTEGER,
+	"b" TEXT NOT NULL,
+	"c" INTEGER NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?)
+-- success. update count = 1
+-- 2/4 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY c;
+-- success --
+   a b   c
+---- --- -
+   1 a   1
+   2 bc  2
+   ? def 3
+-- activity count = 3
+-- 3/4 - 0 ----------------------------------------------------------------
+DROP TABLE MyTable;
+-- success. update count = 1
+-- 4/4 - 0 ----------------------------------------------------------------

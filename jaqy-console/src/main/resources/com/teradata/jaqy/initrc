@@ -57,6 +57,7 @@
 		{ "type" : "NCLOB", "name" : "text" }
 	],
 	"importTypeMap": [
+		{ "type" : "BOOLEAN", "name" : "bool" },
 		{ "type" : "CHAR", "name" : "text" },
 		{ "type" : "VARCHAR", "name" : "text" },
 		{ "type" : "CLOB", "name" : "text" },

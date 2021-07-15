@@ -1,0 +1,30 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import excel test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import excel data/empty.xlsx
+-- error: There are some issues with the file.
+-- 0/3 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- error: There is no current import.
+-- 0/4 - 0 ----------------------------------------------------------------
+DROP TABLE MyTable;
+-- failure 1: [SQLITE_ERROR] SQL error or missing database (no such table: MyTable)
+-- 1/4 - 0 ----------------------------------------------------------------
+
+.import excel -h data/badheader.xlsx
+-- error: Empty header column: 2
+-- 1/5 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- error: There is no current import.
+-- 1/6 - 0 ----------------------------------------------------------------
+DROP TABLE MyTable;
+-- failure 1: [SQLITE_ERROR] SQL error or missing database (no such table: MyTable)
+-- 2/6 - 0 ----------------------------------------------------------------

@@ -72,36 +72,3 @@ character set.
 
 	.export csv -e UTF-8 -f2 -e UTF-16LE -f3 file1.csv
 	SELECT * FROM MyTable ORDER BY a;
-
-Example
-*******
-
-.. code-block:: sql
-
-	.format csv
-	-- 8/8 - 0 ----------------------------------------------------------------
-	SELECT * FROM MyTable ORDER BY a;
-	-- success --
-	a,b,c
-	1,abc,def
-	2,john,doe
-	3,"a""b","c""d"
-	4,"a,b","c,d"
-	5,a'b,c'd
-	6,"a'"",b","c'"",d"
-	7,a	b,"c,d"
-	-- activity count = 7
-	-- 9/8 - 0 ----------------------------------------------------------------
-	.format csv -type default -d |
-	-- 9/9 - 0 ----------------------------------------------------------------
-	SELECT * FROM MyTable ORDER BY a;
-	-- success --
-	a|b|c
-	1|abc|def
-	2|john|doe
-	3|"a""b"|"c""d"
-	4|a,b|c,d
-	5|a'b|c'd
-	6|"a'"",b"|"c'"",d"
-	7|a	b|c,d
-	-- activity count = 7

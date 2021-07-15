@@ -218,7 +218,7 @@ class ExcelExporter implements JaqyExporter
 
 			if (headerTypes[i] == Types.TIMESTAMP)
 			{
-				String format = null;
+				String format;
 				switch (schemaInfo.getType (i + 1))
 				{
 					case Types.DATE:
@@ -238,13 +238,10 @@ class ExcelExporter implements JaqyExporter
 						break;
 					}
 				}
-				if (format != null)
+				ws.range (rowMin, colMin, rowMax, colMax).style ().format (format).set ();
+				if (!m_options.swap)
 				{
-					ws.range (rowMin, colMin, rowMax, colMax).style ().format (format).set ();
-					if (!m_options.swap)
-					{
-						ws.width (i, format.length () + WIDTH_ADJUST);
-					}
+					ws.width (i, format.length () + WIDTH_ADJUST);
 				}
 			}
 			else

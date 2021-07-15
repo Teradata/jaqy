@@ -55,7 +55,18 @@ public class ExcelImporter implements JaqyImporter
 
 	private void openFile () throws IOException
 	{
-		m_wb = new ReadableWorkbook (m_file.getInputStream ());
+		try
+		{
+			m_wb = new ReadableWorkbook (m_file.getInputStream ());
+		}
+		catch (IOException ex)
+		{
+			throw ex;
+		}
+		catch (Exception ex)
+		{
+			throw new IOException ("There are some issues with the file.");
+		}
 		if (m_options.sheetName != null)
 			m_ws = m_wb.findSheet (m_options.sheetName).get ();
 		else

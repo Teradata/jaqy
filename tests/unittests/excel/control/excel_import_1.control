@@ -1,0 +1,110 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import excel test
+--------------------------------------------------------------------------
+.run ../common/sqlserver_setup.sql
+-- Running script: ../common/sqlserver_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u sa -p yourStrong(!)Password sqlserver://localhost
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import excel
+-- error: missing file name.
+-- 0/3 - 0 ----------------------------------------------------------------
+.import excel asdfasdf.xlsx
+-- error: ./asdfasdf.xlsx (No such file or directory)
+-- 0/4 - 0 ----------------------------------------------------------------
+.import excel -n asdf -i 1234 data/import1.xlsx
+-- error: Both sheet name and index are specified.
+-- 0/5 - 0 ----------------------------------------------------------------
+.import excel -i -1234 data/import1.xlsx
+-- error: Invalid sheet index: -1234
+-- 0/6 - 0 ----------------------------------------------------------------
+.import excel -d -1 data/import1.xlsx
+-- error: Invalid column index: -1
+-- 0/7 - 0 ----------------------------------------------------------------
+
+.import excel data/import1.xlsx
+-- 0/8 - 0 ----------------------------------------------------------------
+.import
+.import excel
+-- 0/9 - 0 ----------------------------------------------------------------
+.importschema
+Column Type       Nullable
+------ ---------- --------
+col1   float      No
+col2   varchar(6) No
+col3   float      No
+col4   nchar(1)   Yes
+col5   char(4)    No
+-- 0/10 - 0 ---------------------------------------------------------------
+.importtable -c MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"col1" float NOT NULL,
+	"col2" varchar(6) NOT NULL,
+	"col3" float NOT NULL,
+	"col4" nchar(1),
+	"col5" char(4) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?,?)
+-- 2/11 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY 1;
+-- success --
+ col1 col2    col3 col4 col5
+----- ------ ----- ---- ----
+  0.1 This   10000 Z    1111
+    1 is      1000 甲    2222
+   10 a        100 乙    asdf
+  100 small     10 丙    deef
+ 1000 test       1 ?    deed
+10000 column   0.1 丁    deee
+-- activity count = 6
+-- 3/11 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 4/11 - 0 ---------------------------------------------------------------
+
+.import excel -i 0 data/import1.xlsx
+-- 4/12 - 0 ---------------------------------------------------------------
+.import
+.import excel
+-- 4/13 - 0 ---------------------------------------------------------------
+.importtable -c MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"col1" float NOT NULL,
+	"col2" varchar(6) NOT NULL,
+	"col3" float NOT NULL,
+	"col4" nchar(1),
+	"col5" char(4) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?,?)
+-- 6/14 - 0 ---------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY 1;
+-- success --
+ col1 col2    col3 col4 col5
+----- ------ ----- ---- ----
+  0.1 This   10000 Z    1111
+    1 is      1000 甲    2222
+   10 a        100 乙    asdf
+  100 small     10 丙    deef
+ 1000 test       1 ?    deed
+10000 column   0.1 丁    deee
+-- activity count = 6
+-- 7/14 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 8/14 - 0 ---------------------------------------------------------------
+

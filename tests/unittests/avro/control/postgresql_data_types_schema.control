@@ -746,7 +746,7 @@ DELETE FROM MiscTable1;
 CREATE TABLE MiscTable12
 (
 	"a" int4,
-	"c1" int2,
+	"c1" bool,
 	"c2" text,
 	"c3" text,
 	"c4" text
@@ -757,11 +757,11 @@ INSERT INTO MiscTable12 VALUES (?,?,?,?,?)
 -- 128/40 - 0 -------------------------------------------------------------
 SELECT * FROM MiscTable12 ORDER BY a;
 -- success --
-a   c1 c2   c3                                   c4
-- ---- ---- ------------------------------------ -----
-1    1 101  a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 12.34
-2    0 1010 a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 23.45
-3    ? ?    ?                                    ?
+a c1 c2   c3                                   c4
+- -- ---- ------------------------------------ -----
+1 t  101  a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 12.34
+2 f  1010 a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 23.45
+3 ?  ?    ?                                    ?
 -- activity count = 3
 -- 129/40 - 0 -------------------------------------------------------------
 

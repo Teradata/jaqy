@@ -76,59 +76,73 @@ class ExcelImporterUtils
 
 			columnInfo.nullable = scanColumnInfo.nullable ? ResultSetMetaData.columnNullable : ResultSetMetaData.columnNoNulls;
 
-			if (scanColumnInfo.type == Types.CHAR)
+			switch (scanColumnInfo.type)
 			{
-				if (scanColumnInfo.maxLength < 1)
+				case Types.CHAR:
 				{
-					scanColumnInfo.maxLength = 1;
-					scanColumnInfo.varlength = true;
-				}
-				else if (scanColumnInfo.minLength != scanColumnInfo.maxLength)
-				{
-					scanColumnInfo.varlength = true;
-				}
+					if (scanColumnInfo.maxLength < 1)
+					{
+						scanColumnInfo.maxLength = 1;
+						scanColumnInfo.varlength = true;
+					}
+					else if (scanColumnInfo.minLength != scanColumnInfo.maxLength)
+					{
+						scanColumnInfo.varlength = true;
+					}
 
-				if (scanColumnInfo.ascii)
-				{
-					columnInfo.type = scanColumnInfo.varlength ? Types.VARCHAR : Types.CHAR;
+					if (scanColumnInfo.ascii)
+					{
+						columnInfo.type = scanColumnInfo.varlength ? Types.VARCHAR : Types.CHAR;
+					}
+					else
+					{
+						columnInfo.type = scanColumnInfo.varlength ? Types.NVARCHAR : Types.NCHAR;
+					}
+					columnInfo.precision = scanColumnInfo.maxLength;
+					break;
 				}
-				else
+				case Types.DECIMAL:
 				{
-					columnInfo.type = scanColumnInfo.varlength ? Types.NVARCHAR : Types.NCHAR;
+					// Date/Time/Timestamp would have type values not Types.NULL
+					if (type != Types.NULL)
+					{
+						columnInfo.precision = 0;
+						columnInfo.scale = 0;
+						columnInfo.type = type;
+						break;
+					}
+
+					columnInfo.precision = scanColumnInfo.precision;
+					if (scanColumnInfo.scale == Integer.MAX_VALUE)
+					{
+						columnInfo.type = Types.DOUBLE;
+						columnInfo.scale = 0;
+					}
+					else if (scanColumnInfo.scale <= 0 &&
+					         scanColumnInfo.precision < 11 &&
+					         scanColumnInfo.maxValue.compareTo (new BigDecimal (Integer.MAX_VALUE)) <= 0 &&
+					         scanColumnInfo.minValue.compareTo (new BigDecimal (Integer.MIN_VALUE)) >= 0)
+					{
+						columnInfo.type = Types.INTEGER;
+						columnInfo.scale = 0;
+					}
+					else if (scanColumnInfo.scale > 0)
+					{
+						columnInfo.type = Types.DECIMAL;
+						columnInfo.scale = scanColumnInfo.scale;
+					}
+					else
+					{
+						columnInfo.type = Types.DOUBLE;
+						columnInfo.scale = 0;
+					}
+					break;
 				}
-				columnInfo.precision = scanColumnInfo.maxLength;
-			}
-			else if (type != Types.NULL)
-			{
-				columnInfo.precision = 0;
-				columnInfo.scale = 0;
-				columnInfo.type = type;
-			}
-			else
-			{
-				columnInfo.precision = scanColumnInfo.precision;
-				if (scanColumnInfo.scale == Integer.MAX_VALUE)
+				case Types.BOOLEAN:
 				{
-					columnInfo.type = Types.DOUBLE;
+					columnInfo.precision = 0;
 					columnInfo.scale = 0;
-				}
-				else if (scanColumnInfo.scale <= 0 &&
-				         scanColumnInfo.precision < 11 &&
-				         scanColumnInfo.maxValue.compareTo (new BigDecimal (Integer.MAX_VALUE)) <= 0 &&
-				         scanColumnInfo.minValue.compareTo (new BigDecimal (Integer.MIN_VALUE)) >= 0)
-				{
-					columnInfo.type = Types.INTEGER;
-					columnInfo.scale = 0;
-				}
-				else if (scanColumnInfo.scale > 0)
-				{
-					columnInfo.type = Types.DECIMAL;
-					columnInfo.scale = scanColumnInfo.scale;
-				}
-				else
-				{
-					columnInfo.type = Types.DOUBLE;
-					columnInfo.scale = 0;
+					columnInfo.type = Types.BOOLEAN;
 				}
 			}
 		}
@@ -253,14 +267,7 @@ class ExcelImporterUtils
 							scanColumnInfo.precision = precision;
 						}
 					}
-					else if (cellType == CellType.BOOLEAN)
-					{
-						if (scanColumnInfo.type == Types.NULL)
-						{
-							scanColumnInfo.type = Types.BOOLEAN;
-						}
-					}
-					else
+					else if (scanColumnInfo.type == Types.CHAR)
 					{
 						if (scanColumnInfo.ascii)
 						{
