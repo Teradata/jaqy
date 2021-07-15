@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,42 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.schema;
+package com.teradata.jaqy.importer;
+
+import java.sql.Types;
+import java.util.HashMap;
 
 /**
  * @author	Heng Yuan
  */
-public class SchemaInfo
+class ExcelImporterOptions
 {
-	public final FullColumnInfo[] columns;
+	public String sheetName;
+	public int sheetId = -1;
+	public boolean swap;
+	public boolean header;
 
-	public SchemaInfo (FullColumnInfo[] cols)
+	private final HashMap<Integer, Integer> m_typeMap = new HashMap<Integer, Integer> ();
+
+	public ExcelImporterOptions ()
 	{
-		columns = cols;
 	}
 
-	public int getNumColumns ()
+	public void setType (int column, int type)
 	{
-		return columns.length;
+		m_typeMap.put (column, type);
 	}
 
-	public String getLabel (int columnIndex)
+	public int getType (int column)
 	{
-		return columns[columnIndex - 1].label;
-	}
-
-	public int getType (int columnIndex)
-	{
-		return columns[columnIndex - 1].type;
-	}
-
-	public int getPrecision (int columnIndex)
-	{
-		return columns[columnIndex - 1].precision;
-	}
-
-	public int getScale (int columnIndex)
-	{
-		return columns[columnIndex - 1].scale;
+		Integer t = m_typeMap.get (column);
+		if (t == null)
+		{
+			return Types.NULL;
+		}
+		return t;
 	}
 }

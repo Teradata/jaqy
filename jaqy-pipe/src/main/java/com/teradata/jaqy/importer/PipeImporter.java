@@ -45,7 +45,7 @@ public class PipeImporter implements JaqyImporter
 	{
 		m_rs = rs;
 		m_globals = globals;
-		m_schema = ResultSetMetaDataUtils.getColumnInfo (m_rs.getMetaData ().getMetaData (), rs.getHelper ());
+		m_schema = ResultSetMetaDataUtils.getColumnInfo (m_rs.getMetaData (), rs.getHelper ());
 	}
 
 	@Override
