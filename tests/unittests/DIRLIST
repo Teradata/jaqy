@@ -4,6 +4,7 @@ commands
 csv
 debug
 derby
+excel
 format
 json
 mysql
