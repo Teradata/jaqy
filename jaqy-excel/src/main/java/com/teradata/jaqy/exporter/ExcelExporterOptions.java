@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Heng Yuan
+ * Copyright (c) 2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package com.teradata.jaqy.exporter;
 /**
  * @author	Heng Yuan
  */
-class ExcelOptions
+class ExcelExporterOptions
 {
 	public String sheetName;
-	public boolean horizon;
+	public boolean swap;
 }

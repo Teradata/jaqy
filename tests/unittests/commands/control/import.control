@@ -8,6 +8,7 @@ usage: .import [type] [type options] [path]
 type:
   avro
   csv
+  excel
   json
   pipe
 
@@ -48,6 +49,14 @@ csv type options:
                                                         --nafilter is enabled,
                                                         then the default list
                                                         is used.
+
+excel type options:
+  -d,--date <arg>        imports the specified the column as date
+  -h,--header            indicates that there is a header row/column
+  -i,--index <arg>       specifies the worksheet to import from using index
+  -n,--name <arg>        specifies the worksheet to import from using name
+  -s,--timestamp <arg>   imports the specified the column as timestamp
+  -t,--time <arg>        imports the specified the column as time
 
 json type options:
   -a,--array                   treats BSON root document as array.

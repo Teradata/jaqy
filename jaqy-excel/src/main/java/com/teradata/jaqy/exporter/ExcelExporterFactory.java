@@ -36,7 +36,7 @@ public class ExcelExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	public ExcelExporterFactory ()
 	{
 		addOption ("n", "name", true, "specifies the worksheet name");
-		addOption ("h", "horizon", false, "dumps the data horizontally");
+		addOption ("s", "swap", false, "dumps the data horizontally");
 	}
 
 	@Override
@@ -48,15 +48,15 @@ public class ExcelExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	@Override
 	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		ExcelOptions options = new ExcelOptions ();
+		ExcelExporterOptions options = new ExcelExporterOptions ();
 
 		for (Option option : cmdLine.getOptions ())
 		{
 			switch (option.getOpt ().charAt (0))
 			{
-				case 'h':
+				case 's':
 				{
-					options.horizon = true;
+					options.swap = true;
 					break;
 				}
 				case 'n':

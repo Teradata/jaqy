@@ -8,6 +8,7 @@ usage: .export [type] [type options] [path]
 type:
   avro
   csv
+  excel
   json
   pipe
 
@@ -26,6 +27,10 @@ csv type options:
   -n,--name <arg>                                       specifies the external
                                                         file name pattern
   -t,--type <default | excel | rfc4180 | mysql | tdf>   sets the csv type.
+
+excel type options:
+  -n,--name <arg>   specifies the worksheet name
+  -s,--swap         dumps the data horizontally
 
 json type options:
   -b,--binary <base64 | hex>   sets the binary format.

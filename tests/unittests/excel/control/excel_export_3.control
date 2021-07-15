@@ -46,7 +46,7 @@ a b          c        d                   e    f
 -- activity count = 6
 -- 8/2 - 0 ----------------------------------------------------------------
 
-.export excel -n MyTable -h file3.xlsx
+.export excel -n MyTable -s file3.xlsx
 -- 8/3 - 0 ----------------------------------------------------------------
 SELECT * FROM MyTable ORDER BY a;
 -- success --

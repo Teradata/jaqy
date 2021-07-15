@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
--- .export excel test
+-- excel export / import test
 --------------------------------------------------------------------------
 .run ../common/postgresql_setup.sql
 
@@ -15,10 +15,31 @@ INSERT INTO MyTable VALUES (6, '2001-01-06', '06:02:03', '2001-06-01 01:02:03', 
 
 SELECT * FROM MyTable ORDER BY a;
 
-.export excel -n MyTable -s file3.xlsx
+.export excel file_io_2.xlsx
 SELECT * FROM MyTable ORDER BY a;
 
-.os ${SCRIPTDIR}/cmpexcel.sh data/file3.xlsx file3.xlsx && rm -f file3.xlsx
+DELETE FROM MyTable;
+
+.import excel -h file_io_2.xlsx
+INSERT INTO MyTable VALUES (?, ?, ?, ?, ?, ?);
+
+SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;
+
+.import excel -h file_io_2.xlsx
+.importtable MyTable
+
+SELECT * FROM MyTable ORDER BY a;
+
+DROP TABLE MyTable;
+
+.import excel -h -d1 -t2 -s3 file_io_2.xlsx
+.importtable MyTable
+
+SELECT * FROM MyTable ORDER BY a;
+
+DROP TABLE MyTable;
+
+.os rm -f file_io_2.xlsx
 

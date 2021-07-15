@@ -43,10 +43,10 @@ class ExcelExporter implements JaqyExporter
 {
 	private final static int WIDTH_ADJUST = 2;
 
-	private final ExcelOptions m_options;
+	private final ExcelExporterOptions m_options;
 	private Workbook m_wb;
 
-	public ExcelExporter (Path file, ExcelOptions options, JaqyInterpreter interpreter) throws IOException
+	public ExcelExporter (Path file, ExcelExporterOptions options, JaqyInterpreter interpreter) throws IOException
 	{
 		m_options = options;
 
@@ -83,7 +83,7 @@ class ExcelExporter implements JaqyExporter
 		{
 			ws.value (row, col, schemaInfo.getLabel (i + 1));
 
-			if (m_options.horizon)
+			if (m_options.swap)
 			{
 				++row;
 			}
@@ -93,7 +93,7 @@ class ExcelExporter implements JaqyExporter
 			}
 		}
 
-		if (m_options.horizon)
+		if (m_options.swap)
 		{
 			ws.freezePane (1, 0);
 		}
@@ -116,13 +116,13 @@ class ExcelExporter implements JaqyExporter
 
 		int row = 0;
 		int col = 0;
-		if (m_options.horizon)
+		if (m_options.swap)
 			++col;
 		else
 			++row;
 
 		int max = Worksheet.MAX_ROWS - 1;
-		if (m_options.horizon)
+		if (m_options.swap)
 			max = Worksheet.MAX_COLS - 1;
 
 		int count = 0;
@@ -160,7 +160,7 @@ class ExcelExporter implements JaqyExporter
 					ws.value (row, col, handlers[i].getString (rs, i + 1, interpreter));
 				}
 
-				if (m_options.horizon)
+				if (m_options.swap)
 				{
 					++row;
 				}
@@ -170,7 +170,7 @@ class ExcelExporter implements JaqyExporter
 				}
 			}
 
-			if (m_options.horizon)
+			if (m_options.swap)
 			{
 				++col;
 				row = 0;
@@ -191,7 +191,7 @@ class ExcelExporter implements JaqyExporter
 		int rowMax = 0;
 		int colMax = 0;
 
-		if (m_options.horizon)
+		if (m_options.swap)
 		{
 			colMin = 1;
 			colMax = count + 1;
@@ -205,7 +205,7 @@ class ExcelExporter implements JaqyExporter
 		int numColumns = headerTypes.length;
 		for (int i = 0; i < numColumns; ++i)
 		{
-			if (m_options.horizon)
+			if (m_options.swap)
 			{
 				rowMin = i;
 				rowMax = i;
@@ -241,7 +241,7 @@ class ExcelExporter implements JaqyExporter
 				if (format != null)
 				{
 					ws.range (rowMin, colMin, rowMax, colMax).style ().format (format).set ();
-					if (!m_options.horizon)
+					if (!m_options.swap)
 					{
 						ws.width (i, format.length () + WIDTH_ADJUST);
 					}
@@ -263,7 +263,7 @@ class ExcelExporter implements JaqyExporter
 							builder.append ('0');
 						}
 						ws.range (rowMin, colMin, rowMax, colMax).style ().format (builder.toString ()).set ();
-						if (!m_options.horizon)
+						if (!m_options.swap)
 						{
 							int precision = schemaInfo.getPrecision (i + 1);
 							ws.width (i, precision + WIDTH_ADJUST);
