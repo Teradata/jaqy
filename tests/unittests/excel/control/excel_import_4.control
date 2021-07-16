@@ -1,0 +1,83 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .import excel test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.import excel -h -n "sheet 1234" data/file4.xlsx
+-- error: Invalid worksheet name: sheet 1234
+-- 0/3 - 0 ----------------------------------------------------------------
+.import excel -h -i 1234 data/file4.xlsx
+-- error: Invalid worksheet index: 1234
+-- 0/4 - 0 ----------------------------------------------------------------
+
+.import excel -h -n "sheet 1" data/file4.xlsx
+-- 0/5 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"a" INTEGER,
+	"b" REAL(3,2),
+	"c" REAL(3,2),
+	"d" REAL(8,5)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?)
+-- success. update count = 1
+-- 2/6 - 0 ----------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY 1;
+-- success --
+a    b    c      d
+- ---- ---- ------
+1 1.15 2.25 333.33
+2  2.2  2.3 333.34
+3 3.35 2.45 333.35
+4 4.45 2.55 333.36
+5 5.55 2.65 333.37
+-- activity count = 5
+-- 3/6 - 0 ----------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 1
+-- 4/6 - 0 ----------------------------------------------------------------
+
+.import excel -h -i 0 data/file4.xlsx
+-- 4/7 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"a" INTEGER,
+	"b" REAL(3,2),
+	"c" REAL(3,2),
+	"d" REAL(8,5)
+)
+-- success. update count = 1
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?)
+-- success. update count = 1
+-- 6/8 - 0 ----------------------------------------------------------------
+
+SELECT * FROM MyTable ORDER BY 1;
+-- success --
+a    b    c      d
+- ---- ---- ------
+1 1.15 2.25 333.33
+2  2.2  2.3 333.34
+3 3.35 2.45 333.35
+4 4.45 2.55 333.36
+5 5.55 2.65 333.37
+-- activity count = 5
+-- 7/8 - 0 ----------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 1
+-- 8/8 - 0 ----------------------------------------------------------------

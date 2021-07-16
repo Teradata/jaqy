@@ -223,6 +223,12 @@ class ExcelImporterUtils
 					{
 						dbType = Types.BOOLEAN;
 					}
+					else if (cellType == CellType.FORMULA)
+					{
+						// We tentatively assign it to DECIMAL.
+						// Need to check if the value is actually decimal.
+						dbType = Types.DECIMAL;
+					}
 					else
 					{
 						dbType = Types.CHAR;
@@ -237,7 +243,27 @@ class ExcelImporterUtils
 					}
 					if (scanColumnInfo.type == Types.DECIMAL)
 					{
-						BigDecimal dec = cell.asNumber ();
+						BigDecimal dec;
+						if (cellType == CellType.NUMBER)
+						{
+							dec = cell.asNumber ();
+						}
+						else
+						{
+							try
+							{
+								dec = new BigDecimal (text);
+							}
+							catch (Exception ex)
+							{
+								scanColumnInfo.type = Types.CHAR;
+								if (scanColumnInfo.ascii)
+								{
+									scanColumnInfo.ascii = StringUtils.isAscii (text);
+								}
+								continue;
+							}
+						}
 						int precision = dec.precision ();
 						int scale = dec.scale ();
 						if (scanColumnInfo.maxValue.compareTo (dec) < 0)

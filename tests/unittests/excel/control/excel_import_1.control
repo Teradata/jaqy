@@ -13,7 +13,7 @@ Jaqy Console 1.2.0
 -- error: missing file name.
 -- 0/3 - 0 ----------------------------------------------------------------
 .import excel asdfasdf.xlsx
--- error: ./asdfasdf.xlsx (No such file or directory)
+-- error: ./asdfasdf.xlsx
 -- 0/4 - 0 ----------------------------------------------------------------
 .import excel -n asdf -i 1234 data/import1.xlsx
 -- error: Both sheet name and index are specified.

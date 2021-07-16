@@ -4,19 +4,10 @@
 .run ../common/sqlite_setup.sql
 .open sqlite::memory:
 
-.import excel data/empty.xlsx
+.import excel -h https://github.com/coconut2015/jaqy/raw/master/tests/unittests/excel/data/file4.xlsx
 .importtable -c MyTable
-DROP TABLE MyTable;
 
-.import excel -h data/badheader.xlsx
-.importtable -c MyTable
-DROP TABLE MyTable;
+SELECT * FROM MyTable ORDER BY 1;
 
-.import excel -h data/nofirstcol.xlsx
-.importtable -c MyTable
-DROP TABLE MyTable;
-
-.import excel data/nofirstrow.xlsx
-.importtable -c MyTable
 DROP TABLE MyTable;
 

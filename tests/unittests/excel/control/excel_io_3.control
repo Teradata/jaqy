@@ -1,0 +1,142 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- excel export / import test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open derby:memory:identityDB;create=true
+-- 0/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER, b VARCHAR(100), c BOOLEAN, d REAL);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 'This', false, 1.0);
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (2, 'is', true, null);
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (3, '一二三', null, 3.0);
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (4, null, false, 4.0);
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (5, '', false, 5.0);
+-- success. update count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+
+.desc MyTable
+Column Type         Nullable
+------ ------------ --------
+A      INTEGER      Yes
+B      VARCHAR(100) Yes
+C      BOOLEAN      Yes
+D      REAL         Yes
+-- 6/3 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B    C        D
+- ---- ----- ----
+1 This false    1
+2 is   true     ?
+3 一二三  ?        3
+4 ?    false    4
+5      false    5
+-- activity count = 5
+-- 7/3 - 0 ----------------------------------------------------------------
+
+.export excel file_io_3.xlsx
+-- 7/4 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+-- activity count = 5
+-- 8/4 - 0 ----------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 5
+-- 9/4 - 0 ----------------------------------------------------------------
+
+.import excel -h file_io_3.xlsx
+-- 9/5 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?, ?, ?);
+-- success. update count = 1
+-- 10/5 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B    C        D
+- ---- ----- ----
+1 This false    1
+2 is   true     ?
+3 一二三  ?        3
+4 ?    false    4
+5      false    5
+-- activity count = 5
+-- 11/5 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 12/5 - 0 ---------------------------------------------------------------
+
+.import excel -h file_io_3.xlsx
+-- 12/6 - 0 ---------------------------------------------------------------
+.importtable MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"A" INTEGER NOT NULL,
+	"B" VARCHAR(4),
+	"C" BOOLEAN,
+	"D" DECIMAL(2,1)
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?)
+-- success. update count = 1
+-- 14/7 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B    C        D
+- ---- ----- ----
+1 This false  1.0
+2 is   true     ?
+3 一二三  ?      3.0
+4 ?    false  4.0
+5      false  5.0
+-- activity count = 5
+-- 15/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 16/7 - 0 ---------------------------------------------------------------
+
+CREATE TABLE MyTable(a INTEGER, b VARCHAR(100), c INTEGER, d REAL);
+-- success. update count = 0
+-- 17/7 - 0 ---------------------------------------------------------------
+.import excel -h file_io_3.xlsx
+-- 17/8 - 0 ---------------------------------------------------------------
+INSERT INTO MyTable VALUES (?, ?, ?, ?);
+-- success. update count = 1
+-- 18/8 - 0 ---------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+A B       C    D
+- ---- ---- ----
+1 This    0    1
+2 is      1    ?
+3 一二三     ?    3
+4 ?       0    4
+5         0    5
+-- activity count = 5
+-- 19/8 - 0 ---------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 20/8 - 0 ---------------------------------------------------------------
+
+.os rm -f file_io_3.xlsx
+-- 20/9 - 0 ---------------------------------------------------------------
+

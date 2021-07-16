@@ -16,6 +16,7 @@
 package com.teradata.jaqy.importer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Types;
 import java.util.Collection;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.TypesUtils;
@@ -57,45 +59,66 @@ public class ExcelImporter implements JaqyImporter
 	{
 		try
 		{
-			m_wb = new ReadableWorkbook (m_file.getInputStream ());
-		}
-		catch (IOException ex)
-		{
-			throw ex;
+			if (m_file instanceof FilePath)
+			{
+				m_wb = new ReadableWorkbook (((FilePath)m_file).getFile ());
+			}
+			else
+			{
+				try (InputStream is = m_file.getInputStream ())
+				{
+					m_wb = new ReadableWorkbook (is);
+				}
+			}
+			try
+			{
+				if (m_options.sheetName != null)
+					m_ws = m_wb.findSheet (m_options.sheetName).get ();
+				else
+					m_ws = m_wb.getSheet (m_options.sheetId).get ();
+			}
+			catch (Exception ex)
+			{
+				if (m_options.sheetName != null)
+					throw new IOException ("Invalid worksheet name: " + m_options.sheetName);
+				else
+					throw new IOException ("Invalid worksheet index: " + m_options.sheetId);
+			}
+			m_rowIter = m_ws.openStream ().iterator ();
+
+			if (!m_rowIter.hasNext ())
+			{
+				m_wb.close ();
+				throw new IOException ("Missing data in the sheet.");
+			}
+			if (m_options.header)
+			{
+				Row headerRow = m_rowIter.next ();
+				int numCols = headerRow.getCellCount ();
+				m_headers = new String[numCols];
+				for (int i = 0; i < numCols; ++i)
+				{
+					m_headers[i] = headerRow.getCellText (i);
+					if (m_headers[i] == null ||
+						m_headers[i].isEmpty ())
+					{
+						throw new IOException ("Empty header column: " + i);
+					}
+				}
+			}
+			else
+			{
+				m_headers = null;
+			}
 		}
 		catch (Exception ex)
 		{
-			throw new IOException ("There are some issues with the file.");
-		}
-		if (m_options.sheetName != null)
-			m_ws = m_wb.findSheet (m_options.sheetName).get ();
-		else
-			m_ws = m_wb.getSheet (m_options.sheetId).get ();
-		m_rowIter = m_ws.openStream ().iterator ();
-
-		if (!m_rowIter.hasNext ())
-		{
-			m_wb.close ();
-			throw new IOException ("Missing data in the sheet.");
-		}
-		if (m_options.header)
-		{
-			Row headerRow = m_rowIter.next ();
-			int numCols = headerRow.getCellCount ();
-			m_headers = new String[numCols];
-			for (int i = 0; i < numCols; ++i)
+			if (m_wb != null)
 			{
-				m_headers[i] = headerRow.getCellText (i);
-				if (m_headers[i] == null ||
-					m_headers[i].isEmpty ())
-				{
-					throw new IOException ("Empty header column: " + i);
-				}
+				m_wb.close ();
+				m_wb = null;
 			}
-		}
-		else
-		{
-			m_headers = null;
+			throw ex;
 		}
 	}
 

@@ -10,7 +10,7 @@ Jaqy Console 1.2.0
 -- 0/2 - 0 ----------------------------------------------------------------
 
 .import excel data/empty.xlsx
--- error: There are some issues with the file.
+-- error: Missing data in the sheet.
 -- 0/3 - 0 ----------------------------------------------------------------
 .importtable -c MyTable
 -- error: There is no current import.
@@ -28,3 +28,33 @@ DROP TABLE MyTable;
 DROP TABLE MyTable;
 -- failure 1: [SQLITE_ERROR] SQL error or missing database (no such table: MyTable)
 -- 2/6 - 0 ----------------------------------------------------------------
+
+.import excel -h data/nofirstcol.xlsx
+-- error: Empty header column: 0
+-- 2/7 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- error: There is no current import.
+-- 2/8 - 0 ----------------------------------------------------------------
+DROP TABLE MyTable;
+-- failure 1: [SQLITE_ERROR] SQL error or missing database (no such table: MyTable)
+-- 3/8 - 0 ----------------------------------------------------------------
+
+.import excel data/nofirstrow.xlsx
+-- 3/9 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- Table Schema --
+CREATE TABLE MyTable
+(
+	"col1" INTEGER NOT NULL,
+	"col2" TEXT NOT NULL,
+	"col3" TEXT NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?)
+-- success. update count = 1
+-- 5/10 - 0 ---------------------------------------------------------------
+DROP TABLE MyTable;
+-- success. update count = 1
+-- 6/10 - 0 ---------------------------------------------------------------
+
