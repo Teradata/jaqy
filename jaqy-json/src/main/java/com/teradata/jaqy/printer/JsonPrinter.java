@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,8 @@ import org.yuanheng.cookjson.CookJsonGenerator;
 import org.yuanheng.cookjson.CookJsonProvider;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
-import com.teradata.jaqy.utils.JsonBinaryFormat;
+import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.JsonUtils;
 
 /**
@@ -35,13 +34,11 @@ import com.teradata.jaqy.utils.JsonUtils;
  */
 class JsonPrinter implements JaqyPrinter
 {
-	private final boolean m_pretty;
-	private final JsonBinaryFormat m_binaryFormat;
+	private final JsonPrinterOptions m_options;
 
-	public JsonPrinter (boolean pretty, JsonBinaryFormat binaryFormat)
+	public JsonPrinter (JsonPrinterOptions options)
 	{
-		m_pretty = pretty;
-		m_binaryFormat = binaryFormat;
+		m_options = options;
 	}
 
 	@Override
@@ -57,9 +54,9 @@ class JsonPrinter implements JaqyPrinter
 
 		HashMap<String, Object> config = new HashMap<String, Object> ();
 		config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_JSON);
-		if (m_pretty)
+		if (m_options.pretty)
 			config.put (JsonGenerator.PRETTY_PRINTING, Boolean.TRUE);
-		switch (m_binaryFormat)
+		switch (m_options.binaryFormat)
 		{
 			case Base64:
 				config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_BASE64);

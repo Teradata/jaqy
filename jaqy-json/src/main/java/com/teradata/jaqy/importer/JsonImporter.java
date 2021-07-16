@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Types;
 import java.util.Collection;
@@ -48,8 +47,6 @@ import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
-import com.teradata.jaqy.utils.JsonBinaryFormat;
-import com.teradata.jaqy.utils.JsonFormat;
 import com.teradata.jaqy.utils.JsonUtils;
 import com.teradata.jaqy.utils.TypesUtils;
 
@@ -59,13 +56,12 @@ import com.teradata.jaqy.utils.TypesUtils;
 class JsonImporter implements JaqyImporter
 {
 	private final Globals m_globals;
+	private final JsonImporterOptions m_options;
 	private final CookJsonParser m_parser;
 	private boolean m_end;
-	private final JsonBinaryFormat m_binaryFormat;
 	private JaqyConnection m_conn;
 
 	private int m_depth;
-	private String m_rowExp;
 	private JsonValueVisitor[] m_vvs;
 	private JsonEventVisitor m_v;
 
@@ -79,17 +75,16 @@ class JsonImporter implements JaqyImporter
 		}
 	};
 
-	public JsonImporter (Globals globals, JaqyConnection conn, InputStream is, Charset charset, JsonFormat format, JsonBinaryFormat binaryFormat, String rowExp, boolean rootAsArray) throws IOException
+	public JsonImporter (Globals globals, JaqyConnection conn, InputStream is, JsonImporterOptions options) throws IOException
 	{
 		m_globals = globals;
 		m_conn = conn;
-		m_binaryFormat = binaryFormat;
-		m_rowExp = rowExp;
+		m_options = options;
 
 		JsonProvider provider = new CookJsonProvider ();
 
 		HashMap<String, Object> config = new HashMap<String, Object> ();
-		switch (format)
+		switch (m_options.format)
 		{
 			case Text:
 			{
@@ -98,12 +93,12 @@ class JsonImporter implements JaqyImporter
 			}
 			case Bson:
 				config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_BSON);
-				if (rootAsArray)
+				if (m_options.rootAsArray)
 					config.put (CookJsonProvider.ROOT_AS_ARRAY, Boolean.TRUE);
 				break;
 		}
 
-		CookJsonParser p = (CookJsonParser) provider.createParserFactory (config).createParser (is, charset);
+		CookJsonParser p = (CookJsonParser) provider.createParserFactory (config).createParser (is, m_options.charset);
 		m_parser = p;
 	}
 
@@ -178,7 +173,7 @@ class JsonImporter implements JaqyImporter
 			throw new IOException ("json data has to be accessed via field.");
 		}
 		m_vvs = new JsonValueVisitor[exps.length];
-		m_v = JsonExpFactory.createVisitor (m_rowExp, exps, m_vvs, m_rowEndListener, false);
+		m_v = JsonExpFactory.createVisitor (m_options.rowExp, exps, m_vvs, m_rowEndListener, false);
 		m_depth = 0;
 	}
 
@@ -297,7 +292,7 @@ class JsonImporter implements JaqyImporter
 				if (v instanceof JsonString)
 				{
 					String str = ((JsonString)v).getString ();
-					switch (m_binaryFormat)
+					switch (m_options.binaryFormat)
 					{
 						case Base64:
 							return Base64.decodeBase64 (str);

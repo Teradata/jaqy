@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.teradata.jaqy.exporter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 
 import javax.json.spi.JsonProvider;
@@ -30,8 +29,6 @@ import org.yuanheng.cookjson.CookJsonProvider;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
-import com.teradata.jaqy.utils.JsonBinaryFormat;
-import com.teradata.jaqy.utils.JsonFormat;
 import com.teradata.jaqy.utils.JsonUtils;
 
 /**
@@ -39,18 +36,17 @@ import com.teradata.jaqy.utils.JsonUtils;
  */
 class JsonExporter implements JaqyExporter
 {
+	private final JsonExporterOptions m_options;
 	private final Writer m_out;
 	private final OutputStream m_os;
-	private final boolean m_pretty;
-	private final JsonFormat m_format;
-	private final JsonBinaryFormat m_binaryFormat;
 
-	public JsonExporter (OutputStream os, Charset charset, JsonFormat format, boolean pretty, JsonBinaryFormat binaryFormat)
+	public JsonExporter (OutputStream os, JsonExporterOptions options)
 	{
-		switch (format)
+		m_options = options;
+		switch (m_options.format)
 		{
 			case Text:
-				m_out = new OutputStreamWriter (os, charset);
+				m_out = new OutputStreamWriter (os, m_options.charset);
 				m_os = null;
 				break;
 			case Bson:
@@ -60,9 +56,6 @@ class JsonExporter implements JaqyExporter
 			default:
 				throw new IllegalArgumentException ("Unknown format.");
 		}
-		m_pretty = pretty;
-		m_format = format;
-		m_binaryFormat = binaryFormat;
 	}
 
 	@Override
@@ -78,14 +71,14 @@ class JsonExporter implements JaqyExporter
 		CookJsonGenerator g = null;
 
 		HashMap<String, Object> config = new HashMap<String, Object> ();
-		switch (m_format)
+		switch (m_options.format)
 		{
 			case Text:
 			{
 				config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_JSON);
-				if (m_pretty)
+				if (m_options.pretty)
 					config.put (JsonGenerator.PRETTY_PRINTING, Boolean.TRUE);
-				switch (m_binaryFormat)
+				switch (m_options.binaryFormat)
 				{
 					case Base64:
 						config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_BASE64);

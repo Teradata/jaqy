@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,9 @@
 package com.teradata.jaqy.exporter;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.csv.CSVFormat;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyExporter;
@@ -36,7 +34,6 @@ import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 {
 	public static String DEFAULT_NAME_PATTERN = "%08d.bin";
-	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
 
 	public CSVExporterFactory ()
 	{
@@ -59,12 +56,9 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	@Override
 	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		Charset charset = DEFAULT_CHARSET;
-		CSVFormat format = CSVUtils.getDefaultFormat ();
-
-		HashMap<Integer, CSVExportInfo> exportInfoMap = new HashMap<Integer, CSVExportInfo> ();
+		CSVExporterOptions exportOptions = new CSVExporterOptions ();
 		CSVNameGen nameGen = new CSVNameGen (DEFAULT_NAME_PATTERN);
-		Charset encoding = DEFAULT_CHARSET;
+		Charset encoding = CSVUtils.DEFAULT_CHARSET;
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -72,7 +66,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 			{
 				case 'c':
 				{
-					charset = Charset.forName (option.getValue ());
+					exportOptions.charset = Charset.forName (option.getValue ());
 					break;
 				}
 				case 'd':
@@ -80,12 +74,12 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 					char delimiter = CSVUtils.getChar (option.getValue ());
 					if (delimiter == 0)
 						throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
-					format = format.withDelimiter (delimiter);
+					exportOptions.format = exportOptions.format.withDelimiter (delimiter);
 					break;
 				}
 				case 't':
 				{
-					format = CSVUtils.getFormat (option.getValue ());
+					exportOptions.format = CSVUtils.getFormat (option.getValue ());
 					break;
 				}
 				case 'n':
@@ -110,7 +104,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 						interpreter.error ("Column index cannot be smaller than 1.");
 					}
 					CSVExportInfo info = new CSVExportInfo (nameGen, encoding);
-					exportInfoMap.put (column, info);
+					exportOptions.fileInfoMap.put (column, info);
 					break;
 				}
 			}
@@ -119,6 +113,6 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
 		Path file = interpreter.getPath (args[0]);
-		return new CSVExporter (file, charset, format, exportInfoMap);
+		return new CSVExporter (file, exportOptions);
 	}
 }

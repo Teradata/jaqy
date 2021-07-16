@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,9 @@
 package com.teradata.jaqy.importer;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.csv.CSVFormat;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.CSVImportInfo;
@@ -32,8 +30,6 @@ import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
  */
 public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 {
-	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
-
 	public CSVImporterFactory ()
 	{
 		addOption ("c", "charset", true, "sets the file character set");
@@ -60,14 +56,10 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 	@Override
 	public CSVImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		String charset = null;
-		CSVFormat format = CSVFormat.DEFAULT;
-		HashMap<Integer, CSVImportInfo> importInfoMap = new HashMap<Integer, CSVImportInfo> ();
+		CSVImporterOptions importOptions = new CSVImporterOptions ();
 		boolean naFilter = false;
 		String[] naValues = null;
-		boolean precise = false;
-		long scanThreshold = -1;	// -1 indicates internal algorithm
-		Charset encoding = DEFAULT_CHARSET;
+		Charset encoding = CSVUtils.DEFAULT_CHARSET;
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -75,7 +67,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 			{
 				case 'c':
 				{
-					charset = Charset.forName (option.getValue ()).toString ();
+					importOptions.charset = Charset.forName (option.getValue ()).toString ();
 					break;
 				}
 				case 'd':
@@ -83,17 +75,17 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 					char delimiter = CSVUtils.getChar (option.getValue ());
 					if (delimiter == 0)
 						throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
-					format = format.withDelimiter (delimiter);
+					importOptions.format = importOptions.format.withDelimiter (delimiter);
 					break;
 				}
 				case 'h':
 				{
-					format = format.withHeader ();
+					importOptions.format = importOptions.format.withHeader ();
 					break;
 				}
 				case 't':
 				{
-					format = CSVUtils.getFormat (option.getValue ());
+					importOptions.format = CSVUtils.getFormat (option.getValue ());
 					break;
 				}
 				case 'f':
@@ -109,14 +101,14 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 				}
 				case 'p':
 				{
-					precise = true;
+					importOptions.precise = true;
 					break;
 				}
 				case 'r':
 				{
-					scanThreshold = Long.parseLong (option.getValue ());
-					if (scanThreshold <= 0)
-						scanThreshold = 0;
+					importOptions.scanThreshold = Long.parseLong (option.getValue ());
+					if (importOptions.scanThreshold <= 0)
+						importOptions.scanThreshold = 0;
 					break;
 				}
 				case 'e':
@@ -132,7 +124,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 						interpreter.error ("Column index cannot be smaller than 1.");
 					}
 					CSVImportInfo info = new CSVImportInfo (encoding);
-					importInfoMap.put (column - 1, info);
+					importOptions.importInfoMap.put (column - 1, info);
 					break;
 				}
 				case 'k':
@@ -143,7 +135,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 						interpreter.error ("Column index cannot be smaller than 1.");
 					}
 					CSVImportInfo info = new CSVImportInfo (null);
-					importInfoMap.put (column - 1, info);
+					importOptions.importInfoMap.put (column - 1, info);
 					break;
 				}
 			}
@@ -151,7 +143,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		String[] args = cmdLine.getArgs ();
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
-		CSVImporter importer = new CSVImporter (interpreter.getPath (args[0]), charset, format, importInfoMap, precise, scanThreshold);
+		CSVImporter importer = new CSVImporter (interpreter.getPath (args[0]), importOptions);
 		if (naFilter == true)
 		{
 			importer.setNaFilter (true);

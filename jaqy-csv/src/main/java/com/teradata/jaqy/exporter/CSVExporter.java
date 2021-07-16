@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,7 @@
 package com.teradata.jaqy.exporter;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.HashMap;
 
-import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
 import com.teradata.jaqy.JaqyInterpreter;
@@ -38,16 +35,14 @@ import com.teradata.jaqy.utils.FileHandler;
 class CSVExporter implements JaqyExporter
 {
 	private final Path m_file;
-	private final CSVFormat m_format;
 	private final Writer m_out;
-	private final HashMap<Integer, CSVExportInfo> m_fileInfoMap;
+	private final CSVExporterOptions m_options;
 
-	public CSVExporter (Path file, Charset charset, CSVFormat format, HashMap<Integer, CSVExportInfo> fileInfoMap) throws IOException
+	public CSVExporter (Path file, CSVExporterOptions options) throws IOException
 	{
 		m_file = file;
-		m_format = format;
-		m_out = new OutputStreamWriter (file.getOutputStream (), charset);
-		m_fileInfoMap = fileInfoMap;
+		m_options = options;
+		m_out = new OutputStreamWriter (file.getOutputStream (), options.charset);
 	}
 
 	@Override
@@ -65,13 +60,13 @@ class CSVExporter implements JaqyExporter
 		TypeHandler[] handlers = new TypeHandler[columns];
 
 		JaqyHelper helper = rs.getHelper ();
-		CSVPrinter printer = new CSVPrinter (pw, m_format);
+		CSVPrinter printer = new CSVPrinter (pw, m_options.format);
 		for (int i = 0; i < columns; ++i)
 		{
 			// print the header row
 			printer.print (metaData.getColumnLabel (i + 1));
 
-			CSVExportInfo fileInfo = m_fileInfoMap.get (i + 1);
+			CSVExportInfo fileInfo = m_options.fileInfoMap.get (i + 1);
 			if (fileInfo == null)
 				handlers[i] = helper.getTypeHandler (rs, i + 1);
 			else

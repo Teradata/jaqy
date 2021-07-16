@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,6 @@ import com.teradata.jaqy.utils.JsonFormat;
  */
 public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 {
-	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
-	public static JsonBinaryFormat DEFAULT_BINARY_FORMAT = JsonBinaryFormat.Base64;
-	public static JsonFormat DEFAULT_FORMAT = JsonFormat.Text;
-
 	public JsonImporterFactory ()
 	{
 		addOption ("c", "charset", true, "sets the file character set");
@@ -61,31 +57,27 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 	@Override
 	public JsonImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		Charset charset = DEFAULT_CHARSET;
-		JsonBinaryFormat binaryFormat = DEFAULT_BINARY_FORMAT;
-		JsonFormat format = DEFAULT_FORMAT;
-		boolean rootAsArray = false;
-		String rowExp = null;
+		JsonImporterOptions importOptions = new JsonImporterOptions ();
 		for (Option option : cmdLine.getOptions ())
 		{
 			switch (option.getOpt ().charAt (0))
 			{
 				case 'a':
 				{
-					rootAsArray = true;
+					importOptions.rootAsArray = true;
 					break;
 				}
 				case 'c':
 				{
 					try
 					{
-						charset = Charset.forName (option.getValue ());
+						importOptions.charset = Charset.forName (option.getValue ());
 					}
 					catch (Exception ex)
 					{
-						charset = null;
+						importOptions.charset = null;
 					}
-					if (charset == null)
+					if (importOptions.charset == null)
 						throw new IllegalArgumentException ("invalid character set: " + option.getValue ());
 					break;
 				}
@@ -93,9 +85,9 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 				{
 					String value = option.getValue ();
 					if ("text".equals (value))
-						format = JsonFormat.Text;
+						importOptions.format = JsonFormat.Text;
 					else if ("bson".equals (value))
-						format = JsonFormat.Bson;
+						importOptions.format = JsonFormat.Bson;
 					else
 						throw new IllegalArgumentException ("invalid format option value: " + value);
 					break;
@@ -104,16 +96,16 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 				{
 					String value = option.getValue ();
 					if ("hex".equals (value))
-						binaryFormat = JsonBinaryFormat.Hex;
+						importOptions.binaryFormat = JsonBinaryFormat.Hex;
 					else if ("base64".equals (value))
-						binaryFormat = JsonBinaryFormat.Base64;
+						importOptions.binaryFormat = JsonBinaryFormat.Base64;
 					else
 						throw new IllegalArgumentException ("invalid binary option value: " + value);
 					break;
 				}
 				case 'r':
 				{
-					rowExp = option.getValue ();
+					importOptions.rowExp = option.getValue ();
 					break;
 				}
 			}
@@ -125,9 +117,9 @@ public class JsonImporterFactory extends JaqyHandlerFactoryImpl<JsonImporter>
 
 		// In case of BSON, we use the default handling of byte array since
 		// BSON supports it natively.
-		if (format == JsonFormat.Bson)
-			binaryFormat = JsonBinaryFormat.Base64;
+		if (importOptions.format == JsonFormat.Bson)
+			importOptions.binaryFormat = JsonBinaryFormat.Base64;
 
-		return new JsonImporter (interpreter.getGlobals (), interpreter.getSession ().getConnection (), is, charset, format, binaryFormat, rowExp, rootAsArray);
+		return new JsonImporter (interpreter.getGlobals (), interpreter.getSession ().getConnection (), is, importOptions);
 	}
 }

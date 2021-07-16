@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,6 @@ import com.teradata.jaqy.utils.OptionsUtils;
  */
 public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 {
-	public static JsonBinaryFormat DEFAULT_BINARY_FORMAT = JsonBinaryFormat.Base64;
-
 	public JsonPrinterFactory ()
 	{
 		addOption (OptionsUtils.getOnOffOption ("p", "pretty", "turns pretty print on / off."));
@@ -49,8 +47,8 @@ public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 	@Override
 	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		boolean pretty = true;
-		JsonBinaryFormat binaryFormat = DEFAULT_BINARY_FORMAT;
+		JsonPrinterOptions printOptions = new JsonPrinterOptions ();
+
 		for (Option option : cmdLine.getOptions ())
 		{
 			switch (option.getOpt ().charAt (0))
@@ -59,9 +57,9 @@ public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 				{
 					String value = option.getValue ();
 					if ("hex".equals (value))
-						binaryFormat = JsonBinaryFormat.Hex;
+						printOptions.binaryFormat = JsonBinaryFormat.Hex;
 					else if ("base64".equals (value))
-						binaryFormat = JsonBinaryFormat.Base64;
+						printOptions.binaryFormat = JsonBinaryFormat.Base64;
 					else
 						throw new IllegalArgumentException ("invalid binary option value: " + value);
 					break;
@@ -70,15 +68,15 @@ public class JsonPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 				{
 					String value = option.getValue ();
 					if ("on".equals (value))
-						pretty = true;
+						printOptions.pretty = true;
 					else if ("off".equals (value))
-						pretty = false;
+						printOptions.pretty = false;
 					else
 						throw new IllegalArgumentException ("invalid pretty option value: " + value);
 					break;
 				}
 			}
 		}
-		return new JsonPrinter (pretty, binaryFormat);
+		return new JsonPrinter (printOptions);
 	}
 }

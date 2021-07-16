@@ -48,7 +48,7 @@ public class ExcelExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	@Override
 	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		ExcelExporterOptions options = new ExcelExporterOptions ();
+		ExcelExporterOptions exportOptions = new ExcelExporterOptions ();
 
 		for (Option option : cmdLine.getOptions ())
 		{
@@ -56,12 +56,12 @@ public class ExcelExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 			{
 				case 's':
 				{
-					options.swap = true;
+					exportOptions.swap = true;
 					break;
 				}
 				case 'n':
 				{
-					options.sheetName = option.getValue ();
+					exportOptions.sheetName = option.getValue ();
 					break;
 				}
 			}
@@ -70,6 +70,6 @@ public class ExcelExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
 		Path file = interpreter.getPath (args[0]);
-		return new ExcelExporter (file, options, interpreter);
+		return new ExcelExporter (file, exportOptions, interpreter);
 	}
 }

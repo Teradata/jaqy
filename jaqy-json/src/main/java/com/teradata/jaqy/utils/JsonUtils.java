@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.logging.Level;
 
@@ -40,6 +41,10 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
  */
 public class JsonUtils
 {
+	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
+	public static JsonBinaryFormat DEFAULT_BINARY_FORMAT = JsonBinaryFormat.Base64;
+	public static JsonFormat DEFAULT_FORMAT = JsonFormat.Text;
+
 	public static String toString (JsonValue v)
 	{
 		if (v instanceof JsonString)

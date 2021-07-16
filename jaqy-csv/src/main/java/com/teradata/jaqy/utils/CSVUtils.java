@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.teradata.jaqy.utils;
 
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.sql.ResultSetMetaData;
 import java.sql.Types;
 import java.util.Iterator;
@@ -33,6 +34,8 @@ import com.teradata.jaqy.schema.SchemaInfo;
  */
 public class CSVUtils
 {
+	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
+
 	public final static int AUTO_STOP_MINIMUM = 1000;
 
 	public static class ScanColumnInfo

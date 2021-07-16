@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,10 +33,6 @@ import com.teradata.jaqy.utils.OptionsUtils;
  */
 public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 {
-	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
-	public static JsonBinaryFormat DEFAULT_BINARY_FORMAT = JsonBinaryFormat.Base64;
-	public static JsonFormat DEFAULT_FORMAT = JsonFormat.Text;
-
 	public JsonExporterFactory ()
 	{
 		addOption ("c", "charset", true, "sets the file character set");
@@ -60,26 +56,23 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 	@Override
 	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
 	{
-		Charset charset = DEFAULT_CHARSET;
-		boolean pretty = false;
-		JsonBinaryFormat binaryFormat = DEFAULT_BINARY_FORMAT;
-		JsonFormat format = DEFAULT_FORMAT;
+		JsonExporterOptions exportOptions = new JsonExporterOptions ();
 		for (Option option : cmdLine.getOptions ())
 		{
 			switch (option.getOpt ().charAt (0))
 			{
 				case 'c':
 				{
-					charset = Charset.forName (option.getValue ());
+					exportOptions.charset = Charset.forName (option.getValue ());
 					break;
 				}
 				case 'f':
 				{
 					String value = option.getValue ();
 					if ("text".equals (value))
-						format = JsonFormat.Text;
+						exportOptions.format = JsonFormat.Text;
 					else if ("bson".equals (value))
-						format = JsonFormat.Bson;
+						exportOptions.format = JsonFormat.Bson;
 					else
 						throw new IllegalArgumentException ("invalid format option value: " + value);
 					break;
@@ -88,9 +81,9 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 				{
 					String value = option.getValue ();
 					if ("hex".equals (value))
-						binaryFormat = JsonBinaryFormat.Hex;
+						exportOptions.binaryFormat = JsonBinaryFormat.Hex;
 					else if ("base64".equals (value))
-						binaryFormat = JsonBinaryFormat.Base64;
+						exportOptions.binaryFormat = JsonBinaryFormat.Base64;
 					else
 						throw new IllegalArgumentException ("invalid binary option value: " + value);
 					break;
@@ -99,9 +92,9 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 				{
 					String value = option.getValue ();
 					if ("on".equals (value))
-						pretty = true;
+						exportOptions.pretty = true;
 					else if ("off".equals (value))
-						pretty = false;
+						exportOptions.pretty = false;
 					else
 						throw new IllegalArgumentException ("invalid pretty option value: " + value);
 				}
@@ -114,9 +107,9 @@ public class JsonExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 
 		// In case of BSON, we use the default handling of byte array since
 		// BSON supports it natively.
-		if (format == JsonFormat.Bson)
-			binaryFormat = JsonBinaryFormat.Base64;
+		if (exportOptions.format == JsonFormat.Bson)
+			exportOptions.binaryFormat = JsonBinaryFormat.Base64;
 
-		return new JsonExporter (os, charset, format, pretty, binaryFormat);
+		return new JsonExporter (os, exportOptions);
 	}
 }

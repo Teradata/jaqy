@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,9 +50,7 @@ public class CSVImporter implements JaqyImporter
 	};
 
 	private final Path m_file;
-	private final String m_charset;
-	private final CSVFormat m_format;
-	private final boolean m_precise;
+	private final CSVImporterOptions m_options;
 	private CSVParser m_parser;
 	private Map<String, Integer> m_headers;
 	private Iterator<CSVRecord> m_iterator;
@@ -60,19 +58,13 @@ public class CSVImporter implements JaqyImporter
 	private boolean m_naFilter;
 	private String[] m_naValues;
 	private SchemaInfo m_schemaInfo;
-	private long m_scanThreshold;
-	private HashMap<Integer, CSVImportInfo> m_importInfoMap;
 	private int[] m_exps;
 
-	public CSVImporter (Path file, String charset, CSVFormat format, HashMap<Integer, CSVImportInfo> importInfoMap, boolean precise, long scanThreshold) throws IOException
+	public CSVImporter (Path file, CSVImporterOptions options) throws IOException
 	{
 		m_file = file;
-		m_charset = charset;
-		m_format = format;
-		m_importInfoMap = importInfoMap;
-		m_precise = precise;
-		m_scanThreshold = scanThreshold;
-		openFile (file, charset, format);
+		m_options = options;
+		openFile (file, m_options.charset, m_options.format);
 	}
 
 	private void openFile (Path file, String charset, CSVFormat format) throws IOException
@@ -110,10 +102,10 @@ public class CSVImporter implements JaqyImporter
 				headers[i] = map.get (i);
 			}
 		}
-		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues, m_precise, m_scanThreshold);
+		m_schemaInfo = CSVUtils.getSchemaInfo (headers, m_iterator, m_naValues, m_options.precise, m_options.scanThreshold);
 		m_parser.close ();
 		// reopen the file since we just did the scan
-		openFile (m_file, m_charset, m_format);
+		openFile (m_file, m_options.charset, m_options.format);
 		return m_schemaInfo;
 	}
 
@@ -146,7 +138,7 @@ public class CSVImporter implements JaqyImporter
 	{
 		JaqyHelper 		helper = stmt.getHelper();
 		int 			index = getIndex (column - 1);
-		CSVImportInfo 	importInfo = m_importInfoMap.get (index);
+		CSVImportInfo 	importInfo = m_options.importInfoMap.get (index);
 
 		Object obj = getObject (index, importInfo, paramInfo, interpreter);
 
