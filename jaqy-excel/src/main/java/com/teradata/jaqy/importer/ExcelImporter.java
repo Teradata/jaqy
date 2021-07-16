@@ -47,6 +47,7 @@ public class ExcelImporter implements JaqyImporter
 	private Iterator<Row> m_rowIter;
 	private Row m_row;
 	private String m_headers[];
+	private int m_numColumns;
 	private SchemaInfo m_schemaInfo;
 
 	public ExcelImporter (Path file, ExcelImporterOptions options) throws IOException
@@ -95,9 +96,10 @@ public class ExcelImporter implements JaqyImporter
 			if (m_options.header)
 			{
 				Row headerRow = m_rowIter.next ();
-				int numCols = headerRow.getCellCount ();
-				m_headers = new String[numCols];
-				for (int i = 0; i < numCols; ++i)
+				int numColumns = headerRow.getCellCount ();
+				m_headers = new String[numColumns];
+				m_numColumns = numColumns;
+				for (int i = 0; i < numColumns; ++i)
 				{
 					m_headers[i] = headerRow.getCellText (i);
 					if (m_headers[i] == null ||
@@ -110,6 +112,7 @@ public class ExcelImporter implements JaqyImporter
 			else
 			{
 				m_headers = null;
+				m_numColumns = -1;
 			}
 		}
 		catch (Exception ex)
@@ -147,6 +150,10 @@ public class ExcelImporter implements JaqyImporter
 			return m_schemaInfo;
 		}
 		m_schemaInfo = ExcelImporterUtils.getSchemaInfo (m_headers, m_rowIter, m_options);
+		if (m_numColumns < 1)
+		{
+			m_numColumns = m_schemaInfo.getNumColumns ();
+		}
 		m_wb.close ();
 		openFile ();
 		return m_schemaInfo;
@@ -162,13 +169,11 @@ public class ExcelImporter implements JaqyImporter
 			// has nothing.
 			if (!m_row.hasCell (0) || m_row.getCell (0).getText ().isEmpty ())
 			{
-				// Well, we do not have any header row, so having the first
-				// cell being null means that we cannot do any inputs.
-				if (m_headers == null)
+				if (m_numColumns < 1)
 				{
-					return false;
+					m_numColumns = m_row.getCellCount ();
 				}
-				for (int i = 1; i < m_headers.length; ++i)
+				for (int i = 1; i < m_numColumns; ++i)
 				{
 					if (m_row.hasCell (i) && m_row.getCell (i).getText ().length () > 0)
 						return true;

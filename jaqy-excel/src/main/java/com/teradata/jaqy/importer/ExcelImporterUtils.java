@@ -78,6 +78,7 @@ class ExcelImporterUtils
 
 			switch (scanColumnInfo.type)
 			{
+				case Types.NULL:
 				case Types.CHAR:
 				{
 					if (scanColumnInfo.maxLength < 1)
@@ -257,10 +258,7 @@ class ExcelImporterUtils
 							catch (Exception ex)
 							{
 								scanColumnInfo.type = Types.CHAR;
-								if (scanColumnInfo.ascii)
-								{
-									scanColumnInfo.ascii = StringUtils.isAscii (text);
-								}
+								scanColumnInfo.ascii = StringUtils.isAscii (text);
 								continue;
 							}
 						}
@@ -307,14 +305,6 @@ class ExcelImporterUtils
 		if (rowCount == 0 || numColumns <= 0)
 			return null;
 
-		if (headers == null)
-		{
-			headers = new String[numColumns];
-			for (int i = 0; i < numColumns; ++i)
-			{
-				headers[i] = "col" + (i + 1);
-			}
-		}
 		return getSchemaInfo (headers, scanColumnInfos, options);
 	}
 }
