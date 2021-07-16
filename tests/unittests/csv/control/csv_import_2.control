@@ -60,7 +60,7 @@ DELETE FROM MyTable;
 .import csv -h lib/import1.csv
 -- 4/5 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{c}});
--- error: field not found: c
+-- error: Invalid column name: c
 -- 5/5 - 0 ----------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a;

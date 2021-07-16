@@ -31,6 +31,7 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.utils.ImporterUtils;
 import com.teradata.jaqy.utils.TypesUtils;
 
 /**
@@ -182,57 +183,7 @@ public class ExcelImporter implements JaqyImporter
 	@Override
 	public void setParameters (String[] exps)
 	{
-		if (exps == null)
-		{
-			m_exps = null;
-			return;
-		}
-		else
-		{
-			m_exps = new int[exps.length];
-			int i = 0;
-			for (String name : exps)
-			{
-				if (m_headers != null)
-				{
-					int index = -1;
-					for (int j = 0; j < m_headers.length; ++j)
-					{
-						if (name.equalsIgnoreCase (m_headers[j]))
-						{
-							index = j;
-							break;
-						}
-					}
-					if (index < 0)
-					{
-						throw new IllegalArgumentException ("field not found: " + name);
-					}
-					m_exps[i] = index;
-				}
-				else if (name.startsWith ("col"))
-				{
-					String str = name.substring (3);
-					int index = -1;
-					try
-					{
-						index = Integer.valueOf (str) - 1;
-					}
-					catch (Exception ex)
-					{
-					}
-					if (index < 0)
-						throw new IllegalArgumentException ("Invalid column name: " + name);
-					m_exps[i] = index;
-				}
-				else
-				{
-					throw new IllegalArgumentException ("Invalid column name: " + name);
-				}
-
-				++i;
-			}
-		}
+		m_exps = ImporterUtils.getParameterIndexes (m_headers, exps);
 	}
 
 	private int getIndex (int index)
