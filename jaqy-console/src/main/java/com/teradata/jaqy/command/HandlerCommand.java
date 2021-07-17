@@ -56,13 +56,16 @@ public class HandlerCommand extends JaqyCommandAdapter
 	{
 		StateHandler handler;
 		if ("default".equals (argument))
+		{
 			handler = null;
+		}
 		else if ("none".equals (argument))
+		{
 			handler = DefaultStateHandlers.noneHandler;
+		}
 		else
 		{
-			handler = new ScriptStateHandler ();
-			((ScriptStateHandler)handler).setScript (argument);
+			handler = new ScriptStateHandler (argument);
 		}
 		return handler;
 	}

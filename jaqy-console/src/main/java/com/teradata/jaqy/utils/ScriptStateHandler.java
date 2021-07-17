@@ -23,31 +23,21 @@ import com.teradata.jaqy.interfaces.StateHandler;
  */
 public class ScriptStateHandler implements StateHandler
 {
-	private String m_script;
-	private final Object m_lock = new Object ();
+	private final String m_script;
+
+	public ScriptStateHandler (String script)
+	{
+		m_script = script;
+	}
 
 	@Override
 	public String getString (JaqyInterpreter interpreter)
 	{
-		String script = getScript ();
-		if (script == null)
-			return "";
-		return StringUtils.eval (script, interpreter);
+		return StringUtils.eval (m_script, interpreter);
 	}
 
 	public String getScript ()
 	{
-		synchronized (m_lock)
-		{
-			return m_script;
-		}
-	}
-
-	public void setScript (String script)
-	{
-		synchronized (m_lock)
-		{
-			m_script = script;
-		}
+		return m_script;
 	}
 }
