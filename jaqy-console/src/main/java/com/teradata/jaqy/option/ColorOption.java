@@ -36,11 +36,6 @@ public class ColorOption extends JaqyOption
 	@Override
 	public void handleOption (Globals globals, Display displayParam, CommandLine cmdLine)
 	{
-		if (!(displayParam instanceof ConsoleDisplay))
-		{
-			System.out.println ("Color option only works with ConsoleDisplay.");
-			System.exit (1);
-		}
 		ConsoleDisplay display = (ConsoleDisplay)displayParam;
 		String value = cmdLine.getOptionValue ("color");
 		if ("on".equals (value))

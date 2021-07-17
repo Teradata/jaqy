@@ -49,25 +49,6 @@ public class JaqyConnection
 		return m_helper;
 	}
 
-	public boolean isClosed ()
-	{
-		try
-		{
-			return getConnection().isClosed ();
-		}
-		catch (SQLException ex)
-		{
-			try
-			{
-				getConnection().close ();
-			}
-			catch (SQLException ex2)
-			{
-			}
-		}
-		return true;
-	}
-	
 	public void close ()
 	{
 		try
@@ -78,7 +59,20 @@ public class JaqyConnection
 		{
 		}
 	}
-	
+
+	public boolean isClosed ()
+	{
+		try
+		{
+			return getConnection().isClosed ();
+		}
+		catch (SQLException ex)
+		{
+			close ();
+		}
+		return true;
+	}
+
 	public JaqyStatement createStatement (boolean forwardOnly) throws SQLException
 	{
 		JaqyStatement stmt = m_helper.createStatement (forwardOnly);
