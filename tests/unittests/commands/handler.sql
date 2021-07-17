@@ -54,6 +54,7 @@ SELECT 1234 AS Test;
 .handler activity
 
 .handler none
+.repeat 3
 SELECT 1 AS Test;
 SELECT 2 AS Test;
 SELECT 3 AS Test;
@@ -69,6 +70,16 @@ SELECT 3 AS Test;
 .handler	 activity
 .handler	 activity		  default
 .handler	 activity
+
+.handler iteration
+.repeat 3
+SELECT 1 AS Test;
+.handler iteration none
+.repeat 3
+SELECT 2 AS Test;
+.handler iteration default
+.repeat 3
+SELECT 3 AS Test;
 
 .handler asdf
 .close

@@ -173,6 +173,19 @@ public class HandlerCommand extends JaqyCommandAdapter
 				display.setActivityCountHandler (handler);
 			}
 		}
+		else if ("iteration".equals (type))
+		{
+			if (argument.length () == 0)
+			{
+				StateHandler handler = display.getIterationHandler ();
+				printHandler (handler, DefaultStateHandlers.iterationHandler, type, interpreter);
+			}
+			else
+			{
+				StateHandler handler = getStateHandler (argument);
+				display.setIterationHandler (handler);
+			}
+		}
 		else if ("none".equals (type))
 		{
 			display.setPromptHandler (DefaultStateHandlers.noneHandler);
@@ -181,6 +194,7 @@ public class HandlerCommand extends JaqyCommandAdapter
 			display.setErrorHandler (DefaultStateHandlers.noneHandler);
 			display.setActivityCountHandler (DefaultStateHandlers.noneHandler);
 			display.setTitleHandler (DefaultStateHandlers.noneHandler, interpreter);
+			display.setIterationHandler (DefaultStateHandlers.noneHandler);
 		}
 		else if ("default".equals (type))
 		{
@@ -189,7 +203,7 @@ public class HandlerCommand extends JaqyCommandAdapter
 			display.setUpdateHandler (DefaultStateHandlers.updateHandler);
 			display.setErrorHandler (DefaultStateHandlers.errorHandler);
 			display.setActivityCountHandler (DefaultStateHandlers.activityCountHandler);
-			display.setTitleHandler (DefaultStateHandlers.titleHandler, interpreter);
+			display.setIterationHandler (DefaultStateHandlers.iterationHandler);
 		}
 		else
 		{
