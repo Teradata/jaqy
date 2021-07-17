@@ -61,14 +61,4 @@ public class HelperManager
 		}
 		return factory;
 	}
-
-	public HashMap<String, JaqyHelperFactory> getHelperFactoryMap ()
-	{
-		HashMap<String, JaqyHelperFactory> map = new HashMap<String, JaqyHelperFactory> ();
-		synchronized (m_lock)
-		{
-			map.putAll (m_helperMap);
-		}
-		return map;
-	}
 }
