@@ -1,0 +1,64 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- input test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.run https://github.com/Teradata/jaqy/raw/master/tests/unittests/url/data/dir1/script1.sql
+-- Running script: https://github.com/Teradata/jaqy/raw/master/tests/unittests/url/data/dir1/script1.sql
+-- 0/3 - 0 ----------------------------------------------------------------
+SELECT 1 AS Test;
+-- success --
+Test
+----
+   1
+-- activity count = 1
+-- 1/3 - 0 ----------------------------------------------------------------
+
+.run ../dir2/script2.sql
+-- Running script: ../dir2/script2.sql
+-- 1/4 - 0 ----------------------------------------------------------------
+SELECT 2 AS Test;
+-- success --
+Test
+----
+   2
+-- activity count = 1
+-- 2/4 - 0 ----------------------------------------------------------------
+.run ../dir4/script4.sql
+-- Running script: ../dir4/script4.sql
+-- 2/5 - 0 ----------------------------------------------------------------
+SELECT 4 AS Test;
+-- success --
+Test
+----
+   4
+-- activity count = 1
+-- 3/5 - 0 ----------------------------------------------------------------
+.run ../dir3/script3.sql
+-- Running script: ../dir3/script3.sql
+-- 3/6 - 0 ----------------------------------------------------------------
+SELECT 3 AS Test;
+-- success --
+Test
+----
+   3
+-- activity count = 1
+-- 4/6 - 0 ----------------------------------------------------------------
+.run ../dir4/script4.sql
+-- Running script: ../dir4/script4.sql
+-- 4/7 - 0 ----------------------------------------------------------------
+SELECT 4 AS Test;
+-- success --
+Test
+----
+   4
+-- activity count = 1
+-- 5/7 - 0 ----------------------------------------------------------------
+
+
