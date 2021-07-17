@@ -10,66 +10,87 @@ Jaqy Console 1.2.0
 [32;1m-- 0/2 - 0 ----------------------------------------------------------------[0m
 
 .script
-var promptFGColor = "red";
 var promptBGColor = "black";
-var promptBold = false;
 var esc = display.getEscape ();
 function colorPrompt ()
 {
-    return esc.color (promptFGColor, promptBGColor, promptBold) + "---- fg: " + promptFGColor + ", bg: " + promptBGColor + ", bold: " + promptBold + esc.reset ();
+    return esc.bgColor (promptBGColor) + "---- bg: " + promptBGColor + esc.reset ();
 }
 .end script
 [32;1m-- 0/3 - 0 ----------------------------------------------------------------[0m
 
 .handler prompt colorPrompt ()
-[31;40m---- fg: red, bg: black, bold: false[0m
+[40m---- bg: black[0m
 SELECT 1 AS Test;
 [32m-- success --[0m
 Test
 ----
    1
 [32m-- activity count = 1[0m
-[31;40m---- fg: red, bg: black, bold: false[0m
+[40m---- bg: black[0m
 .script
-promptFGColor = "green";
 promptBGColor = "yellow";
 .end script
-[32;43m---- fg: green, bg: yellow, bold: false[0m
+[43m---- bg: yellow[0m
 SELECT 1 AS Test;
 [32m-- success --[0m
 Test
 ----
    1
 [32m-- activity count = 1[0m
-[32;43m---- fg: green, bg: yellow, bold: false[0m
+[43m---- bg: yellow[0m
 .script
-promptFGColor = "blue";
 promptBGColor = "white";
 promptBold = true;
 .end script
-[34;47;1m---- fg: blue, bg: white, bold: true[0m
+[47m---- bg: white[0m
 SELECT 1 AS Test;
 [32m-- success --[0m
 Test
 ----
    1
 [32m-- activity count = 1[0m
-[34;47;1m---- fg: blue, bg: white, bold: true[0m
+[47m---- bg: white[0m
 .script
-promptFGColor = "purple";
 promptBGColor = "cyan";
 promptBold = false;
 .end script
-[35;46m---- fg: purple, bg: cyan, bold: false[0m
+[46m---- bg: cyan[0m
 SELECT 1 AS Test;
 [32m-- success --[0m
 Test
 ----
    1
 [32m-- activity count = 1[0m
-[35;46m---- fg: purple, bg: cyan, bold: false[0m
+[46m---- bg: cyan[0m
+.script
+promptBGColor = null;
+promptBold = false;
+.end script
+[0m---- bg: null[0m
+SELECT 1 AS Test;
+[32m-- success --[0m
+Test
+----
+   1
+[32m-- activity count = 1[0m
+[0m---- bg: null[0m
+.script
+promptBGColor = "dummy";
+promptBold = false;
+.end script
+[31m-- error: Invalid background color.[0m
+
+SELECT 1 AS Test;
+[32m-- success --[0m
+Test
+----
+   1
+[32m-- activity count = 1[0m
+[31m-- error: Invalid background color.[0m
+
 .handler default
-[32;1m-- 4/8 - 0 ----------------------------------------------------------------[0m
+[32;1m-- 6/10 - 0 ---------------------------------------------------------------[0m
 
 .close
-[32;1m-- 4/9 - 0 ----------------------------------------------------------------[0m
+[32;1m-- 6/11 - 0 ---------------------------------------------------------------[0m

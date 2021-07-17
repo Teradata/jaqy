@@ -5,13 +5,11 @@
 .open sqlite::memory:
 
 .script
-var promptFGColor = "red";
 var promptBGColor = "black";
-var promptBold = false;
 var esc = display.getEscape ();
 function colorPrompt ()
 {
-    return esc.color (promptFGColor, promptBGColor, promptBold) + "---- fg: " + promptFGColor + ", bg: " + promptBGColor + ", bold: " + promptBold + esc.reset ();
+    return esc.bgColor (promptBGColor) + "---- bg: " + promptBGColor + esc.reset ();
 }
 .end script
 
@@ -20,14 +18,12 @@ function colorPrompt ()
 SELECT 1 AS Test;
 
 .script
-promptFGColor = "green";
 promptBGColor = "yellow";
 .end script
 
 SELECT 1 AS Test;
 
 .script
-promptFGColor = "blue";
 promptBGColor = "white";
 promptBold = true;
 .end script
@@ -35,8 +31,21 @@ promptBold = true;
 SELECT 1 AS Test;
 
 .script
-promptFGColor = "purple";
 promptBGColor = "cyan";
+promptBold = false;
+.end script
+
+SELECT 1 AS Test;
+
+.script
+promptBGColor = null;
+promptBold = false;
+.end script
+
+SELECT 1 AS Test;
+
+.script
+promptBGColor = "dummy";
 promptBold = false;
 .end script
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,22 +79,23 @@ public class Escape
 			fgIndex = getColorIndex (fgColor.toLowerCase ());
 			if (fgIndex < 0)
 				throw new IllegalArgumentException ("Invalid foreground color.");
+			fgColor = Integer.toString (30 + fgIndex);
 		}
 		if (bgColor != null)
 		{
 			bgIndex = getColorIndex (bgColor.toLowerCase ());
 			if (bgIndex < 0)
 				throw new IllegalArgumentException ("Invalid background color.");
+			bgColor = Integer.toString (40 + bgIndex);
 		}
 		if (fgIndex < 0 && bgIndex < 0)
-			return reset ();
-
-		fgColor = (fgIndex < 0 ? null : Integer.toString (30 + fgIndex));
-		bgColor = (bgIndex < 0 ? null : Integer.toString (40 + bgIndex));
+			return RESET;
 
 		String color;
 		if (fgColor == null)
+		{
 			color = bgColor;
+		}
 		else
 		{
 			if (bgColor == null)
