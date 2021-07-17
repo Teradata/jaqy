@@ -185,7 +185,7 @@ public class CSVImporter implements JaqyImporter
 				Path file = m_file.getRelativePath (value);
 				if (!file.isFile ())
 					throw new FileNotFoundException ("External file " + file.getPath () + " was not found.");
-				if (importInfo.charset == null)
+				if (importInfo.isBinary ())
 					return new FileBlob (file);
 				else
 					return new FileClob (file, importInfo.charset);
