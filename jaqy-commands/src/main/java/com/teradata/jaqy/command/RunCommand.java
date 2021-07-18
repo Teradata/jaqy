@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ public class RunCommand extends JaqyCommandAdapter
 {
 	public RunCommand ()
 	{
+		super ("run");
+
 		addOption ("c", "charset", true, "sets the file character set");
 	}
 

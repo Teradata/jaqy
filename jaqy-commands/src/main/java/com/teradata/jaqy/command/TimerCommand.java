@@ -27,6 +27,11 @@ public class TimerCommand extends JaqyCommandAdapter
 {
 	private final static String TIMER = "timer";
 
+	public TimerCommand ()
+	{
+		super ("timer");
+	}
+
 	@Override
 	public String getDescription ()
 	{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,18 +25,18 @@ import com.teradata.jaqy.interfaces.JaqySetting;
 public abstract class JaqySettingAdapter implements JaqySetting
 {
 	/** The setting name being registered. */
-	private String m_name;
+	private final String m_name;
 	/** The globals. */
 	private Globals m_globals;
 
-	public JaqySettingAdapter ()
+	public JaqySettingAdapter (String name)
 	{
+		m_name = name;
 	}
 
 	@Override
-	public void init (String name, Globals globals)
+	public void init (Globals globals)
 	{
-		m_name = name;
 		m_globals = globals;
 	}
 

@@ -13,7 +13,7 @@ SELECT 1234;
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
 [WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:44)
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:501)
-[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:263)
+[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:274)
 -- error: Current session is closed.
 -- 0/2 - 0 ----------------------------------------------------------------
 .debug log warning
@@ -26,7 +26,7 @@ SELECT 1234;
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
 [WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:44)
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:501)
-[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:263)
+[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:274)
 -- error: Current session is closed.
 -- 0/4 - 0 ----------------------------------------------------------------
 .debug log all
@@ -39,7 +39,7 @@ SELECT 1234;
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
 [WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:44)
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:501)
-[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:263)
+[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:274)
 -- error: Current session is closed.
 -- 0/6 - 0 ----------------------------------------------------------------
 .debug log off

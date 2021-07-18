@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,12 +33,12 @@ public class ObjectManager<T extends JaqyObject>
 		m_globals = globals;
 	}
 
-	public void addObject (String name, T cmd)
+	public void addObject (T cmd)
 	{
-		cmd.init (name, m_globals);
+		cmd.init (m_globals);
 		synchronized (m_lock)
 		{
-			m_objectMap.put (name, cmd);
+			m_objectMap.put (cmd.getName (), cmd);
 		}
 	}
 

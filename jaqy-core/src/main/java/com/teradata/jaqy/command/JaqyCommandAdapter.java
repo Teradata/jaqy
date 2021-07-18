@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,7 @@ package com.teradata.jaqy.command;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionGroup;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
@@ -38,7 +33,7 @@ import com.teradata.jaqy.utils.StringUtils;
 public abstract class JaqyCommandAdapter implements JaqyCommand
 {
 	/** The command name being registered. */
-	private String m_name;
+	private final String m_name;
 	/** The globals. */
 	private Globals m_globals;
 	/** Resource. */
@@ -50,13 +45,15 @@ public abstract class JaqyCommandAdapter implements JaqyCommand
 	/** A helper flag to check whether child class added any options. */
 	private boolean m_hasOptions;
 
-	public JaqyCommandAdapter ()
+	public JaqyCommandAdapter (String name)
 	{
+		m_name = name;
 		m_rc = null;
 	}
 
-	public JaqyCommandAdapter (String rc)
+	public JaqyCommandAdapter (String name, String rc)
 	{
+		m_name = name;
 		m_rc = rc;
 	}
 
@@ -88,9 +85,9 @@ public abstract class JaqyCommandAdapter implements JaqyCommand
 		return new DefaultParser ().parse (m_options, args);
 	}
 
-	public void init (String name, Globals globals)
+	@Override
+	public void init (Globals globals)
 	{
-		m_name = name;
 		m_globals = globals;
 	}
 
@@ -105,6 +102,7 @@ public abstract class JaqyCommandAdapter implements JaqyCommand
 		return "."+  m_name;
 	}
 
+	@Override
 	public CommandArgumentType getArgumentType ()
 	{
 		return CommandArgumentType.none;

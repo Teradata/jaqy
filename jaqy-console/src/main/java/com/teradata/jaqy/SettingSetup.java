@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,13 @@ class SettingSetup
 	static void init (Globals globals)
 	{
 		ObjectManager<JaqySetting> manager = globals.getSettingManager ();
-		manager.addObject ("batchsize", new BatchSizeSetting ());
-		manager.addObject ("fetchsize", new FetchSizeSetting ());
-		manager.addObject ("autocommit", new AutoCommitSetting ());
+		manager.addObject (new BatchSizeSetting ());
+		manager.addObject (new FetchSizeSetting ());
+		manager.addObject (new AutoCommitSetting ());
 
-		manager.addObject ("nullsort", new NullSortSetting ());
-		manager.addObject ("expansion", new ExpansionSetting ());
-		manager.addObject ("echo", new EchoSetting ());
-		manager.addObject ("lobcachesize", new LobCacheSizeSetting ());
+		manager.addObject (new NullSortSetting ());
+		manager.addObject (new ExpansionSetting ());
+		manager.addObject (new EchoSetting ());
+		manager.addObject (new LobCacheSizeSetting ());
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,10 @@
  */
 package com.teradata.jaqy.command;
 
-import com.teradata.jaqy.*;
+import com.teradata.jaqy.CommandArgumentType;
+import com.teradata.jaqy.JaqyDriverManager;
+import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.PropertyTableUtils;
 
@@ -26,7 +29,7 @@ public class ClassPathCommand extends JaqyCommandAdapter
 {
 	public ClassPathCommand ()
 	{
-		super ("classpath.txt");
+		super ("classpath", "classpath.txt");
 	}
 
 	@Override

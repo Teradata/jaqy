@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public class S3Plugin implements JaqyPlugin
 	@Override
 	public void init (Globals globals)
 	{
-		globals.getCommandManager ().addObject ("s3", new S3Command ());
+		globals.getCommandManager ().addObject (new S3Command ());
 		globals.getPathHandlerManager ().addPathHandler (new S3PathHandler ());
 	}
 }

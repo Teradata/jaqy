@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,11 @@ import com.teradata.jaqy.utils.ClientRSUtils;
  */
 public class NullSortSetting extends JaqySettingAdapter
 {
+	public NullSortSetting ()
+	{
+		super ("nullsort");
+	}
+
 	@Override
 	public String getDescription ()
 	{

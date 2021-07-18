@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,13 +45,17 @@ public class DebugCommand extends JaqyCommandAdapter
 
 	public DebugCommand ()
 	{
+		super ("debug");
+
 		addOption (new DebugOptionHandler ()
 		{
+			@Override
 			public String getName ()
 			{
 				return "resultset";
 			}
 
+			@Override
 			public String getSyntax ()
 			{
 				return getName () + " [on | off]";
@@ -76,11 +80,13 @@ public class DebugCommand extends JaqyCommandAdapter
 
 		addOption (new DebugOptionHandler ()
 		{
+			@Override
 			public String getName ()
 			{
 				return "preparedstatement";
 			}
 
+			@Override
 			public String getSyntax ()
 			{
 				return getName () + " [on | off]";
@@ -105,11 +111,13 @@ public class DebugCommand extends JaqyCommandAdapter
 
 		addOption (new DebugOptionHandler ()
 		{
+			@Override
 			public String getName ()
 			{
 				return "log";
 			}
 
+			@Override
 			public String getSyntax ()
 			{
 				return getName () + " [info | warning | all | off]";

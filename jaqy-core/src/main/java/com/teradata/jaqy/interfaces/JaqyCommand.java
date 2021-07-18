@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,13 +33,6 @@ public interface JaqyCommand extends JaqyObject
 		/** A multi-line command with its own parsing. */
 		exclusive
 	}
-
-	/**
-	 * Gets the command name.
-	 *
-	 * @return	the command name.
-	 */
-	public String getName ();
 
 	/**
 	 * Gets the one line command description.

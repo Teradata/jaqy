@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,8 @@ public class ImportTableCommand extends JaqyCommandAdapter
 {
 	public ImportTableCommand ()
 	{
+		super ("importtable");
+
 		addOption ("c", "check", false, "check if the table already exists");
 	}
 
