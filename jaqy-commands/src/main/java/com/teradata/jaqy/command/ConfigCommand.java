@@ -20,6 +20,7 @@ import java.io.IOException;
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.HelperConfigUtils;
 
@@ -28,6 +29,11 @@ import com.teradata.jaqy.utils.HelperConfigUtils;
  */
 public class ConfigCommand extends JaqyCommandAdapter
 {
+	public ConfigCommand ()
+	{
+		super ("config.txt");
+	}
+
 	@Override
 	public String getDescription ()
 	{
@@ -55,9 +61,20 @@ public class ConfigCommand extends JaqyCommandAdapter
 	@Override
 	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws IOException
 	{
+		if (!silent)
+		{
+			Display display = interpreter.getDisplay ();
+			display.echo (interpreter, action, interactive);
+			display.echo (interpreter, ".end " + getName (), interactive);
+		}
+
 		try
 		{
 			HelperConfigUtils.load (globals.getHelperManager (), action);
+		}
+		catch (IOException ex)
+		{
+			interpreter.error (ex.getMessage ());
 		}
 		catch (Exception ex)
 		{

@@ -1,0 +1,7 @@
+usage:
+    .config
+       JSON database config spec
+    .end config
+
+For more detailed information, please see
+    https://teradata.github.io/jaqy/command/config.html

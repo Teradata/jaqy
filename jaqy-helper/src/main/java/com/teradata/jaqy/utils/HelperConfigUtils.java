@@ -30,7 +30,6 @@ import org.yuanheng.cookjson.CookJsonParser;
 import org.yuanheng.cookjson.TextJsonParser;
 
 import com.teradata.jaqy.HelperManager;
-import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.connection.JdbcFeatures;
 import com.teradata.jaqy.helper.DefaultHelperFactory;
 import com.teradata.jaqy.schema.TypeInfo;
@@ -40,13 +39,13 @@ import com.teradata.jaqy.schema.TypeInfo;
  */
 public class HelperConfigUtils
 {
-	private static void loadType (Map<Integer, TypeInfo> map, JsonObject v)
+	private static void loadType (Map<Integer, TypeInfo> map, JsonObject v) throws IOException
 	{
 		TypeInfo typeInfo = new TypeInfo ();
 		typeInfo.type = TypesUtils.getType (v.getString ("type"));
 		if (typeInfo.type == Types.NULL)
 		{
-			throw new JaqyException ("Unknown type");
+			throw new IOException ("Unknown type: " + v.getString ("type"));
 		}
 		typeInfo.typeName = v.getString ("name");
 		if (typeInfo.typeName.indexOf ('{') >= 0)
@@ -57,7 +56,7 @@ public class HelperConfigUtils
 		map.put (typeInfo.type, typeInfo);
 	}
 
-	private static HashMap<Integer, TypeInfo> getTypeMap (JsonArray v)
+	private static HashMap<Integer, TypeInfo> getTypeMap (JsonArray v) throws IOException
 	{
 		if (v == null)
 			return null;

@@ -3,6 +3,7 @@ alias.sql
 classpath.sql
 close.sql
 commit.sql
+config.sql
 desc.sql
 driver.sql
 env.sql

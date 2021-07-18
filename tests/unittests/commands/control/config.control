@@ -1,0 +1,67 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .config command test
+--------------------------------------------------------------------------
+.help config
+usage:
+    .config
+       JSON database config spec
+    .end config
+
+For more detailed information, please see
+    https://teradata.github.io/jaqy/command/config.html
+
+-- 0/1 - 0 ----------------------------------------------------------------
+.config
+.config []
+.end config
+-- error: invalid JSON configuration
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.config
+[
+.end config
+-- error: invalid JSON configuration
+-- 0/3 - 0 ----------------------------------------------------------------
+
+.config
+[]
+.end config
+-- 0/4 - 0 ----------------------------------------------------------------
+
+.config
+[{"a":"b"}]
+.end config
+-- error: invalid JSON configuration
+-- 0/5 - 0 ----------------------------------------------------------------
+
+.config
+[{"protocol":""}]
+.end config
+-- error: Invalid protocol name.
+-- 0/6 - 0 ----------------------------------------------------------------
+
+.config
+[{"protocol":"dummy"}]
+.end config
+-- 0/7 - 0 ----------------------------------------------------------------
+
+.config
+[{
+"protocol":"dummy",
+"typeMap": [{ "type" : "NULL", "name" : "INTEGER"}]
+}]
+.end config
+-- error: Unknown type: NULL
+-- 0/8 - 0 ----------------------------------------------------------------
+
+.config
+[{
+"protocol":"dummy",
+"typeMap": [{ "type" : "dummy", "name" : "INTEGER"}]
+}]
+.end config
+-- error: Unknown type: dummy
+-- 0/9 - 0 ----------------------------------------------------------------
+
