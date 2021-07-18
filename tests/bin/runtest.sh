@@ -74,18 +74,21 @@ function compare ()
 	CONTROL=$1
 	OUTPUT=$2
 	ERROR=$3
+	STATUS=0
 
 	fgrep -q -- '-- ignore begin' $OUTPUT >/dev/null 2>&1
 	if [ $? -eq 0 ]; then
-		sed '/-- ignore begin/,/-- ignore end/d' $CONTROL > ${CONTROL}.2
+		sed '/-- ignore begin/,/-- ignore end/d' $CONTROL > ${OUTPUT}.1
 		sed '/-- ignore begin/,/-- ignore end/d' $OUTPUT > ${OUTPUT}.2
 
-		diff "${CONTROL}.2" "${OUTPUT}.2" > $ERROR 2>/dev/null
-		rm -f ${CONTROL}.2 ${OUTPUT}.2
+		diff "${OUTPUT}.1" "${OUTPUT}.2" > $ERROR 2>/dev/null
+		STATUS=$?
+		rm -f ${OUTPUT}.1 ${OUTPUT}.2
 	else
 		diff "$CONTROL" "$OUTPUT" > $ERROR 2>/dev/null
+		STATUS=$?
 	fi
-	return $?
+	return $STATUS
 }
 
 function run ()

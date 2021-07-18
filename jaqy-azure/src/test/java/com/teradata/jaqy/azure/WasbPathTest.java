@@ -30,7 +30,7 @@ public class WasbPathTest
 	@Test
 	public void testPath () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		AzurePathHandler handler = new AzurePathHandler ();
 		AzureUtils.setAccount ("devstoreaccount1", interpreter);

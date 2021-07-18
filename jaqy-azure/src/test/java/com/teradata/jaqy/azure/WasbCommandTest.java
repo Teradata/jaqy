@@ -31,7 +31,7 @@ public class WasbCommandTest
 	@Test
 	public void testSettings () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
 		WasbCommand cmd = new WasbCommand ();
@@ -51,7 +51,7 @@ public class WasbCommandTest
 	@Test(expected = JaqyException.class)
 	public void testSettingsError1 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
 		WasbCommand cmd = new WasbCommand ();
@@ -65,7 +65,7 @@ public class WasbCommandTest
 	@Test(expected = JaqyException.class)
 	public void testSettingsError2 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
 		WasbCommand cmd = new WasbCommand ();

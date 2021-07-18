@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------
--- .load command test
+-- command argument test
 --------------------------------------------------------------------------
-.help load
-.load
-.load a b
-.debug log all
--- ignore begin
-.load lib/asdf.jar
--- ignore end
+.run ../common/sqlite_setup.sql
+.open sqlite::memory:
+
+SELECT 1 AS Test;
+
+.close
+

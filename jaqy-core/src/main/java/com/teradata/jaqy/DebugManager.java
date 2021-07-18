@@ -30,32 +30,11 @@ import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
  */
 public class DebugManager
 {
-	private boolean m_dumpConnection;
 	private boolean m_dumpResultSet;
 	private boolean m_dumpPreparedStatement;
 
 	DebugManager ()
 	{
-	}
-
-	/**
-	 * Are we dumping Connection metadata?
-	 *
-	 * @return	whether we dump Connection metadata.
-	 */
-	public boolean isDumpConnection ()
-	{
-		return m_dumpConnection;
-	}
-
-	/**
-	 * Sets whether we dump Connection metadata.
-	 * @param	b
-	 *			enable / disable Connection metadata dump.
-	 */
-	public void setDumpConnection (boolean b)
-	{
-		m_dumpConnection = b;
 	}
 
 	/**

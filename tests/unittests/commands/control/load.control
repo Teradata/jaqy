@@ -9,4 +9,28 @@ usage: .load [classpath]
 .load
 -- error: error parsing argument.
 -- 0/2 - 0 ----------------------------------------------------------------
-
+.load a b
+-- error: error parsing argument.
+-- 0/3 - 0 ----------------------------------------------------------------
+.debug log all
+-- 0/4 - 0 ----------------------------------------------------------------
+-- ignore begin
+.load lib/asdf.jar
+[WARNING]: java.io.FileNotFoundException: /mnt/d/workspace/jaqy/tests/unittests/commands/lib/asdf.jar
+[WARNING]: 	at com.teradata.jaqy.utils.URLUtils.getFileURL(URLUtils.java:38)
+[WARNING]: 	at com.teradata.jaqy.Globals.loadPlugin(Globals.java:366)
+[WARNING]: 	at com.teradata.jaqy.command.LoadCommand.execute(LoadCommand.java:54)
+[WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.executeCommand(JaqyInterpreter.java:605)
+[WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:446)
+[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:263)
+[WARNING]: com.teradata.jaqy.JaqyException: invalid classpath: /mnt/d/workspace/jaqy/tests/unittests/commands/lib/asdf.jar
+[WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
+[WARNING]: 	at com.teradata.jaqy.Globals.loadPlugin(Globals.java:382)
+[WARNING]: 	at com.teradata.jaqy.command.LoadCommand.execute(LoadCommand.java:54)
+[WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.executeCommand(JaqyInterpreter.java:605)
+[WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:446)
+[WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:263)
+-- error: invalid classpath: /mnt/d/workspace/jaqy/tests/unittests/commands/lib/asdf.jar
+-- 0/5 - 0 ----------------------------------------------------------------
+-- ignore end
+[INFO]: Errors: 3, Failures: 0

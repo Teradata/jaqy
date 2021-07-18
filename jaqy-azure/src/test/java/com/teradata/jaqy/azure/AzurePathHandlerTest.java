@@ -44,7 +44,7 @@ public class AzurePathHandlerTest
 	@Test(expected = IllegalArgumentException.class)
 	public void test2 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
 		AzurePathHandler handler = new AzurePathHandler ();
@@ -55,7 +55,7 @@ public class AzurePathHandlerTest
 	@Test
 	public void testGetPath () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		AzurePathHandler handler = new AzurePathHandler ();
 		AzureUtils.setAccount ("devstoreaccount1", interpreter);
@@ -89,7 +89,7 @@ public class AzurePathHandlerTest
 	@Test(expected = IOException.class)
 	public void testGetPathError1 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		AzurePathHandler handler = new AzurePathHandler ();
 		AzureUtils.setAccount ("devstoreaccount1", interpreter);
@@ -102,7 +102,7 @@ public class AzurePathHandlerTest
 	@Test(expected = IOException.class)
 	public void testGetPathError2 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		AzurePathHandler handler = new AzurePathHandler ();
 		handler.getPath ("http://abcdefg@example.com/abc/test.txt", interpreter);

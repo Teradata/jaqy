@@ -5,6 +5,7 @@ echoauto.sql
 echodummy.sql
 echooff.sql
 echoon.sql
+error.sql
 escape_1.sql
 escape_2.sql
 help.sql

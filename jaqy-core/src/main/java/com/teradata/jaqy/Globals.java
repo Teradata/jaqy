@@ -37,9 +37,9 @@ import com.teradata.jaqy.utils.URLUtils;
 public class Globals
 {
 	/** The program name */
-	private String m_name;
+	private final String m_name;
 	/** The program version */
-	private String m_version;
+	private final String m_version;
 	/** The greeting message */
 	private String m_greeting;
 
@@ -93,8 +93,10 @@ public class Globals
 		}
 	};
 
-	public Globals ()
+	public Globals (String name, String version)
 	{
+		m_name = name;
+		m_version = version;
 		m_varManager.registerVariable (m_globalsVar);
 
 		m_logger.setUseParentHandlers (false);
@@ -109,14 +111,10 @@ public class Globals
 		m_importerManager = new JaqyHandlerFactoryManager<JaqyImporter> (this, "com.teradata.jaqy.interfaces.JaqyImporter");
 	}
 
-	public void printVersion (PrintWriter pw, String defaultName, String defaultVersion)
+	public void printVersion (PrintWriter pw)
 	{
 		String name = getName ();
 		String version = getVersion ();
-		if (name == null)
-			name = defaultName;
-		if (version == null)
-			version = defaultVersion;
 		pw.println (name + " " + version);
 	}
 
@@ -137,32 +135,12 @@ public class Globals
 
 	public String getName ()
 	{
-		if (m_name == null)
-		{
-			Package pkg = Globals.class.getPackage ();
-			m_name = pkg.getImplementationTitle ();
-		}
 		return m_name;
 	}
 
 	public String getVersion ()
 	{
-		if (m_version == null)
-		{
-			Package pkg = Globals.class.getPackage ();
-			m_version = pkg.getImplementationVersion ();
-		}
 		return m_version;
-	}
-
-	public void setName (String name)
-	{
-		m_name = name;
-	}
-
-	public void setVersion (String version)
-	{
-		m_version = version;
 	}
 
 	/**

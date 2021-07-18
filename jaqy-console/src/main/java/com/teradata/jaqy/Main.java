@@ -87,7 +87,7 @@ public class Main
 	private static void initScreen (Globals globals, Display display)
 	{
 		// print version
-		globals.printVersion (display.getPrintWriter (), "Jaqy Console", "1.2.0");
+		globals.printVersion (display.getPrintWriter ());
 
 		if (display.isInteractive ())
 		{
@@ -111,11 +111,9 @@ public class Main
 			}
 		}));
 
-		Globals globals = new Globals ();
 		// initiate the name and version
 		Package pkg = Main.class.getPackage ();
-		globals.setName (pkg.getImplementationTitle ());
-		globals.setVersion (pkg.getImplementationVersion ());
+		Globals globals = new Globals (pkg.getImplementationTitle (), pkg.getImplementationVersion ());
 
 		globals.getOs ();
 		// install Jansi
@@ -175,7 +173,18 @@ public class Main
 
 		// load initiation scripts
 		Path initFile = new FilePath (getDefaultInitFile ());
-		CommandLine cmdLine = globals.getOptionManager ().getCommandLine (args);
+		CommandLine cmdLine;
+		try
+		{
+			cmdLine = globals.getOptionManager ().getCommandLine (args);
+		}
+		catch (Exception ex)
+		{
+			System.out.println (ex.getMessage ());
+			System.exit (1);
+			return;		// to make compiler happy
+		}
+
 		if (cmdLine.hasOption ("norc"))
 		{
 			initFile = null;

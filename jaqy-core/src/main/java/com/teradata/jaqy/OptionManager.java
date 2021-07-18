@@ -57,7 +57,7 @@ public class OptionManager
 
 	public String[] handleOptions (Globals globals, Display display, String[] args) throws Exception
 	{
-		CommandLine cmdLine;
+		CommandLine cmdLine = null;
 		try
 		{
 			cmdLine = new DefaultParser ().parse (m_options, args);
@@ -66,17 +66,12 @@ public class OptionManager
 		{
 			display.println (null, ex.getMessage ());
 			System.exit (1);
-			return null;		// to make compiler happy
 		}
 
 		for (Option option : cmdLine.getOptions ())
 		{
 			String longOpt = option.getLongOpt ();
 			JaqyOption handler = m_optionHandlers.get (longOpt);
-			if (handler == null)
-			{
-				throw new RuntimeException ("An invalid option is specified.");
-			}
 			handler.handleOption (globals, display, cmdLine);
 		}
 		return cmdLine.getArgs ();

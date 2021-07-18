@@ -26,14 +26,14 @@ import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
- * @author	Heng Yuan 
+ * @author	Heng Yuan
  */
 public class WhereParserTest
 {
 	@Test
 	public void test1 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		VariableManager vm = interpreter.getVariableManager ();
 		ExpNode exp;
@@ -122,7 +122,7 @@ public class WhereParserTest
 	@Test
 	public void test2 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		VariableManager vm = interpreter.getVariableManager ();
 		ExpNode exp;
@@ -166,19 +166,19 @@ public class WhereParserTest
 		exp = WhereParser.getExp ("1 = ALL (1, 2)");
 		exp.bind (null, vm, interpreter);
 		Assert.assertFalse ((Boolean)exp.get ());
-		
+
 		exp = WhereParser.getExp ("1 <> ALL (1, 2)");
 		exp.bind (null, vm, interpreter);
 		Assert.assertFalse ((Boolean)exp.get ());
-		
+
 		exp = WhereParser.getExp ("1 > ALL (1, 2)");
 		exp.bind (null, vm, interpreter);
 		Assert.assertFalse ((Boolean)exp.get ());
-		
+
 		exp = WhereParser.getExp ("1 >= ALL (1, 2)");
 		exp.bind (null, vm, interpreter);
 		Assert.assertFalse ((Boolean)exp.get ());
-		
+
 		exp = WhereParser.getExp ("1 IN (1, 2)");
 		exp.bind (null, vm, interpreter);
 		Assert.assertTrue ((Boolean)exp.get ());
@@ -199,7 +199,7 @@ public class WhereParserTest
 	@Test
 	public void test3 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		VariableManager vm = interpreter.getVariableManager ();
 		ExpNode exp;
@@ -216,7 +216,7 @@ public class WhereParserTest
 	@Test
 	public void test4 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		VariableManager vm = interpreter.getVariableManager ();
 		ExpNode exp;

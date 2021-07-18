@@ -67,7 +67,7 @@ public class AzureUtilsTest
 	@Test
 	public void testGetBlobClient () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
 		AzureUtils.setAccount ("devstoreaccount1", interpreter);

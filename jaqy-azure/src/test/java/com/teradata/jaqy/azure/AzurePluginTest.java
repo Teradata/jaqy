@@ -27,7 +27,7 @@ public class AzurePluginTest
 	@Test
 	public void testInit () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 
 		AzurePlugin plugin = new AzurePlugin ();
 		plugin.init (globals);

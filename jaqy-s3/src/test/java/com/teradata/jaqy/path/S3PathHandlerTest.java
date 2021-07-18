@@ -38,10 +38,10 @@ public class S3PathHandlerTest
 		Assert.assertFalse (handler.canHandle ("/tmp/abc"));
 	}
 
-	@Test(expected = IllegalArgumentException.class)  
+	@Test(expected = IllegalArgumentException.class)
 	public void test2 () throws Exception
 	{
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
 		S3PathHandler handler = new S3PathHandler ();

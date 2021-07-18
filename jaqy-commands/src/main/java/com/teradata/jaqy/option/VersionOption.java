@@ -34,7 +34,7 @@ public class VersionOption extends JaqyOption
 	@Override
 	public void handleOption (Globals globals, Display display, CommandLine cmdLine)
 	{
-		globals.printVersion (display.getPrintWriter (), null, null);
+		globals.printVersion (display.getPrintWriter ());
 		System.exit (0);
 	}
 }

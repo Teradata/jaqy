@@ -25,7 +25,7 @@ public class VersionCommand extends JaqyCommandAdapter
 	@Override
 	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
 	{
-		interpreter.getGlobals ().printVersion (interpreter.getDisplay ().getPrintWriter (), null, null);
+		interpreter.getGlobals ().printVersion (interpreter.getDisplay ().getPrintWriter ());
 	}
 
 	@Override

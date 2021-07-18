@@ -54,7 +54,7 @@ public class S3PathTest
 		api.start ();
 
 		// setup
-		Globals globals = new Globals ();
+		Globals globals = new Globals (null, null);
 		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 		AmazonS3ClientBuilder builder = S3Utils.getS3Builder (interpreter);
 		builder.setEndpointConfiguration (new AwsClientBuilder.EndpointConfiguration("http://localhost:8001", "us-west-2"));
