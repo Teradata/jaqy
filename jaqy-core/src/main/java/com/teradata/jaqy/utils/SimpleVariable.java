@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,26 +23,28 @@ import com.teradata.jaqy.interfaces.Variable;
 public class SimpleVariable implements Variable
 {
 	private String m_name;
-	private Object m_obj;
+	private Object m_value;
 
-	public SimpleVariable (String name)
+	public SimpleVariable (String name, Object value)
 	{
 		m_name = name;
+		m_value = value;
 	}
 
 	@Override
 	public Object get ()
 	{
-		return m_obj;
+		return m_value;
 	}
 
 	@Override
 	public boolean set (Object value)
 	{
-		m_obj = value;
+		m_value = value;
 		return true;
 	}
 
+	@Override
 	public String getName ()
 	{
 		return m_name;

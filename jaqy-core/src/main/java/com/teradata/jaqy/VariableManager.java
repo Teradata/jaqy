@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,7 @@
  */
 package com.teradata.jaqy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.script.Bindings;
 
@@ -33,19 +28,36 @@ import com.teradata.jaqy.utils.SimpleVariable;
  */
 public class VariableManager implements Bindings
 {
+	private static int s_count = 0;
+	private final static Object s_lock = new Object ();
+
 	private final VariableManager m_parent;
+	private final String m_name;
+	private final int m_id;
 
 	private final Object m_lock = new Object ();
 	/** all the variables in the current scope, including exports. */
 	private final HashMap<String, Object> m_variables = new HashMap<String, Object> ();
 
-	public VariableManager (VariableManager parent)
+	public VariableManager (VariableManager parent, String name)
 	{
 		m_parent = parent;
+		synchronized (s_lock)
+		{
+			m_id = s_count++;
+		}
+		if (name == null)
+		{
+			m_name = "Local Variables " + m_id;
+		}
+		else
+		{
+			m_name = name;
+		}
 
 		if (parent != null)
 		{
-			setVariable (new FixedVariable ("parent", parent));
+			registerVariable (new FixedVariable ("parent", parent));
 		}
 	}
 
@@ -54,20 +66,11 @@ public class VariableManager implements Bindings
 		return m_parent;
 	}
 
-	public void setVariable (Variable var)
+	public void registerVariable (Variable var)
 	{
 		synchronized (m_lock)
 		{
-			String name = var.getName ();
-			if (m_parent != null &&
-				m_parent.containsKey (name))
-			{
-				m_parent.setVariable (var);
-			}
-			else
-			{
-				m_variables.put (name, var);
-			}
+			m_variables.put (var.getName (), var);
 		}
 	}
 
@@ -81,34 +84,36 @@ public class VariableManager implements Bindings
 
 		if (value instanceof Variable)
 		{
-			setVariable ((Variable)value);
-			return null;
-		}
-
-		if (m_parent != null &&
-			m_parent.containsKey (name))
-		{
-			return m_parent.setVariable (name, value);
+			value = ((Variable)value).get ();
 		}
 
 		Variable var;
 		synchronized (m_lock)
 		{
 			var = (Variable)m_variables.get (name);
-			if (var == null)
-			{
-				var = new SimpleVariable (name);
-				var.set (value);
-				m_variables.put (name, var);
-				return null;
-			}
 		}
-		Object old = var.get ();
-		if (!var.set (value))
+
+		if (var != null)
 		{
-			throw new IllegalArgumentException ("Cannot set the variable: " + name);
+			Object old = var.get ();
+			var.set (value);
+			return old;
 		}
-		return old;
+
+		if (var == null &&
+			m_parent != null &&
+			m_parent.containsKey (name))
+		{
+			return m_parent.setVariable (name, value);
+		}
+
+		var = new SimpleVariable (name, value);
+		synchronized (m_lock)
+		{
+			m_variables.put (name, var);
+		}
+
+		return null;
 	}
 
 	public Variable getVariable (String name)
@@ -309,5 +314,11 @@ public class VariableManager implements Bindings
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public String toString ()
+	{
+		return m_name;
 	}
 }

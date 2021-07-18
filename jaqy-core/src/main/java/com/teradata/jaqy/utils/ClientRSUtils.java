@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package com.teradata.jaqy.utils;
 
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.Variable;
 
 /**
@@ -29,11 +28,10 @@ public class ClientRSUtils
 
 	public static boolean getSortNull (JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		Variable var = vm.getVariable (NULLSORT_VAR);
+		Variable var = interpreter.getVariable (NULLSORT_VAR);
 		if (var == null)
 		{
-			vm.setVariable (NULLSORT_VAR, DEFAULT_NULLSORT_VALUE);
+			interpreter.setVariableValue (NULLSORT_VAR, DEFAULT_NULLSORT_VALUE);
 			return DEFAULT_NULLSORT_VALUE;
 		}
 		Object v = var.get ();
@@ -46,7 +44,6 @@ public class ClientRSUtils
 
 	public static void setSortNull (JaqyInterpreter interpreter, boolean nullSort)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (NULLSORT_VAR, Boolean.valueOf (nullSort));
+		interpreter.setVariableValue (NULLSORT_VAR, Boolean.valueOf (nullSort));
 	}
 }

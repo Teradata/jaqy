@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
 
 /**
  * @author	Heng Yuan
@@ -43,48 +42,43 @@ class AzureUtils
 
 	public static void setAccount (String account, JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (WASB_ACCOUNT_VAR, account);
+		interpreter.setVariableValue (WASB_ACCOUNT_VAR, account);
 
 		// clear the current client
-		vm.setVariable (WASB_CLIENT_VAR, null);
+		interpreter.setVariableValue (WASB_CLIENT_VAR, null);
 	}
 
 	public static void setContainer (String container, JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (WASB_CONTAINER_VAR, container);
+		interpreter.setVariableValue (WASB_CONTAINER_VAR, container);
 
 		// clear the current client
-		vm.setVariable (WASB_CLIENT_VAR, null);
+		interpreter.setVariableValue (WASB_CLIENT_VAR, null);
 	}
 
 	public static void setKey (String key, JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (WASB_KEY_VAR, key);
+		interpreter.setVariableValue (WASB_KEY_VAR, key);
 
 		// clear the current client
-		vm.setVariable (WASB_CLIENT_VAR, null);
+		interpreter.setVariableValue (WASB_CLIENT_VAR, null);
 	}
 
 	public static void setEndPoint (String endPoint, JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (WASB_ENDPOINT_VAR, endPoint);
+		interpreter.setVariableValue (WASB_ENDPOINT_VAR, endPoint);
 
 		// clear the current client
-		vm.setVariable (WASB_CLIENT_VAR, null);
+		interpreter.setVariableValue (WASB_CLIENT_VAR, null);
 	}
 
 	private static String getAccountString (JaqyInterpreter interpreter, String account)
 	{
 		StringBuilder sb = new StringBuilder ();
-		VariableManager vm = interpreter.getVariableManager ();
 		String o;
 		if (account == null)
 		{
-			o = vm.getVariableString (WASB_ACCOUNT_VAR);
+			o = interpreter.getVariableString (WASB_ACCOUNT_VAR);
 		}
 		else
 		{
@@ -94,7 +88,7 @@ class AzureUtils
 		{
 			sb.append ("AccountName=").append (o.toString ());
 		}
-		o = vm.getVariableString (WASB_KEY_VAR);
+		o = interpreter.getVariableString (WASB_KEY_VAR);
 		if (o.length () > 0)
 		{
 			if (sb.length () > 0)
@@ -103,7 +97,7 @@ class AzureUtils
 			}
 			sb.append ("AccountKey=").append (o.toString ());
 		}
-		o = vm.getVariableString (WASB_ENDPOINT_VAR);
+		o = interpreter.getVariableString (WASB_ENDPOINT_VAR);
 		if (o.length () > 0)
 		{
 			if (sb.length () > 0)
@@ -117,8 +111,7 @@ class AzureUtils
 
     public static CloudBlobClient getBlobClient(JaqyInterpreter interpreter, String account) throws IOException
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		Object o = vm.get (WASB_CLIENT_VAR);
+		Object o = interpreter.getVariableValue (WASB_CLIENT_VAR);
 		if (o instanceof CloudBlobClient)
 		{
 			CloudBlobClient client = (CloudBlobClient)o;
@@ -138,7 +131,7 @@ class AzureUtils
 		{
 			CloudStorageAccount storageAccount = CloudStorageAccount.parse(getAccountString (interpreter, account));
 			CloudBlobClient client = storageAccount.createCloudBlobClient();
-			vm.setVariable (WASB_CLIENT_VAR, client);
+			interpreter.setVariableValue (WASB_CLIENT_VAR, client);
 			return client;
 		}
 		catch (Exception ex)
@@ -187,8 +180,7 @@ class AzureUtils
 			if (container == null ||
 				container.length () == 0)
 			{
-				VariableManager vm = interpreter.getVariableManager ();
-				container = vm.getVariableString (WASB_CONTAINER_VAR);
+				container = interpreter.getVariableString (WASB_CONTAINER_VAR);
 			}
 			return client.getContainerReference (container);
 		}

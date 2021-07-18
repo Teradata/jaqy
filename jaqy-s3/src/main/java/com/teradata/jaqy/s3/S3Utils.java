@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.Variable;
 
 /**
@@ -36,45 +35,35 @@ public class S3Utils
 
 	public static void setAccess (String access, JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (S3ACCESS_VAR, access);
+		interpreter.setVariableValue (S3ACCESS_VAR, access);
 
 		// clear the current s3 client
-		vm.setVariable (S3CLIENT_VAR, null);
+		interpreter.setVariableValue (S3CLIENT_VAR, null);
 	}
 
 	public static void setSecret (String secret, JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		vm.setVariable (S3SECRET_VAR, secret);
+		interpreter.setVariableValue (S3SECRET_VAR, secret);
 
 		// clear the current s3 client
-		vm.setVariable (S3CLIENT_VAR, null);
+		interpreter.setVariableValue (S3CLIENT_VAR, null);
 	}
 
 	public static AmazonS3ClientBuilder getS3Builder (JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		Variable var = vm.getVariable (S3BUILDER_VAR);
-		if (var != null)
-		{
-			Object o = var.get ();
-			if (o instanceof AmazonS3ClientBuilder)
-				return (AmazonS3ClientBuilder)o;
-		}
+		Object o = interpreter.getVariableValue (S3BUILDER_VAR);
+		if (o instanceof AmazonS3ClientBuilder)
+			return (AmazonS3ClientBuilder)o;
 		AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard ();
 		builder.withPathStyleAccessEnabled (true);
-		vm.setVariable (S3BUILDER_VAR, builder);
+		interpreter.setVariableValue (S3BUILDER_VAR, builder);
 		return builder;
 	}
 
 	public static AmazonS3 getS3Client (JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		Variable clientVar = vm.getVariable (S3CLIENT_VAR);
-		if (clientVar != null)
 		{
-			Object o = clientVar.get ();
+			Object o = interpreter.getVariableValue (S3CLIENT_VAR);
 			if (o instanceof AmazonS3)
 				return (AmazonS3)o;
 		}
@@ -86,22 +75,14 @@ public class S3Utils
 		String access = null;
 		String secret = null;
 		{
-			Variable var = vm.getVariable (S3ACCESS_VAR);
-			if (var != null)
-			{
-				Object o = var.get ();
-				if (o != null)
-					access = o.toString ();
-			}
+			Object o = interpreter.getVariableValue (S3ACCESS_VAR);
+			if (o != null)
+				access = o.toString ();
 		}
 		{
-			Variable var = vm.getVariable (S3SECRET_VAR);
-			if (var != null)
-			{
-				Object o = var.get ();
-				if (o != null)
-					secret = o.toString ();
-			}
+			Object o = interpreter.getVariableValue (S3SECRET_VAR);
+			if (o != null)
+				secret = o.toString ();
 		}
 		if (access != null &&
 			secret != null)
@@ -109,7 +90,7 @@ public class S3Utils
 			/*
 			 * When both access and secret are null, we are using the default
 			 * values (i.e. from credential file or env variables etc).
-			 * 
+			 *
 			 * When both are set, then we override the default settings (and
 			 * subsequent uses).
 			 */
@@ -130,6 +111,7 @@ public class S3Utils
 		AmazonS3 client = builder.build ();
 
 		// now save the client to s3client variable
+		Variable clientVar = interpreter.getVariable (S3CLIENT_VAR);
 		if (clientVar == null)
 		{
 			clientVar = new Variable ()
@@ -159,7 +141,7 @@ public class S3Utils
 			};
 		}
 		clientVar.set (client);
-		vm.setVariable (clientVar);
+		interpreter.registerVariable (clientVar);
 		return client;
 	}
 }

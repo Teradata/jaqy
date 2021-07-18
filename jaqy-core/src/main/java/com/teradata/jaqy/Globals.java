@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public class Globals
 	private Object m_sessionLock = new Object ();
 	private final ArrayList<Session> m_sessions = new ArrayList<Session> ();
 
-	private final VariableManager m_varManager = new VariableManager (null);
+	private final VariableManager m_varManager = new VariableManager (null, "Global Variables");
 	private final Variable m_globalsVar = new FixedVariable ("globals", this);
 
 	private final JaqyHandlerFactoryManager<JaqyPrinter> m_printerManager;
@@ -95,7 +95,7 @@ public class Globals
 
 	public Globals ()
 	{
-		m_varManager.setVariable (m_globalsVar);
+		m_varManager.registerVariable (m_globalsVar);
 
 		m_logger.setUseParentHandlers (false);
 		Handler handler = new StreamHandler (System.out, m_formatter);

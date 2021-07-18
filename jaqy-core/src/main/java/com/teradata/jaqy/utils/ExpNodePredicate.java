@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class ExpNodePredicate implements Predicate
 	@Override
 	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
 	{
-		m_vm = new VariableManager (interpreter.getVariableManager ());
+		m_vm = new VariableManager (interpreter.getVariableManager (), null);
 		m_vm.setVariable (RS_VAR, rs);
 		m_exp.bind (rs, m_vm, interpreter);
 	}

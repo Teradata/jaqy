@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ import java.sql.SQLException;
 
 import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.VariableManager;
-import com.teradata.jaqy.interfaces.Variable;
 
 /**
  * @author	Heng Yuan
@@ -49,16 +47,12 @@ public class TimerCommand extends JaqyCommandAdapter
 
 	private long getStartTime (JaqyInterpreter interpreter)
 	{
-		VariableManager vm = interpreter.getVariableManager ();
-		Variable var = vm.getVariable ("timer");
-		if (var == null)
+		Object timerValue = interpreter.getVariableValue (TIMER);
+		if (timerValue == null)
 			return 0;
-		Object o = var.get ();
-		if (o == null)
+		if (!(timerValue instanceof Number))
 			return 0;
-		if (!(o instanceof Number))
-			return 0;
-		return ((Number)o).longValue ();
+		return ((Number)timerValue).longValue ();
 	}
 
 	private void printTime (long start, JaqyInterpreter interpreter)
@@ -86,8 +80,7 @@ public class TimerCommand extends JaqyCommandAdapter
 		{
 			if ("set".equals (args[0]))
 			{
-				VariableManager vm = interpreter.getVariableManager ();
-				vm.setVariable (TIMER, System.nanoTime ());
+				interpreter.setVariableValue (TIMER, System.nanoTime ());
 				interpreter.println ("-- timer started.");
 			}
 			else

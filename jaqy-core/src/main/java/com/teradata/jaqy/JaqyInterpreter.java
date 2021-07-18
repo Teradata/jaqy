@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,96 +115,43 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	private final VariableManager m_varManager;
 	private final Variable m_interpreterVar = new FixedVariable ("interpreter", this);
-	private final Variable m_sessionVar = new Variable ()
+	private final Variable m_sessionVar = new GetterVariable ("session")
 	{
 		@Override
 		public Object get ()
 		{
 			return getSession ();
 		}
-
-		@Override
-		public boolean set (Object value)
-		{
-			return false;
-		}
-
-		@Override
-		public String getName ()
-		{
-			return "session";
-		}
 	};
 
-	private final Variable m_activityCountVar = new Variable ()
+	private final Variable m_activityCountVar = new GetterVariable ("activityCount")
 	{
 		@Override
 		public Object get ()
 		{
 			return getActivityCount ();
 		}
-
-		@Override
-		public boolean set (Object value)
-		{
-			if (value instanceof Number)
-			{
-				setActivityCount (((Number) value).longValue ());
-				return true;
-			}
-			return false;
-		}
-
-		@Override
-		public String getName ()
-		{
-			return "activityCount";
-		}
 	};
 
-	private final Variable m_iterationVar = new Variable ()
+	private final Variable m_iterationVar = new GetterVariable ("iteration")
 	{
 		@Override
 		public Object get ()
 		{
 			return getSession ().getIteration ();
 		}
-
-		@Override
-		public boolean set (Object value)
-		{
-			return false;
-		}
-
-		@Override
-		public String getName ()
-		{
-			return "iteration";
-		}
 	};
 
-	private final Variable m_errorVar = new Variable ()
+	private final Variable m_errorVar = new GetterVariable ("error")
 	{
 		@Override
 		public Object get ()
 		{
 			return m_ex;
 		}
-
-		@Override
-		public boolean set (Object value)
-		{
-			return false;
-		}
-
-		@Override
-		public String getName ()
-		{
-			return "error";
-		}
 	};
 
-	private final Variable m_sqlErrorVar = new Variable ()
+	private final Variable m_sqlErrorVar = new GetterVariable ("sqlError")
 	{
 		@Override
 		public Object get ()
@@ -213,21 +160,9 @@ public class JaqyInterpreter implements ExpressionHandler
 				return m_ex;
 			return null;
 		}
-
-		@Override
-		public boolean set (Object value)
-		{
-			return false;
-		}
-
-		@Override
-		public String getName ()
-		{
-			return "sqlError";
-		}
 	};
 
-	private final Variable m_messageVar = new Variable ()
+	private final Variable m_messageVar = new GetterVariable ("message")
 	{
 		@Override
 		public Object get ()
@@ -235,18 +170,6 @@ public class JaqyInterpreter implements ExpressionHandler
 			if (m_ex != null)
 				return m_ex.getMessage ();
 			return null;
-		}
-
-		@Override
-		public boolean set (Object value)
-		{
-			return false;
-		}
-
-		@Override
-		public String getName ()
-		{
-			return "message";
 		}
 	};
 
@@ -262,7 +185,7 @@ public class JaqyInterpreter implements ExpressionHandler
 		m_session = initialSession;
 		m_commandManager = globals.getCommandManager ();
 		m_aliasManager = globals.getAliasManager ();
-		m_varManager = new VariableManager (globals.getVarManager ());
+		m_varManager = new VariableManager (globals.getVarManager (), null);
 
 		setupScriptEngine (display);
 		m_engine = getScriptEngine (DEFAULT_ENGINE);
@@ -796,15 +719,14 @@ public class JaqyInterpreter implements ExpressionHandler
 
 	private void setupScriptEngine (Display display)
 	{
-		VariableManager varManager = m_varManager;
-		varManager.setVariable (m_interpreterVar);
-		varManager.setVariable (m_sessionVar);
-		varManager.setVariable (m_activityCountVar);
-		varManager.setVariable (m_iterationVar);
-		varManager.setVariable (m_errorVar);
-		varManager.setVariable (m_sqlErrorVar);
-		varManager.setVariable (m_messageVar);
-		m_scriptContext.setBindings (varManager, ScriptContext.ENGINE_SCOPE);
+		registerVariable (m_interpreterVar);
+		registerVariable (m_sessionVar);
+		registerVariable (m_activityCountVar);
+		registerVariable (m_iterationVar);
+		registerVariable (m_errorVar);
+		registerVariable (m_sqlErrorVar);
+		registerVariable (m_messageVar);
+		m_scriptContext.setBindings (m_varManager, ScriptContext.ENGINE_SCOPE);
 	}
 
 	/**
@@ -937,7 +859,7 @@ public class JaqyInterpreter implements ExpressionHandler
 					rs.close ();
 					rs = newRS;
 				}
-				getVariableManager ().put ("save", rs);
+				setVariableValue ("save", rs);
 				rewind = true;
 				m_saveResultSet = false;
 			}
@@ -1118,11 +1040,6 @@ public class JaqyInterpreter implements ExpressionHandler
 			return getDirectory ().getRelativePath (name);
 		}
 		return handler.getPath (name, this);
-	}
-
-	public VariableManager getVariableManager ()
-	{
-		return m_varManager;
 	}
 
 	public VariableContext getVariableHandler ()
@@ -1347,5 +1264,41 @@ public class JaqyInterpreter implements ExpressionHandler
 	public Throwable getException ()
 	{
 		return m_ex;
+	}
+
+	public VariableManager getVariableManager ()
+	{
+		return m_varManager;
+	}
+
+	public void registerVariable (Variable var)
+	{
+		m_varManager.registerVariable (var);
+	}
+
+	public Variable getVariable (String name)
+	{
+		return m_varManager.getVariable (name);
+	}
+
+	public Object setVariableValue (String name, Object value)
+	{
+		return m_varManager.setVariable (name, value);
+	}
+
+	public Object getVariableValue (String name)
+	{
+		return m_varManager.get (name);
+	}
+
+	public String getVariableString (String name)
+	{
+		return m_varManager.getVariableString (name);
+	}
+
+	@Override
+	public String toString ()
+	{
+		return "JaqyInterpreter";
 	}
 }

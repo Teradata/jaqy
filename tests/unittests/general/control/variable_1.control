@@ -1,0 +1,61 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- testing variables
+--------------------------------------------------------------------------
+
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+
+.eval print(message);
+null
+-- 0/3 - 0 ----------------------------------------------------------------
+.eval print(error);
+null
+-- 0/4 - 0 ----------------------------------------------------------------
+.eval print(sqlError);
+null
+-- 0/5 - 0 ----------------------------------------------------------------
+SELECT asdf;
+-- failure 1: [SQLITE_ERROR] SQL error or missing database (no such column: asdf)
+-- 1/5 - 0 ----------------------------------------------------------------
+.eval print(error);
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such column: asdf)
+-- 1/6 - 0 ----------------------------------------------------------------
+.eval print(message);
+[SQLITE_ERROR] SQL error or missing database (no such column: asdf)
+-- 1/7 - 0 ----------------------------------------------------------------
+.eval print(sqlError);
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such column: asdf)
+-- 1/8 - 0 ----------------------------------------------------------------
+
+.eval interpreter.setVariableValue("error", "esdf");
+-- error: Cannot set the variable: error
+-- 1/9 - 0 ----------------------------------------------------------------
+.eval interpreter.setVariableValue("message", "esdf");
+-- error: Cannot set the variable: message
+-- 1/10 - 0 ---------------------------------------------------------------
+.eval interpreter.setVariableValue("sqlError", "esdf");
+-- error: Cannot set the variable: sqlError
+-- 1/11 - 0 ---------------------------------------------------------------
+
+.eval error = "esdf";
+-- 1/12 - 0 ---------------------------------------------------------------
+.eval message = "esdf";
+-- 1/13 - 0 ---------------------------------------------------------------
+.eval sqlError = "esdf";
+-- 1/14 - 0 ---------------------------------------------------------------
+
+.eval print(error);
+esdf
+-- 1/15 - 0 ---------------------------------------------------------------
+.eval print(message);
+esdf
+-- 1/16 - 0 ---------------------------------------------------------------
+.eval print(sqlError);
+esdf
+-- 1/17 - 0 ---------------------------------------------------------------
+

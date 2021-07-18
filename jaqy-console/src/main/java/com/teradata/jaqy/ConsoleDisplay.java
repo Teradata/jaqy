@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,8 +69,8 @@ public class ConsoleDisplay implements Display
 			m_colorEnabled = true;
 		}
 		VariableManager varManager = globals.getVarManager ();
-		varManager.setVariable (m_displayVar);
-		varManager.setVariable (m_escapeVar);
+		varManager.registerVariable (m_displayVar);
+		varManager.registerVariable (m_escapeVar);
 	}
 
 	@Override
