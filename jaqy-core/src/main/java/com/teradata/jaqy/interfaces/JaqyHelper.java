@@ -219,6 +219,17 @@ public interface JaqyHelper
 	 */
 	public String getQuotedIdentifier (String name) throws SQLException;
 	/**
+	 * Check if a table exists already.
+	 * @param	tableName
+	 * 			the table to retrieve the SQL schema.
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @return	true if the table exists.  false otherwise.
+	 * @throws	Exception
+	 * 			in case of error.
+	 */
+	public boolean checkTableExists (String tableName, JaqyInterpreter interpreter) throws SQLException;
+	/**
 	 * Get the SQL schema for the given table.
 	 * @param	tableName
 	 * 			the table to retrieve the SQL schema.
@@ -240,6 +251,17 @@ public interface JaqyHelper
 	 * 			in case of error.
 	 */
 	public JaqyResultSet getTableColumns (String tableName, JaqyInterpreter interpreter) throws Exception;
+	/**
+	 * Get the number of columns for a table.
+	 * @param	tableName
+	 * 			the table to retrieve the column information.
+	 * @param	interpreter
+	 * 			the interpreter
+	 * @return	number of columns in the table.
+	 * @throws	Exception
+	 * 			in case of error.
+	 */
+	public int getNumColumns (String tableName, JaqyInterpreter interpreter) throws Exception;
 	/**
 	 * Do a client side fix of the column metadata information.  The fix
 	 * is to get rid of incorrect or ambiguous type informations.

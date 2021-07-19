@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.command;
 
+import java.util.logging.Level;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
@@ -92,7 +94,7 @@ public class ImportTableCommand extends JaqyCommandAdapter
 		boolean tableExists = false;
 		if (checkExist)
 		{
-			tableExists = SessionUtils.tableExists (session, tableName);
+			tableExists = helper.checkTableExists (tableName, interpreter);
 		}
 		int columnCount = 0;
 
@@ -126,7 +128,14 @@ public class ImportTableCommand extends JaqyCommandAdapter
 		}
 		else
 		{
-			columnCount = SessionUtils.getNumColumns (session, interpreter, tableName);
+			try
+			{
+				columnCount = helper.getNumColumns (tableName, interpreter);
+			}
+			catch (Exception ex)
+			{
+				interpreter.getGlobals ().log (Level.INFO, ex);
+			}
 		}
 
 		if (columnCount < 1)

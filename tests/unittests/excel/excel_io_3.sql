@@ -21,7 +21,7 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 .import excel -h file_io_3.xlsx
-INSERT INTO MyTable VALUES (?, ?, ?, ?);
+.importtable -c MyTable
 SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;

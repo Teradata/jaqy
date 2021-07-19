@@ -11,7 +11,7 @@ Jaqy Console 1.2.0
 SELECT 1234;
 [WARNING]: com.teradata.jaqy.JaqyException: Current session is closed.
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
-[WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:44)
+[WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:48)
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:501)
 [WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:274)
 -- error: Current session is closed.
@@ -24,7 +24,7 @@ SELECT 1234;
 SELECT 1234;
 [WARNING]: com.teradata.jaqy.JaqyException: Current session is closed.
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
-[WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:44)
+[WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:48)
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:501)
 [WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:274)
 -- error: Current session is closed.
@@ -37,7 +37,7 @@ SELECT 1234;
 SELECT 1234;
 [WARNING]: com.teradata.jaqy.JaqyException: Current session is closed.
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.error(JaqyInterpreter.java:927)
-[WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:44)
+[WARNING]: 	at com.teradata.jaqy.utils.SessionUtils.checkOpen(SessionUtils.java:48)
 [WARNING]: 	at com.teradata.jaqy.JaqyInterpreter.interpret(JaqyInterpreter.java:501)
 [WARNING]: 	at com.teradata.jaqy.Main.main(Main.java:274)
 -- error: Current session is closed.

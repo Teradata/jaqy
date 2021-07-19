@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import java.util.Map;
 import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
-import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.connection.*;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
@@ -35,7 +34,10 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
-import com.teradata.jaqy.utils.*;
+import com.teradata.jaqy.utils.ExceptionUtils;
+import com.teradata.jaqy.utils.SessionUtils;
+import com.teradata.jaqy.utils.SimpleQuery;
+import com.teradata.jaqy.utils.TypesUtils;
 
 /**
  * @author	Heng Yuan
@@ -396,6 +398,12 @@ public class DefaultHelper implements JaqyHelper
 		}
 	}
 
+	@Override
+	public boolean checkTableExists (String tableName, JaqyInterpreter interpreter) throws SQLException
+	{
+		return SessionUtils.checkTableExists (interpreter.getSession (), tableName);
+	}
+
 	/**
 	 * Guess the schema for a table.
 	 */
@@ -410,36 +418,7 @@ public class DefaultHelper implements JaqyHelper
 			return value;
 		}
 
-		/*
-		 * Creates a dummy query that gets no actual results.  We just need
-		 * the resulting ResultSetMetaData to infer the table schema.
-		 */
-		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
-		JaqyStatement stmt = null;
-		try
-		{
-			stmt = createStatement (true);
-			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet (interpreter);
-			if (rs == null)
-				throw ExceptionUtils.getTableNotFound ();
-			JaqyResultSetMetaData meta = rs.getMetaData ();
-			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), null);
-			String schema = SchemaUtils.getTableSchema (this, schemaInfo, tableName, true, false);
-			rs.close ();
-
-			return schema;
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
+		return SessionUtils.getTableSchema (tableName, interpreter.getSession (), interpreter);
 	}
 
 	@Override
@@ -456,40 +435,18 @@ public class DefaultHelper implements JaqyHelper
 			return rs;
 		}
 
-		String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
-		JaqyStatement stmt = null;
-		try
-		{
-			stmt = createStatement (true);
-			stmt.execute (query);
-			JaqyResultSet rs = stmt.getResultSet (interpreter);
-			if (rs == null)
-				throw ExceptionUtils.getTableNotFound ();
-			JaqyResultSetMetaData meta = rs.getMetaData ();
-			SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (meta.getMetaData (), null);
-			int count = schemaInfo.columns.length;
+		return SessionUtils.getTableColumns (tableName, interpreter.getSession (), interpreter);
+	}
 
-			PropertyTable pt = new PropertyTable (new String[]{ "Column", "Type", "Nullable" });
-			for (int i = 0; i < count; ++i)
-			{
-				String columnName = schemaInfo.columns[i].name;
-				String columnType = getTypeName (schemaInfo.columns[i], false);
-				String nullable = (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNoNulls) ? "No" : (schemaInfo.columns[i].nullable == ResultSetMetaData.columnNullable ? "Yes" : "Unknown");
-				pt.addRow (new String[]{ columnName, columnType, nullable });
-			}
-			rs.close ();
-
-			return ResultSetUtils.getResultSet (pt);
-		}
-		finally
+	@Override
+	public int getNumColumns (String tableName, JaqyInterpreter interpreter) throws Exception
+	{
+		try (JaqyResultSet rs = getTableColumns (tableName, interpreter))
 		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
+			int count = 0;
+			while (rs.next ())
+				++count;
+			return count;
 		}
 	}
 

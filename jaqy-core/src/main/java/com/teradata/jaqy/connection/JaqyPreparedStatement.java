@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@ package com.teradata.jaqy.connection;
 
 import java.io.InputStream;
 import java.io.Reader;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLXML;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 
@@ -64,72 +66,47 @@ public class JaqyPreparedStatement extends JaqyStatement
 		return getParameterMetaData ().getParameterCount ();
 	}
 
-	public void clearParameters () throws SQLException
-	{
-		m_statement.clearParameters ();
-	}
-
-	public void clearBatch () throws SQLException
-	{
-		m_statement.clearBatch ();
-	}
-
 	public void addBatch () throws SQLException
 	{
 		m_statement.addBatch ();
 	}
 
-    public void setString(int parameter, String x) throws SQLException
-    {
+	public void setString (int parameter, String x) throws SQLException
+	{
 		m_statement.setString (parameter, x);
-    }
+	}
 
-    public void setBytes(int parameter, byte[] x) throws SQLException
-    {
+	public void setBytes (int parameter, byte[] x) throws SQLException
+	{
 		m_statement.setBytes (parameter, x);
-    }
+	}
 
-    public void setCharacterStream(int parameter, Reader reader) throws SQLException
-    {
+	public void setCharacterStream (int parameter, Reader reader) throws SQLException
+	{
 		m_statement.setCharacterStream (parameter, reader);
-    }
+	}
 
-    public void setCharacterStream(int parameter, Reader reader, long length) throws SQLException
-    {
+	public void setCharacterStream (int parameter, Reader reader, long length) throws SQLException
+	{
 		m_statement.setCharacterStream (parameter, reader, length);
-    }
+	}
 
-    public void setBinaryStream(int parameter, InputStream x) throws SQLException
-    {
+	public void setBinaryStream (int parameter, InputStream x) throws SQLException
+	{
 		m_statement.setBinaryStream (parameter, x);
-    }
+	}
 
-    public void setBinaryStream(int parameter, InputStream x, long length) throws SQLException
-    {
+	public void setBinaryStream (int parameter, InputStream x, long length) throws SQLException
+	{
 		m_statement.setBinaryStream (parameter, x, length);
-    }
+	}
 
-    public void setObject (int parameter, Object obj) throws SQLException
+	public void setObject (int parameter, Object obj) throws SQLException
 	{
 		m_statement.setObject (parameter, obj);
 	}
 
-    public void setClob (int parameter, Clob x) throws SQLException
-	{
-		m_statement.setClob (parameter, x);
-	}
-
-    public void setNClob (int parameter, NClob x) throws SQLException
-	{
-		m_statement.setNClob (parameter, x);
-	}
-
-    public void setBlob (int parameter, Blob x) throws SQLException
-	{
-		m_statement.setBlob (parameter, x);
-	}
-
-    public void setSQLXML (int parameter, SQLXML x) throws SQLException
+	public void setSQLXML (int parameter, SQLXML x) throws SQLException
 	{
 		m_statement.setSQLXML (parameter, x);
 	}
@@ -139,13 +116,13 @@ public class JaqyPreparedStatement extends JaqyStatement
 		m_statement.setObject (parameter, obj, sqlType);
 	}
 
-    public void setNull (int parameterIndex, int sqlType) throws SQLException
-    {
-    	m_statement.setNull (parameterIndex, sqlType);
-    }
+	public void setNull (int parameterIndex, int sqlType) throws SQLException
+	{
+		m_statement.setNull (parameterIndex, sqlType);
+	}
 
-    public void setNull (int parameterIndex, int sqlType, String typeName) throws SQLException
-    {
-    	m_statement.setNull (parameterIndex, sqlType, typeName);
-    }
+	public void setNull (int parameterIndex, int sqlType, String typeName) throws SQLException
+	{
+		m_statement.setNull (parameterIndex, sqlType, typeName);
+	}
 }
