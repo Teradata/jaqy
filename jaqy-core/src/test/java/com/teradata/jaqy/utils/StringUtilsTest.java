@@ -102,6 +102,19 @@ public class StringUtilsTest
 	}
 
 	@Test
+	public void getOnOffStateTest ()
+	{
+		Assert.assertEquals (true, StringUtils.getOnOffState ("on", "test"));
+		Assert.assertEquals (false, StringUtils.getOnOffState ("off", "test"));
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void getOnOffStateTest2 ()
+	{
+		StringUtils.getOnOffState ("an", "test");
+	}
+
+	@Test
 	public void stripQuoteTest ()
 	{
 		Assert.assertEquals ("", StringUtils.stripQuote ("", '"'));

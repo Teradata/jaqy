@@ -16,6 +16,7 @@ CREATE TABLE SqliteTypes
 );
 .desc
 .desc dummy
+.desc -s dummy
 .desc SqliteTypes
 .desc -s SqliteTypes
 
