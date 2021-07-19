@@ -108,5 +108,71 @@ DROP TABLE unicodeTable3;
 -- success. update count = 0
 -- 12/11 - 0 --------------------------------------------------------------
 
-.quit
+.import csv -h ../common/data/unicode_4.csv
 -- 12/12 - 0 --------------------------------------------------------------
+.importtable unicodeTable4
+-- Table Schema --
+CREATE TABLE unicodeTable4
+(
+	"a" int NOT NULL,
+	"b" nvarchar(2) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO unicodeTable4 VALUES (?,?)
+-- 14/13 - 0 --------------------------------------------------------------
+
+.desc unicodeTable4
+Column Type        Nullable
+------ ----------- --------
+a      int         No
+b      nvarchar(2) No
+-- 14/14 - 0 --------------------------------------------------------------
+SELECT * FROM unicodeTable4 ORDER BY 1;
+-- success --
+a b
+- --
+1 甲
+2 乙
+3 cd
+-- activity count = 3
+-- 15/14 - 0 --------------------------------------------------------------
+DROP TABLE unicodeTable4;
+-- success. update count = 0
+-- 16/14 - 0 --------------------------------------------------------------
+
+.import csv -h ../common/data/unicode_5.csv
+-- 16/15 - 0 --------------------------------------------------------------
+.importtable unicodeTable5
+-- Table Schema --
+CREATE TABLE unicodeTable5
+(
+	"a" int NOT NULL,
+	"b" nvarchar(2) NOT NULL
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO unicodeTable5 VALUES (?,?)
+-- 18/16 - 0 --------------------------------------------------------------
+
+.desc unicodeTable5
+Column Type        Nullable
+------ ----------- --------
+a      int         No
+b      nvarchar(2) No
+-- 18/17 - 0 --------------------------------------------------------------
+SELECT * FROM unicodeTable5 ORDER BY 1;
+-- success --
+a b
+- --
+1 甲
+2 乙
+3 cd
+-- activity count = 3
+-- 19/17 - 0 --------------------------------------------------------------
+DROP TABLE unicodeTable5;
+-- success. update count = 0
+-- 20/17 - 0 --------------------------------------------------------------
+
+.quit
+-- 20/18 - 0 --------------------------------------------------------------

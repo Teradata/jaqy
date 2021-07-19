@@ -24,5 +24,19 @@ DROP TABLE unicodeTable2;
 SELECT * FROM unicodeTable3 ORDER BY 1;
 DROP TABLE unicodeTable3;
 
+.import csv -h ../common/data/unicode_4.csv
+.importtable unicodeTable4
+
+.desc unicodeTable4
+SELECT * FROM unicodeTable4 ORDER BY 1;
+DROP TABLE unicodeTable4;
+
+.import csv -h ../common/data/unicode_5.csv
+.importtable unicodeTable5
+
+.desc unicodeTable5
+SELECT * FROM unicodeTable5 ORDER BY 1;
+DROP TABLE unicodeTable5;
+
 .quit
 

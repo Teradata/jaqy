@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public class ByteOrderMarkUtils
 		try
 		{
 			len = is.read (bom);
-	
+
 			if (bom[0] == (byte)0xEF && bom[1] == (byte)0xBB && bom[2] == (byte)0xBF)
 			{
 				off = 3;
@@ -47,6 +47,12 @@ public class ByteOrderMarkUtils
 			{
 				off = 2;
 				return "UTF-16BE";
+			}
+			// UTF-32LE check needs to come before UTF-16LE since the first two bytes are the same
+			if (bom[0] == (byte)0xFF && bom[1] == (byte)0xFE && bom[2] == 0 && bom[3] == 0 && len == 4)
+			{
+				off = 4;
+				return "UTF-32LE";
 			}
 			if (bom[0] == (byte)0xFF && bom[1] == (byte)0xFE)
 			{
@@ -58,11 +64,7 @@ public class ByteOrderMarkUtils
 				off = 4;
 				return "UTF-32BE";
 			}
-			if (bom[0] == (byte)0xFF && bom[1] == (byte)0xFE && bom[2] == 0 && bom[3] == 0 && len == 4)
-			{
-				off = 4;
-				return "UTF-32LE";
-			}
+/*
 			if (bom[0] == (byte)0xF7 && bom[1] == 0x64 && bom[2] == 0x4C)
 			{
 				off = 3;
@@ -73,6 +75,7 @@ public class ByteOrderMarkUtils
 				off = 4;
 				return "UTF-EBCDIC";
 			}
+*/
 			return null;
 		}
 		catch (Exception ex)

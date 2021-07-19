@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package com.teradata.jaqy.utils;
 
 import java.sql.Types;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author	Heng Yuan
@@ -24,6 +25,8 @@ import java.util.HashMap;
 public class TypesUtils
 {
 	private final static HashMap<String, Integer> s_nameMap = new HashMap<String, Integer> ();
+	private final static HashMap<Integer, String> s_typeMap = new HashMap<Integer, String> ();
+
 	static
 	{
 		s_nameMap.put ("ARRAY", Types.ARRAY);
@@ -65,6 +68,11 @@ public class TypesUtils
 		s_nameMap.put ("TINYINT", Types.TINYINT);
 		s_nameMap.put ("VARBINARY", Types.VARBINARY);
 		s_nameMap.put ("VARCHAR", Types.VARCHAR);
+
+		for (Map.Entry<String, Integer> entry : s_nameMap.entrySet ())
+		{
+			s_typeMap.put (entry.getValue (), entry.getKey ());
+		}
 	}
 
 	public static int getType (String name)
@@ -80,89 +88,12 @@ public class TypesUtils
 
 	public static String getTypeName (int type)
 	{
-		switch (type)
+		String name = s_typeMap.get (type);
+		if (name == null)
 		{
-			case Types.ARRAY:					// Java 1.2
-				return "ARRAY";
-			case Types.BIGINT:
-				return "BIGINT";
-			case Types.BINARY:
-				return "BINARY";
-			case Types.BIT:
-				return "BIT";
-			case Types.BLOB:					// Java 1.2
-				return "BLOB";
-			case Types.BOOLEAN:					// Java 1.4
-				return "BOOLEAN";
-			case Types.CHAR:
-				return "CHAR";
-			case Types.CLOB:
-				return "CLOB";
-			case Types.DATALINK:				// Java 1.4
-				return "DATALINK";
-			case Types.DATE:
-				return "DATE";
-			case Types.DECIMAL:
-				return "DECIMAL";
-			case Types.DISTINCT:				// Java 1.2
-				return "DISTINCT";
-			case Types.DOUBLE:
-				return "DOUBLE";
-			case Types.FLOAT:
-				return "FLOAT";
-			case Types.INTEGER:
-				return "INTEGER";
-			case Types.JAVA_OBJECT:				// Java 1.2
-				return "JAVA_OBJECT";
-			case Types.LONGNVARCHAR:			// Java 1.6
-				return "LONGNVARCHAR";
-			case Types.LONGVARBINARY:
-				return "LONGVARBINARY";
-			case Types.LONGVARCHAR:
-				return "LONGVARCHAR";
-			case Types.NCHAR:					// Java 1.6
-				return "NCHAR";
-			case Types.NCLOB:					// Java 1.6
-				return "NCLOB";
-			case Types.NULL:
-				return "NULL";
-			case Types.NUMERIC:
-				return "NUMERIC";
-			case Types.NVARCHAR:				// Java 1.6
-				return "NVARCHAR";
-			case Types.OTHER:
-				return "OTHER";
-			case Types.REAL:
-				return "REAL";
-			case Types.REF:						// Java 1.2
-				return "REF";
-			case Types.REF_CURSOR:				// Java 1.8
-				return "REF_CURSOR";
-			case Types.ROWID:					// Java 1.6
-				return "ROWID";
-			case Types.SMALLINT:
-				return "SMALLINT";
-			case Types.SQLXML:					// Java 1.6
-				return "SQLXML";
-			case Types.STRUCT:					// Java 1.2
-				return "STRUCT";
-			case Types.TIME:
-				return "TIME";
-			case Types.TIME_WITH_TIMEZONE:		// Java 1.8
-				return "TIME_WITH_TIMEZONE";
-			case Types.TIMESTAMP:
-				return "TIMESTAMP";
-			case Types.TIMESTAMP_WITH_TIMEZONE:	// Java 1.8
-				return "TIMESTAMP_WITH_TIMEZONE";
-			case Types.TINYINT:
-				return "TINYINT";
-			case Types.VARBINARY:
-				return "VARBINARY";
-			case Types.VARCHAR:
-				return "VARCHAR";
-			default:
-				return "Type " + type;
+			name = "Type " + type;
 		}
+		return name;
 	}
 
 	public static boolean isString (int type)

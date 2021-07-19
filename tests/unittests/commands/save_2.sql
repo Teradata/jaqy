@@ -33,4 +33,10 @@ DROP TABLE `${save.get (iteration, 1)}`.`${save.get (iteration, 2)}`;
 -- verify t2, t3, and t4 were dropped.
 .list
 
+-- In case they are not dropped, drop these tables.
+DROP TABLE t1;
+DROP TABLE t2;
+DROP TABLE t3;
+DROP TABLE t4;
+
 .close

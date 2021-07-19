@@ -93,11 +93,9 @@ public class QueryUtils
 	 */
 	public static JaqyResultSet getResultSet (Globals globals, JaqyConnection conn, String sql, JaqyInterpreter interpreter) throws SQLException
 	{
-		JaqyStatement stmt = null;
 		globals.log (Level.INFO, "SQL: " + sql);
-		try
+		try (JaqyStatement stmt = conn.createStatement (true))
 		{
-			stmt = conn.createStatement (true);
 			stmt.execute (sql);
 			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
@@ -106,16 +104,6 @@ public class QueryUtils
 			JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, interpreter);
 			rs.close ();
 			return newRS;
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
 		}
 	}
 }
