@@ -46,11 +46,9 @@ public class QueryUtils
 	 */
 	public static String getQueryString (JaqyConnection conn, String sql, int column, JaqyInterpreter interpreter) throws SQLException
 	{
-		JaqyStatement stmt = null;
 		interpreter.getGlobals ().log (Level.INFO, "SQL: " + sql);
-		try
+		try (JaqyStatement stmt = conn.createStatement (true))
 		{
-			stmt = conn.createStatement (true);
 			stmt.execute (sql);
 			JaqyResultSet rs = stmt.getResultSet (interpreter);
 			if (rs == null)
@@ -63,16 +61,6 @@ public class QueryUtils
 			}
 			rs.close ();
 			return builder.toString ();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close ();
-			}
-			catch (Exception ex)
-			{
-			}
 		}
 	}
 

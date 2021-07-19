@@ -36,17 +36,9 @@ public class SessionUtils
 {
 	public static void checkOpen (JaqyInterpreter interpreter)
 	{
-		Session session = interpreter.getSession ();
-		if (session == null)
+		if (interpreter.getSession ().isClosed ())
 		{
-			interpreter.error ("Not in a session.");
-		}
-		else
-		{
-			if (session.isClosed ())
-			{
-				interpreter.error ("Current session is closed.");
-			}
+			interpreter.error ("Current session is closed.");
 		}
 	}
 

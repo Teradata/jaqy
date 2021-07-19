@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.Session;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.connection.JdbcFeatures;
-import com.teradata.jaqy.helper.DummyHelper;
 import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.resultset.InMemoryResultSetMetaData;
@@ -196,11 +195,5 @@ public class ResultSetMetaDataUtils
 	public static InMemoryResultSetMetaData copyResultSetMetaData (ResultSetMetaData metaData, JaqyHelper helper) throws SQLException
 	{
 		return new InMemoryResultSetMetaData (ResultSetMetaDataUtils.getColumnInfo (metaData, helper).columns);
-	}
-
-	public static JaqyResultSetMetaData copyResultSetMetaData (JaqyResultSetMetaData metaData) throws SQLException
-	{
-		ResultSetMetaData rsmd = copyResultSetMetaData (metaData.getMetaData (), metaData.getHelper ());
-		return new JaqyResultSetMetaData (rsmd, DummyHelper.getInstance ());
 	}
 }
