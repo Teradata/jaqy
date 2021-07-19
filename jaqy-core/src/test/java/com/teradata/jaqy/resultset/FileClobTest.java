@@ -26,7 +26,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.FileUtils;
 
@@ -70,7 +69,7 @@ public class FileClobTest
 		clob.length ();
 	}
 
-	@Test (expected = JaqyException.class)
+	@Test (expected = SQLException.class)
 	public void testClob3 () throws Exception
 	{
 		File file = new File (m_folder.getRoot (), "c3.txt");
@@ -79,7 +78,7 @@ public class FileClobTest
 		clob.getCharacterStream ();
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = SQLException.class)
 	public void testClob4 () throws Exception
 	{
 		File file = new File (m_folder.getRoot (), "c4.txt");
@@ -88,7 +87,7 @@ public class FileClobTest
 		clob.getSubString (0, 1);
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = SQLException.class)
 	public void testClob5 () throws Exception
 	{
 		File file = new File (m_folder.getRoot (), "c5.txt");
@@ -97,7 +96,7 @@ public class FileClobTest
 		clob.getSubString (1, -1);
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = SQLException.class)
 	public void testClob6 () throws Exception
 	{
 		File file = m_folder.newFile ("c6.txt");

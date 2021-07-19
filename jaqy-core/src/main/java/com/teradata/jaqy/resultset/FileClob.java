@@ -51,7 +51,7 @@ public class FileClob extends ClobWrapper
 			}
 			catch (IOException ex)
 			{
-				throw new SQLException (ex);
+				throw new SQLException (ex.getMessage (), ex);
 			}
 		}
 		return m_length;
@@ -70,7 +70,7 @@ public class FileClob extends ClobWrapper
 		}
 		catch (IOException ex)
 		{
-			throw new SQLException (ex);
+			throw new SQLException (ex.getMessage (), ex);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class FileClob extends ClobWrapper
 		}
 		catch (IOException ex)
 		{
-			throw new SQLException (ex);
+			throw new SQLException (ex.getMessage (), ex);
 		}
 	}
 

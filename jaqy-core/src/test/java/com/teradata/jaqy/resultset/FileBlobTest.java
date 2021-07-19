@@ -18,13 +18,13 @@ package com.teradata.jaqy.resultset;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.FileUtils;
 
@@ -68,7 +68,7 @@ public class FileBlobTest
 		Assert.assertEquals (0, blob.length ());
 	}
 
-	@Test (expected = JaqyException.class)
+	@Test (expected = SQLException.class)
 	public void testBlob3 () throws Exception
 	{
 		File file = new File (m_folder.getRoot (), "b3.txt");
@@ -77,7 +77,7 @@ public class FileBlobTest
 		blob.getBinaryStream ();
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = SQLException.class)
 	public void testBlob4 () throws Exception
 	{
 		File file = new File (m_folder.getRoot (), "b4.txt");
@@ -86,7 +86,7 @@ public class FileBlobTest
 		blob.getBytes (0, 1);
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = SQLException.class)
 	public void testBlob5 () throws Exception
 	{
 		File file = new File (m_folder.getRoot (), "b5.txt");
@@ -95,7 +95,7 @@ public class FileBlobTest
 		blob.getBytes (1, -1);
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = SQLException.class)
 	public void testBlob6 () throws Exception
 	{
 		File file = m_folder.newFile ("b6.txt");

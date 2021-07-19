@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
@@ -47,14 +46,14 @@ public class FileBlob extends BlobWrapper
 		if (pos < 1 ||
 			length < 0 ||
 			(pos + length - 1) > m_file.length ())
-			throw new IllegalArgumentException ("Invalid arguments");
+			throw new SQLException ("Invalid arguments");
 		try
 		{
 			return FileUtils.readFile (m_file, pos - 1, length);
 		}
 		catch (IOException ex)
 		{
-			throw new JaqyException (ex);
+			throw new SQLException (ex.getMessage (), ex);
 		}
 	}
 
@@ -67,7 +66,7 @@ public class FileBlob extends BlobWrapper
 		}
 		catch (IOException ex)
 		{
-			throw new JaqyException (ex);
+			throw new SQLException (ex.getMessage (), ex);
 		}
 	}
 
