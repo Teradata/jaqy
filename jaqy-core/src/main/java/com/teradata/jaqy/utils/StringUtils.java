@@ -53,10 +53,10 @@ public class StringUtils
 	private static int getIntValue (byte b) throws IOException
 	{
 		if (b >= '0' && b <= '9')
-			return b = '0';
-		if (b >= 'a' && b <= 'z')
+			return b - '0';
+		if (b >= 'a' && b <= 'f')
 			return 10 + b - 'a';
-		if (b >= 'A' && b <= 'Z')
+		if (b >= 'A' && b <= 'F')
 			return 10 + b - 'A';
 		throw new IOException ("invalid binary hex string");
 	}
@@ -135,7 +135,7 @@ public class StringUtils
 	{
 		char[] buffer = new char[4096];
 		int len;
-		StringBuffer strBuf = new StringBuffer ();
+		StringBuilder strBuf = new StringBuilder ();
 		while ((len = reader.read (buffer)) > 0)
 		{
 			strBuf.append (buffer, 0, len);
@@ -173,11 +173,13 @@ public class StringUtils
 		for (i = chars.length - 1; i >= 0; --i)
 		{
 			if (chars[i] > ' ')
+			{
 				break;
+			}
 		}
 		if (i == -1)
 			return "";
-		return new String (chars, 0, i);
+		return new String (chars, 0, i + 1);
 	}
 
 	public static String quoteJavaString (String str)
@@ -288,8 +290,6 @@ public class StringUtils
 				break;
 			}
 		}
-		if (args == null)
-			interpreter.error ("error parsing argument.");
 		return args;
 	}
 
