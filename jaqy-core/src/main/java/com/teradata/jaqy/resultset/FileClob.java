@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 
-import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
@@ -52,7 +51,7 @@ public class FileClob extends ClobWrapper
 			}
 			catch (IOException ex)
 			{
-				throw new JaqyException (ex);
+				throw new SQLException (ex);
 			}
 		}
 		return m_length;
@@ -64,14 +63,14 @@ public class FileClob extends ClobWrapper
 		if (pos < 1 ||
 			length < 0 ||
 			(pos + length - 1) > m_length)
-			throw new IllegalArgumentException ("Invalid arguments.");
+			throw new SQLException ("Invalid arguments.");
 		try
 		{
 			return FileUtils.readString (m_file, m_charset, pos - 1, length);
 		}
 		catch (IOException ex)
 		{
-			throw new JaqyException (ex);
+			throw new SQLException (ex);
 		}
 	}
 
@@ -84,7 +83,7 @@ public class FileClob extends ClobWrapper
 		}
 		catch (IOException ex)
 		{
-			throw new JaqyException (ex);
+			throw new SQLException (ex);
 		}
 	}
 

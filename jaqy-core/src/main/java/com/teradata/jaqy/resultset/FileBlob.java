@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class FileBlob extends BlobWrapper
 		if (pos < 1 ||
 			length < 0 ||
 			(pos + length - 1) > m_file.length ())
-			throw new SQLException ("Invalid arguments");
+			throw new IllegalArgumentException ("Invalid arguments");
 		try
 		{
 			return FileUtils.readFile (m_file, pos - 1, length);
@@ -59,7 +59,7 @@ public class FileBlob extends BlobWrapper
 	}
 
 	@Override
-	public InputStream getBinaryStream ()
+	public InputStream getBinaryStream () throws SQLException
 	{
 		try
 		{

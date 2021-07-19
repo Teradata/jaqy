@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -393,7 +393,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 		if (o == null)
 			return null;
 
-		return new ByteArrayInputStream (o.toString ().getBytes (Charset.forName ("us_ascii")));
+		return new ByteArrayInputStream (o.toString ().getBytes (Charset.forName ("US-ASCII")));
 	}
 
 	@Override
@@ -500,7 +500,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 	public boolean isFirst () throws SQLException
 	{
 		checkClosed ();
-		return m_rowId == 0 && m_row != null;
+		return m_rowId == 1;
 	}
 
 	@Override
@@ -529,7 +529,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 	public boolean first () throws SQLException
 	{
 		checkClosed ();
-		m_rowId = 0;
+		m_rowId = 1;
 		if (m_rows.size () == 0)
 		{
 			m_row = null;
@@ -850,25 +850,13 @@ public class InMemoryResultSet extends ResultSetWrapper
 	@Override
 	public String getNString (int columnIndex) throws SQLException
 	{
-		checkClosed ();
-		checkColumnIndex (columnIndex);
-
-		Object o = m_row[columnIndex - 1];
-		if (o == null)
-			return null;
-		return o.toString ();
+		return getString (columnIndex);
 	}
 
 	@Override
 	public Reader getNCharacterStream (int columnIndex) throws SQLException
 	{
-		checkClosed ();
-		checkColumnIndex (columnIndex);
-
-		Object o = m_row[columnIndex - 1];
-		if (o == null)
-			return null;
-		return new StringReader (o.toString ());
+		return getCharacterStream (columnIndex);
 	}
 
 	public void sort (SortInfo[] sortInfos) throws SQLException
