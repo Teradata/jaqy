@@ -6,7 +6,7 @@
 
 CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b VARCHAR(100));
 
-.import json lib/import4.json
+.import json data/import4.json
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 
 SELECT * FROM MyTable ORDER BY 1;

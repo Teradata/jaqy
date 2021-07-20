@@ -9,7 +9,7 @@ USE vagrant;
 -- Converted to GeoJSON using https://mapshaper.org/
 
 CREATE TABLE stateTable(geoId INTEGER, state VARCHAR(4), name VARCHAR(100) CHARACTER SET UTF8, shape MEDIUMTEXT);
-.import json -r features lib/cb_2017_us_state_500k.json
+.import json -r features data/cb_2017_us_state_500k.json
 INSERT INTO stateTable VALUES ({{properties.GEOID}}, {{properties.STUSPS}}, {{properties.NAME}}, {{geometry}});
 
 -- Cartographic Boundary Shapefiles - Urban Areas
@@ -17,7 +17,7 @@ INSERT INTO stateTable VALUES ({{properties.GEOID}}, {{properties.STUSPS}}, {{pr
 -- Converted to GeoJSON using https://mapshaper.org/
 
 CREATE TABLE cityTable(geoId INTEGER, name VARCHAR(100) CHARACTER SET UTF8, shape MEDIUMTEXT);
-.import json -r features lib/cb_2017_us_ua10_500k.json
+.import json -r features data/cb_2017_us_ua10_500k.json
 INSERT INTO cityTable VALUES ({{properties.GEOID10}}, {{properties.NAME10}}, {{geometry}});
 
 SELECT COUNT(*) FROM stateTable;

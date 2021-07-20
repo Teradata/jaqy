@@ -13,7 +13,7 @@ CREATE TABLE MyTable(po INTEGER PRIMARY KEY, customerId INTEGER, date VARCHAR(20
 -- success. update count = 0
 -- 1/2 - 0 ----------------------------------------------------------------
 
-.import json -r=customers lib/import2.json
+.import json -r=customers data/import2.json
 -- 1/3 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{purchase.po}}, {{customerId}}, {{date}}, {{date}}, {{}});
 -- success. update count = 1

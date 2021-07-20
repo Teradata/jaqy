@@ -6,7 +6,7 @@
 
 CREATE TABLE MyTable(po INTEGER PRIMARY KEY, customerId INTEGER, date VARCHAR(20), date2 VARCHAR(20), row VARCHAR(200));
 
-.import json -r=customers lib/import2.json
+.import json -r=customers data/import2.json
 INSERT INTO MyTable VALUES ({{purchase.po}}, {{customerId}}, {{date}}, {{date}}, {{}});
 
 SELECT * FROM MyTable ORDER BY 1, 2, 3;

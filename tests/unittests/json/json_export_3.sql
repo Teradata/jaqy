@@ -20,7 +20,7 @@ INSERT INTO BinTable VALUES (2, X'FACEDEAD');
 .export json -f text -b base64 -p off bin.json
 SELECT * FROM BinTable ORDER BY a;
 
-.os diff -b bin.json lib/bin.json
+.os diff -b bin.json data/bin.json
 .os rm -f bin.json
 
 .close

@@ -29,7 +29,7 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER);
 -- error: invalid binary option value: dummy
 -- 1/7 - 0 ----------------------------------------------------------------
 
-.import json lib/import1.json
+.import json data/import1.json
 -- 1/8 - 0 ----------------------------------------------------------------
 .import
 .import json
@@ -75,11 +75,11 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 4/10 - 0 ---------------------------------------------------------------
 
-.import json -f text -c dummy lib/import1.json
+.import json -f text -c dummy data/import1.json
 -- error: invalid character set: dummy
 -- 4/11 - 0 ---------------------------------------------------------------
 
-.import json -f text lib/import1.json
+.import json -f text data/import1.json
 -- 4/12 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 Parameter Count                              2
@@ -119,7 +119,7 @@ DELETE FROM MyTable;
 -- success. update count = 4
 -- 7/12 - 0 ---------------------------------------------------------------
 
-.import json -a -f bson lib/import1.bson
+.import json -a -f bson data/import1.bson
 -- 7/13 - 0 ---------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}});
 Parameter Count                              2
@@ -163,7 +163,7 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b INTEGER, c INTEGER);
 -- success. update count = 0
 -- 11/13 - 0 --------------------------------------------------------------
 
-.import json -a -f bson lib/import1.bson
+.import json -a -f bson data/import1.bson
 -- 11/14 - 0 --------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}});
 Parameter Count                              3

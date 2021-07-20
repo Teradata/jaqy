@@ -13,7 +13,7 @@ CREATE TABLE MyTable(a VARCHAR(100));
 -- success. update count = 0
 -- 1/2 - 0 ----------------------------------------------------------------
 
-.import json lib/import3.json
+.import json data/import3.json
 -- 1/3 - 0 ----------------------------------------------------------------
 INSERT INTO MyTable VALUES ({{}});
 -- success. update count = 1
