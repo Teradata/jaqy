@@ -37,8 +37,8 @@ import com.teradata.jaqy.utils.JsonUtils;
 class JsonExporter implements JaqyExporter
 {
 	private final JsonExporterOptions m_options;
-	private final Writer m_out;
-	private final OutputStream m_os;
+	private Writer m_out;
+	private OutputStream m_os;
 
 	public JsonExporter (OutputStream os, JsonExporterOptions options)
 	{
@@ -53,8 +53,6 @@ class JsonExporter implements JaqyExporter
 				m_out = null;
 				m_os = os;
 				break;
-			default:
-				throw new IllegalArgumentException ("Unknown format.");
 		}
 	}
 
@@ -110,6 +108,7 @@ class JsonExporter implements JaqyExporter
 			try
 			{
 				m_out.close ();
+				m_out = null;
 			}
 			catch (Exception ex)
 			{
@@ -120,6 +119,7 @@ class JsonExporter implements JaqyExporter
 			try
 			{
 				m_os.close ();
+				m_os = null;
 			}
 			catch (Exception ex)
 			{
