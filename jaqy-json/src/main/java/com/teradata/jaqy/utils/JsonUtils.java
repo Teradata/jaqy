@@ -90,8 +90,6 @@ public class JsonUtils
 				g.write ((byte[])obj);
 			else if (obj instanceof Array)
 				print (g, null, (Array)obj);
-			else if (obj instanceof Struct)
-				print (g, null, (Struct)obj);
 			else if (obj instanceof Clob)
 			{
 				Clob clob = (Clob)obj;
@@ -116,7 +114,17 @@ public class JsonUtils
 				g.write ((JsonValue)obj);
 			}
 			else
+			{
+				// It should be noted that java.sql.Struct does not have
+				// much info in its structure.  Probably other than Oracle
+				// and Teradata, no other databases really implements it.
+				//
+				// As the result it is really not quite possible to test
+				// it.  Even if it is possible to export it, but it won't
+				// be possible to import it.  It is just simpler to deal
+				// with it using string.
 				g.write (obj.toString ());
+			}
 		}
 	}
 
@@ -149,7 +157,7 @@ public class JsonUtils
 			else if (obj instanceof Array)
 				print (g, name, (Array)obj);
 			else if (obj instanceof Struct)
-				print (g, name, (Struct)obj);
+				print (g, name, obj);
 			else if (obj instanceof Clob)
 			{
 				Clob clob = (Clob)obj;
@@ -192,20 +200,6 @@ public class JsonUtils
 		}
 		g.writeEnd ();
 		a.free ();
-	}
-
-	private static void print (CookJsonGenerator g, String name, Struct s) throws SQLException
-	{
-		if (name == null)
-			g.writeStartArray ();
-		else
-			g.writeStartArray (name);
-
-		Object[] objs = s.getAttributes ();
-		for (Object obj : objs)
-			print (g, obj);
-
-		g.writeEnd ();
 	}
 
 	public static long print (Globals globals, CookJsonGenerator g, JaqyResultSet rs, long limit) throws SQLException
