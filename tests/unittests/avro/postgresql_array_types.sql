@@ -84,7 +84,10 @@ SELECT * FROM BinTable ORDER BY a;
 DELETE FROM BinTable;
 .import avro t.avro
 INSERT INTO BinTable VALUES ({{a}}, {{c1}});
+
+-- ignore begin
 SELECT * FROM BinTable ORDER BY a;
+-- ignore end
 
 DROP TABLE BinTable;
 

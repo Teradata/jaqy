@@ -70,7 +70,7 @@ ResultSet Column Count                       2
     Label                                        c1
     Type                                         STRUCT
     SQL Type                                     complex
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   complextable
@@ -125,7 +125,7 @@ ResultSet Column Count                       2
     Label                                        c1
     Type                                         STRUCT
     SQL Type                                     complex
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   complextable
@@ -179,7 +179,7 @@ ResultSet Column Count                       2
     Label                                        c1
     Type                                         STRUCT
     SQL Type                                     complex
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   complextable
@@ -280,7 +280,7 @@ ResultSet Column Count                       2
     Label                                        c1
     Type                                         STRUCT
     SQL Type                                     complex2
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   complextable2
@@ -335,7 +335,7 @@ ResultSet Column Count                       2
     Label                                        c1
     Type                                         STRUCT
     SQL Type                                     complex2
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   complextable2
@@ -389,7 +389,7 @@ ResultSet Column Count                       2
     Label                                        c1
     Type                                         STRUCT
     SQL Type                                     complex2
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   complextable2

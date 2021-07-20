@@ -649,12 +649,12 @@ CREATE TABLE SerialTable
 .format table
 -- 16/12 - 0 --------------------------------------------------------------
 .desc SerialTable
-Column Type      Nullable
------- --------- --------
-a      int4      Yes
-c1     int2      No
-c2     serial    No
-c3     bigserial No
+Column Type        Nullable
+------ ----------- --------
+a      int4        Yes
+c1     smallserial No
+c2     serial      No
+c3     bigserial   No
 -- 16/13 - 0 --------------------------------------------------------------
 
 INSERT INTO SerialTable (a) VALUES (1);
@@ -693,7 +693,7 @@ ResultSet Column Count                       4
     Name                                         c1
     Label                                        c1
     Type                                         SMALLINT
-    SQL Type                                     int2
+    SQL Type                                     smallserial
     Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       
@@ -787,7 +787,7 @@ ResultSet Column Count                       4
     Name                                         c1
     Label                                        c1
     Type                                         SMALLINT
-    SQL Type                                     int2
+    SQL Type                                     smallserial
     Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       
@@ -2382,7 +2382,7 @@ ResultSet Column Count                       4
     Label                                        c1
     Type                                         OTHER
     SQL Type                                     cidr
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   nettable
@@ -2403,7 +2403,7 @@ ResultSet Column Count                       4
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     inet
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   nettable
@@ -2424,7 +2424,7 @@ ResultSet Column Count                       4
     Label                                        c3
     Type                                         OTHER
     SQL Type                                     macaddr
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   nettable
@@ -2477,7 +2477,7 @@ ResultSet Column Count                       4
     Label                                        c1
     Type                                         OTHER
     SQL Type                                     cidr
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   nettable
@@ -2498,7 +2498,7 @@ ResultSet Column Count                       4
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     inet
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   nettable
@@ -2519,7 +2519,7 @@ ResultSet Column Count                       4
     Label                                        c3
     Type                                         OTHER
     SQL Type                                     macaddr
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   nettable
@@ -2629,7 +2629,7 @@ ResultSet Column Count                       7
     Label                                        c1
     Type                                         OTHER
     SQL Type                                     int4range
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2650,7 +2650,7 @@ ResultSet Column Count                       7
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     int8range
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2671,7 +2671,7 @@ ResultSet Column Count                       7
     Label                                        c3
     Type                                         OTHER
     SQL Type                                     numrange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2692,7 +2692,7 @@ ResultSet Column Count                       7
     Label                                        c4
     Type                                         OTHER
     SQL Type                                     tsrange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2713,7 +2713,7 @@ ResultSet Column Count                       7
     Label                                        c5
     Type                                         OTHER
     SQL Type                                     tstzrange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2734,7 +2734,7 @@ ResultSet Column Count                       7
     Label                                        c6
     Type                                         OTHER
     SQL Type                                     daterange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2787,7 +2787,7 @@ ResultSet Column Count                       7
     Label                                        c1
     Type                                         OTHER
     SQL Type                                     int4range
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2808,7 +2808,7 @@ ResultSet Column Count                       7
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     int8range
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2829,7 +2829,7 @@ ResultSet Column Count                       7
     Label                                        c3
     Type                                         OTHER
     SQL Type                                     numrange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2850,7 +2850,7 @@ ResultSet Column Count                       7
     Label                                        c4
     Type                                         OTHER
     SQL Type                                     tsrange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2871,7 +2871,7 @@ ResultSet Column Count                       7
     Label                                        c5
     Type                                         OTHER
     SQL Type                                     tstzrange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -2892,7 +2892,7 @@ ResultSet Column Count                       7
     Label                                        c6
     Type                                         OTHER
     SQL Type                                     daterange
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   rangetable
@@ -3028,7 +3028,7 @@ ResultSet Column Count                       5
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     varbit
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   misctable1
@@ -3144,7 +3144,7 @@ ResultSet Column Count                       5
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     varbit
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   misctable1
@@ -3291,7 +3291,7 @@ ResultSet Column Count                       3
     Label                                        c1
     Type                                         OTHER
     SQL Type                                     tsvector
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   misctable2
@@ -3312,7 +3312,7 @@ ResultSet Column Count                       3
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     tsquery
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   misctable2
@@ -3365,7 +3365,7 @@ ResultSet Column Count                       3
     Label                                        c1
     Type                                         OTHER
     SQL Type                                     tsvector
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   misctable2
@@ -3386,7 +3386,7 @@ ResultSet Column Count                       3
     Label                                        c2
     Type                                         OTHER
     SQL Type                                     tsquery
-    Java Class                                   java.lang.Object
+    Java Class                                   java.lang.String
     Catalog                                      
     Schema                                       
     Table Name                                   misctable2

@@ -49,6 +49,7 @@
 {
 	"protocol":	"postgresql",
 	"typeMap": [
+		{ "type" : "SMALLINT", "name" : "int2" },
 		{ "type" : "CHAR", "name" : "char({0,number,#})", "maxPrecision" : 2147483648 },
 		{ "type" : "VARCHAR", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
 		{ "type" : "CLOB", "name" : "text", "maxPrecision" : 2147483648 },
@@ -58,6 +59,8 @@
 	],
 	"importTypeMap": [
 		{ "type" : "BOOLEAN", "name" : "bool" },
+		{ "type" : "SMALLINT", "name" : "int2" },
+		{ "type" : "INTEGER", "name" : "int4" },
 		{ "type" : "CHAR", "name" : "text" },
 		{ "type" : "VARCHAR", "name" : "text" },
 		{ "type" : "CLOB", "name" : "text" },

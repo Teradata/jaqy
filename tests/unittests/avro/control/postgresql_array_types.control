@@ -1114,6 +1114,8 @@ Parameter Count                              2
     Signed                                       N
     Mode                                         IN
 -- 32/12 - 0 --------------------------------------------------------------
+
+-- ignore begin
 SELECT * FROM BinTable ORDER BY a;
 ResultSet Column Count                       2
   Index                                        1
@@ -1160,11 +1162,12 @@ ResultSet Column Count                       2
     Writable                                     Y
 -- success --
 a c1
-- ---------------------------------------------------
-1 {{"\\x2d3334","\\x2d3833","\\x2d3636","\\x2d3137"}}
-2 {{"\\x2d36","\\x2d3530","\\x2d32","\\x2d3139"}}
+- -----------------------------
+1 {"\\x5b42403732303335383039"}
+2 {"\\x5b424039303932313765"}
 -- activity count = 2
 -- 33/12 - 0 --------------------------------------------------------------
+-- ignore end
 
 DROP TABLE BinTable;
 -- success. update count = 0

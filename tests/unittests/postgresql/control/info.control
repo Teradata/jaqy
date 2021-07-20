@@ -1,0 +1,455 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .info command test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+.info behavior
+Name                          Value
+----------------------------- ------------------------
+Catalog Term                  database
+Schema Term                   schema
+Procedure Term                function
+NULLs are sorted high         Yes
+NULLs are sorted low          No
+NULLs are sorted at start     No
+NULLs are sorted at end       No
+NULL + non-null is NULL       Yes
+Use local files               No
+Use local file per table      No
+Identifier quote string       "
+Search string escape          \
+Extra name characters         
+Is catalog at start           Yes
+Catalog separator             .
+Default Transaction Isolation Read committed
+ResultSet holdability         Hold cursors over commit
+LOB update on copy            Yes
+-- 0/3 - 0 ----------------------------------------------------------------
+.info catalog
+TABLE_CAT
+---------
+
+-- 0/4 - 0 ----------------------------------------------------------------
+.info client
+NAME            MAX_LEN DEFAULT_VALUE DESCRIPTION
+--------------- ------- ------------- ---------------------------------------------------------------
+ApplicationName      63               The name of the application currently utilizing the connection.
+-- 0/5 - 0 ----------------------------------------------------------------
+.info feature
+Name                                   Supported
+-------------------------------------- ---------
+All Procedures are callable            Yes
+All tables are selectable              Yes
+ALT TABLE ADD column                   Yes
+ALT TABLE DROP column                  Yes
+Column aliasing                        Yes
+CONVERT                                No
+Table correlation names                Yes
+Different table correlation names      No
+Expression in ORDER BY                 Yes
+ORDER BY unrelated                     Yes
+GROUP BY                               Yes
+GROUP BY unrelated                     Yes
+GROUP BY beyond select                 Yes
+LIKE escape clause                     Yes
+Multiple result set                    Yes
+Multple transactions                   Yes
+Non-nullable columns                   Yes
+Minimum SQL grammar                    Yes
+Core SQL grammar                       No
+Extended SQL grammar                   No
+SQL92 entry                            Yes
+SQL92 intermediate                     No
+SQL92 full                             No
+Integrity Enhancement Facility         Yes
+OUTER JOIN                             Yes
+Full OUTER JOIN                        Yes
+Limited OUTER JOIN                     Yes
+Schemas in DML                         Yes
+Schemas in procedure calls             Yes
+Schemas in table DDL                   Yes
+Schemas in index DDL                   Yes
+Schemas in privilege definitions       Yes
+Catalog in DML                         No
+Catalog in procedure calls             No
+Catalog in table DDL                   No
+Catalog in index DDL                   No
+Catalog in privilege definitions       No
+Positioned DELETE                      No
+Positioned UPDATE                      No
+SELECT FOR UPDATE                      Yes
+Stored Procedure                       Yes
+Subqueries in comparisons              Yes
+Subqueries in EXISTS                   Yes
+Subqueries in IN                       Yes
+Subqueries in quantified expressions   Yes
+Correlated subqueries                  Yes
+UNION                                  Yes
+UNION ALL                              Yes
+Open cursor across commits             No
+Open cursor across rollbacks           No
+Open statement across commits          Yes
+Open statement across rollbacks        Yes
+Transactions                           Yes
+DDL and DML in one transaction         Yes
+Only DML in one transaction            No
+DDL causes transaction commit          No
+DDL ignored in transactions            No
+Batch updates                          Yes
+Save points                            Yes
+Named parameters                       No
+Multiple open results                  No
+Get auto-generated keys                Yes
+Statement pooling                      No
+SQL Function                           Yes
+REF CURSOR                             Yes
+Supports Mixed Case Identifiers        No
+Stores Upper Case Identifiers          No
+Stores Lower Case Identifiers          Yes
+Stores Mixed Case Identifiers          No
+Supports Mixed Case Quoted Identifiers Yes
+Stores Upper Case Quoted Identifiers   No
+Stores Lower Case Quoted Identifiers   No
+Stores Mixed Case Quoted Identifiers   No
+-- 0/6 - 0 ----------------------------------------------------------------
+.info function
+Name                Value
+------------------- ----------------------------------------------------------------------------------------------------------------------------
+Numeric functions   abs,acos,asin,atan,atan2,ceiling,cos,cot,degrees,exp,floor,log,log10,mod,pi,power,radians,round,sign,sin,sqrt,tan,truncate
+String functions    ascii,char,concat,lcase,left,length,ltrim,repeat,rtrim,space,substring,ucase,replace
+System functions    database,ifnull,user
+Date/Time functions curdate,curtime,dayname,dayofmonth,dayofweek,dayofyear,hour,minute,month,monthname,now,quarter,second,week,year,timestampadd
+-- 0/7 - 0 ----------------------------------------------------------------
+.info keyword
+abort,access,aggregate,also,analyse,analyze,attach,backward,bit,cache,checkpoint,class,cluster,columns,comment,comments,concurrently,configuration,conflict,connection,content,conversion,copy,cost,csv,current_catalog,current_schema,database,delimiter,delimiters,depends,detach,dictionary,disable,discard,do,document,enable,encoding,encrypted,enum,event,exclusive,explain,extension,family,force,forward,freeze,functions,generated,greatest,handler,header,if,ilike,immutable,implicit,import,index,indexes,inherit,inherits,inline,instead,isnull,label,leakproof,least,limit,listen,load,location,lock,locked,logged,mapping,materialized,mode,move,nothing,notify,notnull,nowait,off,offset,oids,operator,owned,owner,parallel,parser,passing,password,plans,policy,prepared,procedural,program,publication,quote,reassign,recheck,refresh,reindex,rename,replace,replica,reset,restrict,returning,rule,schemas,sequences,server,setof,share,show,skip,snapshot,stable,standalone,statistics,stdin,stdout,storage,strict,strip,subscription,sysid,tables,tablespace,temp,template,text,truncate,trusted,types,unencrypted,unlisten,unlogged,until,vacuum,valid,validate,validator,variadic,verbose,version,views,volatile,whitespace,wrapper,xml,xmlattributes,xmlconcat,xmlelement,xmlexists,xmlforest,xmlnamespaces,xmlparse,xmlpi,xmlroot,xmlserialize,xmltable,yes
+-- 0/8 - 0 ----------------------------------------------------------------
+.info limit
+Name                         Limit
+---------------------------- ----------
+Max binary literal length    0
+Max character literal length 0
+Max column name length       63
+Max columns in GROUP BY      0
+Max columns in an index      32
+Max columns in ORDER BY      0
+Max columns in SELECT        0
+Max columns in a table       1600
+Max connections              8192
+Max cursor name length       63
+Max index length             0
+Max schema name length       63
+Max procedure name length    63
+Max catalog name length      63
+Max row size                 1073741824
+Max row size include BLOB    No
+Max statement length         0
+Max statements               0
+Max table name length        63
+Max tables in SELECT         0
+Max user name length         63
+Max logical LOB size         0
+-- 0/9 - 0 ----------------------------------------------------------------
+.info schema
+table_schem        table_catalog
+------------------ -------------
+information_schema ?
+pg_catalog         ?
+public             ?
+-- 0/10 - 0 ---------------------------------------------------------------
+.info server
+Name                     Value
+------------------------ ---------------------------------------------------
+User                     postgres
+URL                      jdbc:postgresql://localhost/?stringtype=unspecified
+Ready only               No
+Database product name    PostgreSQL
+Database product version 10.10
+Database major version   10
+Database major version   10
+Driver name              PostgreSQL JDBC Driver
+Driver version           42.2.23
+JDBC major version       4
+JDBC minor version       2
+-- 0/11 - 0 ---------------------------------------------------------------
+.info table
+TABLE_TYPE
+------------------
+FOREIGN TABLE
+INDEX
+MATERIALIZED VIEW
+PARTITIONED INDEX
+PARTITIONED TABLE
+SEQUENCE
+SYSTEM INDEX
+SYSTEM TABLE
+SYSTEM TOAST INDEX
+SYSTEM TOAST TABLE
+SYSTEM VIEW
+TABLE
+TEMPORARY INDEX
+TEMPORARY SEQUENCE
+TEMPORARY TABLE
+TEMPORARY VIEW
+TYPE
+VIEW
+-- 0/12 - 0 ---------------------------------------------------------------
+.info typemap
+JDBC Type               SQL Type              Max Precision
+----------------------- --------------------- -------------
+BIT                     bool                  
+BOOLEAN                                       
+TINYINT                                       
+SMALLINT                int2                  
+INTEGER                 int4                  
+BIGINT                  int8                  
+REAL                    float4                
+FLOAT                                         
+DOUBLE                  float8                
+DECIMAL                                       
+NUMERIC                 numeric               
+BINARY                  bytea                 
+VARBINARY                                     
+LONGVARBINARY                                 
+BLOB                                          
+CHAR                    char({0,number,#})    2147483648
+VARCHAR                 varchar({0,number,#}) 2147483648
+LONGVARCHAR                                   
+CLOB                    text                  
+NCHAR                   char({0,number,#})    2147483648
+NVARCHAR                varchar({0,number,#}) 2147483648
+LONGNVARCHAR                                  
+NCLOB                   text                  
+DATE                    date                  
+TIME                    time                  
+TIME_WITH_TIMEZONE                            
+TIMESTAMP               timestamp             
+TIMESTAMP_WITH_TIMEZONE                       
+DATALINK                                      
+NULL                                          
+ROWID                                         
+SQLXML                  xml                   
+-- 0/13 - 0 ---------------------------------------------------------------
+.info importmap
+JDBC Type               SQL Type  Max Precision
+----------------------- --------- -------------
+BIT                     bool      
+BOOLEAN                 bool      
+TINYINT                           
+SMALLINT                int2      
+INTEGER                 int4      
+BIGINT                  int8      
+REAL                    float4    
+FLOAT                             
+DOUBLE                  float8    
+DECIMAL                           
+NUMERIC                 numeric   
+BINARY                  bytea     
+VARBINARY                         
+LONGVARBINARY                     
+BLOB                              
+CHAR                    text      
+VARCHAR                 text      
+LONGVARCHAR                       
+CLOB                    text      
+NCHAR                   text      
+NVARCHAR                text      
+LONGNVARCHAR                      
+NCLOB                   text      
+DATE                    date      
+TIME                    time      
+TIME_WITH_TIMEZONE                
+TIMESTAMP               timestamp 
+TIMESTAMP_WITH_TIMEZONE           
+DATALINK                          
+NULL                              
+ROWID                             
+SQLXML                  xml       
+-- 0/14 - 0 ---------------------------------------------------------------
+.format csv
+-- 0/15 - 0 ---------------------------------------------------------------
+.info type
+TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
+bool,-7,0,',',,1,f,3,t,f,f,,0,0,,,10
+bit,-7,83886080,',',,1,f,3,t,f,f,,0,0,,,10
+int8,-5,0,,,,1,f,3,f,f,f,,0,0,,,10
+bigserial,-5,0,,,,1,f,3,f,f,t,,0,0,,,10
+oid,-5,0,,,,1,f,3,t,f,f,,0,0,,,10
+bytea,-2,0,',',,1,t,3,t,f,f,,0,0,,,10
+char,1,0,',',,1,t,3,t,f,f,,0,0,,,10
+bpchar,1,10485760,',',,1,t,3,t,f,f,,0,0,,,10
+numeric,2,1000,,,,1,f,3,f,f,f,,0,1000,,,10
+int4,4,0,,,,1,f,3,f,f,f,,0,0,,,10
+serial,4,0,,,,1,f,3,f,f,t,,0,0,,,10
+int2,5,0,,,,1,f,3,f,f,f,,0,0,,,10
+smallserial,5,0,,,,1,f,3,f,f,t,,0,0,,,10
+float4,7,0,,,,1,f,3,f,f,f,,0,0,,,10
+float8,8,0,,,,1,f,3,f,f,f,,0,0,,,10
+money,8,0,,,,1,t,3,t,f,f,,0,0,,,10
+name,12,0,',',,1,t,3,t,f,f,,0,0,,,10
+text,12,0,',',,1,t,3,t,f,f,,0,0,,,10
+varchar,12,10485760,',',,1,t,3,t,f,f,,0,0,,,10
+date,91,0,',',,1,f,3,t,f,f,,0,0,,,10
+time,92,6,',',,1,f,3,t,f,f,,0,0,,,10
+timetz,92,6,',',,1,f,3,t,f,f,,0,0,,,10
+timestamp,93,6,',',,1,f,3,t,f,f,,0,0,,,10
+timestamptz,93,6,',',,1,f,3,t,f,f,,0,0,,,10
+int2vector,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regproc,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tid,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+xid,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+cid,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+oidvector,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+json,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+pg_node_tree,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+pg_ndistinct,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+pg_dependencies,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+pg_ddl_command,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+smgr,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+point,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+lseg,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+path,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+box,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+polygon,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+line,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+abstime,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+reltime,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tinterval,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+unknown,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+circle,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+macaddr,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+inet,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+cidr,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+macaddr8,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+aclitem,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+interval,1111,6,',',,1,f,3,t,f,f,,0,0,,,10
+varbit,1111,83886080,',',,1,f,3,t,f,f,,0,0,,,10
+regprocedure,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regoper,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regoperator,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regclass,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regtype,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regrole,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regnamespace,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+uuid,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+pg_lsn,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tsvector,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+gtsvector,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tsquery,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regconfig,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+regdictionary,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+jsonb,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+txid_snapshot,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+int4range,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+numrange,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tsrange,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tstzrange,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+daterange,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+int8range,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+record,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+cstring,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+any,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+anyarray,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+void,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+trigger,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+event_trigger,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+language_handler,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+internal,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+opaque,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+anyelement,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+anynonarray,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+anyenum,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+fdw_handler,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+index_am_handler,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+tsm_handler,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+anyrange,1111,0,',',,1,t,3,t,f,f,,0,0,,,10
+cardinal_number,2001,0,',',,1,t,3,t,f,f,,0,0,,,10
+character_data,2001,0,',',,1,t,3,t,f,f,,0,0,,,10
+sql_identifier,2001,0,',',,1,t,3,t,f,f,,0,0,,,10
+time_stamp,2001,0,',',,1,t,3,t,f,f,,0,0,,,10
+yes_or_no,2001,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_xml",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_json",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_line",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_circle",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_money",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_bool",2003,0,',',,1,f,3,t,f,f,,0,0,,,10
+"_bytea",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_char",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_name",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_int2",2003,0,',',,1,f,3,f,f,f,,0,0,,,10
+"_int2vector",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_int4",2003,0,',',,1,f,3,f,f,f,,0,0,,,10
+"_regproc",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_text",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_oid",2003,0,',',,1,f,3,t,f,f,,0,0,,,10
+"_tid",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_xid",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_cid",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_oidvector",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_bpchar",2003,10485760,',',,1,t,3,t,f,f,,0,0,,,10
+"_varchar",2003,10485760,',',,1,t,3,t,f,f,,0,0,,,10
+"_int8",2003,0,',',,1,f,3,f,f,f,,0,0,,,10
+"_point",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_lseg",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_path",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_box",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_float4",2003,0,',',,1,f,3,f,f,f,,0,0,,,10
+"_float8",2003,0,',',,1,f,3,f,f,f,,0,0,,,10
+"_abstime",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_reltime",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_tinterval",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_polygon",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_aclitem",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_macaddr",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_macaddr8",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_inet",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_cidr",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_cstring",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_timestamp",2003,6,',',,1,f,3,t,f,f,,0,0,,,10
+"_date",2003,0,',',,1,f,3,t,f,f,,0,0,,,10
+"_time",2003,6,',',,1,f,3,t,f,f,,0,0,,,10
+"_timestamptz",2003,6,',',,1,f,3,t,f,f,,0,0,,,10
+"_interval",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_numeric",2003,1000,',',,1,f,3,f,f,f,,0,0,,,10
+"_timetz",2003,6,',',,1,f,3,t,f,f,,0,0,,,10
+"_bit",2003,83886080,',',,1,f,3,t,f,f,,0,0,,,10
+"_varbit",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_refcursor",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regprocedure",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regoper",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regoperator",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regclass",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regtype",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regrole",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regnamespace",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_uuid",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_pg_lsn",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_tsvector",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_gtsvector",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_tsquery",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regconfig",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_regdictionary",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_jsonb",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_txid_snapshot",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_int4range",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_numrange",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_tsrange",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_tstzrange",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_daterange",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_int8range",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+"_record",2003,0,',',,1,t,3,t,f,f,,0,0,,,10
+xml,2009,0,',',,1,t,3,t,f,f,,0,0,,,10
+refcursor,2012,0,',',,1,t,3,t,f,f,,0,0,,,10
+-- 0/16 - 0 ---------------------------------------------------------------
+.format table
+-- 0/17 - 0 ---------------------------------------------------------------
+.info user
+postgres
+-- 0/18 - 0 ---------------------------------------------------------------
+.quit
+-- 0/19 - 0 ---------------------------------------------------------------

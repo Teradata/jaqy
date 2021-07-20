@@ -15,7 +15,10 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.sql.*;
+import java.sql.Array;
+import java.sql.SQLException;
+import java.sql.SQLXML;
+import java.sql.Types;
 import java.util.Collection;
 
 import com.teradata.jaqy.Globals;
@@ -56,13 +59,7 @@ class PostgresHelper extends DefaultHelper
 		else if (info.type == Types.ARRAY)
 		{
 			String elementType = info.typeName.substring (1);
-			if ("bytea".equals (elementType))
-			{
-				info.children = createElementType (Types.VARBINARY, elementType);
-				info.children[0].precision = Integer.MAX_VALUE;
-				info.children[0].nullable = ResultSetMetaData.columnNullable;
-			}
-			else if ("int2".equals (elementType))
+			if ("int2".equals (elementType))
 			{
 				info.children = createElementType (Types.SMALLINT, elementType);
 			}
