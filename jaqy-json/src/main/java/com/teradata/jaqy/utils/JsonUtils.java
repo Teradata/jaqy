@@ -88,41 +88,8 @@ public class JsonUtils
 			}
 			else if (obj instanceof byte[])
 				g.write ((byte[])obj);
-			else if (obj instanceof Array)
-				print (g, null, (Array)obj);
-			else if (obj instanceof Clob)
-			{
-				Clob clob = (Clob)obj;
-				String str = clob.getSubString (1, (int)clob.length ());
-				clob.free ();
-				g.write (str);
-			}
-			else if (obj instanceof Blob)
-			{
-				Blob blob = (Blob)obj;
-				byte[] bytes = blob.getBytes (1, (int)blob.length ());
-				blob.free ();
-				g.write (bytes);
-			}
-			else if (obj instanceof SQLXML)
-			{
-				SQLXML xml = (SQLXML)obj;
-				g.write (xml.getString ());
-			}
-			else if (obj instanceof JsonValue)
-			{
-				g.write ((JsonValue)obj);
-			}
 			else
 			{
-				// It should be noted that java.sql.Struct does not have
-				// much info in its structure.  Probably other than Oracle
-				// and Teradata, no other databases really implements it.
-				//
-				// As the result it is really not quite possible to test
-				// it.  Even if it is possible to export it, but it won't
-				// be possible to import it.  It is just simpler to deal
-				// with it using string.
 				g.write (obj.toString ());
 			}
 		}
@@ -156,8 +123,6 @@ public class JsonUtils
 				g.write (name, (byte[])obj);
 			else if (obj instanceof Array)
 				print (g, name, (Array)obj);
-			else if (obj instanceof Struct)
-				print (g, name, obj);
 			else if (obj instanceof Clob)
 			{
 				Clob clob = (Clob)obj;
@@ -182,7 +147,17 @@ public class JsonUtils
 				g.write (name, (JsonValue)obj);
 			}
 			else
+			{
+				// java.sql.Struct should go here.  Other than Oracle and
+				// Teradata, no other databases really implements it even
+				// if the database itself support composite types (PosgreSQL).
+				//
+				// The issue is that the JDBC's Struct type is highly
+				// problematic.  Even if it is possible to export it, but it
+				// won't be possible to import it using generic tools.
+				// It is just simpler to deal with it using String.
 				g.write (name, obj.toString ());
+			}
 		}
 	}
 
