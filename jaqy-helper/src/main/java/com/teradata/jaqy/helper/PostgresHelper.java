@@ -58,8 +58,16 @@ class PostgresHelper extends DefaultHelper
 		}
 		else if (info.type == Types.ARRAY)
 		{
+			//
+			// See https://jdbc.postgresql.org/documentation/head/arrays.html
+			// for the supported array types.
+			//
 			String elementType = info.typeName.substring (1);
-			if ("int2".equals (elementType))
+			if ("bool".equals (elementType))
+			{
+				info.children = createElementType (Types.BIT, elementType);
+			}
+			else if ("int2".equals (elementType))
 			{
 				info.children = createElementType (Types.SMALLINT, elementType);
 			}
@@ -73,13 +81,22 @@ class PostgresHelper extends DefaultHelper
 			{
 				info.children = createElementType (Types.BIGINT, elementType);
 			}
+			else if ("float4".equals (elementType))
+			{
+				info.children = createElementType (Types.REAL, elementType);
+			}
 			else if ("float8".equals (elementType))
 			{
 				info.children = createElementType (Types.DOUBLE, elementType);
 			}
-			else if ("numeric".equals (elementType))
+			else if ("bytea".equals (elementType))
 			{
-				info.children = createElementType (Types.NUMERIC, elementType);
+				info.children = createElementType (Types.VARBINARY, elementType);
+			}
+			else if ("varchar".equals (elementType) ||
+					 "text".equals (elementType))
+			{
+				info.children = createElementType (Types.VARCHAR, elementType);
 			}
 			else
 			{
