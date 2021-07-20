@@ -328,7 +328,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 		{
 			// This is integer date from Unix Epoch (1970 / 1 / 1)
 			int d = ((Integer)o).intValue ();
-			long time = (long)d * 24 * 3600;
+			long time = (long)d * 24 * 3600 * 1000;
 			return new Date (time);
 		}
 
@@ -412,7 +412,10 @@ public class InMemoryResultSet extends ResultSetWrapper
 	@Override
 	public InputStream getBinaryStream (int columnIndex) throws SQLException
 	{
-		return new ByteArrayInputStream (getBytes (columnIndex));
+		byte[] bytes = getBytes (columnIndex);
+		if (bytes == null)
+			return null;
+		return new ByteArrayInputStream (bytes);
 	}
 
 	@Override
@@ -500,7 +503,7 @@ public class InMemoryResultSet extends ResultSetWrapper
 	public boolean isFirst () throws SQLException
 	{
 		checkClosed ();
-		return m_rowId == 1;
+		return m_rowId == 1 && m_row != null;
 	}
 
 	@Override

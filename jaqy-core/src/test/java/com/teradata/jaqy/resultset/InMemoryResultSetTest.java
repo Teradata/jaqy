@@ -47,16 +47,19 @@ public class InMemoryResultSetTest
 	{
 		try (Statement stmt = conn.createStatement ())
 		{
-			stmt.execute ("CREATE TABLE MyTable (a INTEGER, b TEXT, c BLOB);");
+			stmt.execute ("CREATE TABLE MyTable (a INTEGER, b TEXT, c BLOB, d INTEGER);");
 		}
+	}
 
+	private void insertData (Connection conn) throws SQLException
+	{
 		try (Statement stmt = conn.createStatement ())
 		{
-			stmt.execute ("INSERT INTO MyTable VALUES (1, 'abcdefg', X'deadbeef');");
-			stmt.execute ("INSERT INTO MyTable VALUES (2, '1', X'deadbeef');");
-			stmt.execute ("INSERT INTO MyTable VALUES (3, '0', X'deadbeef');");
-			stmt.execute ("INSERT INTO MyTable VALUES (4, 'abcdefg', X'deadbeef');");
-			stmt.execute ("INSERT INTO MyTable VALUES (5, 'abcdefg', X'deadbeef');");
+			stmt.execute ("INSERT INTO MyTable VALUES (1, 'abcdefg', X'deadbeef', NULL);");
+			stmt.execute ("INSERT INTO MyTable VALUES (2, '1', NULL, NULL);");
+			stmt.execute ("INSERT INTO MyTable VALUES (3, '0', X'deadbeef', NULL);");
+			stmt.execute ("INSERT INTO MyTable VALUES (4, NULL, NULL, NULL);");
+			stmt.execute ("INSERT INTO MyTable VALUES (5, 'abcdefg', X'deadbeef', NULL);");
 		}
 	}
 
@@ -90,6 +93,7 @@ public class InMemoryResultSetTest
 		try (Connection conn = getConnection ())
 		{
 			createTable (conn);
+			insertData (conn);
 			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
 			dropTable (conn);
 
@@ -104,6 +108,7 @@ public class InMemoryResultSetTest
 			rs.clearWarnings ();
 			Assert.assertNull (rs.getWarnings ());
 			Assert.assertNotNull (rs.getMetaData ());
+			Assert.assertNotNull (rs.getStatement ());
 
 			Assert.assertEquals (1, rs.findColumn ("a"));
 			Assert.assertEquals (2, rs.findColumn ("b"));
@@ -132,8 +137,12 @@ public class InMemoryResultSetTest
 			Assert.assertEquals (1.0f, rs.getFloat (1), 0.0f);
 			Assert.assertEquals (1.0, rs.getDouble (1), 0.0);
 			Assert.assertEquals (new BigDecimal (1.0), rs.getBigDecimal (1));
+			Assert.assertEquals (new BigDecimal (1.0), rs.getBigDecimal (1, 100));
 			Assert.assertEquals ("1", rs.getString (1));
 			Assert.assertEquals (false, rs.wasNull ());
+
+			Assert.assertEquals (new Date (1 * 24 * 3600 * 1000), rs.getDate (1));
+			Assert.assertEquals (new Time (1), rs.getTime (1));
 
 			String s1 = "abcdefg";
 
@@ -149,6 +158,151 @@ public class InMemoryResultSetTest
 
 			Assert.assertArrayEquals (b1, rs.getBytes (3));
 			Assert.assertEquals (0, FileUtils.compare (new ByteArrayInputStream (b1), rs.getBinaryStream (3)));
+
+			Assert.assertNull (rs.getString (4));
+			Assert.assertEquals (0, rs.getInt (4));
+			Assert.assertEquals (false, rs.getBoolean (4));
+			Assert.assertEquals ((byte)0, rs.getByte (4));
+			Assert.assertEquals ((short)0, rs.getShort (4));
+			Assert.assertEquals (0L, rs.getLong (4));
+			Assert.assertEquals (0.0f, rs.getFloat (4), 0.0f);
+			Assert.assertEquals (0.0, rs.getDouble (4), 0.0);
+			Assert.assertNull (rs.getBigDecimal (4));
+			Assert.assertEquals (true, rs.wasNull ());
+
+			boolean hasException;
+
+			hasException = false;
+			try
+			{
+				rs.getBigDecimal (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getDate (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getTime (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getTimestamp (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getArray (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getRef (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getURL (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getRowId (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getClob (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getNClob (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getSQLXML (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
+
+			hasException = false;
+			try
+			{
+				rs.getBlob (2);
+			}
+			catch (SQLException ex)
+			{
+				hasException = true;
+			}
+			Assert.assertTrue (hasException);
 
 			// next
 			Assert.assertEquals (true, rs.next ());
@@ -184,6 +338,13 @@ public class InMemoryResultSetTest
 			Assert.assertEquals (true, rs.next ());
 			Assert.assertEquals (4, rs.getRow ());
 			Assert.assertEquals (4, rs.getInt (1));
+
+			Assert.assertNull (rs.getString (2));
+			Assert.assertNull (rs.getAsciiStream (2));
+			Assert.assertNull (rs.getUnicodeStream (2));
+			Assert.assertNull (rs.getCharacterStream (2));
+
+			Assert.assertNull (rs.getBinaryStream (3));
 
 			// next
 			Assert.assertEquals (true, rs.next ());
@@ -256,10 +417,11 @@ public class InMemoryResultSetTest
 		try (Connection conn = getConnection ())
 		{
 			createTable (conn);
+			insertData (conn);
 			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
 			dropTable (conn);
 
-			rs.findColumn ("d");
+			rs.findColumn ("e");
 		}
 	}
 
@@ -273,6 +435,7 @@ public class InMemoryResultSetTest
 		try (Connection conn = getConnection ())
 		{
 			createTable (conn);
+			insertData (conn);
 			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
 			dropTable (conn);
 
@@ -291,11 +454,12 @@ public class InMemoryResultSetTest
 		try (Connection conn = getConnection ())
 		{
 			createTable (conn);
+			insertData (conn);
 			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
 			dropTable (conn);
 
 			rs.next ();
-			rs.getInt (4);
+			rs.getInt (5);
 		}
 	}
 
@@ -309,6 +473,7 @@ public class InMemoryResultSetTest
 		try (Connection conn = getConnection ())
 		{
 			createTable (conn);
+			insertData (conn);
 			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
 			dropTable (conn);
 
@@ -327,11 +492,43 @@ public class InMemoryResultSetTest
 		try (Connection conn = getConnection ())
 		{
 			createTable (conn);
+			insertData (conn);
 			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
 			dropTable (conn);
 
 			// rs.next ();
 			rs.getInt (1);
+		}
+	}
+
+	@Test
+	public void testEmpty () throws Exception
+	{
+		Globals globals = new Globals (null, null);
+		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+		JaqyHelper helper = DummyHelper.getInstance ();
+
+		try (Connection conn = getConnection ())
+		{
+			createTable (conn);
+			InMemoryResultSet rs = copyTable (conn, helper, interpreter);
+			dropTable (conn);
+
+			Assert.assertEquals (true, rs.isBeforeFirst ());
+			Assert.assertEquals (false, rs.isAfterLast ());
+			Assert.assertEquals (false, rs.isFirst ());
+			Assert.assertEquals (false, rs.isLast ());
+
+			Assert.assertEquals (false, rs.next ());
+			Assert.assertEquals (1, rs.getRow ());
+
+			Assert.assertEquals (false, rs.isBeforeFirst ());
+			Assert.assertEquals (true, rs.isAfterLast ());
+			Assert.assertEquals (false, rs.isFirst ());
+			Assert.assertEquals (false, rs.isLast ());
+
+			Assert.assertEquals (false, rs.next ());
+			Assert.assertEquals (1, rs.getRow ());
 		}
 	}
 }
