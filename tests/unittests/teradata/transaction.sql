@@ -2,7 +2,7 @@
 -- Transaction test
 --------------------------------------------------------------------------
 .run setup.sql
-.autocommit off
+.set autocommit off
 
 CREATE DATABASE vagrant AS PERM=1e8;
 ET;

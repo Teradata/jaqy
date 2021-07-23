@@ -204,7 +204,7 @@ class TablePrinter implements JaqyPrinter
 		return !TypesUtils.isNumber (type);
 	}
 
-	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers, long limit, JaqyInterpreter interpreter)
+	private void shrink (int columns, int[] widths, JaqyResultSet rs, TypeHandler[] handlers, long limit, JaqyInterpreter interpreter) throws Exception
 	{
 		boolean[] skipShrink = new boolean[columns];
 		boolean doScan = false;
@@ -220,29 +220,23 @@ class TablePrinter implements JaqyPrinter
 		if (limit != 0 && threshold > limit)
 			threshold = limit;
 
-		try
+		long lineCount = 0;
+		while (rs.next () && lineCount < threshold)
 		{
-			int lineCount = 0;
-			while (rs.next () && lineCount < threshold)
+			for (int i = 0; i < columns; ++i)
 			{
-				for (int i = 0; i < columns; ++i)
+				if (skipShrink[i])
+					continue;
+				int len = handlers[i].getLength (rs, i + 1, interpreter);
+				if (len == -1)
 				{
-					if (skipShrink[i])
-						continue;
-					int len = handlers[i].getLength (rs, i + 1, interpreter);
-					if (len == -1)
-					{
-						len = 4;
-					}
-					widths[i] = Math.max (widths[i], len);
+					len = 4;
 				}
-				++lineCount;
+				widths[i] = Math.max (widths[i], len);
 			}
-			rs.beforeFirst ();
+			++lineCount;
 		}
-		catch (Exception ex)
-		{
-		}
+		rs.beforeFirst ();
 	}
 
 	@Override

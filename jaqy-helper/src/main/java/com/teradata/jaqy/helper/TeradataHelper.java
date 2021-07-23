@@ -58,22 +58,25 @@ class TeradataHelper extends DefaultHelper
 		@Override
 		public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 		{
-			return getPDTString ((Struct)rs.getObject (column));
+			Object obj = rs.getObject (column);
+			if (obj == null)
+			{
+				return null;
+			}
+			if (obj instanceof Struct)
+			{
+				return getPDTString ((Struct)obj);
+			}
+			return obj.toString();
 		}
 
 		@Override
 		public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
 		{
-			Struct str = (Struct)rs.getObject (column);
+			String str = getString (rs, column, interpreter);
 			if (str == null)
 				return -1;
-			int len = 8;
-			for (Object obj : str.getAttributes ())
-			{
-				if (obj != null)
-					len += obj.toString ().length ();
-			}
-			return len;
+			return str.length();
 		}
 	};
 

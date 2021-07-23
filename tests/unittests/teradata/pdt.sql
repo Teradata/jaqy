@@ -37,7 +37,7 @@ SELECT * FROM pdtTable ORDER BY a;
 .export csv t.csv
 SELECT * FROM pdtTable ORDER BY a;
 DELETE FROM pdtTable;
-.import csv -h on -f t.csv
+.import csv -h -f t.csv
 INSERT INTO pdtTable VALUES (?, ?, ?, ?, ?, ?);
 SELECT * FROM pdtTable ORDER BY a;
 
