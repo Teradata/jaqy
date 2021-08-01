@@ -1,0 +1,268 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- PERIOD data type test
+--------------------------------------------------------------------------
+.run setup.sql
+-- Running script: setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u dbc -p dbc teradata://127.0.0.1/CHARSET=UTF8
+-- 0/2 - 0 ----------------------------------------------------------------
+CREATE DATABASE vagrant AS PERM=1e8;
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+DATABASE vagrant;
+-- success. update count = 0
+-- 2/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE clobTable
+(
+	a  INTEGER,
+	b  VARCHAR(100),
+	c  CLOB
+);
+-- success. update count = 0
+-- 3/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO clobTable VALUES (1, 'abc', 'deaasdf');
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO clobTable VALUES (2, 'abcd', NULL);
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+INSERT INTO clobTable VALUES (3, NULL, 'a quick brown fox');
+-- success. update count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+
+.debug resultset on
+-- 6/3 - 0 ----------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+ResultSet Column Count                       3
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       vagrant
+    Table Name                                   clobTable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         b
+    Label                                        b
+    Type                                         VARCHAR
+    SQL Type                                     VARCHAR
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       vagrant
+    Table Name                                   clobTable
+    Display Size                                 100
+    Precision                                    100
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+  Index                                        3
+    Name                                         c
+    Label                                        c
+    Type                                         CLOB
+    SQL Type                                     CLOB
+    Java Class                                   java.sql.Clob
+    Catalog                                      
+    Schema                                       vagrant
+    Table Name                                   clobTable
+    Display Size                                 2097088000
+    Precision                                    2097088000
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   N
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a b    c
+- ---- -----------------
+1 abc  deaasdf
+2 abcd ?
+3 ?    a quick brown fox
+-- activity count = 3
+-- 7/3 - 0 ----------------------------------------------------------------
+.debug resultset off
+-- 7/4 - 0 ----------------------------------------------------------------
+
+.export csv clob.csv
+-- 7/5 - 0 ----------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 8/5 - 0 ----------------------------------------------------------------
+.os cat clob.csv
+a,b,c
+1,abc,deaasdf
+2,abcd,
+3,,a quick brown fox
+-- 8/6 - 0 ----------------------------------------------------------------
+DELETE FROM clobTable;
+-- success. update count = 3
+-- 9/6 - 0 ----------------------------------------------------------------
+.import csv -h --nafilter clob.csv
+-- 9/7 - 0 ----------------------------------------------------------------
+.importtable -c clobTable
+-- INSERTION --
+INSERT INTO clobTable VALUES (?,?,?)
+-- 10/8 - 0 ---------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+a b    c
+- ---- -----------------
+1 abc  deaasdf
+2 abcd ?
+3 ?    a quick brown fox
+-- activity count = 3
+-- 11/8 - 0 ---------------------------------------------------------------
+.os rm -f clob.csv
+-- 11/9 - 0 ---------------------------------------------------------------
+
+.export csv -f3 clob.csv
+-- 11/10 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 12/10 - 0 --------------------------------------------------------------
+.os cat clob.csv
+a,b,c
+1,abc,00000001.bin
+2,abcd,
+3,,00000002.bin
+-- 12/11 - 0 --------------------------------------------------------------
+DELETE FROM clobTable;
+-- success. update count = 3
+-- 13/11 - 0 --------------------------------------------------------------
+.import csv -h --nafilter -j3 clob.csv
+-- 13/12 - 0 --------------------------------------------------------------
+.importtable -c clobTable
+-- INSERTION --
+INSERT INTO clobTable VALUES (?,?,?)
+-- 14/13 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+a b    c
+- ---- -----------------
+1 abc  deaasdf
+2 abcd ?
+3 ?    a quick brown fox
+-- activity count = 3
+-- 15/13 - 0 --------------------------------------------------------------
+.os rm -f clob.csv
+-- 15/14 - 0 --------------------------------------------------------------
+
+.export json clob.json
+-- 15/15 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 16/15 - 0 --------------------------------------------------------------
+.os cat clob.json && echo
+[{"a":1,"b":"abc","c":"deaasdf"},{"a":2,"b":"abcd","c":null},{"a":3,"b":null,"c":"a quick brown fox"}]
+-- 16/16 - 0 --------------------------------------------------------------
+DELETE FROM clobTable;
+-- success. update count = 3
+-- 17/16 - 0 --------------------------------------------------------------
+.import json clob.json
+-- 17/17 - 0 --------------------------------------------------------------
+INSERT INTO clobTable VALUES ({{a}}, {{b}}, {{c}});
+-- 18/17 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+a b    c
+- ---- -----------------
+1 abc  deaasdf
+2 abcd ?
+3 ?    a quick brown fox
+-- activity count = 3
+-- 19/17 - 0 --------------------------------------------------------------
+.os rm -f clob.json
+-- 19/18 - 0 --------------------------------------------------------------
+
+.export avro clob.avro
+-- 19/19 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 20/19 - 0 --------------------------------------------------------------
+DELETE FROM clobTable;
+-- success. update count = 3
+-- 21/19 - 0 --------------------------------------------------------------
+.import avro clob.avro
+-- 21/20 - 0 --------------------------------------------------------------
+.importtable -c clobTable
+-- INSERTION --
+INSERT INTO clobTable VALUES (?,?,?)
+-- 22/21 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+a b    c
+- ---- -----------------
+1 abc  deaasdf
+2 abcd ?
+3 ?    a quick brown fox
+-- activity count = 3
+-- 23/21 - 0 --------------------------------------------------------------
+.os rm -f clob.avro
+-- 23/22 - 0 --------------------------------------------------------------
+
+.export excel clob.xlsx
+-- 23/23 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 24/23 - 0 --------------------------------------------------------------
+DELETE FROM clobTable;
+-- success. update count = 3
+-- 25/23 - 0 --------------------------------------------------------------
+.import excel -h clob.xlsx
+-- 25/24 - 0 --------------------------------------------------------------
+.importtable -c clobTable
+-- INSERTION --
+INSERT INTO clobTable VALUES (?,?,?)
+-- 26/25 - 0 --------------------------------------------------------------
+SELECT * FROM clobTable ORDER BY 1;
+-- success --
+a b    c
+- ---- -----------------
+1 abc  deaasdf
+2 abcd ?
+3 ?    a quick brown fox
+-- activity count = 3
+-- 27/25 - 0 --------------------------------------------------------------
+.os rm -f clob.xlsx
+-- 27/26 - 0 --------------------------------------------------------------
+
+DELETE DATABASE vagrant;
+-- success. update count = 0
+-- 28/26 - 0 --------------------------------------------------------------
+DROP DATABASE vagrant;
+-- success. update count = 0
+-- 29/26 - 0 --------------------------------------------------------------
