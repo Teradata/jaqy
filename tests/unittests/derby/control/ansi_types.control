@@ -52,9 +52,7 @@ SELECT CAST(123456789 AS INTEGER) AS Test FROM MyTable;
 -- 7/2 - 0 ----------------------------------------------------------------
 SELECT CAST(123456789 AS NUMERIC) AS Test FROM MyTable;
 -- success --
-TEST
-----
--- failure 20000: [XCL16] ResultSet not open. Operation 'next' not permitted. Verify that autocommit is off.
+-- failure 30000: [22003] The resulting value is outside the range for the data type DECIMAL/NUMERIC(5,0).
 -- 8/2 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DEC(10,2)) AS Test FROM MyTable;
 -- success --
@@ -72,9 +70,7 @@ SELECT CAST(-1234567.89 AS DECIMAL(10,2)) AS Test FROM MyTable;
 -- 10/2 - 0 ---------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DECIMAL) AS Test FROM MyTable;
 -- success --
-TEST
-----
--- failure 20000: [XCL16] ResultSet not open. Operation 'next' not permitted. Verify that autocommit is off.
+-- failure 30000: [22003] The resulting value is outside the range for the data type DECIMAL/NUMERIC(5,0).
 -- 11/2 - 0 ---------------------------------------------------------------
 
 SELECT CAST(-1234567.89 AS FLOAT) AS Test FROM MyTable;
