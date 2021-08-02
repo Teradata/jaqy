@@ -18,25 +18,25 @@ package com.teradata.jaqy.schema;
 import java.text.MessageFormat;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class TypeInfo
 {
-	public String typeName;
-	public MessageFormat typeFormat;
-	public int type;
-	public long maxPrecision;
-//	public String literalPrefix;
-//	public String literalSuffix;
-//	public String createParams;
-//	public short nullable;
-//	public boolean caseSensitive;
-//	public short searchable;
-//	public boolean signed;
-//	public boolean money;
-//	public boolean autoIncrement;
-//	public String localType;
-//	public short minScale;
-//	public short maxScale;
-//	public int radix;
+    public String typeName;
+    public MessageFormat typeFormat;
+    public int type;
+    public long maxPrecision;
+//  public String literalPrefix;
+//  public String literalSuffix;
+//  public String createParams;
+//  public short nullable;
+//  public boolean caseSensitive;
+//  public short searchable;
+//  public boolean signed;
+//  public boolean money;
+//  public boolean autoIncrement;
+//  public String localType;
+//  public short minScale;
+//  public short maxScale;
+//  public int radix;
 }

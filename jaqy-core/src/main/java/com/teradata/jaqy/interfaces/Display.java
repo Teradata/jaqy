@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,41 +22,41 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface Display
 {
-	public Globals getGlobals ();
-	// Input Functions
-	public String getPassword (JaqyInterpreter interpreter, String prompt);
+    public Globals getGlobals ();
+    // Input Functions
+    public String getPassword (JaqyInterpreter interpreter, String prompt);
 
-	// Output Functions
-	public void print (JaqyInterpreter interpreter, String s);
-	public void println (JaqyInterpreter interpreter, String s);
+    // Output Functions
+    public void print (JaqyInterpreter interpreter, String s);
+    public void println (JaqyInterpreter interpreter, String s);
 
-	public void error (JaqyInterpreter interpreter, Throwable t);
+    public void error (JaqyInterpreter interpreter, Throwable t);
 
-	public void echo (JaqyInterpreter interpreter, String msg, boolean interactive);
+    public void echo (JaqyInterpreter interpreter, String msg, boolean interactive);
 
-	public PrintWriter getPrintWriter ();
+    public PrintWriter getPrintWriter ();
 
-	public void showPrompt (JaqyInterpreter interpreter);
-	public void showTitle (JaqyInterpreter interpreter);
-	public void showSuccess (JaqyInterpreter interpreter);
-	public void showSuccessUpdate (JaqyInterpreter interpreter);
-	public void showActivityCount (JaqyInterpreter interpreter);
-	public void showIteration (JaqyInterpreter interpreter);
+    public void showPrompt (JaqyInterpreter interpreter);
+    public void showTitle (JaqyInterpreter interpreter);
+    public void showSuccess (JaqyInterpreter interpreter);
+    public void showSuccessUpdate (JaqyInterpreter interpreter);
+    public void showActivityCount (JaqyInterpreter interpreter);
+    public void showIteration (JaqyInterpreter interpreter);
 
-	public Echo getEcho ();
+    public Echo getEcho ();
 
-	public void setEcho (Echo echo);
+    public void setEcho (Echo echo);
 
-	/**
-	 * Checking if we are running in interactive mode or
-	 * reading input from a file.
-	 *
-	 * @return	true if we are running in interactive mode.
-	 *			false if we are reading input from a file.
-	 */
-	public boolean isInteractive ();
+    /**
+     * Checking if we are running in interactive mode or
+     * reading input from a file.
+     *
+     * @return  true if we are running in interactive mode.
+     *          false if we are reading input from a file.
+     */
+    public boolean isInteractive ();
 }

@@ -22,12 +22,12 @@ import com.teradata.jaqy.utils.JsonFormat;
 import com.teradata.jaqy.utils.JsonUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class JsonExporterOptions
 {
-	public Charset charset = JsonUtils.DEFAULT_CHARSET;
-	public JsonFormat format = JsonUtils.DEFAULT_FORMAT;
-	public boolean pretty;
-	public JsonBinaryFormat binaryFormat = JsonUtils.DEFAULT_BINARY_FORMAT;
+    public Charset charset = JsonUtils.DEFAULT_CHARSET;
+    public JsonFormat format = JsonUtils.DEFAULT_FORMAT;
+    public boolean pretty;
+    public JsonBinaryFormat binaryFormat = JsonUtils.DEFAULT_BINARY_FORMAT;
 }

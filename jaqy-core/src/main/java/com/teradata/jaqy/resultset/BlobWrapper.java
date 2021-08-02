@@ -23,73 +23,73 @@ import java.sql.SQLException;
 import com.teradata.jaqy.utils.ExceptionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class BlobWrapper implements Blob
 {
-	@Override
-	public long length () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public long length () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public byte[] getBytes (long pos, int length) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public byte[] getBytes (long pos, int length) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public InputStream getBinaryStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public InputStream getBinaryStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public long position (byte[] pattern, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public long position (byte[] pattern, long start) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public long position (Blob pattern, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public long position (Blob pattern, long start) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public int setBytes (long pos, byte[] bytes) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int setBytes (long pos, byte[] bytes) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public int setBytes (long pos, byte[] bytes, int offset, int len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int setBytes (long pos, byte[] bytes, int offset, int len) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public OutputStream setBinaryStream (long pos) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public OutputStream setBinaryStream (long pos) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void truncate (long len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void truncate (long len) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void free () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void free () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public InputStream getBinaryStream (long pos, long length) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public InputStream getBinaryStream (long pos, long length) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,29 +22,29 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class OptionsUtils
 {
-	public static Option getOnOffOption (String opt, String longOpt, String description)
-	{
-		Option option = new Option (opt, longOpt, true, description);
-		option.setArgName ("on | off");
-		return option;
-	}
+    public static Option getOnOffOption (String opt, String longOpt, String description)
+    {
+        Option option = new Option (opt, longOpt, true, description);
+        option.setArgName ("on | off");
+        return option;
+    }
 
-	public static void printHelp (PrintWriter pw, Options options, String syntax, String header, String footer)
-	{
-		HelpFormatter formatter = new HelpFormatter ();
-		formatter.printHelp (pw, 78, syntax, header, options, 2, HelpFormatter.DEFAULT_DESC_PAD, footer);
-		pw.flush ();
-	}
+    public static void printHelp (PrintWriter pw, Options options, String syntax, String header, String footer)
+    {
+        HelpFormatter formatter = new HelpFormatter ();
+        formatter.printHelp (pw, 78, syntax, header, options, 2, HelpFormatter.DEFAULT_DESC_PAD, footer);
+        pw.flush ();
+    }
 
-	public static void printHelpNoUsage (PrintWriter pw, Options options, String syntax, String header, String footer)
-	{
-		HelpFormatter formatter = new HelpFormatter ();
-		formatter.setSyntaxPrefix ("");
-		formatter.printHelp (pw, 78, syntax, header, options, 2, HelpFormatter.DEFAULT_DESC_PAD, footer);
-		pw.flush ();
-	}
+    public static void printHelpNoUsage (PrintWriter pw, Options options, String syntax, String header, String footer)
+    {
+        HelpFormatter formatter = new HelpFormatter ();
+        formatter.setSyntaxPrefix ("");
+        formatter.printHelp (pw, 78, syntax, header, options, 2, HelpFormatter.DEFAULT_DESC_PAD, footer);
+        pw.flush ();
+    }
 }

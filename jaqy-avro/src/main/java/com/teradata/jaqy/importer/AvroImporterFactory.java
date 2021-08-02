@@ -26,23 +26,23 @@ import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
  */
 public class AvroImporterFactory extends JaqyHandlerFactoryImpl<AvroImporter>
 {
-	public AvroImporterFactory ()
-	{
-	}
+    public AvroImporterFactory ()
+    {
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "avro";
-	}
+    @Override
+    public String getName ()
+    {
+        return "avro";
+    }
 
-	@Override
-	public AvroImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
-	{
-		String[] args = cmdLine.getArgs ();
-		if (args.length == 0)
-			throw new IllegalArgumentException ("missing file name.");
-		Path file = interpreter.getPath (args[0]);
-		return new AvroImporter (interpreter.getSession ().getConnection (), file);
-	}
+    @Override
+    public AvroImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
+    {
+        String[] args = cmdLine.getArgs ();
+        if (args.length == 0)
+            throw new IllegalArgumentException ("missing file name.");
+        Path file = interpreter.getPath (args[0]);
+        return new AvroImporter (interpreter.getSession ().getConnection (), file);
+    }
 }

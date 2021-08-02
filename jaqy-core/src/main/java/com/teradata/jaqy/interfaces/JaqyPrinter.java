@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,36 +20,36 @@ import java.io.PrintWriter;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface JaqyPrinter
 {
-	/**
-	 * Gets the name of the printer
-	 * @return	the name of the printer.
-	 */
-	public String getName ();
-	/**
-	 * Display a ResultSet on screen.
-	 *
-	 * @param	rs
-	 * 			the ResultSet.
-	 * @param	pw
-	 * 			printer writer
-	 * @param	limit
-	 * 			the maximum number of rows to be displayed.
-	 * @param	interpreter
-	 * 			the interpreter.
-	 * @return	the activity count.  It may be limited by the display limit.
-	 * @throws	Exception
-	 * 			in case of error.
-	 */
-	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception;
-	/**
-	 * Does this ResultSet printer only scans forward?
-	 *
-	 * @return	true if this ResultSet printer only scans forward.
-	 * 			false otherwise.
-	 */
-	boolean isForwardOnly ();
+    /**
+     * Gets the name of the printer
+     * @return  the name of the printer.
+     */
+    public String getName ();
+    /**
+     * Display a ResultSet on screen.
+     *
+     * @param   rs
+     *          the ResultSet.
+     * @param   pw
+     *          printer writer
+     * @param   limit
+     *          the maximum number of rows to be displayed.
+     * @param   interpreter
+     *          the interpreter.
+     * @return  the activity count.  It may be limited by the display limit.
+     * @throws  Exception
+     *          in case of error.
+     */
+    public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Does this ResultSet printer only scans forward?
+     *
+     * @return  true if this ResultSet printer only scans forward.
+     *          false otherwise.
+     */
+    boolean isForwardOnly ();
 }

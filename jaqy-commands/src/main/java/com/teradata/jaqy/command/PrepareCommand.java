@@ -19,24 +19,24 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.QueryMode;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PrepareCommand extends JaqyCommandAdapter
 {
-	public PrepareCommand ()
-	{
-		super ("prepare", "prepare.txt");
-	}
+    public PrepareCommand ()
+    {
+        super ("prepare", "prepare.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "prepares a sql statement.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "prepares a sql statement.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		interpreter.setQueryMode (QueryMode.Prepare);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        interpreter.setQueryMode (QueryMode.Prepare);
+    }
 }

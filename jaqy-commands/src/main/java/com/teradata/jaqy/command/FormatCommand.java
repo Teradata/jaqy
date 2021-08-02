@@ -22,63 +22,63 @@ import com.teradata.jaqy.interfaces.JaqyPrinter;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FormatCommand extends JaqyCommandAdapter
 {
-	public FormatCommand ()
-	{
-		super ("format");
-	}
+    public FormatCommand ()
+    {
+        super ("format");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "chooses the ResultSet output format.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "chooses the ResultSet output format.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		Globals globals = getGlobals ();
-		StringBuffer buffer = new StringBuffer ();
-		buffer.append ("usage: " + getCommand () + " [type] [type options]\ntype:");
-		String[] names = globals.getPrinterManager ().getNames ();
-		for (String name : names)
-			buffer.append ("\n  ").append (name);
-		buffer.append ("\n");
-		for (String name : names)
-		{
-			String syntax = globals.getPrinterManager ().getHandlerFactory (name).getLongDescription ();
-			if (syntax != null)
-				buffer.append ('\n').append (syntax);
-		}
-		return buffer.toString ();
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        Globals globals = getGlobals ();
+        StringBuffer buffer = new StringBuffer ();
+        buffer.append ("usage: " + getCommand () + " [type] [type options]\ntype:");
+        String[] names = globals.getPrinterManager ().getNames ();
+        for (String name : names)
+            buffer.append ("\n  ").append (name);
+        buffer.append ("\n");
+        for (String name : names)
+        {
+            String syntax = globals.getPrinterManager ().getHandlerFactory (name).getLongDescription ();
+            if (syntax != null)
+                buffer.append ('\n').append (syntax);
+        }
+        return buffer.toString ();
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		if (args.length == 0)
-		{
-			interpreter.println (getCommand () + " " + interpreter.getPrinter ().getName ());
-		}
-		else
-		{
-			String name = args[0];
-			args = StringUtils.shiftArgs (args);
-			JaqyPrinter printer = interpreter.getGlobals ().getPrinterManager ().getHandler (name, args, interpreter);
-			if (printer == null)
-			{
-				interpreter.error ("invalid format name: " + name);
-			}
-			interpreter.setPrinter (printer);
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        if (args.length == 0)
+        {
+            interpreter.println (getCommand () + " " + interpreter.getPrinter ().getName ());
+        }
+        else
+        {
+            String name = args[0];
+            args = StringUtils.shiftArgs (args);
+            JaqyPrinter printer = interpreter.getGlobals ().getPrinterManager ().getHandler (name, args, interpreter);
+            if (printer == null)
+            {
+                interpreter.error ("invalid format name: " + name);
+            }
+            interpreter.setPrinter (printer);
+        }
+    }
 }

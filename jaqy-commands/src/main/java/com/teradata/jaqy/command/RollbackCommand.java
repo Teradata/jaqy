@@ -21,25 +21,25 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class RollbackCommand extends JaqyCommandAdapter
 {
-	public RollbackCommand ()
-	{
-		super ("rollback");
-	}
+    public RollbackCommand ()
+    {
+        super ("rollback");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "rolls back the current transaction.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "rolls back the current transaction.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
-	{
-		SessionUtils.checkOpen (interpreter);
-		interpreter.getSession ().getConnection ().rollback ();
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+    {
+        SessionUtils.checkOpen (interpreter);
+        interpreter.getSession ().getConnection ().rollback ();
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,48 +25,48 @@ import com.teradata.jaqy.utils.CSVUtils;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CSVPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
 {
-	public CSVPrinterFactory ()
-	{
-		addOption ("d", "delimiter", true, "specifies the delimiter");
-		Option option = new Option ("t", "type", true, "sets the csv type.");
-		option.setArgName ("default | excel | rfc4180 | mysql | tdf");
-		addOption (option);
-	}
+    public CSVPrinterFactory ()
+    {
+        addOption ("d", "delimiter", true, "specifies the delimiter");
+        Option option = new Option ("t", "type", true, "sets the csv type.");
+        option.setArgName ("default | excel | rfc4180 | mysql | tdf");
+        addOption (option);
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "csv";
-	}
+    @Override
+    public String getName ()
+    {
+        return "csv";
+    }
 
-	@Override
-	public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
-	{
-		CSVFormat format = CSVUtils.getDefaultFormat ();
+    @Override
+    public JaqyPrinter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
+    {
+        CSVFormat format = CSVUtils.getDefaultFormat ();
 
-		for (Option option : cmdLine.getOptions ())
-		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 'd':
-				{
-					char delimiter = CSVUtils.getChar (option.getValue ());
-					if (delimiter == 0)
-						throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
-					format = format.withDelimiter (delimiter);
-					break;
-				}
-				case 't':
-				{
-					format = CSVUtils.getFormat (option.getValue ());
-					break;
-				}
-			}
-		}
-		return new CSVPrinter (format);
-	}
+        for (Option option : cmdLine.getOptions ())
+        {
+            switch (option.getOpt ().charAt (0))
+            {
+                case 'd':
+                {
+                    char delimiter = CSVUtils.getChar (option.getValue ());
+                    if (delimiter == 0)
+                        throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
+                    format = format.withDelimiter (delimiter);
+                    break;
+                }
+                case 't':
+                {
+                    format = CSVUtils.getFormat (option.getValue ());
+                    break;
+                }
+            }
+        }
+        return new CSVPrinter (format);
+    }
 }

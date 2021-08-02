@@ -21,25 +21,25 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class SaveCommand extends JaqyCommandAdapter
 {
-	public SaveCommand ()
-	{
-		super ("save");
-	}
+    public SaveCommand ()
+    {
+        super ("save");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "saves a resultset to variable named 'save'.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "saves a resultset to variable named 'save'.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
-	{
-		SessionUtils.checkOpen (interpreter);
-		interpreter.setSaveResultSet (true);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+    {
+        SessionUtils.checkOpen (interpreter);
+        interpreter.setSaveResultSet (true);
+    }
 }

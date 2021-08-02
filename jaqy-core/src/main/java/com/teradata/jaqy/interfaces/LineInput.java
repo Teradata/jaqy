@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,37 +18,37 @@ package com.teradata.jaqy.interfaces;
 import java.io.File;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface LineInput
 {
-	public static class Input
-	{
-		public String line;
-		public boolean interactive;
-	}
+    public static class Input
+    {
+        public String line;
+        public boolean interactive;
+    }
 
-	/**
-	 * Getting a line from input.  The input is stripped of the EOL
-	 * characters.
-	 *
-	 * @param	Input (OUT)
-	 *			where the output of line and interactive status is stored.
-	 * @return	true if has input.
-	 * 			false if EOF.
-	 */
-	public boolean getLine (Input input);
+    /**
+     * Getting a line from input.  The input is stripped of the EOL
+     * characters.
+     *
+     * @param   Input (OUT)
+     *          where the output of line and interactive status is stored.
+     * @return  true if has input.
+     *          false if EOF.
+     */
+    public boolean getLine (Input input);
 
-	/**
-	 * Get the directory of the input.
-	 * 
-	 * @return	the directory of the input.
-	 */
-	public Path getDirectory ();
-	/**
-	 * Get the directory of the input.
-	 * 
-	 * @return	the directory of the input.
-	 */
-	public File getFileDirectory ();
+    /**
+     * Get the directory of the input.
+     * 
+     * @return  the directory of the input.
+     */
+    public Path getDirectory ();
+    /**
+     * Get the directory of the input.
+     * 
+     * @return  the directory of the input.
+     */
+    public File getFileDirectory ();
 }

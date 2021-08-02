@@ -21,41 +21,41 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ExitCommand extends JaqyCommandAdapter
 {
-	public ExitCommand ()
-	{
-		super ("exit");
-	}
+    public ExitCommand ()
+    {
+        super ("exit");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "exits the program";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "exits the program";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [exit code]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [exit code]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		interpreter.getGlobals ().log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
-		if (args.length == 0)
-		{
-			System.exit (interpreter.getExitCode ());
-		}
-		System.exit (Integer.parseInt (args[0]));
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        interpreter.getGlobals ().log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
+        if (args.length == 0)
+        {
+            System.exit (interpreter.getExitCode ());
+        }
+        System.exit (Integer.parseInt (args[0]));
+    }
 }

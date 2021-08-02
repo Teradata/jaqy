@@ -20,33 +20,33 @@ import com.teradata.jaqy.JaqyInterpreter;
 /**
  * Runs a shell command.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class OsCommand extends JaqyCommandAdapter
 {
-	public OsCommand ()
-	{
-		super ("os");
-	}
+    public OsCommand ()
+    {
+        super ("os");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "executes shell commands.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "executes shell commands.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [shell commands]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [shell commands]";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		String argument = args[0];
-		if (argument.trim ().length () == 0)
-			return;
-		interpreter.getGlobals ().getOs ().shell (interpreter.getFileDirectory (), argument);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        String argument = args[0];
+        if (argument.trim ().length () == 0)
+            return;
+        interpreter.getGlobals ().getOs ().shell (interpreter.getFileDirectory (), argument);
+    }
 }

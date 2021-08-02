@@ -18,9 +18,9 @@ package com.teradata.jaqy.interfaces;
 import java.io.IOException;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface ExpressionHandler
 {
-	public Object eval (String name) throws IOException;
+    public Object eval (String name) throws IOException;
 }

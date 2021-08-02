@@ -20,19 +20,19 @@ import javax.json.stream.JsonParser;
 import org.yuanheng.cookjson.CookJsonParser;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 interface JsonEventVisitor
 {
-	/**
-	 * Handle a particular event.
-	 * 
-	 * @param	e
-	 * 			event to be handled.
-	 * @param	p
-	 * 			JsonParser which can be used to retrieve the current value.
-	 * @param	depth
-	 * 			Current parse tree depth relative to this visitor.
-	 */
-	public void visit (JsonParser.Event e, CookJsonParser p, int depth);
+    /**
+     * Handle a particular event.
+     * 
+     * @param   e
+     *          event to be handled.
+     * @param   p
+     *          JsonParser which can be used to retrieve the current value.
+     * @param   depth
+     *          Current parse tree depth relative to this visitor.
+     */
+    public void visit (JsonParser.Event e, CookJsonParser p, int depth);
 }

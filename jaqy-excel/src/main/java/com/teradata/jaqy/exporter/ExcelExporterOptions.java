@@ -16,10 +16,10 @@
 package com.teradata.jaqy.exporter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class ExcelExporterOptions
 {
-	public String sheetName;
-	public boolean swap;
+    public String sheetName;
+    public boolean swap;
 }

@@ -20,16 +20,16 @@ import org.junit.Test;
 import com.teradata.jaqy.Globals;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class AzurePluginTest
 {
-	@Test
-	public void testInit () throws Exception
-	{
-		Globals globals = new Globals (null, null);
+    @Test
+    public void testInit () throws Exception
+    {
+        Globals globals = new Globals (null, null);
 
-		AzurePlugin plugin = new AzurePlugin ();
-		plugin.init (globals);
-	}
+        AzurePlugin plugin = new AzurePlugin ();
+        plugin.init (globals);
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,34 +18,34 @@ package com.teradata.jaqy.utils;
 import com.teradata.jaqy.interfaces.Variable;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FixedVariable implements Variable
 {
-	private String m_name;
-	private final Object m_obj;
+    private String m_name;
+    private final Object m_obj;
 
-	public FixedVariable (String name, Object obj)
-	{
-		m_name = name;
-		m_obj = obj;
-	}
+    public FixedVariable (String name, Object obj)
+    {
+        m_name = name;
+        m_obj = obj;
+    }
 
-	@Override
-	public Object get ()
-	{
-		return m_obj;
-	}
+    @Override
+    public Object get ()
+    {
+        return m_obj;
+    }
 
-	@Override
-	public boolean set (Object value)
-	{
-		return false;
-	}
+    @Override
+    public boolean set (Object value)
+    {
+        return false;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return m_name;
-	}
+    @Override
+    public String getName ()
+    {
+        return m_name;
+    }
 }

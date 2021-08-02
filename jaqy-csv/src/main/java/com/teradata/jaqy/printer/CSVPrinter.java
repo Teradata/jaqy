@@ -27,62 +27,62 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.typehandler.TypeHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class CSVPrinter implements JaqyPrinter
 {
-	private final CSVFormat m_format;
+    private final CSVFormat m_format;
 
-	public CSVPrinter (CSVFormat format)
-	{
-		m_format = format;
-	}
+    public CSVPrinter (CSVFormat format)
+    {
+        m_format = format;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "csv";
-	}
+    @Override
+    public String getName ()
+    {
+        return "csv";
+    }
 
-	@Override
-	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
-	{
-		JaqyHelper helper = rs.getHelper ();
-		JaqyResultSetMetaData metaData = rs.getMetaData ();
-		int columns = metaData.getColumnCount ();
-		TypeHandler[] handlers = new TypeHandler[columns];
+    @Override
+    public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
+    {
+        JaqyHelper helper = rs.getHelper ();
+        JaqyResultSetMetaData metaData = rs.getMetaData ();
+        int columns = metaData.getColumnCount ();
+        TypeHandler[] handlers = new TypeHandler[columns];
 
-		@SuppressWarnings ("resource")
-		org.apache.commons.csv.CSVPrinter printer = new org.apache.commons.csv.CSVPrinter (pw, m_format);
+        @SuppressWarnings ("resource")
+        org.apache.commons.csv.CSVPrinter printer = new org.apache.commons.csv.CSVPrinter (pw, m_format);
 
-		for (int i = 0; i < columns; ++i)
-		{
-			// print the header row
-			printer.print (metaData.getColumnLabel (i + 1));
+        for (int i = 0; i < columns; ++i)
+        {
+            // print the header row
+            printer.print (metaData.getColumnLabel (i + 1));
 
-			handlers[i] = helper.getTypeHandler (rs, i + 1);
-		}
-		printer.println ();
+            handlers[i] = helper.getTypeHandler (rs, i + 1);
+        }
+        printer.println ();
 
-		long count = 0;
-		if (limit == 0)
-			limit = Long.MAX_VALUE;
-		while (rs.next () && count < limit)
-		{
-			++count;
-			for (int i = 0; i < columns; ++i)
-			{
-				printer.print (handlers[i].getString (rs, i + 1, interpreter));
-			}
-			printer.println ();
-		}
-		printer.flush ();
-		return count;
-	}
+        long count = 0;
+        if (limit == 0)
+            limit = Long.MAX_VALUE;
+        while (rs.next () && count < limit)
+        {
+            ++count;
+            for (int i = 0; i < columns; ++i)
+            {
+                printer.print (handlers[i].getString (rs, i + 1, interpreter));
+            }
+            printer.println ();
+        }
+        printer.flush ();
+        return count;
+    }
 
-	@Override
-	public boolean isForwardOnly ()
-	{
-		return true;
-	}
+    @Override
+    public boolean isForwardOnly ()
+    {
+        return true;
+    }
 }

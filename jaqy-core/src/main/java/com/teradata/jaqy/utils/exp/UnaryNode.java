@@ -20,29 +20,29 @@ import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class UnaryNode extends JSExpNode
 {
-	private final ExpNode m_exp;
-	private final String m_op;
+    private final ExpNode m_exp;
+    private final String m_op;
 
-	public UnaryNode (String op, ExpNode exp)
-	{
-		this.m_exp = exp;
-		this.m_op = op;
-	}
+    public UnaryNode (String op, ExpNode exp)
+    {
+        this.m_exp = exp;
+        this.m_op = op;
+    }
 
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
-	{
-		super.bind (rs, vm, interpreter);
-		m_exp.bind (rs, vm, interpreter);
-	}
+    @Override
+    public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
+    {
+        super.bind (rs, vm, interpreter);
+        m_exp.bind (rs, vm, interpreter);
+    }
 
-	@Override
-	public String toString ()
-	{
-		return "(" + m_op + "(" + m_exp + "))";
-	}
+    @Override
+    public String toString ()
+    {
+        return "(" + m_op + "(" + m_exp + "))";
+    }
 }

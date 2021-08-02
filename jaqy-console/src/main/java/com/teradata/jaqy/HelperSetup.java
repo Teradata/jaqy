@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@ import com.teradata.jaqy.helper.PostgresHelperFactory;
 import com.teradata.jaqy.helper.TeradataHelperFactory;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class HelperSetup
 {
-	public static void init (Globals globals) throws IOException
-	{
-		HelperManager manager = globals.getHelperManager ();
-		manager.addHelperFactory ("postgresql", new PostgresHelperFactory ());
-		manager.addHelperFactory ("teradata", new TeradataHelperFactory ());
-//		HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("mysql.json"));
-//		HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("sqlite.json"));
-	}
+    public static void init (Globals globals) throws IOException
+    {
+        HelperManager manager = globals.getHelperManager ();
+        manager.addHelperFactory ("postgresql", new PostgresHelperFactory ());
+        manager.addHelperFactory ("teradata", new TeradataHelperFactory ());
+//      HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("mysql.json"));
+//      HelperConfigUtils.load (manager, DefaultHelperFactory.class.getResourceAsStream ("sqlite.json"));
+    }
 }

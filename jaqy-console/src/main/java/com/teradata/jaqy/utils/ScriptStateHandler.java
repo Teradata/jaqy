@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,25 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.StateHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ScriptStateHandler implements StateHandler
 {
-	private final String m_script;
+    private final String m_script;
 
-	public ScriptStateHandler (String script)
-	{
-		m_script = script;
-	}
+    public ScriptStateHandler (String script)
+    {
+        m_script = script;
+    }
 
-	@Override
-	public String getString (JaqyInterpreter interpreter)
-	{
-		return StringUtils.eval (m_script, interpreter);
-	}
+    @Override
+    public String getString (JaqyInterpreter interpreter)
+    {
+        return StringUtils.eval (m_script, interpreter);
+    }
 
-	public String getScript ()
-	{
-		return m_script;
-	}
+    public String getScript ()
+    {
+        return m_script;
+    }
 }

@@ -20,49 +20,49 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class UnAliasCommand extends JaqyCommandAdapter
 {
-	public UnAliasCommand ()
-	{
-		super ("unalias");
-	}
+    public UnAliasCommand ()
+    {
+        super ("unalias");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "removes a command alias.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "removes a command alias.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [name]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [name]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		if (args.length == 0)
-		{
-			interpreter.error ("missing argument.");
-		}
-		else
-		{
-			String name = args[0];
-			Globals globals = interpreter.getGlobals ();
-			if (globals.getAliasManager ().getAlias (name) == null)
-			{
-				interpreter.error ("alias " + args[0] + " is not found.");
-			}
-			globals.getAliasManager ().setAlias (name, null);
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        if (args.length == 0)
+        {
+            interpreter.error ("missing argument.");
+        }
+        else
+        {
+            String name = args[0];
+            Globals globals = interpreter.getGlobals ();
+            if (globals.getAliasManager ().getAlias (name) == null)
+            {
+                interpreter.error ("alias " + args[0] + " is not found.");
+            }
+            globals.getAliasManager ().setAlias (name, null);
+        }
+    }
 }

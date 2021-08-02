@@ -19,10 +19,10 @@ import com.teradata.jaqy.utils.JsonBinaryFormat;
 import com.teradata.jaqy.utils.JsonUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class JsonPrinterOptions
 {
-	public boolean pretty = true;
-	public JsonBinaryFormat binaryFormat = JsonUtils.DEFAULT_BINARY_FORMAT;
+    public boolean pretty = true;
+    public JsonBinaryFormat binaryFormat = JsonUtils.DEFAULT_BINARY_FORMAT;
 }

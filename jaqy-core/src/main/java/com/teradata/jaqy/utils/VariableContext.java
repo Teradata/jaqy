@@ -22,16 +22,16 @@ import javax.script.SimpleScriptContext;
 import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class VariableContext extends SimpleScriptContext implements ExpressionHandler
 {
-	@Override
-	public String eval (String name) throws IOException
-	{
-		Object o = getAttribute (name);
-		if (o == null)
-			return null;
-		return o.toString ();
-	}
+    @Override
+    public String eval (String name) throws IOException
+    {
+        Object o = getAttribute (name);
+        if (o == null)
+            return null;
+        return o.toString ();
+    }
 }

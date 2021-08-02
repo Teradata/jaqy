@@ -21,29 +21,29 @@ import org.junit.Test;
 import com.teradata.jaqy.interfaces.PathHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PathHandlerManagerTest
 {
-	@Test
-	public void test1 ()
-	{
-		PathHandlerManager manager = new PathHandlerManager ();
+    @Test
+    public void test1 ()
+    {
+        PathHandlerManager manager = new PathHandlerManager ();
 
-		PathHandler handler;
-		String path = "/vagrant/tests/unittests/commands/help.sql";
+        PathHandler handler;
+        String path = "/vagrant/tests/unittests/commands/help.sql";
 
-		handler = manager.getFilePathHandler ();
-		Assert.assertNotNull (handler);
-		Assert.assertTrue (handler.canHandle (path));
+        handler = manager.getFilePathHandler ();
+        Assert.assertNotNull (handler);
+        Assert.assertTrue (handler.canHandle (path));
 
-		handler = manager.getHandler (path);
-		Assert.assertNotNull (handler);
-		Assert.assertTrue (handler.canHandle (path));
+        handler = manager.getHandler (path);
+        Assert.assertNotNull (handler);
+        Assert.assertTrue (handler.canHandle (path));
 
-		Assert.assertTrue (manager.hasPathHandler ("com.teradata.jaqy.path.FilePathHandler"));
+        Assert.assertTrue (manager.hasPathHandler ("com.teradata.jaqy.path.FilePathHandler"));
 
-		manager.removePathHandler ("com.teradata.jaqy.path.FilePathHandler");
-		Assert.assertFalse (manager.hasPathHandler ("com.teradata.jaqy.path.FilePathHandler"));
-	}
+        manager.removePathHandler ("com.teradata.jaqy.path.FilePathHandler");
+        Assert.assertFalse (manager.hasPathHandler ("com.teradata.jaqy.path.FilePathHandler"));
+    }
 }

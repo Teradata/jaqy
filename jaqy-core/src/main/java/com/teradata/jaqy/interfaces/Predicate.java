@@ -21,29 +21,29 @@ import java.sql.SQLException;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface Predicate extends Closeable
 {
-	/**
-	 * Binds to a JaqyResultSet.
-	 * @param	rs
-	 * 			ResultSet object
-	 * @param	interpreter
-	 * 			interpreter object
-	 * @throws	Exception
-	 * 			in case of error
-	 */
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
-	/**
-	 * Check if the predicate evaluates to true for the current row.
-	 * @return	true if the predicate evaluates to true.
-	 * @throws	SQLException
-	 * 			in case of error
-	 */
-	public boolean eval () throws SQLException;
-	/**
-	 * Free any resources.  Should not throw any exceptions.
-	 */
-	public void close ();
+    /**
+     * Binds to a JaqyResultSet.
+     * @param   rs
+     *          ResultSet object
+     * @param   interpreter
+     *          interpreter object
+     * @throws  Exception
+     *          in case of error
+     */
+    public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Check if the predicate evaluates to true for the current row.
+     * @return  true if the predicate evaluates to true.
+     * @throws  SQLException
+     *          in case of error
+     */
+    public boolean eval () throws SQLException;
+    /**
+     * Free any resources.  Should not throw any exceptions.
+     */
+    public void close ();
 }

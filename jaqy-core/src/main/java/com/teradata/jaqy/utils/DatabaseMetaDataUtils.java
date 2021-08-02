@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,26 +18,26 @@ package com.teradata.jaqy.utils;
 import java.sql.Connection;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DatabaseMetaDataUtils
 {
-	public static String getIsolationLevel (int value)
-	{
-		switch (value)
-		{
-			case Connection.TRANSACTION_NONE:
-				return "None";
-			case Connection.TRANSACTION_READ_COMMITTED:
-				return "Read committed";
-			case Connection.TRANSACTION_READ_UNCOMMITTED:
-				return "Read uncommitted";
-			case Connection.TRANSACTION_REPEATABLE_READ:
-				return "Repeatable read";
-			case Connection.TRANSACTION_SERIALIZABLE:
-				return "Serializable";
-			default:
-				return "Unknown";
-		}
-	}
+    public static String getIsolationLevel (int value)
+    {
+        switch (value)
+        {
+            case Connection.TRANSACTION_NONE:
+                return "None";
+            case Connection.TRANSACTION_READ_COMMITTED:
+                return "Read committed";
+            case Connection.TRANSACTION_READ_UNCOMMITTED:
+                return "Read uncommitted";
+            case Connection.TRANSACTION_REPEATABLE_READ:
+                return "Repeatable read";
+            case Connection.TRANSACTION_SERIALIZABLE:
+                return "Serializable";
+            default:
+                return "Unknown";
+        }
+    }
 }

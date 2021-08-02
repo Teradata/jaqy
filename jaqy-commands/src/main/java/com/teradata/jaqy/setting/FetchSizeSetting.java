@@ -21,47 +21,47 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FetchSizeSetting extends JaqySettingAdapter
 {
-	public FetchSizeSetting ()
-	{
-		super ("fetchsize");
-	}
+    public FetchSizeSetting ()
+    {
+        super ("fetchsize");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "sets the statement fetch size.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "sets the statement fetch size.";
+    }
 
-	@Override
-	public Type getType ()
-	{
-		return Type.session;
-	}
+    @Override
+    public Type getType ()
+    {
+        return Type.session;
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public Object get (JaqyInterpreter interpreter) throws Exception
-	{
-		return interpreter.getSession ().getConnection ().getFetchSize ();
-	}
+    @Override
+    public Object get (JaqyInterpreter interpreter) throws Exception
+    {
+        return interpreter.getSession ().getConnection ().getFetchSize ();
+    }
 
-	@Override
-	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
-	{
-		int fetchSize = Integer.parseInt (args[0]);
-		if (fetchSize < 0)
-		{
-			interpreter.error ("Fetch size cannot be negative.");
-		}
-		interpreter.getSession ().getConnection ().setFetchSize (fetchSize);
-	}
+    @Override
+    public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+    {
+        int fetchSize = Integer.parseInt (args[0]);
+        if (fetchSize < 0)
+        {
+            interpreter.error ("Fetch size cannot be negative.");
+        }
+        interpreter.getSession ().getConnection ().setFetchSize (fetchSize);
+    }
 }

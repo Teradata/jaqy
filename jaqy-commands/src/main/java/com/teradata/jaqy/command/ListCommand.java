@@ -27,114 +27,114 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ListCommand extends JaqyCommandAdapter
 {
-	public ListCommand ()
-	{
-		super ("list", "list.txt");
-	}
+    public ListCommand ()
+    {
+        super ("list", "list.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "lists tables in the current catalog / schema.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "lists tables in the current catalog / schema.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.sql;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.sql;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
-	{
-		SessionUtils.checkOpen (interpreter);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+    {
+        SessionUtils.checkOpen (interpreter);
 
-		int listType = 2;	// 0 = catalog, 1 = schema, 2 = table
+        int listType = 2;   // 0 = catalog, 1 = schema, 2 = table
 
-		String catalogPattern = ".";
-		String schemaPattern = ".";
-		String tablePattern = "%";
+        String catalogPattern = ".";
+        String schemaPattern = ".";
+        String tablePattern = "%";
 
-		if (args.length == 0)
-		{
-			// no change to the pattern.
-		}
-		else if (args.length == 1)
-		{
-			catalogPattern = args[0];
-			// we are selecting the catalogs
-			if ("%".equals (args[0]))
-			{
-				listType = 0;
-			}
-			else
-			{
-				listType = 1;
-			}
-		}
-		else if (args.length == 2)
-		{
-			catalogPattern = args[0];
-			schemaPattern = args[1];
-			listType = 1;
-		}
-		else if (args.length >= 3)
-		{
-			catalogPattern = args[0];
-			schemaPattern = args[1];
-			tablePattern = args[2];
-			listType = 2;
-		}
+        if (args.length == 0)
+        {
+            // no change to the pattern.
+        }
+        else if (args.length == 1)
+        {
+            catalogPattern = args[0];
+            // we are selecting the catalogs
+            if ("%".equals (args[0]))
+            {
+                listType = 0;
+            }
+            else
+            {
+                listType = 1;
+            }
+        }
+        else if (args.length == 2)
+        {
+            catalogPattern = args[0];
+            schemaPattern = args[1];
+            listType = 1;
+        }
+        else if (args.length >= 3)
+        {
+            catalogPattern = args[0];
+            schemaPattern = args[1];
+            tablePattern = args[2];
+            listType = 2;
+        }
 
-		Session session = interpreter.getSession ();
-		JaqyConnection conn = session.getConnection ();
-		DatabaseMetaData meta = conn.getMetaData ();
+        Session session = interpreter.getSession ();
+        JaqyConnection conn = session.getConnection ();
+        DatabaseMetaData meta = conn.getMetaData ();
 
-		if (".".equals (catalogPattern))
-		{
-			catalogPattern = conn.getCatalog (interpreter);
-		}
+        if (".".equals (catalogPattern))
+        {
+            catalogPattern = conn.getCatalog (interpreter);
+        }
 
-		if (".".equals (schemaPattern))
-		{
-			schemaPattern = conn.getSchema (interpreter);
-		}
+        if (".".equals (schemaPattern))
+        {
+            schemaPattern = conn.getSchema (interpreter);
+        }
 
-		JaqyHelper helper = conn.getHelper ();
-		ResultSet rs = null;
+        JaqyHelper helper = conn.getHelper ();
+        ResultSet rs = null;
 
-		String sep = meta.getCatalogSeparator ();
-		if (sep == null)
-			sep = "/";
-		try
-		{
-			if (listType == 0)
-			{
-				interpreter.println ("-- Listing catalogs");
-				rs = meta.getCatalogs ();
-			}
-			else if (listType == 1)
-			{
-				interpreter.println ("-- Listing schema: " + catalogPattern + sep + schemaPattern);
-				rs = meta.getSchemas (catalogPattern, schemaPattern);
-			}
-			else if (listType == 2)
-			{
-				interpreter.println ("-- Listing tables: " + catalogPattern + sep + schemaPattern + sep + tablePattern);
-				rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
-			}
-		}
-		catch (SQLException ex)
-		{
-		}
-		if (rs == null)
-			return;
+        String sep = meta.getCatalogSeparator ();
+        if (sep == null)
+            sep = "/";
+        try
+        {
+            if (listType == 0)
+            {
+                interpreter.println ("-- Listing catalogs");
+                rs = meta.getCatalogs ();
+            }
+            else if (listType == 1)
+            {
+                interpreter.println ("-- Listing schema: " + catalogPattern + sep + schemaPattern);
+                rs = meta.getSchemas (catalogPattern, schemaPattern);
+            }
+            else if (listType == 2)
+            {
+                interpreter.println ("-- Listing tables: " + catalogPattern + sep + schemaPattern + sep + tablePattern);
+                rs = meta.getTables (catalogPattern, schemaPattern, tablePattern, null);
+            }
+        }
+        catch (SQLException ex)
+        {
+        }
+        if (rs == null)
+            return;
 
-		interpreter.print (helper.getResultSet (rs, interpreter));
-		rs.close ();
-	}
+        interpreter.print (helper.getResultSet (rs, interpreter));
+        rs.close ();
+    }
 }

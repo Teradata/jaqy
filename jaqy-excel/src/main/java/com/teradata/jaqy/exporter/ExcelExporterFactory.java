@@ -26,50 +26,50 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ExcelExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 {
-	public static String DEFAULT_NAME_PATTERN = "%08d.bin";
-	public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
+    public static String DEFAULT_NAME_PATTERN = "%08d.bin";
+    public static Charset DEFAULT_CHARSET = Charset.forName ("utf-8");
 
-	public ExcelExporterFactory ()
-	{
-		addOption ("n", "name", true, "specifies the worksheet name");
-		addOption ("s", "swap", false, "dumps the data horizontally");
-	}
+    public ExcelExporterFactory ()
+    {
+        addOption ("n", "name", true, "specifies the worksheet name");
+        addOption ("s", "swap", false, "dumps the data horizontally");
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "excel";
-	}
+    @Override
+    public String getName ()
+    {
+        return "excel";
+    }
 
-	@Override
-	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
-	{
-		ExcelExporterOptions exportOptions = new ExcelExporterOptions ();
+    @Override
+    public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
+    {
+        ExcelExporterOptions exportOptions = new ExcelExporterOptions ();
 
-		for (Option option : cmdLine.getOptions ())
-		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 's':
-				{
-					exportOptions.swap = true;
-					break;
-				}
-				case 'n':
-				{
-					exportOptions.sheetName = option.getValue ();
-					break;
-				}
-			}
-		}
-		String[] args = cmdLine.getArgs ();
-		if (args.length == 0)
-			throw new IllegalArgumentException ("missing file name.");
-		Path file = interpreter.getPath (args[0]);
-		return new ExcelExporter (file, exportOptions, interpreter);
-	}
+        for (Option option : cmdLine.getOptions ())
+        {
+            switch (option.getOpt ().charAt (0))
+            {
+                case 's':
+                {
+                    exportOptions.swap = true;
+                    break;
+                }
+                case 'n':
+                {
+                    exportOptions.sheetName = option.getValue ();
+                    break;
+                }
+            }
+        }
+        String[] args = cmdLine.getArgs ();
+        if (args.length == 0)
+            throw new IllegalArgumentException ("missing file name.");
+        Path file = interpreter.getPath (args[0]);
+        return new ExcelExporter (file, exportOptions, interpreter);
+    }
 }

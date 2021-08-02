@@ -32,100 +32,100 @@ import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ExecCommand extends JaqyCommandAdapter
 {
-	public ExecCommand ()
-	{
-		super ("exec");
+    public ExecCommand ()
+    {
+        super ("exec");
 
-		addOption ("c", "charset", true, "sets the file character set");
-	}
+        addOption ("c", "charset", true, "sets the file character set");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "executes a block of SQL.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "executes a block of SQL.";
+    }
 
-	@Override
-	protected String getSyntax ()
-	{
-		return getCommand () + " [options] [path]";
-	}
+    @Override
+    protected String getSyntax ()
+    {
+        return getCommand () + " [options] [path]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		if (args.length == 0)
-		{
-			interpreter.setParseAction (this, null);
-		}
-		else
-		{
-			CommandLine cmdLine = getCommandLine (args);
-			args = cmdLine.getArgs ();
-			String charset = null;
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        if (args.length == 0)
+        {
+            interpreter.setParseAction (this, null);
+        }
+        else
+        {
+            CommandLine cmdLine = getCommandLine (args);
+            args = cmdLine.getArgs ();
+            String charset = null;
 
-			for (Option option : cmdLine.getOptions ())
-			{
-				switch (option.getOpt ().charAt (0))
-				{
-					case 'c':
-					{
-						charset = option.getValue ();
-						break;
-					}
-				}
-			}
+            for (Option option : cmdLine.getOptions ())
+            {
+                switch (option.getOpt ().charAt (0))
+                {
+                    case 'c':
+                    {
+                        charset = option.getValue ();
+                        break;
+                    }
+                }
+            }
 
-			if (args.length > 0)
-			{
-				Path file = interpreter.getPath (args[0]);
-				if (!file.exists ())
-				{
-					interpreter.error ("file not found: " + args[0]);
-				}
-				SessionUtils.checkOpen (interpreter);
-				Reader reader = FileUtils.getReader (file.getInputStream (), charset);
-				String sql = StringUtils.getStringFromReader (reader);
-				Session session = interpreter.getSession ();
-				session.executeQuery (sql, interpreter, interpreter.getRepeatCount ());
+            if (args.length > 0)
+            {
+                Path file = interpreter.getPath (args[0]);
+                if (!file.exists ())
+                {
+                    interpreter.error ("file not found: " + args[0]);
+                }
+                SessionUtils.checkOpen (interpreter);
+                Reader reader = FileUtils.getReader (file.getInputStream (), charset);
+                String sql = StringUtils.getStringFromReader (reader);
+                Session session = interpreter.getSession ();
+                session.executeQuery (sql, interpreter, interpreter.getRepeatCount ());
 
-				// now reset things
-				interpreter.setRepeatCount (1);
-				interpreter.setLimit (0);
-			}
-			else
-			{
-				interpreter.setParseAction (this, null);
-			}
-		}
-	}
+                // now reset things
+                interpreter.setRepeatCount (1);
+                interpreter.setLimit (0);
+            }
+            else
+            {
+                interpreter.setParseAction (this, null);
+            }
+        }
+    }
 
-	@Override
-	public JaqyCommand.Type getType ()
-	{
-		return JaqyCommand.Type.exclusive;
-	}
+    @Override
+    public JaqyCommand.Type getType ()
+    {
+        return JaqyCommand.Type.exclusive;
+    }
 
-	@Override
-	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
-		if (!silent)
-		{
-			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, interactive);
-		}
-		Session session = interpreter.getSession ();
-		session.executeQuery (action, interpreter, 1);
-	}
+    @Override
+    public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
+        if (!silent)
+        {
+            Display display = interpreter.getDisplay ();
+            display.echo (interpreter, action, interactive);
+        }
+        Session session = interpreter.getSession ();
+        session.executeQuery (action, interpreter, 1);
+    }
 }

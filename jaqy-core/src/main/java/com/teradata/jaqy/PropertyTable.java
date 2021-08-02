@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,49 +20,49 @@ import java.util.ArrayList;
 /**
  * This class is used to store and display internally generated data.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PropertyTable
 {
-	private String[] m_titles;
-	private ArrayList<Object[]> m_rows = new ArrayList<Object[]> ();
-	private int[] m_lengths;
+    private String[] m_titles;
+    private ArrayList<Object[]> m_rows = new ArrayList<Object[]> ();
+    private int[] m_lengths;
 
-	public PropertyTable (String[] titles)
-	{
-		m_titles = titles;
-		m_lengths = new int[titles.length];
-		for (int i = 0; i < titles.length; ++i)
-		{
-			m_lengths[i] = m_titles[i].length ();
-		}
-	}
+    public PropertyTable (String[] titles)
+    {
+        m_titles = titles;
+        m_lengths = new int[titles.length];
+        for (int i = 0; i < titles.length; ++i)
+        {
+            m_lengths[i] = m_titles[i].length ();
+        }
+    }
 
-	public void addRow (String[] row)
-	{
-		if (row.length != m_titles.length)
-			throw new IllegalArgumentException ("Invalid number of columns.");
-		for (int i = 0; i < row.length; ++i)
-		{
-			int l = (row[i] == null) ? 0 : row[i].length ();
-			if (m_lengths[i] < l)
-				m_lengths[i] = l;
-		}
-		m_rows.add (row);
-	}
+    public void addRow (String[] row)
+    {
+        if (row.length != m_titles.length)
+            throw new IllegalArgumentException ("Invalid number of columns.");
+        for (int i = 0; i < row.length; ++i)
+        {
+            int l = (row[i] == null) ? 0 : row[i].length ();
+            if (m_lengths[i] < l)
+                m_lengths[i] = l;
+        }
+        m_rows.add (row);
+    }
 
-	public String[] getTitles ()
-	{
-		return m_titles;
-	}
+    public String[] getTitles ()
+    {
+        return m_titles;
+    }
 
-	public ArrayList<Object[]> getRows ()
-	{
-		return m_rows;
-	}
+    public ArrayList<Object[]> getRows ()
+    {
+        return m_rows;
+    }
 
-	public int[] getLengths ()
-	{
-		return m_lengths;
-	}
+    public int[] getLengths ()
+    {
+        return m_lengths;
+    }
 }

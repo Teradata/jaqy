@@ -21,44 +21,44 @@ import java.io.IOException;
 import org.apache.avro.file.SeekableInput;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class AvroInputStream implements SeekableInput
 {
-	private final FileInputStream m_is;
+    private final FileInputStream m_is;
 
-	public AvroInputStream (FileInputStream is)
-	{
-		m_is = is;
-	}
+    public AvroInputStream (FileInputStream is)
+    {
+        m_is = is;
+    }
 
-	@Override
-	public void close () throws IOException
-	{
-		m_is.close ();
-	}
+    @Override
+    public void close () throws IOException
+    {
+        m_is.close ();
+    }
 
-	@Override
-	public void seek (long p) throws IOException
-	{
-		m_is.getChannel ().position (p);
-	}
+    @Override
+    public void seek (long p) throws IOException
+    {
+        m_is.getChannel ().position (p);
+    }
 
-	@Override
-	public long tell () throws IOException
-	{
-		return m_is.getChannel ().position ();
-	}
+    @Override
+    public long tell () throws IOException
+    {
+        return m_is.getChannel ().position ();
+    }
 
-	@Override
-	public long length () throws IOException
-	{
-		return m_is.getChannel ().size ();
-	}
+    @Override
+    public long length () throws IOException
+    {
+        return m_is.getChannel ().size ();
+    }
 
-	@Override
-	public int read (byte[] b, int off, int len) throws IOException
-	{
-		return m_is.read (b, off, len);
-	}
+    @Override
+    public int read (byte[] b, int off, int len) throws IOException
+    {
+        return m_is.read (b, off, len);
+    }
 }

@@ -16,13 +16,13 @@
 package com.teradata.jaqy.schema;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class BasicColumnInfo
 {
-	public int type;
-	public String typeName;
-	public String className;
-	public int precision;
-	public int scale;
+    public int type;
+    public String typeName;
+    public String className;
+    public int precision;
+    public int scale;
 }

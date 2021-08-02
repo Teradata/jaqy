@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,161 +31,161 @@ import com.teradata.jaqy.utils.SortInfo;
  * This implementation of JaqyResultSet provides client side filtering
  * and projection capabilities.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class JaqyFilterResultSet implements JaqyResultSet
 {
-	private final JaqyResultSet m_rs;
-	private JaqyResultSetMetaData m_rsmd;
-	private final JaqyHelper m_helper;
-	private Predicate m_predicate;
-	private Project m_project;
-	private final JaqyInterpreter m_interpreter;
-	private JaqyStatement m_statement;
+    private final JaqyResultSet m_rs;
+    private JaqyResultSetMetaData m_rsmd;
+    private final JaqyHelper m_helper;
+    private Predicate m_predicate;
+    private Project m_project;
+    private final JaqyInterpreter m_interpreter;
+    private JaqyStatement m_statement;
 
-	public JaqyFilterResultSet (JaqyResultSet rs, JaqyHelper helper, JaqyInterpreter interpreter)
-	{
-		m_rs = rs;
-		m_helper = helper;
-		m_interpreter = interpreter;
-	}
+    public JaqyFilterResultSet (JaqyResultSet rs, JaqyHelper helper, JaqyInterpreter interpreter)
+    {
+        m_rs = rs;
+        m_helper = helper;
+        m_interpreter = interpreter;
+    }
 
-	@Override
-	public JaqyStatement getStatement ()
-	{
-		return m_statement;
-	}
+    @Override
+    public JaqyStatement getStatement ()
+    {
+        return m_statement;
+    }
 
-	@Override
-	public void setStatement (JaqyStatement statement)
-	{
-		m_statement = statement;
-	}
+    @Override
+    public void setStatement (JaqyStatement statement)
+    {
+        m_statement = statement;
+    }
 
-	@Override
-	public ResultSet getResultSet ()
-	{
-		return m_rs.getResultSet ();
-	}
+    @Override
+    public ResultSet getResultSet ()
+    {
+        return m_rs.getResultSet ();
+    }
 
-	@Override
-	public JaqyHelper getHelper ()
-	{
-		return m_helper;
-	}
+    @Override
+    public JaqyHelper getHelper ()
+    {
+        return m_helper;
+    }
 
-	@Override
-	public JaqyResultSetMetaData getMetaData () throws SQLException
-	{
-		if (m_rsmd != null)
-			return m_rsmd;
-		return m_rs.getMetaData ();
-	}
+    @Override
+    public JaqyResultSetMetaData getMetaData () throws SQLException
+    {
+        if (m_rsmd != null)
+            return m_rsmd;
+        return m_rs.getMetaData ();
+    }
 
-	@Override
-	public int findColumn (String columnLabel) throws SQLException
-	{
-		if (m_rsmd != null)
-			return m_rsmd.findColumn (columnLabel);
-		return m_rs.findColumn (columnLabel);
-	}
+    @Override
+    public int findColumn (String columnLabel) throws SQLException
+    {
+        if (m_rsmd != null)
+            return m_rsmd.findColumn (columnLabel);
+        return m_rs.findColumn (columnLabel);
+    }
 
-	@Override
-	public void close () throws SQLException
-	{
-		if (m_predicate != null)
-			m_predicate.close ();
-		m_rs.close ();
-	}
+    @Override
+    public void close () throws SQLException
+    {
+        if (m_predicate != null)
+            m_predicate.close ();
+        m_rs.close ();
+    }
 
-	@Override
-	public boolean next () throws SQLException
-	{
-		while (m_rs.next ())
-		{
-			if (m_predicate == null ||
-				m_predicate.eval ())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean next () throws SQLException
+    {
+        while (m_rs.next ())
+        {
+            if (m_predicate == null ||
+                m_predicate.eval ())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public int getType () throws SQLException
-	{
-		return m_rs.getType ();
-	}
+    @Override
+    public int getType () throws SQLException
+    {
+        return m_rs.getType ();
+    }
 
-	@Override
-	public Object getObject (int column) throws SQLException
-	{
-		return m_helper.getObject (this, column);
-	}
+    @Override
+    public Object getObject (int column) throws SQLException
+    {
+        return m_helper.getObject (this, column);
+    }
 
-	public Object getObjectInternal (int column) throws SQLException
-	{
-		if (m_project != null)
-		{
-			try
-			{
-				return m_project.get (column);
-			}
-			catch (Exception ex)
-			{
-				throw new SQLException (ex);
-			}
-		}
-		return m_rs.getObject (column);
-	}
+    public Object getObjectInternal (int column) throws SQLException
+    {
+        if (m_project != null)
+        {
+            try
+            {
+                return m_project.get (column);
+            }
+            catch (Exception ex)
+            {
+                throw new SQLException (ex);
+            }
+        }
+        return m_rs.getObject (column);
+    }
 
-	@Override
-	public String getString (int column) throws SQLException
-	{
-		Object o = getObject (column);
-		if (o == null)
-			return null;
-		return o.toString ();
-	}
+    @Override
+    public String getString (int column) throws SQLException
+    {
+        Object o = getObject (column);
+        if (o == null)
+            return null;
+        return o.toString ();
+    }
 
-	@Override
-	public void beforeFirst () throws SQLException
-	{
-		m_rs.beforeFirst ();;
-	}
+    @Override
+    public void beforeFirst () throws SQLException
+    {
+        m_rs.beforeFirst ();;
+    }
 
-	public void setPredicate (Predicate predicate) throws Exception
-	{
-		if (predicate != null)
-		{
-			predicate.bind (m_rs, m_interpreter);
-		}
-		m_predicate = predicate;
-	}
+    public void setPredicate (Predicate predicate) throws Exception
+    {
+        if (predicate != null)
+        {
+            predicate.bind (m_rs, m_interpreter);
+        }
+        m_predicate = predicate;
+    }
 
-	public void setProjection (ProjectColumnList expList) throws SQLException
-	{
-		if (expList != null)
-		{
-			expList.bind (m_rs, m_interpreter);
-			m_project = expList.getProject ();
-			m_rsmd = expList.getMetaData ();
-		}
-	}
+    public void setProjection (ProjectColumnList expList) throws SQLException
+    {
+        if (expList != null)
+        {
+            expList.bind (m_rs, m_interpreter);
+            m_project = expList.getProject ();
+            m_rsmd = expList.getMetaData ();
+        }
+    }
 
-	@Override
-	public boolean isSortable ()
-	{
-		return m_rs instanceof InMemoryResultSet;
-	}
+    @Override
+    public boolean isSortable ()
+    {
+        return m_rs instanceof InMemoryResultSet;
+    }
 
-	@Override
-	public void sort (SortInfo[] sortInfos) throws SQLException
-	{
-		if (m_rs instanceof InMemoryResultSet)
-		{
-			((InMemoryResultSet)m_rs).sort (sortInfos);
-		}
-	}
+    @Override
+    public void sort (SortInfo[] sortInfos) throws SQLException
+    {
+        if (m_rs instanceof InMemoryResultSet)
+        {
+            ((InMemoryResultSet)m_rs).sort (sortInfos);
+        }
+    }
 }

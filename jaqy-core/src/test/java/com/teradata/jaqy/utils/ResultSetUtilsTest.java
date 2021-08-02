@@ -22,16 +22,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ResultSetUtilsTest
 {
-	@Test
-	public void getResultSetTypeTest () throws IOException
-	{
-		Assert.assertEquals ("FORWARD_ONLY", ResultSetUtils.getResultSetType (ResultSet.TYPE_FORWARD_ONLY));
-		Assert.assertEquals ("SCROLL_INSENSITIVE", ResultSetUtils.getResultSetType (ResultSet.TYPE_SCROLL_INSENSITIVE));
-		Assert.assertEquals ("SCROLL_SENSITIVE", ResultSetUtils.getResultSetType (ResultSet.TYPE_SCROLL_SENSITIVE));
-		Assert.assertEquals ("Unknown", ResultSetUtils.getResultSetType (65535));
-	}
+    @Test
+    public void getResultSetTypeTest () throws IOException
+    {
+        Assert.assertEquals ("FORWARD_ONLY", ResultSetUtils.getResultSetType (ResultSet.TYPE_FORWARD_ONLY));
+        Assert.assertEquals ("SCROLL_INSENSITIVE", ResultSetUtils.getResultSetType (ResultSet.TYPE_SCROLL_INSENSITIVE));
+        Assert.assertEquals ("SCROLL_SENSITIVE", ResultSetUtils.getResultSetType (ResultSet.TYPE_SCROLL_SENSITIVE));
+        Assert.assertEquals ("Unknown", ResultSetUtils.getResultSetType (65535));
+    }
 }

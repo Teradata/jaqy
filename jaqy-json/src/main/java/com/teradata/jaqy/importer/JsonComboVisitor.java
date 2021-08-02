@@ -20,28 +20,28 @@ import javax.json.stream.JsonParser.Event;
 import org.yuanheng.cookjson.CookJsonParser;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class JsonComboVisitor implements JsonEventVisitor
 {
-	private final JsonObjectVisitor m_v1;
-	private final JsonEventVisitor m_v2;
+    private final JsonObjectVisitor m_v1;
+    private final JsonEventVisitor m_v2;
 
-	public JsonComboVisitor (JsonObjectVisitor v1, JsonEventVisitor v2)
-	{
-		m_v1 = v1;
-		m_v2 = v2;
-	}
+    public JsonComboVisitor (JsonObjectVisitor v1, JsonEventVisitor v2)
+    {
+        m_v1 = v1;
+        m_v2 = v2;
+    }
 
-	public JsonObjectVisitor getObjectVisitor ()
-	{
-		return m_v1;
-	}
+    public JsonObjectVisitor getObjectVisitor ()
+    {
+        return m_v1;
+    }
 
-	@Override
-	public void visit (Event e, CookJsonParser p, int depth)
-	{
-		m_v1.visit (e, p, depth);
-		m_v2.visit (e, p, depth);
-	}
+    @Override
+    public void visit (Event e, CookJsonParser p, int depth)
+    {
+        m_v1.visit (e, p, depth);
+        m_v2.visit (e, p, depth);
+    }
 }

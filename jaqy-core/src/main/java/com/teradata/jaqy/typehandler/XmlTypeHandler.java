@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,38 +22,38 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class XmlTypeHandler implements TypeHandler
 {
-	private final static TypeHandler s_instance = new XmlTypeHandler ();
+    private final static TypeHandler s_instance = new XmlTypeHandler ();
 
-	public static TypeHandler getInstance ()
-	{
-		return s_instance;
-	}
+    public static TypeHandler getInstance ()
+    {
+        return s_instance;
+    }
 
-	private XmlTypeHandler ()
-	{
-	}
+    private XmlTypeHandler ()
+    {
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		SQLXML xml = (SQLXML) rs.getObject (column);
-		if (xml  == null)
-			return null;
-		String value = xml.getString ();
-		xml.free ();
-		return value;
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        SQLXML xml = (SQLXML) rs.getObject (column);
+        if (xml  == null)
+            return null;
+        String value = xml.getString ();
+        xml.free ();
+        return value;
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		SQLXML xml = (SQLXML) rs.getObject (column);
-		if (xml  == null)
-			return -1;
-		return xml.getString ().length ();
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        SQLXML xml = (SQLXML) rs.getObject (column);
+        if (xml  == null)
+            return -1;
+        return xml.getString ().length ();
+    }
 }

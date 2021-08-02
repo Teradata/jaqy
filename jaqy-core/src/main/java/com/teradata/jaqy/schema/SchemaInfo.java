@@ -16,39 +16,39 @@
 package com.teradata.jaqy.schema;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class SchemaInfo
 {
-	public final FullColumnInfo[] columns;
+    public final FullColumnInfo[] columns;
 
-	public SchemaInfo (FullColumnInfo[] cols)
-	{
-		columns = cols;
-	}
+    public SchemaInfo (FullColumnInfo[] cols)
+    {
+        columns = cols;
+    }
 
-	public int getNumColumns ()
-	{
-		return columns.length;
-	}
+    public int getNumColumns ()
+    {
+        return columns.length;
+    }
 
-	public String getLabel (int columnIndex)
-	{
-		return columns[columnIndex - 1].label;
-	}
+    public String getLabel (int columnIndex)
+    {
+        return columns[columnIndex - 1].label;
+    }
 
-	public int getType (int columnIndex)
-	{
-		return columns[columnIndex - 1].type;
-	}
+    public int getType (int columnIndex)
+    {
+        return columns[columnIndex - 1].type;
+    }
 
-	public int getPrecision (int columnIndex)
-	{
-		return columns[columnIndex - 1].precision;
-	}
+    public int getPrecision (int columnIndex)
+    {
+        return columns[columnIndex - 1].precision;
+    }
 
-	public int getScale (int columnIndex)
-	{
-		return columns[columnIndex - 1].scale;
-	}
+    public int getScale (int columnIndex)
+    {
+        return columns[columnIndex - 1].scale;
+    }
 }

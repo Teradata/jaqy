@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,33 +21,33 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class StringTypeHandler implements TypeHandler
 {
-	private final static TypeHandler s_instance = new StringTypeHandler ();
+    private final static TypeHandler s_instance = new StringTypeHandler ();
 
-	public static TypeHandler getInstance ()
-	{
-		return s_instance;
-	}
+    public static TypeHandler getInstance ()
+    {
+        return s_instance;
+    }
 
-	private StringTypeHandler ()
-	{
-	}
+    private StringTypeHandler ()
+    {
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		return rs.getString (column);
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        return rs.getString (column);
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		String str = rs.getString (column);
-		if (str == null)
-			return -1;
-		return str.length ();
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        String str = rs.getString (column);
+        if (str == null)
+            return -1;
+        return str.length ();
+    }
 }

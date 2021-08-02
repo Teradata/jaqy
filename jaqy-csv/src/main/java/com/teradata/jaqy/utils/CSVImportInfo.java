@@ -18,19 +18,19 @@ package com.teradata.jaqy.utils;
 import java.nio.charset.Charset;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CSVImportInfo
 {
-	public final Charset charset;
+    public final Charset charset;
 
-	public CSVImportInfo (Charset charset)
-	{
-		this.charset = charset;
-	}
+    public CSVImportInfo (Charset charset)
+    {
+        this.charset = charset;
+    }
 
-	public boolean isBinary ()
-	{
-		return charset == null;
-	}
+    public boolean isBinary ()
+    {
+        return charset == null;
+    }
 }

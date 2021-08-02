@@ -25,76 +25,76 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PwdCommand extends JaqyCommandAdapter
 {
-	public PwdCommand ()
-	{
-		super ("pwd");
-	}
+    public PwdCommand ()
+    {
+        super ("pwd");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "prints the current catalog and schema.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "prints the current catalog and schema.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
-		Session session = interpreter.getSession ();
-		JaqyConnection conn = session.getConnection ();
-		JaqyHelper helper = conn.getHelper ();
-		String catalog = null;
-		String schema = null;
-		DatabaseMetaData meta = conn.getMetaData ();
-		String catalogName = "CATALOG";
-		String schemaName = "SCHEMA";
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
+        Session session = interpreter.getSession ();
+        JaqyConnection conn = session.getConnection ();
+        JaqyHelper helper = conn.getHelper ();
+        String catalog = null;
+        String schema = null;
+        DatabaseMetaData meta = conn.getMetaData ();
+        String catalogName = "CATALOG";
+        String schemaName = "SCHEMA";
 
-		StringBuilder builder = new StringBuilder ();
+        StringBuilder builder = new StringBuilder ();
 
-		try
-		{
-			catalog = conn.getCatalog (interpreter);
-		}
-		catch (SQLException ex)
-		{
-		}
-		if (catalog != null && catalog.length () != 0)
-		{
-			try
-			{
-				catalogName = meta.getCatalogTerm ();
-			}
-			catch (SQLException ex)
-			{
-			}
-			builder.append (catalogName).append (" : ").append (catalog);
-		}
+        try
+        {
+            catalog = conn.getCatalog (interpreter);
+        }
+        catch (SQLException ex)
+        {
+        }
+        if (catalog != null && catalog.length () != 0)
+        {
+            try
+            {
+                catalogName = meta.getCatalogTerm ();
+            }
+            catch (SQLException ex)
+            {
+            }
+            builder.append (catalogName).append (" : ").append (catalog);
+        }
 
-		try
-		{
-			schema = helper.getSchema (interpreter);
-		}
-		catch (SQLException ex)
-		{
-		}
-		if (schema != null && schema.length () != 0)
-		{
-			try
-			{
-				schemaName = meta.getSchemaTerm ();
-			}
-			catch (SQLException ex)
-			{
-			}
-			if (builder.length () > 0)
-				builder.append (", ");
-			builder.append (schemaName).append (" : ").append (schema);
-		}
+        try
+        {
+            schema = helper.getSchema (interpreter);
+        }
+        catch (SQLException ex)
+        {
+        }
+        if (schema != null && schema.length () != 0)
+        {
+            try
+            {
+                schemaName = meta.getSchemaTerm ();
+            }
+            catch (SQLException ex)
+            {
+            }
+            if (builder.length () > 0)
+                builder.append (", ");
+            builder.append (schemaName).append (" : ").append (schema);
+        }
 
-		interpreter.println (builder.toString ());
-	}
+        interpreter.println (builder.toString ());
+    }
 }

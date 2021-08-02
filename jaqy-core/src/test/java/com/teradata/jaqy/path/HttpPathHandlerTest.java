@@ -21,23 +21,23 @@ import org.junit.Test;
 import com.teradata.jaqy.interfaces.Path;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class HttpPathHandlerTest
 {
-	@Test
-	public void test1 () throws Exception
-	{
-		HttpPathHandler handler = new HttpPathHandler ();
+    @Test
+    public void test1 () throws Exception
+    {
+        HttpPathHandler handler = new HttpPathHandler ();
 
-		String url = "http://introcs.cs.princeton.edu/java/data/DJIA.csv";
-		Assert.assertTrue (handler.canHandle (url));
-		Assert.assertTrue (handler.canHandle ("https://introcs.cs.princeton.edu/java/data/DJIA.csv"));
-		Assert.assertFalse (handler.canHandle ("C:\\abc"));
-		Assert.assertFalse (handler.canHandle ("C:\\temp\\abc"));
-		Assert.assertFalse (handler.canHandle ("/tmp/abc"));
+        String url = "http://introcs.cs.princeton.edu/java/data/DJIA.csv";
+        Assert.assertTrue (handler.canHandle (url));
+        Assert.assertTrue (handler.canHandle ("https://introcs.cs.princeton.edu/java/data/DJIA.csv"));
+        Assert.assertFalse (handler.canHandle ("C:\\abc"));
+        Assert.assertFalse (handler.canHandle ("C:\\temp\\abc"));
+        Assert.assertFalse (handler.canHandle ("/tmp/abc"));
 
-		Path path = handler.getPath (url, null);
-		Assert.assertEquals (url, path.getPath ());
-	}
+        Path path = handler.getPath (url, null);
+        Assert.assertEquals (url, path.getPath ());
+    }
 }

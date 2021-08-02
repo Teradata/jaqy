@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,253 +30,253 @@ import com.teradata.jaqy.utils.JaqyShutdownHook;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class Main
 {
-	public static boolean skipStdin = false;
+    public static boolean skipStdin = false;
 
-	private final static String INTERNAL_INIT_RC = "initrc";
-	private final static String USER_INIT_RC = ".jqrc";
-	private final static String GREET_RC = "greet.txt";
+    private final static String INTERNAL_INIT_RC = "initrc";
+    private final static String USER_INIT_RC = ".jqrc";
+    private final static String GREET_RC = "greet.txt";
 
-	private static File getDefaultInitFile ()
-	{
-		// check if ~/.jqrc exists
-		// It is a known issue for getting the correct home directory
-		// on windows before JRE8.
-		//
-		// See http://stackoverflow.com/questions/585534/what-is-the-best-way-to-find-the-users-home-directory-in-java
-		//
-		// I am not going to lose sleep over this particular issue.
-		String home = System.getProperty ("user.home");
+    private static File getDefaultInitFile ()
+    {
+        // check if ~/.jqrc exists
+        // It is a known issue for getting the correct home directory
+        // on windows before JRE8.
+        //
+        // See http://stackoverflow.com/questions/585534/what-is-the-best-way-to-find-the-users-home-directory-in-java
+        //
+        // I am not going to lose sleep over this particular issue.
+        String home = System.getProperty ("user.home");
 
-		return new File (home, USER_INIT_RC);
-	}
+        return new File (home, USER_INIT_RC);
+    }
 
-	private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, Path initFile)
-	{
-		StackedLineInput lineInput = new StackedLineInput ();
-		try
-		{
-			Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
-			Path startDir = new FilePath (new File (System.getProperty ("user.dir")));
-			lineInput.push (new ReaderLineInput (reader, startDir, false));
-			interpreter.interpret (lineInput);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace ();
-		}
+    private static void loadInit (Globals globals, JaqyInterpreter interpreter, Display display, Path initFile)
+    {
+        StackedLineInput lineInput = new StackedLineInput ();
+        try
+        {
+            Reader reader = new InputStreamReader (Main.class.getResourceAsStream (INTERNAL_INIT_RC), "UTF-8");
+            Path startDir = new FilePath (new File (System.getProperty ("user.dir")));
+            lineInput.push (new ReaderLineInput (reader, startDir, false));
+            interpreter.interpret (lineInput);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace ();
+        }
 
-		if (initFile != null && initFile.exists ())
-		{
-			// check if ~/.jqrc exists
-			try
-			{
-				lineInput.push (LineInputFactory.getLineInput (initFile, null, false));
-				interpreter.interpret (lineInput);
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace ();
-			}
-		}
-	}
+        if (initFile != null && initFile.exists ())
+        {
+            // check if ~/.jqrc exists
+            try
+            {
+                lineInput.push (LineInputFactory.getLineInput (initFile, null, false));
+                interpreter.interpret (lineInput);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace ();
+            }
+        }
+    }
 
-	private static void initScreen (Globals globals, Display display)
-	{
-		// print version
-		globals.printVersion (display.getPrintWriter ());
+    private static void initScreen (Globals globals, Display display)
+    {
+        // print version
+        globals.printVersion (display.getPrintWriter ());
 
-		if (display.isInteractive ())
-		{
-			String greet = globals.getGreeting ();
-			// print greeting message
-			if (greet != null)
-			{
-				display.println (null, greet);
-			}
-		}
-	}
+        if (display.isInteractive ())
+        {
+            String greet = globals.getGreeting ();
+            // print greeting message
+            if (greet != null)
+            {
+                display.println (null, greet);
+            }
+        }
+    }
 
-	public static void main (String[] args) throws Exception
-	{
-		// disable jline trace messages on SLES systems
-		jline.internal.Log.setOutput (new PrintStream (new OutputStream ()
-		{
-			@Override
-			public void write (int b) throws IOException
-			{
-			}
-		}));
+    public static void main (String[] args) throws Exception
+    {
+        // disable jline trace messages on SLES systems
+        jline.internal.Log.setOutput (new PrintStream (new OutputStream ()
+        {
+            @Override
+            public void write (int b) throws IOException
+            {
+            }
+        }));
 
-		// initiate the name and version
-		Package pkg = Main.class.getPackage ();
-		Globals globals = new Globals (pkg.getImplementationTitle (), pkg.getImplementationVersion ());
+        // initiate the name and version
+        Package pkg = Main.class.getPackage ();
+        Globals globals = new Globals (pkg.getImplementationTitle (), pkg.getImplementationVersion ());
 
-		globals.getOs ();
-		// install Jansi
-		if (Os.isWindows ())
-		{
-			AnsiConsole.systemInstall ();
-		}
+        globals.getOs ();
+        // install Jansi
+        if (Os.isWindows ())
+        {
+            AnsiConsole.systemInstall ();
+        }
 
-		// initiate the greeting message.
-		try
-		{
-			String greet = StringUtils.getStringFromStream (Main.class.getResourceAsStream (GREET_RC));
-			globals.setGreeting (greet);
-		}
-		catch (Exception ex)
-		{
-		}
+        // initiate the greeting message.
+        try
+        {
+            String greet = StringUtils.getStringFromStream (Main.class.getResourceAsStream (GREET_RC));
+            globals.setGreeting (greet);
+        }
+        catch (Exception ex)
+        {
+        }
 
-		// initiate the display
-		ConsoleDisplay display = new ConsoleDisplay (globals);
+        // initiate the display
+        ConsoleDisplay display = new ConsoleDisplay (globals);
 
-		// Add shutdown hook that closes all sessions on exit.
-		JaqyShutdownHook.register (globals);
+        // Add shutdown hook that closes all sessions on exit.
+        JaqyShutdownHook.register (globals);
 
-		globals.getOs ();
-		// register signal handlers for dealing with Ctrl-C
-		if (!Os.isWindows ())
-		{
-			// The signal handler only works on Linux
-//			new ConsoleSignalHandler (display).register ();
-		}
+        globals.getOs ();
+        // register signal handlers for dealing with Ctrl-C
+        if (!Os.isWindows ())
+        {
+            // The signal handler only works on Linux
+//          new ConsoleSignalHandler (display).register ();
+        }
 
-		// now create an initial session and set the session to it.
-		Session session = globals.createSession (display);
+        // now create an initial session and set the session to it.
+        Session session = globals.createSession (display);
 
-		// create an interpreter
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, display, session);
+        // create an interpreter
+        JaqyInterpreter interpreter = new JaqyInterpreter (globals, display, session);
 
-		// initiate settings
-		SettingSetup.init (globals);
-		// initiate commands
-		CommandSetup.init (globals);
+        // initiate settings
+        SettingSetup.init (globals);
+        // initiate commands
+        CommandSetup.init (globals);
 
-		// handle command line options
-		OptionSetup.init (globals);
+        // handle command line options
+        OptionSetup.init (globals);
 
-		// install predefined helper factories
-		HelperSetup.init (globals);
+        // install predefined helper factories
+        HelperSetup.init (globals);
 
-		try
-		{
-			globals.loadRC (ClassLoader.getSystemClassLoader (), interpreter);
-		}
-		catch (Exception ex)
-		{
-		}
+        try
+        {
+            globals.loadRC (ClassLoader.getSystemClassLoader (), interpreter);
+        }
+        catch (Exception ex)
+        {
+        }
 
-		// load initiation scripts
-		Path initFile = new FilePath (getDefaultInitFile ());
-		CommandLine cmdLine;
-		try
-		{
-			cmdLine = globals.getOptionManager ().getCommandLine (args);
-		}
-		catch (Exception ex)
-		{
-			System.out.println (ex.getMessage ());
-			System.exit (1);
-			return;		// to make compiler happy
-		}
+        // load initiation scripts
+        Path initFile = new FilePath (getDefaultInitFile ());
+        CommandLine cmdLine;
+        try
+        {
+            cmdLine = globals.getOptionManager ().getCommandLine (args);
+        }
+        catch (Exception ex)
+        {
+            System.out.println (ex.getMessage ());
+            System.exit (1);
+            return;     // to make compiler happy
+        }
 
-		if (cmdLine.hasOption ("norc"))
-		{
-			initFile = null;
-		}
-		else if (cmdLine.hasOption ("rcfile"))
-		{
-			String fileName = cmdLine.getOptionValue ("rcfile");
-			initFile = new FilePath (new File (fileName));
-		}
-		loadInit (globals, interpreter, display, initFile);
+        if (cmdLine.hasOption ("norc"))
+        {
+            initFile = null;
+        }
+        else if (cmdLine.hasOption ("rcfile"))
+        {
+            String fileName = cmdLine.getOptionValue ("rcfile");
+            initFile = new FilePath (new File (fileName));
+        }
+        loadInit (globals, interpreter, display, initFile);
 
-		// Now handle command line options
-		// We want to do this after loading the initiation script to
-		// allow any custom addons to be installed.
-		args = globals.getOptionManager ().handleOptions (globals, display, args);
+        // Now handle command line options
+        // We want to do this after loading the initiation script to
+        // allow any custom addons to be installed.
+        args = globals.getOptionManager ().handleOptions (globals, display, args);
 
-		// print the start up screen
-		initScreen (globals, display);
+        // print the start up screen
+        initScreen (globals, display);
 
-		// we are done with the loading phase
-		display.setInitiated ();
+        // we are done with the loading phase
+        display.setInitiated ();
 
-		// display the title
-		if (display.isInteractive ())
-		{
-			display.showTitle (interpreter);
-		}
+        // display the title
+        if (display.isInteractive ())
+        {
+            display.showTitle (interpreter);
+        }
 
-		// reset the command counter so we get consistent result regardless
-		// of the initiation script
-		interpreter.resetCommandCount ();
+        // reset the command counter so we get consistent result regardless
+        // of the initiation script
+        interpreter.resetCommandCount ();
 
-		Path currentDir = new FilePath (globals.getDirectory ());
-		// Current dir
-		// setup the input
-		StackedLineInput lineInput = new StackedLineInput ();
-		if (display.isInteractive ())
-		{
-			globals.getOs ();
-			if (Os.isWindows ())
-			{
-				// windows
-				//
-				// Windows have its own readline-like support for
-				// all apps, so we can just use the default system
-				// behavior.
-				lineInput.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
-			}
-			else
-			{
-				try
-				{
-					// we use JLine other systems.
-					lineInput.push (new JLineConsoleLineInput (currentDir));
-				}
-				catch (IOException ex)
-				{
-					// just in case we fail with JLine,
-					// fall back to default.
-					lineInput.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
-				}
-			}
-		}
-		else
-		{
-			if (!skipStdin)
-			{
-				String encoding = null;
-				if (System.in.available () == 0)
-				{
-					// If the input available bytes is 0, it is possible the input
-					// is not available.  So we do not want to guess the input
-					// encoding at all.  Instead, use the default.
-					encoding = Charset.defaultCharset ().displayName ();
-				}
-				lineInput.push (LineInputFactory.getLineInput (System.in, currentDir, encoding, false));
-			}
-		}
+        Path currentDir = new FilePath (globals.getDirectory ());
+        // Current dir
+        // setup the input
+        StackedLineInput lineInput = new StackedLineInput ();
+        if (display.isInteractive ())
+        {
+            globals.getOs ();
+            if (Os.isWindows ())
+            {
+                // windows
+                //
+                // Windows have its own readline-like support for
+                // all apps, so we can just use the default system
+                // behavior.
+                lineInput.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
+            }
+            else
+            {
+                try
+                {
+                    // we use JLine other systems.
+                    lineInput.push (new JLineConsoleLineInput (currentDir));
+                }
+                catch (IOException ex)
+                {
+                    // just in case we fail with JLine,
+                    // fall back to default.
+                    lineInput.push (LineInputFactory.getSimpleLineInput (System.in, currentDir, true));
+                }
+            }
+        }
+        else
+        {
+            if (!skipStdin)
+            {
+                String encoding = null;
+                if (System.in.available () == 0)
+                {
+                    // If the input available bytes is 0, it is possible the input
+                    // is not available.  So we do not want to guess the input
+                    // encoding at all.  Instead, use the default.
+                    encoding = Charset.defaultCharset ().displayName ();
+                }
+                lineInput.push (LineInputFactory.getLineInput (System.in, currentDir, encoding, false));
+            }
+        }
 
-		// Interpret any remaining command line arguments first
-		if (args.length > 0)
-		{
-			lineInput.push (new CommandLineInput (args, currentDir));
-		}
+        // Interpret any remaining command line arguments first
+        if (args.length > 0)
+        {
+            lineInput.push (new CommandLineInput (args, currentDir));
+        }
 
-		// parse the user commands
-		interpreter.interpret (lineInput);
+        // parse the user commands
+        interpreter.interpret (lineInput);
 
-		if (!skipStdin)
-		{
-			globals.log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
-			System.exit (interpreter.getExitCode ());
-		}
-	}
+        if (!skipStdin)
+        {
+            globals.log (Level.INFO, "Errors: " + interpreter.getErrorCount () + ", Failures: " + interpreter.getFailureCount ());
+            System.exit (interpreter.getExitCode ());
+        }
+    }
 }

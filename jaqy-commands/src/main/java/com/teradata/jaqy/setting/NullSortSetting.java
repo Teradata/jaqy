@@ -20,41 +20,41 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.ClientRSUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class NullSortSetting extends JaqySettingAdapter
 {
-	public NullSortSetting ()
-	{
-		super ("nullsort");
-	}
+    public NullSortSetting ()
+    {
+        super ("nullsort");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "sets the sort order of nulls for client side sorting.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "sets the sort order of nulls for client side sorting.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public Object get (JaqyInterpreter interpreter) throws Exception
-	{
-		return ClientRSUtils.getSortNull (interpreter) ? "low" : "high";
-	}
+    @Override
+    public Object get (JaqyInterpreter interpreter) throws Exception
+    {
+        return ClientRSUtils.getSortNull (interpreter) ? "low" : "high";
+    }
 
-	@Override
-	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
-	{
-		if ("low".equalsIgnoreCase (args[0]))
-			ClientRSUtils.setSortNull (interpreter, true);
-		else if ("high".equalsIgnoreCase (args[0]))
-			ClientRSUtils.setSortNull (interpreter, false);
-		else
-			interpreter.error ("invalid nullsort value.");
-	}
+    @Override
+    public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+    {
+        if ("low".equalsIgnoreCase (args[0]))
+            ClientRSUtils.setSortNull (interpreter, true);
+        else if ("high".equalsIgnoreCase (args[0]))
+            ClientRSUtils.setSortNull (interpreter, false);
+        else
+            interpreter.error ("invalid nullsort value.");
+    }
 }

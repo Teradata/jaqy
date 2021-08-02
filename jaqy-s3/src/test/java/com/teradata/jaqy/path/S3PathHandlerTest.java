@@ -22,30 +22,30 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class S3PathHandlerTest
 {
-	@Test
-	public void test1 () throws Exception
-	{
-		S3PathHandler handler = new S3PathHandler ();
+    @Test
+    public void test1 () throws Exception
+    {
+        S3PathHandler handler = new S3PathHandler ();
 
-		String url = "s3://abc/test.csv";
-		Assert.assertTrue (handler.canHandle (url));
-		Assert.assertFalse (handler.canHandle ("C:\\abc"));
-		Assert.assertFalse (handler.canHandle ("C:\\temp\\abc"));
-		Assert.assertFalse (handler.canHandle ("/tmp/abc"));
-	}
+        String url = "s3://abc/test.csv";
+        Assert.assertTrue (handler.canHandle (url));
+        Assert.assertFalse (handler.canHandle ("C:\\abc"));
+        Assert.assertFalse (handler.canHandle ("C:\\temp\\abc"));
+        Assert.assertFalse (handler.canHandle ("/tmp/abc"));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void test2 () throws Exception
-	{
-		Globals globals = new Globals (null, null);
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+    @Test(expected = IllegalArgumentException.class)
+    public void test2 () throws Exception
+    {
+        Globals globals = new Globals (null, null);
+        JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
-		S3PathHandler handler = new S3PathHandler ();
+        S3PathHandler handler = new S3PathHandler ();
 
-		handler.getPath ("s3", interpreter);
-	}
+        handler.getPath ("s3", interpreter);
+    }
 }

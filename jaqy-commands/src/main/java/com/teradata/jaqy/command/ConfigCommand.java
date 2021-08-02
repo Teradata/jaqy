@@ -25,60 +25,60 @@ import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.HelperConfigUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ConfigCommand extends JaqyCommandAdapter
 {
-	public ConfigCommand ()
-	{
-		super ("config", "config.txt");
-	}
+    public ConfigCommand ()
+    {
+        super ("config", "config.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "configures a database.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "configures a database.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		interpreter.setParseAction (this, "config");
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        interpreter.setParseAction (this, "config");
+    }
 
-	@Override
-	public JaqyCommand.Type getType ()
-	{
-		return JaqyCommand.Type.exclusive;
-	}
+    @Override
+    public JaqyCommand.Type getType ()
+    {
+        return JaqyCommand.Type.exclusive;
+    }
 
-	@Override
-	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws IOException
-	{
-		if (!silent)
-		{
-			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, interactive);
-			display.echo (interpreter, ".end " + getName (), interactive);
-		}
+    @Override
+    public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws IOException
+    {
+        if (!silent)
+        {
+            Display display = interpreter.getDisplay ();
+            display.echo (interpreter, action, interactive);
+            display.echo (interpreter, ".end " + getName (), interactive);
+        }
 
-		try
-		{
-			HelperConfigUtils.load (globals.getHelperManager (), action);
-		}
-		catch (IOException ex)
-		{
-			interpreter.error (ex.getMessage ());
-		}
-		catch (Exception ex)
-		{
-			interpreter.error ("invalid JSON configuration");
-		}
-	}
+        try
+        {
+            HelperConfigUtils.load (globals.getHelperManager (), action);
+        }
+        catch (IOException ex)
+        {
+            interpreter.error (ex.getMessage ());
+        }
+        catch (Exception ex)
+        {
+            interpreter.error ("invalid JSON configuration");
+        }
+    }
 }

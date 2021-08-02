@@ -25,26 +25,26 @@ import com.teradata.jaqy.interfaces.PathHandler;
 import com.teradata.jaqy.s3.S3Utils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class S3PathHandler implements PathHandler
 {
-	private final static Pattern s_pattern = Pattern.compile ("s3://([^/]+)/(.*)");
+    private final static Pattern s_pattern = Pattern.compile ("s3://([^/]+)/(.*)");
 
-	@Override
-	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
-	{
-		Matcher m = s_pattern.matcher (path);
-		if (!m.find ())
-			throw new IllegalArgumentException ("Invalid S3 path: " + path);
-		String bucket = m.group (1);
-		String file = m.group (2);
-		return new S3Path (bucket, file, interpreter, S3Utils.getS3Client (interpreter));
-	}
+    @Override
+    public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
+    {
+        Matcher m = s_pattern.matcher (path);
+        if (!m.find ())
+            throw new IllegalArgumentException ("Invalid S3 path: " + path);
+        String bucket = m.group (1);
+        String file = m.group (2);
+        return new S3Path (bucket, file, interpreter, S3Utils.getS3Client (interpreter));
+    }
 
-	@Override
-	public boolean canHandle (String path)
-	{
-		return path.startsWith ("s3://");
-	}
+    @Override
+    public boolean canHandle (String path)
+    {
+        return path.startsWith ("s3://");
+    }
 }

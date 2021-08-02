@@ -18,22 +18,22 @@ package com.teradata.jaqy.interfaces;
 import com.teradata.jaqy.Globals;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface JaqyObject
 {
-	/**
-	 * Gets the object name.
-	 *
-	 * @return	the object name.
-	 */
-	public String getName ();
+    /**
+     * Gets the object name.
+     *
+     * @return  the object name.
+     */
+    public String getName ();
 
-	/**
-	 * Initiate an object
-	 *
-	 * @param	globals
-	 * 			Globals object
-	 */
-	public void init (Globals globals);
+    /**
+     * Initiate an object
+     *
+     * @param   globals
+     *          Globals object
+     */
+    public void init (Globals globals);
 }

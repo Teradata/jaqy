@@ -31,158 +31,158 @@ import com.teradata.jaqy.interfaces.Path;
  */
 class WasbPath implements Path
 {
-	private final CloudBlobContainer m_container;
-	private final String m_blobName;
-	private final JaqyInterpreter m_interpreter;
+    private final CloudBlobContainer m_container;
+    private final String m_blobName;
+    private final JaqyInterpreter m_interpreter;
 
-	private CloudBlob m_blob;
-	private long m_length;
+    private CloudBlob m_blob;
+    private long m_length;
 
-	public WasbPath (CloudBlobContainer container, String blobName, JaqyInterpreter interpreter)
-	{
-		m_container = container;
-		m_blobName = blobName;
-		m_length = -1;
-		m_interpreter = interpreter;
-	}
+    public WasbPath (CloudBlobContainer container, String blobName, JaqyInterpreter interpreter)
+    {
+        m_container = container;
+        m_blobName = blobName;
+        m_length = -1;
+        m_interpreter = interpreter;
+    }
 
-	private void getLength ()
-	{
-		try
-		{
-			if (m_blob == null)
-			{
-				m_blob = m_container.getBlobReferenceFromServer (m_blobName);
-			}
-			m_length = m_blob.getProperties ().getLength ();
-		}
-		catch (Exception ex)
-		{
-			m_interpreter.getGlobals ().log (Level.INFO, ex);
-			m_length = Long.MIN_VALUE;
-		}
-	}
+    private void getLength ()
+    {
+        try
+        {
+            if (m_blob == null)
+            {
+                m_blob = m_container.getBlobReferenceFromServer (m_blobName);
+            }
+            m_length = m_blob.getProperties ().getLength ();
+        }
+        catch (Exception ex)
+        {
+            m_interpreter.getGlobals ().log (Level.INFO, ex);
+            m_length = Long.MIN_VALUE;
+        }
+    }
 
-	private String getParentFile (String file)
-	{
-		int index = file.lastIndexOf ('/');
-		if (index < 0)
-			return "";
-		else if (index < (file.length () - 1))
-			return file.substring (0, index);
-		else
-		{
-			index = file.lastIndexOf ('/', index);
-			if (index < 0)
-				return "";
-			else
-				return file.substring (0, index);
-		}
-	}
+    private String getParentFile (String file)
+    {
+        int index = file.lastIndexOf ('/');
+        if (index < 0)
+            return "";
+        else if (index < (file.length () - 1))
+            return file.substring (0, index);
+        else
+        {
+            index = file.lastIndexOf ('/', index);
+            if (index < 0)
+                return "";
+            else
+                return file.substring (0, index);
+        }
+    }
 
-	@Override
-	public Path getParent ()
-	{
-		return new WasbPath (m_container, getParentFile (m_blobName), m_interpreter);
-	}
+    @Override
+    public Path getParent ()
+    {
+        return new WasbPath (m_container, getParentFile (m_blobName), m_interpreter);
+    }
 
-	@Override
-	public Path getRelativePath (String name)
-	{
-		String file;
-		if (name.startsWith ("/"))
-			file = name.substring (1);
-		else
-		{
-			file = getParentFile (m_blobName);
-			while (name.startsWith ("../"))
-			{
-				name = name.substring (3);
-				file = getParentFile (file);
-			}
-	
-			if (file.endsWith ("/"))
-				file = file + name;
-			else if (file.length () > 0)
-				file = file + "/" + name;
-			else
-				file = name;
-		}
+    @Override
+    public Path getRelativePath (String name)
+    {
+        String file;
+        if (name.startsWith ("/"))
+            file = name.substring (1);
+        else
+        {
+            file = getParentFile (m_blobName);
+            while (name.startsWith ("../"))
+            {
+                name = name.substring (3);
+                file = getParentFile (file);
+            }
+    
+            if (file.endsWith ("/"))
+                file = file + name;
+            else if (file.length () > 0)
+                file = file + "/" + name;
+            else
+                file = name;
+        }
 
-		return new WasbPath (m_container, file, m_interpreter);
-	}
+        return new WasbPath (m_container, file, m_interpreter);
+    }
 
-	@Override
-	public String getPath ()
-	{
+    @Override
+    public String getPath ()
+    {
         String accountName = m_container.getServiceClient().getCredentials().getAccountName();
-		return "wasb://" + m_container.getName () + '@' + accountName + '/' + m_blobName;
-	}
+        return "wasb://" + m_container.getName () + '@' + accountName + '/' + m_blobName;
+    }
 
-	@Override
-	public String getCanonicalPath ()
-	{
-		return getPath ();
-	}
+    @Override
+    public String getCanonicalPath ()
+    {
+        return getPath ();
+    }
 
-	@Override
-	public boolean isFile ()
-	{
-		return exists ();
-	}
+    @Override
+    public boolean isFile ()
+    {
+        return exists ();
+    }
 
-	@Override
-	public long length ()
-	{
-		if (m_length >= 0)
-			return m_length;
-		if (m_length == Long.MIN_VALUE)
-			return 0L;
-		getLength ();
-		if (m_length >= 0)
-			return m_length;
-		return 0L;
-	}
+    @Override
+    public long length ()
+    {
+        if (m_length >= 0)
+            return m_length;
+        if (m_length == Long.MIN_VALUE)
+            return 0L;
+        getLength ();
+        if (m_length >= 0)
+            return m_length;
+        return 0L;
+    }
 
-	@Override
-	public boolean exists ()
-	{
-		if (m_length >= 0)
-			return true;
-		if (m_length == Long.MIN_VALUE)
-			return false;
-		getLength ();
-		return m_length >= 0;
-	}
+    @Override
+    public boolean exists ()
+    {
+        if (m_length >= 0)
+            return true;
+        if (m_length == Long.MIN_VALUE)
+            return false;
+        getLength ();
+        return m_length >= 0;
+    }
 
-	@Override
-	public InputStream getInputStream () throws IOException
-	{
-		try
-		{
-			if (m_blob == null)
-			{
-				m_blob = m_container.getBlobReferenceFromServer (m_blobName);
-			}
-			return m_blob.openInputStream ();
-		}
-		catch (Exception ex)
-		{
-			throw new IOException (ex.getMessage (), ex);
-		}
-	}
+    @Override
+    public InputStream getInputStream () throws IOException
+    {
+        try
+        {
+            if (m_blob == null)
+            {
+                m_blob = m_container.getBlobReferenceFromServer (m_blobName);
+            }
+            return m_blob.openInputStream ();
+        }
+        catch (Exception ex)
+        {
+            throw new IOException (ex.getMessage (), ex);
+        }
+    }
 
-	@Override
-	public OutputStream getOutputStream () throws IOException
-	{
-		try
-		{
-			m_blob = m_container.getBlockBlobReference (m_blobName);
-			return ((CloudBlockBlob)m_blob).openOutputStream ();
-		}
-		catch (Exception ex)
-		{
-			throw new IOException (ex.getMessage (), ex);
-		}
-	}
+    @Override
+    public OutputStream getOutputStream () throws IOException
+    {
+        try
+        {
+            m_blob = m_container.getBlockBlobReference (m_blobName);
+            return ((CloudBlockBlob)m_blob).openOutputStream ();
+        }
+        catch (Exception ex)
+        {
+            throw new IOException (ex.getMessage (), ex);
+        }
+    }
 }

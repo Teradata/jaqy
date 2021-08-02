@@ -21,19 +21,19 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.utils.DummyConnection;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DummyHelper extends DefaultHelper
 {
-	private final static JaqyHelper s_instance = new DummyHelper ();
+    private final static JaqyHelper s_instance = new DummyHelper ();
 
-	public static JaqyHelper getInstance ()
-	{
-		return s_instance;
-	}
+    public static JaqyHelper getInstance ()
+    {
+        return s_instance;
+    }
 
-	private DummyHelper ()
-	{
-		super (new JdbcFeatures (), new JaqyConnection (new DummyConnection ()), null);
-	}
+    private DummyHelper ()
+    {
+        super (new JdbcFeatures (), new JaqyConnection (new DummyConnection ()), null);
+    }
 }

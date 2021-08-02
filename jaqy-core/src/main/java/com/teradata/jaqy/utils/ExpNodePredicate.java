@@ -24,54 +24,54 @@ import com.teradata.jaqy.interfaces.Predicate;
 import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ExpNodePredicate implements Predicate
 {
-	public static String RS_VAR = "rs";
+    public static String RS_VAR = "rs";
 
-	private final ExpNode m_exp;
-	private VariableManager m_vm;
+    private final ExpNode m_exp;
+    private VariableManager m_vm;
 
-	public ExpNodePredicate (ExpNode exp)
-	{
-		m_exp = exp;
-	}
+    public ExpNodePredicate (ExpNode exp)
+    {
+        m_exp = exp;
+    }
 
-	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
-	{
-		m_vm = new VariableManager (interpreter.getVariableManager (), null);
-		m_vm.setVariable (RS_VAR, rs);
-		m_exp.bind (rs, m_vm, interpreter);
-	}
+    @Override
+    public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+    {
+        m_vm = new VariableManager (interpreter.getVariableManager (), null);
+        m_vm.setVariable (RS_VAR, rs);
+        m_exp.bind (rs, m_vm, interpreter);
+    }
 
-	@Override
-	public boolean eval () throws SQLException
-	{
-		Object o;
-		try
-		{
-			o = m_exp.get ();
-		}
-		catch (Exception ex)
-		{
-			throw new SQLException (ex);
-		}
-		if (o instanceof Boolean)
-		{
-			return ((Boolean)o).booleanValue ();
-		}
-		throw new SQLException ("invalid predicate");
-	}
+    @Override
+    public boolean eval () throws SQLException
+    {
+        Object o;
+        try
+        {
+            o = m_exp.get ();
+        }
+        catch (Exception ex)
+        {
+            throw new SQLException (ex);
+        }
+        if (o instanceof Boolean)
+        {
+            return ((Boolean)o).booleanValue ();
+        }
+        throw new SQLException ("invalid predicate");
+    }
 
-	@Override
-	public void close ()
-	{
-		if (m_vm != null)
-		{
-			m_vm.setVariable (RS_VAR, null);
-			m_vm = null;
-		}
-	}
+    @Override
+    public void close ()
+    {
+        if (m_vm != null)
+        {
+            m_vm.setVariable (RS_VAR, null);
+            m_vm = null;
+        }
+    }
 }

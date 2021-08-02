@@ -18,24 +18,24 @@ package com.teradata.jaqy.command;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class EvalCommand extends JaqyCommandAdapter
 {
-	public EvalCommand ()
-	{
-		super ("eval");
-	}
+    public EvalCommand ()
+    {
+        super ("eval");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "evaluates a one line JavaScript";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "evaluates a one line JavaScript";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		interpreter.eval (args[0]);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        interpreter.eval (args[0]);
+    }
 }

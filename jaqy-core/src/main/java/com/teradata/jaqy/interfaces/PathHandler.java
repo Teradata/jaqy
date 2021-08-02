@@ -23,26 +23,26 @@ import com.teradata.jaqy.JaqyInterpreter;
  * PathHandler is an abstraction used to deal with potential input / output
  * files / directories.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface PathHandler
 {
-	/**
-	 * Get the Path object from the path string.
-	 *
-	 * @param	path
-	 *			the path string
-	 * @param	interpreter
-	 * 			the interpreter.
-	 * @return	path object
-	 */
-	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException;
-	/**
-	 * Check if the handler can handle a path string.
-	 *
-	 * @param	path
-	 * 			path string
-	 * @return	true if the path can be handled.
-	 */
-	public boolean canHandle (String path);
+    /**
+     * Get the Path object from the path string.
+     *
+     * @param   path
+     *          the path string
+     * @param   interpreter
+     *          the interpreter.
+     * @return  path object
+     */
+    public Path getPath (String path, JaqyInterpreter interpreter) throws IOException;
+    /**
+     * Check if the handler can handle a path string.
+     *
+     * @param   path
+     *          path string
+     * @return  true if the path can be handled.
+     */
+    public boolean canHandle (String path);
 }

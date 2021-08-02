@@ -25,56 +25,56 @@ import org.yuanheng.cookcc.Lexs;
 import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 @CookCCOption (unicode = true)
 public class ExpressionParser extends GeneratedExpressionParser
 {
-	private final StringBuffer m_buffer = new StringBuffer ();
-	private final ExpressionHandler m_varHandler;
+    private final StringBuffer m_buffer = new StringBuffer ();
+    private final ExpressionHandler m_varHandler;
 
-	private ExpressionParser (ExpressionHandler varHandler)
-	{
-		m_varHandler = varHandler;
-	}
+    private ExpressionParser (ExpressionHandler varHandler)
+    {
+        m_varHandler = varHandler;
+    }
 
-	@Override
-	public String toString ()
-	{
-		return m_buffer.toString ();
-	}
+    @Override
+    public String toString ()
+    {
+        return m_buffer.toString ();
+    }
 
-	@Lex (pattern = "'${'[^\\r\\n{}]*'}'")
-	void scanVariable () throws IOException
-	{
-		String name = yyText ();
-		name = name.substring (2, name.length () - 1);
-		Object o = m_varHandler.eval (name);
-		if (o != null)
-			m_buffer.append (o.toString ());
-	}
+    @Lex (pattern = "'${'[^\\r\\n{}]*'}'")
+    void scanVariable () throws IOException
+    {
+        String name = yyText ();
+        name = name.substring (2, name.length () - 1);
+        Object o = m_varHandler.eval (name);
+        if (o != null)
+            m_buffer.append (o.toString ());
+    }
 
-	@Lexs (patterns = {
-		@Lex (pattern = "[^${]+"),
-		@Lex (pattern = ".")
-	})
-	void scanText () throws IOException
-	{
-		m_buffer.append (yyText ());
-	}
+    @Lexs (patterns = {
+        @Lex (pattern = "[^${]+"),
+        @Lex (pattern = ".")
+    })
+    void scanText () throws IOException
+    {
+        m_buffer.append (yyText ());
+    }
 
-	@Lex (pattern = "<<EOF>>")
-	int scanEof ()
-	{
-		return 0;
-	}
+    @Lex (pattern = "<<EOF>>")
+    int scanEof ()
+    {
+        return 0;
+    }
 
-	public static String getString (String str, ExpressionHandler varHandler) throws IOException
-	{
-		ExpressionParser parser = new ExpressionParser (varHandler);
-		parser.setInput (new StringReader (str));
-		if (parser.yyLex () != 0)
-			throw new IOException ("parsing error.");
-		return parser.toString ();
-	}
+    public static String getString (String str, ExpressionHandler varHandler) throws IOException
+    {
+        ExpressionParser parser = new ExpressionParser (varHandler);
+        parser.setInput (new StringReader (str));
+        if (parser.yyLex () != 0)
+            throw new IOException ("parsing error.");
+        return parser.toString ();
+    }
 }

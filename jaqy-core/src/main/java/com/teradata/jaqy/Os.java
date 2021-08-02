@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,40 +23,40 @@ import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class Os
 {
-	private final static String s_os = System.getProperty ("os.name").toLowerCase ();
-	private final static boolean s_windows = s_os.indexOf ("win") >= 0;
+    private final static String s_os = System.getProperty ("os.name").toLowerCase ();
+    private final static boolean s_windows = s_os.indexOf ("win") >= 0;
 
-	Os ()
-	{
-	}
+    Os ()
+    {
+    }
 
-	public void shell (File dir, String cmd) throws Exception
-	{
-		CommandLine commandLine;
-		if (s_windows)
-		{
-			commandLine = new CommandLine ("cmd");
-			commandLine.addArgument ("/C");
-			commandLine.addArgument (cmd, false);
-		}
-		else
-		{
-			commandLine = new CommandLine ("/bin/bash");
-			commandLine.addArgument ("-c");
-			commandLine.addArgument (cmd, false);
-		}
-		Executor executor = new DefaultExecutor ();
-		executor.setWorkingDirectory (dir);
-		executor.setStreamHandler (new PumpStreamHandler (System.out, System.out));
-		executor.execute(commandLine);
-	}
+    public void shell (File dir, String cmd) throws Exception
+    {
+        CommandLine commandLine;
+        if (s_windows)
+        {
+            commandLine = new CommandLine ("cmd");
+            commandLine.addArgument ("/C");
+            commandLine.addArgument (cmd, false);
+        }
+        else
+        {
+            commandLine = new CommandLine ("/bin/bash");
+            commandLine.addArgument ("-c");
+            commandLine.addArgument (cmd, false);
+        }
+        Executor executor = new DefaultExecutor ();
+        executor.setWorkingDirectory (dir);
+        executor.setStreamHandler (new PumpStreamHandler (System.out, System.out));
+        executor.execute(commandLine);
+    }
 
-	public static boolean isWindows ()
-	{
-		return s_windows;
-	}
+    public static boolean isWindows ()
+    {
+        return s_windows;
+    }
 }

@@ -24,70 +24,70 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DescribeCommand extends JaqyCommandAdapter
 {
-	public DescribeCommand ()
-	{
-		super ("desc");
+    public DescribeCommand ()
+    {
+        super ("desc");
 
-		addOption ("s", "sql", false, "display schema in SQL");
-	}
+        addOption ("s", "sql", false, "display schema in SQL");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "describes a table schema.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "describes a table schema.";
+    }
 
-	@Override
-	protected String getSyntax ()
-	{
-		return "usage: " + getCommand () + " [options] [table name]";
-	}
+    @Override
+    protected String getSyntax ()
+    {
+        return "usage: " + getCommand () + " [options] [table name]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.sql;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.sql;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
-		CommandLine cmdLine = getCommandLine (args);
-		args = cmdLine.getArgs ();
-		if (args.length == 0)
-		{
-			interpreter.error ("Missing table name.");
-		}
-		boolean displaySQL = false;
-		for (Option option : cmdLine.getOptions ())
-		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 's':
-				{
-					displaySQL = true;
-					break;
-				}
-			}
-		}
-		String tableName = args[0];
-		for (int i = 1; i < args.length; ++i)
-			tableName += args[i];
-		if (displaySQL)
-		{
-			String schema = interpreter.getSession ().getConnection ().getHelper ().getTableSchema (tableName, interpreter);
-			interpreter.println (schema);
-		}
-		else
-		{
-			JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName, interpreter);
-			interpreter.print (rs);
-			rs.close ();
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
+        CommandLine cmdLine = getCommandLine (args);
+        args = cmdLine.getArgs ();
+        if (args.length == 0)
+        {
+            interpreter.error ("Missing table name.");
+        }
+        boolean displaySQL = false;
+        for (Option option : cmdLine.getOptions ())
+        {
+            switch (option.getOpt ().charAt (0))
+            {
+                case 's':
+                {
+                    displaySQL = true;
+                    break;
+                }
+            }
+        }
+        String tableName = args[0];
+        for (int i = 1; i < args.length; ++i)
+            tableName += args[i];
+        if (displaySQL)
+        {
+            String schema = interpreter.getSession ().getConnection ().getHelper ().getTableSchema (tableName, interpreter);
+            interpreter.println (schema);
+        }
+        else
+        {
+            JaqyResultSet rs = interpreter.getSession ().getConnection ().getHelper ().getTableColumns (tableName, interpreter);
+            interpreter.print (rs);
+            rs.close ();
+        }
+    }
 }

@@ -26,76 +26,76 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class AliasCommand extends JaqyCommandAdapter
 {
-	public AliasCommand ()
-	{
-		super ("alias", "alias.txt");
-	}
+    public AliasCommand ()
+    {
+        super ("alias", "alias.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "creates a command alias.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "creates a command alias.";
+    }
 
-	private void printAlias (PrintWriter pw, String name, String value)
-	{
-		pw.println (getCommand () + " " + name);
-		pw.println (value);
-		pw.println (".end " + getName ());
-	}
+    private void printAlias (PrintWriter pw, String name, String value)
+    {
+        pw.println (getCommand () + " " + name);
+        pw.println (value);
+        pw.println (".end " + getName ());
+    }
 
-	private void printAliases (PrintWriter pw, Map<String, String> map)
-	{
-		TreeMap<String, String> treeMap = new TreeMap<String, String> (map);
-		for (Map.Entry<String, String> entry : treeMap.entrySet ())
-		{
-			printAlias (pw, entry.getKey (), entry.getValue ());
-		}
-	}
+    private void printAliases (PrintWriter pw, Map<String, String> map)
+    {
+        TreeMap<String, String> treeMap = new TreeMap<String, String> (map);
+        for (Map.Entry<String, String> entry : treeMap.entrySet ())
+        {
+            printAlias (pw, entry.getKey (), entry.getValue ());
+        }
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		Globals globals = interpreter.getGlobals ();
-		if (args.length == 0)
-		{
-			printAliases (interpreter.getDisplay ().getPrintWriter (), globals.getAliasManager ().getAliasMap ());
-		}
-		else
-		{
-			if (globals.getCommandManager ().getObject (args[0]) != null)
-			{
-				interpreter.error ("alias name conflicts with an existing command.");
-			}
-			interpreter.setParseAction (this, args[0]);
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        Globals globals = interpreter.getGlobals ();
+        if (args.length == 0)
+        {
+            printAliases (interpreter.getDisplay ().getPrintWriter (), globals.getAliasManager ().getAliasMap ());
+        }
+        else
+        {
+            if (globals.getCommandManager ().getObject (args[0]) != null)
+            {
+                interpreter.error ("alias name conflicts with an existing command.");
+            }
+            interpreter.setParseAction (this, args[0]);
+        }
+    }
 
-	@Override
-	public JaqyCommand.Type getType ()
-	{
-		return JaqyCommand.Type.mixed;
-	}
+    @Override
+    public JaqyCommand.Type getType ()
+    {
+        return JaqyCommand.Type.mixed;
+    }
 
-	@Override
-	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter)
-	{
-		if (!silent)
-		{
-			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, interactive);
-			display.echo (interpreter, ".end " + getName (), interactive);
-		}
-		globals.getAliasManager ().setAlias ((String)value, action);
-	}
+    @Override
+    public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter)
+    {
+        if (!silent)
+        {
+            Display display = interpreter.getDisplay ();
+            display.echo (interpreter, action, interactive);
+            display.echo (interpreter, ".end " + getName (), interactive);
+        }
+        globals.getAliasManager ().setAlias ((String)value, action);
+    }
 }

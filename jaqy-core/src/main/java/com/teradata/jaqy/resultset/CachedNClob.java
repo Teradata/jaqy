@@ -19,12 +19,12 @@ import java.sql.NClob;
 import java.sql.SQLException;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CachedNClob extends CachedClob implements NClob
 {
-	public CachedNClob (NClob clob, int cacheSize, char[] charBuffer) throws SQLException
-	{
-		super (clob, cacheSize, charBuffer);
-	}
+    public CachedNClob (NClob clob, int cacheSize, char[] charBuffer) throws SQLException
+    {
+        super (clob, cacheSize, charBuffer);
+    }
 }

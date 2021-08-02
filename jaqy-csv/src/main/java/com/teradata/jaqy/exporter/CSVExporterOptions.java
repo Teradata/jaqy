@@ -24,18 +24,18 @@ import com.teradata.jaqy.utils.CSVExportInfo;
 import com.teradata.jaqy.utils.CSVUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class CSVExporterOptions
 {
-	public Charset charset;
-	public CSVFormat format;
-	public HashMap<Integer, CSVExportInfo> fileInfoMap;
+    public Charset charset;
+    public CSVFormat format;
+    public HashMap<Integer, CSVExportInfo> fileInfoMap;
 
-	public CSVExporterOptions ()
-	{
-		charset = CSVUtils.DEFAULT_CHARSET;
-		format = CSVUtils.getDefaultFormat ();
-		fileInfoMap = new HashMap<Integer, CSVExportInfo> ();
-	}
+    public CSVExporterOptions ()
+    {
+        charset = CSVUtils.DEFAULT_CHARSET;
+        format = CSVUtils.getDefaultFormat ();
+        fileInfoMap = new HashMap<Integer, CSVExportInfo> ();
+    }
 }

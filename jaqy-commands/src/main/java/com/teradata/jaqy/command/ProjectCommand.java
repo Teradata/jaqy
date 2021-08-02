@@ -21,32 +21,32 @@ import com.teradata.jaqy.utils.ProjectColumnList;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ProjectCommand extends JaqyCommandAdapter
 {
-	public ProjectCommand ()
-	{
-		super ("project", "project.txt");
-	}
+    public ProjectCommand ()
+    {
+        super ("project", "project.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "does client side ResultSet projection.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "does client side ResultSet projection.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
 
-		String str = args[0].trim ();
-		if (str.length () == 0)
-		{
-			interpreter.error ("missing projection columns");
-		}
-		ProjectColumnList expList = ProjectParser.getExpList (args[0]);
-		interpreter.setProjectList (expList);
-	}
+        String str = args[0].trim ();
+        if (str.length () == 0)
+        {
+            interpreter.error ("missing projection columns");
+        }
+        ProjectColumnList expList = ProjectParser.getExpList (args[0]);
+        interpreter.setProjectList (expList);
+    }
 }

@@ -18,35 +18,35 @@ package com.teradata.jaqy.utils;
 import com.teradata.jaqy.interfaces.Variable;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class SimpleVariable implements Variable
 {
-	private String m_name;
-	private Object m_value;
+    private String m_name;
+    private Object m_value;
 
-	public SimpleVariable (String name, Object value)
-	{
-		m_name = name;
-		m_value = value;
-	}
+    public SimpleVariable (String name, Object value)
+    {
+        m_name = name;
+        m_value = value;
+    }
 
-	@Override
-	public Object get ()
-	{
-		return m_value;
-	}
+    @Override
+    public Object get ()
+    {
+        return m_value;
+    }
 
-	@Override
-	public boolean set (Object value)
-	{
-		m_value = value;
-		return true;
-	}
+    @Override
+    public boolean set (Object value)
+    {
+        m_value = value;
+        return true;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return m_name;
-	}
+    @Override
+    public String getName ()
+    {
+        return m_name;
+    }
 }

@@ -22,23 +22,23 @@ import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class JSExpNode implements ExpNode
 {
-	private ScriptEngine m_engine;
-	private VariableManager m_vm;
+    private ScriptEngine m_engine;
+    private VariableManager m_vm;
 
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
-	{
-		m_engine = interpreter.getScriptEngine ();
-		m_vm = vm;
-	}
+    @Override
+    public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
+    {
+        m_engine = interpreter.getScriptEngine ();
+        m_vm = vm;
+    }
 
-	@Override
-	public Object get () throws Exception
-	{
-		return m_engine.eval (toString (), m_vm);
-	}
+    @Override
+    public Object get () throws Exception
+    {
+        return m_engine.eval (toString (), m_vm);
+    }
 }

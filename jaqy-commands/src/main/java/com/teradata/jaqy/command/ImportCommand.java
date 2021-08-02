@@ -24,76 +24,76 @@ import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ImportCommand extends JaqyCommandAdapter
 {
-	public ImportCommand ()
-	{
-		super ("import");
-	}
+    public ImportCommand ()
+    {
+        super ("import");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "imports data into database.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "imports data into database.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		Globals globals = getGlobals ();
-		StringBuffer buffer = new StringBuffer ();
-		buffer.append ("usage: " + getCommand () + " [type] [type options] [path]\ntype:");
-		String[] names = globals.getImporterManager ().getNames ();
-		for (String name : names)
-			buffer.append ("\n  ").append (name);
-		buffer.append ("\n");
-		for (String name : names)
-		{
-			String syntax = globals.getImporterManager ().getHandlerFactory (name).getLongDescription ();
-			if (syntax != null)
-				buffer.append ('\n').append (syntax);
-		}
-		return buffer.toString ();
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        Globals globals = getGlobals ();
+        StringBuffer buffer = new StringBuffer ();
+        buffer.append ("usage: " + getCommand () + " [type] [type options] [path]\ntype:");
+        String[] names = globals.getImporterManager ().getNames ();
+        for (String name : names)
+            buffer.append ("\n  ").append (name);
+        buffer.append ("\n");
+        for (String name : names)
+        {
+            String syntax = globals.getImporterManager ().getHandlerFactory (name).getLongDescription ();
+            if (syntax != null)
+                buffer.append ('\n').append (syntax);
+        }
+        return buffer.toString ();
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		if (args.length == 0)
-		{
-			JaqyImporter importer = interpreter.getImporter ();
-			if (importer == null)
-			{
-				interpreter.println ("No current imports.");
-			}
-			else
-			{
-				interpreter.println (getCommand () + " " + importer.getName ());
-			}
-		}
-		else
-		{
-			String name = args[0];
-			args = StringUtils.shiftArgs (args);
-			JaqyImporter importer = interpreter.getGlobals ().getImporterManager ().getHandler (name, args, interpreter);
-			if (importer == null)
-			{
-				interpreter.error ("importer type not found: " + name);
-			}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        if (args.length == 0)
+        {
+            JaqyImporter importer = interpreter.getImporter ();
+            if (importer == null)
+            {
+                interpreter.println ("No current imports.");
+            }
+            else
+            {
+                interpreter.println (getCommand () + " " + importer.getName ());
+            }
+        }
+        else
+        {
+            String name = args[0];
+            args = StringUtils.shiftArgs (args);
+            JaqyImporter importer = interpreter.getGlobals ().getImporterManager ().getHandler (name, args, interpreter);
+            if (importer == null)
+            {
+                interpreter.error ("importer type not found: " + name);
+            }
 
-			// we need to have an open session to do the import
-			SessionUtils.checkOpen (interpreter);
+            // we need to have an open session to do the import
+            SessionUtils.checkOpen (interpreter);
 
-			interpreter.setImporter (importer);
-			interpreter.setQueryMode (QueryMode.Import);
-		}
-	}
+            interpreter.setImporter (importer);
+            interpreter.setQueryMode (QueryMode.Import);
+        }
+    }
 }

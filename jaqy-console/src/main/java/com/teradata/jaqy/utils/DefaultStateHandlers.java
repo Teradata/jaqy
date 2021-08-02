@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,159 +23,159 @@ import com.teradata.jaqy.Session;
 import com.teradata.jaqy.interfaces.StateHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DefaultStateHandlers
 {
-	public final static StateHandler noneHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			return null;
-		}
-	};
+    public final static StateHandler noneHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            return null;
+        }
+    };
 
-	public final static StateHandler promptHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
-			StringBuffer buffer = new StringBuffer ();
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().color ("green", null, true));
-			Session session = interpreter.getSession ();
-			if (display.isInteractive ())
-			{
-				String description = "none";
-				if (session != null)
-				{
-					description = session.getDescription ();
-				}
-				buffer.append ("-- " + interpreter.getSqlCount () + "/" + interpreter.getCommandCount () + " - " + description + " --");
-			}
-			else
-			{
-				int id = -1;
-				if (session != null)
-				{
-					id = session.getId ();
-				}
-				buffer.append (display.fill ("-- " + interpreter.getSqlCount () + "/" + interpreter.getCommandCount () + " - " + id + " "));
-			}
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().reset ());
-			buffer.append ('\n');
-			return buffer.toString ();
-		}
-	};
-	public final static StateHandler titleHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			Session session = interpreter.getSession ();
-			if (session == null)
-				return "Jaqy Console";
-			return "jaqy - " + session.getDescription ();
-		}
-	};
-	public final static StateHandler successHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
-			StringBuffer buffer = new StringBuffer ();
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().fgColor ("green"));
-			buffer.append ("-- success --");
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().reset ());
-			return buffer.toString ();
-		}
-	};
-	public final static StateHandler updateHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
-			StringBuffer buffer = new StringBuffer ();
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().fgColor ("green"));
-			buffer.append ("-- success. update count = " + interpreter.getActivityCount ());
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().reset ());
-			return buffer.toString ();
-		}
-	};
-	public final static StateHandler activityCountHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
-			StringBuffer buffer = new StringBuffer ();
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().fgColor ("green"));
-			buffer.append ("-- activity count = " + interpreter.getActivityCount ());
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().reset ());
-			return buffer.toString ();
-		}
-	};
-	public final static StateHandler errorHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
-			Throwable t = interpreter.getException ();
-			if (t == null)
-			{
-				return "-- error: unknown error";
-			}
+    public final static StateHandler promptHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+            StringBuffer buffer = new StringBuffer ();
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().color ("green", null, true));
+            Session session = interpreter.getSession ();
+            if (display.isInteractive ())
+            {
+                String description = "none";
+                if (session != null)
+                {
+                    description = session.getDescription ();
+                }
+                buffer.append ("-- " + interpreter.getSqlCount () + "/" + interpreter.getCommandCount () + " - " + description + " --");
+            }
+            else
+            {
+                int id = -1;
+                if (session != null)
+                {
+                    id = session.getId ();
+                }
+                buffer.append (display.fill ("-- " + interpreter.getSqlCount () + "/" + interpreter.getCommandCount () + " - " + id + " "));
+            }
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().reset ());
+            buffer.append ('\n');
+            return buffer.toString ();
+        }
+    };
+    public final static StateHandler titleHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            Session session = interpreter.getSession ();
+            if (session == null)
+                return "Jaqy Console";
+            return "jaqy - " + session.getDescription ();
+        }
+    };
+    public final static StateHandler successHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+            StringBuffer buffer = new StringBuffer ();
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().fgColor ("green"));
+            buffer.append ("-- success --");
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().reset ());
+            return buffer.toString ();
+        }
+    };
+    public final static StateHandler updateHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+            StringBuffer buffer = new StringBuffer ();
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().fgColor ("green"));
+            buffer.append ("-- success. update count = " + interpreter.getActivityCount ());
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().reset ());
+            return buffer.toString ();
+        }
+    };
+    public final static StateHandler activityCountHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+            StringBuffer buffer = new StringBuffer ();
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().fgColor ("green"));
+            buffer.append ("-- activity count = " + interpreter.getActivityCount ());
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().reset ());
+            return buffer.toString ();
+        }
+    };
+    public final static StateHandler errorHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+            Throwable t = interpreter.getException ();
+            if (t == null)
+            {
+                return "-- error: unknown error";
+            }
 
-			StringBuffer buffer = new StringBuffer ();
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().fgColor ("red"));
+            StringBuffer buffer = new StringBuffer ();
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().fgColor ("red"));
 
-			if (t instanceof SQLException)
-			{
-				SQLException ex = (SQLException)t;
-				String state = ex.getSQLState ();
-				state = (state == null) ? "" : "[" + state + "] ";
-				buffer.append ("-- failure " + ex.getErrorCode () + ": " + state + ex.getMessage ());
-				while ((ex = ex.getNextException ()) != null)
-				{
-					buffer.append ("\n-- cause   " + ex.getErrorCode () + ": " + state + ex.getMessage ());
-				}
-			}
-			else
-			{
-				buffer.append ("-- error: " + t.getMessage ());
-			}
+            if (t instanceof SQLException)
+            {
+                SQLException ex = (SQLException)t;
+                String state = ex.getSQLState ();
+                state = (state == null) ? "" : "[" + state + "] ";
+                buffer.append ("-- failure " + ex.getErrorCode () + ": " + state + ex.getMessage ());
+                while ((ex = ex.getNextException ()) != null)
+                {
+                    buffer.append ("\n-- cause   " + ex.getErrorCode () + ": " + state + ex.getMessage ());
+                }
+            }
+            else
+            {
+                buffer.append ("-- error: " + t.getMessage ());
+            }
 
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().reset ());
-			return buffer.toString ();
-		}
-	};
-	public final static StateHandler iterationHandler = new StateHandler ()
-	{
-		@Override
-		public String getString (JaqyInterpreter interpreter)
-		{
-			ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
-			StringBuffer buffer = new StringBuffer ();
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().fgColor ("green"));
-			buffer.append ("-- iteration: " + interpreter.getIteration ());
-			if (display.isColorEnabled ())
-				buffer.append (display.getEscape ().reset ());
-			return buffer.toString ();
-		}
-	};
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().reset ());
+            return buffer.toString ();
+        }
+    };
+    public final static StateHandler iterationHandler = new StateHandler ()
+    {
+        @Override
+        public String getString (JaqyInterpreter interpreter)
+        {
+            ConsoleDisplay display = (ConsoleDisplay) interpreter.getDisplay ();
+            StringBuffer buffer = new StringBuffer ();
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().fgColor ("green"));
+            buffer.append ("-- iteration: " + interpreter.getIteration ());
+            if (display.isColorEnabled ())
+                buffer.append (display.getEscape ().reset ());
+            return buffer.toString ();
+        }
+    };
 }

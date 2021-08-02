@@ -23,45 +23,45 @@ import com.teradata.jaqy.utils.PathUtils;
 import com.teradata.jaqy.utils.PropertyTableUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ClassPathCommand extends JaqyCommandAdapter
 {
-	public ClassPathCommand ()
-	{
-		super ("classpath", "classpath.txt");
-	}
+    public ClassPathCommand ()
+    {
+        super ("classpath", "classpath.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays / sets the class path for a JDBC driver.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays / sets the class path for a JDBC driver.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		JaqyDriverManager driverManager = interpreter.getGlobals ().getDriverManager ();
-		if (args.length == 0)
-		{
-			// display the class path loaded.
-			PropertyTable pt = PropertyTableUtils.createPropertyTable (driverManager.getDriverLocationMap (), new String[] { "Protocol", "Location" });
-			interpreter.print (pt);
-			return;
-		}
-		if (args.length != 2)
-		{
-			interpreter.error ("invalid command arguments.");
-		}
-		String protocol = args[0];
-		String path = args[1];
-		path = PathUtils.toAbsolutePath (path, interpreter.getFileDirectory ());
-		driverManager.addDriverLocation (protocol, path);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        JaqyDriverManager driverManager = interpreter.getGlobals ().getDriverManager ();
+        if (args.length == 0)
+        {
+            // display the class path loaded.
+            PropertyTable pt = PropertyTableUtils.createPropertyTable (driverManager.getDriverLocationMap (), new String[] { "Protocol", "Location" });
+            interpreter.print (pt);
+            return;
+        }
+        if (args.length != 2)
+        {
+            interpreter.error ("invalid command arguments.");
+        }
+        String protocol = args[0];
+        String path = args[1];
+        path = PathUtils.toAbsolutePath (path, interpreter.getFileDirectory ());
+        driverManager.addDriverLocation (protocol, path);
+    }
 }

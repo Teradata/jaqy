@@ -16,29 +16,29 @@
 package com.teradata.jaqy;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public enum QueryMode
 {
-	/**
-	 * Regular execution.
-	 */
-	Regular,
+    /**
+     * Regular execution.
+     */
+    Regular,
 
-	/**
-	 * Prepare the next statement.  This is primarily for debugging
-	 * purpose.
-	 * <p>
-	 * This enum is only effective for the next statement.  Then it is
-	 * reset back to Regular mode.
-	 */
-	Prepare,
+    /**
+     * Prepare the next statement.  This is primarily for debugging
+     * purpose.
+     * <p>
+     * This enum is only effective for the next statement.  Then it is
+     * reset back to Regular mode.
+     */
+    Prepare,
 
-	/**
-	 * Prepare the next statement for data import.
-	 * <p>
-	 * This enum is only effective for the next statement.  Then it is
-	 * reset back to Regular mode.
-	 */
-	Import
+    /**
+     * Prepare the next statement for data import.
+     * <p>
+     * This enum is only effective for the next statement.  Then it is
+     * reset back to Regular mode.
+     */
+    Import
 }

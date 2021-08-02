@@ -20,55 +20,55 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class RepeatPrevCommand extends JaqyCommandAdapter
 {
-	public RepeatPrevCommand ()
-	{
-		super ("#");
-	}
+    public RepeatPrevCommand ()
+    {
+        super ("#");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "repeats a previous SQL a number of times.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "repeats a previous SQL a number of times.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [number]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [number]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.none;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.none;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
 
-		if (args.length == 0 || args[0].length () == 0)
-		{
-			interpreter.error ("Missing repeat count.");
-		}
+        if (args.length == 0 || args[0].length () == 0)
+        {
+            interpreter.error ("Missing repeat count.");
+        }
 
-		String sql = interpreter.getPrevSQL ();
-		if (sql == null)
-		{
-			interpreter.error ("No suitable previous SQL to repeat.");
-		}
+        String sql = interpreter.getPrevSQL ();
+        if (sql == null)
+        {
+            interpreter.error ("No suitable previous SQL to repeat.");
+        }
 
-		String arg = interpreter.expand (args[0]);
-		long repeatCount = Long.parseLong (arg);
-		if (repeatCount < 1)
-		{
-			throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
-		}
-		interpreter.getSession ().executeQuery (sql, interpreter, repeatCount);
-	}
+        String arg = interpreter.expand (args[0]);
+        long repeatCount = Long.parseLong (arg);
+        if (repeatCount < 1)
+        {
+            throw new IllegalArgumentException ("Invalid repeat count: " + repeatCount);
+        }
+        interpreter.getSession ().executeQuery (sql, interpreter, repeatCount);
+    }
 }

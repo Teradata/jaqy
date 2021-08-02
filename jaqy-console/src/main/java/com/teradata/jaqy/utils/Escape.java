@@ -22,99 +22,99 @@ import com.teradata.jaqy.ConsoleDisplay;
  */
 public class Escape
 {
-	public final static String ESC = "\u001B[";
+    public final static String ESC = "\u001B[";
 
-	public final static String RESET = "\u001B[0m";
+    public final static String RESET = "\u001B[0m";
 
-	private final static String TITLE_START = "\u001B]0;";
-	private final static String TITLE_END = "\007";
+    private final static String TITLE_START = "\u001B]0;";
+    private final static String TITLE_END = "\007";
 
-	private final ConsoleDisplay m_display;
+    private final ConsoleDisplay m_display;
 
-	public Escape (ConsoleDisplay display)
-	{
-		m_display = display;
-	}
+    public Escape (ConsoleDisplay display)
+    {
+        m_display = display;
+    }
 
-	private int getColorIndex (String name)
-	{
-		if ("black".equals (name))
-			return 0;
-		if ("red".equals (name))
-			return 1;
-		if ("green".equals (name))
-			return 2;
-		if ("yellow".equals (name))
-			return 3;
-		if ("blue".equals (name))
-			return 4;
-		if ("purple".equals (name))
-			return 5;
-		if ("cyan".equals (name))
-			return 6;
-		if ("white".equals (name))
-			return 7;
-		return -1;
-	}
+    private int getColorIndex (String name)
+    {
+        if ("black".equals (name))
+            return 0;
+        if ("red".equals (name))
+            return 1;
+        if ("green".equals (name))
+            return 2;
+        if ("yellow".equals (name))
+            return 3;
+        if ("blue".equals (name))
+            return 4;
+        if ("purple".equals (name))
+            return 5;
+        if ("cyan".equals (name))
+            return 6;
+        if ("white".equals (name))
+            return 7;
+        return -1;
+    }
 
-	public String fgColor (String name)
-	{
-		return color (name, null, false);
-	}
+    public String fgColor (String name)
+    {
+        return color (name, null, false);
+    }
 
-	public String bgColor (String name)
-	{
-		return color (null, name, false);
-	}
+    public String bgColor (String name)
+    {
+        return color (null, name, false);
+    }
 
-	public String color (String fgColor, String bgColor, boolean bold)
-	{
-		if (!m_display.isColorEnabled ())
-			return "";
+    public String color (String fgColor, String bgColor, boolean bold)
+    {
+        if (!m_display.isColorEnabled ())
+            return "";
 
-		int fgIndex = -1;
-		int bgIndex = -1;
-		if (fgColor != null)
-		{
-			fgIndex = getColorIndex (fgColor.toLowerCase ());
-			if (fgIndex < 0)
-				throw new IllegalArgumentException ("Invalid foreground color.");
-			fgColor = Integer.toString (30 + fgIndex);
-		}
-		if (bgColor != null)
-		{
-			bgIndex = getColorIndex (bgColor.toLowerCase ());
-			if (bgIndex < 0)
-				throw new IllegalArgumentException ("Invalid background color.");
-			bgColor = Integer.toString (40 + bgIndex);
-		}
-		if (fgIndex < 0 && bgIndex < 0)
-			return RESET;
+        int fgIndex = -1;
+        int bgIndex = -1;
+        if (fgColor != null)
+        {
+            fgIndex = getColorIndex (fgColor.toLowerCase ());
+            if (fgIndex < 0)
+                throw new IllegalArgumentException ("Invalid foreground color.");
+            fgColor = Integer.toString (30 + fgIndex);
+        }
+        if (bgColor != null)
+        {
+            bgIndex = getColorIndex (bgColor.toLowerCase ());
+            if (bgIndex < 0)
+                throw new IllegalArgumentException ("Invalid background color.");
+            bgColor = Integer.toString (40 + bgIndex);
+        }
+        if (fgIndex < 0 && bgIndex < 0)
+            return RESET;
 
-		String color;
-		if (fgColor == null)
-		{
-			color = bgColor;
-		}
-		else
-		{
-			if (bgColor == null)
-				color = fgColor;
-			else
-				color = fgColor + ";" + bgColor;
-		}
-		if (bold)
-			color += ";1";
-		return ESC + color + "m";
-	}
+        String color;
+        if (fgColor == null)
+        {
+            color = bgColor;
+        }
+        else
+        {
+            if (bgColor == null)
+                color = fgColor;
+            else
+                color = fgColor + ";" + bgColor;
+        }
+        if (bold)
+            color += ";1";
+        return ESC + color + "m";
+    }
 
-	public String reset ()
-	{
-		return RESET;
-	}
+    public String reset ()
+    {
+        return RESET;
+    }
 
-	public String title (String str)
-	{
-		return TITLE_START + str + TITLE_END;
-	}
+    public String title (String str)
+    {
+        return TITLE_START + str + TITLE_END;
+    }
 }

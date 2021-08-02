@@ -16,11 +16,11 @@
 package com.teradata.jaqy.utils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ProjectColumn
 {
-	public String name;
-	public String asName;
-	public int columnIndex;
+    public String name;
+    public String asName;
+    public int columnIndex;
 }

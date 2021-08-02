@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,19 +23,19 @@ import com.teradata.jaqy.option.RCFileOption;
 import com.teradata.jaqy.option.VersionOption;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class OptionSetup
 {
-	public static void init (Globals globals)
-	{
-		globals.addOption (new HelpOption ());;
-		globals.addOption (new VersionOption ());;
-		globals.addOption (new EchoOption ());;
+    public static void init (Globals globals)
+    {
+        globals.addOption (new HelpOption ());;
+        globals.addOption (new VersionOption ());;
+        globals.addOption (new EchoOption ());;
 
-		// console specific options
-		globals.addOption (new RCFileOption ());;
-		globals.addOption (new NoRCOption ());;
-		globals.addOption (new ColorOption ());;
-	}
+        // console specific options
+        globals.addOption (new RCFileOption ());;
+        globals.addOption (new NoRCOption ());;
+        globals.addOption (new ColorOption ());;
+    }
 }

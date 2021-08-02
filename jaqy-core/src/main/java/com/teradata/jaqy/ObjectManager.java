@@ -20,43 +20,43 @@ import java.util.HashMap;
 import com.teradata.jaqy.interfaces.JaqyObject;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ObjectManager<T extends JaqyObject>
 {
-	private final Globals m_globals;
-	private final Object m_lock = new Object ();
-	private final HashMap<String, T> m_objectMap = new HashMap<String, T> ();
+    private final Globals m_globals;
+    private final Object m_lock = new Object ();
+    private final HashMap<String, T> m_objectMap = new HashMap<String, T> ();
 
-	public ObjectManager (Globals globals)
-	{
-		m_globals = globals;
-	}
+    public ObjectManager (Globals globals)
+    {
+        m_globals = globals;
+    }
 
-	public void addObject (T cmd)
-	{
-		cmd.init (m_globals);
-		synchronized (m_lock)
-		{
-			m_objectMap.put (cmd.getName (), cmd);
-		}
-	}
+    public void addObject (T cmd)
+    {
+        cmd.init (m_globals);
+        synchronized (m_lock)
+        {
+            m_objectMap.put (cmd.getName (), cmd);
+        }
+    }
 
-	public T getObject (String name)
-	{
-		synchronized (m_lock)
-		{
-			return m_objectMap.get (name);
-		}
-	}
+    public T getObject (String name)
+    {
+        synchronized (m_lock)
+        {
+            return m_objectMap.get (name);
+        }
+    }
 
-	public HashMap<String, T> getObjectMap ()
-	{
-		HashMap<String, T> map = new HashMap<String, T> ();
-		synchronized (m_lock)
-		{
-			map.putAll (m_objectMap);
-		}
-		return map;
-	}
+    public HashMap<String, T> getObjectMap ()
+    {
+        HashMap<String, T> map = new HashMap<String, T> ();
+        synchronized (m_lock)
+        {
+            map.putAll (m_objectMap);
+        }
+        return map;
+    }
 }

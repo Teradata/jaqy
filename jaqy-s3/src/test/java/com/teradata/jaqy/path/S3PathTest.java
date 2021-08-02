@@ -35,84 +35,84 @@ import io.findify.s3mock.S3Mock;
 import io.findify.s3mock.provider.InMemoryProvider;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class S3PathTest
 {
-	@Test
-	public void test1 () throws Exception
-	{
-		/*
-		 * A workaround for S3Mock generating an output to stdout.
-		 *     https://github.com/findify/s3mock/issues/67
-		 * It generates an output in Eclipse, but not so when running
-		 * mvn clean test.
-		 */
-		InMemoryProvider provider = new InMemoryProvider ();
-		ActorSystem actor = S3Mock.$lessinit$greater$default$3(8001, provider);
-		S3Mock api = new S3Mock (8001, provider, actor);
-		api.start ();
+    @Test
+    public void test1 () throws Exception
+    {
+        /*
+         * A workaround for S3Mock generating an output to stdout.
+         *     https://github.com/findify/s3mock/issues/67
+         * It generates an output in Eclipse, but not so when running
+         * mvn clean test.
+         */
+        InMemoryProvider provider = new InMemoryProvider ();
+        ActorSystem actor = S3Mock.$lessinit$greater$default$3(8001, provider);
+        S3Mock api = new S3Mock (8001, provider, actor);
+        api.start ();
 
-		// setup
-		Globals globals = new Globals (null, null);
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
-		AmazonS3ClientBuilder builder = S3Utils.getS3Builder (interpreter);
-		builder.setEndpointConfiguration (new AwsClientBuilder.EndpointConfiguration("http://localhost:8001", "us-west-2"));
+        // setup
+        Globals globals = new Globals (null, null);
+        JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+        AmazonS3ClientBuilder builder = S3Utils.getS3Builder (interpreter);
+        builder.setEndpointConfiguration (new AwsClientBuilder.EndpointConfiguration("http://localhost:8001", "us-west-2"));
 
-		// setup some files in the bucket
-		AmazonS3 s3client = builder.build ();
-		s3client.createBucket("tests");
-		File dir = new File ("../tests/unittests/csv/lib");
-		s3client.putObject ("tests", "unittests/csv/lib/sin.csv", new File (dir, "sin.csv"));
-		s3client.putObject ("tests", "unittests/csv/lib/sin2.csv", new File (dir, "sin2.csv"));
-		s3client.shutdown ();
+        // setup some files in the bucket
+        AmazonS3 s3client = builder.build ();
+        s3client.createBucket("tests");
+        File dir = new File ("../tests/unittests/csv/lib");
+        s3client.putObject ("tests", "unittests/csv/lib/sin.csv", new File (dir, "sin.csv"));
+        s3client.putObject ("tests", "unittests/csv/lib/sin2.csv", new File (dir, "sin2.csv"));
+        s3client.shutdown ();
 
-		S3PathHandler handler = new S3PathHandler ();
+        S3PathHandler handler = new S3PathHandler ();
 
-		String url = "s3://tests/unittests/csv/lib/sin.csv";
-		String parent = "s3://tests/unittests/csv/lib";
+        String url = "s3://tests/unittests/csv/lib/sin.csv";
+        String parent = "s3://tests/unittests/csv/lib";
 
-		S3Path path = (S3Path)handler.getPath (url, interpreter);
-		Assert.assertNotNull (path);
-		Assert.assertEquals ("tests", path.getBucket ());
-		Assert.assertEquals ("unittests/csv/lib/sin.csv", path.getFile ());
-		Assert.assertEquals (url, path.getPath ());
-		Assert.assertEquals (url, path.getCanonicalPath ());
-		Assert.assertTrue (path.exists ());
-		Assert.assertEquals (31443, path.length ());
-		Assert.assertEquals (31443, path.length ());
-		Assert.assertTrue (path.isFile ());
-		Assert.assertEquals (0, FileUtils.compare (path.getInputStream (), new FileInputStream (new File (dir, "sin.csv"))));
+        S3Path path = (S3Path)handler.getPath (url, interpreter);
+        Assert.assertNotNull (path);
+        Assert.assertEquals ("tests", path.getBucket ());
+        Assert.assertEquals ("unittests/csv/lib/sin.csv", path.getFile ());
+        Assert.assertEquals (url, path.getPath ());
+        Assert.assertEquals (url, path.getCanonicalPath ());
+        Assert.assertTrue (path.exists ());
+        Assert.assertEquals (31443, path.length ());
+        Assert.assertEquals (31443, path.length ());
+        Assert.assertTrue (path.isFile ());
+        Assert.assertEquals (0, FileUtils.compare (path.getInputStream (), new FileInputStream (new File (dir, "sin.csv"))));
 
-		path = (S3Path)path.getParent ();
-		Assert.assertEquals (parent, path.getPath ());
-		path = (S3Path)path.getRelativePath ("sin2.csv");
-		Assert.assertEquals ("s3://tests/unittests/csv/lib/sin2.csv", path.getPath ());
-		Assert.assertTrue (path.isFile ());
+        path = (S3Path)path.getParent ();
+        Assert.assertEquals (parent, path.getPath ());
+        path = (S3Path)path.getRelativePath ("sin2.csv");
+        Assert.assertEquals ("s3://tests/unittests/csv/lib/sin2.csv", path.getPath ());
+        Assert.assertTrue (path.isFile ());
 
-		path = (S3Path)path.getParent ();
-		path = (S3Path)path.getRelativePath ("/unittests/csv/lib/import1.csv");
-		Assert.assertEquals ("s3://tests/unittests/csv/lib/import1.csv", path.getPath ());
-		FileUtils.copy (path.getOutputStream (), new FileInputStream (new File (dir, "import1.csv")), new byte[4096]);
-		Assert.assertEquals (25, path.length ());
-		Assert.assertEquals (25, path.length ());
-		Assert.assertEquals (0, FileUtils.compare (path.getInputStream (), new FileInputStream (new File (dir, "import1.csv"))));
+        path = (S3Path)path.getParent ();
+        path = (S3Path)path.getRelativePath ("/unittests/csv/lib/import1.csv");
+        Assert.assertEquals ("s3://tests/unittests/csv/lib/import1.csv", path.getPath ());
+        FileUtils.copy (path.getOutputStream (), new FileInputStream (new File (dir, "import1.csv")), new byte[4096]);
+        Assert.assertEquals (25, path.length ());
+        Assert.assertEquals (25, path.length ());
+        Assert.assertEquals (0, FileUtils.compare (path.getInputStream (), new FileInputStream (new File (dir, "import1.csv"))));
 
-		path = (S3Path)path.getParent ();
-		path = (S3Path)path.getRelativePath ("../../csv/lib/sin.csv");
-		Assert.assertEquals (url, path.getPath ());
+        path = (S3Path)path.getParent ();
+        path = (S3Path)path.getRelativePath ("../../csv/lib/sin.csv");
+        Assert.assertEquals (url, path.getPath ());
 
-		path = (S3Path)path.getParent ();
-		path = (S3Path)path.getRelativePath ("../test/abc.csv");
-		Assert.assertEquals (0, path.length ());
-		Assert.assertEquals (0, path.length ());
-		Assert.assertFalse (path.exists ());
-		Assert.assertFalse (path.exists ());
+        path = (S3Path)path.getParent ();
+        path = (S3Path)path.getRelativePath ("../test/abc.csv");
+        Assert.assertEquals (0, path.length ());
+        Assert.assertEquals (0, path.length ());
+        Assert.assertFalse (path.exists ());
+        Assert.assertFalse (path.exists ());
 
-		s3client = S3Utils.getS3Client (interpreter);
-		if (s3client != null)
-			s3client.shutdown ();
-		CoordinatedShutdown.get(actor).runAll ();
-		api.stop ();
-	}
+        s3client = S3Utils.getS3Client (interpreter);
+        if (s3client != null)
+            s3client.shutdown ();
+        CoordinatedShutdown.get(actor).runAll ();
+        api.stop ();
+    }
 }

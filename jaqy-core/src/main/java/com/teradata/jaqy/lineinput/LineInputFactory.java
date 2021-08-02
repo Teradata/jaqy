@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,23 +25,23 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class LineInputFactory
 {
-	public static LineInput getSimpleLineInput (InputStream is, Path dir, boolean interactive) throws IOException
-	{
-		return new ReaderLineInput (new InputStreamReader (is), dir, interactive);
-	}
+    public static LineInput getSimpleLineInput (InputStream is, Path dir, boolean interactive) throws IOException
+    {
+        return new ReaderLineInput (new InputStreamReader (is), dir, interactive);
+    }
 
-	public static LineInput getLineInput (Path file, String encoding, boolean interactive) throws IOException
-	{
-		return getLineInput (file.getInputStream (), file.getParent (), encoding, interactive);
-	}
+    public static LineInput getLineInput (Path file, String encoding, boolean interactive) throws IOException
+    {
+        return getLineInput (file.getInputStream (), file.getParent (), encoding, interactive);
+    }
 
-	public static LineInput getLineInput (InputStream is, Path dir, String encoding, boolean interactive) throws IOException
-	{
-		Reader reader = FileUtils.getReader (is, encoding);
-		return new ReaderLineInput (reader, dir, interactive);
-	}
+    public static LineInput getLineInput (InputStream is, Path dir, String encoding, boolean interactive) throws IOException
+    {
+        Reader reader = FileUtils.getReader (is, encoding);
+        return new ReaderLineInput (reader, dir, interactive);
+    }
 }

@@ -19,31 +19,31 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Variable;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ClientRSUtils
 {
-	public final static String NULLSORT_VAR = "nullsort";
-	private static boolean DEFAULT_NULLSORT_VALUE = true;
+    public final static String NULLSORT_VAR = "nullsort";
+    private static boolean DEFAULT_NULLSORT_VALUE = true;
 
-	public static boolean getSortNull (JaqyInterpreter interpreter)
-	{
-		Variable var = interpreter.getVariable (NULLSORT_VAR);
-		if (var == null)
-		{
-			interpreter.setVariableValue (NULLSORT_VAR, DEFAULT_NULLSORT_VALUE);
-			return DEFAULT_NULLSORT_VALUE;
-		}
-		Object v = var.get ();
-		if (v instanceof Boolean)
-		{
-			return ((Boolean)v).booleanValue ();
-		}
-		return DEFAULT_NULLSORT_VALUE;
-	}
+    public static boolean getSortNull (JaqyInterpreter interpreter)
+    {
+        Variable var = interpreter.getVariable (NULLSORT_VAR);
+        if (var == null)
+        {
+            interpreter.setVariableValue (NULLSORT_VAR, DEFAULT_NULLSORT_VALUE);
+            return DEFAULT_NULLSORT_VALUE;
+        }
+        Object v = var.get ();
+        if (v instanceof Boolean)
+        {
+            return ((Boolean)v).booleanValue ();
+        }
+        return DEFAULT_NULLSORT_VALUE;
+    }
 
-	public static void setSortNull (JaqyInterpreter interpreter, boolean nullSort)
-	{
-		interpreter.setVariableValue (NULLSORT_VAR, Boolean.valueOf (nullSort));
-	}
+    public static void setSortNull (JaqyInterpreter interpreter, boolean nullSort)
+    {
+        interpreter.setVariableValue (NULLSORT_VAR, Boolean.valueOf (nullSort));
+    }
 }

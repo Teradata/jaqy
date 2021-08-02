@@ -22,35 +22,35 @@ import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ColumnNode implements ExpNode
 {
-	private final String m_name;
-	private int m_column;
-	private JaqyResultSet m_rs;
+    private final String m_name;
+    private int m_column;
+    private JaqyResultSet m_rs;
 
-	public ColumnNode (String name)
-	{
-		m_name = name;
-	}
+    public ColumnNode (String name)
+    {
+        m_name = name;
+    }
 
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws SQLException
-	{
-		m_rs = rs;
-		m_column = rs.findColumn (m_name);
-	}
+    @Override
+    public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws SQLException
+    {
+        m_rs = rs;
+        m_column = rs.findColumn (m_name);
+    }
 
-	@Override
-	public Object get () throws Exception
-	{
-		return m_rs.getObject (m_column);
-	}
+    @Override
+    public Object get () throws Exception
+    {
+        return m_rs.getObject (m_column);
+    }
 
-	@Override
-	public String toString ()
-	{
-		return "(rs.getObject (" + m_column + "))";
-	}
+    @Override
+    public String toString ()
+    {
+        return "(rs.getObject (" + m_column + "))";
+    }
 }

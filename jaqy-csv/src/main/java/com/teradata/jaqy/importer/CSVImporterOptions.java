@@ -22,22 +22,22 @@ import org.apache.commons.csv.CSVFormat;
 import com.teradata.jaqy.utils.CSVImportInfo;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class CSVImporterOptions
 {
-	public String charset;
-	public CSVFormat format;
-	public HashMap<Integer, CSVImportInfo> importInfoMap;
-	public boolean precise;
-	public long scanThreshold;
+    public String charset;
+    public CSVFormat format;
+    public HashMap<Integer, CSVImportInfo> importInfoMap;
+    public boolean precise;
+    public long scanThreshold;
 
-	public CSVImporterOptions ()
-	{
-		charset = null;
-		format = CSVFormat.DEFAULT;
-		importInfoMap = new HashMap<Integer, CSVImportInfo> ();
-		precise = false;
-		scanThreshold = -1;	// -1 indicates internal algorithm
-	}
+    public CSVImporterOptions ()
+    {
+        charset = null;
+        format = CSVFormat.DEFAULT;
+        importInfoMap = new HashMap<Integer, CSVImportInfo> ();
+        precise = false;
+        scanThreshold = -1; // -1 indicates internal algorithm
+    }
 }

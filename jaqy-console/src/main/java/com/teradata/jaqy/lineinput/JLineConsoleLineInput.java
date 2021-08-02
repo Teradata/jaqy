@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,46 +25,46 @@ import com.teradata.jaqy.path.FilePath;
 import jline.console.ConsoleReader;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class JLineConsoleLineInput implements LineInput
 {
-	private ConsoleReader m_jline;
-	private final Path m_dir;
+    private ConsoleReader m_jline;
+    private final Path m_dir;
 
-	public JLineConsoleLineInput (Path dir) throws IOException
-	{
-		m_dir = dir;
-		m_jline = new ConsoleReader ();
-		m_jline.setExpandEvents (false);
-	}
+    public JLineConsoleLineInput (Path dir) throws IOException
+    {
+        m_dir = dir;
+        m_jline = new ConsoleReader ();
+        m_jline.setExpandEvents (false);
+    }
 
-	@Override
-	public boolean getLine (Input input)
-	{
-		try
-		{
-			input.interactive = true;
-			input.line = m_jline.readLine ();
-			return true;
-		}
-		catch (IOException ex)
-		{
-			return false;
-		}
-	}
+    @Override
+    public boolean getLine (Input input)
+    {
+        try
+        {
+            input.interactive = true;
+            input.line = m_jline.readLine ();
+            return true;
+        }
+        catch (IOException ex)
+        {
+            return false;
+        }
+    }
 
-	@Override
-	public Path getDirectory ()
-	{
-		return m_dir;
-	}
+    @Override
+    public Path getDirectory ()
+    {
+        return m_dir;
+    }
 
-	@Override
-	public File getFileDirectory ()
-	{
-		if (m_dir instanceof FilePath)
-			return ((FilePath)m_dir).getFile ();
-		return null;
-	}
+    @Override
+    public File getFileDirectory ()
+    {
+        if (m_dir instanceof FilePath)
+            return ((FilePath)m_dir).getFile ();
+        return null;
+    }
 }

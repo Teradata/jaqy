@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface TypeHandler
 {
-	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception;
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception;
+    public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception;
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception;
 }

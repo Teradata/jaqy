@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,44 +21,44 @@ import org.junit.Test;
 import com.teradata.jaqy.Os;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PathUtilsTest
 {
-	@Test
-	public void testPathSplit ()
-	{
-		String[] paths;
+    @Test
+    public void testPathSplit ()
+    {
+        String[] paths;
 
-		paths = PathUtils.split ("a:b");
-		Assert.assertArrayEquals (new String[] { "a", "b" }, paths);
+        paths = PathUtils.split ("a:b");
+        Assert.assertArrayEquals (new String[] { "a", "b" }, paths);
 
-		paths = PathUtils.split ("a;b");
-		Assert.assertArrayEquals (new String[] { "a", "b" }, paths);
+        paths = PathUtils.split ("a;b");
+        Assert.assertArrayEquals (new String[] { "a", "b" }, paths);
 
-		if (Os.isWindows ())
-		{
-			// Windows tests
-			paths = PathUtils.split ("/abc/def:lib/def");
-			Assert.assertArrayEquals (new String[] { "\\abc\\def", "lib\\def" }, paths);
-	
-			paths = PathUtils.split ("C:\\abc");
-			Assert.assertArrayEquals (new String[] { "C:\\abc" }, paths);
-	
-			paths = PathUtils.split ("a:C:\\abc");
-			Assert.assertArrayEquals (new String[] { "a", "C:\\abc" }, paths);
-	
-			paths = PathUtils.split ("a;C:\\abc");
-			Assert.assertArrayEquals (new String[] { "a", "C:\\abc" }, paths);
-		}
-		else
-		{
-			// Unix tests
-			paths = PathUtils.split ("/abc/def:lib/def");
-			Assert.assertArrayEquals (new String[] { "/abc/def", "lib/def" }, paths);
+        if (Os.isWindows ())
+        {
+            // Windows tests
+            paths = PathUtils.split ("/abc/def:lib/def");
+            Assert.assertArrayEquals (new String[] { "\\abc\\def", "lib\\def" }, paths);
+    
+            paths = PathUtils.split ("C:\\abc");
+            Assert.assertArrayEquals (new String[] { "C:\\abc" }, paths);
+    
+            paths = PathUtils.split ("a:C:\\abc");
+            Assert.assertArrayEquals (new String[] { "a", "C:\\abc" }, paths);
+    
+            paths = PathUtils.split ("a;C:\\abc");
+            Assert.assertArrayEquals (new String[] { "a", "C:\\abc" }, paths);
+        }
+        else
+        {
+            // Unix tests
+            paths = PathUtils.split ("/abc/def:lib/def");
+            Assert.assertArrayEquals (new String[] { "/abc/def", "lib/def" }, paths);
 
-			paths = PathUtils.split ("/abc/def;lib/def");
-			Assert.assertArrayEquals (new String[] { "/abc/def", "lib/def" }, paths);
-		}
-	}
+            paths = PathUtils.split ("/abc/def;lib/def");
+            Assert.assertArrayEquals (new String[] { "/abc/def", "lib/def" }, paths);
+        }
+    }
 }

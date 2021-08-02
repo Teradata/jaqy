@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Teradata
+ * Copyright (c) 2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 package test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class Person
 {
-	public int id;
-	public String name;
+    public int id;
+    public String name;
 }

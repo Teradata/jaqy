@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,56 +23,56 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class BinaryTypeHandler implements TypeHandler
 {
-	private final static TypeHandler s_instance = new BinaryTypeHandler ();
+    private final static TypeHandler s_instance = new BinaryTypeHandler ();
 
-	public static TypeHandler getInstance ()
-	{
-		return s_instance;
-	}
+    public static TypeHandler getInstance ()
+    {
+        return s_instance;
+    }
 
-	private BinaryTypeHandler ()
-	{
-	}
+    private BinaryTypeHandler ()
+    {
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object obj = rs.getObject (column);
-		if (obj == null)
-			return null;
-		else if (obj instanceof byte[])
-		{
-			return StringUtils.getHexString ((byte[])obj);
-		}
-		else if (obj instanceof Blob)
-		{
-			Blob blob = (Blob)obj;
-			byte[] bytes = blob.getBytes (1, (int)blob.length ());
-			blob.free ();
-			return StringUtils.getHexString (bytes);
-		}
-		return "Unable to handle " + obj.getClass ();
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object obj = rs.getObject (column);
+        if (obj == null)
+            return null;
+        else if (obj instanceof byte[])
+        {
+            return StringUtils.getHexString ((byte[])obj);
+        }
+        else if (obj instanceof Blob)
+        {
+            Blob blob = (Blob)obj;
+            byte[] bytes = blob.getBytes (1, (int)blob.length ());
+            blob.free ();
+            return StringUtils.getHexString (bytes);
+        }
+        return "Unable to handle " + obj.getClass ();
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object obj = rs.getObject (column);
-		if (obj == null)
-			return -1;
-		else if (obj instanceof byte[])
-		{
-			return ((byte[])obj).length * 2;
-		}
-		else if (obj instanceof Blob)
-		{
-			Blob blob = (Blob)obj;
-			return (int)blob.length () * 2;
-		}
-		throw new RuntimeException ("Unable to handle " + obj.getClass ());
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object obj = rs.getObject (column);
+        if (obj == null)
+            return -1;
+        else if (obj instanceof byte[])
+        {
+            return ((byte[])obj).length * 2;
+        }
+        else if (obj instanceof Blob)
+        {
+            Blob blob = (Blob)obj;
+            return (int)blob.length () * 2;
+        }
+        throw new RuntimeException ("Unable to handle " + obj.getClass ());
+    }
 }

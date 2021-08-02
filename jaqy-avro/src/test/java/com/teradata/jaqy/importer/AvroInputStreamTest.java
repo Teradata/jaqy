@@ -21,19 +21,19 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class AvroInputStreamTest
 {
-	@Test
-	public void testIS () throws Exception
-	{
-		FileInputStream is = new FileInputStream ("../tests/unittests/avro/lib/file1.avro");
-		AvroInputStream ais = new AvroInputStream (is);
+    @Test
+    public void testIS () throws Exception
+    {
+        FileInputStream is = new FileInputStream ("../tests/unittests/avro/lib/file1.avro");
+        AvroInputStream ais = new AvroInputStream (is);
 
-		Assert.assertEquals (360, ais.length ());
-		ais.seek (100);
-		Assert.assertEquals (100, ais.tell ());
-		ais.close ();
-	}
+        Assert.assertEquals (360, ais.length ());
+        ais.seek (100);
+        Assert.assertEquals (100, ais.tell ());
+        ais.close ();
+    }
 }

@@ -19,14 +19,14 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.interfaces.JaqyPlugin;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class AzurePlugin implements JaqyPlugin
 {
-	@Override
-	public void init (Globals globals)
-	{
-		globals.getCommandManager ().addObject (new WasbCommand ());
-		globals.getPathHandlerManager ().addPathHandler (new AzurePathHandler ());
-	}
+    @Override
+    public void init (Globals globals)
+    {
+        globals.getCommandManager ().addObject (new WasbCommand ());
+        globals.getPathHandlerManager ().addPathHandler (new AzurePathHandler ());
+    }
 }

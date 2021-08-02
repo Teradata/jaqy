@@ -29,90 +29,90 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ScriptCommand extends JaqyCommandAdapter
 {
-	private static class ScriptOptions
-	{
-		String	encoding;
-	}
+    private static class ScriptOptions
+    {
+        String  encoding;
+    }
 
-	public ScriptCommand ()
-	{
-		super ("script");
+    public ScriptCommand ()
+    {
+        super ("script");
 
-		addOption ("c", "charset", true, "specifies the file character set");
-	}
+        addOption ("c", "charset", true, "specifies the file character set");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "runs a script.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "runs a script.";
+    }
 
-	@Override
-	protected String getSyntax ()
-	{
-		return getCommand () + " [options] [path]";
-	}
+    @Override
+    protected String getSyntax ()
+    {
+        return getCommand () + " [options] [path]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		ScriptOptions scriptOptions = new ScriptOptions ();
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        ScriptOptions scriptOptions = new ScriptOptions ();
 
-		CommandLine cmdLine = getCommandLine (args);
-		args = cmdLine.getArgs ();
-		for (Option option : cmdLine.getOptions ())
-		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 'c':
-					scriptOptions.encoding = option.getValue ();
-					break;
-			}
-		}
-		String file = null;
-		if (args.length > 0)
-			file = args[0];
-		if (file == null)
-		{
-			interpreter.setParseAction (this, scriptOptions);
-		}
-		else
-		{
-			Path scriptFile = interpreter.getPath (file);
-			if (!scriptFile.exists ())
-			{
-				interpreter.error ("file not found: " + file);
-			}
-			Reader reader = FileUtils.getReader (scriptFile.getInputStream (), scriptOptions.encoding);
-			interpreter.eval (reader);
-		}
-	}
+        CommandLine cmdLine = getCommandLine (args);
+        args = cmdLine.getArgs ();
+        for (Option option : cmdLine.getOptions ())
+        {
+            switch (option.getOpt ().charAt (0))
+            {
+                case 'c':
+                    scriptOptions.encoding = option.getValue ();
+                    break;
+            }
+        }
+        String file = null;
+        if (args.length > 0)
+            file = args[0];
+        if (file == null)
+        {
+            interpreter.setParseAction (this, scriptOptions);
+        }
+        else
+        {
+            Path scriptFile = interpreter.getPath (file);
+            if (!scriptFile.exists ())
+            {
+                interpreter.error ("file not found: " + file);
+            }
+            Reader reader = FileUtils.getReader (scriptFile.getInputStream (), scriptOptions.encoding);
+            interpreter.eval (reader);
+        }
+    }
 
-	@Override
-	public JaqyCommand.Type getType ()
-	{
-		return JaqyCommand.Type.exclusive;
-	}
+    @Override
+    public JaqyCommand.Type getType ()
+    {
+        return JaqyCommand.Type.exclusive;
+    }
 
-	@Override
-	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
-	{
-		if (!silent)
-		{
-			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, interactive);
-			display.echo (interpreter, ".end " + getName (), interactive);
-		}
-		interpreter.eval (action);
-	}
+    @Override
+    public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception
+    {
+        if (!silent)
+        {
+            Display display = interpreter.getDisplay ();
+            display.echo (interpreter, action, interactive);
+            display.echo (interpreter, ".end " + getName (), interactive);
+        }
+        interpreter.eval (action);
+    }
 }

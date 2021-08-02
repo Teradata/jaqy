@@ -20,42 +20,42 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.PathUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class LoadCommand extends JaqyCommandAdapter
 {
-	public LoadCommand ()
-	{
-		super ("load");
-	}
+    public LoadCommand ()
+    {
+        super ("load");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "loads a Jaqy plugin";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "loads a Jaqy plugin";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [classpath]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [classpath]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		if (args.length != 1)
-		{
-			interpreter.error ("error parsing argument.");
-		}
-		String path = args[0];
-		path = PathUtils.toAbsolutePath (path, interpreter.getFileDirectory ());
-		interpreter.getGlobals ().loadPlugin (path, interpreter);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        if (args.length != 1)
+        {
+            interpreter.error ("error parsing argument.");
+        }
+        String path = args[0];
+        path = PathUtils.toAbsolutePath (path, interpreter.getFileDirectory ());
+        interpreter.getGlobals ().loadPlugin (path, interpreter);
+    }
 }

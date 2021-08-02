@@ -28,61 +28,61 @@ import javax.xml.transform.Source;
 import com.teradata.jaqy.utils.ExceptionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class SQLXMLWrapper implements SQLXML
 {
-	@Override
-	public void free () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void free () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public InputStream getBinaryStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public InputStream getBinaryStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public OutputStream setBinaryStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public OutputStream setBinaryStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Reader getCharacterStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Reader getCharacterStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Writer setCharacterStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Writer setCharacterStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public String getString () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public String getString () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setString (String value) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setString (String value) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public <T extends Source> T getSource (Class<T> sourceClass) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public <T extends Source> T getSource (Class<T> sourceClass) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public <T extends Result> T setResult (Class<T> resultClass) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public <T extends Result> T setResult (Class<T> resultClass) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 }

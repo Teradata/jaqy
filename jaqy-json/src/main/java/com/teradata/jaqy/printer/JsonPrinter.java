@@ -30,52 +30,52 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.JsonUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class JsonPrinter implements JaqyPrinter
 {
-	private final JsonPrinterOptions m_options;
+    private final JsonPrinterOptions m_options;
 
-	public JsonPrinter (JsonPrinterOptions options)
-	{
-		m_options = options;
-	}
+    public JsonPrinter (JsonPrinterOptions options)
+    {
+        m_options = options;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "json";
-	}
+    @Override
+    public String getName ()
+    {
+        return "json";
+    }
 
-	@Override
-	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
-	{
-		JsonProvider provider = new CookJsonProvider ();
+    @Override
+    public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws Exception
+    {
+        JsonProvider provider = new CookJsonProvider ();
 
-		HashMap<String, Object> config = new HashMap<String, Object> ();
-		config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_JSON);
-		if (m_options.pretty)
-			config.put (JsonGenerator.PRETTY_PRINTING, Boolean.TRUE);
-		switch (m_options.binaryFormat)
-		{
-			case Base64:
-				config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_BASE64);
-				break;
-			case Hex:
-				config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_HEX);
-				break;
-		}
+        HashMap<String, Object> config = new HashMap<String, Object> ();
+        config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_JSON);
+        if (m_options.pretty)
+            config.put (JsonGenerator.PRETTY_PRINTING, Boolean.TRUE);
+        switch (m_options.binaryFormat)
+        {
+            case Base64:
+                config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_BASE64);
+                break;
+            case Hex:
+                config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_HEX);
+                break;
+        }
 
-		CookJsonGenerator g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (pw);
+        CookJsonGenerator g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (pw);
 
-		long count = JsonUtils.print (interpreter.getGlobals (), g, rs, limit);
-		pw.println ();
-		return count;
-	}
+        long count = JsonUtils.print (interpreter.getGlobals (), g, rs, limit);
+        pw.println ();
+        return count;
+    }
 
-	@Override
-	public boolean isForwardOnly ()
-	{
-		return true;
-	}
+    @Override
+    public boolean isForwardOnly ()
+    {
+        return true;
+    }
 }

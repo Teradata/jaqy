@@ -22,47 +22,47 @@ import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.PropertyTableUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ProtocolCommand extends JaqyCommandAdapter
 {
-	public ProtocolCommand ()
-	{
-		super ("protocol");
-	}
+    public ProtocolCommand ()
+    {
+        super ("protocol");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays / sets JDBC protocols and their associated JDBC drivers.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays / sets JDBC protocols and their associated JDBC drivers.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [protocol name] [JDBC driver name]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [protocol name] [JDBC driver name]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		JaqyDriverManager driverManager = interpreter.getGlobals ().getDriverManager ();
-		if (args.length == 0)
-		{
-			PropertyTable pt = PropertyTableUtils.createPropertyTable (driverManager.getDriverProtocolMap (), new String[] { "Protocol", "Driver" });
-			interpreter.print (pt);
-			return;
-		}
-		if (args.length != 2)
-		{
-			interpreter.error ("invalid command arguments.");
-		}
-		driverManager.addDriverProtocol (args[0], args[1]);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        JaqyDriverManager driverManager = interpreter.getGlobals ().getDriverManager ();
+        if (args.length == 0)
+        {
+            PropertyTable pt = PropertyTableUtils.createPropertyTable (driverManager.getDriverProtocolMap (), new String[] { "Protocol", "Driver" });
+            interpreter.print (pt);
+            return;
+        }
+        if (args.length != 2)
+        {
+            interpreter.error ("invalid command arguments.");
+        }
+        driverManager.addDriverProtocol (args[0], args[1]);
+    }
 }

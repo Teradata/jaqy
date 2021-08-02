@@ -21,41 +21,41 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan 
+ * @author  Heng Yuan 
  */
 public class ProjectParserTest
 {
-	@Test
-	public void test1 () throws Exception
-	{
-		Assert.assertNotNull (ProjectParser.getExpList ("a"));
-		Assert.assertNotNull (ProjectParser.getExpList ("a, b"));
-		Assert.assertNotNull (ProjectParser.getExpList ("a as b, c"));
-		Assert.assertNotNull (ProjectParser.getExpList ("a as b, c as d"));
-		Assert.assertNotNull (ProjectParser.getExpList ("\"a\" as \" b \", c as d"));
-	}
+    @Test
+    public void test1 () throws Exception
+    {
+        Assert.assertNotNull (ProjectParser.getExpList ("a"));
+        Assert.assertNotNull (ProjectParser.getExpList ("a, b"));
+        Assert.assertNotNull (ProjectParser.getExpList ("a as b, c"));
+        Assert.assertNotNull (ProjectParser.getExpList ("a as b, c as d"));
+        Assert.assertNotNull (ProjectParser.getExpList ("\"a\" as \" b \", c as d"));
+    }
 
-	@Test (expected = IOException.class)
-	public void testError1 () throws IOException
-	{
-		ProjectParser.getExpList ("");
-	}
+    @Test (expected = IOException.class)
+    public void testError1 () throws IOException
+    {
+        ProjectParser.getExpList ("");
+    }
 
-	@Test (expected = IOException.class)
-	public void testError2 () throws IOException
-	{
-		ProjectParser.getExpList ("a b");
-	}
+    @Test (expected = IOException.class)
+    public void testError2 () throws IOException
+    {
+        ProjectParser.getExpList ("a b");
+    }
 
-	@Test (expected = IOException.class)
-	public void testError3 () throws IOException
-	{
-		WhereParser.getExp ("a 1");
-	}
+    @Test (expected = IOException.class)
+    public void testError3 () throws IOException
+    {
+        WhereParser.getExp ("a 1");
+    }
 
-	@Test (expected = IOException.class)
-	public void testError4 () throws IOException
-	{
-		WhereParser.getExp ("a \\ ");
-	}
+    @Test (expected = IOException.class)
+    public void testError4 () throws IOException
+    {
+        WhereParser.getExp ("a \\ ");
+    }
 }

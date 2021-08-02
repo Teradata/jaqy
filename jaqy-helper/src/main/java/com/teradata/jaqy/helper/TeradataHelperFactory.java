@@ -20,13 +20,13 @@ import com.teradata.jaqy.connection.JaqyConnection;
 import com.teradata.jaqy.connection.JdbcFeatures;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class TeradataHelperFactory extends DefaultHelperFactory
 {
-	@Override
-	protected DefaultHelper createHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
-	{
-		return new TeradataHelper (features, conn, globals);
-	}
+    @Override
+    protected DefaultHelper createHelper (JdbcFeatures features, JaqyConnection conn, Globals globals)
+    {
+        return new TeradataHelper (features, conn, globals);
+    }
 }
