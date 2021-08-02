@@ -1,6 +1,7 @@
 ansi_types.sql
 blob.sql
 clob.sql
+geo.sql
 json.sql
 pdt.sql
 transaction.sql
