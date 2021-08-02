@@ -1,0 +1,213 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- PERIOD data type test
+--------------------------------------------------------------------------
+.run ../common/teradata_setup.sql
+-- Running script: ../common/teradata_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u dbc -p dbc teradata://127.0.0.1/CHARSET=UTF8
+-- 0/2 - 0 ----------------------------------------------------------------
+CREATE DATABASE vagrant AS PERM=1e8;
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+DATABASE vagrant;
+-- success. update count = 0
+-- 2/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE jsonTable
+(
+	a  INTEGER,
+	b  JSON
+);
+-- success. update count = 0
+-- 3/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO jsonTable VALUES (1, '{"a":"abc","b":1}');
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO jsonTable VALUES (2, NULL);
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+INSERT INTO jsonTable VALUES (3, '{"a":"defg","b":3}');
+-- success. update count = 1
+-- 6/2 - 0 ----------------------------------------------------------------
+
+.debug resultset on
+-- 6/3 - 0 ----------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     INTEGER
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       vagrant
+    Table Name                                   jsonTable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         b
+    Label                                        b
+    Type                                         OTHER
+    SQL Type                                     JSON
+    Java Class                                   java.sql.Clob
+    Catalog                                      
+    Schema                                       vagrant
+    Table Name                                   jsonTable
+    Display Size                                 16776192
+    Precision                                    16776192
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          Y
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   N
+    Signed                                       N
+    Writable                                     Y
+-- success --
+a b
+- ------------------
+1 {"a":"abc","b":1}
+2 ?
+3 {"a":"defg","b":3}
+-- activity count = 3
+-- 7/3 - 0 ----------------------------------------------------------------
+.debug resultset off
+-- 7/4 - 0 ----------------------------------------------------------------
+
+.export csv myjson.csv
+-- 7/5 - 0 ----------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 8/5 - 0 ----------------------------------------------------------------
+.os cat myjson.csv
+a,b
+1,"{""a"":""abc"",""b"":1}"
+2,
+3,"{""a"":""defg"",""b"":3}"
+-- 8/6 - 0 ----------------------------------------------------------------
+DELETE FROM jsonTable;
+-- success. update count = 3
+-- 9/6 - 0 ----------------------------------------------------------------
+.import csv -h --nafilter myjson.csv
+-- 9/7 - 0 ----------------------------------------------------------------
+.importtable -c jsonTable
+-- INSERTION --
+INSERT INTO jsonTable VALUES (?,?)
+-- 10/8 - 0 ---------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+a b
+- ------------------
+1 {"a":"abc","b":1}
+2 ?
+3 {"a":"defg","b":3}
+-- activity count = 3
+-- 11/8 - 0 ---------------------------------------------------------------
+.os rm -f myjson.csv
+-- 11/9 - 0 ---------------------------------------------------------------
+
+.export json myjson.json
+-- 11/10 - 0 --------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 12/10 - 0 --------------------------------------------------------------
+.os cat myjson.json && echo
+[{"a":1,"b":{"a":"abc","b":1}},{"a":2,"b":null},{"a":3,"b":{"a":"defg","b":3}}]
+-- 12/11 - 0 --------------------------------------------------------------
+DELETE FROM jsonTable;
+-- success. update count = 3
+-- 13/11 - 0 --------------------------------------------------------------
+.import json myjson.json
+-- 13/12 - 0 --------------------------------------------------------------
+INSERT INTO jsonTable VALUES ({{a}}, {{b}});
+-- 14/12 - 0 --------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+a b
+- ------------------
+1 {"a":"abc","b":1}
+2 ?
+3 {"a":"defg","b":3}
+-- activity count = 3
+-- 15/12 - 0 --------------------------------------------------------------
+.os rm -f myjson.json
+-- 15/13 - 0 --------------------------------------------------------------
+
+.export avro myjson.avro
+-- 15/14 - 0 --------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 16/14 - 0 --------------------------------------------------------------
+DELETE FROM jsonTable;
+-- success. update count = 3
+-- 17/14 - 0 --------------------------------------------------------------
+.import avro myjson.avro
+-- 17/15 - 0 --------------------------------------------------------------
+.importtable -c jsonTable
+-- INSERTION --
+INSERT INTO jsonTable VALUES (?,?)
+-- 18/16 - 0 --------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+a b
+- ------------------
+1 {"a":"abc","b":1}
+2 ?
+3 {"a":"defg","b":3}
+-- activity count = 3
+-- 19/16 - 0 --------------------------------------------------------------
+.os rm -f myjson.avro
+-- 19/17 - 0 --------------------------------------------------------------
+
+.export excel myjson.xlsx
+-- 19/18 - 0 --------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+-- activity count = 3
+-- 20/18 - 0 --------------------------------------------------------------
+DELETE FROM jsonTable;
+-- success. update count = 3
+-- 21/18 - 0 --------------------------------------------------------------
+.import excel -h myjson.xlsx
+-- 21/19 - 0 --------------------------------------------------------------
+.importtable -c jsonTable
+-- INSERTION --
+INSERT INTO jsonTable VALUES (?,?)
+-- 22/20 - 0 --------------------------------------------------------------
+SELECT * FROM jsonTable ORDER BY 1;
+-- success --
+a b
+- ------------------
+1 {"a":"abc","b":1}
+2 ?
+3 {"a":"defg","b":3}
+-- activity count = 3
+-- 23/20 - 0 --------------------------------------------------------------
+.os rm -f myjson.xlsx
+-- 23/21 - 0 --------------------------------------------------------------
+
+DELETE DATABASE vagrant;
+-- success. update count = 0
+-- 24/21 - 0 --------------------------------------------------------------
+DROP DATABASE vagrant;
+-- success. update count = 0
+-- 25/21 - 0 --------------------------------------------------------------

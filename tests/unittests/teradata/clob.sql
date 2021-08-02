@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
--- PERIOD data type test
+-- CLOB data type test
 --------------------------------------------------------------------------
 .run ../common/teradata_setup.sql
 CREATE DATABASE vagrant AS PERM=1e8;
