@@ -36,7 +36,10 @@ import com.teradata.jaqy.resultset.FileBlob;
 import com.teradata.jaqy.resultset.FileClob;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
-import com.teradata.jaqy.utils.*;
+import com.teradata.jaqy.utils.CSVImportInfo;
+import com.teradata.jaqy.utils.CSVUtils;
+import com.teradata.jaqy.utils.FileUtils;
+import com.teradata.jaqy.utils.ImporterUtils;
 
 /**
  * @author	Heng Yuan
@@ -190,8 +193,6 @@ public class CSVImporter implements JaqyImporter
 				else
 					return new FileClob (file, importInfo.charset);
 			}
-			if (TypesUtils.isBinary (paramInfo.type))
-				return StringUtils.getBytesFromHexString (value);
 			return value;
 		}
 		catch (ArrayIndexOutOfBoundsException ex)
