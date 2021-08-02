@@ -87,7 +87,7 @@ a b
 -- activity count = 2
 -- 18/3 - 0 ---------------------------------------------------------------
 ROLLBACK;
--- failure 3514: [HY008] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3514] [SQLState HY008] User-generated transaction ABORT.
+-- failure 3514: [HY008] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3514] [SQLState HY008] User-generated transaction ABORT.
 -- 19/3 - 0 ---------------------------------------------------------------
 
 SELECT * FROM MyTable ORDER BY a, b;

@@ -21,13 +21,13 @@ Jaqy Console 1.2.0
 
 -- bit string literal
 SELECT B'1100' AS Test;
--- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the word 'B' and the string '1100'.
+-- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the word 'B' and the string '1100'.
 -- 1/4 - 0 ----------------------------------------------------------------
 SELECT CAST(B'1100' AS BIT(16)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: expected something between the word 'B' and the string '1100'.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: expected something between the word 'B' and the string '1100'.
 -- 2/4 - 0 ----------------------------------------------------------------
 SELECT CAST(B'1100' AS BIT VARYING(16)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: expected something between the word 'B' and the string '1100'.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: expected something between the word 'B' and the string '1100'.
 -- 3/4 - 0 ----------------------------------------------------------------
 
 -- Numerical types
@@ -44,7 +44,7 @@ Test
 -- activity count = 1
 -- 5/4 - 0 ----------------------------------------------------------------
 SELECT CAST(123456789 AS NUMERIC) AS Test;
--- failure 2616: [22003] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 2616] [SQLState 22003] Numeric overflow occurred during computation.
+-- failure 2616: [22003] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 2616] [SQLState 22003] Numeric overflow occurred during computation.
 -- 6/4 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DEC(10,2)) AS Test;
 -- success --
@@ -59,7 +59,7 @@ Test
 -- activity count = 1
 -- 8/4 - 0 ----------------------------------------------------------------
 SELECT CAST(-1234567.89 AS DECIMAL) AS Test;
--- failure 2616: [22003] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 2616] [SQLState 22003] Numeric overflow occurred during computation.
+-- failure 2616: [22003] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 2616] [SQLState 22003] Numeric overflow occurred during computation.
 -- 9/4 - 0 ----------------------------------------------------------------
 
 SELECT CAST(-1234567.89 AS FLOAT) AS Test;
@@ -98,11 +98,11 @@ A quick brown fox
 -- 14/4 - 0 ---------------------------------------------------------------
 -- natioinal character string literal
 SELECT N'A quick brown fox' AS Test;
--- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the word 'N' and the string 'A quick brown fox'.
+-- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the word 'N' and the string 'A quick brown fox'.
 -- 15/4 - 0 ---------------------------------------------------------------
 -- hex string literal
 SELECT X'DEADBEEF' AS Test;
--- failure 6705: [HY000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 6705] [SQLState HY000] An illegally formed character string was encountered during translation.
+-- failure 6705: [HY000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 6705] [SQLState HY000] An illegally formed character string was encountered during translation.
 -- 16/4 - 0 ---------------------------------------------------------------
 
 SELECT CAST('A quick brown fox' AS CHARACTER(20)) AS Test;
@@ -138,23 +138,23 @@ A quick brown fox
 -- 21/4 - 0 ---------------------------------------------------------------
 
 SELECT CAST('A quick brown fox' AS NATIONAL CHARACTER(20)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
 -- 22/4 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS NATIONAL CHAR(20)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
 -- 23/4 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS NCHAR(20)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: Data Type "NCHAR" does not match a Defined Type name.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: Data Type "NCHAR" does not match a Defined Type name.
 -- 24/4 - 0 ---------------------------------------------------------------
 
 SELECT CAST('A quick brown fox' AS NATIONAL CHARACTER VARYING(20)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
 -- 25/4 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS NATIONAL CHAR VARYING(20)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: Data Type "NATIONAL" does not match a Defined Type name.
 -- 26/4 - 0 ---------------------------------------------------------------
 SELECT CAST('A quick brown fox' AS NCHAR VARYING(20)) AS Test;
--- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3706] [SQLState 42000] Syntax error: Data Type "NCHAR" does not match a Defined Type name.
+-- failure 3706: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3706] [SQLState 42000] Syntax error: Data Type "NCHAR" does not match a Defined Type name.
 -- 27/4 - 0 ---------------------------------------------------------------
 
 -- Unicode support check
@@ -165,7 +165,7 @@ Test
 -- activity count = 1
 -- 28/4 - 0 ---------------------------------------------------------------
 SELECT N'你好，世界' AS Test;
--- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the word 'N' and the string '你好，世界'.
+-- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the word 'N' and the string '你好，世界'.
 -- 29/4 - 0 ---------------------------------------------------------------
 
 -- Date/Time/Timestamp
@@ -230,10 +230,10 @@ Test
 
 -- Boolean type
 SELECT TRUE AS Test;
--- failure 3822: [42S22] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3822] [SQLState 42S22] Cannot resolve column 'TRUE'. Specify table or view.
+-- failure 3822: [42S22] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3822] [SQLState 42S22] Cannot resolve column 'TRUE'. Specify table or view.
 -- 39/4 - 0 ---------------------------------------------------------------
 SELECT FALSE AS Test;
--- failure 3822: [42S22] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3822] [SQLState 42S22] Cannot resolve column 'FALSE'. Specify table or view.
+-- failure 3822: [42S22] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3822] [SQLState 42S22] Cannot resolve column 'FALSE'. Specify table or view.
 -- 40/4 - 0 ---------------------------------------------------------------
 
 -- Distinct Types
@@ -264,7 +264,7 @@ Test
 -- activity count = 1
 -- 44/4 - 0 ---------------------------------------------------------------
 SELECT XMLELEMENT(NAME 'Customer', XMLATTRIBUTES('123' AS id), XMLFOREST('Joe' AS Name)) AS Test;
--- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.12] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the 'NAME' keyword and the string 'Customer'.
+-- failure 3707: [42000] [Teradata Database] [TeraJDBC 17.10.00.17] [Error 3707] [SQLState 42000] Syntax error, expected something like a name or a Unicode delimited identifier between the 'NAME' keyword and the string 'Customer'.
 -- 45/4 - 0 ---------------------------------------------------------------
 
 --------------------------------------------------------------------------

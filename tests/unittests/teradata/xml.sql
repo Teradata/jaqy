@@ -8,7 +8,7 @@ DATABASE vagrant;
 CREATE TABLE xmlTable
 (
 	a  INTEGER,
-	j  XML
+	b  XML
 );
 
 INSERT INTO xmlTable VALUES (1, CREATEXML('<doc a="abc">1</doc>'));
@@ -28,15 +28,6 @@ DELETE FROM xmlTable;
 SELECT * FROM xmlTable ORDER BY 1;
 .os rm -f myxml.csv
 
-.export json myxml.json
-SELECT * FROM xmlTable ORDER BY 1;
-.os cat myxml.json && echo
-DELETE FROM xmlTable;
-.import json myxml.json
-INSERT INTO xmlTable VALUES ({{a}}, {{b}});
-SELECT * FROM xmlTable ORDER BY 1;
-.os rm -f myxml.json
-
 .export avro myxml.avro
 SELECT * FROM xmlTable ORDER BY 1;
 DELETE FROM xmlTable;
@@ -52,6 +43,15 @@ DELETE FROM xmlTable;
 .importtable -c xmlTable
 SELECT * FROM xmlTable ORDER BY 1;
 .os rm -f myxml.xlsx
+
+.export json myxml.json
+SELECT * FROM xmlTable ORDER BY 1;
+.os cat myxml.json && echo
+DELETE FROM xmlTable;
+.import json myxml.json
+INSERT INTO xmlTable VALUES ({{a}}, {{b}});
+SELECT * FROM xmlTable ORDER BY 1;
+.os rm -f myxml.json
 
 DELETE DATABASE vagrant;
 DROP DATABASE vagrant;
