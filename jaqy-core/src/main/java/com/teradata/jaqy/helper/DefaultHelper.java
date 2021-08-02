@@ -34,10 +34,7 @@ import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.*;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandlerRegistry;
-import com.teradata.jaqy.utils.ExceptionUtils;
-import com.teradata.jaqy.utils.SessionUtils;
-import com.teradata.jaqy.utils.SimpleQuery;
-import com.teradata.jaqy.utils.TypesUtils;
+import com.teradata.jaqy.utils.*;
 
 /**
  * @author	Heng Yuan
@@ -788,6 +785,15 @@ public class DefaultHelper implements JaqyHelper
 					{
 						BigDecimal dec = new BigDecimal (o.toString ());
 						setObject (stmt, columnIndex, paramInfo, dec, freeList, interpreter);
+						break;
+					}
+					case Types.BINARY:
+					case Types.VARBINARY:
+					case Types.LONGVARBINARY:
+					case Types.BLOB:
+					{
+						byte[] bytes = StringUtils.getBytesFromHexString (o.toString ());
+						setObject (stmt, columnIndex, paramInfo, bytes, freeList, interpreter);
 						break;
 					}
 					default:

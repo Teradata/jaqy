@@ -252,6 +252,7 @@ class JsonImporter implements JaqyImporter
 				break;
 			}
 			case Types.DECIMAL:
+			case Types.NUMERIC:
 			{
 				if (v instanceof JsonString)
 				{
