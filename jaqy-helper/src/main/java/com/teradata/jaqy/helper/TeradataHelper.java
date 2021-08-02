@@ -15,7 +15,14 @@
  */
 package com.teradata.jaqy.helper;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Struct;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.logging.Level;
 
 import com.teradata.jaqy.Globals;
@@ -28,6 +35,7 @@ import com.teradata.jaqy.resultset.CachedClob;
 import com.teradata.jaqy.resultset.InMemoryResultSet;
 import com.teradata.jaqy.schema.FullColumnInfo;
 import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.typehandler.StringTypeHandler;
 import com.teradata.jaqy.typehandler.TypeHandler;
 import com.teradata.jaqy.utils.ResultSetUtils;
 import com.teradata.jaqy.utils.TypesUtils;
@@ -172,6 +180,11 @@ class TeradataHelper extends DefaultHelper
                 return s_pdtHandler;
             }
         }
+        else if (rs.getMetaData ().getColumnType (column) == Types.SQLXML)
+        {
+            return StringTypeHandler.getInstance ();
+        }
+
         return super.getTypeHandler (rs, column);
     }
 

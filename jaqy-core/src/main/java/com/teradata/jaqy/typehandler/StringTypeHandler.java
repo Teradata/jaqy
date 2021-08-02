@@ -23,7 +23,7 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 /**
  * @author  Heng Yuan
  */
-class StringTypeHandler implements TypeHandler
+public class StringTypeHandler implements TypeHandler
 {
     private final static TypeHandler s_instance = new StringTypeHandler ();
 
