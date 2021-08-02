@@ -670,15 +670,8 @@ public class DefaultHelper implements JaqyHelper
             {
                 if (o instanceof SQLXML)
                 {
-                    SQLXML xml = (SQLXML)o;
-                    if (m_features.noStream)
-                    {
-                        stmt.setString (columnIndex, xml.getString ());
-                    }
-                    else
-                    {
-                        stmt.setCharacterStream (columnIndex, xml.getCharacterStream ());
-                    }
+                    stmt.setObject (columnIndex, o);
+                    freeList.add (o);
                     return;
                 }
                 else if (o instanceof CharSequence)
@@ -746,29 +739,30 @@ public class DefaultHelper implements JaqyHelper
         {
             if (o instanceof String)
             {
+                String value = o.toString ();
                 switch (paramInfo.type)
                 {
                     case Types.TINYINT:
                     {
-                        BigDecimal dec = new BigDecimal (o.toString ());
+                        BigDecimal dec = new BigDecimal (value);
                         setObject (stmt, columnIndex, paramInfo, dec.byteValue (), freeList, interpreter);
                         break;
                     }
                     case Types.SMALLINT:
                     {
-                        BigDecimal dec = new BigDecimal (o.toString ());
+                        BigDecimal dec = new BigDecimal (value);
                         setObject (stmt, columnIndex, paramInfo, dec.shortValue (), freeList, interpreter);
                         break;
                     }
                     case Types.INTEGER:
                     {
-                        BigDecimal dec = new BigDecimal (o.toString ());
+                        BigDecimal dec = new BigDecimal (value);
                         setObject (stmt, columnIndex, paramInfo, dec.intValue (), freeList, interpreter);
                         break;
                     }
                     case Types.BIGINT:
                     {
-                        BigDecimal dec = new BigDecimal (o.toString ());
+                        BigDecimal dec = new BigDecimal (value);
                         setObject (stmt, columnIndex, paramInfo, dec.longValueExact (), freeList, interpreter);
                         break;
                     }
@@ -776,14 +770,14 @@ public class DefaultHelper implements JaqyHelper
                     case Types.FLOAT:
                     case Types.DOUBLE:
                     {
-                        BigDecimal dec = new BigDecimal (o.toString ());
+                        BigDecimal dec = new BigDecimal (value);
                         setObject (stmt, columnIndex, paramInfo, dec.doubleValue (), freeList, interpreter);
                         break;
                     }
                     case Types.DECIMAL:
                     case Types.NUMERIC:
                     {
-                        BigDecimal dec = new BigDecimal (o.toString ());
+                        BigDecimal dec = new BigDecimal (value);
                         setObject (stmt, columnIndex, paramInfo, dec, freeList, interpreter);
                         break;
                     }
@@ -792,13 +786,20 @@ public class DefaultHelper implements JaqyHelper
                     case Types.LONGVARBINARY:
                     case Types.BLOB:
                     {
-                        byte[] bytes = StringUtils.getBytesFromHexString (o.toString ());
+                        byte[] bytes = StringUtils.getBytesFromHexString (value);
                         setObject (stmt, columnIndex, paramInfo, bytes, freeList, interpreter);
+                        break;
+                    }
+                    case Types.SQLXML:
+                    {
+                        SQLXML xml = getConnection ().createSQLXML ();
+                        xml.setString (value);
+                        setObject (stmt, columnIndex, paramInfo, xml, freeList, interpreter);
                         break;
                     }
                     default:
                     {
-                        stmt.setString (columnIndex, o.toString ());
+                        stmt.setString (columnIndex, value);
                     }
                 }
             }
@@ -821,7 +822,8 @@ public class DefaultHelper implements JaqyHelper
     public void setCSVNull (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
     {
         if (TypesUtils.isNumber (paramInfo.type) ||
-            TypesUtils.isBinary (paramInfo.type))
+            TypesUtils.isBinary (paramInfo.type) ||
+            paramInfo.type == Types.SQLXML)
         {
             stmt.setNull (columnIndex, paramInfo.type);
         }

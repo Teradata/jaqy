@@ -124,8 +124,7 @@ class PostgresHelper extends DefaultHelper
         // Do a workaround fix for PostgreSQL JDBC's XML streaming issue.
         if (paramInfo.type == Types.SQLXML)
         {
-            if (o instanceof SQLXML ||
-                o instanceof CharSequence)
+            if (o instanceof CharSequence)
             {
                 SQLXML x = getConnection ().createSQLXML ();
                 if (o instanceof SQLXML)

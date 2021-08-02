@@ -7,3 +7,4 @@ data_types.sql
 info.sql
 json_type.sql
 transaction.sql
+xml.sql
