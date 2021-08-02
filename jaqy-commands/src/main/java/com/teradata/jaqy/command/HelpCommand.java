@@ -26,83 +26,83 @@ import com.teradata.jaqy.interfaces.JaqyCommand;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class HelpCommand extends JaqyCommandAdapter
 {
-	private final ObjectManager<JaqyCommand> m_manager;
+    private final ObjectManager<JaqyCommand> m_manager;
 
-	public HelpCommand (ObjectManager<JaqyCommand> manager)
-	{
-		super ("help");
+    public HelpCommand (ObjectManager<JaqyCommand> manager)
+    {
+        super ("help");
 
-		m_manager = manager;
-	}
+        m_manager = manager;
+    }
 
-	private void listCommands (PrintWriter pw)
-	{
-		pw.println ("Currently available commands are the following.");
-		pw.println ();
-		TreeMap<String,JaqyCommand> sortedMap = new TreeMap<String,JaqyCommand> ();
-		sortedMap.putAll (m_manager.getObjectMap ());
-		for (Map.Entry<String, JaqyCommand> entry : sortedMap.entrySet ())
-		{
-			pw.println ("\t." + entry.getKey () + " - " + entry.getValue ().getDescription ());
-		}
-		pw.println ();
-		pw.println ("Use .help [command] to know more about a command.");
-	}
+    private void listCommands (PrintWriter pw)
+    {
+        pw.println ("Currently available commands are the following.");
+        pw.println ();
+        TreeMap<String,JaqyCommand> sortedMap = new TreeMap<String,JaqyCommand> ();
+        sortedMap.putAll (m_manager.getObjectMap ());
+        for (Map.Entry<String, JaqyCommand> entry : sortedMap.entrySet ())
+        {
+            pw.println ("\t." + entry.getKey () + " - " + entry.getValue ().getDescription ());
+        }
+        pw.println ();
+        pw.println ("Use .help [command] to know more about a command.");
+    }
 
-	private void helpCommand (PrintWriter pw, String name, JaqyCommand command, String[] args)
-	{
-		String syntax = command.getLongDescription ();
-		if (syntax == null)
-			pw.println ("No detailed help information.");
-		else
-			pw.println (syntax);
-	}
+    private void helpCommand (PrintWriter pw, String name, JaqyCommand command, String[] args)
+    {
+        String syntax = command.getLongDescription ();
+        if (syntax == null)
+            pw.println ("No detailed help information.");
+        else
+            pw.println (syntax);
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		PrintWriter pw = interpreter.getDisplay ().getPrintWriter ();
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        PrintWriter pw = interpreter.getDisplay ().getPrintWriter ();
 
-		if (args.length == 0)
-		{
-			listCommands (pw);
-		}
-		else
-		{
-			String cmdName = args[0];
-			if (cmdName.startsWith ("."))
-				cmdName = cmdName.substring (1);
-			JaqyCommand cmd = m_manager.getObject (cmdName);
-			if (cmd == null)
-			{
-				interpreter.error ("-- unknown command: " + cmdName);
-			}
-			else
-			{
-				helpCommand (pw, cmdName, cmd, StringUtils.shiftArgs (args));
-			}
-		}
-	}
+        if (args.length == 0)
+        {
+            listCommands (pw);
+        }
+        else
+        {
+            String cmdName = args[0];
+            if (cmdName.startsWith ("."))
+                cmdName = cmdName.substring (1);
+            JaqyCommand cmd = m_manager.getObject (cmdName);
+            if (cmd == null)
+            {
+                interpreter.error ("-- unknown command: " + cmdName);
+            }
+            else
+            {
+                helpCommand (pw, cmdName, cmd, StringUtils.shiftArgs (args));
+            }
+        }
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays this help message";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays this help message";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [optional command]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [optional command]";
+    }
 }

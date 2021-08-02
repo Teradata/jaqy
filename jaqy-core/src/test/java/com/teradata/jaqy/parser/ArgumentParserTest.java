@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,47 +19,47 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ArgumentParserTest
 {
-	@Test
-	public void testArgumentParsing ()
-	{
-		String[] args = new String[] { "0", "1", "2", "3", "4" };
+    @Test
+    public void testArgumentParsing ()
+    {
+        String[] args = new String[] { "0", "1", "2", "3", "4" };
 
-		String result;
-		result = ArgumentParser.replaceArgs ("abcdefg", args);
-		Assert.assertEquals ("abcdefg", result);
+        String result;
+        result = ArgumentParser.replaceArgs ("abcdefg", args);
+        Assert.assertEquals ("abcdefg", result);
 
-		result = ArgumentParser.replaceArgs ("ab $1 $5 cd", args);
-		Assert.assertEquals ("ab 1  cd", result);
+        result = ArgumentParser.replaceArgs ("ab $1 $5 cd", args);
+        Assert.assertEquals ("ab 1  cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $(1) $(5) cd", args);
-		Assert.assertEquals ("ab 1  cd", result);
+        result = ArgumentParser.replaceArgs ("ab $(1) $(5) cd", args);
+        Assert.assertEquals ("ab 1  cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $1 $ cd", args);
-		Assert.assertEquals ("ab 1 $ cd", result);
+        result = ArgumentParser.replaceArgs ("ab $1 $ cd", args);
+        Assert.assertEquals ("ab 1 $ cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $1 $* cd", args);
-		Assert.assertEquals ("ab 1 0 1 2 3 4 cd", result);
+        result = ArgumentParser.replaceArgs ("ab $1 $* cd", args);
+        Assert.assertEquals ("ab 1 0 1 2 3 4 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $1 $@ cd", args);
-		Assert.assertEquals ("ab 1 0 1 2 3 4 cd", result);
+        result = ArgumentParser.replaceArgs ("ab $1 $@ cd", args);
+        Assert.assertEquals ("ab 1 0 1 2 3 4 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $(1) cd", args);
-		Assert.assertEquals ("ab 1 cd", result);
+        result = ArgumentParser.replaceArgs ("ab $(1) cd", args);
+        Assert.assertEquals ("ab 1 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $(1-3) cd", args);
-		Assert.assertEquals ("ab 1 2 3 cd", result);
+        result = ArgumentParser.replaceArgs ("ab $(1-3) cd", args);
+        Assert.assertEquals ("ab 1 2 3 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $(3-1) cd", args);
-		Assert.assertEquals ("ab 3 2 1 cd", result);
+        result = ArgumentParser.replaceArgs ("ab $(3-1) cd", args);
+        Assert.assertEquals ("ab 3 2 1 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $(3-) cd", args);
-		Assert.assertEquals ("ab 3 4 cd", result);
+        result = ArgumentParser.replaceArgs ("ab $(3-) cd", args);
+        Assert.assertEquals ("ab 3 4 cd", result);
 
-		result = ArgumentParser.replaceArgs ("ab $(3- ) cd", args);
-		Assert.assertEquals ("ab $(3- ) cd", result);
-	}
+        result = ArgumentParser.replaceArgs ("ab $(3- ) cd", args);
+        Assert.assertEquals ("ab $(3- ) cd", result);
+    }
 }

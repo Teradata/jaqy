@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,54 +24,54 @@ import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface JaqyImporter extends Closeable
 {
-	/**
-	 * Gets the name of the importer.
-	 * @return	the name of the importer.
-	 */
-	public String getName ();
+    /**
+     * Gets the name of the importer.
+     * @return  the name of the importer.
+     */
+    public String getName ();
 
-	/**
-	 * Shows the schema of the data being imported.
-	 * @throws	Exception
-	 *			in case of error
-	 */
-	public SchemaInfo getSchema () throws Exception;
+    /**
+     * Shows the schema of the data being imported.
+     * @throws  Exception
+     *          in case of error
+     */
+    public SchemaInfo getSchema () throws Exception;
 
-	/**
-	 * Move the data to the next row.
-	 *
-	 * @return	true if there is next row.
-	 */
-	public boolean next () throws Exception;
+    /**
+     * Move the data to the next row.
+     *
+     * @return  true if there is next row.
+     */
+    public boolean next () throws Exception;
 
-	/**
-	 * Set the import field expressions.
-	 *
-	 * @param	exps
-	 * 			expressions.  If the field is imported by position, then it is null.
-	 * @version	1.1
-	 */
-	public void setParameters (String[] exps) throws Exception;
+    /**
+     * Set the import field expressions.
+     *
+     * @param   exps
+     *          expressions.  If the field is imported by position, then it is null.
+     * @version 1.1
+     */
+    public void setParameters (String[] exps) throws Exception;
 
-	/**
-	 * Get an object and set the value.
-	 * @param	stmt
-	 * 			the prepared statement.
-	 * @param	column
-	 * 			the column index
-	 * @param	paramInfo
-	 * 			parameter information.
-	 * @param	freeList
-	 * 			if any resources should be freed, add to this list.
-	 * @param	interpreter
-	 * 			the interpreter.
-	 * @return	the object involved for additional processing.
-	 * @throws	Exception
-	 * 			in case of error.
-	 */
-	public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Get an object and set the value.
+     * @param   stmt
+     *          the prepared statement.
+     * @param   column
+     *          the column index
+     * @param   paramInfo
+     *          parameter information.
+     * @param   freeList
+     *          if any resources should be freed, add to this list.
+     * @param   interpreter
+     *          the interpreter.
+     * @return  the object involved for additional processing.
+     * @throws  Exception
+     *          in case of error.
+     */
+    public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
 }

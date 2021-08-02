@@ -21,41 +21,41 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class LobCacheSizeSetting extends JaqySettingAdapter
 {
-	public LobCacheSizeSetting ()
-	{
-		super ("lobcachesize");
-	}
+    public LobCacheSizeSetting ()
+    {
+        super ("lobcachesize");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "sets the LOB cache size in client-side ResultSet.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "sets the LOB cache size in client-side ResultSet.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public Object get (JaqyInterpreter interpreter) throws Exception
-	{
-		return interpreter.getLobCacheSize ();
-	}
+    @Override
+    public Object get (JaqyInterpreter interpreter) throws Exception
+    {
+        return interpreter.getLobCacheSize ();
+    }
 
-	@Override
-	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
-	{
-		int lobCacheSize = Integer.parseInt (args[0]);
-		if (lobCacheSize < 0)
-		{
-			interpreter.error ("LOB cache size cannot be negative.");
-		}
-		interpreter.setLobCacheSize (lobCacheSize);
-	}
+    @Override
+    public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws SQLException
+    {
+        int lobCacheSize = Integer.parseInt (args[0]);
+        if (lobCacheSize < 0)
+        {
+            interpreter.error ("LOB cache size cannot be negative.");
+        }
+        interpreter.setLobCacheSize (lobCacheSize);
+    }
 }

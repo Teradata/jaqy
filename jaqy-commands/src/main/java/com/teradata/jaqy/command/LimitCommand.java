@@ -20,51 +20,51 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class LimitCommand extends JaqyCommandAdapter
 {
-	public LimitCommand ()
-	{
-		super ("limit");
-	}
+    public LimitCommand ()
+    {
+        super ("limit");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "limits the output to a number of rows.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "limits the output to a number of rows.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [number]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [number]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		SessionUtils.checkOpen (interpreter);
-		if (args.length == 0)
-		{
-			interpreter.println (getCommand () + " " + interpreter.getLimit ());
-			return;
-		}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        SessionUtils.checkOpen (interpreter);
+        if (args.length == 0)
+        {
+            interpreter.println (getCommand () + " " + interpreter.getLimit ());
+            return;
+        }
 
-		try
-		{
-			int limit = Integer.parseInt (args[0]);
-			interpreter.setLimit (limit);
-		}
-		catch (Exception ex)
-		{
-			interpreter.error ("invalid limit number.");
-		}
-	}
+        try
+        {
+            int limit = Integer.parseInt (args[0]);
+            interpreter.setLimit (limit);
+        }
+        catch (Exception ex)
+        {
+            interpreter.error ("invalid limit number.");
+        }
+    }
 }

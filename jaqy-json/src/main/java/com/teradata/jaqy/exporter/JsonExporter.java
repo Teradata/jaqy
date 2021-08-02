@@ -32,98 +32,98 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.JsonUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class JsonExporter implements JaqyExporter
 {
-	private final JsonExporterOptions m_options;
-	private Writer m_out;
-	private OutputStream m_os;
+    private final JsonExporterOptions m_options;
+    private Writer m_out;
+    private OutputStream m_os;
 
-	public JsonExporter (OutputStream os, JsonExporterOptions options)
-	{
-		m_options = options;
-		switch (m_options.format)
-		{
-			case Text:
-				m_out = new OutputStreamWriter (os, m_options.charset);
-				m_os = null;
-				break;
-			case Bson:
-				m_out = null;
-				m_os = os;
-				break;
-		}
-	}
+    public JsonExporter (OutputStream os, JsonExporterOptions options)
+    {
+        m_options = options;
+        switch (m_options.format)
+        {
+            case Text:
+                m_out = new OutputStreamWriter (os, m_options.charset);
+                m_os = null;
+                break;
+            case Bson:
+                m_out = null;
+                m_os = os;
+                break;
+        }
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "json";
-	}
+    @Override
+    public String getName ()
+    {
+        return "json";
+    }
 
-	@Override
-	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
-	{
-		JsonProvider provider = new CookJsonProvider ();
-		CookJsonGenerator g = null;
+    @Override
+    public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+    {
+        JsonProvider provider = new CookJsonProvider ();
+        CookJsonGenerator g = null;
 
-		HashMap<String, Object> config = new HashMap<String, Object> ();
-		switch (m_options.format)
-		{
-			case Text:
-			{
-				config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_JSON);
-				if (m_options.pretty)
-					config.put (JsonGenerator.PRETTY_PRINTING, Boolean.TRUE);
-				switch (m_options.binaryFormat)
-				{
-					case Base64:
-						config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_BASE64);
-						break;
-					case Hex:
-						config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_HEX);
-						break;
-				}
-				g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (m_out);
-				break;
-			}
-			case Bson:
-				config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_BSON);
-				g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (m_os);
-				break;
-		}
+        HashMap<String, Object> config = new HashMap<String, Object> ();
+        switch (m_options.format)
+        {
+            case Text:
+            {
+                config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_JSON);
+                if (m_options.pretty)
+                    config.put (JsonGenerator.PRETTY_PRINTING, Boolean.TRUE);
+                switch (m_options.binaryFormat)
+                {
+                    case Base64:
+                        config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_BASE64);
+                        break;
+                    case Hex:
+                        config.put (CookJsonProvider.BINARY_FORMAT, CookJsonProvider.BINARY_FORMAT_HEX);
+                        break;
+                }
+                g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (m_out);
+                break;
+            }
+            case Bson:
+                config.put (CookJsonProvider.FORMAT, CookJsonProvider.FORMAT_BSON);
+                g = (CookJsonGenerator)provider.createGeneratorFactory (config).createGenerator (m_os);
+                break;
+        }
 
-		long count = JsonUtils.print (interpreter.getGlobals (), g, rs, 0);
-		g.close ();
+        long count = JsonUtils.print (interpreter.getGlobals (), g, rs, 0);
+        g.close ();
 
-		return count;
-	}
+        return count;
+    }
 
-	@Override
-	public void close ()
-	{
-		if (m_out != null)
-		{
-			try
-			{
-				m_out.close ();
-				m_out = null;
-			}
-			catch (Exception ex)
-			{
-			}
-		}
-		if (m_os != null)
-		{
-			try
-			{
-				m_os.close ();
-				m_os = null;
-			}
-			catch (Exception ex)
-			{
-			}
-		}
-	}
+    @Override
+    public void close ()
+    {
+        if (m_out != null)
+        {
+            try
+            {
+                m_out.close ();
+                m_out = null;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        if (m_os != null)
+        {
+            try
+            {
+                m_os.close ();
+                m_os = null;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    }
 }

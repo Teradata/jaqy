@@ -19,18 +19,18 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.connection.JaqyConnection;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface JaqyHelperFactory
 {
-	/**
-	 * Gets the Helper object to be associated with a connection.
-	 *
-	 * @param	conn
-	 * 			the connection object
-	 * @param	globals
-	 * 			Jaqy globals.
-	 * @return	the Helper object to be associated with a connection.
-	 */
-	public JaqyHelper getHelper (JaqyConnection conn, Globals globals);
+    /**
+     * Gets the Helper object to be associated with a connection.
+     *
+     * @param   conn
+     *          the connection object
+     * @param   globals
+     *          Jaqy globals.
+     * @return  the Helper object to be associated with a connection.
+     */
+    public JaqyHelper getHelper (JaqyConnection conn, Globals globals);
 }

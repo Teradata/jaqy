@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,63 +25,63 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.path.FilePath;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ReaderLineInput implements LineInput
 {
-	private BufferedReader m_reader;
-	private final Path m_dir;
-	private final boolean m_interactive;
+    private BufferedReader m_reader;
+    private final Path m_dir;
+    private final boolean m_interactive;
 
-	public ReaderLineInput (Reader reader, Path dir, boolean interactive) throws IOException
-	{
-		m_reader = new BufferedReader (reader);
-		m_dir = dir;
-		m_interactive = interactive;
-	}
+    public ReaderLineInput (Reader reader, Path dir, boolean interactive) throws IOException
+    {
+        m_reader = new BufferedReader (reader);
+        m_dir = dir;
+        m_interactive = interactive;
+    }
 
-	@Override
-	public boolean getLine (Input input)
-	{
-		if (m_reader == null)
-			return false;
+    @Override
+    public boolean getLine (Input input)
+    {
+        if (m_reader == null)
+            return false;
 
-		try
-		{
-			input.interactive = m_interactive;
-			input.line = m_reader.readLine ();
-			if (input.line == null)
-			{
-				m_reader.close ();
-				m_reader = null;
-			}
-			return input.line != null;
-		}
-		catch (IOException ex)
-		{
-			try
-			{
-				m_reader.close ();
-			}
-			catch (IOException ex2)
-			{
-			}
-			m_reader = null;
-			return false;
-		}
-	}
+        try
+        {
+            input.interactive = m_interactive;
+            input.line = m_reader.readLine ();
+            if (input.line == null)
+            {
+                m_reader.close ();
+                m_reader = null;
+            }
+            return input.line != null;
+        }
+        catch (IOException ex)
+        {
+            try
+            {
+                m_reader.close ();
+            }
+            catch (IOException ex2)
+            {
+            }
+            m_reader = null;
+            return false;
+        }
+    }
 
-	@Override
-	public Path getDirectory ()
-	{
-		return m_dir;
-	}
+    @Override
+    public Path getDirectory ()
+    {
+        return m_dir;
+    }
 
-	@Override
-	public File getFileDirectory ()
-	{
-		if (m_dir instanceof FilePath)
-			return ((FilePath)m_dir).getFile ();
-		return null;
-	}
+    @Override
+    public File getFileDirectory ()
+    {
+        if (m_dir instanceof FilePath)
+            return ((FilePath)m_dir).getFile ();
+        return null;
+    }
 }

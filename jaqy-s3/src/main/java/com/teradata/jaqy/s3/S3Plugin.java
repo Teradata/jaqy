@@ -21,14 +21,14 @@ import com.teradata.jaqy.interfaces.JaqyPlugin;
 import com.teradata.jaqy.path.S3PathHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class S3Plugin implements JaqyPlugin
 {
-	@Override
-	public void init (Globals globals)
-	{
-		globals.getCommandManager ().addObject (new S3Command ());
-		globals.getPathHandlerManager ().addPathHandler (new S3PathHandler ());
-	}
+    @Override
+    public void init (Globals globals)
+    {
+        globals.getCommandManager ().addObject (new S3Command ());
+        globals.getPathHandlerManager ().addPathHandler (new S3PathHandler ());
+    }
 }

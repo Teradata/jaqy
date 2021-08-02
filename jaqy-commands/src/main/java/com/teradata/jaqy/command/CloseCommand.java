@@ -20,27 +20,27 @@ import com.teradata.jaqy.Session;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CloseCommand extends JaqyCommandAdapter
 {
-	public CloseCommand ()
-	{
-		super ("close");
-	}
+    public CloseCommand ()
+    {
+        super ("close");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "closes the current session.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "closes the current session.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		SessionUtils.checkOpen (interpreter);
-		Session session = interpreter.getSession ();
-		session.close (interpreter, false);
-//		interpreter.println ("Session " + session.getId () + " is now closed.");
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        SessionUtils.checkOpen (interpreter);
+        Session session = interpreter.getSession ();
+        session.close (interpreter, false);
+//      interpreter.println ("Session " + session.getId () + " is now closed.");
+    }
 }

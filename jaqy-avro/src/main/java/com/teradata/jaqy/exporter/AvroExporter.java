@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,50 +38,50 @@ import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
  */
 class AvroExporter implements JaqyExporter
 {
-	private final OutputStream m_os;
-	private final CodecFactory m_codecFactory;
+    private final OutputStream m_os;
+    private final CodecFactory m_codecFactory;
 
-	public AvroExporter (OutputStream os, CodecFactory codecFactory)
-	{
-		m_os = os;
-		m_codecFactory = codecFactory;
-	}
+    public AvroExporter (OutputStream os, CodecFactory codecFactory)
+    {
+        m_os = os;
+        m_codecFactory = codecFactory;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "avro";
-	}
+    @Override
+    public String getName ()
+    {
+        return "avro";
+    }
 
-	@Override
-	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
-	{
-		JaqyHelper helper = rs.getHelper ();
-		SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData (), helper);
-		Schema schema = AvroUtils.getSchema (schemaInfo, helper);
-		interpreter.getGlobals ().log (Level.INFO, "schema is " + schema.toString (true));
+    @Override
+    public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+    {
+        JaqyHelper helper = rs.getHelper ();
+        SchemaInfo schemaInfo = ResultSetMetaDataUtils.getColumnInfo (rs.getMetaData (), helper);
+        Schema schema = AvroUtils.getSchema (schemaInfo, helper);
+        interpreter.getGlobals ().log (Level.INFO, "schema is " + schema.toString (true));
 
-		DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord> (schema);
-		DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord> (writer);
-		if (m_codecFactory != null)
-			dataFileWriter.setCodec (m_codecFactory);
+        DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord> (schema);
+        DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord> (writer);
+        if (m_codecFactory != null)
+            dataFileWriter.setCodec (m_codecFactory);
 
-		dataFileWriter.create (schema, m_os);
+        dataFileWriter.create (schema, m_os);
 
-		long count = AvroUtils.print (dataFileWriter, schema, rs, schemaInfo);
-		dataFileWriter.close ();
-		return count;
-	}
+        long count = AvroUtils.print (dataFileWriter, schema, rs, schemaInfo);
+        dataFileWriter.close ();
+        return count;
+    }
 
-	@Override
-	public void close ()
-	{
-		try
-		{
-			m_os.close ();
-		}
-		catch (Exception ex)
-		{
-		}
-	}
+    @Override
+    public void close ()
+    {
+        try
+        {
+            m_os.close ();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
 }

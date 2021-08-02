@@ -24,50 +24,50 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.PropertyTable;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class EnvCommand extends JaqyCommandAdapter
 {
-	public EnvCommand ()
-	{
-		super ("env");
-	}
+    public EnvCommand ()
+    {
+        super ("env");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays the execution environment.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays the execution environment.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		PropertyTable pt = new PropertyTable (new String[] { "Key", "Value" });
-		TreeMap<String, String> tree = new TreeMap<String, String> ();
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        PropertyTable pt = new PropertyTable (new String[] { "Key", "Value" });
+        TreeMap<String, String> tree = new TreeMap<String, String> ();
 
-		// Get system environments
-//		{
-//			Map<String, String> env = System.getenv ();
-//			tree.putAll (env);
-//		}
+        // Get system environments
+//      {
+//          Map<String, String> env = System.getenv ();
+//          tree.putAll (env);
+//      }
 
-		// Get JVM properties
-		{
-			Properties prop = System.getProperties ();
-			for (Enumeration<?> e = prop.propertyNames ();
-				 e.hasMoreElements ();)
-			{
-				String key = (String) e.nextElement ();
-				String value = prop.getProperty (key);
-				tree.put (key, value);
-			}
-		}
+        // Get JVM properties
+        {
+            Properties prop = System.getProperties ();
+            for (Enumeration<?> e = prop.propertyNames ();
+                 e.hasMoreElements ();)
+            {
+                String key = (String) e.nextElement ();
+                String value = prop.getProperty (key);
+                tree.put (key, value);
+            }
+        }
 
-		// Print
-		for (Map.Entry<String, String> entry : tree.entrySet ())
-		{
-			pt.addRow (new String[] { entry.getKey (), entry.getValue () });
-		}
-		interpreter.print (pt);
-	}
+        // Print
+        for (Map.Entry<String, String> entry : tree.entrySet ())
+        {
+            pt.addRow (new String[] { entry.getKey (), entry.getValue () });
+        }
+        interpreter.print (pt);
+    }
 }

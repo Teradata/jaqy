@@ -25,19 +25,19 @@ import com.teradata.jaqy.interfaces.PathHandler;
 /**
  * An extremely simple PathHandler for loading data from http URL links.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class HttpPathHandler implements PathHandler
 {
-	@Override
-	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
-	{
-		return new URLPath (new URL (path));
-	}
+    @Override
+    public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
+    {
+        return new URLPath (new URL (path));
+    }
 
-	@Override
-	public boolean canHandle (String path)
-	{
-		return path.startsWith ("http://") || path.startsWith ("https://");
-	}
+    @Override
+    public boolean canHandle (String path)
+    {
+        return path.startsWith ("http://") || path.startsWith ("https://");
+    }
 }

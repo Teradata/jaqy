@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,17 @@ import java.util.Map;
 import com.teradata.jaqy.PropertyTable;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PropertyTableUtils
 {
-	public static PropertyTable createPropertyTable (Map<String,String> map, String[] titles)
-	{
-		PropertyTable pt = new PropertyTable (titles);
-		for (Map.Entry<String,String> entry : map.entrySet ())
-		{
-			pt.addRow (new String[]{ entry.getKey (), entry.getValue () });
-		}
-		return pt;
-	}
+    public static PropertyTable createPropertyTable (Map<String,String> map, String[] titles)
+    {
+        PropertyTable pt = new PropertyTable (titles);
+        for (Map.Entry<String,String> entry : map.entrySet ())
+        {
+            pt.addRow (new String[]{ entry.getKey (), entry.getValue () });
+        }
+        return pt;
+    }
 }

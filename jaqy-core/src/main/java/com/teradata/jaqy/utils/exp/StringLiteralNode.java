@@ -21,31 +21,31 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class StringLiteralNode implements ExpNode
 {
-	private final String m_literal;
+    private final String m_literal;
 
-	public StringLiteralNode (String literal)
-	{
-		m_literal = literal;
-	}
+    public StringLiteralNode (String literal)
+    {
+        m_literal = literal;
+    }
 
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter)
-	{
-	}
+    @Override
+    public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter)
+    {
+    }
 
-	@Override
-	public Object get ()
-	{
-		return m_literal;
-	}
+    @Override
+    public Object get ()
+    {
+        return m_literal;
+    }
 
-	@Override
-	public String toString ()
-	{
-		return StringUtils.quoteJavaString (m_literal);
-	}
+    @Override
+    public String toString ()
+    {
+        return StringUtils.quoteJavaString (m_literal);
+    }
 }

@@ -22,36 +22,36 @@ import com.teradata.jaqy.interfaces.JaqyCommand;
 /**
  * This is a dummy command.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class EndCommand extends JaqyCommandAdapter
 {
-	public EndCommand ()
-	{
-		super ("end");
-	}
+    public EndCommand ()
+    {
+        super ("end");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "ends a multi-line command.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "ends a multi-line command.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public JaqyCommand.Type getType ()
-	{
-		return JaqyCommand.Type.none;
-	}
+    @Override
+    public JaqyCommand.Type getType ()
+    {
+        return JaqyCommand.Type.none;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		interpreter.error ("nothing to end.");
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        interpreter.error ("nothing to end.");
+    }
 }

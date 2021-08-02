@@ -23,45 +23,45 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.interfaces.PathHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class AzurePathHandler implements PathHandler
 {
-	@Override
-	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
-	{
-		AzurePathInfo info = AzureUtils.getPathInfo (path);
+    @Override
+    public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
+    {
+        AzurePathInfo info = AzureUtils.getPathInfo (path);
 
-		if ("wasb".equals (info.protocol) ||
-			"wasbs".equals (info.protocol))
-		{
-			CloudBlobContainer container = AzureUtils.getContainer (info.account, info.container, interpreter);
-			try
-			{
-				if (!container.exists ())
-				{
-					throw new IOException ("Invalid Azure path: " + path);
-				}
-			}
-			catch (IOException ex)
-			{
-				throw ex;
-			}
-			catch (Exception ex)
-			{
-				throw new IOException (ex.getMessage (), ex);
-			}
-			return new WasbPath (container, info.file, interpreter);
-		}
-		throw new IOException ("Invalid Azure path: " + path);
-	}
+        if ("wasb".equals (info.protocol) ||
+            "wasbs".equals (info.protocol))
+        {
+            CloudBlobContainer container = AzureUtils.getContainer (info.account, info.container, interpreter);
+            try
+            {
+                if (!container.exists ())
+                {
+                    throw new IOException ("Invalid Azure path: " + path);
+                }
+            }
+            catch (IOException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new IOException (ex.getMessage (), ex);
+            }
+            return new WasbPath (container, info.file, interpreter);
+        }
+        throw new IOException ("Invalid Azure path: " + path);
+    }
 
-	@Override
-	public boolean canHandle (String path)
-	{
-		if (path.startsWith ("wasb://") ||
-		    path.startsWith ("wasbs://"))
-			return true;
-		return false;
-	}
+    @Override
+    public boolean canHandle (String path)
+    {
+        if (path.startsWith ("wasb://") ||
+            path.startsWith ("wasbs://"))
+            return true;
+        return false;
+    }
 }

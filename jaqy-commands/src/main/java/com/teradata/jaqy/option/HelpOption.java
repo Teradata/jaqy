@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,19 +22,19 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyOption;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class HelpOption extends JaqyOption
 {
-	public HelpOption ()
-	{
-		super ("h", "help", false, "displays this help information, then exit");
-	}
+    public HelpOption ()
+    {
+        super ("h", "help", false, "displays this help information, then exit");
+    }
 
-	@Override
-	public void handleOption (Globals globals, Display display, CommandLine cmdLine)
-	{
-		globals.getOptionManager ().printHelp (display.getPrintWriter ());
-		System.exit (0);
-	}
+    @Override
+    public void handleOption (Globals globals, Display display, CommandLine cmdLine)
+    {
+        globals.getOptionManager ().printHelp (display.getPrintWriter ());
+        System.exit (0);
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,21 +21,21 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class URLUtils
 {
-	public static URL getFileURL (String name) throws IOException
-	{
-		if (name.startsWith ("file:") ||
-			name.startsWith ("http:") ||
-			name.startsWith ("https:"))
-		{
-			return new URL (name);
-		}
-		File file = new File (name);
-		if (!file.isFile ())
-			throw new FileNotFoundException (name);
-		return file.toURI ().toURL ();
-	}
+    public static URL getFileURL (String name) throws IOException
+    {
+        if (name.startsWith ("file:") ||
+            name.startsWith ("http:") ||
+            name.startsWith ("https:"))
+        {
+            return new URL (name);
+        }
+        File file = new File (name);
+        if (!file.isFile ())
+            throw new FileNotFoundException (name);
+        return file.toURI ().toURL ();
+    }
 }

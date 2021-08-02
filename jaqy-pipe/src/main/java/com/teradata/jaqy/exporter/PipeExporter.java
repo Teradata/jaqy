@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,49 +22,49 @@ import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PipeExporter implements JaqyExporter
 {
-	private JaqyResultSet m_rs;
+    private JaqyResultSet m_rs;
 
-	public PipeExporter ()
-	{
-	}
+    public PipeExporter ()
+    {
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "pipe";
-	}
+    @Override
+    public String getName ()
+    {
+        return "pipe";
+    }
 
-	@Override
-	public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
-	{
-		m_rs = rs;
-		interpreter.setExporter (this);
-		interpreter.getSession ().setDoNotClose (true);
-		return -1;
-	}
+    @Override
+    public long export (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+    {
+        m_rs = rs;
+        interpreter.setExporter (this);
+        interpreter.getSession ().setDoNotClose (true);
+        return -1;
+    }
 
-	public JaqyResultSet getResultSet ()
-	{
-		return m_rs;
-	}
+    public JaqyResultSet getResultSet ()
+    {
+        return m_rs;
+    }
 
-	@Override
-	public void close ()
-	{
-		if (m_rs != null)
-		{
-			try
-			{
-				m_rs.close ();
-			}
-			catch (SQLException ex)
-			{
-			}
-			m_rs = null;
-		}
-	}
+    @Override
+    public void close ()
+    {
+        if (m_rs != null)
+        {
+            try
+            {
+                m_rs.close ();
+            }
+            catch (SQLException ex)
+            {
+            }
+            m_rs = null;
+        }
+    }
 }

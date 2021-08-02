@@ -21,15 +21,15 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ResultSetMetaDataUtilsTest
 {
-	@Test
-	public void testGetHoldability ()
-	{
-		Assert.assertEquals ("Close cursors at commit", ResultSetMetaDataUtils.getHoldability (ResultSet.CLOSE_CURSORS_AT_COMMIT));
-		Assert.assertEquals ("Hold cursors over commit", ResultSetMetaDataUtils.getHoldability (ResultSet.HOLD_CURSORS_OVER_COMMIT));
-		Assert.assertEquals ("Unknown", ResultSetMetaDataUtils.getHoldability (-1));
-	}
+    @Test
+    public void testGetHoldability ()
+    {
+        Assert.assertEquals ("Close cursors at commit", ResultSetMetaDataUtils.getHoldability (ResultSet.CLOSE_CURSORS_AT_COMMIT));
+        Assert.assertEquals ("Hold cursors over commit", ResultSetMetaDataUtils.getHoldability (ResultSet.HOLD_CURSORS_OVER_COMMIT));
+        Assert.assertEquals ("Unknown", ResultSetMetaDataUtils.getHoldability (-1));
+    }
 }

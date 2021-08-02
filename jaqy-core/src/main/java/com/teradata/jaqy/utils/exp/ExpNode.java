@@ -20,10 +20,10 @@ import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface ExpNode
 {
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception;
-	public Object get () throws Exception;
+    public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception;
+    public Object get () throws Exception;
 }

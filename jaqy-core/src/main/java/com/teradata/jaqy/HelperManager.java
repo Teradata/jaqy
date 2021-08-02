@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,44 +21,44 @@ import com.teradata.jaqy.helper.DefaultHelperFactory;
 import com.teradata.jaqy.interfaces.JaqyHelperFactory;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class HelperManager
 {
-	private final Object m_lock = new Object ();
-	private final HashMap<String, JaqyHelperFactory> m_helperMap = new HashMap<String, JaqyHelperFactory> ();
+    private final Object m_lock = new Object ();
+    private final HashMap<String, JaqyHelperFactory> m_helperMap = new HashMap<String, JaqyHelperFactory> ();
 
-	HelperManager ()
-	{
-	}
+    HelperManager ()
+    {
+    }
 
-	public void addHelperFactory (String protocol, JaqyHelperFactory helperFactory)
-	{
-		synchronized (m_lock)
-		{
-			m_helperMap.put (protocol, helperFactory);
-		}
-	}
+    public void addHelperFactory (String protocol, JaqyHelperFactory helperFactory)
+    {
+        synchronized (m_lock)
+        {
+            m_helperMap.put (protocol, helperFactory);
+        }
+    }
 
-	/**
-	 * Get the JaqyHelper for a particular protocol.
-	 *
-	 * @param	protocol
-	 * 			name of the protocol, such as teradata, sqlite etc.
-	 * @return	the helper associated with the protocol.
-	 */
-	public JaqyHelperFactory getHelperFactory (String protocol)
-	{
-		JaqyHelperFactory factory;
-		synchronized (m_lock)
-		{
-			factory = m_helperMap.get (protocol);
-			if (factory == null)
-			{
-				factory = new DefaultHelperFactory ();
-				m_helperMap.put (protocol, factory);
-			}
-		}
-		return factory;
-	}
+    /**
+     * Get the JaqyHelper for a particular protocol.
+     *
+     * @param   protocol
+     *          name of the protocol, such as teradata, sqlite etc.
+     * @return  the helper associated with the protocol.
+     */
+    public JaqyHelperFactory getHelperFactory (String protocol)
+    {
+        JaqyHelperFactory factory;
+        synchronized (m_lock)
+        {
+            factory = m_helperMap.get (protocol);
+            if (factory == null)
+            {
+                factory = new DefaultHelperFactory ();
+                m_helperMap.put (protocol, factory);
+            }
+        }
+        return factory;
+    }
 }

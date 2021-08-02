@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,43 +22,43 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class ClobTypeHandler implements TypeHandler
 {
-	private final static TypeHandler s_instance = new ClobTypeHandler ();
+    private final static TypeHandler s_instance = new ClobTypeHandler ();
 
-	public static TypeHandler getInstance ()
-	{
-		return s_instance;
-	}
+    public static TypeHandler getInstance ()
+    {
+        return s_instance;
+    }
 
-	private ClobTypeHandler ()
-	{
-	}
+    private ClobTypeHandler ()
+    {
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int columnIndex, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object o = rs.getObject (columnIndex);
-		if (o == null)
-			return null;
-		if (o instanceof Clob)
-		{
-			Clob clob = (Clob)o;
-			String value = clob.getSubString (1, (int)clob.length ());
-			clob.free ();
-			return value;
-		}
-		return o.toString ();
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int columnIndex, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object o = rs.getObject (columnIndex);
+        if (o == null)
+            return null;
+        if (o instanceof Clob)
+        {
+            Clob clob = (Clob)o;
+            String value = clob.getSubString (1, (int)clob.length ());
+            clob.free ();
+            return value;
+        }
+        return o.toString ();
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		Clob clob = (Clob) rs.getObject (column);
-		if (clob == null)
-			return -1;
-		return (int)clob.length ();
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        Clob clob = (Clob) rs.getObject (column);
+        if (clob == null)
+            return -1;
+        return (int)clob.length ();
+    }
 }

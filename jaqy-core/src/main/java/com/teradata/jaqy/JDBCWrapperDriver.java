@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,61 +31,61 @@ import java.util.logging.Logger;
  * This code is taken from http://www.kfu.com/~nsayer/Java/dyn-jdbc.html, which
  * is presumably in the public domain.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class JDBCWrapperDriver implements Driver
 {
-	private Driver m_driver;
+    private Driver m_driver;
 
-	public JDBCWrapperDriver (Driver driver)
-	{
-		m_driver = driver;
-	}
+    public JDBCWrapperDriver (Driver driver)
+    {
+        m_driver = driver;
+    }
 
-	@Override
-	public boolean acceptsURL (String u) throws SQLException
-	{
-		return m_driver.acceptsURL (u);
-	}
+    @Override
+    public boolean acceptsURL (String u) throws SQLException
+    {
+        return m_driver.acceptsURL (u);
+    }
 
-	@Override
-	public Connection connect (String u, Properties p) throws SQLException
-	{
-		return m_driver.connect (u, p);
-	}
+    @Override
+    public Connection connect (String u, Properties p) throws SQLException
+    {
+        return m_driver.connect (u, p);
+    }
 
-	@Override
-	public int getMajorVersion ()
-	{
-		return m_driver.getMajorVersion ();
-	}
+    @Override
+    public int getMajorVersion ()
+    {
+        return m_driver.getMajorVersion ();
+    }
 
-	@Override
-	public int getMinorVersion ()
-	{
-		return m_driver.getMinorVersion ();
-	}
+    @Override
+    public int getMinorVersion ()
+    {
+        return m_driver.getMinorVersion ();
+    }
 
-	@Override
-	public DriverPropertyInfo[] getPropertyInfo (String u, Properties p) throws SQLException
-	{
-		return m_driver.getPropertyInfo (u, p);
-	}
+    @Override
+    public DriverPropertyInfo[] getPropertyInfo (String u, Properties p) throws SQLException
+    {
+        return m_driver.getPropertyInfo (u, p);
+    }
 
-	@Override
-	public boolean jdbcCompliant ()
-	{
-		return m_driver.jdbcCompliant ();
-	}
+    @Override
+    public boolean jdbcCompliant ()
+    {
+        return m_driver.jdbcCompliant ();
+    }
 
-	@Override
-	public Logger getParentLogger () throws SQLFeatureNotSupportedException
-	{
-		return m_driver.getParentLogger ();
-	}
+    @Override
+    public Logger getParentLogger () throws SQLFeatureNotSupportedException
+    {
+        return m_driver.getParentLogger ();
+    }
 
-	public Driver getInternalDriver ()
-	{
-		return m_driver;
-	}
+    public Driver getInternalDriver ()
+    {
+        return m_driver;
+    }
 }

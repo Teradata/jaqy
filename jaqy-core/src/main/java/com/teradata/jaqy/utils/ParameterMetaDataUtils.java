@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,91 +27,91 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.schema.ParameterInfo;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ParameterMetaDataUtils
 {
-	private final static String[] MODES = { "Unknown", "IN", "IN/OUT", null, "OUT" };
+    private final static String[] MODES = { "Unknown", "IN", "IN/OUT", null, "OUT" };
 
-	private static void dumpColumn (PrintWriter pw, JaqyParameterMetaData metaData, int column, Display display)
-	{
-//		JdbcFeatures features = metaData.getFeatures ();
-		try
-		{
-			AttributeUtils.print (pw, 1, "Index", column);
-			AttributeUtils.print (pw, 2, "Type", TypesUtils.getTypeName (metaData.getParameterType (column)));
-			AttributeUtils.print (pw, 2, "SQL Type", metaData.getParameterTypeName (column));
-			AttributeUtils.print (pw, 2, "Java Class", metaData.getParameterClassName (column));
-			AttributeUtils.print (pw, 2, "Precision", metaData.getPrecision (column));
-			AttributeUtils.print (pw, 2, "Scale", metaData.getScale (column));
-			AttributeUtils.print (pw, 2, "Nullable", metaData.isNullable (column));
-			AttributeUtils.print (pw, 2, "Signed", metaData.isSigned (column));
-			AttributeUtils.print (pw, 2, "Mode", MODES[metaData.getParameterMode (column)]);
-		}
-		catch (Throwable t)
-		{
-			display.getGlobals ().log (Level.INFO, t);
-		}
-	}
+    private static void dumpColumn (PrintWriter pw, JaqyParameterMetaData metaData, int column, Display display)
+    {
+//      JdbcFeatures features = metaData.getFeatures ();
+        try
+        {
+            AttributeUtils.print (pw, 1, "Index", column);
+            AttributeUtils.print (pw, 2, "Type", TypesUtils.getTypeName (metaData.getParameterType (column)));
+            AttributeUtils.print (pw, 2, "SQL Type", metaData.getParameterTypeName (column));
+            AttributeUtils.print (pw, 2, "Java Class", metaData.getParameterClassName (column));
+            AttributeUtils.print (pw, 2, "Precision", metaData.getPrecision (column));
+            AttributeUtils.print (pw, 2, "Scale", metaData.getScale (column));
+            AttributeUtils.print (pw, 2, "Nullable", metaData.isNullable (column));
+            AttributeUtils.print (pw, 2, "Signed", metaData.isSigned (column));
+            AttributeUtils.print (pw, 2, "Mode", MODES[metaData.getParameterMode (column)]);
+        }
+        catch (Throwable t)
+        {
+            display.getGlobals ().log (Level.INFO, t);
+        }
+    }
 
-	public static void dump (Display display, Session session, JaqyParameterMetaData metaData) throws SQLException
-	{
-		PrintWriter pw = display.getPrintWriter ();
-		int columnCount = metaData.getParameterCount ();
-		AttributeUtils.print (pw, 0, "Parameter Count", columnCount);
-		for (int i = 1; i <= columnCount; ++i)
-		{
-			dumpColumn (pw, metaData, i, display);
-		}
-	}
+    public static void dump (Display display, Session session, JaqyParameterMetaData metaData) throws SQLException
+    {
+        PrintWriter pw = display.getPrintWriter ();
+        int columnCount = metaData.getParameterCount ();
+        AttributeUtils.print (pw, 0, "Parameter Count", columnCount);
+        for (int i = 1; i <= columnCount; ++i)
+        {
+            dumpColumn (pw, metaData, i, display);
+        }
+    }
 
-	public static ParameterInfo[] getParameterInfos (JaqyParameterMetaData meta, Globals globals) throws SQLException
-	{
-		int count = meta.getParameterCount ();
-		ParameterInfo[] parameterInfos = new ParameterInfo[count];
-		for (int i = 0; i < count; ++i)
-		{
-			parameterInfos[i] = new ParameterInfo ();
-			try
-			{
-				parameterInfos[i].type = meta.getParameterType (i + 1);
-				parameterInfos[i].typeName = meta.getParameterTypeName (i + 1);
-				parameterInfos[i].className = meta.getParameterClassName (i + 1);
-				parameterInfos[i].precision = meta.getPrecision (i + 1);
-				parameterInfos[i].scale = meta.getScale (i + 1);
-				try
-				{
-					parameterInfos[i].nullable = meta.isNullable (i + 1);
-				}
-				catch (SQLException ex)
-				{
-					parameterInfos[i].nullable = ParameterMetaData.parameterNullableUnknown;
-					globals.log (Level.INFO, ex);
-				}
-				try
-				{
-					parameterInfos[i].signed = meta.isSigned (i + 1);
-				}
-				catch (SQLException ex)
-				{
-					parameterInfos[i].signed = true;
-					globals.log (Level.INFO, ex);
-				}
-				try
-				{
-					parameterInfos[i].mode = meta.getParameterMode (i + 1);
-				}
-				catch (SQLException ex)
-				{
-					parameterInfos[i].mode = ParameterMetaData.parameterModeUnknown;
-					globals.log (Level.INFO, ex);
-				}
-			}
-			catch (SQLException ex)
-			{
-				globals.log (Level.INFO, ex);
-			}
-		}
-		return parameterInfos;
-	}
+    public static ParameterInfo[] getParameterInfos (JaqyParameterMetaData meta, Globals globals) throws SQLException
+    {
+        int count = meta.getParameterCount ();
+        ParameterInfo[] parameterInfos = new ParameterInfo[count];
+        for (int i = 0; i < count; ++i)
+        {
+            parameterInfos[i] = new ParameterInfo ();
+            try
+            {
+                parameterInfos[i].type = meta.getParameterType (i + 1);
+                parameterInfos[i].typeName = meta.getParameterTypeName (i + 1);
+                parameterInfos[i].className = meta.getParameterClassName (i + 1);
+                parameterInfos[i].precision = meta.getPrecision (i + 1);
+                parameterInfos[i].scale = meta.getScale (i + 1);
+                try
+                {
+                    parameterInfos[i].nullable = meta.isNullable (i + 1);
+                }
+                catch (SQLException ex)
+                {
+                    parameterInfos[i].nullable = ParameterMetaData.parameterNullableUnknown;
+                    globals.log (Level.INFO, ex);
+                }
+                try
+                {
+                    parameterInfos[i].signed = meta.isSigned (i + 1);
+                }
+                catch (SQLException ex)
+                {
+                    parameterInfos[i].signed = true;
+                    globals.log (Level.INFO, ex);
+                }
+                try
+                {
+                    parameterInfos[i].mode = meta.getParameterMode (i + 1);
+                }
+                catch (SQLException ex)
+                {
+                    parameterInfos[i].mode = ParameterMetaData.parameterModeUnknown;
+                    globals.log (Level.INFO, ex);
+                }
+            }
+            catch (SQLException ex)
+            {
+                globals.log (Level.INFO, ex);
+            }
+        }
+        return parameterInfos;
+    }
 }

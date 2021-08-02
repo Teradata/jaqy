@@ -20,31 +20,31 @@ import com.teradata.jaqy.VariableManager;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class IsNullNode extends JSExpNode
 {
-	private final ExpNode m_exp;
-	private final boolean m_is;
+    private final ExpNode m_exp;
+    private final boolean m_is;
 
-	public IsNullNode (ExpNode exp, boolean is)
-	{
-		this.m_exp = exp;
-		this.m_is = is;
-	}
+    public IsNullNode (ExpNode exp, boolean is)
+    {
+        this.m_exp = exp;
+        this.m_is = is;
+    }
 
-	@Override
-	public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
-	{
-		super.bind (rs, vm, interpreter);
-		m_exp.bind (rs, vm, interpreter);
-	}
+    @Override
+    public void bind (JaqyResultSet rs, VariableManager vm, JaqyInterpreter interpreter) throws Exception
+    {
+        super.bind (rs, vm, interpreter);
+        m_exp.bind (rs, vm, interpreter);
+    }
 
-	@Override
-	public String toString ()
-	{
-		if (m_is)
-			return "((" + m_exp + ") == null)";
-		return "((" + m_exp + ") != null)";
-	}
+    @Override
+    public String toString ()
+    {
+        if (m_is)
+            return "((" + m_exp + ") == null)";
+        return "((" + m_exp + ") != null)";
+    }
 }

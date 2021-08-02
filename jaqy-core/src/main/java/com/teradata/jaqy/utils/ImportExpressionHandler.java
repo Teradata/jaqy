@@ -21,29 +21,29 @@ import java.util.ArrayList;
 import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ImportExpressionHandler implements ExpressionHandler
 {
-	private final ArrayList<String> m_exps = new ArrayList<String> ();
+    private final ArrayList<String> m_exps = new ArrayList<String> ();
 
-	public ImportExpressionHandler ()
-	{
-	}
+    public ImportExpressionHandler ()
+    {
+    }
 
-	public String[] getExpressions ()
-	{
-		if (m_exps.size () == 0)
-		{
-			return null;
-		}
-		return m_exps.toArray (new String[m_exps.size ()]);
-	}
+    public String[] getExpressions ()
+    {
+        if (m_exps.size () == 0)
+        {
+            return null;
+        }
+        return m_exps.toArray (new String[m_exps.size ()]);
+    }
 
-	@Override
-	public Object eval (String name) throws IOException
-	{
-		m_exps.add (name);
-		return "?";
-	}
+    @Override
+    public Object eval (String name) throws IOException
+    {
+        m_exps.add (name);
+        return "?";
+    }
 }

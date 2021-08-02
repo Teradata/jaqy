@@ -23,56 +23,56 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FileBlob extends BlobWrapper
 {
-	private Path m_file;
+    private Path m_file;
 
-	public FileBlob (Path file) throws SQLException
-	{
-		m_file = file;
-	}
+    public FileBlob (Path file) throws SQLException
+    {
+        m_file = file;
+    }
 
-	@Override
-	public long length ()
-	{
-		return m_file.length ();
-	}
+    @Override
+    public long length ()
+    {
+        return m_file.length ();
+    }
 
-	@Override
-	public byte[] getBytes (long pos, int length) throws SQLException
-	{
-		if (pos < 1 ||
-			length < 0 ||
-			(pos + length - 1) > m_file.length ())
-			throw new SQLException ("Invalid arguments");
-		try
-		{
-			return FileUtils.readFile (m_file, pos - 1, length);
-		}
-		catch (IOException ex)
-		{
-			throw new SQLException (ex.getMessage (), ex);
-		}
-	}
+    @Override
+    public byte[] getBytes (long pos, int length) throws SQLException
+    {
+        if (pos < 1 ||
+            length < 0 ||
+            (pos + length - 1) > m_file.length ())
+            throw new SQLException ("Invalid arguments");
+        try
+        {
+            return FileUtils.readFile (m_file, pos - 1, length);
+        }
+        catch (IOException ex)
+        {
+            throw new SQLException (ex.getMessage (), ex);
+        }
+    }
 
-	@Override
-	public InputStream getBinaryStream () throws SQLException
-	{
-		try
-		{
-			return m_file.getInputStream ();
-		}
-		catch (IOException ex)
-		{
-			throw new SQLException (ex.getMessage (), ex);
-		}
-	}
+    @Override
+    public InputStream getBinaryStream () throws SQLException
+    {
+        try
+        {
+            return m_file.getInputStream ();
+        }
+        catch (IOException ex)
+        {
+            throw new SQLException (ex.getMessage (), ex);
+        }
+    }
 
-	@Override
-	public void free ()
-	{
-		m_file = null;
-	}
+    @Override
+    public void free ()
+    {
+        m_file = null;
+    }
 }

@@ -24,50 +24,50 @@ import com.teradata.jaqy.interfaces.LineInput;
 import com.teradata.jaqy.path.FilePath;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CommandLineInputTest
 {
-	@Test
-	public void testInput1 () throws Exception
-	{
-		String[] args = new String[]{ ".open", "-u", "vagrant", "postgresql://localhost" };
-		FilePath path = new FilePath (new File (".").getCanonicalFile ());
+    @Test
+    public void testInput1 () throws Exception
+    {
+        String[] args = new String[]{ ".open", "-u", "vagrant", "postgresql://localhost" };
+        FilePath path = new FilePath (new File (".").getCanonicalFile ());
 
-		CommandLineInput cmdInput = new CommandLineInput (args, path);
+        CommandLineInput cmdInput = new CommandLineInput (args, path);
 
-		Assert.assertEquals (path, cmdInput.getDirectory ());
-		Assert.assertEquals (path.getFile (), cmdInput.getFileDirectory ());
+        Assert.assertEquals (path, cmdInput.getDirectory ());
+        Assert.assertEquals (path.getFile (), cmdInput.getFileDirectory ());
 
-		LineInput.Input input = new LineInput.Input ();
-		input.interactive = false;
+        LineInput.Input input = new LineInput.Input ();
+        input.interactive = false;
 
-		Assert.assertEquals (true, cmdInput.getLine (input));
-		Assert.assertEquals (".open -u vagrant postgresql://localhost", input.line);
+        Assert.assertEquals (true, cmdInput.getLine (input));
+        Assert.assertEquals (".open -u vagrant postgresql://localhost", input.line);
 
-		Assert.assertEquals (false, cmdInput.getLine (input));
-	}
+        Assert.assertEquals (false, cmdInput.getLine (input));
+    }
 
-	@Test
-	public void testInput2 () throws Exception
-	{
-		String[] args = new String[]{ ".open", "-u", "vagrant", "postgresql://localhost", ";", ".help" };
-		FilePath path = new FilePath (new File (".").getCanonicalFile ());
+    @Test
+    public void testInput2 () throws Exception
+    {
+        String[] args = new String[]{ ".open", "-u", "vagrant", "postgresql://localhost", ";", ".help" };
+        FilePath path = new FilePath (new File (".").getCanonicalFile ());
 
-		CommandLineInput cmdInput = new CommandLineInput (args, path);
+        CommandLineInput cmdInput = new CommandLineInput (args, path);
 
-		Assert.assertEquals (path, cmdInput.getDirectory ());
-		Assert.assertEquals (path.getFile (), cmdInput.getFileDirectory ());
+        Assert.assertEquals (path, cmdInput.getDirectory ());
+        Assert.assertEquals (path.getFile (), cmdInput.getFileDirectory ());
 
-		LineInput.Input input = new LineInput.Input ();
-		input.interactive = false;
+        LineInput.Input input = new LineInput.Input ();
+        input.interactive = false;
 
-		Assert.assertEquals (true, cmdInput.getLine (input));
-		Assert.assertEquals (".open -u vagrant postgresql://localhost", input.line);
+        Assert.assertEquals (true, cmdInput.getLine (input));
+        Assert.assertEquals (".open -u vagrant postgresql://localhost", input.line);
 
-		Assert.assertEquals (true, cmdInput.getLine (input));
-		Assert.assertEquals (".help", input.line);
+        Assert.assertEquals (true, cmdInput.getLine (input));
+        Assert.assertEquals (".help", input.line);
 
-		Assert.assertEquals (false, cmdInput.getLine (input));
-	}
+        Assert.assertEquals (false, cmdInput.getLine (input));
+    }
 }

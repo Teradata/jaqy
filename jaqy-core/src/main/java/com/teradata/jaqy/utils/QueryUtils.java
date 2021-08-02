@@ -25,73 +25,73 @@ import com.teradata.jaqy.connection.JaqyStatement;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class QueryUtils
 {
-	/**
-	 * Get the string result from a query.
-	 * @param	conn
-	 * 			The JDBC connection
-	 * @param	sql
-	 * 			The query string
-	 * @param	column
-	 * 			The column to retrieve data from
-	 * @param interpreter TODO
-	 *
-	 * @return	a string representation of the output for a particular column.
-	 * 			It can retrieve multiple rows of data if needed.
-	 * @throws	SQLException
-	 * 			in case of error.
-	 */
-	public static String getQueryString (JaqyConnection conn, String sql, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		interpreter.getGlobals ().log (Level.INFO, "SQL: " + sql);
-		try (JaqyStatement stmt = conn.createStatement (true))
-		{
-			stmt.execute (sql);
-			JaqyResultSet rs = stmt.getResultSet (interpreter);
-			if (rs == null)
-				return null;
+    /**
+     * Get the string result from a query.
+     * @param   conn
+     *          The JDBC connection
+     * @param   sql
+     *          The query string
+     * @param   column
+     *          The column to retrieve data from
+     * @param interpreter TODO
+     *
+     * @return  a string representation of the output for a particular column.
+     *          It can retrieve multiple rows of data if needed.
+     * @throws  SQLException
+     *          in case of error.
+     */
+    public static String getQueryString (JaqyConnection conn, String sql, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        interpreter.getGlobals ().log (Level.INFO, "SQL: " + sql);
+        try (JaqyStatement stmt = conn.createStatement (true))
+        {
+            stmt.execute (sql);
+            JaqyResultSet rs = stmt.getResultSet (interpreter);
+            if (rs == null)
+                return null;
 
-			StringBuilder builder = new StringBuilder ();
-			while (rs.next ())
-			{
-				builder.append (rs.getString (column));
-			}
-			rs.close ();
-			return builder.toString ();
-		}
-	}
+            StringBuilder builder = new StringBuilder ();
+            while (rs.next ())
+            {
+                builder.append (rs.getString (column));
+            }
+            rs.close ();
+            return builder.toString ();
+        }
+    }
 
-	/**
-	 * Get the ResultSet from a query.
-	 *
-	 * @param	globals
-	 *			global variables
-	 * @param	conn
-	 * 			The JDBC connection
-	 * @param	sql
-	 * 			The query string
-	 * @param	interpreter
-	 * 			the interpreter
-	 * @return	an in-memory COPY of the query ResultSet.
-	 * @throws	SQLException
-	 * 			in case of error.
-	 */
-	public static JaqyResultSet getResultSet (Globals globals, JaqyConnection conn, String sql, JaqyInterpreter interpreter) throws SQLException
-	{
-		globals.log (Level.INFO, "SQL: " + sql);
-		try (JaqyStatement stmt = conn.createStatement (true))
-		{
-			stmt.execute (sql);
-			JaqyResultSet rs = stmt.getResultSet (interpreter);
-			if (rs == null)
-				return null;
+    /**
+     * Get the ResultSet from a query.
+     *
+     * @param   globals
+     *          global variables
+     * @param   conn
+     *          The JDBC connection
+     * @param   sql
+     *          The query string
+     * @param   interpreter
+     *          the interpreter
+     * @return  an in-memory COPY of the query ResultSet.
+     * @throws  SQLException
+     *          in case of error.
+     */
+    public static JaqyResultSet getResultSet (Globals globals, JaqyConnection conn, String sql, JaqyInterpreter interpreter) throws SQLException
+    {
+        globals.log (Level.INFO, "SQL: " + sql);
+        try (JaqyStatement stmt = conn.createStatement (true))
+        {
+            stmt.execute (sql);
+            JaqyResultSet rs = stmt.getResultSet (interpreter);
+            if (rs == null)
+                return null;
 
-			JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, interpreter);
-			rs.close ();
-			return newRS;
-		}
-	}
+            JaqyResultSet newRS = ResultSetUtils.copyResultSet (rs, 0, interpreter);
+            rs.close ();
+            return newRS;
+        }
+    }
 }

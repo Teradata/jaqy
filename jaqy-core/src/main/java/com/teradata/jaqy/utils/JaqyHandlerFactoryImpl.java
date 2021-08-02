@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,41 +27,41 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyHandlerFactory;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public abstract class JaqyHandlerFactoryImpl<E> implements JaqyHandlerFactory<E>
 {
-	private final Options m_options = new Options ();
+    private final Options m_options = new Options ();
 
-	public JaqyHandlerFactoryImpl ()
-	{
-	}
+    public JaqyHandlerFactoryImpl ()
+    {
+    }
 
-	protected void addOption(String opt, String longOpt, boolean hasArg, String description)
-	{
-		m_options.addOption (opt, longOpt, hasArg, description);
-	}
+    protected void addOption(String opt, String longOpt, boolean hasArg, String description)
+    {
+        m_options.addOption (opt, longOpt, hasArg, description);
+    }
 
-	protected void addOption(Option option)
-	{
-		m_options.addOption (option);
-	}
+    protected void addOption(Option option)
+    {
+        m_options.addOption (option);
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		StringWriter sw = new StringWriter ();
-		PrintWriter pw = new PrintWriter (sw);
-		OptionsUtils.printHelpNoUsage (pw, m_options, getName () + " type options:", null, null);
-		pw.close ();
-		return sw.toString ();
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        StringWriter sw = new StringWriter ();
+        PrintWriter pw = new PrintWriter (sw);
+        OptionsUtils.printHelpNoUsage (pw, m_options, getName () + " type options:", null, null);
+        pw.close ();
+        return sw.toString ();
+    }
 
-	@Override
-	public E getHandler (String[] args, JaqyInterpreter interpreter) throws Exception
-	{
-		return getHandler (new DefaultParser ().parse (m_options, args), interpreter);
-	}
+    @Override
+    public E getHandler (String[] args, JaqyInterpreter interpreter) throws Exception
+    {
+        return getHandler (new DefaultParser ().parse (m_options, args), interpreter);
+    }
 
-	abstract protected E getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception;
+    abstract protected E getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception;
 }

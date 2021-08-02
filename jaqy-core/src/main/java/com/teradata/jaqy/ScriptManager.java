@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,24 +36,24 @@ import javax.script.ScriptEngineManager;
 /**
  * A simple manager for managing script engines.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ScriptManager
 {
-	private final ScriptEngineManager m_scriptEngineManager;
+    private final ScriptEngineManager m_scriptEngineManager;
 
-	ScriptManager ()
-	{
-		m_scriptEngineManager = new ScriptEngineManager ();
-	}
+    ScriptManager ()
+    {
+        m_scriptEngineManager = new ScriptEngineManager ();
+    }
 
-	public ScriptEngine createEngine (String type)
-	{
-		return m_scriptEngineManager.getEngineByName (type);
-	}
+    public ScriptEngine createEngine (String type)
+    {
+        return m_scriptEngineManager.getEngineByName (type);
+    }
 
-	public void registerEngine (String type, ScriptEngineFactory factory)
-	{
-		m_scriptEngineManager.registerEngineExtension (type, factory);
-	}
+    public void registerEngine (String type, ScriptEngineFactory factory)
+    {
+        m_scriptEngineManager.registerEngineExtension (type, factory);
+    }
 }

@@ -24,48 +24,48 @@ import com.teradata.jaqy.PropertyTable;
 import com.teradata.jaqy.utils.DriverManagerUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DriverCommand extends JaqyCommandAdapter
 {
-	public DriverCommand ()
-	{
-		super ("driver");
-	}
+    public DriverCommand ()
+    {
+        super ("driver");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays currently loaded JDBC drivers.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays currently loaded JDBC drivers.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		listDrivers (interpreter);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        listDrivers (interpreter);
+    }
 
-	private void listDrivers (JaqyInterpreter interpreter) throws SQLException
-	{
-		PropertyTable pt = new PropertyTable (new String[] { "Driver", "Version", "Compliant" } );
-		for (Driver driver : DriverManagerUtils.getDrivers ())
-		{
-			String name;
-			if (driver instanceof JDBCWrapperDriver)
-			{
-				name = ((JDBCWrapperDriver)driver).getInternalDriver ().getClass ().getCanonicalName ();
-			}
-			else
-			{
-				name = driver.getClass ().getCanonicalName ();
-			}
-			String version = "";
-			if (driver.getMajorVersion () < 10)
-				version = " ";
-			version += driver.getMajorVersion () + "." + driver.getMinorVersion ();
-			String jdbcCompliant = driver.jdbcCompliant () ? "T" : "F";
-			pt.addRow (new String[] { name, version, jdbcCompliant });
-		}
-		interpreter.print (pt);
-	}
+    private void listDrivers (JaqyInterpreter interpreter) throws SQLException
+    {
+        PropertyTable pt = new PropertyTable (new String[] { "Driver", "Version", "Compliant" } );
+        for (Driver driver : DriverManagerUtils.getDrivers ())
+        {
+            String name;
+            if (driver instanceof JDBCWrapperDriver)
+            {
+                name = ((JDBCWrapperDriver)driver).getInternalDriver ().getClass ().getCanonicalName ();
+            }
+            else
+            {
+                name = driver.getClass ().getCanonicalName ();
+            }
+            String version = "";
+            if (driver.getMajorVersion () < 10)
+                version = " ";
+            version += driver.getMajorVersion () + "." + driver.getMinorVersion ();
+            String jdbcCompliant = driver.jdbcCompliant () ? "T" : "F";
+            pt.addRow (new String[] { name, version, jdbcCompliant });
+        }
+        interpreter.print (pt);
+    }
 }

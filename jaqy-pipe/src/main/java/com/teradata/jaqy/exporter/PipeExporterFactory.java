@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,23 +22,23 @@ import com.teradata.jaqy.interfaces.JaqyExporter;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PipeExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
 {
-	public PipeExporterFactory ()
-	{
-	}
+    public PipeExporterFactory ()
+    {
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "pipe";
-	}
+    @Override
+    public String getName ()
+    {
+        return "pipe";
+    }
 
-	@Override
-	public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
-	{
-		return new PipeExporter ();
-	}
+    @Override
+    public JaqyExporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
+    {
+        return new PipeExporter ();
+    }
 }

@@ -22,37 +22,37 @@ import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.SortInfo;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class SortCommand extends JaqyCommandAdapter
 {
-	public SortCommand ()
-	{
-		super ("sort", "sort.txt");
-	}
+    public SortCommand ()
+    {
+        super ("sort", "sort.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "does client side ResultSet sorting.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "does client side ResultSet sorting.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
 
-		String str = args[0].trim ();
-		if (str.length () == 0)
-		{
-			interpreter.error ("missing sort columns");
-		}
-		SortInfo[] sortInfos = OrderByParser.getSortInfo (str);
-		boolean nullsort = ClientRSUtils.getSortNull (interpreter);
-		for (SortInfo sortInfo : sortInfos)
-		{
-			sortInfo.nullLow = nullsort;
-		}
-		interpreter.setSortInfos (sortInfos);
-	}
+        String str = args[0].trim ();
+        if (str.length () == 0)
+        {
+            interpreter.error ("missing sort columns");
+        }
+        SortInfo[] sortInfos = OrderByParser.getSortInfo (str);
+        boolean nullsort = ClientRSUtils.getSortNull (interpreter);
+        for (SortInfo sortInfo : sortInfos)
+        {
+            sortInfo.nullLow = nullsort;
+        }
+        interpreter.setSortInfos (sortInfos);
+    }
 }

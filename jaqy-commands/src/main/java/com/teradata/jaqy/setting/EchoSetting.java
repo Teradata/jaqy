@@ -20,46 +20,46 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.Display;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class EchoSetting extends JaqySettingAdapter
 {
-	public EchoSetting ()
-	{
-		super ("echo");
-	}
+    public EchoSetting ()
+    {
+        super ("echo");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "turns echo on / off";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "turns echo on / off";
+    }
 
-	@Override
-	public Object get (JaqyInterpreter interpreter) throws Exception
-	{
-		return interpreter.getDisplay ().getEcho ();
-	}
+    @Override
+    public Object get (JaqyInterpreter interpreter) throws Exception
+    {
+        return interpreter.getDisplay ().getEcho ();
+    }
 
-	@Override
-	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
-	{
-		Display display = interpreter.getDisplay ();
-		if ("auto".equals (args[0]))
-		{
-			display.setEcho (Echo.auto);
-		}
-		else if ("on".equals (args[0]))
-		{
-			display.setEcho (Echo.on);
-		}
-		else if ("off".equals (args[0]))
-		{
-			display.setEcho (Echo.off);
-		}
-		else
-		{
-			interpreter.error ("invalid setting value");
-		}
-	}
+    @Override
+    public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+    {
+        Display display = interpreter.getDisplay ();
+        if ("auto".equals (args[0]))
+        {
+            display.setEcho (Echo.auto);
+        }
+        else if ("on".equals (args[0]))
+        {
+            display.setEcho (Echo.on);
+        }
+        else if ("off".equals (args[0]))
+        {
+            display.setEcho (Echo.off);
+        }
+        else
+        {
+            interpreter.error ("invalid setting value");
+        }
+    }
 }

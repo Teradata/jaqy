@@ -16,20 +16,20 @@
 package com.teradata.jaqy.utils.exp;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class LiteralNode extends JSExpNode
 {
-	private final String m_literal;
+    private final String m_literal;
 
-	public LiteralNode (String literal)
-	{
-		m_literal = literal;
-	}
+    public LiteralNode (String literal)
+    {
+        m_literal = literal;
+    }
 
-	@Override
-	public String toString ()
-	{
-		return m_literal;
-	}
+    @Override
+    public String toString ()
+    {
+        return m_literal;
+    }
 }

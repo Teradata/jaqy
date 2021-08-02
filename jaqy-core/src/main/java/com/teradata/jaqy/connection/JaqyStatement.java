@@ -23,69 +23,69 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class JaqyStatement implements AutoCloseable
 {
-	private final Statement m_statement;
-	private final JaqyConnection m_connection;
-	private JaqyResultSet m_rs;
+    private final Statement m_statement;
+    private final JaqyConnection m_connection;
+    private JaqyResultSet m_rs;
 
-	public JaqyStatement (Statement stmt, JaqyConnection conn)
-	{
-		m_statement = stmt;
-		m_connection = conn;
-	}
+    public JaqyStatement (Statement stmt, JaqyConnection conn)
+    {
+        m_statement = stmt;
+        m_connection = conn;
+    }
 
-	/**
-	 * @return	the connection
-	 */
-	public JaqyConnection getConnection ()
-	{
-		return m_connection;
-	}
+    /**
+     * @return  the connection
+     */
+    public JaqyConnection getConnection ()
+    {
+        return m_connection;
+    }
 
-	@Override
-	public void close () throws SQLException
-	{
-		m_statement.close ();
-	}
+    @Override
+    public void close () throws SQLException
+    {
+        m_statement.close ();
+    }
 
-	public boolean execute (String sql) throws SQLException
-	{
-		m_rs = null;
-		return m_statement.execute (sql);
-	}
+    public boolean execute (String sql) throws SQLException
+    {
+        m_rs = null;
+        return m_statement.execute (sql);
+    }
 
-	public JaqyResultSet getResultSet (JaqyInterpreter interpreter) throws SQLException
-	{
-		if (m_rs == null)
-		{
-			ResultSet rs = m_statement.getResultSet ();
-			if (rs != null)
-				m_rs = m_connection.getHelper ().getResultSet (rs, interpreter);
-		}
-		return m_rs;
-	}
+    public JaqyResultSet getResultSet (JaqyInterpreter interpreter) throws SQLException
+    {
+        if (m_rs == null)
+        {
+            ResultSet rs = m_statement.getResultSet ();
+            if (rs != null)
+                m_rs = m_connection.getHelper ().getResultSet (rs, interpreter);
+        }
+        return m_rs;
+    }
 
-	public boolean getMoreResults () throws SQLException
-	{
-		m_rs = null;
-		return m_statement.getMoreResults ();
-	}
+    public boolean getMoreResults () throws SQLException
+    {
+        m_rs = null;
+        return m_statement.getMoreResults ();
+    }
 
-	public long getUpdateCount () throws SQLException
-	{
-		return m_statement.getUpdateCount ();
-	}
+    public long getUpdateCount () throws SQLException
+    {
+        return m_statement.getUpdateCount ();
+    }
 
-	public void setFetchSize (int size) throws SQLException
-	{
-		m_statement.setFetchSize (size);
-	}
+    public void setFetchSize (int size) throws SQLException
+    {
+        m_statement.setFetchSize (size);
+    }
 
-	public Statement getStatement ()
-	{
-		return m_statement;
-	}
+    public Statement getStatement ()
+    {
+        return m_statement;
+    }
 }

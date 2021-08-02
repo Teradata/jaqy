@@ -22,32 +22,32 @@ import com.teradata.jaqy.utils.SessionUtils;
 import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FilterCommand extends JaqyCommandAdapter
 {
-	public FilterCommand ()
-	{
-		super ("filter", "filter.txt");
-	}
+    public FilterCommand ()
+    {
+        super ("filter", "filter.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "does client side ResultSet filtering.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "does client side ResultSet filtering.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
 
-		String str = args[0].trim ();
-		if (str.length () == 0)
-		{
-			interpreter.error ("missing predicate");
-		}
-		ExpNode exp = WhereParser.getExp (args[0]);
-		interpreter.setPredicate (new ExpNodePredicate (exp));
-	}
+        String str = args[0].trim ();
+        if (str.length () == 0)
+        {
+            interpreter.error ("missing predicate");
+        }
+        ExpNode exp = WhereParser.getExp (args[0]);
+        interpreter.setPredicate (new ExpNodePredicate (exp));
+    }
 }

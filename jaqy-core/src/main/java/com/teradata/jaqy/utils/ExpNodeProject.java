@@ -22,36 +22,36 @@ import com.teradata.jaqy.interfaces.Project;
 import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ExpNodeProject implements Project
 {
-	private ExpNode[] m_expList;
-	private VariableManager m_vm;
+    private ExpNode[] m_expList;
+    private VariableManager m_vm;
 
-	public ExpNodeProject (ExpNode[] expList)
-	{
-		m_expList = expList;
-	}
+    public ExpNodeProject (ExpNode[] expList)
+    {
+        m_expList = expList;
+    }
 
-	@Override
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
-	{
-		m_vm = new VariableManager (interpreter.getVariableManager (), null);
-		m_vm.setVariable (ExpNodePredicate.RS_VAR, rs);
-		for (ExpNode exp : m_expList)
-			exp.bind (rs, m_vm, interpreter);
-	}
+    @Override
+    public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception
+    {
+        m_vm = new VariableManager (interpreter.getVariableManager (), null);
+        m_vm.setVariable (ExpNodePredicate.RS_VAR, rs);
+        for (ExpNode exp : m_expList)
+            exp.bind (rs, m_vm, interpreter);
+    }
 
-	@Override
-	public Object get (int column) throws Exception
-	{
-		return m_expList[column - 1].get ();
-	}
+    @Override
+    public Object get (int column) throws Exception
+    {
+        return m_expList[column - 1].get ();
+    }
 
-	@Override
-	public void close ()
-	{
-		m_expList = null;
-	}
+    @Override
+    public void close ()
+    {
+        m_expList = null;
+    }
 }

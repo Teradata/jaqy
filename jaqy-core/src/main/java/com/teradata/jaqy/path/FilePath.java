@@ -21,87 +21,87 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.PathUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FilePath implements Path
 {
-	private final File m_file;
+    private final File m_file;
 
-	public FilePath (File file)
-	{
-		m_file = file;
-	}
+    public FilePath (File file)
+    {
+        m_file = file;
+    }
 
-	public File getFile ()
-	{
-		return m_file;
-	}
+    public File getFile ()
+    {
+        return m_file;
+    }
 
-	@Override
-	public Path getParent ()
-	{
-		return new FilePath (m_file.getParentFile ());
-	}
+    @Override
+    public Path getParent ()
+    {
+        return new FilePath (m_file.getParentFile ());
+    }
 
-	@Override
-	public Path getRelativePath (String name)
-	{
-		File dir = m_file.isDirectory () ? m_file : m_file.getParentFile ();
+    @Override
+    public Path getRelativePath (String name)
+    {
+        File dir = m_file.isDirectory () ? m_file : m_file.getParentFile ();
 
-		return new FilePath (PathUtils.getRelativePath (dir, name));
-	}
+        return new FilePath (PathUtils.getRelativePath (dir, name));
+    }
 
-	@Override
-	public String getPath ()
-	{
-		return m_file.getPath ();
-	}
+    @Override
+    public String getPath ()
+    {
+        return m_file.getPath ();
+    }
 
-	@Override
-	public String getCanonicalPath ()
-	{
-		try
-		{
-			return m_file.getCanonicalPath ();
-		}
-		catch (IOException ex)
-		{
-			return m_file.getAbsolutePath ();
-		}
-	}
+    @Override
+    public String getCanonicalPath ()
+    {
+        try
+        {
+            return m_file.getCanonicalPath ();
+        }
+        catch (IOException ex)
+        {
+            return m_file.getAbsolutePath ();
+        }
+    }
 
-	@Override
-	public boolean isFile ()
-	{
-		return m_file.isFile ();
-	}
+    @Override
+    public boolean isFile ()
+    {
+        return m_file.isFile ();
+    }
 
-	@Override
-	public long length ()
-	{
-		return m_file.length ();
-	}
+    @Override
+    public long length ()
+    {
+        return m_file.length ();
+    }
 
-	@Override
-	public boolean exists ()
-	{
-		return m_file.exists ();
-	}
+    @Override
+    public boolean exists ()
+    {
+        return m_file.exists ();
+    }
 
-	@Override
-	public InputStream getInputStream () throws IOException
-	{
-		return new FileInputStream (m_file);
-	}
+    @Override
+    public InputStream getInputStream () throws IOException
+    {
+        return new FileInputStream (m_file);
+    }
 
-	@Override
-	public OutputStream getOutputStream () throws IOException
-	{
-		return new FileOutputStream (m_file);
-	}
+    @Override
+    public OutputStream getOutputStream () throws IOException
+    {
+        return new FileOutputStream (m_file);
+    }
 
-	public void delete ()
-	{
-		m_file.delete ();
-	}
+    public void delete ()
+    {
+        m_file.delete ();
+    }
 }

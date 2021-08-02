@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,60 +28,60 @@ import com.teradata.jaqy.interfaces.JaqyOption;
 import com.teradata.jaqy.utils.OptionsUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class OptionManager
 {
-	private final Options m_options = new Options ();
-	private final HashMap<String, JaqyOption> m_optionHandlers = new HashMap<String, JaqyOption> ();
+    private final Options m_options = new Options ();
+    private final HashMap<String, JaqyOption> m_optionHandlers = new HashMap<String, JaqyOption> ();
 
-	OptionManager ()
-	{
-	}
+    OptionManager ()
+    {
+    }
 
-	public CommandLine getCommandLine (String[] args) throws Exception
-	{
-		return new DefaultParser ().parse (m_options, args);
-	}
+    public CommandLine getCommandLine (String[] args) throws Exception
+    {
+        return new DefaultParser ().parse (m_options, args);
+    }
 
-	public void addOption (JaqyOption option)
-	{
-		Option o = new Option (option.getOption (),
-							   option.getLongOption (),
-							   option.isHasArg (),
-							   option.getDescription ());
-		o.setArgName (option.getArgName ());
-		m_options.addOption (o);
-		m_optionHandlers.put (option.getLongOption (), option);
-	}
+    public void addOption (JaqyOption option)
+    {
+        Option o = new Option (option.getOption (),
+                               option.getLongOption (),
+                               option.isHasArg (),
+                               option.getDescription ());
+        o.setArgName (option.getArgName ());
+        m_options.addOption (o);
+        m_optionHandlers.put (option.getLongOption (), option);
+    }
 
-	public String[] handleOptions (Globals globals, Display display, String[] args) throws Exception
-	{
-		CommandLine cmdLine = null;
-		try
-		{
-			cmdLine = new DefaultParser ().parse (m_options, args);
-		}
-		catch (Exception ex)
-		{
-			display.println (null, ex.getMessage ());
-			System.exit (1);
-		}
+    public String[] handleOptions (Globals globals, Display display, String[] args) throws Exception
+    {
+        CommandLine cmdLine = null;
+        try
+        {
+            cmdLine = new DefaultParser ().parse (m_options, args);
+        }
+        catch (Exception ex)
+        {
+            display.println (null, ex.getMessage ());
+            System.exit (1);
+        }
 
-		for (Option option : cmdLine.getOptions ())
-		{
-			String longOpt = option.getLongOpt ();
-			JaqyOption handler = m_optionHandlers.get (longOpt);
-			handler.handleOption (globals, display, cmdLine);
-		}
-		return cmdLine.getArgs ();
-	}
+        for (Option option : cmdLine.getOptions ())
+        {
+            String longOpt = option.getLongOpt ();
+            JaqyOption handler = m_optionHandlers.get (longOpt);
+            handler.handleOption (globals, display, cmdLine);
+        }
+        return cmdLine.getArgs ();
+    }
 
-	public void printHelp (PrintWriter pw)
-	{
-		String syntax = "java -jar jaqy.jar [options] [commands]";
-		String header = "options:";
-		String footer = "commands:\n  a series of commands separated by ;";
-		OptionsUtils.printHelp (pw, m_options, syntax, header, footer);
-	}
+    public void printHelp (PrintWriter pw)
+    {
+        String syntax = "java -jar jaqy.jar [options] [commands]";
+        String header = "options:";
+        String footer = "commands:\n  a series of commands separated by ;";
+        OptionsUtils.printHelp (pw, m_options, syntax, header, footer);
+    }
 }

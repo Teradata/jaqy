@@ -20,31 +20,31 @@ import java.sql.SQLException;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface Project
 {
-	/**
-	 * Binds to a JaqyResultSet.
-	 * @param	rs
-	 * 			ResultSet object
-	 * @param	interpreter
-	 * 			interpreter object
-	 * @throws	Exception
-	 * 			in case of error
-	 */
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
-	/**
-	 * Get the object at the specified column.
-	 * @param	column
-	 * 			The column index
-	 * @return	the object at the specified column.
-	 * @throws	SQLException
-	 * 			in case of error
-	 */
-	public Object get (int column) throws Exception;
-	/**
-	 * Free any resources.  Should not throw any exceptions.
-	 */
-	public void close ();
+    /**
+     * Binds to a JaqyResultSet.
+     * @param   rs
+     *          ResultSet object
+     * @param   interpreter
+     *          interpreter object
+     * @throws  Exception
+     *          in case of error
+     */
+    public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Get the object at the specified column.
+     * @param   column
+     *          The column index
+     * @return  the object at the specified column.
+     * @throws  SQLException
+     *          in case of error
+     */
+    public Object get (int column) throws Exception;
+    /**
+     * Free any resources.  Should not throw any exceptions.
+     */
+    public void close ();
 }

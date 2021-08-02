@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,49 +23,49 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class DoubleTypeHandler implements TypeHandler
 {
-	private final static TypeHandler s_instance = new DoubleTypeHandler ();
+    private final static TypeHandler s_instance = new DoubleTypeHandler ();
 
-	public static TypeHandler getInstance ()
-	{
-		return s_instance;
-	}
+    public static TypeHandler getInstance ()
+    {
+        return s_instance;
+    }
 
-	private DoubleTypeHandler ()
-	{
-	}
+    private DoubleTypeHandler ()
+    {
+    }
 
-	private String getString (Object obj)
-	{
-		if (obj instanceof Double)
-		{
-			return Double2String.getDoubleString ((Double)obj);
-		}
-		else if (obj instanceof Float)
-		{
-			return Double2String.getFloatString ((Float)obj);
-		}
-		return obj.toString ();
-	}
+    private String getString (Object obj)
+    {
+        if (obj instanceof Double)
+        {
+            return Double2String.getDoubleString ((Double)obj);
+        }
+        else if (obj instanceof Float)
+        {
+            return Double2String.getFloatString ((Float)obj);
+        }
+        return obj.toString ();
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object obj = rs.getObject (column);
-		if (obj == null)
-			return null;
-		return getString (obj);
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object obj = rs.getObject (column);
+        if (obj == null)
+            return null;
+        return getString (obj);
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object obj = rs.getObject (column);
-		if (obj == null)
-			return -1;
-		return getString (obj).length ();
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object obj = rs.getObject (column);
+        if (obj == null)
+            return -1;
+        return getString (obj).length ();
+    }
 }

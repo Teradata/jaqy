@@ -21,76 +21,76 @@ import com.teradata.jaqy.interfaces.JaqyCommand;
 /**
  * Initiate the initial commands.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class CommandSetup
 {
-	static void init (Globals globals)
-	{
-		ObjectManager<JaqyCommand> manager = globals.getCommandManager ();
-		manager.addObject (new EndCommand ());
-		manager.addObject (new IfCommand ());
+    static void init (Globals globals)
+    {
+        ObjectManager<JaqyCommand> manager = globals.getCommandManager ();
+        manager.addObject (new EndCommand ());
+        manager.addObject (new IfCommand ());
 
-		manager.addObject (new HelpCommand (manager));
-		manager.addObject (new SetCommand ());
+        manager.addObject (new HelpCommand (manager));
+        manager.addObject (new SetCommand ());
 
-		manager.addObject (new AliasCommand ());
-		manager.addObject (new UnAliasCommand ());
-		// remark (i.e.g comment) command
-		manager.addObject (new RemarkCommand ());
-		manager.addObject (new ListCommand ());
-		manager.addObject (new PwdCommand ());
-		manager.addObject (new ExecCommand ());
-		manager.addObject (new DescribeCommand ());
-		manager.addObject (new RepeatCommand ());
-		manager.addObject (new RepeatPrevCommand ());
-		manager.addObject (new LimitCommand ());
+        manager.addObject (new AliasCommand ());
+        manager.addObject (new UnAliasCommand ());
+        // remark (i.e.g comment) command
+        manager.addObject (new RemarkCommand ());
+        manager.addObject (new ListCommand ());
+        manager.addObject (new PwdCommand ());
+        manager.addObject (new ExecCommand ());
+        manager.addObject (new DescribeCommand ());
+        manager.addObject (new RepeatCommand ());
+        manager.addObject (new RepeatPrevCommand ());
+        manager.addObject (new LimitCommand ());
 
-		// client side ResultSet processing
-		manager.addObject (new SortCommand ());
-		manager.addObject (new FilterCommand ());
-		manager.addObject (new ProjectCommand ());
+        // client side ResultSet processing
+        manager.addObject (new SortCommand ());
+        manager.addObject (new FilterCommand ());
+        manager.addObject (new ProjectCommand ());
 
-		// session control
-		manager.addObject (new SessionCommand ());
-		manager.addObject (new ExitCommand ());
-		manager.addObject (new OpenCommand ());
-		manager.addObject (new CloseCommand ());
+        // session control
+        manager.addObject (new SessionCommand ());
+        manager.addObject (new ExitCommand ());
+        manager.addObject (new OpenCommand ());
+        manager.addObject (new CloseCommand ());
 
-		manager.addObject (new CommitCommand ());
-		manager.addObject (new RollbackCommand ());
+        manager.addObject (new CommitCommand ());
+        manager.addObject (new RollbackCommand ());
 
-		// utilities
-		manager.addObject (new ProtocolCommand ());
-		manager.addObject (new ClassPathCommand ());
-		manager.addObject (new DriverCommand ());
-		manager.addObject (new EnvCommand ());
-		manager.addObject (new InfoCommand ());
-		manager.addObject (new OsCommand ());
-		manager.addObject (new QuietCommand ());
-		manager.addObject (new RunCommand ());
-		manager.addObject (new VersionCommand ());
-		manager.addObject (new ConfigCommand ());
-		manager.addObject (new HandlerCommand ());
-		manager.addObject (new TimerCommand ());
+        // utilities
+        manager.addObject (new ProtocolCommand ());
+        manager.addObject (new ClassPathCommand ());
+        manager.addObject (new DriverCommand ());
+        manager.addObject (new EnvCommand ());
+        manager.addObject (new InfoCommand ());
+        manager.addObject (new OsCommand ());
+        manager.addObject (new QuietCommand ());
+        manager.addObject (new RunCommand ());
+        manager.addObject (new VersionCommand ());
+        manager.addObject (new ConfigCommand ());
+        manager.addObject (new HandlerCommand ());
+        manager.addObject (new TimerCommand ());
 
-		// I/O
-		manager.addObject (new FormatCommand ());
-		manager.addObject (new ExportCommand ());
-		manager.addObject (new ImportCommand ());
-		manager.addObject (new ImportSchemaCommand ());
-		manager.addObject (new ImportTableCommand ());
-		manager.addObject (new SaveCommand ());
+        // I/O
+        manager.addObject (new FormatCommand ());
+        manager.addObject (new ExportCommand ());
+        manager.addObject (new ImportCommand ());
+        manager.addObject (new ImportSchemaCommand ());
+        manager.addObject (new ImportTableCommand ());
+        manager.addObject (new SaveCommand ());
 
-		// plugin
-		manager.addObject (new LoadCommand ());
+        // plugin
+        manager.addObject (new LoadCommand ());
 
-		// debugging
-		manager.addObject (new DebugCommand ());
-		manager.addObject (new PrepareCommand ());
+        // debugging
+        manager.addObject (new DebugCommand ());
+        manager.addObject (new PrepareCommand ());
 
-		// scripting
-		manager.addObject (new ScriptCommand ());
-		manager.addObject (new EvalCommand ());
-	}
+        // scripting
+        manager.addObject (new ScriptCommand ());
+        manager.addObject (new EvalCommand ());
+    }
 }

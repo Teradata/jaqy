@@ -19,33 +19,33 @@ import java.sql.Types;
 import java.util.HashMap;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class ExcelImporterOptions
 {
-	public String sheetName;
-	public int sheetId = -1;
-	public boolean swap;
-	public boolean header;
+    public String sheetName;
+    public int sheetId = -1;
+    public boolean swap;
+    public boolean header;
 
-	private final HashMap<Integer, Integer> m_typeMap = new HashMap<Integer, Integer> ();
+    private final HashMap<Integer, Integer> m_typeMap = new HashMap<Integer, Integer> ();
 
-	public ExcelImporterOptions ()
-	{
-	}
+    public ExcelImporterOptions ()
+    {
+    }
 
-	public void setType (int column, int type)
-	{
-		m_typeMap.put (column, type);
-	}
+    public void setType (int column, int type)
+    {
+        m_typeMap.put (column, type);
+    }
 
-	public int getType (int column)
-	{
-		Integer t = m_typeMap.get (column);
-		if (t == null)
-		{
-			return Types.NULL;
-		}
-		return t;
-	}
+    public int getType (int column)
+    {
+        Integer t = m_typeMap.get (column);
+        if (t == null)
+        {
+            return Types.NULL;
+        }
+        return t;
+    }
 }

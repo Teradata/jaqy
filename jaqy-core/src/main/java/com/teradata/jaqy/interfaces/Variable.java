@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,27 @@
 package com.teradata.jaqy.interfaces;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface Variable
 {
-	/**
-	 * Gets a variable value.
-	 *
-	 * @return	the value of the object.
-	 */
-	public Object get ();
-	/**
-	 * Sets a variable value.
-	 * @param	value
-	 *			the variable value.
-	 * @return	true if the variable is set successfully.  false otherwise.
-	 */
-	public boolean set (Object value);
-	/**
-	 * Gets the name of the variable.
-	 *
-	 * @return	the name of the variable.
-	 */
-	public String getName ();
+    /**
+     * Gets a variable value.
+     *
+     * @return  the value of the object.
+     */
+    public Object get ();
+    /**
+     * Sets a variable value.
+     * @param   value
+     *          the variable value.
+     * @return  true if the variable is set successfully.  false otherwise.
+     */
+    public boolean set (Object value);
+    /**
+     * Gets the name of the variable.
+     *
+     * @return  the name of the variable.
+     */
+    public String getName ();
 }

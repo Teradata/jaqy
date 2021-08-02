@@ -27,49 +27,49 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.interfaces.PathHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FilePathHandler implements PathHandler
 {
-	private Pattern m_winPath;
+    private Pattern m_winPath;
 
-	public FilePathHandler ()
-	{
-		if (Os.isWindows ())
-		{
-			m_winPath = Pattern.compile ("^[a-zA-Z]:\\\\.*");
-		}
-	}
+    public FilePathHandler ()
+    {
+        if (Os.isWindows ())
+        {
+            m_winPath = Pattern.compile ("^[a-zA-Z]:\\\\.*");
+        }
+    }
 
-	@Override
-	public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
-	{
-		File file;
-		if (path.startsWith ("file:/"))
-		{
-			URL url = new URL (path);
-			file = new File (url.getFile ());
-		}
-		else
-		{
-			file = new File (path);
-		}
-		return new FilePath (file);
-	}
+    @Override
+    public Path getPath (String path, JaqyInterpreter interpreter) throws IOException
+    {
+        File file;
+        if (path.startsWith ("file:/"))
+        {
+            URL url = new URL (path);
+            file = new File (url.getFile ());
+        }
+        else
+        {
+            file = new File (path);
+        }
+        return new FilePath (file);
+    }
 
-	@Override
-	public boolean canHandle (String path)
-	{
-		if (path.startsWith ("/") ||
-			path.startsWith ("\\") ||
-			path.startsWith ("file:/"))
-			return true;
-		if (m_winPath != null)
-		{
-			Matcher m = m_winPath.matcher (path);
-			if (m.matches ())
-				return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean canHandle (String path)
+    {
+        if (path.startsWith ("/") ||
+            path.startsWith ("\\") ||
+            path.startsWith ("file:/"))
+            return true;
+        if (m_winPath != null)
+        {
+            Matcher m = m_winPath.matcher (path);
+            if (m.matches ())
+                return true;
+        }
+        return false;
+    }
 }

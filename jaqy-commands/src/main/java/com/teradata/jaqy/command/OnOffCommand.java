@@ -25,42 +25,42 @@ import com.teradata.jaqy.JaqyInterpreter;
  */
 abstract class OnOffCommand extends JaqyCommandAdapter
 {
-	public OnOffCommand (String name)
-	{
-		super (name);
-	}
+    public OnOffCommand (String name)
+    {
+        super (name);
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [on | off]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [on | off]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
-	{
-		if (args.length == 0)
-		{
-			info (interpreter);
-		}
-		else
-		{
-			if ("on".equals (args[0]))
-				execute (true, interpreter);
-			else if ("off".equals (args[0]))
-				execute (false, interpreter);
-			else
-				interpreter.error ("invalid command arguments");
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+    {
+        if (args.length == 0)
+        {
+            info (interpreter);
+        }
+        else
+        {
+            if ("on".equals (args[0]))
+                execute (true, interpreter);
+            else if ("off".equals (args[0]))
+                execute (false, interpreter);
+            else
+                interpreter.error ("invalid command arguments");
+        }
+    }
 
-	abstract void execute (boolean on, JaqyInterpreter interpreter) throws SQLException;
+    abstract void execute (boolean on, JaqyInterpreter interpreter) throws SQLException;
 
-	abstract void info (JaqyInterpreter interpreter) throws SQLException;
+    abstract void info (JaqyInterpreter interpreter) throws SQLException;
 }

@@ -22,81 +22,81 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class AttributeUtilsTest
 {
-	@Test
-	public void testPrint () throws Exception
-	{
-		String nl = System.lineSeparator ();
-		StringWriter sw = new StringWriter ();
-		PrintWriter pw;
+    @Test
+    public void testPrint () throws Exception
+    {
+        String nl = System.lineSeparator ();
+        StringWriter sw = new StringWriter ();
+        PrintWriter pw;
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", "bbbb", true);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         not supported" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", "bbbb", true);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         not supported" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", "bbbb");
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         bbbb" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", "bbbb");
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         bbbb" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", "bbbb", false);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         bbbb" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", "bbbb", false);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         bbbb" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", true, true);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         not supported" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", true, true);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         not supported" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", true);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         Y" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", true);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         Y" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", true, false);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         Y" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", true, false);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         Y" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", 1, true);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         not supported" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", 1, true);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         not supported" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", 1);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         1" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", 1);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         1" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "aaaa", 1, false);
-		pw.close ();
-		Assert.assertEquals ("  aaaa                                         1" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "aaaa", 1, false);
+        pw.close ();
+        Assert.assertEquals ("  aaaa                                         1" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "01234567890123456789012345678901234567890123456789", 1);
-		pw.close ();
-		Assert.assertEquals ("  0123456789012345678901234567890123456789012341" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "01234567890123456789012345678901234567890123456789", 1);
+        pw.close ();
+        Assert.assertEquals ("  0123456789012345678901234567890123456789012341" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
 
-		pw = new PrintWriter (sw);
-		AttributeUtils.print (pw, 1, "", 1);
-		pw.close ();
-		Assert.assertEquals ("  1" + nl, sw.toString ());
-		sw.getBuffer ().setLength (0);
-	}
+        pw = new PrintWriter (sw);
+        AttributeUtils.print (pw, 1, "", 1);
+        pw.close ();
+        Assert.assertEquals ("  1" + nl, sw.toString ());
+        sw.getBuffer ().setLength (0);
+    }
 }

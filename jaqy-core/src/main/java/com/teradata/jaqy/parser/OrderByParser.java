@@ -25,137 +25,137 @@ import com.teradata.jaqy.utils.SortInfo;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 @CookCCOption (unicode = true, start = "start")
 public class OrderByParser extends GeneratedOrderByParser
 {
-	@CookCCToken
-	static enum Token
-	{
-		IDENTIFIER, DESC, ASC, INTEGER, COMMA
-	}
+    @CookCCToken
+    static enum Token
+    {
+        IDENTIFIER, DESC, ASC, INTEGER, COMMA
+    }
 
-	private static IOException getErrorException ()
-	{
-		return new IOException ("invalid ORDER BY syntax.");
-	}
+    private static IOException getErrorException ()
+    {
+        return new IOException ("invalid ORDER BY syntax.");
+    }
 
-	private ArrayList<SortInfo> m_sortInfos;
+    private ArrayList<SortInfo> m_sortInfos;
 
-	private OrderByParser ()
-	{
-	}
+    private OrderByParser ()
+    {
+    }
 
-	public SortInfo[] getSortInfo ()
-	{
-		return m_sortInfos.toArray (new SortInfo[m_sortInfos.size ()]);
-	}
+    public SortInfo[] getSortInfo ()
+    {
+        return m_sortInfos.toArray (new SortInfo[m_sortInfos.size ()]);
+    }
 
-	@Lexs (patterns = {
-		@Lex (pattern = "desc", nocase = true, token = "DESC"),
-		@Lex (pattern = "asc", nocase = true, token = "ASC"),
-		@Lex (pattern = "','", token = "COMMA")
-	})
-	void scanToken ()
-	{
-	}
+    @Lexs (patterns = {
+        @Lex (pattern = "desc", nocase = true, token = "DESC"),
+        @Lex (pattern = "asc", nocase = true, token = "ASC"),
+        @Lex (pattern = "','", token = "COMMA")
+    })
+    void scanToken ()
+    {
+    }
 
-	@Lex (pattern = "[0-9]+", token = "INTEGER")
-	Integer scanColumnId ()
-	{
-		return Integer.parseInt (yyText ());
-	}
+    @Lex (pattern = "[0-9]+", token = "INTEGER")
+    Integer scanColumnId ()
+    {
+        return Integer.parseInt (yyText ());
+    }
 
-	@Lex (pattern = "[_A-Za-z][_A-Za-z0-9]*", token = "IDENTIFIER")
-	String scanColumnName ()
-	{
-		return yyText ();
-	}
+    @Lex (pattern = "[_A-Za-z][_A-Za-z0-9]*", token = "IDENTIFIER")
+    String scanColumnName ()
+    {
+        return yyText ();
+    }
 
-	@Lex (pattern = "'\"'([^\"]|('\"\"'))*'\"'", token = "IDENTIFIER")
-	String scanQuotedColumnName ()
-	{
-		return StringUtils.stripQuote (yyText (), '"');
-	}
+    @Lex (pattern = "'\"'([^\"]|('\"\"'))*'\"'", token = "IDENTIFIER")
+    String scanQuotedColumnName ()
+    {
+        return StringUtils.stripQuote (yyText (), '"');
+    }
 
-	@Lex (pattern = "[ \\t\\r\\n]")
-	void scanSpace ()
-	{
-	}
+    @Lex (pattern = "[ \\t\\r\\n]")
+    void scanSpace ()
+    {
+    }
 
-	@Lex (pattern = ".")
-	void scanInvalid () throws IOException
-	{
-		throw getErrorException ();
-	}
+    @Lex (pattern = ".")
+    void scanInvalid () throws IOException
+    {
+        throw getErrorException ();
+    }
 
-	@Lex (pattern = "<<EOF>>")
-	int scanEOF ()
-	{
-		return 0;
-	}
+    @Lex (pattern = "<<EOF>>")
+    int scanEOF ()
+    {
+        return 0;
+    }
 
-	@Rule (lhs = "start", rhs = "rules", args = "1")
-	void parseStart (ArrayList<SortInfo> rules)
-	{
-		m_sortInfos = rules;
-	}
+    @Rule (lhs = "start", rhs = "rules", args = "1")
+    void parseStart (ArrayList<SortInfo> rules)
+    {
+        m_sortInfos = rules;
+    }
 
-	@Rule (lhs = "rules", rhs = "rule", args = "1")
-	ArrayList<SortInfo> parseRules (SortInfo rule)
-	{
-		ArrayList<SortInfo> rules = new ArrayList<SortInfo> ();
-		rules.add (rule);
-		return rules;
-	}
+    @Rule (lhs = "rules", rhs = "rule", args = "1")
+    ArrayList<SortInfo> parseRules (SortInfo rule)
+    {
+        ArrayList<SortInfo> rules = new ArrayList<SortInfo> ();
+        rules.add (rule);
+        return rules;
+    }
 
-	@Rule (lhs = "rules", rhs = "rules COMMA rule", args = "1 3")
-	ArrayList<SortInfo> parseRules (ArrayList<SortInfo> rules, SortInfo rule)
-	{
-		rules.add (rule);
-		return rules;
-	}
+    @Rule (lhs = "rules", rhs = "rules COMMA rule", args = "1 3")
+    ArrayList<SortInfo> parseRules (ArrayList<SortInfo> rules, SortInfo rule)
+    {
+        rules.add (rule);
+        return rules;
+    }
 
-	@Rule (lhs = "rule", rhs = "IDENTIFIER order", args = "1 2")
-	SortInfo parseNameCol (String name, Boolean asc)
-	{
-		SortInfo sortInfo = new SortInfo ();
-		sortInfo.asc = asc;
-		sortInfo.name = name;
-		return sortInfo;
-	}
+    @Rule (lhs = "rule", rhs = "IDENTIFIER order", args = "1 2")
+    SortInfo parseNameCol (String name, Boolean asc)
+    {
+        SortInfo sortInfo = new SortInfo ();
+        sortInfo.asc = asc;
+        sortInfo.name = name;
+        return sortInfo;
+    }
 
-	@Rule (lhs = "rule", rhs = "INTEGER order", args = "1 2")
-	SortInfo parseIntegerCol (Integer column, Boolean asc)
-	{
-		SortInfo sortInfo = new SortInfo ();
-		sortInfo.asc = asc;
-		sortInfo.column = column;
-		return sortInfo;
-	}
+    @Rule (lhs = "rule", rhs = "INTEGER order", args = "1 2")
+    SortInfo parseIntegerCol (Integer column, Boolean asc)
+    {
+        SortInfo sortInfo = new SortInfo ();
+        sortInfo.asc = asc;
+        sortInfo.column = column;
+        return sortInfo;
+    }
 
-	@Rules (rules = {
-		@Rule (lhs = "order", rhs = ""),
-		@Rule (lhs = "order", rhs = "ASC")
-	})
-	Boolean parseAscOrder ()
-	{
-		return Boolean.TRUE;
-	}
+    @Rules (rules = {
+        @Rule (lhs = "order", rhs = ""),
+        @Rule (lhs = "order", rhs = "ASC")
+    })
+    Boolean parseAscOrder ()
+    {
+        return Boolean.TRUE;
+    }
 
-	@Rule (lhs = "order", rhs = "DESC")
-	Boolean parseDescOrder ()
-	{
-		return Boolean.FALSE;
-	}
+    @Rule (lhs = "order", rhs = "DESC")
+    Boolean parseDescOrder ()
+    {
+        return Boolean.FALSE;
+    }
 
-	public static SortInfo[] getSortInfo (String str) throws IOException
-	{
-		OrderByParser parser = new OrderByParser ();
-		parser.setInput (new StringReader (str));
-		if (parser.yyParse () != 0)
-			throw getErrorException ();
-		return parser.getSortInfo ();
-	}
+    public static SortInfo[] getSortInfo (String str) throws IOException
+    {
+        OrderByParser parser = new OrderByParser ();
+        parser.setInput (new StringReader (str));
+        if (parser.yyParse () != 0)
+            throw getErrorException ();
+        return parser.getSortInfo ();
+    }
 }

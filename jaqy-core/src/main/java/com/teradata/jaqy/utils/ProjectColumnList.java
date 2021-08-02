@@ -31,54 +31,54 @@ import com.teradata.jaqy.utils.exp.ColumnNode;
 import com.teradata.jaqy.utils.exp.ExpNode;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ProjectColumnList
 {
-	private final ArrayList<ProjectColumn> m_columnList;
-	private ExpNodeProject m_project;
-	private JaqyResultSetMetaData m_meta;
+    private final ArrayList<ProjectColumn> m_columnList;
+    private ExpNodeProject m_project;
+    private JaqyResultSetMetaData m_meta;
 
-	public ProjectColumnList ()
-	{
-		m_columnList = new ArrayList<ProjectColumn> ();
-	}
+    public ProjectColumnList ()
+    {
+        m_columnList = new ArrayList<ProjectColumn> ();
+    }
 
-	public void add (ProjectColumn col)
-	{
-		m_columnList.add (col);
-	}
+    public void add (ProjectColumn col)
+    {
+        m_columnList.add (col);
+    }
 
-	public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws SQLException
-	{
-		int numCols = m_columnList.size ();
-		ExpNode[] exps = new ExpNode[numCols];
+    public void bind (JaqyResultSet rs, JaqyInterpreter interpreter) throws SQLException
+    {
+        int numCols = m_columnList.size ();
+        ExpNode[] exps = new ExpNode[numCols];
 
-		FullColumnInfo[] columnInfos = new FullColumnInfo[numCols];
-		ResultSetMetaData rsmd = rs.getMetaData ().getMetaData ();
-		JaqyHelper helper = rs.getHelper ();
-		for (int i = 0; i < numCols; ++i)
-		{
-			ProjectColumn column = m_columnList.get (i);
-			int index = rs.findColumn (column.name);
-			columnInfos[i] = ResultSetMetaDataUtils.getColumnInfo (rsmd, index, helper);
-			columnInfos[i].name = column.asName;
-			columnInfos[i].label = column.asName;
-			ColumnNode exp =new ColumnNode (column.name);
-			exp.bind (rs, null, interpreter);
-			exps[i] = exp;
-		}
-		m_project = new ExpNodeProject (exps);
-		m_meta = new JaqyResultSetMetaData (new InMemoryResultSetMetaData (columnInfos), DummyHelper.getInstance ());
-	}
+        FullColumnInfo[] columnInfos = new FullColumnInfo[numCols];
+        ResultSetMetaData rsmd = rs.getMetaData ().getMetaData ();
+        JaqyHelper helper = rs.getHelper ();
+        for (int i = 0; i < numCols; ++i)
+        {
+            ProjectColumn column = m_columnList.get (i);
+            int index = rs.findColumn (column.name);
+            columnInfos[i] = ResultSetMetaDataUtils.getColumnInfo (rsmd, index, helper);
+            columnInfos[i].name = column.asName;
+            columnInfos[i].label = column.asName;
+            ColumnNode exp =new ColumnNode (column.name);
+            exp.bind (rs, null, interpreter);
+            exps[i] = exp;
+        }
+        m_project = new ExpNodeProject (exps);
+        m_meta = new JaqyResultSetMetaData (new InMemoryResultSetMetaData (columnInfos), DummyHelper.getInstance ());
+    }
 
-	public Project getProject ()
-	{
-		return m_project;
-	}
+    public Project getProject ()
+    {
+        return m_project;
+    }
 
-	public JaqyResultSetMetaData getMetaData ()
-	{
-		return m_meta;
-	}
+    public JaqyResultSetMetaData getMetaData ()
+    {
+        return m_meta;
+    }
 }

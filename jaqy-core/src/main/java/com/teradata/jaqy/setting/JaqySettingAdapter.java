@@ -20,46 +20,46 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.interfaces.JaqySetting;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public abstract class JaqySettingAdapter implements JaqySetting
 {
-	/** The setting name being registered. */
-	private final String m_name;
-	/** The globals. */
-	private Globals m_globals;
+    /** The setting name being registered. */
+    private final String m_name;
+    /** The globals. */
+    private Globals m_globals;
 
-	public JaqySettingAdapter (String name)
-	{
-		m_name = name;
-	}
+    public JaqySettingAdapter (String name)
+    {
+        m_name = name;
+    }
 
-	@Override
-	public void init (Globals globals)
-	{
-		m_globals = globals;
-	}
+    @Override
+    public void init (Globals globals)
+    {
+        m_globals = globals;
+    }
 
-	public Globals getGlobals ()
-	{
-		return m_globals;
-	}
+    public Globals getGlobals ()
+    {
+        return m_globals;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return m_name;
-	}
+    @Override
+    public String getName ()
+    {
+        return m_name;
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.none;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.none;
+    }
 
-	@Override
-	public Type getType ()
-	{
-		return Type.interpreter;
-	}
+    @Override
+    public Type getType ()
+    {
+        return Type.interpreter;
+    }
 }

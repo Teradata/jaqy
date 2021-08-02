@@ -24,29 +24,29 @@ import org.junit.Test;
 import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
- * @author	Heng Yuan 
+ * @author  Heng Yuan 
  */
 public class FieldParserTest
 {
-	@Test
-	public void testVariable () throws IOException
-	{
-		final HashMap<String,String> fieldMap = new HashMap<String, String> ();
-		fieldMap.put ("abc", "cooler than ice");
-		fieldMap.put ("def", "ice cold");
+    @Test
+    public void testVariable () throws IOException
+    {
+        final HashMap<String,String> fieldMap = new HashMap<String, String> ();
+        fieldMap.put ("abc", "cooler than ice");
+        fieldMap.put ("def", "ice cold");
 
-		ExpressionHandler fieldHandler = new ExpressionHandler ()
-		{
-			@Override
-			public String eval (String name) throws IOException
-			{
-				return fieldMap.get (name);
-			}
-		};
-		String str = "abcd ${1} ${2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
-		String value;
+        ExpressionHandler fieldHandler = new ExpressionHandler ()
+        {
+            @Override
+            public String eval (String name) throws IOException
+            {
+                return fieldMap.get (name);
+            }
+        };
+        String str = "abcd ${1} ${2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
+        String value;
 
-		value = FieldParser.getString (str, fieldHandler);
-		Assert.assertEquals ("abcd ${1} ${2} ${PATH} ${SHELL} cooler than ice   ice cold", value);
-	}
+        value = FieldParser.getString (str, fieldHandler);
+        Assert.assertEquals ("abcd ${1} ${2} ${PATH} ${SHELL} cooler than ice   ice cold", value);
+    }
 }

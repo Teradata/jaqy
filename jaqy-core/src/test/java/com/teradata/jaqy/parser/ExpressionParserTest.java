@@ -24,27 +24,27 @@ import org.junit.Test;
 import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
- * @author	Heng Yuan 
+ * @author  Heng Yuan
  */
 public class ExpressionParserTest
 {
-	@Test
-	public void testVariable () throws IOException
-	{
-		final HashMap<String,String> varMap = new HashMap<String, String> ();
-		varMap.put ("PATH", "/c/d:/e/f");
+    @Test
+    public void testVariable () throws IOException
+    {
+        final HashMap<String,String> varMap = new HashMap<String, String> ();
+        varMap.put ("PATH", "/c/d:/e/f");
 
-		ExpressionHandler varHandler = new ExpressionHandler ()
-		{
-			@Override
-			public String eval (String name) throws IOException
-			{
-				return varMap.get (name);
-			}
-		};
-		String str = "abcd ${1} ${2+2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
-		String value;
-		value = ExpressionParser.getString (str, varHandler);
-		Assert.assertEquals ("abcd   /c/d:/e/f  {{abc}} {{}} {{d}} {{def}}", value);
-	}
+        ExpressionHandler varHandler = new ExpressionHandler ()
+        {
+        	@Override
+        	public String eval (String name) throws IOException
+        	{
+        		return varMap.get (name);
+        	}
+        };
+        String str = "abcd ${1} ${2+2} ${PATH} ${SHELL} {{abc}} {{}} {{d}} {{def}}";
+        String value;
+        value = ExpressionParser.getString (str, varHandler);
+        Assert.assertEquals ("abcd   /c/d:/e/f  {{abc}} {{}} {{d}} {{def}}", value);
+    }
 }

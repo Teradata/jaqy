@@ -21,64 +21,64 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.Session;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class SessionCommand extends JaqyCommandAdapter
 {
-	public SessionCommand ()
-	{
-		super ("session", "session.txt");
-	}
+    public SessionCommand ()
+    {
+        super ("session", "session.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "session related controls.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "session related controls.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		Globals globals = interpreter.getGlobals ();
-		if (args.length == 0)
-		{
-			// list the sessions
-			for (Session sess : globals.getSessions ())
-			{
-				interpreter.println (sess.getDescription ());
-			}
-		}
-		else if ("new".equals (args[0]))
-		{
-			// create a new session and set the session number to it.
-			Session sess = globals.createSession (interpreter.getDisplay ());
-			interpreter.setSession (sess);
-		}
-		else
-		{
-			int sessionNumber = 0;
-			try
-			{
-				sessionNumber = Integer.parseInt (args[0]);
-			}
-			catch (Exception ex)
-			{
-				interpreter.error ("invalid session id.");
-			}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        Globals globals = interpreter.getGlobals ();
+        if (args.length == 0)
+        {
+            // list the sessions
+            for (Session sess : globals.getSessions ())
+            {
+                interpreter.println (sess.getDescription ());
+            }
+        }
+        else if ("new".equals (args[0]))
+        {
+            // create a new session and set the session number to it.
+            Session sess = globals.createSession (interpreter.getDisplay ());
+            interpreter.setSession (sess);
+        }
+        else
+        {
+            int sessionNumber = 0;
+            try
+            {
+                sessionNumber = Integer.parseInt (args[0]);
+            }
+            catch (Exception ex)
+            {
+                interpreter.error ("invalid session id.");
+            }
 
-			Session sess = globals.getSession (sessionNumber);
-			if (sess == null)
-			{
-				interpreter.error ("invalid session id.");
-			}
+            Session sess = globals.getSession (sessionNumber);
+            if (sess == null)
+            {
+                interpreter.error ("invalid session id.");
+            }
 
-			interpreter.setSession (sess);
-		}
-	}
+            interpreter.setSession (sess);
+        }
+    }
 }

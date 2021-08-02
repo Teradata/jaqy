@@ -21,25 +21,25 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CommitCommand extends JaqyCommandAdapter
 {
-	public CommitCommand ()
-	{
-		super ("commit");
-	}
+    public CommitCommand ()
+    {
+        super ("commit");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "commits the current transaction.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "commits the current transaction.";
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
-	{
-		SessionUtils.checkOpen (interpreter);
-		interpreter.getSession ().getConnection ().commit ();
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+    {
+        SessionUtils.checkOpen (interpreter);
+        interpreter.getSession ().getConnection ().commit ();
+    }
 }

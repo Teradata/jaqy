@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,92 +26,92 @@ import com.teradata.jaqy.utils.ParameterMetaDataUtils;
 import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DebugManager
 {
-	private boolean m_dumpResultSet;
-	private boolean m_dumpPreparedStatement;
+    private boolean m_dumpResultSet;
+    private boolean m_dumpPreparedStatement;
 
-	DebugManager ()
-	{
-	}
+    DebugManager ()
+    {
+    }
 
-	/**
-	 * Are we dumping ResultSet metadata?
-	 *
-	 * @return	whether we dump ResultSet metadata.
-	 */
-	public boolean isDumpResultSet ()
-	{
-		return m_dumpResultSet;
-	}
+    /**
+     * Are we dumping ResultSet metadata?
+     *
+     * @return  whether we dump ResultSet metadata.
+     */
+    public boolean isDumpResultSet ()
+    {
+        return m_dumpResultSet;
+    }
 
-	/**
-	 * Sets whether we dump ResultSet metadata.
-	 * @param	b
-	 *			enable / disable ResultSet metadata dump.
-	 */
-	public void setDumpResultSet (boolean b)
-	{
-		m_dumpResultSet = b;
-	}
+    /**
+     * Sets whether we dump ResultSet metadata.
+     * @param   b
+     *          enable / disable ResultSet metadata dump.
+     */
+    public void setDumpResultSet (boolean b)
+    {
+        m_dumpResultSet = b;
+    }
 
-	public void dumpResultSet (Display display, Session session, JaqyResultSet rs)
-	{
-		if (m_dumpResultSet)
-		{
-			try
-			{
-				ResultSetMetaDataUtils.dump (display, session, rs.getMetaData ());
-			}
-			catch (SQLException ex)
-			{
-				display.getGlobals ().log (Level.INFO, ex);
-			}
-		}
-	}
+    public void dumpResultSet (Display display, Session session, JaqyResultSet rs)
+    {
+        if (m_dumpResultSet)
+        {
+            try
+            {
+                ResultSetMetaDataUtils.dump (display, session, rs.getMetaData ());
+            }
+            catch (SQLException ex)
+            {
+                display.getGlobals ().log (Level.INFO, ex);
+            }
+        }
+    }
 
-	/**
-	 * @return	the dumpPreparedStatement
-	 */
-	public boolean isDumpPreparedStatement ()
-	{
-		return m_dumpPreparedStatement;
-	}
+    /**
+     * @return  the dumpPreparedStatement
+     */
+    public boolean isDumpPreparedStatement ()
+    {
+        return m_dumpPreparedStatement;
+    }
 
-	/**
-	 * @param	dumpPreparedStatement
-	 *			the dumpPreparedStatement to set
-	 */
-	public void setDumpPreparedStatement (boolean dumpPreparedStatement)
-	{
-		m_dumpPreparedStatement = dumpPreparedStatement;
-	}
+    /**
+     * @param   dumpPreparedStatement
+     *          the dumpPreparedStatement to set
+     */
+    public void setDumpPreparedStatement (boolean dumpPreparedStatement)
+    {
+        m_dumpPreparedStatement = dumpPreparedStatement;
+    }
 
-	public void dumpPreparedStatement (Display display, Session session, JaqyPreparedStatement stmt, JaqyInterpreter interpreter)
-	{
-		if (m_dumpPreparedStatement)
-		{
-			try
-			{
-				JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
-				ParameterMetaDataUtils.dump (display, session, metaData);
-			}
-			catch (SQLException ex)
-			{
-				display.getGlobals ().log (Level.INFO, ex);
-			}
-			try
-			{
-				JaqyResultSet rs = stmt.getResultSet (interpreter);
-				if (rs != null)
-					ResultSetMetaDataUtils.dump (display, session, rs.getMetaData ());
-			}
-			catch (SQLException ex)
-			{
-				display.getGlobals ().log (Level.INFO, ex);
-			}
-		}
-	}
+    public void dumpPreparedStatement (Display display, Session session, JaqyPreparedStatement stmt, JaqyInterpreter interpreter)
+    {
+        if (m_dumpPreparedStatement)
+        {
+            try
+            {
+                JaqyParameterMetaData metaData = stmt.getParameterMetaData ();
+                ParameterMetaDataUtils.dump (display, session, metaData);
+            }
+            catch (SQLException ex)
+            {
+                display.getGlobals ().log (Level.INFO, ex);
+            }
+            try
+            {
+                JaqyResultSet rs = stmt.getResultSet (interpreter);
+                if (rs != null)
+                    ResultSetMetaDataUtils.dump (display, session, rs.getMetaData ());
+            }
+            catch (SQLException ex)
+            {
+                display.getGlobals ().log (Level.INFO, ex);
+            }
+        }
+    }
 }

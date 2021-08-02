@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,29 +18,29 @@ package com.teradata.jaqy.interfaces;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface JaqyHandlerFactory<E>
 {
-	/**
-	 * Gets the name of the factory.
-	 * @return	the name of the factory.
-	 */
-	public String getName ();
-	/**
-	 * Gets the handler instance.
-	 * @param	args
-	 *			command line arguments
-	 * @param	interpreter
-	 * 			the interpreter instance
-	 * @return	the handler instance.
-	 * @throws	Exception
-	 * 			in case of error.
-	 */
-	public E getHandler (String[] args, JaqyInterpreter interpreter) throws Exception;
-	/**
-	 * Gets the help description.
-	 * @return	the help description.
-	 */
-	public String getLongDescription ();
+    /**
+     * Gets the name of the factory.
+     * @return  the name of the factory.
+     */
+    public String getName ();
+    /**
+     * Gets the handler instance.
+     * @param   args
+     *          command line arguments
+     * @param   interpreter
+     *          the interpreter instance
+     * @return  the handler instance.
+     * @throws  Exception
+     *          in case of error.
+     */
+    public E getHandler (String[] args, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Gets the help description.
+     * @return  the help description.
+     */
+    public String getLongDescription ();
 }

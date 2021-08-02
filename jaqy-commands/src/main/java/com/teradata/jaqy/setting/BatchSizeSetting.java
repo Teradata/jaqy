@@ -19,47 +19,47 @@ import com.teradata.jaqy.CommandArgumentType;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class BatchSizeSetting extends JaqySettingAdapter
 {
-	public BatchSizeSetting ()
-	{
-		super ("batchsize");
-	}
+    public BatchSizeSetting ()
+    {
+        super ("batchsize");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "sets the batch execution size limit.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "sets the batch execution size limit.";
+    }
 
-	@Override
-	public Type getType ()
-	{
-		return Type.session;
-	}
+    @Override
+    public Type getType ()
+    {
+        return Type.session;
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public Object get (JaqyInterpreter interpreter) throws Exception
-	{
-		return interpreter.getSession ().getConnection ().getBatchSize ();
-	}
+    @Override
+    public Object get (JaqyInterpreter interpreter) throws Exception
+    {
+        return interpreter.getSession ().getConnection ().getBatchSize ();
+    }
 
-	@Override
-	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
-	{
-		int batchSize = Integer.parseInt (args[0]);
-		if (batchSize < 0)
-		{
-			interpreter.error ("Batch size cannot be negative.");
-		}
-		interpreter.getSession ().getConnection ().setBatchSize (batchSize);
-	}
+    @Override
+    public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+    {
+        int batchSize = Integer.parseInt (args[0]);
+        if (batchSize < 0)
+        {
+            interpreter.error ("Batch size cannot be negative.");
+        }
+        interpreter.getSession ().getConnection ().setBatchSize (batchSize);
+    }
 }

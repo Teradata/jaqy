@@ -23,47 +23,47 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyCommand;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class RemarkCommand extends JaqyCommandAdapter
 {
-	public RemarkCommand ()
-	{
-		super ("rem");
-	}
+    public RemarkCommand ()
+    {
+        super ("rem");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "does block comment.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "does block comment.";
+    }
 
-	@Override
-	public JaqyCommand.Type getType ()
-	{
-		return JaqyCommand.Type.exclusive;
-	}
+    @Override
+    public JaqyCommand.Type getType ()
+    {
+        return JaqyCommand.Type.exclusive;
+    }
 
-	@Override
-	public boolean isMultiLine (String[] args)
-	{
-		return true;
-	}
+    @Override
+    public boolean isMultiLine (String[] args)
+    {
+        return true;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		interpreter.setParseAction (this, null);
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        interpreter.setParseAction (this, null);
+    }
 
-	@Override
-	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws IOException
-	{
-		if (!silent)
-		{
-			Display display = interpreter.getDisplay ();
-			display.echo (interpreter, action, interactive);
-			display.echo (interpreter, ".end " + getName (), interactive);
-		}
-	}
+    @Override
+    public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws IOException
+    {
+        if (!silent)
+        {
+            Display display = interpreter.getDisplay ();
+            display.echo (interpreter, action, interactive);
+            display.echo (interpreter, ".end " + getName (), interactive);
+        }
+    }
 }

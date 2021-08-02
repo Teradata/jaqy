@@ -20,87 +20,87 @@ import com.teradata.jaqy.Globals;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public interface JaqyCommand extends JaqyObject
 {
-	enum Type
-	{
-		/** Not a multi-line command. */
-		none,
-		/** A multi-line command with regular parsing. */
-		mixed,
-		/** A multi-line command with its own parsing. */
-		exclusive
-	}
+    enum Type
+    {
+        /** Not a multi-line command. */
+        none,
+        /** A multi-line command with regular parsing. */
+        mixed,
+        /** A multi-line command with its own parsing. */
+        exclusive
+    }
 
-	/**
-	 * Gets the one line command description.
-	 * @return	the one line command description.
-	 */
-	public String getDescription ();
+    /**
+     * Gets the one line command description.
+     * @return  the one line command description.
+     */
+    public String getDescription ();
 
-	/**
-	 * Gets the detailed command description.
-	 * @return	the detailed command syntax.
-	 */
-	public String getLongDescription ();
+    /**
+     * Gets the detailed command description.
+     * @return  the detailed command syntax.
+     */
+    public String getLongDescription ();
 
-	/**
-	 * Gets the command parser argument type.
-	 * @return	the command parser argument type.
-	 */
-	public CommandArgumentType getArgumentType ();
+    /**
+     * Gets the command parser argument type.
+     * @return  the command parser argument type.
+     */
+    public CommandArgumentType getArgumentType ();
 
-	/**
-	 * Executes a command.
-	 * @param	args
-	 *			the command arguments.
-	 * @param	silent
-	 * 			if the command is executed silently.
-	 * @param	interactive
-	 * 			if the current command is interactively executed.
-	 * @param	interpreter
-	 *			The interpreter that calls the command.
-	 * @throws	Exception
-	 *			in case of error.
-	 */
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Executes a command.
+     * @param   args
+     *          the command arguments.
+     * @param   silent
+     *          if the command is executed silently.
+     * @param   interactive
+     *          if the current command is interactively executed.
+     * @param   interpreter
+     *          The interpreter that calls the command.
+     * @throws  Exception
+     *          in case of error.
+     */
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception;
 
-	/**
-	 * Gets the command type.
-	 *
-	 * @return	the command type
-	 */
-	public Type getType ();
+    /**
+     * Gets the command type.
+     *
+     * @return  the command type
+     */
+    public Type getType ();
 
-	/**
-	 * Check if a command with the given arguments is a multi-line command.
-	 * The command should not be executed.
-	 *
-	 * @param	args
-	 *			the command arguments.
-	 * @return	true if the command is multi-line.  false otherwise.
-	 */
-	public boolean isMultiLine (String[] args);
+    /**
+     * Check if a command with the given arguments is a multi-line command.
+     * The command should not be executed.
+     *
+     * @param   args
+     *          the command arguments.
+     * @return  true if the command is multi-line.  false otherwise.
+     */
+    public boolean isMultiLine (String[] args);
 
-	/**
-	 * Handle the multi-line parsing.
-	 *
-	 * @param	action
-	 * 			the multi-line text.
-	 * @param	value
-	 * 			the value saved prior.
-	 * @param	silent
-	 * 			if the command is executed silently.
-	 * @param	interactive
-	 * 			if the current command is interactively executed.
-	 * @param	globals
-	 *			Global states.
-	 * @param	interpreter
-	 *			The interpreter that calls the command.
-	 * @throws	Exception
-	 *			in case of error.
-	 */
-	public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Handle the multi-line parsing.
+     *
+     * @param   action
+     *          the multi-line text.
+     * @param   value
+     *          the value saved prior.
+     * @param   silent
+     *          if the command is executed silently.
+     * @param   interactive
+     *          if the current command is interactively executed.
+     * @param   globals
+     *          Global states.
+     * @param   interpreter
+     *          The interpreter that calls the command.
+     * @throws  Exception
+     *          in case of error.
+     */
+    public void parse (String action, Object value, boolean silent, boolean interactive, Globals globals, JaqyInterpreter interpreter) throws Exception;
 }

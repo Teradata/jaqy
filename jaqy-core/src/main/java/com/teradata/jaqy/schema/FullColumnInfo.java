@@ -16,29 +16,29 @@
 package com.teradata.jaqy.schema;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FullColumnInfo extends BasicColumnInfo
 {
-	public int nullable;
-	public boolean signed;
+    public int nullable;
+    public boolean signed;
 
-	public boolean autoIncrement;
-	public boolean caseSensitive;
-	public boolean searchable;
-	public boolean currency;
-	public int displaySize;
-	public String label;
-	public String name;
-	public String schemaName;
-	public String tableName;
-	public String catalogName;
-	public boolean readOnly;
-	public boolean writable;
-	public boolean definitelyWritable;
+    public boolean autoIncrement;
+    public boolean caseSensitive;
+    public boolean searchable;
+    public boolean currency;
+    public int displaySize;
+    public String label;
+    public String name;
+    public String schemaName;
+    public String tableName;
+    public String catalogName;
+    public boolean readOnly;
+    public boolean writable;
+    public boolean definitelyWritable;
 
-	/**
-	 * For ARRAY / STRUCT types, obtain the children types.
-	 */
-	public FullColumnInfo[] children;
+    /**
+     * For ARRAY / STRUCT types, obtain the children types.
+     */
+    public FullColumnInfo[] children;
 }

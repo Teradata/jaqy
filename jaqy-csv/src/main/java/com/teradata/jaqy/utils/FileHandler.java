@@ -27,65 +27,65 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.typehandler.TypeHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FileHandler implements TypeHandler
 {
-	private final Path m_csvFile;
-	private final CSVExportInfo m_fileInfo;
+    private final Path m_csvFile;
+    private final CSVExportInfo m_fileInfo;
 
-	public FileHandler (Path csvFile, CSVExportInfo fileInfo)
-	{
-		m_csvFile = csvFile;
-		m_fileInfo = fileInfo;
-	}
+    public FileHandler (Path csvFile, CSVExportInfo fileInfo)
+    {
+        m_csvFile = csvFile;
+        m_fileInfo = fileInfo;
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception
-	{
-		Object o = rs.getObject (column);
-		if (o == null)
-			return null;
-		String fileName = m_fileInfo.nameGen.newName ();
-		Path file = m_csvFile.getRelativePath (fileName);
-		if (o instanceof byte[])
-		{
-			FileUtils.writeFile (file, (byte[])o);
-		}
-		else if (o instanceof Blob)
-		{
-			Blob blob = (Blob)o;
-			InputStream is = ((Blob)o).getBinaryStream ();
-			FileUtils.writeFile (file, is, interpreter.getByteBuffer ());
-			is.close ();
-			blob.free ();
-		}
-		else if (o instanceof Clob)
-		{
-			Clob clob = (Clob)o;
-			Reader reader = clob.getCharacterStream ();
-			FileUtils.writeFile (file, reader, interpreter.getCharBuffer ());
-			reader.close ();
-			clob.free ();
-		}
-		else if (o instanceof SQLXML)
-		{
-			SQLXML xml = (SQLXML)o;
-			Reader reader = xml.getCharacterStream ();
-			FileUtils.writeFile (file, m_fileInfo.charset, reader, interpreter.getCharBuffer ());
-			reader.close ();
-			xml.free ();
-		}
-		else
-		{
-			FileUtils.writeFile (file, m_fileInfo.charset, o.toString ());
-		}
-		return fileName;
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception
+    {
+        Object o = rs.getObject (column);
+        if (o == null)
+            return null;
+        String fileName = m_fileInfo.nameGen.newName ();
+        Path file = m_csvFile.getRelativePath (fileName);
+        if (o instanceof byte[])
+        {
+            FileUtils.writeFile (file, (byte[])o);
+        }
+        else if (o instanceof Blob)
+        {
+            Blob blob = (Blob)o;
+            InputStream is = ((Blob)o).getBinaryStream ();
+            FileUtils.writeFile (file, is, interpreter.getByteBuffer ());
+            is.close ();
+            blob.free ();
+        }
+        else if (o instanceof Clob)
+        {
+            Clob clob = (Clob)o;
+            Reader reader = clob.getCharacterStream ();
+            FileUtils.writeFile (file, reader, interpreter.getCharBuffer ());
+            reader.close ();
+            clob.free ();
+        }
+        else if (o instanceof SQLXML)
+        {
+            SQLXML xml = (SQLXML)o;
+            Reader reader = xml.getCharacterStream ();
+            FileUtils.writeFile (file, m_fileInfo.charset, reader, interpreter.getCharBuffer ());
+            reader.close ();
+            xml.free ();
+        }
+        else
+        {
+            FileUtils.writeFile (file, m_fileInfo.charset, o.toString ());
+        }
+        return fileName;
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception
-	{
-		return 0;
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws Exception
+    {
+        return 0;
+    }
 }

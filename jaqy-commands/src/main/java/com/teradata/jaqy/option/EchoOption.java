@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,30 +23,30 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyOption;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class EchoOption extends JaqyOption
 {
-	public EchoOption ()
-	{
-		super ("e", "echo", true, "turns echo on / off / auto");
-		setArgName ("on | off | auto");
-	}
+    public EchoOption ()
+    {
+        super ("e", "echo", true, "turns echo on / off / auto");
+        setArgName ("on | off | auto");
+    }
 
-	@Override
-	public void handleOption (Globals globals, Display display, CommandLine cmdLine)
-	{
-		String value = cmdLine.getOptionValue ("echo");
-		if ("auto".equals (value))
-			display.setEcho (Echo.auto);
-		else if ("on".equals (value))
-			display.setEcho (Echo.on);
-		else if ("off".equals (value))
-			display.setEcho (Echo.off);
-		else
-		{
-			display.println (null, "invalid option value for --echo");
-			System.exit (1);
-		}
-	}
+    @Override
+    public void handleOption (Globals globals, Display display, CommandLine cmdLine)
+    {
+        String value = cmdLine.getOptionValue ("echo");
+        if ("auto".equals (value))
+            display.setEcho (Echo.auto);
+        else if ("on".equals (value))
+            display.setEcho (Echo.on);
+        else if ("off".equals (value))
+            display.setEcho (Echo.off);
+        else
+        {
+            display.println (null, "invalid option value for --echo");
+            System.exit (1);
+        }
+    }
 }

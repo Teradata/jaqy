@@ -18,16 +18,16 @@ package com.teradata.jaqy.utils;
 import java.nio.charset.Charset;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CSVExportInfo
 {
-	public final CSVNameGen nameGen;
-	public final Charset charset;
+    public final CSVNameGen nameGen;
+    public final Charset charset;
 
-	public CSVExportInfo (CSVNameGen nameGen, Charset charset)
-	{
-		this.nameGen = nameGen;
-		this.charset = charset;
-	}
+    public CSVExportInfo (CSVNameGen nameGen, Charset charset)
+    {
+        this.nameGen = nameGen;
+        this.charset = charset;
+    }
 }

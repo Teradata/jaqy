@@ -25,85 +25,85 @@ import java.sql.SQLException;
 import com.teradata.jaqy.utils.ExceptionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class ClobWrapper implements Clob
 {
-	@Override
-	public long length () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public long length () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public String getSubString (long pos, int length) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public String getSubString (long pos, int length) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Reader getCharacterStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Reader getCharacterStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public InputStream getAsciiStream () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public InputStream getAsciiStream () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public long position (String searchstr, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public long position (String searchstr, long start) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public long position (Clob searchstr, long start) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public long position (Clob searchstr, long start) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public int setString (long pos, String str) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int setString (long pos, String str) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public int setString (long pos, String str, int offset, int len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int setString (long pos, String str, int offset, int len) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public OutputStream setAsciiStream (long pos) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public OutputStream setAsciiStream (long pos) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Writer setCharacterStream (long pos) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Writer setCharacterStream (long pos) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void truncate (long len) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void truncate (long len) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void free () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void free () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Reader getCharacterStream (long pos, long length) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Reader getCharacterStream (long pos, long length) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 }

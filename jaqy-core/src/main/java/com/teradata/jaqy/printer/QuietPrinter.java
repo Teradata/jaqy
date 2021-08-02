@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,42 +23,42 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.interfaces.JaqyPrinter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class QuietPrinter implements JaqyPrinter
 {
-	private static JaqyPrinter s_instance = new QuietPrinter ();
+    private static JaqyPrinter s_instance = new QuietPrinter ();
 
-	public static JaqyPrinter getInstance ()
-	{
-		return s_instance;
-	}
+    public static JaqyPrinter getInstance ()
+    {
+        return s_instance;
+    }
 
-	private QuietPrinter ()
-	{
-	}
+    private QuietPrinter ()
+    {
+    }
 
-	public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws SQLException
-	{
-		long count = 0;
-		if (limit == 0)
-			limit = Long.MAX_VALUE;
-		while (rs.next () && count < limit)
-		{
-			++count;
-		}
-		return count;
-	}
+    public long print (JaqyResultSet rs, PrintWriter pw, long limit, JaqyInterpreter interpreter) throws SQLException
+    {
+        long count = 0;
+        if (limit == 0)
+            limit = Long.MAX_VALUE;
+        while (rs.next () && count < limit)
+        {
+            ++count;
+        }
+        return count;
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "quiet";
-	}
+    @Override
+    public String getName ()
+    {
+        return "quiet";
+    }
 
-	@Override
-	public boolean isForwardOnly ()
-	{
-		return true;
-	}
+    @Override
+    public boolean isForwardOnly ()
+    {
+        return true;
+    }
 }

@@ -21,20 +21,20 @@ import com.teradata.jaqy.setting.*;
 /**
  * Initiate the initial settings.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class SettingSetup
 {
-	static void init (Globals globals)
-	{
-		ObjectManager<JaqySetting> manager = globals.getSettingManager ();
-		manager.addObject (new BatchSizeSetting ());
-		manager.addObject (new FetchSizeSetting ());
-		manager.addObject (new AutoCommitSetting ());
+    static void init (Globals globals)
+    {
+        ObjectManager<JaqySetting> manager = globals.getSettingManager ();
+        manager.addObject (new BatchSizeSetting ());
+        manager.addObject (new FetchSizeSetting ());
+        manager.addObject (new AutoCommitSetting ());
 
-		manager.addObject (new NullSortSetting ());
-		manager.addObject (new ExpansionSetting ());
-		manager.addObject (new EchoSetting ());
-		manager.addObject (new LobCacheSizeSetting ());
-	}
+        manager.addObject (new NullSortSetting ());
+        manager.addObject (new ExpansionSetting ());
+        manager.addObject (new EchoSetting ());
+        manager.addObject (new LobCacheSizeSetting ());
+    }
 }

@@ -20,44 +20,44 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class RepeatCommand extends JaqyCommandAdapter
 {
-	public RepeatCommand ()
-	{
-		super ("repeat");
-	}
+    public RepeatCommand ()
+    {
+        super ("repeat");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "repeats a following SQL a number of times.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "repeats a following SQL a number of times.";
+    }
 
-	@Override
-	public String getLongDescription ()
-	{
-		return "usage: " + getCommand () + " [number]";
-	}
+    @Override
+    public String getLongDescription ()
+    {
+        return "usage: " + getCommand () + " [number]";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.none;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.none;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		SessionUtils.checkOpen (interpreter);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        SessionUtils.checkOpen (interpreter);
 
-		if (args.length == 0 || args[0].length () == 0)
-		{
-			interpreter.error ("Missing repeat count.");
-		}
-		String arg = interpreter.expand (args[0]);
+        if (args.length == 0 || args[0].length () == 0)
+        {
+            interpreter.error ("Missing repeat count.");
+        }
+        String arg = interpreter.expand (args[0]);
 
-		interpreter.setRepeatCount (Long.parseLong (arg));
-	}
+        interpreter.setRepeatCount (Long.parseLong (arg));
+    }
 }

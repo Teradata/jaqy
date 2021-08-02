@@ -22,48 +22,48 @@ import javax.json.stream.JsonParser;
 import org.yuanheng.cookjson.CookJsonParser;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class JsonObjectVisitor implements JsonEventVisitor
 {
-	private final TreeMap<String, JsonEventVisitor> m_map = new TreeMap<String, JsonEventVisitor> ();
+    private final TreeMap<String, JsonEventVisitor> m_map = new TreeMap<String, JsonEventVisitor> ();
 
-	private boolean m_matched = false;
-	private JsonEventVisitor m_v = null;
+    private boolean m_matched = false;
+    private JsonEventVisitor m_v = null;
 
-	public JsonObjectVisitor ()
-	{
-	}
+    public JsonObjectVisitor ()
+    {
+    }
 
-	public JsonEventVisitor getEventVisitor (String exp)
-	{
-		return m_map.get (exp);
-	}
+    public JsonEventVisitor getEventVisitor (String exp)
+    {
+        return m_map.get (exp);
+    }
 
-	public void setExp (String exp, JsonEventVisitor v)
-	{
-		m_map.put (exp, v);
-	}
+    public void setExp (String exp, JsonEventVisitor v)
+    {
+        m_map.put (exp, v);
+    }
 
-	@Override
-	public void visit (JsonParser.Event e, CookJsonParser p, int depth)
-	{
-		if (depth == 0)
-		{
-			m_matched = (e == JsonParser.Event.START_OBJECT);
-			m_v = null;
-		}
-		else if (m_matched)
-		{
-			if (depth == 1 &&
-				e == JsonParser.Event.KEY_NAME)
-			{
-				m_v = m_map.get (p.getString ());
-			}
-			else if (m_v != null)
-			{
-				m_v.visit (e, p, depth - 1);
-			}
-		}
-	}
+    @Override
+    public void visit (JsonParser.Event e, CookJsonParser p, int depth)
+    {
+        if (depth == 0)
+        {
+            m_matched = (e == JsonParser.Event.START_OBJECT);
+            m_v = null;
+        }
+        else if (m_matched)
+        {
+            if (depth == 1 &&
+                e == JsonParser.Event.KEY_NAME)
+            {
+                m_v = m_map.get (p.getString ());
+            }
+            else if (m_v != null)
+            {
+                m_v.visit (e, p, depth - 1);
+            }
+        }
+    }
 }

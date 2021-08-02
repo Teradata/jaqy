@@ -27,109 +27,109 @@ import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CachedSQLXML extends SQLXMLWrapper implements Comparable<CachedSQLXML>
 {
-	private int m_length;
-	private FilePath m_file;
-	private String m_str;
+    private int m_length;
+    private FilePath m_file;
+    private String m_str;
 
-	public CachedSQLXML (SQLXML xml, int cacheSize, char[] charBuffer) throws SQLException
-	{
-		try
-		{
-			m_file = FileUtils.createTempFile ();
-			m_length = (int)FileUtils.writeFile (m_file, xml.getCharacterStream (), charBuffer);
-			xml.free ();
+    public CachedSQLXML (SQLXML xml, int cacheSize, char[] charBuffer) throws SQLException
+    {
+        try
+        {
+            m_file = FileUtils.createTempFile ();
+            m_length = (int)FileUtils.writeFile (m_file, xml.getCharacterStream (), charBuffer);
+            xml.free ();
 
-			if (m_length <= cacheSize)
-			{
-				m_str = FileUtils.readString (m_file, 0, m_length);
-				m_file.delete ();
-				m_file = null;
-			}
-			else
-			{
-				m_str = FileUtils.readString (m_file, 0, cacheSize);
-			}
-		}
-		catch (IOException ex)
-		{
-			throw new JaqyException (ex);
-		}
-	}
+            if (m_length <= cacheSize)
+            {
+                m_str = FileUtils.readString (m_file, 0, m_length);
+                m_file.delete ();
+                m_file = null;
+            }
+            else
+            {
+                m_str = FileUtils.readString (m_file, 0, cacheSize);
+            }
+        }
+        catch (IOException ex)
+        {
+            throw new JaqyException (ex);
+        }
+    }
 
-	@Override
-	public void free ()
-	{
-		m_str = null;
-		if (m_file != null)
-		{
-			m_file.delete ();
-			m_file = null;
-		}
-	}
+    @Override
+    public void free ()
+    {
+        m_str = null;
+        if (m_file != null)
+        {
+            m_file.delete ();
+            m_file = null;
+        }
+    }
 
-	@Override
-	public Reader getCharacterStream ()
-	{
-		try
-		{
-			if (m_file != null)
-				return new InputStreamReader (m_file.getInputStream (), "UTF-8");
-			return new StringReader (m_str);
-		}
-		catch (IOException ex)
-		{
-			throw new JaqyException (ex);
-		}
-	}
+    @Override
+    public Reader getCharacterStream ()
+    {
+        try
+        {
+            if (m_file != null)
+                return new InputStreamReader (m_file.getInputStream (), "UTF-8");
+            return new StringReader (m_str);
+        }
+        catch (IOException ex)
+        {
+            throw new JaqyException (ex);
+        }
+    }
 
-	@Override
-	public String getString ()
-	{
-		try
-		{
-			if (m_file != null)
-				return FileUtils.readString (m_file, 0, m_length);
-			return m_str;
-		}
-		catch (IOException ex)
-		{
-			throw new JaqyException (ex);
-		}
-	}
+    @Override
+    public String getString ()
+    {
+        try
+        {
+            if (m_file != null)
+                return FileUtils.readString (m_file, 0, m_length);
+            return m_str;
+        }
+        catch (IOException ex)
+        {
+            throw new JaqyException (ex);
+        }
+    }
 
-	@Override
-	public int compareTo (CachedSQLXML o)
-	{
-		try
-		{
-			// First compare the in-memory cache
-			//
-			// We assume the cache size is the same for both Clobs.
-			// This assumption makes things a lot easier.
-			int c = m_str.compareTo (o.m_str);
-			if (c != 0)
-				return c;
-			// This is the simpler cases of both Clobs being in-memory.
-			if (m_file == null && o.m_file == null)
-				return 0;
+    @Override
+    public int compareTo (CachedSQLXML o)
+    {
+        try
+        {
+            // First compare the in-memory cache
+            //
+            // We assume the cache size is the same for both Clobs.
+            // This assumption makes things a lot easier.
+            int c = m_str.compareTo (o.m_str);
+            if (c != 0)
+                return c;
+            // This is the simpler cases of both Clobs being in-memory.
+            if (m_file == null && o.m_file == null)
+                return 0;
 
-			// Full comparison.
-			return FileUtils.compare (getCharacterStream(), o.getCharacterStream ());
-		}
-		catch (Exception ex)
-		{
-			// shouldn't reach here
-			return -1;
-		}
-	}
+            // Full comparison.
+            return FileUtils.compare (getCharacterStream(), o.getCharacterStream ());
+        }
+        catch (Exception ex)
+        {
+            // shouldn't reach here
+            return -1;
+        }
+    }
 
-	@Override
-	public void finalize ()
-	{
-		free ();
-	}
+    @Override
+    public void finalize ()
+    {
+        free ();
+    }
 }

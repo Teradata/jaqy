@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,53 +22,53 @@ import com.teradata.jaqy.Globals;
 /**
  * A command line option class.
  *
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public abstract class JaqyOption
 {
-	private String m_option;
-	private String m_longOption;
-	private boolean m_hasArg;
-	private String m_description;
-	private String m_argName;
+    private String m_option;
+    private String m_longOption;
+    private boolean m_hasArg;
+    private String m_description;
+    private String m_argName;
 
-	public JaqyOption (String option, String longOption, boolean hasArg, String description)
-	{
-		m_option = option;
-		m_longOption = longOption;
-		m_hasArg = hasArg;
-		m_description = description;
-	}
+    public JaqyOption (String option, String longOption, boolean hasArg, String description)
+    {
+        m_option = option;
+        m_longOption = longOption;
+        m_hasArg = hasArg;
+        m_description = description;
+    }
 
-	public String getOption ()
-	{
-		return m_option;
-	}
+    public String getOption ()
+    {
+        return m_option;
+    }
 
-	public String getLongOption ()
-	{
-		return m_longOption;
-	}
+    public String getLongOption ()
+    {
+        return m_longOption;
+    }
 
-	public boolean isHasArg ()
-	{
-		return m_hasArg;
-	}
+    public boolean isHasArg ()
+    {
+        return m_hasArg;
+    }
 
-	public String getDescription ()
-	{
-		return m_description;
-	}
+    public String getDescription ()
+    {
+        return m_description;
+    }
 
-	public String getArgName ()
-	{
-		return m_argName;
-	}
+    public String getArgName ()
+    {
+        return m_argName;
+    }
 
-	public void setArgName (String argName)
-	{
-		m_argName = argName;
-	}
+    public void setArgName (String argName)
+    {
+        m_argName = argName;
+    }
 
-	public abstract void handleOption (Globals globals, Display display, CommandLine cmdLine) throws Exception;
+    public abstract void handleOption (Globals globals, Display display, CommandLine cmdLine) throws Exception;
 }

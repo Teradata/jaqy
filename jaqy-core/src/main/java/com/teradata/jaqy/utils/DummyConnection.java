@@ -35,329 +35,329 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DummyConnection implements Connection
 {
-	@Override
-	public <T> T unwrap (Class<T> iface) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public <T> T unwrap (Class<T> iface) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public boolean isWrapperFor (Class<?> iface) throws SQLException
-	{
-		return false;
-	}
+    @Override
+    public boolean isWrapperFor (Class<?> iface) throws SQLException
+    {
+        return false;
+    }
 
-	@Override
-	public Statement createStatement () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Statement createStatement () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public PreparedStatement prepareStatement (String sql) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public PreparedStatement prepareStatement (String sql) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public CallableStatement prepareCall (String sql) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public CallableStatement prepareCall (String sql) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public String nativeSQL (String sql) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public String nativeSQL (String sql) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setAutoCommit (boolean autoCommit) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setAutoCommit (boolean autoCommit) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public boolean getAutoCommit () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public boolean getAutoCommit () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void commit () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void commit () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void rollback () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void rollback () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void close () throws SQLException
-	{
-	}
+    @Override
+    public void close () throws SQLException
+    {
+    }
 
-	@Override
-	public boolean isClosed () throws SQLException
-	{
-		return true;
-	}
+    @Override
+    public boolean isClosed () throws SQLException
+    {
+        return true;
+    }
 
-	@Override
-	public DatabaseMetaData getMetaData () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public DatabaseMetaData getMetaData () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setReadOnly (boolean readOnly) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setReadOnly (boolean readOnly) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public boolean isReadOnly () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public boolean isReadOnly () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setCatalog (String catalog) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setCatalog (String catalog) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public String getCatalog () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public String getCatalog () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setTransactionIsolation (int level) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-		
-	}
+    @Override
+    public void setTransactionIsolation (int level) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+        
+    }
 
-	@Override
-	public int getTransactionIsolation () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int getTransactionIsolation () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public SQLWarning getWarnings () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public SQLWarning getWarnings () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void clearWarnings () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void clearWarnings () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Statement createStatement (int resultSetType, int resultSetConcurrency) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Statement createStatement (int resultSetType, int resultSetConcurrency) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public PreparedStatement prepareStatement (String sql, int resultSetType, int resultSetConcurrency) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public PreparedStatement prepareStatement (String sql, int resultSetType, int resultSetConcurrency) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public CallableStatement prepareCall (String sql, int resultSetType, int resultSetConcurrency) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public CallableStatement prepareCall (String sql, int resultSetType, int resultSetConcurrency) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Map<String, Class<?>> getTypeMap () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Map<String, Class<?>> getTypeMap () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setTypeMap (Map<String, Class<?>> map) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setTypeMap (Map<String, Class<?>> map) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setHoldability (int holdability) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setHoldability (int holdability) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public int getHoldability () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int getHoldability () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Savepoint setSavepoint () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Savepoint setSavepoint () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Savepoint setSavepoint (String name) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Savepoint setSavepoint (String name) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void rollback (Savepoint savepoint) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void rollback (Savepoint savepoint) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void releaseSavepoint (Savepoint savepoint) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void releaseSavepoint (Savepoint savepoint) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Statement createStatement (int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Statement createStatement (int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public PreparedStatement prepareStatement (String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public PreparedStatement prepareStatement (String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public CallableStatement prepareCall (String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public CallableStatement prepareCall (String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public PreparedStatement prepareStatement (String sql, int autoGeneratedKeys) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public PreparedStatement prepareStatement (String sql, int autoGeneratedKeys) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public PreparedStatement prepareStatement (String sql, int[] columnIndexes) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public PreparedStatement prepareStatement (String sql, int[] columnIndexes) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public PreparedStatement prepareStatement (String sql, String[] columnNames) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public PreparedStatement prepareStatement (String sql, String[] columnNames) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Clob createClob () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Clob createClob () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Blob createBlob () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Blob createBlob () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public NClob createNClob () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public NClob createNClob () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public SQLXML createSQLXML () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public SQLXML createSQLXML () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public boolean isValid (int timeout) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public boolean isValid (int timeout) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setClientInfo (String name, String value) throws SQLClientInfoException
-	{
-	}
+    @Override
+    public void setClientInfo (String name, String value) throws SQLClientInfoException
+    {
+    }
 
-	@Override
-	public void setClientInfo (Properties properties) throws SQLClientInfoException
-	{
-	}
+    @Override
+    public void setClientInfo (Properties properties) throws SQLClientInfoException
+    {
+    }
 
-	@Override
-	public String getClientInfo (String name) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public String getClientInfo (String name) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Properties getClientInfo () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Properties getClientInfo () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Array createArrayOf (String typeName, Object[] elements) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Array createArrayOf (String typeName, Object[] elements) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public Struct createStruct (String typeName, Object[] attributes) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public Struct createStruct (String typeName, Object[] attributes) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setSchema (String schema) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setSchema (String schema) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public String getSchema () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public String getSchema () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void abort (Executor executor) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void abort (Executor executor) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public void setNetworkTimeout (Executor executor, int milliseconds) throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public void setNetworkTimeout (Executor executor, int milliseconds) throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 
-	@Override
-	public int getNetworkTimeout () throws SQLException
-	{
-		throw ExceptionUtils.getNotImplemented ();
-	}
+    @Override
+    public int getNetworkTimeout () throws SQLException
+    {
+        throw ExceptionUtils.getNotImplemented ();
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,29 +23,29 @@ import com.teradata.jaqy.interfaces.Display;
 import com.teradata.jaqy.interfaces.JaqyOption;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ColorOption extends JaqyOption
 {
-	public ColorOption ()
-	{
-		super (null, "color", true, "turns color support on / off");
-		setArgName ("on | off");
-	}
+    public ColorOption ()
+    {
+        super (null, "color", true, "turns color support on / off");
+        setArgName ("on | off");
+    }
 
-	@Override
-	public void handleOption (Globals globals, Display displayParam, CommandLine cmdLine)
-	{
-		ConsoleDisplay display = (ConsoleDisplay)displayParam;
-		String value = cmdLine.getOptionValue ("color");
-		if ("on".equals (value))
-			display.setColorEnabled (true);
-		else if ("off".equals (value))
-			display.setColorEnabled (false);
-		else
-		{
-			display.println (null, "invalid option value for --color");
-			System.exit (1);
-		}
-	}
+    @Override
+    public void handleOption (Globals globals, Display displayParam, CommandLine cmdLine)
+    {
+        ConsoleDisplay display = (ConsoleDisplay)displayParam;
+        String value = cmdLine.getOptionValue ("color");
+        if ("on".equals (value))
+            display.setColorEnabled (true);
+        else if ("off".equals (value))
+            display.setColorEnabled (false);
+        else
+        {
+            display.println (null, "invalid option value for --color");
+            System.exit (1);
+        }
+    }
 }

@@ -25,63 +25,63 @@ import org.yuanheng.cookcc.Lexs;
 import com.teradata.jaqy.interfaces.ExpressionHandler;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 @CookCCOption (unicode = true)
 public class FieldParser extends GeneratedFieldParser
 {
-	private final StringBuffer m_buffer = new StringBuffer ();
-	private final ExpressionHandler m_expHandler;
+    private final StringBuffer m_buffer = new StringBuffer ();
+    private final ExpressionHandler m_expHandler;
 
-	private FieldParser (ExpressionHandler fieldHandler)
-	{
-		m_expHandler = fieldHandler;
-	}
+    private FieldParser (ExpressionHandler fieldHandler)
+    {
+        m_expHandler = fieldHandler;
+    }
 
-	@Override
-	public String toString ()
-	{
-		return m_buffer.toString ();
-	}
+    @Override
+    public String toString ()
+    {
+        return m_buffer.toString ();
+    }
 
-	@Lex (pattern = "'{{'[^{}]*'}}'")
-	void scanField () throws IOException
-	{
-		if (m_expHandler == null)
-		{
-			m_buffer.append (yyText ());
-		}
-		else
-		{
-			String exp = yyText ();
-			exp = exp.substring (2, exp.length () - 2);
-			Object o = m_expHandler.eval (exp);
-			if (o != null)
-				m_buffer.append (o.toString ());
-		}
-	}
+    @Lex (pattern = "'{{'[^{}]*'}}'")
+    void scanField () throws IOException
+    {
+        if (m_expHandler == null)
+        {
+            m_buffer.append (yyText ());
+        }
+        else
+        {
+            String exp = yyText ();
+            exp = exp.substring (2, exp.length () - 2);
+            Object o = m_expHandler.eval (exp);
+            if (o != null)
+                m_buffer.append (o.toString ());
+        }
+    }
 
-	@Lexs (patterns = {
-		@Lex (pattern = "[^${]+"),
-		@Lex (pattern = ".")
-	})
-	void scanText () throws IOException
-	{
-		m_buffer.append (yyText ());
-	}
+    @Lexs (patterns = {
+        @Lex (pattern = "[^${]+"),
+        @Lex (pattern = ".")
+    })
+    void scanText () throws IOException
+    {
+        m_buffer.append (yyText ());
+    }
 
-	@Lex (pattern = "<<EOF>>")
-	int scanEof ()
-	{
-		return 0;
-	}
+    @Lex (pattern = "<<EOF>>")
+    int scanEof ()
+    {
+        return 0;
+    }
 
-	public static String getString (String str, ExpressionHandler expHandler) throws IOException
-	{
-		FieldParser parser = new FieldParser (expHandler);
-		parser.setInput (new StringReader (str));
-		if (parser.yyLex () != 0)
-			throw new IOException ("parsing error.");
-		return parser.toString ();
-	}
+    public static String getString (String str, ExpressionHandler expHandler) throws IOException
+    {
+        FieldParser parser = new FieldParser (expHandler);
+        parser.setInput (new StringReader (str));
+        if (parser.yyLex () != 0)
+            throw new IOException ("parsing error.");
+        return parser.toString ();
+    }
 }

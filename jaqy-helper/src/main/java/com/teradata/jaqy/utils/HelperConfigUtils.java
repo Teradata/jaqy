@@ -35,116 +35,116 @@ import com.teradata.jaqy.helper.DefaultHelperFactory;
 import com.teradata.jaqy.schema.TypeInfo;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class HelperConfigUtils
 {
-	private static void loadType (Map<Integer, TypeInfo> map, JsonObject v) throws IOException
-	{
-		TypeInfo typeInfo = new TypeInfo ();
-		typeInfo.type = TypesUtils.getType (v.getString ("type"));
-		if (typeInfo.type == Types.NULL)
-		{
-			throw new IOException ("Unknown type: " + v.getString ("type"));
-		}
-		typeInfo.typeName = v.getString ("name");
-		if (typeInfo.typeName.indexOf ('{') >= 0)
-		{
-			typeInfo.maxPrecision = v.getJsonNumber ("maxPrecision").longValue ();
-			typeInfo.typeFormat = new MessageFormat (typeInfo.typeName);
-		}
-		map.put (typeInfo.type, typeInfo);
-	}
+    private static void loadType (Map<Integer, TypeInfo> map, JsonObject v) throws IOException
+    {
+        TypeInfo typeInfo = new TypeInfo ();
+        typeInfo.type = TypesUtils.getType (v.getString ("type"));
+        if (typeInfo.type == Types.NULL)
+        {
+            throw new IOException ("Unknown type: " + v.getString ("type"));
+        }
+        typeInfo.typeName = v.getString ("name");
+        if (typeInfo.typeName.indexOf ('{') >= 0)
+        {
+            typeInfo.maxPrecision = v.getJsonNumber ("maxPrecision").longValue ();
+            typeInfo.typeFormat = new MessageFormat (typeInfo.typeName);
+        }
+        map.put (typeInfo.type, typeInfo);
+    }
 
-	private static HashMap<Integer, TypeInfo> getTypeMap (JsonArray v) throws IOException
-	{
-		if (v == null)
-			return null;
-		int size = v.size ();
-		HashMap<Integer, TypeInfo> map = new HashMap<Integer, TypeInfo> ();
-		for (int i = 0; i < size; ++i)
-		{
-			loadType (map, v.getJsonObject (i));
-		}
-		return map;
-	}
+    private static HashMap<Integer, TypeInfo> getTypeMap (JsonArray v) throws IOException
+    {
+        if (v == null)
+            return null;
+        int size = v.size ();
+        HashMap<Integer, TypeInfo> map = new HashMap<Integer, TypeInfo> ();
+        for (int i = 0; i < size; ++i)
+        {
+            loadType (map, v.getJsonObject (i));
+        }
+        return map;
+    }
 
-	private static JdbcFeatures getFeatures (JsonObject v)
-	{
-		if (v == null)
-			return null;
-		JdbcFeatures features = new JdbcFeatures ();
-		if (!v.getBoolean ("schema", false))
-		{
-			features.noSchema = true;
-		}
-		if (!v.getBoolean ("catalog", false))
-		{
-			features.noCatalog = true;
-		}
-		if (!v.getBoolean ("stream", true))
-		{
-			features.noStream = true;
-		}
-		return features;
-	}
+    private static JdbcFeatures getFeatures (JsonObject v)
+    {
+        if (v == null)
+            return null;
+        JdbcFeatures features = new JdbcFeatures ();
+        if (!v.getBoolean ("schema", false))
+        {
+            features.noSchema = true;
+        }
+        if (!v.getBoolean ("catalog", false))
+        {
+            features.noCatalog = true;
+        }
+        if (!v.getBoolean ("stream", true))
+        {
+            features.noStream = true;
+        }
+        return features;
+    }
 
-	private static SimpleQuery getSimpleQuery (JsonObject v, String key)
-	{
-		v = v.getJsonObject (key);
-		if (v == null)
-			return null;
-		String sql = v.getString ("sql");
-		int field = v.getInt ("field");
-		return new SimpleQuery (sql, field);
-	}
+    private static SimpleQuery getSimpleQuery (JsonObject v, String key)
+    {
+        v = v.getJsonObject (key);
+        if (v == null)
+            return null;
+        String sql = v.getString ("sql");
+        int field = v.getInt ("field");
+        return new SimpleQuery (sql, field);
+    }
 
-	private static void updateMap (HashMap<String, SimpleQuery> map, String key, JsonObject v)
-	{
-		SimpleQuery q = getSimpleQuery (v, key);
-		if (q != null)
-			map.put (key, q);
-	}
+    private static void updateMap (HashMap<String, SimpleQuery> map, String key, JsonObject v)
+    {
+        SimpleQuery q = getSimpleQuery (v, key);
+        if (q != null)
+            map.put (key, q);
+    }
 
-	public static void load (HelperManager manager, JsonObject v) throws IOException
-	{
-		String protocol = v.getString ("protocol");
-		if (protocol == null || protocol.length () == 0)
-			throw new IOException ("Invalid protocol name.");
-		DefaultHelperFactory factory = (DefaultHelperFactory) manager.getHelperFactory (protocol);
-		JdbcFeatures features = getFeatures (v.getJsonObject ("features"));
-		HashMap<Integer, TypeInfo> typeMap = getTypeMap (v.getJsonArray ("typeMap"));
-		HashMap<Integer, TypeInfo> importTypeMap = getTypeMap (v.getJsonArray ("importTypeMap"));
-		HashMap<String, SimpleQuery> sqlMap = new HashMap<String, SimpleQuery> ();
-		updateMap (sqlMap, "catalogSQL", v);
-		updateMap (sqlMap, "schemaSQL", v);
-		updateMap (sqlMap, "tableSchemaSQL", v);
-		updateMap (sqlMap, "tableColumnSQL", v);
-		factory.setSQLMap (sqlMap);
-		if (features != null)
-			factory.setFeatures (features);
-		if (typeMap != null)
-			factory.setCustomTypeMap (typeMap);
-		if (importTypeMap != null)
-			factory.setCustomImportTypeMap (importTypeMap);
-	}
+    public static void load (HelperManager manager, JsonObject v) throws IOException
+    {
+        String protocol = v.getString ("protocol");
+        if (protocol == null || protocol.length () == 0)
+            throw new IOException ("Invalid protocol name.");
+        DefaultHelperFactory factory = (DefaultHelperFactory) manager.getHelperFactory (protocol);
+        JdbcFeatures features = getFeatures (v.getJsonObject ("features"));
+        HashMap<Integer, TypeInfo> typeMap = getTypeMap (v.getJsonArray ("typeMap"));
+        HashMap<Integer, TypeInfo> importTypeMap = getTypeMap (v.getJsonArray ("importTypeMap"));
+        HashMap<String, SimpleQuery> sqlMap = new HashMap<String, SimpleQuery> ();
+        updateMap (sqlMap, "catalogSQL", v);
+        updateMap (sqlMap, "schemaSQL", v);
+        updateMap (sqlMap, "tableSchemaSQL", v);
+        updateMap (sqlMap, "tableColumnSQL", v);
+        factory.setSQLMap (sqlMap);
+        if (features != null)
+            factory.setFeatures (features);
+        if (typeMap != null)
+            factory.setCustomTypeMap (typeMap);
+        if (importTypeMap != null)
+            factory.setCustomImportTypeMap (importTypeMap);
+    }
 
-	public static void load (HelperManager manager, JsonArray v) throws IOException
-	{
-		int size = v.size ();
-		for (int i = 0; i < size; ++i)
-		{
-			load (manager, v.getJsonObject (i));
-		}
-	}
+    public static void load (HelperManager manager, JsonArray v) throws IOException
+    {
+        int size = v.size ();
+        for (int i = 0; i < size; ++i)
+        {
+            load (manager, v.getJsonObject (i));
+        }
+    }
 
-	public static void load (HelperManager manager, String json) throws IOException
-	{
-		JsonValue v;
-		CookJsonParser p = new TextJsonParser (new StringReader (json), json.length ());
-		p.next ();
-		v = p.getValue ();
-		p.close ();
-		load (manager, (JsonArray)v);
-	}
+    public static void load (HelperManager manager, String json) throws IOException
+    {
+        JsonValue v;
+        CookJsonParser p = new TextJsonParser (new StringReader (json), json.length ());
+        p.next ();
+        v = p.getValue ();
+        p.close ();
+        load (manager, (JsonArray)v);
+    }
 }

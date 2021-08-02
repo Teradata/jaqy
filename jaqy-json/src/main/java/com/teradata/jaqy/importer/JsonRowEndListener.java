@@ -16,9 +16,9 @@
 package com.teradata.jaqy.importer;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 interface JsonRowEndListener
 {
-	public void setRowEnd ();
+    public void setRowEnd ();
 }

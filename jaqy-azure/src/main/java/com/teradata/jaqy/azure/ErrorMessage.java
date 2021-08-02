@@ -16,14 +16,14 @@
 package com.teradata.jaqy.azure;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class ErrorMessage
 {
-	public static String PROTOCOL_INVALID = "invalid protocol.";
-	public static String CONTAINER_NAME_MISSING = "missing container name.";
-	public static String CONTAINER_NOT_EXIST = "container does not exist.";
-	public static String BLOB_NAME_MISSING = "missing blob name.";
-	public static String BLOB_INVALID_NAME = "invalid blob name.";
-	public static String BLOB_NOT_EXIST = "blob does not exist.";
+    public static String PROTOCOL_INVALID = "invalid protocol.";
+    public static String CONTAINER_NAME_MISSING = "missing container name.";
+    public static String CONTAINER_NOT_EXIST = "container does not exist.";
+    public static String BLOB_NAME_MISSING = "missing blob name.";
+    public static String BLOB_INVALID_NAME = "invalid blob name.";
+    public static String BLOB_NOT_EXIST = "blob does not exist.";
 }

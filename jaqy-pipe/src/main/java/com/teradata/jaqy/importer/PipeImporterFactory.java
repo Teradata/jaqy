@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,32 +24,32 @@ import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.utils.JaqyHandlerFactoryImpl;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class PipeImporterFactory extends JaqyHandlerFactoryImpl<PipeImporter>
 {
-	public PipeImporterFactory ()
-	{
-	}
+    public PipeImporterFactory ()
+    {
+    }
 
-	@Override
-	public String getName ()
-	{
-		return "pipe";
-	}
+    @Override
+    public String getName ()
+    {
+        return "pipe";
+    }
 
-	@Override
-	public PipeImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
-	{
-		JaqyExporter exporter = interpreter.getExporter ();
-		if (exporter == null)
-			interpreter.error ("No current pipe export.");
-		else if (!(exporter instanceof PipeExporter))
-			interpreter.error ("Current export is not a pipe export.");
-		JaqyResultSet rs = ((PipeExporter)exporter).getResultSet ();
-		if (rs == null)
-			interpreter.error ("Data has not been exported.");
-		interpreter.setExporter (null);
-		return new PipeImporter (rs, interpreter.getGlobals ());
-	}
+    @Override
+    public PipeImporter getHandler (CommandLine cmdLine, JaqyInterpreter interpreter) throws Exception
+    {
+        JaqyExporter exporter = interpreter.getExporter ();
+        if (exporter == null)
+            interpreter.error ("No current pipe export.");
+        else if (!(exporter instanceof PipeExporter))
+            interpreter.error ("Current export is not a pipe export.");
+        JaqyResultSet rs = ((PipeExporter)exporter).getResultSet ();
+        if (rs == null)
+            interpreter.error ("Data has not been exported.");
+        interpreter.setExporter (null);
+        return new PipeImporter (rs, interpreter.getGlobals ());
+    }
 }

@@ -18,26 +18,26 @@ package com.teradata.jaqy.utils;
 import com.teradata.jaqy.interfaces.Variable;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public abstract class GetterVariable implements Variable
 {
-	private String m_name;
+    private String m_name;
 
-	public GetterVariable (String name)
-	{
-		m_name = name;
-	}
+    public GetterVariable (String name)
+    {
+        m_name = name;
+    }
 
-	@Override
-	public boolean set (Object value)
-	{
-		throw new IllegalArgumentException ("Cannot set the variable: " + m_name);
-	}
+    @Override
+    public boolean set (Object value)
+    {
+        throw new IllegalArgumentException ("Cannot set the variable: " + m_name);
+    }
 
-	@Override
-	public String getName ()
-	{
-		return m_name;
-	}
+    @Override
+    public String getName ()
+    {
+        return m_name;
+    }
 }

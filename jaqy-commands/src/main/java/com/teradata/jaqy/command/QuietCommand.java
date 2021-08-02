@@ -20,30 +20,30 @@ import java.sql.SQLException;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class QuietCommand extends OnOffCommand
 {
-	public QuietCommand ()
-	{
-		super ("quiet");
-	}
+    public QuietCommand ()
+    {
+        super ("quiet");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "turns ResultSet output on / off.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "turns ResultSet output on / off.";
+    }
 
-	@Override
-	void execute (boolean on, JaqyInterpreter interpreter) throws SQLException
-	{
-		interpreter.setQuiet (on);
-	}
+    @Override
+    void execute (boolean on, JaqyInterpreter interpreter) throws SQLException
+    {
+        interpreter.setQuiet (on);
+    }
 
-	@Override
-	void info (JaqyInterpreter interpreter) throws SQLException
-	{
-		interpreter.println (getCommand () + " " + (interpreter.isQuiet () ? "on" : "off"));
-	}
+    @Override
+    void info (JaqyInterpreter interpreter) throws SQLException
+    {
+        interpreter.println (getCommand () + " " + (interpreter.isQuiet () ? "on" : "off"));
+    }
 }

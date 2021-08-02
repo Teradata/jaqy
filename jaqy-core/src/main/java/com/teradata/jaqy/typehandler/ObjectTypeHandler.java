@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,38 +19,35 @@ import java.sql.SQLException;
 
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
+import com.teradata.jaqy.utils.StringUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 class ObjectTypeHandler implements TypeHandler
 {
-	private final static TypeHandler s_instance = new ObjectTypeHandler ();
+    private final static TypeHandler s_instance = new ObjectTypeHandler ();
 
-	public static TypeHandler getInstance ()
-	{
-		return s_instance;
-	}
+    public static TypeHandler getInstance ()
+    {
+        return s_instance;
+    }
 
-	private ObjectTypeHandler ()
-	{
-	}
+    private ObjectTypeHandler ()
+    {
+    }
 
-	@Override
-	public String getString (JaqyResultSet rs, int columnIndex, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object obj = rs.getObject (columnIndex);
-		if (obj == null)
-			return null;
-		return obj.toString ();
-	}
+    @Override
+    public String getString (JaqyResultSet rs, int columnIndex, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object o = rs.getObject (columnIndex);
+        return StringUtils.getDbObjectString (o);
+    }
 
-	@Override
-	public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
-	{
-		Object obj = rs.getObject (column);
-		if (obj == null)
-			return -1;
-		return obj.toString ().length ();
-	}
+    @Override
+    public int getLength (JaqyResultSet rs, int column, JaqyInterpreter interpreter) throws SQLException
+    {
+        Object o = rs.getObject (column);
+        return (int)StringUtils.getDbObjectStringLength (o);
+    }
 }

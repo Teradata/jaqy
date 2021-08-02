@@ -21,18 +21,18 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class DatabaseMetaDataUtilsTest
 {
-	@Test
-	public void testGetIsolationLevel ()
-	{
-		Assert.assertEquals ("None", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_NONE));
-		Assert.assertEquals ("Read committed", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_READ_COMMITTED));
-		Assert.assertEquals ("Read uncommitted", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_READ_UNCOMMITTED));
-		Assert.assertEquals ("Repeatable read", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_REPEATABLE_READ));
-		Assert.assertEquals ("Serializable", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_SERIALIZABLE));
-		Assert.assertEquals ("Unknown", DatabaseMetaDataUtils.getIsolationLevel (-1));
-	}
+    @Test
+    public void testGetIsolationLevel ()
+    {
+        Assert.assertEquals ("None", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_NONE));
+        Assert.assertEquals ("Read committed", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_READ_COMMITTED));
+        Assert.assertEquals ("Read uncommitted", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_READ_UNCOMMITTED));
+        Assert.assertEquals ("Repeatable read", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_REPEATABLE_READ));
+        Assert.assertEquals ("Serializable", DatabaseMetaDataUtils.getIsolationLevel (Connection.TRANSACTION_SERIALIZABLE));
+        Assert.assertEquals ("Unknown", DatabaseMetaDataUtils.getIsolationLevel (-1));
+    }
 }

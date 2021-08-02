@@ -22,53 +22,53 @@ import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.s3.S3Utils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class S3Command extends JaqyCommandAdapter
 {
-	public S3Command ()
-	{
-		super ("s3", "s3.txt");
-	}
+    public S3Command ()
+    {
+        super ("s3", "s3.txt");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "configures AWS S3 client.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "configures AWS S3 client.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
-	{
-		if (args.length == 0)
-			interpreter.error ("missing type.");
-		String type = args[0];
-		String setting;
-		if (args.length == 1)
-			setting = "";
-		else
-			setting = args[1];
-		if ("access".equals (type))
-		{
-			S3Utils.setAccess (setting, interpreter);
-		}
-		else if ("secret".equals (type))
-		{
-			S3Utils.setSecret (setting, interpreter);
-		}
-		else if ("region".equals (type))
-		{
-			S3Utils.getS3Builder (interpreter).setRegion (setting);
-		}
-		else
-		{
-			interpreter.error ("unknown type.");
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws SQLException
+    {
+        if (args.length == 0)
+            interpreter.error ("missing type.");
+        String type = args[0];
+        String setting;
+        if (args.length == 1)
+            setting = "";
+        else
+            setting = args[1];
+        if ("access".equals (type))
+        {
+            S3Utils.setAccess (setting, interpreter);
+        }
+        else if ("secret".equals (type))
+        {
+            S3Utils.setSecret (setting, interpreter);
+        }
+        else if ("region".equals (type))
+        {
+            S3Utils.getS3Builder (interpreter).setRegion (setting);
+        }
+        else
+        {
+            interpreter.error ("unknown type.");
+        }
+    }
 }

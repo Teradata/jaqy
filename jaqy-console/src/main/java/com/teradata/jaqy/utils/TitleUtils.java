@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ import com.teradata.jaqy.ConsoleDisplay;
 import com.teradata.jaqy.Os;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class TitleUtils
 {
-	public static void showTitle (String title, ConsoleDisplay display, Os os)
-	{
-		// Use ANSI Escape sequence to set the title.
-		System.out.print (display.getEscape ().title (title));
-		System.out.flush ();
-	}
+    public static void showTitle (String title, ConsoleDisplay display, Os os)
+    {
+        // Use ANSI Escape sequence to set the title.
+        System.out.print (display.getEscape ().title (title));
+        System.out.flush ();
+    }
 }

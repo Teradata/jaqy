@@ -29,74 +29,74 @@ import com.teradata.jaqy.schema.SchemaUtils;
 import com.teradata.jaqy.utils.SessionUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ImportSchemaCommand extends JaqyCommandAdapter
 {
-	public ImportSchemaCommand ()
-	{
-		super ("importschema");
+    public ImportSchemaCommand ()
+    {
+        super ("importschema");
 
-		addOption ("s", "sql", false, "display schema in SQL");
-	}
+        addOption ("s", "sql", false, "display schema in SQL");
+    }
 
-	@Override
-	protected String getSyntax ()
-	{
-		return getCommand () + " [options]";
-	}
+    @Override
+    protected String getSyntax ()
+    {
+        return getCommand () + " [options]";
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays the schema of the current import.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays the schema of the current import.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		JaqyImporter importer = interpreter.getImporter ();
-		if (importer == null)
-		{
-			interpreter.error ("There is no current import.");
-		}
-		SchemaInfo schemaInfo = importer.getSchema ();
-		if (schemaInfo == null)
-		{
-			interpreter.error ("Current import schema is not available.");
-		}
-		boolean displaySQL = false;
-		CommandLine cmdLine = getCommandLine (args);
-		for (Option option : cmdLine.getOptions ())
-		{
-			switch (option.getOpt ().charAt (0))
-			{
-				case 's':
-				{
-					displaySQL = true;
-					break;
-				}
-			}
-		}
-		SessionUtils.checkOpen (interpreter);
-		Session session = interpreter.getSession ();
-		JaqyHelper helper = session.getConnection ().getHelper ();
-		if (displaySQL)
-		{
-			String sql = SchemaUtils.getTableSchema (helper, schemaInfo, "TABLENAME", false, true);
-			interpreter.println (sql);
-		}
-		else
-		{
-			JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false, true, interpreter);
-			interpreter.print (rs);
-			rs.close ();
-		}
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        JaqyImporter importer = interpreter.getImporter ();
+        if (importer == null)
+        {
+            interpreter.error ("There is no current import.");
+        }
+        SchemaInfo schemaInfo = importer.getSchema ();
+        if (schemaInfo == null)
+        {
+            interpreter.error ("Current import schema is not available.");
+        }
+        boolean displaySQL = false;
+        CommandLine cmdLine = getCommandLine (args);
+        for (Option option : cmdLine.getOptions ())
+        {
+            switch (option.getOpt ().charAt (0))
+            {
+                case 's':
+                {
+                    displaySQL = true;
+                    break;
+                }
+            }
+        }
+        SessionUtils.checkOpen (interpreter);
+        Session session = interpreter.getSession ();
+        JaqyHelper helper = session.getConnection ().getHelper ();
+        if (displaySQL)
+        {
+            String sql = SchemaUtils.getTableSchema (helper, schemaInfo, "TABLENAME", false, true);
+            interpreter.println (sql);
+        }
+        else
+        {
+            JaqyResultSet rs = SchemaUtils.getSchemaResultSet (helper, schemaInfo, false, true, interpreter);
+            interpreter.print (rs);
+            rs.close ();
+        }
+    }
 }

@@ -18,35 +18,35 @@ package com.teradata.jaqy.setting;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class ExpansionSetting extends JaqySettingAdapter
 {
-	public ExpansionSetting ()
-	{
-		super ("expansion");
-	}
+    public ExpansionSetting ()
+    {
+        super ("expansion");
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "sets expression expansion on / off";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "sets expression expansion on / off";
+    }
 
-	@Override
-	public Object get (JaqyInterpreter interpreter) throws Exception
-	{
-		return (interpreter.isExpansion () ? "on" : "off");
-	}
+    @Override
+    public Object get (JaqyInterpreter interpreter) throws Exception
+    {
+        return (interpreter.isExpansion () ? "on" : "off");
+    }
 
-	@Override
-	public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
-	{
-		if ("on".equalsIgnoreCase (args[0]))
-			interpreter.setExpansion (true);
-		else if ("off".equalsIgnoreCase (args[0]))
-			interpreter.setExpansion (false);
-		else
-			interpreter.error ("invalid setting value");
-	}
+    @Override
+    public void set (String[] args, boolean silent, JaqyInterpreter interpreter) throws Exception
+    {
+        if ("on".equalsIgnoreCase (args[0]))
+            interpreter.setExpansion (true);
+        else if ("off".equalsIgnoreCase (args[0]))
+            interpreter.setExpansion (false);
+        else
+            interpreter.error ("invalid setting value");
+    }
 }

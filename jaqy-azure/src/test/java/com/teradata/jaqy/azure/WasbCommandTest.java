@@ -24,55 +24,55 @@ import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class WasbCommandTest
 {
-	@Test
-	public void testSettings () throws Exception
-	{
-		Globals globals = new Globals (null, null);
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+    @Test
+    public void testSettings () throws Exception
+    {
+        Globals globals = new Globals (null, null);
+        JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
-		WasbCommand cmd = new WasbCommand ();
+        WasbCommand cmd = new WasbCommand ();
 
-		Assert.assertNotNull (cmd.getDescription ());
-		Assert.assertNotNull (cmd.getLongDescription ());
-		Assert.assertEquals (CommandArgumentType.file, cmd.getArgumentType ());
+        Assert.assertNotNull (cmd.getDescription ());
+        Assert.assertNotNull (cmd.getLongDescription ());
+        Assert.assertEquals (CommandArgumentType.file, cmd.getArgumentType ());
 
-		cmd.execute (new String[]{ "key" }, false, false, interpreter);
-		cmd.execute (new String[]{ "key", "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" }, false, false, interpreter);
-		cmd.execute (new String[]{ "endpoint" }, false, false, interpreter);
-		cmd.execute (new String[]{ "endpoint", "http://127.0.0.1:10000/devstoreaccount1" }, false, false, interpreter);
-		cmd.execute (new String[]{ "account" }, false, false, interpreter);
-		cmd.execute (new String[]{ "account", "devstoreaccount1" }, false, false, interpreter);
-	}
+        cmd.execute (new String[]{ "key" }, false, false, interpreter);
+        cmd.execute (new String[]{ "key", "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" }, false, false, interpreter);
+        cmd.execute (new String[]{ "endpoint" }, false, false, interpreter);
+        cmd.execute (new String[]{ "endpoint", "http://127.0.0.1:10000/devstoreaccount1" }, false, false, interpreter);
+        cmd.execute (new String[]{ "account" }, false, false, interpreter);
+        cmd.execute (new String[]{ "account", "devstoreaccount1" }, false, false, interpreter);
+    }
 
-	@Test(expected = JaqyException.class)
-	public void testSettingsError1 () throws Exception
-	{
-		Globals globals = new Globals (null, null);
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+    @Test(expected = JaqyException.class)
+    public void testSettingsError1 () throws Exception
+    {
+        Globals globals = new Globals (null, null);
+        JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
-		WasbCommand cmd = new WasbCommand ();
+        WasbCommand cmd = new WasbCommand ();
 
-		Assert.assertNotNull (cmd.getDescription ());
-		Assert.assertNotNull (cmd.getLongDescription ());
+        Assert.assertNotNull (cmd.getDescription ());
+        Assert.assertNotNull (cmd.getLongDescription ());
 
-		cmd.execute (new String[]{ "asdf" }, false, false, interpreter);
-	}
+        cmd.execute (new String[]{ "asdf" }, false, false, interpreter);
+    }
 
-	@Test(expected = JaqyException.class)
-	public void testSettingsError2 () throws Exception
-	{
-		Globals globals = new Globals (null, null);
-		JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
+    @Test(expected = JaqyException.class)
+    public void testSettingsError2 () throws Exception
+    {
+        Globals globals = new Globals (null, null);
+        JaqyInterpreter interpreter = new JaqyInterpreter (globals, null, null);
 
-		WasbCommand cmd = new WasbCommand ();
+        WasbCommand cmd = new WasbCommand ();
 
-		Assert.assertNotNull (cmd.getDescription ());
-		Assert.assertNotNull (cmd.getLongDescription ());
+        Assert.assertNotNull (cmd.getDescription ());
+        Assert.assertNotNull (cmd.getLongDescription ());
 
-		cmd.execute (new String[]{ }, false, false, interpreter);
-	}
+        cmd.execute (new String[]{ }, false, false, interpreter);
+    }
 }

@@ -25,71 +25,71 @@ import com.teradata.jaqy.interfaces.Path;
 import com.teradata.jaqy.utils.FileUtils;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class FileClob extends ClobWrapper
 {
-	private long m_length;
-	private Path m_file;
-	private Charset m_charset;
+    private long m_length;
+    private Path m_file;
+    private Charset m_charset;
 
-	public FileClob (Path file, Charset charset) throws SQLException
-	{
-		m_length = -1;
-		m_file = file;
-		m_charset = charset;
-	}
+    public FileClob (Path file, Charset charset) throws SQLException
+    {
+        m_length = -1;
+        m_file = file;
+        m_charset = charset;
+    }
 
-	@Override
-	public long length () throws SQLException
-	{
-		if (m_length < 0)
-		{
-			try
-			{
-				m_length = FileUtils.getLength (m_file, m_charset);
-			}
-			catch (IOException ex)
-			{
-				throw new SQLException (ex.getMessage (), ex);
-			}
-		}
-		return m_length;
-	}
+    @Override
+    public long length () throws SQLException
+    {
+        if (m_length < 0)
+        {
+            try
+            {
+                m_length = FileUtils.getLength (m_file, m_charset);
+            }
+            catch (IOException ex)
+            {
+                throw new SQLException (ex.getMessage (), ex);
+            }
+        }
+        return m_length;
+    }
 
-	@Override
-	public String getSubString (long pos, int length) throws SQLException
-	{
-		if (pos < 1 ||
-			length < 0 ||
-			(pos + length - 1) > m_length)
-			throw new SQLException ("Invalid arguments.");
-		try
-		{
-			return FileUtils.readString (m_file, m_charset, pos - 1, length);
-		}
-		catch (IOException ex)
-		{
-			throw new SQLException (ex.getMessage (), ex);
-		}
-	}
+    @Override
+    public String getSubString (long pos, int length) throws SQLException
+    {
+        if (pos < 1 ||
+            length < 0 ||
+            (pos + length - 1) > m_length)
+            throw new SQLException ("Invalid arguments.");
+        try
+        {
+            return FileUtils.readString (m_file, m_charset, pos - 1, length);
+        }
+        catch (IOException ex)
+        {
+            throw new SQLException (ex.getMessage (), ex);
+        }
+    }
 
-	@Override
-	public Reader getCharacterStream () throws SQLException
-	{
-		try
-		{
-			return new InputStreamReader (m_file.getInputStream (), m_charset);
-		}
-		catch (IOException ex)
-		{
-			throw new SQLException (ex.getMessage (), ex);
-		}
-	}
+    @Override
+    public Reader getCharacterStream () throws SQLException
+    {
+        try
+        {
+            return new InputStreamReader (m_file.getInputStream (), m_charset);
+        }
+        catch (IOException ex)
+        {
+            throw new SQLException (ex.getMessage (), ex);
+        }
+    }
 
-	@Override
-	public void free ()
-	{
-		m_file = null;
-	}
+    @Override
+    public void free ()
+    {
+        m_file = null;
+    }
 }

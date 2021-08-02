@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,41 +19,41 @@ import java.sql.Types;
 import java.util.HashMap;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class TypeHandlerRegistry
 {
-	private final static HashMap<Integer,TypeHandler> s_typePrinterMap = new HashMap<Integer, TypeHandler> ();
+    private final static HashMap<Integer,TypeHandler> s_typePrinterMap = new HashMap<Integer, TypeHandler> ();
 
-	static
-	{
-		s_typePrinterMap.put (Types.CHAR, StringTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.VARCHAR, StringTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.LONGNVARCHAR, StringTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.NCHAR, StringTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.NVARCHAR, StringTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.LONGNVARCHAR, StringTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.CLOB, ClobTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.NCLOB, ClobTypeHandler.getInstance ());
+    static
+    {
+        s_typePrinterMap.put (Types.CHAR, StringTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.VARCHAR, StringTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.LONGNVARCHAR, StringTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.NCHAR, StringTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.NVARCHAR, StringTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.LONGNVARCHAR, StringTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.CLOB, ClobTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.NCLOB, ClobTypeHandler.getInstance ());
 
-		s_typePrinterMap.put (Types.BINARY, BinaryTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.VARBINARY, BinaryTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.LONGVARBINARY, BinaryTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.BLOB, BinaryTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.BINARY, BinaryTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.VARBINARY, BinaryTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.LONGVARBINARY, BinaryTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.BLOB, BinaryTypeHandler.getInstance ());
 
-		s_typePrinterMap.put (Types.REAL, DoubleTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.FLOAT, DoubleTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.DOUBLE, DoubleTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.REAL, DoubleTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.FLOAT, DoubleTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.DOUBLE, DoubleTypeHandler.getInstance ());
 
-		s_typePrinterMap.put (Types.SQLXML, XmlTypeHandler.getInstance ());
-		s_typePrinterMap.put (Types.OTHER, ObjectTypeHandler.getInstance ());
-	}
+        s_typePrinterMap.put (Types.SQLXML, XmlTypeHandler.getInstance ());
+        s_typePrinterMap.put (Types.OTHER, ObjectTypeHandler.getInstance ());
+    }
 
-	public static TypeHandler getTypeHandler (int type)
-	{
-		TypeHandler printer = s_typePrinterMap.get (type);
-		if (printer == null)
-			return StringTypeHandler.getInstance ();
-		return printer;
-	}
+    public static TypeHandler getTypeHandler (int type)
+    {
+        TypeHandler printer = s_typePrinterMap.get (type);
+        if (printer == null)
+            return StringTypeHandler.getInstance ();
+        return printer;
+    }
 }

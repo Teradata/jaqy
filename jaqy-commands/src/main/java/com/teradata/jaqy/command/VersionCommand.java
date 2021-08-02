@@ -18,24 +18,24 @@ package com.teradata.jaqy.command;
 import com.teradata.jaqy.JaqyInterpreter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class VersionCommand extends JaqyCommandAdapter
 {
-	public VersionCommand ()
-	{
-		super ("version");
-	}
+    public VersionCommand ()
+    {
+        super ("version");
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
-	{
-		interpreter.getGlobals ().printVersion (interpreter.getDisplay ().getPrintWriter ());
-	}
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter)
+    {
+        interpreter.getGlobals ().printVersion (interpreter.getDisplay ().getPrintWriter ());
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "displays version information";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "displays version information";
+    }
 }

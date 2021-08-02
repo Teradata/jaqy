@@ -19,29 +19,29 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class CSVNameGen
 {
-	private long m_counter;
-	private String m_format;
+    private long m_counter;
+    private String m_format;
 
-	public CSVNameGen (String format)
-	{
-		m_format = format;
-	}
+    public CSVNameGen (String format)
+    {
+        m_format = format;
+    }
 
-	public String newName ()
-	{
-		return getName (++m_counter);
-	}
+    public String newName ()
+    {
+        return getName (++m_counter);
+    }
 
-	public String getName (long counter)
-	{
-		StringWriter sw = new StringWriter ();
-		PrintWriter pw = new PrintWriter (sw);
-		pw.printf (m_format, counter);
-		pw.flush ();
-		return sw.toString ();
-	}
+    public String getName (long counter)
+    {
+        StringWriter sw = new StringWriter ();
+        PrintWriter pw = new PrintWriter (sw);
+        pw.printf (m_format, counter);
+        pw.flush ();
+        return sw.toString ();
+    }
 }

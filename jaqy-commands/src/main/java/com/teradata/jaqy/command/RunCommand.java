@@ -25,57 +25,57 @@ import com.teradata.jaqy.interfaces.LineInput;
 import com.teradata.jaqy.lineinput.LineInputFactory;
 
 /**
- * @author	Heng Yuan
+ * @author  Heng Yuan
  */
 public class RunCommand extends JaqyCommandAdapter
 {
-	public RunCommand ()
-	{
-		super ("run");
+    public RunCommand ()
+    {
+        super ("run");
 
-		addOption ("c", "charset", true, "sets the file character set");
-	}
+        addOption ("c", "charset", true, "sets the file character set");
+    }
 
-	@Override
-	protected String getSyntax ()
-	{
-		return ".run [options] [path]";
-	}
+    @Override
+    protected String getSyntax ()
+    {
+        return ".run [options] [path]";
+    }
 
-	@Override
-	public String getDescription ()
-	{
-		return "runs a Jaqy script.";
-	}
+    @Override
+    public String getDescription ()
+    {
+        return "runs a Jaqy script.";
+    }
 
-	@Override
-	public CommandArgumentType getArgumentType ()
-	{
-		return CommandArgumentType.file;
-	}
+    @Override
+    public CommandArgumentType getArgumentType ()
+    {
+        return CommandArgumentType.file;
+    }
 
-	@Override
-	public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
-	{
-		CommandLine cmdLine = getCommandLine (args);
+    @Override
+    public void execute (String[] args, boolean silent, boolean interactive, JaqyInterpreter interpreter) throws Exception
+    {
+        CommandLine cmdLine = getCommandLine (args);
 
-		String encoding = cmdLine.getOptionValue ('c');
-		args = cmdLine.getArgs ();
-		if (args.length == 0)
-		{
-			interpreter.error ("missing file name.");
-		}
-		LineInput input = null;
-		try
-		{
-			input = LineInputFactory.getLineInput (interpreter.getPath (args[0]), encoding, false);
-		}
-		catch (IOException e)
-		{
-			interpreter.error ("invalid file: " + args[0]);
-		}
-		if (!silent)
-			interpreter.println ("-- Running script: " + args[0]);
-		interpreter.push (input);
-	}
+        String encoding = cmdLine.getOptionValue ('c');
+        args = cmdLine.getArgs ();
+        if (args.length == 0)
+        {
+            interpreter.error ("missing file name.");
+        }
+        LineInput input = null;
+        try
+        {
+            input = LineInputFactory.getLineInput (interpreter.getPath (args[0]), encoding, false);
+        }
+        catch (IOException e)
+        {
+            interpreter.error ("invalid file: " + args[0]);
+        }
+        if (!silent)
+            interpreter.println ("-- Running script: " + args[0]);
+        interpreter.push (input);
+    }
 }
