@@ -1,4 +1,5 @@
 ansi_types.sql
+blob.sql
 clob.sql
 pdt.sql
 transaction.sql

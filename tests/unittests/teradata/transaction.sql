@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------
 -- Transaction test
 --------------------------------------------------------------------------
-.run setup.sql
+.run ../common/teradata_setup.sql
 .set autocommit off
 
 CREATE DATABASE vagrant AS PERM=1e8;

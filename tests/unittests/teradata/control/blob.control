@@ -15,28 +15,28 @@ DATABASE vagrant;
 -- success. update count = 0
 -- 2/2 - 0 ----------------------------------------------------------------
 
-CREATE TABLE clobTable
+CREATE TABLE blobTable
 (
 	a  INTEGER,
-	b  VARCHAR(100),
-	c  CLOB
+	b  VARBYTE(100),
+	c  BLOB
 );
 -- success. update count = 0
 -- 3/2 - 0 ----------------------------------------------------------------
 
-INSERT INTO clobTable VALUES (1, 'abc', 'deaasdf');
+INSERT INTO blobTable VALUES (1, 'dead'xb, 'deadbeef'xb);
 -- success. update count = 1
 -- 4/2 - 0 ----------------------------------------------------------------
-INSERT INTO clobTable VALUES (2, 'abcd', NULL);
+INSERT INTO blobTable VALUES (2, 'facefeed'xb, NULL);
 -- success. update count = 1
 -- 5/2 - 0 ----------------------------------------------------------------
-INSERT INTO clobTable VALUES (3, NULL, 'a quick brown fox');
+INSERT INTO blobTable VALUES (3, NULL, 'deadbeeffacefeed'xb);
 -- success. update count = 1
 -- 6/2 - 0 ----------------------------------------------------------------
 
 .debug resultset on
 -- 6/3 - 0 ----------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 ResultSet Column Count                       3
   Index                                        1
     Name                                         a
@@ -46,7 +46,7 @@ ResultSet Column Count                       3
     Java Class                                   java.lang.Integer
     Catalog                                      
     Schema                                       vagrant
-    Table Name                                   clobTable
+    Table Name                                   blobTable
     Display Size                                 11
     Precision                                    10
     Scale                                        0
@@ -62,12 +62,12 @@ ResultSet Column Count                       3
   Index                                        2
     Name                                         b
     Label                                        b
-    Type                                         VARCHAR
-    SQL Type                                     VARCHAR
-    Java Class                                   java.lang.String
+    Type                                         VARBINARY
+    SQL Type                                     VARBYTE
+    Java Class                                   [B
     Catalog                                      
     Schema                                       vagrant
-    Table Name                                   clobTable
+    Table Name                                   blobTable
     Display Size                                 100
     Precision                                    100
     Scale                                        0
@@ -83,12 +83,12 @@ ResultSet Column Count                       3
   Index                                        3
     Name                                         c
     Label                                        c
-    Type                                         CLOB
-    SQL Type                                     CLOB
-    Java Class                                   java.sql.Clob
+    Type                                         BLOB
+    SQL Type                                     BLOB
+    Java Class                                   java.sql.Blob
     Catalog                                      
     Schema                                       vagrant
-    Table Name                                   clobTable
+    Table Name                                   blobTable
     Display Size                                 2097088000
     Precision                                    2097088000
     Scale                                        0
@@ -102,162 +102,162 @@ ResultSet Column Count                       3
     Signed                                       N
     Writable                                     Y
 -- success --
-a b    c
-- ---- -----------------
-1 abc  deaasdf
-2 abcd ?
-3 ?    a quick brown fox
+a b        c
+- -------- ----------------
+1 dead     deadbeef
+2 facefeed ?
+3 ?        deadbeeffacefeed
 -- activity count = 3
 -- 7/3 - 0 ----------------------------------------------------------------
 .debug resultset off
 -- 7/4 - 0 ----------------------------------------------------------------
 
-.export csv clob.csv
+.export csv blob.csv
 -- 7/5 - 0 ----------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
 -- activity count = 3
 -- 8/5 - 0 ----------------------------------------------------------------
-.os cat clob.csv
+.os cat blob.csv
 a,b,c
-1,abc,deaasdf
-2,abcd,
-3,,a quick brown fox
+1,dead,deadbeef
+2,facefeed,
+3,,deadbeeffacefeed
 -- 8/6 - 0 ----------------------------------------------------------------
-DELETE FROM clobTable;
+DELETE FROM blobTable;
 -- success. update count = 3
 -- 9/6 - 0 ----------------------------------------------------------------
-.import csv -h --nafilter clob.csv
+.import csv -h --nafilter blob.csv
 -- 9/7 - 0 ----------------------------------------------------------------
-.importtable -c clobTable
+.importtable -c blobTable
 -- INSERTION --
-INSERT INTO clobTable VALUES (?,?,?)
+INSERT INTO blobTable VALUES (?,?,?)
 -- 10/8 - 0 ---------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
-a b    c
-- ---- -----------------
-1 abc  deaasdf
-2 abcd ?
-3 ?    a quick brown fox
+a b        c
+- -------- ----------------
+1 dead     deadbeef
+2 facefeed ?
+3 ?        deadbeeffacefeed
 -- activity count = 3
 -- 11/8 - 0 ---------------------------------------------------------------
-.os rm -f clob.csv
+.os rm -f blob.csv
 -- 11/9 - 0 ---------------------------------------------------------------
 
-.export csv -f3 clob.csv
+.export csv -f3 blob.csv
 -- 11/10 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
 -- activity count = 3
 -- 12/10 - 0 --------------------------------------------------------------
-.os cat clob.csv
+.os cat blob.csv
 a,b,c
-1,abc,00000001.bin
-2,abcd,
+1,dead,00000001.bin
+2,facefeed,
 3,,00000002.bin
 -- 12/11 - 0 --------------------------------------------------------------
-DELETE FROM clobTable;
+DELETE FROM blobTable;
 -- success. update count = 3
 -- 13/11 - 0 --------------------------------------------------------------
-.import csv -h --nafilter -j3 clob.csv
+.import csv -h --nafilter -k3 blob.csv
 -- 13/12 - 0 --------------------------------------------------------------
-.importtable -c clobTable
+.importtable -c blobTable
 -- INSERTION --
-INSERT INTO clobTable VALUES (?,?,?)
+INSERT INTO blobTable VALUES (?,?,?)
 -- 14/13 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
-a b    c
-- ---- -----------------
-1 abc  deaasdf
-2 abcd ?
-3 ?    a quick brown fox
+a b        c
+- -------- ----------------
+1 dead     deadbeef
+2 facefeed ?
+3 ?        deadbeeffacefeed
 -- activity count = 3
 -- 15/13 - 0 --------------------------------------------------------------
-.os rm -f clob.csv
+.os rm -f blob.csv
 -- 15/14 - 0 --------------------------------------------------------------
 
-.export json clob.json
+.export json blob.json
 -- 15/15 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
 -- activity count = 3
 -- 16/15 - 0 --------------------------------------------------------------
-.os cat clob.json && echo
-[{"a":1,"b":"abc","c":"deaasdf"},{"a":2,"b":"abcd","c":null},{"a":3,"b":null,"c":"a quick brown fox"}]
+.os cat blob.json && echo
+[{"a":1,"b":"3q0=","c":"3q2+7w=="},{"a":2,"b":"+s7+7Q==","c":null},{"a":3,"b":null,"c":"3q2+7/rO/u0="}]
 -- 16/16 - 0 --------------------------------------------------------------
-DELETE FROM clobTable;
+DELETE FROM blobTable;
 -- success. update count = 3
 -- 17/16 - 0 --------------------------------------------------------------
-.import json clob.json
+.import json blob.json
 -- 17/17 - 0 --------------------------------------------------------------
-INSERT INTO clobTable VALUES ({{a}}, {{b}}, {{c}});
+INSERT INTO blobTable VALUES ({{a}}, {{b}}, {{c}});
 -- 18/17 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
-a b    c
-- ---- -----------------
-1 abc  deaasdf
-2 abcd ?
-3 ?    a quick brown fox
+a b        c
+- -------- ----------------
+1 dead     deadbeef
+2 facefeed ?
+3 ?        deadbeeffacefeed
 -- activity count = 3
 -- 19/17 - 0 --------------------------------------------------------------
-.os rm -f clob.json
+.os rm -f blob.json
 -- 19/18 - 0 --------------------------------------------------------------
 
-.export avro clob.avro
+.export avro blob.avro
 -- 19/19 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
 -- activity count = 3
 -- 20/19 - 0 --------------------------------------------------------------
-DELETE FROM clobTable;
+DELETE FROM blobTable;
 -- success. update count = 3
 -- 21/19 - 0 --------------------------------------------------------------
-.import avro clob.avro
+.import avro blob.avro
 -- 21/20 - 0 --------------------------------------------------------------
-.importtable -c clobTable
+.importtable -c blobTable
 -- INSERTION --
-INSERT INTO clobTable VALUES (?,?,?)
+INSERT INTO blobTable VALUES (?,?,?)
 -- 22/21 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
-a b    c
-- ---- -----------------
-1 abc  deaasdf
-2 abcd ?
-3 ?    a quick brown fox
+a b        c
+- -------- ----------------
+1 dead     deadbeef
+2 facefeed ?
+3 ?        deadbeeffacefeed
 -- activity count = 3
 -- 23/21 - 0 --------------------------------------------------------------
-.os rm -f clob.avro
+.os rm -f blob.avro
 -- 23/22 - 0 --------------------------------------------------------------
 
-.export excel clob.xlsx
+.export excel blob.xlsx
 -- 23/23 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
 -- activity count = 3
 -- 24/23 - 0 --------------------------------------------------------------
-DELETE FROM clobTable;
+DELETE FROM blobTable;
 -- success. update count = 3
 -- 25/23 - 0 --------------------------------------------------------------
-.import excel -h clob.xlsx
+.import excel -h blob.xlsx
 -- 25/24 - 0 --------------------------------------------------------------
-.importtable -c clobTable
+.importtable -c blobTable
 -- INSERTION --
-INSERT INTO clobTable VALUES (?,?,?)
+INSERT INTO blobTable VALUES (?,?,?)
 -- 26/25 - 0 --------------------------------------------------------------
-SELECT * FROM clobTable ORDER BY 1;
+SELECT * FROM blobTable ORDER BY 1;
 -- success --
-a b    c
-- ---- -----------------
-1 abc  deaasdf
-2 abcd ?
-3 ?    a quick brown fox
+a b        c
+- -------- ----------------
+1 dead     deadbeef
+2 facefeed ?
+3 ?        deadbeeffacefeed
 -- activity count = 3
 -- 27/25 - 0 --------------------------------------------------------------
-.os rm -f clob.xlsx
+.os rm -f blob.xlsx
 -- 27/26 - 0 --------------------------------------------------------------
 
 DELETE DATABASE vagrant;
