@@ -144,7 +144,7 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
 		if (args.length == 0)
 			throw new IllegalArgumentException ("missing file name.");
 		CSVImporter importer = new CSVImporter (interpreter.getPath (args[0]), importOptions);
-		if (naFilter == true)
+		if (naFilter)
 		{
 			importer.setNaFilter (true);
 			importer.setNaValues (naValues);

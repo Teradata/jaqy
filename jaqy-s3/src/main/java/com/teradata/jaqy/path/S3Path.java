@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ public class S3Path implements Path
 				name = name.substring (3);
 				file = getParentFile (file);
 			}
-	
+
 			if (file.endsWith ("/"))
 				file = file + name;
 			else if (file.length () > 0)

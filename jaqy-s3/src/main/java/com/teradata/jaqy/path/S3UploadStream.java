@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Teradata
+ * Copyright (c) 2017-2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,52 +28,56 @@ import com.teradata.jaqy.utils.FileUtils;
  */
 class S3UploadStream extends OutputStream
 {
-	private final String m_bucket;
-	private final String m_file;
-	private final File m_tmpFile;
-	private final FileOutputStream m_os;
-	private final AmazonS3 m_s3;
+    private final String m_bucket;
+    private final String m_file;
+    private final File m_tmpFile;
+    private final FileOutputStream m_os;
+    private final AmazonS3 m_s3;
 
-	S3UploadStream (String bucket, String file, AmazonS3 s3) throws IOException
-	{
-		m_bucket = bucket;
-		m_file = file;
-		m_tmpFile = FileUtils.createTempFile ().getFile ();
-		m_os = new FileOutputStream (m_tmpFile);
-		m_s3 = s3;
-	}
+    S3UploadStream (String bucket, String file, AmazonS3 s3) throws IOException
+    {
+        m_bucket = bucket;
+        m_file = file;
+        m_tmpFile = FileUtils.createTempFile ().getFile ();
+        m_os = new FileOutputStream (m_tmpFile);
+        m_s3 = s3;
+    }
 
-	@Override
-	public void write (int b) throws IOException
-	{
-		m_os.write (b);
-	}
+    @Override
+    public void write (int b) throws IOException
+    {
+        m_os.write (b);
+    }
 
-	public void write (byte b[]) throws IOException
-	{
-		m_os.write (b);
-	}
+    @Override
+    public void write (byte b[]) throws IOException
+    {
+        m_os.write (b);
+    }
 
-	public void write (byte b[], int off, int len) throws IOException
-	{
-		m_os.write (b, off, len);
-	}
+    @Override
+    public void write (byte b[], int off, int len) throws IOException
+    {
+        m_os.write (b, off, len);
+    }
 
-	public void flush () throws IOException
-	{
-		m_os.flush ();
-	}
+    @Override
+    public void flush () throws IOException
+    {
+        m_os.flush ();
+    }
 
-	public void close () throws IOException
-	{
-		m_os.close ();
-		try
-		{
-			m_s3.putObject (m_bucket, m_file, m_tmpFile);
-		}
-		finally
-		{
-			m_tmpFile.delete ();
-		}
-	}
+    @Override
+    public void close () throws IOException
+    {
+        m_os.close ();
+        try
+        {
+            m_s3.putObject (m_bucket, m_file, m_tmpFile);
+        }
+        finally
+        {
+            m_tmpFile.delete ();
+        }
+    }
 }
