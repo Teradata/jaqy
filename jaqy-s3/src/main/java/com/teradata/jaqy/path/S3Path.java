@@ -107,7 +107,7 @@ public class S3Path implements Path
 				name = name.substring (3);
 				file = getParentFile (file);
 			}
-	
+
 			if (file.endsWith ("/"))
 				file = file + name;
 			else if (file.length () > 0)
