@@ -15,6 +15,8 @@
  */
 package com.teradata.jaqy.interfaces;
 
+import java.io.InputStream;
+import java.io.Reader;
 import java.sql.*;
 import java.util.Collection;
 
@@ -339,6 +341,38 @@ public interface JaqyHelper
      * @since   1.1
      */
     public void setCSVObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception;
+    /**
+     * Help setting the binary stream.
+     * @param   stmt
+     *          the prepared statement
+     * @param   columnIndex
+     *          the column index
+     * @param   is
+     *          the stream to be set.
+     * @param   length
+     *          the length of the stream.  Because it is optional in some
+     *          drivers, it should match the exact length of the stream.
+     * @since   1.2
+     */
+    public void setBinaryStream (JaqyPreparedStatement stmt, int columnIndex, InputStream is, long length) throws SQLException;
+    /**
+     * Help setting the binary stream.
+     * @param   stmt
+     *          the prepared statement
+     * @param   columnIndex
+     *          the column index
+     * @param   columnIndex
+     *          the column index
+     * @param   reader
+     *          the stream to be set.
+     * @param   length
+     *          the length of the stream.  Because it is optional in some
+     *          drivers, it should match the exact length of the stream.
+     * @throws  SQLException
+     *          In case of error.
+     * @since   1.2
+     */
+    public void setCharacterStream (JaqyPreparedStatement stmt, int columnIndex, Reader reader, long length) throws SQLException;
     /**
      * Get the staging table primary index for import.
      *

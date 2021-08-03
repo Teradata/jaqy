@@ -33,6 +33,8 @@ public class JdbcFeatures
     // ---------- Data types -------------------------
     /** Does the driver supports CharacterStream / BinaryStream? */
     public boolean noStream;
+    /** Does the stream requiring the length parameter */
+    public boolean streamLength = true;
 
     // ---------- DatabaseMetaData -------------------------
 

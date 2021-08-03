@@ -16,6 +16,8 @@
 package com.teradata.jaqy.helper;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
@@ -586,7 +588,7 @@ public class DefaultHelper implements JaqyHelper
         }
         else
         {
-            stmt.setBinaryStream (columnIndex, blob.getBinaryStream ());
+            setBinaryStream (stmt, columnIndex, blob.getBinaryStream (), blob.length ());
         }
     }
 
@@ -598,7 +600,7 @@ public class DefaultHelper implements JaqyHelper
         }
         else
         {
-            stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
+            setCharacterStream (stmt, columnIndex, clob.getCharacterStream (), clob.length ());
         }
     }
 
@@ -643,7 +645,7 @@ public class DefaultHelper implements JaqyHelper
                     }
                     else
                     {
-                        stmt.setBinaryStream (columnIndex, new ByteArrayInputStream (bytes));
+                        setBinaryStream (stmt, columnIndex, new ByteArrayInputStream (bytes), bytes.length);
                     }
                     return;
                 }
@@ -667,7 +669,7 @@ public class DefaultHelper implements JaqyHelper
                     else
                     {
                         String str = o.toString ();
-                        stmt.setCharacterStream (columnIndex, new StringReader (str));
+                        setCharacterStream (stmt, columnIndex, new StringReader (str), str.length ());
                     }
                     return;
                 }
@@ -707,7 +709,10 @@ public class DefaultHelper implements JaqyHelper
             if (m_features.noStream)
                 stmt.setString (columnIndex, xml.getString ());
             else
+            {
+                // There is no length information from SQLXML object.
                 stmt.setCharacterStream (columnIndex, xml.getCharacterStream ());
+            }
             return;
         }
         else if (o instanceof Clob)
@@ -808,6 +813,32 @@ public class DefaultHelper implements JaqyHelper
         catch (NumberFormatException ex)
         {
             throw new JaqyException ("Invalid number format: " + o, ex);
+        }
+    }
+
+    @Override
+    public void setBinaryStream (JaqyPreparedStatement stmt, int parameter, InputStream is, long length) throws SQLException
+    {
+        if (m_features.streamLength)
+        {
+            stmt.setBinaryStream (parameter, is, length);
+        }
+        else
+        {
+            stmt.setBinaryStream (parameter, is);
+        }
+    }
+
+    @Override
+    public void setCharacterStream (JaqyPreparedStatement stmt, int parameter, Reader reader, long length) throws SQLException
+    {
+        if (m_features.streamLength)
+        {
+            stmt.setCharacterStream (parameter, reader, length);
+        }
+        else
+        {
+            stmt.setCharacterStream (parameter, reader);
         }
     }
 

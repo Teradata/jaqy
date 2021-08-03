@@ -48,6 +48,9 @@
 },
 {
 	"protocol":	"postgresql",
+    "features": {
+        "streamLength" : false
+    },
 	"typeMap": [
 		{ "type" : "SMALLINT", "name" : "int2" },
 		{ "type" : "CHAR", "name" : "char({0,number,#})", "maxPrecision" : 2147483648 },

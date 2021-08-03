@@ -74,18 +74,10 @@ public class HelperConfigUtils
         if (v == null)
             return null;
         JdbcFeatures features = new JdbcFeatures ();
-        if (!v.getBoolean ("schema", false))
-        {
-            features.noSchema = true;
-        }
-        if (!v.getBoolean ("catalog", false))
-        {
-            features.noCatalog = true;
-        }
-        if (!v.getBoolean ("stream", true))
-        {
-            features.noStream = true;
-        }
+        features.noSchema = !v.getBoolean ("schema", true);
+        features.noCatalog = !v.getBoolean ("catalog", true);
+        features.noStream = !v.getBoolean ("stream", true);
+        features.streamLength = v.getBoolean ("streamLength", true);
         return features;
     }
 
