@@ -578,6 +578,30 @@ public class DefaultHelper implements JaqyHelper
         stmt.setNull (columnIndex, paramInfo.type, paramInfo.typeName);
     }
 
+    private void setBlob (JaqyPreparedStatement stmt, int columnIndex, Blob blob) throws SQLException
+    {
+        if (m_features.noStream)
+        {
+            stmt.setBytes (columnIndex, blob.getBytes (1, (int)blob.length ()));
+        }
+        else
+        {
+            stmt.setBinaryStream (columnIndex, blob.getBinaryStream ());
+        }
+    }
+
+    private void setClob (JaqyPreparedStatement stmt, int columnIndex, Clob clob) throws SQLException
+    {
+        if (m_features.noStream)
+        {
+            stmt.setString (columnIndex, clob.getSubString (1, (int)clob.length ()));
+        }
+        else
+        {
+            stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
+        }
+    }
+
     @Override
     public void setObject (JaqyPreparedStatement stmt, int columnIndex, ParameterInfo paramInfo, Object o, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
     {
@@ -595,15 +619,7 @@ public class DefaultHelper implements JaqyHelper
             {
                 if (o instanceof Blob)
                 {
-                    Blob blob = (Blob)o;
-                    if (m_features.noStream)
-                    {
-                        stmt.setBytes (columnIndex, blob.getBytes (1, (int)blob.length ()));
-                    }
-                    else
-                    {
-                        stmt.setBinaryStream (columnIndex, blob.getBinaryStream (), blob.length ());
-                    }
+                    setBlob (stmt, columnIndex, (Blob)o);
                     return;
                 }
                 else if (o instanceof byte[] ||
@@ -627,7 +643,7 @@ public class DefaultHelper implements JaqyHelper
                     }
                     else
                     {
-                        stmt.setBinaryStream (columnIndex, new ByteArrayInputStream (bytes), bytes.length);
+                        stmt.setBinaryStream (columnIndex, new ByteArrayInputStream (bytes));
                     }
                     return;
                 }
@@ -639,15 +655,7 @@ public class DefaultHelper implements JaqyHelper
             {
                 if (o instanceof Clob)
                 {
-                    Clob clob = (Clob)o;
-                    if (m_features.noStream)
-                    {
-                        stmt.setString (columnIndex, clob.getSubString (1, (int)clob.length ()));
-                    }
-                    else
-                    {
-                        stmt.setCharacterStream (columnIndex, clob.getCharacterStream (), clob.length ());
-                    }
+                    setClob (stmt, columnIndex, (Clob)o);
                     return;
                 }
                 else if (o instanceof CharSequence)
@@ -659,7 +667,7 @@ public class DefaultHelper implements JaqyHelper
                     else
                     {
                         String str = o.toString ();
-                        stmt.setCharacterStream (columnIndex, new StringReader (str), str.length ());
+                        stmt.setCharacterStream (columnIndex, new StringReader (str));
                     }
                     return;
                 }
@@ -671,7 +679,6 @@ public class DefaultHelper implements JaqyHelper
                 if (o instanceof SQLXML)
                 {
                     stmt.setObject (columnIndex, o);
-                    freeList.add (o);
                     return;
                 }
                 else if (o instanceof CharSequence)
@@ -692,38 +699,28 @@ public class DefaultHelper implements JaqyHelper
                 // go to the default handling.
                 break;
             }
-            default:
-            {
-                if (o instanceof SQLXML)
-                {
-                    SQLXML xml = (SQLXML)o;
-                    if ( m_features.noStream)
-                        stmt.setString (columnIndex, xml.getString ());
-                    else
-                        stmt.setCharacterStream (columnIndex, xml.getCharacterStream ());
-                    return;
-                }
-                else if (o instanceof Clob)
-                {
-                    Clob clob = (Clob)o;
-                    if (m_features.noStream)
-                        stmt.setString (columnIndex, clob.getSubString (1, (int)clob.length ()));
-                    else
-                        stmt.setCharacterStream (columnIndex, clob.getCharacterStream ());
-                    return;
-                }
-                else if (o instanceof Blob)
-                {
-                    Blob blob = (Blob)o;
-                    if (m_features.noStream)
-                        stmt.setBytes (columnIndex, blob.getBytes (1, (int)blob.length ()));
-                    else
-                        stmt.setBinaryStream (columnIndex, blob.getBinaryStream (), blob.length ());
-                    return;
-                }
-                break;
-            }
         }
+
+        if (o instanceof SQLXML)
+        {
+            SQLXML xml = (SQLXML)o;
+            if (m_features.noStream)
+                stmt.setString (columnIndex, xml.getString ());
+            else
+                stmt.setCharacterStream (columnIndex, xml.getCharacterStream ());
+            return;
+        }
+        else if (o instanceof Clob)
+        {
+            setClob (stmt, columnIndex, (Clob)o);
+            return;
+        }
+        else if (o instanceof Blob)
+        {
+            setBlob (stmt, columnIndex, (Blob)o);
+            return;
+        }
+
         stmt.setObject (columnIndex, o);
     }
 

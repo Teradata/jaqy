@@ -3,5 +3,6 @@ pipe_2.sql
 pipe_3.sql
 pipe_4.sql
 pipe_6.sql
-pipe_lob.sql
-pipe_xml.sql
+pipe_lob_1.sql
+pipe_lob_2.sql
+pipe_xml_1.sql
