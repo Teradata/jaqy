@@ -1,5 +1,6 @@
 ansi_types.sql
 csv_import_number_1.sql
 csv_import_unicode.sql
+info.sql
 transaction.sql
 types.sql

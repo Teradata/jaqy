@@ -1,0 +1,259 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .info command test
+--------------------------------------------------------------------------
+.run ../common/sqlite_setup.sql
+-- Running script: ../common/sqlite_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open sqlite::memory:
+-- 0/2 - 0 ----------------------------------------------------------------
+.info behavior
+Name                          Value
+----------------------------- -----------------------
+Catalog Term                  catalog
+Schema Term                   schema
+Procedure Term                not_implemented
+NULLs are sorted high         Yes
+NULLs are sorted low          No
+NULLs are sorted at start     Yes
+NULLs are sorted at end       No
+NULL + non-null is NULL       Yes
+Use local files               Yes
+Use local file per table      No
+Identifier quote string       "
+Search string escape          ?
+Extra name characters         
+Is catalog at start           Yes
+Catalog separator             .
+Default Transaction Isolation Serializable
+ResultSet holdability         Close cursors at commit
+LOB update on copy            No
+-- 0/3 - 0 ----------------------------------------------------------------
+.info catalog
+TABLE_CAT
+---------
+-- 0/4 - 0 ----------------------------------------------------------------
+.info client
+-- failure 0: null
+-- 0/5 - 0 ----------------------------------------------------------------
+.info feature
+Name                                 Supported
+------------------------------------ ---------
+All Procedures are callable          No
+All tables are selectable            Yes
+ALT TABLE ADD column                 No
+ALT TABLE DROP column                No
+Column aliasing                      Yes
+CONVERT                              No
+Table correlation names              No
+Different table correlation names    No
+Expression in ORDER BY               Yes
+ORDER BY unrelated                   No
+GROUP BY                             Yes
+GROUP BY unrelated                   No
+GROUP BY beyond select               No
+LIKE escape clause                   No
+Multiple result set                  No
+Multple transactions                 Yes
+Non-nullable columns                 Yes
+Minimum SQL grammar                  Yes
+Core SQL grammar                     Yes
+Extended SQL grammar                 No
+SQL92 entry                          No
+SQL92 intermediate                   No
+SQL92 full                           No
+Integrity Enhancement Facility       No
+OUTER JOIN                           Yes
+Full OUTER JOIN                      No
+Limited OUTER JOIN                   Yes
+Schemas in DML                       No
+Schemas in procedure calls           No
+Schemas in table DDL                 No
+Schemas in index DDL                 No
+Schemas in privilege definitions     No
+Catalog in DML                       No
+Catalog in procedure calls           No
+Catalog in table DDL                 No
+Catalog in index DDL                 No
+Catalog in privilege definitions     No
+Positioned DELETE                    No
+Positioned UPDATE                    No
+SELECT FOR UPDATE                    No
+Stored Procedure                     No
+Subqueries in comparisons            No
+Subqueries in EXISTS                 Yes
+Subqueries in IN                     Yes
+Subqueries in quantified expressions No
+Correlated subqueries                No
+UNION                                Yes
+UNION ALL                            Yes
+Open cursor across commits           No
+Open cursor across rollbacks         No
+Open statement across commits        No
+Open statement across rollbacks      No
+Transactions                         Yes
+DDL and DML in one transaction       Yes
+Only DML in one transaction          No
+DDL causes transaction commit        No
+DDL ignored in transactions          No
+Batch updates                        Yes
+Save points                          Yes
+Named parameters                     Yes
+Multiple open results                No
+Get auto-generated keys              Yes
+Statement pooling                    No
+-- 0/6 - 0 ----------------------------------------------------------------
+.info function
+Name                Value
+------------------- -------------------------------------
+Numeric functions   
+String functions    
+System functions    
+Date/Time functions DATE,TIME,DATETIME,JULIANDAY,STRFTIME
+-- 0/7 - 0 ----------------------------------------------------------------
+.info keyword
+ABORT,ACTION,AFTER,ANALYZE,ATTACH,AUTOINCREMENT,BEFORE,CASCADE,CONFLICT,DATABASE,DEFERRABLE,DEFERRED,DESC,DETACH,EXCLUSIVE,EXPLAIN,FAIL,GLOB,IGNORE,INDEX,INDEXED,INITIALLY,INSTEAD,ISNULL,KEY,LIMIT,NOTNULL,OFFSET,PLAN,PRAGMA,QUERY,RAISE,REGEXP,REINDEX,RENAME,REPLACE,RESTRICT,TEMP,TEMPORARY,TRANSACTION,VACUUM,VIEW,VIRTUAL
+-- 0/8 - 0 ----------------------------------------------------------------
+.info limit
+Name                         Limit
+---------------------------- -----
+Max binary literal length    0
+Max character literal length 0
+Max column name length       0
+Max columns in GROUP BY      0
+Max columns in an index      0
+Max columns in ORDER BY      0
+Max columns in SELECT        0
+Max columns in a table       0
+Max connections              0
+Max cursor name length       0
+Max index length             0
+Max schema name length       0
+Max procedure name length    0
+Max catalog name length      0
+Max row size                 0
+Max row size include BLOB    No
+Max statement length         0
+Max statements               0
+Max table name length        0
+Max tables in SELECT         0
+Max user name length         0
+Max logical LOB size         0
+-- 0/9 - 0 ----------------------------------------------------------------
+.info schema
+TABLE_SCHEM TABLE_CATALOG
+----------- -------------
+-- 0/10 - 0 ---------------------------------------------------------------
+.info table
+TABLE_TYPE
+----------------
+GLOBAL TEMPORARY
+SYSTEM TABLE
+TABLE
+VIEW
+-- 0/11 - 0 ---------------------------------------------------------------
+.info typemap
+JDBC Type               SQL Type Max Precision
+----------------------- -------- -------------
+BIT                              
+BOOLEAN                          
+TINYINT                          
+SMALLINT                         
+INTEGER                 INTEGER  
+BIGINT                           
+REAL                    REAL     
+FLOAT                            
+DOUBLE                           
+DECIMAL                          
+NUMERIC                          
+BINARY                           
+VARBINARY                        
+LONGVARBINARY                    
+BLOB                    BLOB     
+CHAR                             
+VARCHAR                 TEXT     
+LONGVARCHAR                      
+CLOB                             
+NCHAR                            
+NVARCHAR                         
+LONGNVARCHAR                     
+NCLOB                            
+DATE                             
+TIME                             
+TIME_WITH_TIMEZONE               
+TIMESTAMP                        
+TIMESTAMP_WITH_TIMEZONE          
+DATALINK                         
+NULL                    NULL     
+ROWID                            
+SQLXML                           
+-- 0/12 - 0 ---------------------------------------------------------------
+.info importmap
+JDBC Type               SQL Type Max Precision
+----------------------- -------- -------------
+BIT                              
+BOOLEAN                          
+TINYINT                          
+SMALLINT                         
+INTEGER                 INTEGER  
+BIGINT                           
+REAL                    REAL     
+FLOAT                            
+DOUBLE                           
+DECIMAL                          
+NUMERIC                          
+BINARY                           
+VARBINARY                        
+LONGVARBINARY                    
+BLOB                    BLOB     
+CHAR                             
+VARCHAR                 TEXT     
+LONGVARCHAR                      
+CLOB                             
+NCHAR                            
+NVARCHAR                         
+LONGNVARCHAR                     
+NCLOB                            
+DATE                             
+TIME                             
+TIME_WITH_TIMEZONE               
+TIMESTAMP                        
+TIMESTAMP_WITH_TIMEZONE          
+DATALINK                         
+NULL                    NULL     
+ROWID                            
+SQLXML                           
+-- 0/13 - 0 ---------------------------------------------------------------
+.format csv
+-- 0/14 - 0 ---------------------------------------------------------------
+.info type
+TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
+BLOB,2004,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+INTEGER,4,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+NULL,0,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+REAL,7,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+TEXT,12,0,,,,1,1,3,0,0,0,,0,0,0,0,10
+-- 0/15 - 0 ---------------------------------------------------------------
+.format table
+-- 0/16 - 0 ---------------------------------------------------------------
+.info server
+Name                     Value
+------------------------ --------------------
+User                     ?
+URL                      jdbc:sqlite::memory:
+Ready only               No
+Database product name    SQLite
+Database product version 3.36.0
+Database major version   3
+Database major version   36
+Driver name              SQLite JDBC
+Driver version           3.36.0.1
+JDBC major version       2
+JDBC minor version       1
+-- 0/17 - 0 ---------------------------------------------------------------
+.info user
+null
+-- 0/18 - 0 ---------------------------------------------------------------
+.quit
+-- 0/19 - 0 ---------------------------------------------------------------

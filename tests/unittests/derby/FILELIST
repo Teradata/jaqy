@@ -1,3 +1,4 @@
 ansi_types.sql
-identity.sql
 data_types.sql
+identity.sql
+info.sql

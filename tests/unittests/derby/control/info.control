@@ -1,0 +1,301 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- .info command test
+--------------------------------------------------------------------------
+.run ../common/derby_setup.sql
+-- Running script: ../common/derby_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open derby:memory:typesDB;create=true
+-- 0/2 - 0 ----------------------------------------------------------------
+.info behavior
+Name                                      Value
+----------------------------------------- ------------------------
+Catalog Term                              CATALOG
+Schema Term                               SCHEMA
+Procedure Term                            PROCEDURE
+NULLs are sorted high                     Yes
+NULLs are sorted low                      No
+NULLs are sorted at start                 No
+NULLs are sorted at end                   No
+NULL + non-null is NULL                   Yes
+Use local files                           No
+Use local file per table                  No
+Identifier quote string                   "
+Search string escape                      
+Extra name characters                     
+Is catalog at start                       No
+Catalog separator                         
+Default Transaction Isolation             Read committed
+ResultSet holdability                     Hold cursors over commit
+LOB update on copy                        Yes
+Row ID lifetime                           ROWID_UNSUPPORTED
+Auto-commit failure closes all ResultSets Yes
+Auto-generated key always return          Yes
+-- 0/3 - 0 ----------------------------------------------------------------
+.info catalog
+TABLE_CAT
+---------
+-- 0/4 - 0 ----------------------------------------------------------------
+.info client
+NAME MAX_LEN DEFAULT_VALUE DESCRIPTION
+---- ------- ------------- -----------
+-- 0/5 - 0 ----------------------------------------------------------------
+.info feature
+Name                                   Supported
+-------------------------------------- ---------
+All Procedures are callable            Yes
+All tables are selectable              Yes
+ALT TABLE ADD column                   Yes
+ALT TABLE DROP column                  Yes
+Column aliasing                        Yes
+CONVERT                                No
+Table correlation names                Yes
+Different table correlation names      Yes
+Expression in ORDER BY                 Yes
+ORDER BY unrelated                     No
+GROUP BY                               Yes
+GROUP BY unrelated                     Yes
+GROUP BY beyond select                 Yes
+LIKE escape clause                     Yes
+Multiple result set                    Yes
+Multple transactions                   Yes
+Non-nullable columns                   Yes
+Minimum SQL grammar                    Yes
+Core SQL grammar                       No
+Extended SQL grammar                   No
+SQL92 entry                            Yes
+SQL92 intermediate                     No
+SQL92 full                             No
+Integrity Enhancement Facility         No
+OUTER JOIN                             Yes
+Full OUTER JOIN                        No
+Limited OUTER JOIN                     Yes
+Schemas in DML                         Yes
+Schemas in procedure calls             Yes
+Schemas in table DDL                   Yes
+Schemas in index DDL                   Yes
+Schemas in privilege definitions       Yes
+Catalog in DML                         No
+Catalog in procedure calls             No
+Catalog in table DDL                   No
+Catalog in index DDL                   No
+Catalog in privilege definitions       No
+Positioned DELETE                      Yes
+Positioned UPDATE                      Yes
+SELECT FOR UPDATE                      Yes
+Stored Procedure                       Yes
+Subqueries in comparisons              Yes
+Subqueries in EXISTS                   Yes
+Subqueries in IN                       Yes
+Subqueries in quantified expressions   Yes
+Correlated subqueries                  Yes
+UNION                                  Yes
+UNION ALL                              Yes
+Open cursor across commits             No
+Open cursor across rollbacks           No
+Open statement across commits          Yes
+Open statement across rollbacks        No
+Transactions                           Yes
+DDL and DML in one transaction         Yes
+Only DML in one transaction            No
+DDL causes transaction commit          No
+DDL ignored in transactions            No
+Batch updates                          Yes
+Save points                            Yes
+Named parameters                       No
+Multiple open results                  Yes
+Get auto-generated keys                No
+Statement pooling                      No
+SQL Function                           Yes
+REF CURSOR                             No
+Supports Mixed Case Identifiers        No
+Stores Upper Case Identifiers          Yes
+Stores Lower Case Identifiers          No
+Stores Mixed Case Identifiers          No
+Supports Mixed Case Quoted Identifiers Yes
+Stores Upper Case Quoted Identifiers   No
+Stores Lower Case Quoted Identifiers   No
+Stores Mixed Case Quoted Identifiers   Yes
+-- 0/6 - 0 ----------------------------------------------------------------
+.info function
+Name                Value
+------------------- ----------------------------------------------------------------------------------------------------------
+Numeric functions   ABS,ACOS,ASIN,ATAN,ATAN2,CEILING,COS,COT,DEGREES,EXP,FLOOR,LOG,LOG10,MOD,PI,RADIANS,RAND,SIGN,SIN,SQRT,TAN
+String functions    CONCAT,LENGTH,LCASE,LOCATE,LTRIM,RTRIM,SUBSTRING,UCASE
+System functions    USER
+Date/Time functions CURDATE,CURTIME,HOUR,MINUTE,MONTH,SECOND,TIMESTAMPADD,TIMESTAMPDIFF,YEAR
+-- 0/7 - 0 ----------------------------------------------------------------
+.info keyword
+ALIAS,BIGINT,BOOLEAN,CALL,CLASS,COPY,DB2J_DEBUG,EXECUTE,EXPLAIN,FILE,FILTER,GETCURRENTCONNECTION,INDEX,INSTANCEOF,METHOD,NEW,OFF,PROPERTIES,RECOMPILE,RENAME,RUNTIMESTATISTICS,STATEMENT,STATISTICS,TIMING,WAIT
+-- 0/8 - 0 ----------------------------------------------------------------
+.info limit
+Name                         Limit
+---------------------------- -----
+Max binary literal length    0
+Max character literal length 0
+Max column name length       128
+Max columns in GROUP BY      0
+Max columns in an index      0
+Max columns in ORDER BY      0
+Max columns in SELECT        0
+Max columns in a table       0
+Max connections              0
+Max cursor name length       128
+Max index length             0
+Max schema name length       128
+Max procedure name length    128
+Max catalog name length      0
+Max row size                 0
+Max row size include BLOB    Yes
+Max statement length         0
+Max statements               0
+Max table name length        128
+Max tables in SELECT         0
+Max user name length         128
+Max logical LOB size         0
+-- 0/9 - 0 ----------------------------------------------------------------
+.info schema
+TABLE_SCHEM TABLE_CATALOG
+----------- -------------
+APP         ?
+NULLID      ?
+SQLJ        ?
+SYS         ?
+SYSCAT      ?
+SYSCS_DIAG  ?
+SYSCS_UTIL  ?
+SYSFUN      ?
+SYSIBM      ?
+SYSPROC     ?
+SYSSTAT     ?
+-- 0/10 - 0 ---------------------------------------------------------------
+.info table
+TABLE_TYPE
+------------
+SYNONYM
+SYSTEM TABLE
+TABLE
+VIEW
+-- 0/11 - 0 ---------------------------------------------------------------
+.info typemap
+JDBC Type               SQL Type                            Max Precision
+----------------------- ----------------------------------- -------------
+BIT                                                         
+BOOLEAN                 BOOLEAN                             
+TINYINT                                                     
+SMALLINT                SMALLINT                            
+INTEGER                 INTEGER                             
+BIGINT                  BIGINT                              
+REAL                    REAL                                
+FLOAT                   FLOAT                               
+DOUBLE                  DOUBLE                              
+DECIMAL                 DECIMAL                             
+NUMERIC                 NUMERIC                             
+BINARY                  CHAR ({0,number,#}) FOR BIT DATA    254
+VARBINARY               VARCHAR ({0,number,#}) FOR BIT DATA 32672
+LONGVARBINARY           LONG VARCHAR FOR BIT DATA           
+BLOB                    BLOB                                
+CHAR                    CHAR                                
+VARCHAR                 VARCHAR                             
+LONGVARCHAR             LONG VARCHAR                        
+CLOB                    CLOB                                
+NCHAR                                                       
+NVARCHAR                                                    
+LONGNVARCHAR                                                
+NCLOB                                                       
+DATE                    DATE                                
+TIME                    TIME                                
+TIME_WITH_TIMEZONE                                          
+TIMESTAMP               TIMESTAMP                           
+TIMESTAMP_WITH_TIMEZONE                                     
+DATALINK                                                    
+NULL                                                        
+ROWID                                                       
+SQLXML                  XML                                 
+-- 0/12 - 0 ---------------------------------------------------------------
+.info importmap
+JDBC Type               SQL Type                            Max Precision
+----------------------- ----------------------------------- -------------
+BIT                                                         
+BOOLEAN                 BOOLEAN                             
+TINYINT                                                     
+SMALLINT                SMALLINT                            
+INTEGER                 INTEGER                             
+BIGINT                  BIGINT                              
+REAL                    REAL                                
+FLOAT                   FLOAT                               
+DOUBLE                  DOUBLE                              
+DECIMAL                 DECIMAL                             
+NUMERIC                 NUMERIC                             
+BINARY                  CHAR ({0,number,#}) FOR BIT DATA    254
+VARBINARY               VARCHAR ({0,number,#}) FOR BIT DATA 32672
+LONGVARBINARY           LONG VARCHAR FOR BIT DATA           
+BLOB                    BLOB                                
+CHAR                    CHAR                                
+VARCHAR                 VARCHAR                             
+LONGVARCHAR             LONG VARCHAR                        
+CLOB                    CLOB                                
+NCHAR                                                       
+NVARCHAR                                                    
+LONGNVARCHAR                                                
+NCLOB                                                       
+DATE                    DATE                                
+TIME                    TIME                                
+TIME_WITH_TIMEZONE                                          
+TIMESTAMP               TIMESTAMP                           
+TIMESTAMP_WITH_TIMEZONE                                     
+DATALINK                                                    
+NULL                                                        
+ROWID                                                       
+SQLXML                  XML                                 
+-- 0/13 - 0 ---------------------------------------------------------------
+.format csv
+-- 0/14 - 0 ---------------------------------------------------------------
+.info type
+TYPE_NAME,DATA_TYPE,PRECISION,LITERAL_PREFIX,LITERAL_SUFFIX,CREATE_PARAMS,NULLABLE,CASE_SENSITIVE,SEARCHABLE,UNSIGNED_ATTRIBUTE,FIXED_PREC_SCALE,AUTO_INCREMENT,LOCAL_TYPE_NAME,MINIMUM_SCALE,MAXIMUM_SCALE,SQL_DATA_TYPE,SQL_DATETIME_SUB,NUM_PREC_RADIX
+BIGINT,-5,19,,,,1,false,2,false,false,true,BIGINT,0,0,,,10
+LONG VARCHAR FOR BIT DATA,-4,32700,X',',,1,false,0,true,false,false,LONG VARCHAR FOR BIT DATA,,,,,
+VARCHAR () FOR BIT DATA,-3,32672,X',',length,1,false,2,true,false,false,VARCHAR () FOR BIT DATA,,,,,
+CHAR () FOR BIT DATA,-2,254,X',',length,1,false,2,true,false,false,CHAR () FOR BIT DATA,,,,,
+LONG VARCHAR,-1,32700,',',,1,true,1,true,false,false,LONG VARCHAR,,,,,
+CHAR,1,254,',',length,1,true,3,true,false,false,CHAR,,,,,
+NUMERIC,2,31,,,"precision,scale",1,false,2,false,true,false,NUMERIC,0,31,,,10
+DECIMAL,3,31,,,"precision,scale",1,false,2,false,true,false,DECIMAL,0,31,,,10
+INTEGER,4,10,,,,1,false,2,false,false,true,INTEGER,0,0,,,10
+SMALLINT,5,5,,,,1,false,2,false,false,true,SMALLINT,0,0,,,10
+FLOAT,6,52,,,precision,1,false,2,false,false,false,FLOAT,,,,,2
+REAL,7,23,,,,1,false,2,false,false,false,REAL,,,,,2
+DOUBLE,8,52,,,,1,false,2,false,false,false,DOUBLE,,,,,2
+VARCHAR,12,32672,',',length,1,true,3,true,false,false,VARCHAR,,,,,
+BOOLEAN,16,1,,,,1,false,2,true,false,false,BOOLEAN,,,,,
+DATE,91,10,DATE',',,1,false,2,true,false,false,DATE,0,0,,,10
+TIME,92,8,TIME',',,1,false,2,true,false,false,TIME,0,0,,,10
+TIMESTAMP,93,29,TIMESTAMP',',,1,false,2,true,false,false,TIMESTAMP,0,9,,,10
+OBJECT,2000,,,,,1,false,2,true,false,false,OBJECT,,,,,
+BLOB,2004,2147483647,,,length,1,false,0,,false,,BLOB,,,,,
+CLOB,2005,2147483647,',',length,1,true,1,,false,,CLOB,,,,,
+XML,2009,,,,,1,true,0,false,false,false,XML,,,,,
+-- 0/15 - 0 ---------------------------------------------------------------
+.format table
+-- 0/16 - 0 ---------------------------------------------------------------
+.info server
+Name                     Value
+------------------------ ---------------------------------
+User                     APP
+URL                      jdbc:derby:memory:typesDB
+Ready only               No
+Database product name    Apache Derby
+Database product version 10.14.2.0 - (1828579)
+Database major version   10
+Database major version   14
+Driver name              Apache Derby Embedded JDBC Driver
+Driver version           10.14.2.0 - (1828579)
+JDBC major version       4
+JDBC minor version       2
+-- 0/17 - 0 ---------------------------------------------------------------
+.info user
+APP
+-- 0/18 - 0 ---------------------------------------------------------------
+.quit
+-- 0/19 - 0 ---------------------------------------------------------------
