@@ -34,7 +34,7 @@ Example
 .. code-block:: sql
 
 	-- load jaqy-azure plugin first.
-	.load /vagrant/jaqy-azure/target/jaqy-azure-1.1.0.jar
+	.load /vagrant/jaqy-azure/target/jaqy-azure-1.2.0.jar
 
 	-- configures a WASB access key
 	.wasb key somesecretkey

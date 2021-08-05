@@ -1,10 +1,12 @@
 .. toctree::
 	:maxdepth: 2
-	:caption: Documentation
+	:caption: Main
 	:hidden:
 
 	license
+        Github Source <https://github.com/Teradata/jaqy>
 	download
+	jdbcdriver
 
 .. toctree::
 	:maxdepth: 2

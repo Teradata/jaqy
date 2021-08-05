@@ -24,8 +24,10 @@ Field Description
 
 * ``"catalog" : false`` if the database does not support catalog.
 * ``"schema" : false`` if the database does not support schema.
-* ``"stream" : false`` if the database does not support binary / character
+* ``"stream" : false`` if the driver does not support binary / character
   streams or LOBs.
+* ``"streamLength" : false`` if the driver does not support the length
+  information in setCharacterStream and setBinaryStream calls.
 
 ``schemaSQL`` is used by `.pwd <../command/pwd.html>`__ and
 `.list <../command/list.html>`__ commands to determine the current schema.
@@ -40,14 +42,17 @@ the table schema in SQL.  Jaqy uses
 `MessageFormat <https://docs.oracle.com/javase/8/docs/api/java/text/MessageFormat.html>`__
 to construct the SQL query.
 
-``typeMap`` sets up certain type information for properly inferring the type
-information.  JDBC's
+``typeMap`` sets up certain type information for properly inferring the SQL type
+information from JDBC type.  JDBC's
 `DatabaseMetadata.getTypeInfo() <https://docs.oracle.com/javase/8/docs/api/java/sql/DatabaseMetaData.html#getTypeInfo-->`__.
 has a number of limitations that makes it difficult to use.  Usually only types
 such as ``VARCHAR(1000)`` with variable length information needs to be
 specified.  Jaqy uses 
 `MessageFormat <https://docs.oracle.com/javase/8/docs/api/java/text/MessageFormat.html>`__
 to construct the type name, with precision and scale passed to it.
+
+``importMap`` is similar to typeMap, except that it is the preferred type for
+database imports.
 
 Occasionally, for databases with multiple types for the same type identifier,
 the most common one to use may be specified here as well.

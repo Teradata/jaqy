@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>.config &mdash; Jaqy 1.1.0 documentation</title>
+  <title>.config &mdash; Jaqy 1.2.0 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'1.1.0',
+              VERSION:'1.2.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.0
               </div>
             
           
@@ -99,10 +99,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Documentation</span></p>
+              <p class="caption"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/Teradata/jaqy">Github Source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jdbcdriver.html">JDBC Drivers</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorial</span></p>
 <ul>
@@ -263,8 +265,27 @@ on the format, see <a class="reference external" href="../config/database.html">
 {
         &quot;protocol&quot;:     &quot;mysql&quot;,
         &quot;features&quot;: {
-                &quot;schema&quot; : false
+                &quot;schema&quot; : false,
+                &quot;stream&quot; : false
         },
+        &quot;typeMap&quot;: [
+                { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;CHAR({0,number,#})&quot;, &quot;maxPrecision&quot; : 255 },
+                { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;VARCHAR({0,number,#})&quot;, &quot;maxPrecision&quot; : 21845 }
+        ],
+        &quot;importTypeMap&quot;: [
+                { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;TEXT&quot;, &quot;maxPrecision&quot; : 65535 },
+                { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;TEXT&quot;, &quot;maxPrecision&quot; : 65535 },
+                { &quot;type&quot; : &quot;LONGVARCHAR&quot;, &quot;name&quot; : &quot;MEDIUMTEXT&quot;, &quot;maxPrecision&quot; : 16777215 },
+                { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;LONGTEXT&quot;, &quot;maxPrecision&quot; : 2147483647 },
+                { &quot;type&quot; : &quot;NCHAR&quot;, &quot;name&quot; : &quot;TEXT&quot;, &quot;maxPrecision&quot; : 32767 },
+                { &quot;type&quot; : &quot;NVARCHAR&quot;, &quot;name&quot; : &quot;TEXT&quot;, &quot;maxPrecision&quot; : 32767 },
+                { &quot;type&quot; : &quot;LONGNVARCHAR&quot;, &quot;name&quot; : &quot;MEDIUMTEXT&quot;, &quot;maxPrecision&quot; : 8388607 },
+                { &quot;type&quot; : &quot;NCLOB&quot;, &quot;name&quot; : &quot;LONGTEXT&quot;, &quot;maxPrecision&quot; : 1073741823 },
+                { &quot;type&quot; : &quot;BINARY&quot;, &quot;name&quot; : &quot;BLOB&quot;, &quot;maxPrecision&quot; : 65535 },
+                { &quot;type&quot; : &quot;VARBINARY&quot;, &quot;name&quot; : &quot;BLOB&quot;, &quot;maxPrecision&quot; : 65535 },
+                { &quot;type&quot; : &quot;LONGVARBINARY&quot;, &quot;name&quot; : &quot;MEDIUMBLOB&quot;, &quot;maxPrecision&quot; : 16777215 },
+                { &quot;type&quot; : &quot;BLOB&quot;, &quot;name&quot; : &quot;LONGBLOB&quot;, &quot;maxPrecision&quot; : 2147483647 }
+        ],
         &quot;catalogSQL&quot;: {
                 &quot;sql&quot; : &quot;SELECT DATABASE()&quot;,
                 &quot;field&quot; : 1
@@ -279,7 +300,30 @@ on the format, see <a class="reference external" href="../config/database.html">
         }
 },
 {
+        &quot;protocol&quot;:     &quot;postgresql&quot;,
+        &quot;typeMap&quot;: [
+                { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;char({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;varchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;text&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;NCHAR&quot;, &quot;name&quot; : &quot;char({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;NVARCHAR&quot;, &quot;name&quot; : &quot;varchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;NCLOB&quot;, &quot;name&quot; : &quot;text&quot; }
+        ],
+        &quot;importTypeMap&quot;: [
+                { &quot;type&quot; : &quot;BOOLEAN&quot;, &quot;name&quot; : &quot;bool&quot; },
+                { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;text&quot; },
+                { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;text&quot; },
+                { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;text&quot; },
+                { &quot;type&quot; : &quot;NCHAR&quot;, &quot;name&quot; : &quot;text&quot; },
+                { &quot;type&quot; : &quot;NVARCHAR&quot;, &quot;name&quot; : &quot;text&quot; },
+                { &quot;type&quot; : &quot;NCLOB&quot;, &quot;name&quot; : &quot;text&quot; }
+        ]
+},
+{
         &quot;protocol&quot;:     &quot;sqlite&quot;,
+        &quot;features&quot;: {
+                &quot;stream&quot; : false
+        },
         &quot;tableSchemaSQL&quot;: {
                 &quot;sql&quot; : &quot;SELECT sql FROM SQLITE_MASTER WHERE NAME = &#39;&#39;{0}&#39;&#39; COLLATE NOCASE&quot;,
                 &quot;field&quot; : 1
@@ -292,20 +336,43 @@ on the format, see <a class="reference external" href="../config/database.html">
 {
         &quot;protocol&quot;:     &quot;derby&quot;,
         &quot;typeMap&quot;: [
-                { &quot;name&quot; : &quot;CHAR ({0}) FOR BIT DATA&quot;, &quot;type&quot; : -2, &quot;maxPrecision&quot; : 254 },
-                { &quot;name&quot; : &quot;VARCHAR ({0}) FOR BIT DATA&quot;, &quot;type&quot; : -3, &quot;maxPrecision&quot; : 32672 },
-                { &quot;name&quot; : &quot;LONG VARCHAR FOR BIT DATA&quot;, &quot;type&quot; : 1, &quot;maxPrecision&quot; : 32700 }
+                { &quot;type&quot; : &quot;BINARY&quot;, &quot;name&quot; : &quot;CHAR ({0,number,#}) FOR BIT DATA&quot;, &quot;maxPrecision&quot; : 254 },
+                { &quot;type&quot; : &quot;VARBINARY&quot;, &quot;name&quot; : &quot;VARCHAR ({0,number,#}) FOR BIT DATA&quot;, &quot;maxPrecision&quot; : 32672 },
+                { &quot;type&quot; : &quot;LONGVARBINARY&quot;, &quot;name&quot; : &quot;LONG VARCHAR FOR BIT DATA&quot;, &quot;maxPrecision&quot; : 32700 }
+        ]
+},
+{
+        &quot;protocol&quot;:     &quot;sqlserver&quot;,
+        &quot;catalogSQL&quot;: {
+                &quot;sql&quot; : &quot;SELECT DB_NAME()&quot;,
+                &quot;field&quot; : 1
+        },
+        &quot;typeMap&quot;: [
+                { &quot;type&quot; : &quot;BOOLEAN&quot;, &quot;name&quot; : &quot;bit&quot; },
+                { &quot;type&quot; : &quot;BINARY&quot;, &quot;name&quot; : &quot;binary({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;VARBINARY&quot;, &quot;name&quot; : &quot;varbinary({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;LONGVARBINARY&quot;, &quot;name&quot; : &quot;varbinary({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;char({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;varchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;LONGVARCHAR&quot;, &quot;name&quot; : &quot;varchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;varchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
+                { &quot;type&quot; : &quot;NCHAR&quot;, &quot;name&quot; : &quot;nchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 1073741824 },
+                { &quot;type&quot; : &quot;NVARCHAR&quot;, &quot;name&quot; : &quot;nvarchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 1073741824 },
+                { &quot;type&quot; : &quot;LONGNVARCHAR&quot;, &quot;name&quot; : &quot;nvarchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 1073741824 },
+                { &quot;type&quot; : &quot;NCLOB&quot;, &quot;name&quot; : &quot;nvarchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 1073741824 }
         ]
 },
 {
         &quot;protocol&quot;:     &quot;teradata&quot;,
         &quot;typeMap&quot;: [
-                { &quot;name&quot; : &quot;CHAR({0}) CHARACTER SET LATIN&quot;, &quot;type&quot; : 1, &quot;maxPrecision&quot; : 64000 },
-                { &quot;name&quot; : &quot;VARCHAR({0}) CHARACTER SET LATIN&quot;, &quot;type&quot; : 12, &quot;maxPrecision&quot; : 64000 },
-                { &quot;name&quot; : &quot;CLOB({0}) CHARACTER SET LATIN&quot;, &quot;type&quot; : 2005, &quot;maxPrecision&quot; : 2097088000 },
-                { &quot;name&quot; : &quot;CHAR({0}) CHARACTER SET UNICODE&quot;, &quot;type&quot; : 1, &quot;maxPrecision&quot; : 32000 },
-                { &quot;name&quot; : &quot;VARCHAR({0}) CHARACTER SET UNICODE&quot;, &quot;type&quot; : -9, &quot;maxPrecision&quot; : 32000 },
-                { &quot;name&quot; : &quot;CLOB({0}) CHARACTER SET UNICODE&quot;, &quot;type&quot; : 2011, &quot;maxPrecision&quot; : 1048544000 }
+                { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;CHAR({0,number,#}) CHARACTER SET LATIN&quot;, &quot;maxPrecision&quot; : 64000 },
+                { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;VARCHAR({0,number,#}) CHARACTER SET LATIN&quot;, &quot;maxPrecision&quot; : 64000 },
+                { &quot;type&quot; : &quot;LONGVARCHAR&quot;, &quot;name&quot; : &quot;VARCHAR({0,number,#}) CHARACTER SET LATIN&quot;, &quot;maxPrecision&quot; : 64000 },
+                { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;CLOB({0,number,#}) CHARACTER SET LATIN&quot;, &quot;maxPrecision&quot; : 2097088000 },
+                { &quot;type&quot; : &quot;NCHAR&quot;, &quot;name&quot; : &quot;CHAR({0,number,#}) CHARACTER SET UNICODE&quot;, &quot;maxPrecision&quot; : 32000 },
+                { &quot;type&quot; : &quot;NVARCHAR&quot;, &quot;name&quot; : &quot;VARCHAR({0,number,#}) CHARACTER SET UNICODE&quot;, &quot;maxPrecision&quot; : 32000 },
+                { &quot;type&quot; : &quot;LONGNVARCHAR&quot;, &quot;name&quot; : &quot;VARCHAR({0,number,#}) CHARACTER SET UNICODE&quot;, &quot;maxPrecision&quot; : 32000 },
+                { &quot;type&quot; : &quot;NCLOB&quot;, &quot;name&quot; : &quot;CLOB({0,number,#}) CHARACTER SET UNICODE&quot;, &quot;maxPrecision&quot; : 1048544000 }
         ],
         &quot;features&quot;: {
                 &quot;catalog&quot; : false

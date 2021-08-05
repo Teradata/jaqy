@@ -36,7 +36,7 @@ Example
 .. code-block:: sql
 
 	-- load jaqy-s3 plugin first.
-	.load /vagrant/jaqy-s3/target/jaqy-s3-1.1.0.jar
+	.load /vagrant/jaqy-s3/target/jaqy-s3-1.2.0.jar
 
 	-- uses the existing s3 configuration
 	.import csv -h s3://mybucket/csv/test.csv

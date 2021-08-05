@@ -16,7 +16,7 @@ fi
 #
 
 case "$BUILD" in
-	doc)
+	doc|docs)
 		cd docs_src
 		make docs
 		;;

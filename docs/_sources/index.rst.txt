@@ -32,12 +32,13 @@ It is designed with the following features in mind.
   import and export formats, etc.
 
 Jaqy is mainly tested against `SQLite <https://github.com/xerial/sqlite-jdbc>`__,
-`Apache Derby <https://db.apache.org/derby/>`__, `MySQL <https://www.mysql.com/>`__
-and `PostgreSQL <https://www.postgresql.org/>`__,
+`Apache Derby <https://db.apache.org/derby/>`__, `MySQL <https://www.mysql.com/>`__,
+`Microsoft SQL Server <https://www.microsoft.com/en-us/sql-server/>`__ and
+`PostgreSQL <https://www.postgresql.org/>`__,
 since they can be easily made available as part of
 `CI <https://en.wikipedia.org/wiki/Continuous_integration>`__ process.
-Brief testings on Teradata, HIVE, Presto, Teradata Aster, Microsoft SQL Server
-etc were done, and it worked pretty well.
+Brief testings on Teradata, HIVE, Presto, Teradata Aster etc were done, and
+it worked pretty well.
 
 **This software is NOT SUPPORTED by Teradata.** This is an approved personal
 project of `@coconut2015 <https://github.com/coconut2015>`__.

@@ -30,7 +30,7 @@ Example
 	.wasb account myaccount
 	.wasb container mycontainer
 	.wasb key SomeSecretKey
-	.wasb endpoint http://127.0.0.1:10000/devstoreaccount1
+	.wasb endpoint http://127.0.0.1.2.000/devstoreaccount1
 
 	-- create a new WASB container
 	.wasb create mycontainer

@@ -18,7 +18,7 @@ Example
 	file.separator                /
 	java.awt.graphicsenv          sun.awt.X11GraphicsEnvironment
 	java.awt.printerjob           sun.print.PSPrinterJob
-	java.class.path               /vagrant/dist/jaqy-1.1.0.jar
+	java.class.path               /vagrant/dist/jaqy-1.2.0.jar
 	java.class.version            52.0
 	java.endorsed.dirs            /usr/lib/jvm/java-8-oracle/jre/lib/endorsed
 	java.ext.dirs                 /usr/lib/jvm/java-8-oracle/jre/lib/ext:/usr/java/packages/lib/ext
@@ -54,7 +54,7 @@ Example
 	sun.cpu.endian                little
 	sun.cpu.isalist
 	sun.io.unicode.encoding       UnicodeLittle
-	sun.java.command              /vagrant/dist/jaqy-1.1.0.jar
+	sun.java.command              /vagrant/dist/jaqy-1.2.0.jar
 	sun.java.launcher             SUN_STANDARD
 	sun.jnu.encoding              UTF-8
 	sun.management.compiler       HotSpot 64-Bit Tiered Compilers

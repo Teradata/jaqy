@@ -16,64 +16,75 @@ Thus, ``/* */`` is not recognized by Jaqy.
 Launching Jaqy
 --------------
 
-Once `downloaded <download.html>`__ ``jaqy-1.1.0.jar``, it can be run using
+Once `downloaded <download.html>`__ ``jaqy-1.2.0.jar``, it can be run using
 the following command.
 
 .. code-block:: bash
 
-	java -jar jaqy-1.1.0.jar
+	java -jar jaqy-1.2.0.jar
 
 If you need to load / export large amount of data though, it can be necessary
 to allocate a bit more memory.
 
 .. code-block:: bash
 
-	java -Xmx256m -jar jaqy-1.1.0.jar
+	java -Xmx256m -jar jaqy-1.2.0.jar
 
 If you are going to have Unicode outputs, it may be necessary to specify the
 encoding for the standard output.
 
 .. code-block:: bash
 
-	java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.1.0.jar
+	java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.2.0.jar
 
 It is recommended to have the above script in an alias
 
 .. code-block:: bash
 
-	alias jq='java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.1.0.jar'
+	alias jq='java -Dfile.encoding=UTF-8 -Xmx256m -jar jaqy-1.2.0.jar'
 
 or a batch file.
 
 Opening a Connection
 --------------------
 
-Here I use Teradata JDBC as an example.
+To connect a database, you will need to the `JDBC driver <jdbcdriver.html>`__ for
+your database.  Here I use Teradata JDBC driver as an example.
 
 .. code-block::	sql
 
 	.protocol teradata com.teradata.jdbc.TeraDriver
-	.classpath teradata lib/tdgssconfig.jar:lib/terajdbc4.jar
+	.classpath teradata lib/terajdbc4.jar
 	.open -u dbc -p dbc teradata://127.0.0.1
 
-The first command specifies the driver informationi for ``teradata`` protocol.
-The second command specifies the class path to dynamically load the driver.
-In this case, two jar files are necessary.  The last command actually opens
+The first command `.protocol <command/protocol.html>`__ specifies the driver
+information for ``teradata`` protocol.  The second command
+`.classpath <command/classpath.html>`__ specifies the class path to dynamically
+load the driver.  The last command `.open <command/open.html>`__ actually opens
 a JDBC connection to ``127.0.0.1`` with user ``dbc`` and password ``dbc``.
 
-The first command is actually not necessary since Jaqy actual knows
+The ``.protocol`` command is actually not necessary here since Jaqy actual knows
 the driver name of several databases.  You can look at the existing list of
 driver names by simply run ``.protocol`` command by itself.
 
-The second command if used frequently, can be put in ``~/.jqrc`` so that one
-does not need to type it.  The driver is not loaded until the corresponding
-JDBC protocol is used.
+The ``.classpath`` command if used frequently, can be put in ``.jqrc`` in your
+home directory, so that one does not need to type it.  The driver is not
+loaded until the corresponding JDBC protocol is used.
+
+.. note::
+
+	In Jaqy, all relative paths are relative to the current script file (which
+	can be nested), or in case of interactive mode, the current working directory.
 
 The ``.open`` command is used to initiate a database connection via JDBC
 driver.  ``-u`` option is used to specify the user name ``dbc`` and ``-p``
 option is used to specify the password ``dbc``.  The connection URL
 ``teradata://127.0.0.1`` is basically a JDBC connection URL without ``jdbc:``
 prefix.
+
+.. tip::
+
+    Use ``.@open`` instead of ``.open`` in scripts to hide the command which contains the password.
 
 Exeuting a SQL Query
 --------------------

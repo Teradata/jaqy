@@ -17,4 +17,4 @@ Example
 .. code-block:: sql
 
 	-- Load AVRO import / export plugin
-	.load /vagrant/jaqy-avro/target/jaqy-avro-1.1.0.jar
+	.load /vagrant/jaqy-avro/target/jaqy-avro-1.2.0.jar

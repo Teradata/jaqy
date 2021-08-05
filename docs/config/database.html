@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Database Configurations &mdash; Jaqy 1.1.0 documentation</title>
+  <title>Database Configurations &mdash; Jaqy 1.2.0 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'1.1.0',
+              VERSION:'1.2.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.0
               </div>
             
           
@@ -99,10 +99,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Documentation</span></p>
+              <p class="caption"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/Teradata/jaqy">Github Source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jdbcdriver.html">JDBC Drivers</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorial</span></p>
 <ul>
@@ -221,8 +223,10 @@ only be applied before connecting to the database.</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">&quot;catalog&quot;</span> <span class="pre">:</span> <span class="pre">false</span></code> if the database does not support catalog.</li>
 <li><code class="docutils literal"><span class="pre">&quot;schema&quot;</span> <span class="pre">:</span> <span class="pre">false</span></code> if the database does not support schema.</li>
-<li><code class="docutils literal"><span class="pre">&quot;stream&quot;</span> <span class="pre">:</span> <span class="pre">false</span></code> if the database does not support binary / character
+<li><code class="docutils literal"><span class="pre">&quot;stream&quot;</span> <span class="pre">:</span> <span class="pre">false</span></code> if the driver does not support binary / character
 streams or LOBs.</li>
+<li><code class="docutils literal"><span class="pre">&quot;streamLength&quot;</span> <span class="pre">:</span> <span class="pre">false</span></code> if the driver does not support the length
+information in setCharacterStream and setBinaryStream calls.</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">schemaSQL</span></code> is used by <a class="reference external" href="../command/pwd.html">.pwd</a> and
 <a class="reference external" href="../command/list.html">.list</a> commands to determine the current schema.</p>
@@ -234,14 +238,16 @@ to construct the SQL query.</p>
 the table schema in SQL.  Jaqy uses
 <a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/text/MessageFormat.html">MessageFormat</a>
 to construct the SQL query.</p>
-<p><code class="docutils literal"><span class="pre">typeMap</span></code> sets up certain type information for properly inferring the type
-information.  JDBC’s
+<p><code class="docutils literal"><span class="pre">typeMap</span></code> sets up certain type information for properly inferring the SQL type
+information from JDBC type.  JDBC’s
 <a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/DatabaseMetaData.html#getTypeInfo--">DatabaseMetadata.getTypeInfo()</a>.
 has a number of limitations that makes it difficult to use.  Usually only types
 such as <code class="docutils literal"><span class="pre">VARCHAR(1000)</span></code> with variable length information needs to be
 specified.  Jaqy uses
 <a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/text/MessageFormat.html">MessageFormat</a>
 to construct the type name, with precision and scale passed to it.</p>
+<p><code class="docutils literal"><span class="pre">importMap</span></code> is similar to typeMap, except that it is the preferred type for
+database imports.</p>
 <p>Occasionally, for databases with multiple types for the same type identifier,
 the most common one to use may be specified here as well.</p>
 </div>
