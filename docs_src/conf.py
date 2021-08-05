@@ -46,7 +46,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Jaqy'
-copyright = u'2017-2018, Teradata Corporation'
+copyright = u'2017-2021, Teradata Corporation'
 author = u'Heng Yuan'
 
 # The version info for the project you're documenting, acts as replacement for
