@@ -68,7 +68,7 @@ public class CSVUtils
         // Instead of always using CRLF, use LF on Unix systems
         if (SystemUtils.IS_OS_UNIX)
         {
-            return CSVFormat.DEFAULT.withRecordSeparator ('\n');
+            return CSVFormat.DEFAULT.builder().setRecordSeparator ('\n').build ();
         }
         return CSVFormat.DEFAULT;
     }

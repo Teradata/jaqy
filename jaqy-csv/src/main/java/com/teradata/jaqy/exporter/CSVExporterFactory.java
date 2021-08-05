@@ -74,7 +74,7 @@ public class CSVExporterFactory extends JaqyHandlerFactoryImpl<JaqyExporter>
                     char delimiter = CSVUtils.getChar (option.getValue ());
                     if (delimiter == 0)
                         throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
-                    exportOptions.format = exportOptions.format.withDelimiter (delimiter);
+                    exportOptions.format = exportOptions.format.builder().setDelimiter (delimiter).build ();
                     break;
                 }
                 case 't':

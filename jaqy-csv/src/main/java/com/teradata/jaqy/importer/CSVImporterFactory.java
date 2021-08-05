@@ -75,12 +75,12 @@ public class CSVImporterFactory extends JaqyHandlerFactoryImpl<CSVImporter>
                     char delimiter = CSVUtils.getChar (option.getValue ());
                     if (delimiter == 0)
                         throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
-                    importOptions.format = importOptions.format.withDelimiter (delimiter);
+                    importOptions.format = importOptions.format.builder().setDelimiter (delimiter).build ();
                     break;
                 }
                 case 'h':
                 {
-                    importOptions.format = importOptions.format.withHeader ();
+                    importOptions.format = importOptions.format.builder().setHeader ().build ();
                     break;
                 }
                 case 't':

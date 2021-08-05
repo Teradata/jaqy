@@ -57,7 +57,7 @@ public class CSVPrinterFactory extends JaqyHandlerFactoryImpl<JaqyPrinter>
                     char delimiter = CSVUtils.getChar (option.getValue ());
                     if (delimiter == 0)
                         throw new IllegalArgumentException ("invalid delimiter: " + option.getValue ());
-                    format = format.withDelimiter (delimiter);
+                    format = format.builder().setDelimiter (delimiter).build ();
                     break;
                 }
                 case 't':
