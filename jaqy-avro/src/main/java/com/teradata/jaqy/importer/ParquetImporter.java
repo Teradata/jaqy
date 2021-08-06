@@ -1,0 +1,288 @@
+/*
+ * Copyright (c) 2017-2021 Teradata
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.teradata.jaqy.importer;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.sql.Types;
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.avro.generic.GenericRecord;
+import org.apache.parquet.avro.AvroParquetReader;
+import org.apache.parquet.hadoop.ParquetReader;
+
+import com.teradata.jaqy.JaqyInterpreter;
+import com.teradata.jaqy.connection.JaqyConnection;
+import com.teradata.jaqy.connection.JaqyPreparedStatement;
+import com.teradata.jaqy.interfaces.JaqyHelper;
+import com.teradata.jaqy.interfaces.JaqyImporter;
+import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
+import com.teradata.jaqy.schema.ParameterInfo;
+import com.teradata.jaqy.schema.SchemaInfo;
+import com.teradata.jaqy.utils.AvroUtils;
+import com.teradata.jaqy.utils.TypesUtils;
+
+/**
+ * @author Heng Yuan
+ */
+class ParquetImporter implements JaqyImporter
+{
+    private static Object unwrapAvroObject (Object v)
+    {
+        if (v instanceof CharSequence)
+            return v.toString ();
+        if (v instanceof ByteBuffer)
+        {
+            ByteBuffer bb = (ByteBuffer)v;
+            byte[] bytes = new byte[bb.remaining ()];
+            bb.get (bytes);
+            return bytes;
+        }
+        return v;
+    }
+
+    private final Path m_file;
+    private final JaqyConnection m_conn;
+    private ParquetReader<GenericRecord> m_reader;
+    private boolean m_end;
+    private GenericRecord m_record;
+    private String[] m_exps;
+
+    public ParquetImporter (JaqyConnection conn, Path file) throws IOException
+    {
+        m_conn = conn;
+        m_file = file;
+        openFile (file);
+    }
+
+    private void openFile (Path file) throws IOException
+    {
+        if (!(file instanceof FilePath))
+        {
+            throw new IOException ("Unable to get file based InputStream from " + file.getPath ());
+        }
+        m_reader = AvroParquetReader.genericRecordReader (new ParquetInputFile ((FilePath)file));
+    }
+
+    @Override
+    public void close () throws IOException
+    {
+        m_reader.close ();
+    }
+
+    @Override
+    public String getName ()
+    {
+        return "pq";
+    }
+
+    @Override
+    public SchemaInfo getSchema () throws IOException
+    {
+        GenericRecord record = m_reader.read ();
+        if (record == null)
+        {
+            return null;
+        }
+
+        SchemaInfo schema = AvroUtils.getSchema (record.getSchema (), new ParquetRecordIterator (m_reader));
+        m_reader.close ();
+        openFile (m_file);
+        return schema;
+    }
+
+    @Override
+    public boolean next () throws Exception
+    {
+        if (m_end)
+            return false;
+        try
+        {
+            m_record = m_reader.read ();
+            return m_record != null;
+        }
+        catch (Exception ex)
+        {
+        }
+        m_end = true;
+        m_reader.close ();
+        return false;
+    }
+
+    private Object getObject (Object v, ParameterInfo paramInfo) throws Exception
+    {
+        if (v == null)
+            return null;
+
+        JaqyHelper helper = m_conn.getHelper ();
+        switch (paramInfo.type)
+        {
+            case Types.BIT:
+            case Types.BOOLEAN:
+            {
+                if (v instanceof Boolean)
+                    return v;
+                if (v instanceof Number)
+                    return v;
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                break;
+            }
+            case Types.TINYINT:
+            case Types.SMALLINT:
+            case Types.INTEGER:
+            case Types.BIGINT:
+            case Types.REAL:
+            case Types.FLOAT:
+            case Types.DOUBLE:
+            case Types.DECIMAL:
+            case Types.NUMERIC:
+            {
+                if (v instanceof Boolean)
+                {
+                    if (((Boolean)v).booleanValue ())
+                        return 1;
+                    else
+                        return 0;
+                }
+                if (v instanceof Number)
+                    return v;
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                break;
+            }
+            case Types.CHAR:
+            case Types.VARCHAR:
+            case Types.LONGVARCHAR:
+            case Types.CLOB:
+            case Types.NCHAR:
+            case Types.NVARCHAR:
+            case Types.LONGNVARCHAR:
+            case Types.NCLOB:
+            case Types.SQLXML:
+            case Types.DATE:
+            case Types.TIME:
+            case Types.TIMESTAMP:
+            case Types.TIME_WITH_TIMEZONE:
+            case Types.TIMESTAMP_WITH_TIMEZONE:
+            {
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                break;
+            }
+            case Types.BINARY:
+            case Types.VARBINARY:
+            case Types.LONGVARBINARY:
+            case Types.BLOB:
+            {
+                if (v instanceof ByteBuffer)
+                {
+                    ByteBuffer bb = (ByteBuffer) v;
+                    byte[] bytes = new byte[bb.remaining ()];
+                    bb.get (bytes);
+                    return bytes;
+                }
+                break;
+            }
+            case Types.ARRAY:
+            {
+                if (v instanceof List)
+                {
+                    Object[] objs = new Object[((List<?>)v).size ()];
+                    ((List<?>) v).toArray (objs);
+                    for (int i = 0; i < objs.length; ++i)
+                    {
+                        objs[i] = unwrapAvroObject (objs[i]);
+                    }
+                    return helper.createArrayOf (paramInfo, objs);
+                }
+                break;
+            }
+            case Types.STRUCT:
+            {
+                if (v instanceof List)
+                {
+                    Object[] objs = new Object[((List<?>)v).size ()];
+                    ((List<?>) v).toArray (objs);
+                    for (int i = 0; i < objs.length; ++i)
+                    {
+                        objs[i] = unwrapAvroObject (objs[i]);
+                    }
+                    return helper.createStruct (paramInfo, objs);
+                }
+                break;
+            }
+            case Types.OTHER:
+            {
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                if (v instanceof ByteBuffer)
+                {
+                    ByteBuffer bb = (ByteBuffer) v;
+                    byte[] bytes = new byte[bb.remaining ()];
+                    bb.get (bytes);
+                    return bytes;
+                }
+                break;
+            }
+            case Types.NULL:
+            {
+                // MySQL do not provide type info
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                if (v instanceof ByteBuffer)
+                {
+                    ByteBuffer bb = (ByteBuffer) v;
+                    byte[] bytes = new byte[bb.remaining ()];
+                    bb.get (bytes);
+                    return bytes;
+                }
+                return v;
+            }
+        }
+        throw new IOException ("Type mismatch: object is " + v.getClass () + ", target type is " + TypesUtils.getTypeName (paramInfo.type));
+    }
+
+    @Override
+    public void setParameters (String[] exps)
+    {
+        m_exps = exps;
+    }
+
+    @Override
+    public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
+    {
+        Object obj = getObject (column - 1, paramInfo, interpreter);
+        if (obj == null)
+        {
+            stmt.setNull (column, paramInfo.type, paramInfo.typeName);
+        }
+        else
+        {
+            stmt.getHelper ().setObject (stmt, column, paramInfo, obj, freeList, interpreter);
+        }
+        return obj;
+    }
+
+    private Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
+    {
+        if (m_exps == null)
+            return getObject (m_record.get (index), paramInfo);
+        return getObject (m_record.get (m_exps[index]), paramInfo);
+    }
+}

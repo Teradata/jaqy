@@ -1,0 +1,131 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- pq import / export combo test
+--------------------------------------------------------------------------
+.run ../common/mysql_setup.sql
+-- Running script: ../common/mysql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u root mysql://localhost/?useUnicode=true&characterEncoding=utf-8&useSSL=false
+-- 0/2 - 0 ----------------------------------------------------------------
+USE vagrant;
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE BinTable
+(
+	a  INTEGER,
+	c1 BINARY(10),
+	c2 VARBINARY(10),
+	c3 BLOB,
+	c4 ENUM('a','b','c') CHARACTER SET BINARY
+);
+-- success. update count = 0
+-- 2/2 - 0 ----------------------------------------------------------------
+.format table
+-- 2/3 - 0 ----------------------------------------------------------------
+.desc BinTable
+Field Type              Null Key Default Extra
+----- ----------------- ---- --- ------- -----
+a     int(11)           YES      ?       
+c1    binary(10)        YES      ?       
+c2    varbinary(10)     YES      ?       
+c3    blob              YES      ?       
+c4    enum('a','b','c') YES      ?       
+-- 2/4 - 0 ----------------------------------------------------------------
+.desc -s BinTable
+CREATE TABLE `BinTable` (
+  `a` int(11) DEFAULT NULL,
+  `c1` binary(10) DEFAULT NULL,
+  `c2` varbinary(10) DEFAULT NULL,
+  `c3` blob,
+  `c4` enum('a','b','c') CHARACTER SET binary DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+-- 2/5 - 0 ----------------------------------------------------------------
+
+INSERT INTO BinTable VALUES (1, X'deadbeef', X'deadbeef', X'deadbeef', 'a');
+-- success. update count = 1
+-- 3/5 - 0 ----------------------------------------------------------------
+INSERT INTO BinTable VALUES (2, X'facefeed', X'facefeed', X'facefeed', 'b');
+-- success. update count = 1
+-- 4/5 - 0 ----------------------------------------------------------------
+INSERT INTO BinTable VALUES (3, X'facefeed', X'face', X'feed', 'c');
+-- success. update count = 1
+-- 5/5 - 0 ----------------------------------------------------------------
+INSERT INTO BinTable VALUES (4, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 6/5 - 0 ----------------------------------------------------------------
+
+SELECT * FROM BinTable ORDER BY 1;
+-- success --
+a c1                   c2       c3       c4
+- -------------------- -------- -------- --
+1 deadbeef000000000000 deadbeef deadbeef 61
+2 facefeed000000000000 facefeed facefeed 62
+3 facefeed000000000000 face     feed     63
+4 ?                    ?        ?        ?
+-- activity count = 4
+-- 7/5 - 0 ----------------------------------------------------------------
+
+.export pq file_io_1.parquet
+-- 7/6 - 0 ----------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY 1;
+-- success --
+-- activity count = 4
+-- 8/6 - 0 ----------------------------------------------------------------
+
+DELETE FROM BinTable;
+-- success. update count = 4
+-- 9/6 - 0 ----------------------------------------------------------------
+.import pq file_io_1.parquet
+-- 9/7 - 0 ----------------------------------------------------------------
+INSERT INTO BinTable VALUES (?, ?, ?, ?, ?);
+-- success. update count = 1
+-- 10/7 - 0 ---------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY 1;
+-- success --
+a c1                   c2       c3       c4
+- -------------------- -------- -------- --
+1 deadbeef000000000000 deadbeef deadbeef 61
+2 facefeed000000000000 facefeed facefeed 62
+3 facefeed000000000000 face     feed     63
+4 ?                    ?        ?        ?
+-- activity count = 4
+-- 11/7 - 0 ---------------------------------------------------------------
+DROP TABLE BinTable;
+-- success. update count = 0
+-- 12/7 - 0 ---------------------------------------------------------------
+
+.import pq file_io_1.parquet
+-- 12/8 - 0 ---------------------------------------------------------------
+.importtable BinTable
+-- Table Schema --
+CREATE TABLE BinTable
+(
+	`a` INTEGER,
+	`c1` BLOB,
+	`c2` BLOB,
+	`c3` BLOB,
+	`c4` BLOB
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO BinTable VALUES (?,?,?,?,?)
+-- success. update count = 1
+-- 14/9 - 0 ---------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY 1;
+-- success --
+a c1                   c2       c3       c4
+- -------------------- -------- -------- ----
+1 deadbeef000000000000 deadbeef deadbeef 61
+2 facefeed000000000000 facefeed facefeed 62
+3 facefeed000000000000 face     feed     63
+4 ?                    ?        ?        ?
+-- activity count = 4
+-- 15/9 - 0 ---------------------------------------------------------------
+DROP TABLE BinTable;
+-- success. update count = 0
+-- 16/9 - 0 ---------------------------------------------------------------
+
+.os rm -f file_io_?.parquet
+-- 16/10 - 0 --------------------------------------------------------------

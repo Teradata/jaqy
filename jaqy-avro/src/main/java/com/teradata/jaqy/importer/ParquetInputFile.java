@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Teradata
+ * Copyright (c) 2021 Heng Yuan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,47 +18,32 @@ package com.teradata.jaqy.importer;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.apache.avro.file.SeekableInput;
+import org.apache.parquet.io.InputFile;
+import org.apache.parquet.io.SeekableInputStream;
+
+import com.teradata.jaqy.path.FilePath;
 
 /**
  * @author  Heng Yuan
  */
-public class AvroInputStream implements SeekableInput
+public class ParquetInputFile implements InputFile
 {
-    private final FileInputStream m_is;
+    private FilePath m_path;
 
-    public AvroInputStream (FileInputStream is)
+    public ParquetInputFile (FilePath path)
     {
-        m_is = is;
+        m_path = path;
     }
 
     @Override
-    public void close () throws IOException
+    public long getLength () throws IOException
     {
-        m_is.close ();
+        return m_path.length ();
     }
 
     @Override
-    public void seek (long p) throws IOException
+    public SeekableInputStream newStream () throws IOException
     {
-        m_is.getChannel ().position (p);
-    }
-
-    @Override
-    public long tell () throws IOException
-    {
-        return m_is.getChannel ().position ();
-    }
-
-    @Override
-    public long length () throws IOException
-    {
-        return m_is.getChannel ().size ();
-    }
-
-    @Override
-    public int read (byte[] b, int off, int len) throws IOException
-    {
-        return m_is.read (b, off, len);
+        return new FileSeekableInputStream ((FileInputStream)m_path.getInputStream ());
     }
 }

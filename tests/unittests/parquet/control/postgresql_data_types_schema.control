@@ -1,0 +1,837 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test PostgreSQL various data types
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+SET TIME ZONE '-04:00';
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+CREATE TABLE NumTable
+(
+	a  INTEGER,
+	c1 SMALLINT,
+	c2 INTEGER,
+	c3 BIGINT,
+	c4 FLOAT,
+	c5 DOUBLE PRECISION
+);
+-- success. update count = 0
+-- 2/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO NumTable VALUES (1, -12345, -123456789, -1234567890, -1234.5, -4.5e15);
+-- success. update count = 1
+-- 3/2 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES (2, 12345, 123456789, 1234567890, 1234.5, 4.5e15);
+-- success. update count = 1
+-- 4/2 - 0 ----------------------------------------------------------------
+INSERT INTO NumTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 5/2 - 0 ----------------------------------------------------------------
+
+.export pq num.parquet
+-- 5/3 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 6/3 - 0 ----------------------------------------------------------------
+DELETE FROM NumTable;
+-- success. update count = 3
+-- 7/3 - 0 ----------------------------------------------------------------
+.import pq num.parquet
+-- 7/4 - 0 ----------------------------------------------------------------
+.importschema
+Column Type   Nullable
+------ ------ --------
+a      int4   Yes
+c1     int4   Yes
+c2     int4   Yes
+c3     int8   Yes
+c4     float8 Yes
+c5     float8 Yes
+-- 7/5 - 0 ----------------------------------------------------------------
+.importschema -s
+CREATE TABLE TABLENAME
+(
+	"a" int4,
+	"c1" int4,
+	"c2" int4,
+	"c3" int8,
+	"c4" float8,
+	"c5" float8
+)
+-- 7/6 - 0 ----------------------------------------------------------------
+.importtable NumTable2
+-- Table Schema --
+CREATE TABLE NumTable2
+(
+	"a" int4,
+	"c1" int4,
+	"c2" int4,
+	"c3" int8,
+	"c4" float8,
+	"c5" float8
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO NumTable2 VALUES (?,?,?,?,?,?)
+-- 9/7 - 0 ----------------------------------------------------------------
+SELECT * FROM NumTable2 ORDER BY a;
+-- success --
+a     c1         c2          c3      c4                c5
+- ------ ---------- ----------- ------- -----------------
+1 -12345 -123456789 -1234567890 -1234.5 -4500000000000000
+2  12345  123456789  1234567890  1234.5  4500000000000000
+3      ?          ?           ?       ?                 ?
+-- activity count = 3
+-- 10/7 - 0 ---------------------------------------------------------------
+
+DROP TABLE NumTable;
+-- success. update count = 0
+-- 11/7 - 0 ---------------------------------------------------------------
+DROP TABLE NumTable2;
+-- success. update count = 0
+-- 12/7 - 0 ---------------------------------------------------------------
+
+CREATE TABLE DecTable
+(
+	a  INTEGER,
+	c1 DECIMAL(3,2),
+	c2 DECIMAL(9,2),
+	c3 DECIMAL(22,2),
+	c4 DECIMAL(31,2)
+);
+-- success. update count = 0
+-- 13/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (1, -1.23, -1234567.89, -12345678901234567890.12, -12345678901234567890123456789.01);
+-- success. update count = 1
+-- 14/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (2, 1.23, 1234567.89, 12345678901234567890.12, 12345678901234567890123456789.01);
+-- success. update count = 1
+-- 15/7 - 0 ---------------------------------------------------------------
+INSERT INTO DecTable VALUES (3, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 16/7 - 0 ---------------------------------------------------------------
+
+.export pq dec.parquet
+-- 16/8 - 0 ---------------------------------------------------------------
+SELECT * FROM DecTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 17/8 - 0 ---------------------------------------------------------------
+DELETE FROM DecTable;
+-- success. update count = 3
+-- 18/8 - 0 ---------------------------------------------------------------
+.import pq dec.parquet
+-- 18/9 - 0 ---------------------------------------------------------------
+.importtable DecTable2
+-- Table Schema --
+CREATE TABLE DecTable2
+(
+	"a" int4,
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO DecTable2 VALUES (?,?,?,?,?)
+-- 20/10 - 0 --------------------------------------------------------------
+SELECT * FROM DecTable2 ORDER BY a;
+-- success --
+a c1    c2          c3                       c4
+- ----- ----------- ------------------------ ---------------------------------
+1 -1.23 -1234567.89 -12345678901234567890.12 -12345678901234567890123456789.01
+2 1.23  1234567.89  12345678901234567890.12  12345678901234567890123456789.01
+3 ?     ?           ?                        ?
+-- activity count = 3
+-- 21/10 - 0 --------------------------------------------------------------
+
+DROP TABLE DecTable;
+-- success. update count = 0
+-- 22/10 - 0 --------------------------------------------------------------
+DROP TABLE DecTable2;
+-- success. update count = 0
+-- 23/10 - 0 --------------------------------------------------------------
+
+CREATE TABLE SerialTable
+(
+	a  INTEGER,
+	c1 SMALLSERIAL,
+	c2 SERIAL,
+	c3 BIGSERIAL
+);
+-- success. update count = 0
+-- 24/10 - 0 --------------------------------------------------------------
+
+INSERT INTO SerialTable (a) VALUES (1);
+-- success. update count = 1
+-- 25/10 - 0 --------------------------------------------------------------
+INSERT INTO SerialTable (a) VALUES (2);
+-- success. update count = 1
+-- 26/10 - 0 --------------------------------------------------------------
+
+.export pq serial.parquet
+-- 26/11 - 0 --------------------------------------------------------------
+SELECT * FROM SerialTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 27/11 - 0 --------------------------------------------------------------
+DELETE FROM SerialTable;
+-- success. update count = 2
+-- 28/11 - 0 --------------------------------------------------------------
+.import pq serial.parquet
+-- 28/12 - 0 --------------------------------------------------------------
+.importtable SerialTable2
+-- Table Schema --
+CREATE TABLE SerialTable2
+(
+	"a" int4,
+	"c1" int4,
+	"c2" int4,
+	"c3" int8
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO SerialTable2 VALUES (?,?,?,?)
+-- 30/13 - 0 --------------------------------------------------------------
+SELECT * FROM SerialTable2 ORDER BY a;
+-- success --
+a c1 c2 c3
+- -- -- --
+1  1  1  1
+2  2  2  2
+-- activity count = 2
+-- 31/13 - 0 --------------------------------------------------------------
+
+DROP TABLE SerialTable;
+-- success. update count = 0
+-- 32/13 - 0 --------------------------------------------------------------
+DROP TABLE SerialTable2;
+-- success. update count = 0
+-- 33/13 - 0 --------------------------------------------------------------
+
+CREATE TABLE StrTable
+(
+	a  INTEGER,
+	c1 VARCHAR(255),
+	c2 CHAR(1),
+	c3 CHAR(5),
+	c4 TEXT
+);
+-- success. update count = 0
+-- 34/13 - 0 --------------------------------------------------------------
+
+INSERT INTO StrTable VALUES (1, 'aa', 'A', 'abcde', 'aaaaa');
+-- success. update count = 1
+-- 35/13 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES (2, 'bbb', 'B', 'fghij', 'bbbbb');
+-- success. update count = 1
+-- 36/13 - 0 --------------------------------------------------------------
+INSERT INTO StrTable VALUES (3, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 37/13 - 0 --------------------------------------------------------------
+
+.export pq src.parquet
+-- 37/14 - 0 --------------------------------------------------------------
+SELECT * FROM StrTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 38/14 - 0 --------------------------------------------------------------
+DELETE FROM StrTable;
+-- success. update count = 3
+-- 39/14 - 0 --------------------------------------------------------------
+.import pq src.parquet
+-- 39/15 - 0 --------------------------------------------------------------
+.importtable StrTable2
+-- Table Schema --
+CREATE TABLE StrTable2
+(
+	"a" int4,
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO StrTable2 VALUES (?,?,?,?,?)
+-- 41/16 - 0 --------------------------------------------------------------
+SELECT * FROM StrTable2 ORDER BY a;
+-- success --
+a c1   c2   c3    c4
+- ---- ---- ----- -----
+1 aa   A    abcde aaaaa
+2 bbb  B    fghij bbbbb
+3 ?    ?    ?     ?
+-- activity count = 3
+-- 42/16 - 0 --------------------------------------------------------------
+
+DROP TABLE StrTable;
+-- success. update count = 0
+-- 43/16 - 0 --------------------------------------------------------------
+DROP TABLE StrTable2;
+-- success. update count = 0
+-- 44/16 - 0 --------------------------------------------------------------
+
+CREATE TABLE BinTable
+(
+	a  INTEGER,
+	c1 BYTEA
+);
+-- success. update count = 0
+-- 45/16 - 0 --------------------------------------------------------------
+
+INSERT INTO BinTable VALUES (1, E'\\xdeadbeef');
+-- success. update count = 1
+-- 46/16 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
+-- success. update count = 1
+-- 47/16 - 0 --------------------------------------------------------------
+INSERT INTO BinTable VALUES (3, NULL);
+-- success. update count = 1
+-- 48/16 - 0 --------------------------------------------------------------
+
+.export pq bin.parquet
+-- 48/17 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 49/17 - 0 --------------------------------------------------------------
+DELETE FROM BinTable;
+-- success. update count = 3
+-- 50/17 - 0 --------------------------------------------------------------
+.import pq bin.parquet
+-- 50/18 - 0 --------------------------------------------------------------
+.importtable BinTable2
+-- Table Schema --
+CREATE TABLE BinTable2
+(
+	"a" int4,
+	"c1" bytea
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO BinTable2 VALUES (?,?)
+-- 52/19 - 0 --------------------------------------------------------------
+SELECT * FROM BinTable2 ORDER BY a;
+-- success --
+a c1
+- --
+1 de
+2 fa
+3 ?
+-- activity count = 3
+-- 53/19 - 0 --------------------------------------------------------------
+
+DROP TABLE BinTable;
+-- success. update count = 0
+-- 54/19 - 0 --------------------------------------------------------------
+DROP TABLE BinTable2;
+-- success. update count = 0
+-- 55/19 - 0 --------------------------------------------------------------
+
+CREATE TABLE TimeTable
+(
+	a  INTEGER,
+	c1 DATE,
+	c2 TIME,
+	c3 TIME WITH TIME ZONE,
+	c4 TIMESTAMP,
+	c5 TIMESTAMP WITH TIME ZONE
+);
+-- success. update count = 0
+-- 56/19 - 0 --------------------------------------------------------------
+
+INSERT INTO TimeTable VALUES (1, '2001-02-03', '12:34:56', '12:34:56-08:00', '2001-02-03 12:34:56', '2001-02-03 12:34:56-08:00');
+-- success. update count = 1
+-- 57/19 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (2, '2001-03-04', '12:34:56', '12:34:56+08:00', '2001-03-04 12:34:56', '2001-02-03 12:34:56+08:00');
+-- success. update count = 1
+-- 58/19 - 0 --------------------------------------------------------------
+INSERT INTO TimeTable VALUES (3, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 59/19 - 0 --------------------------------------------------------------
+
+.export pq time.parquet
+-- 59/20 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 60/20 - 0 --------------------------------------------------------------
+DELETE FROM TimeTable;
+-- success. update count = 3
+-- 61/20 - 0 --------------------------------------------------------------
+.import pq time.parquet
+-- 61/21 - 0 --------------------------------------------------------------
+.importtable TimeTable2
+-- Table Schema --
+CREATE TABLE TimeTable2
+(
+	"a" int4,
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text,
+	"c5" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO TimeTable2 VALUES (?,?,?,?,?,?)
+-- 63/22 - 0 --------------------------------------------------------------
+SELECT * FROM TimeTable2 ORDER BY a;
+-- success --
+a c1         c2       c3       c4                    c5
+- ---------- -------- -------- --------------------- ---------------------
+1 2001-02-03 12:34:56 12:34:56 2001-02-03 12:34:56.0 2001-02-03 12:34:56.0
+2 2001-03-04 12:34:56 20:34:56 2001-03-04 12:34:56.0 2001-02-02 20:34:56.0
+3 ?          ?        ?        ?                     ?
+-- activity count = 3
+-- 64/22 - 0 --------------------------------------------------------------
+
+DROP TABLE TimeTable;
+-- success. update count = 0
+-- 65/22 - 0 --------------------------------------------------------------
+DROP TABLE TimeTable2;
+-- success. update count = 0
+-- 66/22 - 0 --------------------------------------------------------------
+
+CREATE TABLE XmlTable
+(
+	a  INTEGER,
+	c1 XML
+);
+-- success. update count = 0
+-- 67/22 - 0 --------------------------------------------------------------
+
+INSERT INTO XmlTable VALUES (1, '<abc>1234</abc>');
+-- success. update count = 1
+-- 68/22 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES (2, '<abc>2345</abc>');
+-- success. update count = 1
+-- 69/22 - 0 --------------------------------------------------------------
+INSERT INTO XmlTable VALUES (3, NULL);
+-- success. update count = 1
+-- 70/22 - 0 --------------------------------------------------------------
+
+.export pq xml.parquet
+-- 70/23 - 0 --------------------------------------------------------------
+SELECT * FROM XmlTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 71/23 - 0 --------------------------------------------------------------
+DELETE FROM XmlTable;
+-- success. update count = 3
+-- 72/23 - 0 --------------------------------------------------------------
+.import pq xml.parquet
+-- 72/24 - 0 --------------------------------------------------------------
+.importtable XmlTable2
+-- Table Schema --
+CREATE TABLE XmlTable2
+(
+	"a" int4,
+	"c1" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO XmlTable2 VALUES (?,?)
+-- 74/25 - 0 --------------------------------------------------------------
+SELECT * FROM XmlTable2 ORDER BY a;
+-- success --
+a c1
+- ---------------
+1 <abc>1234</abc>
+2 <abc>2345</abc>
+3 ?
+-- activity count = 3
+-- 75/25 - 0 --------------------------------------------------------------
+
+DROP TABLE XmlTable;
+-- success. update count = 0
+-- 76/25 - 0 --------------------------------------------------------------
+DROP TABLE XmlTable2;
+-- success. update count = 0
+-- 77/25 - 0 --------------------------------------------------------------
+
+CREATE TABLE JsonTable
+(
+	a  INTEGER,
+	c1 JSON
+);
+-- success. update count = 0
+-- 78/25 - 0 --------------------------------------------------------------
+
+INSERT INTO JsonTable VALUES (1, '{"abc":"def"}');
+-- success. update count = 1
+-- 79/25 - 0 --------------------------------------------------------------
+INSERT INTO JsonTable VALUES (2, '[123, 456, true, null, "hello"]');
+-- success. update count = 1
+-- 80/25 - 0 --------------------------------------------------------------
+
+.export pq j.parquet
+-- 80/26 - 0 --------------------------------------------------------------
+SELECT * FROM JsonTable ORDER BY a;
+-- success --
+-- activity count = 2
+-- 81/26 - 0 --------------------------------------------------------------
+DELETE FROM JsonTable;
+-- success. update count = 2
+-- 82/26 - 0 --------------------------------------------------------------
+.import pq j.parquet
+-- 82/27 - 0 --------------------------------------------------------------
+.importtable JsonTable2
+-- Table Schema --
+CREATE TABLE JsonTable2
+(
+	"a" int4,
+	"c1" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO JsonTable2 VALUES (?,?)
+-- 84/28 - 0 --------------------------------------------------------------
+SELECT * FROM JsonTable2 ORDER BY a;
+-- success --
+a c1
+- -------------------------------
+1 {"abc":"def"}
+2 [123, 456, true, null, "hello"]
+-- activity count = 2
+-- 85/28 - 0 --------------------------------------------------------------
+
+DROP TABLE JsonTable;
+-- success. update count = 0
+-- 86/28 - 0 --------------------------------------------------------------
+DROP TABLE JsonTable2;
+-- success. update count = 0
+-- 87/28 - 0 --------------------------------------------------------------
+
+CREATE TABLE GeoTable
+(
+	a  INTEGER,
+	c1 POINT,
+	c2 LSEG,
+	c3 BOX,
+	c4 PATH,
+	c5 POLYGON,
+	c6 CIRCLE
+);
+-- success. update count = 0
+-- 88/28 - 0 --------------------------------------------------------------
+
+INSERT INTO GeoTable VALUES (1, '(1,2)', '((1,1),(2,2))', '((1,1),(2,2))', '((1,1),(2,2))', '((0,0),(0,1),(1,1),(1,0))','<(0,0),1>');
+-- success. update count = 1
+-- 89/28 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES (2, '(2,2)', '((2,2),(3,3))', '((2,2),(3,3))', '((0,0),(0,1),(1,1),(1,0),(0,0))', '((0,0),(0,1),(1,1),(1,0),(0,0))','<(0,0),1>');
+-- success. update count = 1
+-- 90/28 - 0 --------------------------------------------------------------
+INSERT INTO GeoTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 91/28 - 0 --------------------------------------------------------------
+
+.export pq geo.parquet
+-- 91/29 - 0 --------------------------------------------------------------
+SELECT * FROM GeoTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 92/29 - 0 --------------------------------------------------------------
+DELETE FROM GeoTable;
+-- success. update count = 3
+-- 93/29 - 0 --------------------------------------------------------------
+.import pq geo.parquet
+-- 93/30 - 0 --------------------------------------------------------------
+.importtable GeoTable2
+-- Table Schema --
+CREATE TABLE GeoTable2
+(
+	"a" int4,
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text,
+	"c5" text,
+	"c6" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO GeoTable2 VALUES (?,?,?,?,?,?,?)
+-- 95/31 - 0 --------------------------------------------------------------
+SELECT * FROM GeoTable2 ORDER BY a;
+-- success --
+a c1        c2                    c3                  c4                                                  c5                                                  c6
+- --------- --------------------- ------------------- --------------------------------------------------- --------------------------------------------------- ---------------
+1 (1.0,2.0) [(1.0,1.0),(2.0,2.0)] (2.0,2.0),(1.0,1.0) ((1.0,1.0),(2.0,2.0))                               ((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0))           <(0.0,0.0),1.0>
+2 (2.0,2.0) [(2.0,2.0),(3.0,3.0)] (3.0,3.0),(2.0,2.0) ((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0)) ((0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0)) <(0.0,0.0),1.0>
+3 ?         ?                     ?                   ?                                                   ?                                                   ?
+-- activity count = 3
+-- 96/31 - 0 --------------------------------------------------------------
+
+DROP TABLE GeoTable;
+-- success. update count = 0
+-- 97/31 - 0 --------------------------------------------------------------
+DROP TABLE GeoTable2;
+-- success. update count = 0
+-- 98/31 - 0 --------------------------------------------------------------
+
+CREATE TABLE NetTable
+(
+	a  INTEGER,
+	c1 CIDR,
+	c2 INET,
+	c3 MACADDR
+);
+-- success. update count = 0
+-- 99/31 - 0 --------------------------------------------------------------
+
+INSERT INTO NetTable VALUES (1, '192.168.100.128/25', '127.0.0.1', '08:00:2b:01:02:03');
+-- success. update count = 1
+-- 100/31 - 0 -------------------------------------------------------------
+INSERT INTO NetTable VALUES (2, '192.168/24', '192.168.1.1', '08-00-2b-01-02-03');
+-- success. update count = 1
+-- 101/31 - 0 -------------------------------------------------------------
+INSERT INTO NetTable VALUES (3, NULL, NULL, NULL);
+-- success. update count = 1
+-- 102/31 - 0 -------------------------------------------------------------
+
+.export pq net.parquet
+-- 102/32 - 0 -------------------------------------------------------------
+SELECT * FROM NetTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 103/32 - 0 -------------------------------------------------------------
+DELETE FROM NetTable;
+-- success. update count = 3
+-- 104/32 - 0 -------------------------------------------------------------
+.import pq net.parquet
+-- 104/33 - 0 -------------------------------------------------------------
+.importtable NetTable2
+-- Table Schema --
+CREATE TABLE NetTable2
+(
+	"a" int4,
+	"c1" text,
+	"c2" text,
+	"c3" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO NetTable2 VALUES (?,?,?,?)
+-- 106/34 - 0 -------------------------------------------------------------
+SELECT * FROM NetTable2 ORDER BY a;
+-- success --
+a c1                 c2          c3
+- ------------------ ----------- -----------------
+1 192.168.100.128/25 127.0.0.1   08:00:2b:01:02:03
+2 192.168.0.0/24     192.168.1.1 08:00:2b:01:02:03
+3 ?                  ?           ?
+-- activity count = 3
+-- 107/34 - 0 -------------------------------------------------------------
+
+DROP TABLE NetTable;
+-- success. update count = 0
+-- 108/34 - 0 -------------------------------------------------------------
+DROP TABLE NetTable2;
+-- success. update count = 0
+-- 109/34 - 0 -------------------------------------------------------------
+
+CREATE TABLE RangeTable
+(
+	a  INTEGER,
+	c1 INT4RANGE,
+	c2 INT8RANGE,
+	c3 NUMRANGE,
+	c4 TSRANGE,
+	c5 TSTZRANGE,
+	c6 DATERANGE
+);
+-- success. update count = 0
+-- 110/34 - 0 -------------------------------------------------------------
+
+INSERT INTO RangeTable VALUES (1, '[1, 2]', '[12345,67890]', '[123.45,678.90]', '[2010-01-01 14:30, 2010-01-01 15:30]', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00]', '[2001-02-03,2002-03-04]');
+-- success. update count = 1
+-- 111/34 - 0 -------------------------------------------------------------
+INSERT INTO RangeTable VALUES (2, '[1, 2)', '[12345,67890)', '[123.45,678.90)', '[2010-01-01 14:30, 2010-01-01 15:30)', '[2010-01-01 14:30-08:00, 2010-01-01 15:30-08:00)', '[2001-02-03,2002-03-04)');
+-- success. update count = 1
+-- 112/34 - 0 -------------------------------------------------------------
+INSERT INTO RangeTable VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 113/34 - 0 -------------------------------------------------------------
+
+.export pq range.parquet
+-- 113/35 - 0 -------------------------------------------------------------
+SELECT * FROM RangeTable ORDER BY a;
+-- success --
+-- activity count = 3
+-- 114/35 - 0 -------------------------------------------------------------
+DELETE FROM RangeTable;
+-- success. update count = 3
+-- 115/35 - 0 -------------------------------------------------------------
+.import pq range.parquet
+-- 115/36 - 0 -------------------------------------------------------------
+.importtable RangeTable2
+-- Table Schema --
+CREATE TABLE RangeTable2
+(
+	"a" int4,
+	"c1" text,
+	"c2" text,
+	"c3" text,
+	"c4" text,
+	"c5" text,
+	"c6" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO RangeTable2 VALUES (?,?,?,?,?,?,?)
+-- 117/37 - 0 -------------------------------------------------------------
+SELECT * FROM RangeTable2 ORDER BY a;
+-- success --
+a c1    c2            c3              c4                                            c5                                                  c6
+- ----- ------------- --------------- --------------------------------------------- --------------------------------------------------- -----------------------
+1 [1,3) [12345,67891) [123.45,678.90] ["2010-01-01 14:30:00","2010-01-01 15:30:00"] ["2010-01-02 02:30:00+04","2010-01-02 03:30:00+04"] [2001-02-03,2002-03-05)
+2 [1,2) [12345,67890) [123.45,678.90) ["2010-01-01 14:30:00","2010-01-01 15:30:00") ["2010-01-02 02:30:00+04","2010-01-02 03:30:00+04") [2001-02-03,2002-03-04)
+3 ?     ?             ?               ?                                             ?                                                   ?
+-- activity count = 3
+-- 118/37 - 0 -------------------------------------------------------------
+
+DROP TABLE RangeTable;
+-- success. update count = 0
+-- 119/37 - 0 -------------------------------------------------------------
+DROP TABLE RangeTable2;
+-- success. update count = 0
+-- 120/37 - 0 -------------------------------------------------------------
+
+CREATE TABLE MiscTable1
+(
+	a  INTEGER,
+	c1 BOOLEAN,
+	c2 BIT VARYING(8),
+	c3 UUID,
+	c4 MONEY
+);
+-- success. update count = 0
+-- 121/37 - 0 -------------------------------------------------------------
+
+INSERT INTO MiscTable1 VALUES (1, true, B'101', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 12.34);
+-- success. update count = 1
+-- 122/37 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES (2, false, B'1010', 'a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11', 23.45);
+-- success. update count = 1
+-- 123/37 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable1 VALUES (3, NULL, NULL, NULL, NULL);
+-- success. update count = 1
+-- 124/37 - 0 -------------------------------------------------------------
+
+.export pq misc1.parquet
+-- 124/38 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable1 ORDER BY a;
+-- success --
+-- activity count = 3
+-- 125/38 - 0 -------------------------------------------------------------
+DELETE FROM MiscTable1;
+-- success. update count = 3
+-- 126/38 - 0 -------------------------------------------------------------
+-- DOUBLE PRECISION cannot be converted to MONEY directly.  Need to cast to
+-- TEXT and then MONEY.
+.import pq misc1.parquet
+-- 126/39 - 0 -------------------------------------------------------------
+.importtable MiscTable12
+-- Table Schema --
+CREATE TABLE MiscTable12
+(
+	"a" int4,
+	"c1" bool,
+	"c2" text,
+	"c3" text,
+	"c4" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MiscTable12 VALUES (?,?,?,?,?)
+-- 128/40 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable12 ORDER BY a;
+-- success --
+a c1 c2   c3                                   c4
+- -- ---- ------------------------------------ -----
+1 t  101  a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 12.34
+2 f  1010 a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11 23.45
+3 ?  ?    ?                                    ?
+-- activity count = 3
+-- 129/40 - 0 -------------------------------------------------------------
+
+DROP TABLE MiscTable1;
+-- success. update count = 0
+-- 130/40 - 0 -------------------------------------------------------------
+DROP TABLE MiscTable12;
+-- success. update count = 0
+-- 131/40 - 0 -------------------------------------------------------------
+
+CREATE TABLE MiscTable2
+(
+	a  INTEGER,
+	c1 TSVECTOR,
+	c2 TSQUERY
+);
+-- success. update count = 0
+-- 132/40 - 0 -------------------------------------------------------------
+
+INSERT INTO MiscTable2 VALUES (1, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
+-- success. update count = 1
+-- 133/40 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES (2, 'a fat cat sat on a mat and ate a fat rat', 'fat & rat');
+-- success. update count = 1
+-- 134/40 - 0 -------------------------------------------------------------
+INSERT INTO MiscTable2 VALUES (3, NULL, NULL);
+-- success. update count = 1
+-- 135/40 - 0 -------------------------------------------------------------
+
+.export pq misc2.parquet
+-- 135/41 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable2 ORDER BY a;
+-- success --
+-- activity count = 3
+-- 136/41 - 0 -------------------------------------------------------------
+DELETE FROM MiscTable2;
+-- success. update count = 3
+-- 137/41 - 0 -------------------------------------------------------------
+.import pq misc2.parquet
+-- 137/42 - 0 -------------------------------------------------------------
+.importtable MiscTable22
+-- Table Schema --
+CREATE TABLE MiscTable22
+(
+	"a" int4,
+	"c1" text,
+	"c2" text
+)
+-- success. update count = 0
+-- INSERTION --
+INSERT INTO MiscTable22 VALUES (?,?,?)
+-- 139/43 - 0 -------------------------------------------------------------
+SELECT * FROM MiscTable22 ORDER BY a;
+-- success --
+a c1                                                 c2
+- -------------------------------------------------- -------------
+1 'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat' 'fat' & 'rat'
+2 'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat' 'fat' & 'rat'
+3 ?                                                  ?
+-- activity count = 3
+-- 140/43 - 0 -------------------------------------------------------------
+
+DROP TABLE MiscTable2;
+-- success. update count = 0
+-- 141/43 - 0 -------------------------------------------------------------
+DROP TABLE MiscTable22;
+-- success. update count = 0
+-- 142/43 - 0 -------------------------------------------------------------
+
+.os rm -f *.parquet
+-- 142/44 - 0 -------------------------------------------------------------
+.close
+-- 142/45 - 0 -------------------------------------------------------------

@@ -26,6 +26,7 @@ import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.parquet.hadoop.ParquetWriter;
 
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
@@ -275,6 +276,44 @@ public class AvroUtils
                 }
             }
             writer.append (r);
+        }
+        return count;
+    }
+
+    public static long print (ParquetWriter<GenericRecord> writer, Schema schema, JaqyResultSet rs, SchemaInfo schemaInfo) throws Exception
+    {
+        FullColumnInfo[] columnInfos = schemaInfo.columns;
+        int columns = columnInfos.length;
+        Schema.Type[] avroTypes = new Schema.Type[columns];
+        Schema[] avroSchemas = new Schema[columns];
+
+        for (int i = 0; i < columns; ++i)
+        {
+            avroTypes[i] = getAvroType (columnInfos[i]);
+            if (avroTypes[i] == Schema.Type.ARRAY)
+            {
+                avroSchemas[i] = getArraySchema (columnInfos[i]);
+            }
+        }
+
+        long count = 0;
+        while (rs.next ())
+        {
+            ++count;
+            GenericRecord r = new GenericData.Record (schema);
+            for (int i = 0; i < columns; ++i)
+            {
+                Object obj = rs.getObject (i + 1);
+                if (obj == null)
+                {
+                    r.put (i, null);
+                }
+                else
+                {
+                    r.put (i, getAvroObject (obj, avroTypes[i], columnInfos[i], avroSchemas[i]));
+                }
+            }
+            writer.write (r);
         }
         return count;
     }

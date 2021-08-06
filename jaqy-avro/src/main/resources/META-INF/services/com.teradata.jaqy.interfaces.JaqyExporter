@@ -1,1 +1,2 @@
 com.teradata.jaqy.exporter.AvroExporterFactory
+com.teradata.jaqy.exporter.ParquetExporterFactory
