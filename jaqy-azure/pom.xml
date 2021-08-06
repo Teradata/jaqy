@@ -76,8 +76,20 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>module-info.class</exclude>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
 							<artifactSet>
 								<excludes>
+									<exclude>org.yuanheng:*</exclude>
 									<exclude>org.yuanheng.cookcc:cookcc</exclude>
 									<exclude>com.teradata.jaqy:jaqy-core</exclude>
 									<exclude>commons-cli:*</exclude>
