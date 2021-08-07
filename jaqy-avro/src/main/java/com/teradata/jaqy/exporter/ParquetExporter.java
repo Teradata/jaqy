@@ -18,10 +18,7 @@ package com.teradata.jaqy.exporter;
 import java.util.logging.Level;
 
 import org.apache.avro.Schema;
-import org.apache.avro.file.CodecFactory;
-import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.parquet.avro.AvroParquetWriter;
 import org.apache.parquet.hadoop.ParquetWriter;
 
 import com.teradata.jaqy.JaqyInterpreter;
@@ -39,12 +36,12 @@ import com.teradata.jaqy.utils.ResultSetMetaDataUtils;
 class ParquetExporter implements JaqyExporter
 {
     private final Path m_path;
-    private final CodecFactory m_codecFactory;
+    private final ParquetExporterOptions m_options;
 
-    public ParquetExporter (Path path, CodecFactory codecFactory)
+    public ParquetExporter (Path path, ParquetExporterOptions options)
     {
         m_path = path;
-        m_codecFactory = codecFactory;
+        m_options = options;
     }
 
     @Override
@@ -61,11 +58,7 @@ class ParquetExporter implements JaqyExporter
         Schema schema = AvroUtils.getSchema (schemaInfo, helper);
         interpreter.getGlobals ().log (Level.INFO, "schema is " + schema.toString (true));
 
-        try (ParquetWriter<GenericRecord> writer =
-                AvroParquetWriter.<GenericRecord>builder (new JaqyOutputFile (m_path))
-                .withDataModel(GenericData.get())
-                .withSchema (schema)
-                .build ())
+        try (ParquetWriter<GenericRecord> writer = m_options.build (m_path, schema))
         {
             long count = AvroUtils.print (writer, schema, rs, schemaInfo);
             return count;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.exporter;
+package com.teradata.jaqy.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,12 +23,12 @@ import org.apache.parquet.io.PositionOutputStream;
 /**
  * @author  Heng Yuan
  */
-public class JaqyPositionOutputStream extends PositionOutputStream
+public class JaqyParquetPositionOutputStream extends PositionOutputStream
 {
     private long m_pos;
     private OutputStream m_os;
 
-    public JaqyPositionOutputStream (OutputStream os)
+    public JaqyParquetPositionOutputStream (OutputStream os)
     {
         m_os = os;
         m_pos = 0;

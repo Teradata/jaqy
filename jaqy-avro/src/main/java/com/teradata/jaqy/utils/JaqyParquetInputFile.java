@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.importer;
+package com.teradata.jaqy.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,11 +26,11 @@ import com.teradata.jaqy.path.FilePath;
 /**
  * @author  Heng Yuan
  */
-public class ParquetInputFile implements InputFile
+public class JaqyParquetInputFile implements InputFile
 {
     private FilePath m_path;
 
-    public ParquetInputFile (FilePath path)
+    public JaqyParquetInputFile (FilePath path)
     {
         m_path = path;
     }
@@ -44,6 +44,6 @@ public class ParquetInputFile implements InputFile
     @Override
     public SeekableInputStream newStream () throws IOException
     {
-        return new FileSeekableInputStream ((FileInputStream)m_path.getInputStream ());
+        return new JaqyParquetFileSeekableInputStream ((FileInputStream)m_path.getInputStream ());
     }
 }

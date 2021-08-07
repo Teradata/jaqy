@@ -32,6 +32,7 @@ import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
+import com.teradata.jaqy.utils.JaqyParquetInputFile;
 
 /**
  * @author Heng Yuan
@@ -58,7 +59,7 @@ class ParquetImporter implements JaqyImporter
         {
             throw new IOException ("Unable to get file based InputStream from " + file.getPath ());
         }
-        m_reader = AvroParquetReader.genericRecordReader (new ParquetInputFile ((FilePath)file));
+        m_reader = AvroParquetReader.genericRecordReader (new JaqyParquetInputFile ((FilePath)file));
     }
 
     @Override

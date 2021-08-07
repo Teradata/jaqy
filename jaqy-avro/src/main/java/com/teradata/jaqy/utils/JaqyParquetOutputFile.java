@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Heng Yuan
+ * Copyright (c) 2021 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.exporter;
+package com.teradata.jaqy.utils;
 
 import java.io.IOException;
 
@@ -25,11 +25,11 @@ import com.teradata.jaqy.interfaces.Path;
 /**
  * @author  Heng Yuan
  */
-public class JaqyOutputFile implements OutputFile
+public class JaqyParquetOutputFile implements OutputFile
 {
     private final Path m_path;
 
-    public JaqyOutputFile (Path path)
+    public JaqyParquetOutputFile (Path path)
     {
         m_path = path;
     }
@@ -37,13 +37,13 @@ public class JaqyOutputFile implements OutputFile
     @Override
     public PositionOutputStream create (long blockSizeHint) throws IOException
     {
-        return new JaqyPositionOutputStream (m_path.getOutputStream ());
+        return new JaqyParquetPositionOutputStream (m_path.getOutputStream ());
     }
 
     @Override
     public PositionOutputStream createOrOverwrite (long blockSizeHint) throws IOException
     {
-        return new JaqyPositionOutputStream (m_path.getOutputStream ());
+        return new JaqyParquetPositionOutputStream (m_path.getOutputStream ());
     }
 
     @Override

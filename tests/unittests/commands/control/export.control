@@ -11,6 +11,7 @@ type:
   excel
   json
   pipe
+  pq
 
 avro type options:
   -c,--compression <arg>   sets the compression codec
@@ -40,6 +41,13 @@ json type options:
 
 pipe type options:
 
+
+pq type options:
+  -b,--blocksize <arg>     sets the row group / block size
+  -c,--compression <arg>   sets the compression codec
+  -d,--padding <arg>       sets the maximum padding size
+  -p,--pagesize <arg>      sets the page size
+  -r,--rowcount <arg>      sets the row count limit
 
 -- 0/1 - 0 ----------------------------------------------------------------
 .export

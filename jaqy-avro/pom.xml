@@ -45,6 +45,9 @@
 			<artifactId>parquet-avro</artifactId>
 			<version>1.12.0</version>
 		</dependency>
+		<!-- WARNING: Do not deviate from 3.3.0 for hadoop-common and
+		     hadoop-mapreduce-client-core as newer versions would add
+		     even more dependencies -->
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
@@ -122,9 +125,7 @@
                                         <include>org/apache/hadoop/io/**</include>
                                         <include>org/apache/hadoop/fs/**</include>
                                         <include>org/apache/hadoop/security/token/**</include>
-                                        <include>org/apache/hadoop/util/Progressable*</include>
-                                        <include>org/apache/hadoop/util/Shell*</include>
-                                        <include>org/apache/hadoop/util/StringUtils*</include>
+                                        <include>org/apache/hadoop/util/***</include>
                                     </includes>
                                 </filter>
 							</filters>

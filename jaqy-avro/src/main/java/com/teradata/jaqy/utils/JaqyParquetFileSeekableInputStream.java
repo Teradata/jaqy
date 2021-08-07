@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.importer;
+package com.teradata.jaqy.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,11 +24,11 @@ import org.apache.parquet.io.SeekableInputStream;
 /**
  * @author  Heng Yuan
  */
-public class FileSeekableInputStream extends SeekableInputStream
+public class JaqyParquetFileSeekableInputStream extends SeekableInputStream
 {
     private FileInputStream m_is;
 
-    public FileSeekableInputStream (FileInputStream is)
+    public JaqyParquetFileSeekableInputStream (FileInputStream is)
     {
         m_is = is;
     }
