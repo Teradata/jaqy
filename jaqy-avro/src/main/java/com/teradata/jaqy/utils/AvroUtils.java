@@ -15,6 +15,7 @@
  */
 package com.teradata.jaqy.utils;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyResultSet;
 import com.teradata.jaqy.schema.BasicColumnInfo;
 import com.teradata.jaqy.schema.FullColumnInfo;
+import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 
 /**
@@ -563,5 +565,152 @@ public class AvroUtils
         }
 
         return getSchemaInfo (scanColumnInfos, doScan);
+    }
+
+    public static Object getDbObject (Object v, ParameterInfo paramInfo, JaqyHelper helper) throws Exception
+    {
+        if (v == null)
+            return null;
+    
+        switch (paramInfo.type)
+        {
+            case Types.BIT:
+            case Types.BOOLEAN:
+            {
+                if (v instanceof Boolean)
+                    return v;
+                if (v instanceof Number)
+                    return v;
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                break;
+            }
+            case Types.TINYINT:
+            case Types.SMALLINT:
+            case Types.INTEGER:
+            case Types.BIGINT:
+            case Types.REAL:
+            case Types.FLOAT:
+            case Types.DOUBLE:
+            case Types.DECIMAL:
+            case Types.NUMERIC:
+            {
+                if (v instanceof Boolean)
+                {
+                    if (((Boolean)v).booleanValue ())
+                        return 1;
+                    else
+                        return 0;
+                }
+                if (v instanceof Number)
+                    return v;
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                break;
+            }
+            case Types.CHAR:
+            case Types.VARCHAR:
+            case Types.LONGVARCHAR:
+            case Types.CLOB:
+            case Types.NCHAR:
+            case Types.NVARCHAR:
+            case Types.LONGNVARCHAR:
+            case Types.NCLOB:
+            case Types.SQLXML:
+            case Types.DATE:
+            case Types.TIME:
+            case Types.TIMESTAMP:
+            case Types.TIME_WITH_TIMEZONE:
+            case Types.TIMESTAMP_WITH_TIMEZONE:
+            {
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                break;
+            }
+            case Types.BINARY:
+            case Types.VARBINARY:
+            case Types.LONGVARBINARY:
+            case Types.BLOB:
+            {
+                if (v instanceof ByteBuffer)
+                {
+                    ByteBuffer bb = (ByteBuffer) v;
+                    byte[] bytes = new byte[bb.remaining ()];
+                    bb.get (bytes);
+                    return bytes;
+                }
+                break;
+            }
+            case Types.ARRAY:
+            {
+                if (v instanceof List)
+                {
+                    Object[] objs = new Object[((List<?>)v).size ()];
+                    ((List<?>) v).toArray (objs);
+                    for (int i = 0; i < objs.length; ++i)
+                    {
+                        objs[i] = AvroUtils.unwrapAvroObject (objs[i]);
+                    }
+                    return helper.createArrayOf (paramInfo, objs);
+                }
+                break;
+            }
+            case Types.STRUCT:
+            {
+                if (v instanceof List)
+                {
+                    Object[] objs = new Object[((List<?>)v).size ()];
+                    ((List<?>) v).toArray (objs);
+                    for (int i = 0; i < objs.length; ++i)
+                    {
+                        objs[i] = AvroUtils.unwrapAvroObject (objs[i]);
+                    }
+                    return helper.createStruct (paramInfo, objs);
+                }
+                break;
+            }
+            case Types.OTHER:
+            {
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                if (v instanceof ByteBuffer)
+                {
+                    ByteBuffer bb = (ByteBuffer) v;
+                    byte[] bytes = new byte[bb.remaining ()];
+                    bb.get (bytes);
+                    return bytes;
+                }
+                break;
+            }
+            case Types.NULL:
+            {
+                // MySQL do not provide type info
+                if (v instanceof CharSequence)
+                    return v.toString ();
+                if (v instanceof ByteBuffer)
+                {
+                    ByteBuffer bb = (ByteBuffer) v;
+                    byte[] bytes = new byte[bb.remaining ()];
+                    bb.get (bytes);
+                    return bytes;
+                }
+                return v;
+            }
+        }
+        throw new IOException ("Type mismatch: object is " + v.getClass () + ", target type is " + TypesUtils.getTypeName (paramInfo.type));
+    }
+
+    public static Object unwrapAvroObject (Object v)
+    {
+        if (v instanceof CharSequence)
+            return v.toString ();
+        if (v instanceof ByteBuffer)
+        {
+            ByteBuffer bb = (ByteBuffer)v;
+            byte[] bytes = new byte[bb.remaining ()];
+            bb.get (bytes);
+            return bytes;
+        }
+        return v;
     }
 }
