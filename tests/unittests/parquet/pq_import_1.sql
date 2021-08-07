@@ -10,7 +10,9 @@ CREATE TABLE MyTable(a INTEGER PRIMARY KEY, b VARCHAR(200) NOT NULL, c VARCHAR(2
 
 .debug preparedstatement on
 
+.import pq
 .import pq data/file1.parquet
+.import
 INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
@@ -31,4 +33,3 @@ SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
 DROP TABLE MyTable;
-

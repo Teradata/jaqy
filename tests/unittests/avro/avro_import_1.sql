@@ -17,6 +17,7 @@ INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
+.import avro https://github.com/Teradata/jaqy/raw/master/tests/unittests/avro/lib/file1.avro
 .import avro lib/file2.avro
 INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
 SELECT * FROM MyTable ORDER BY a;

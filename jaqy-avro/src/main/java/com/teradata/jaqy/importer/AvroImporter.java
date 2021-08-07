@@ -32,6 +32,7 @@ import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
@@ -59,12 +60,11 @@ public class AvroImporter implements JaqyImporter
     private void openFile (Path file) throws IOException
     {
         DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord> ();
-        InputStream is = file.getInputStream ();
-        if (!(is instanceof FileInputStream))
+        if (!(file instanceof FilePath))
         {
-            is.close ();
-            throw new IOException ("Unable to get file based InputStream from " + file.getPath ());
+            throw new IOException (getName () + " only supports file path.");
         }
+        InputStream is = file.getInputStream ();
         m_dataFileReader = new DataFileReader<GenericRecord> (new AvroInputStream ((FileInputStream)is), reader);
 
         m_iter = m_dataFileReader.iterator ();

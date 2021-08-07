@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.jaqy.importer;
+package com.teradata.jaqy.utils;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -24,12 +24,12 @@ import org.apache.parquet.hadoop.ParquetReader;
 /**
  * @author  Heng Yuan
  */
-class ParquetRecordIterator implements Iterator<GenericRecord>
+public class JaqyParquetIterator implements Iterator<GenericRecord>
 {
     private ParquetReader<GenericRecord> m_reader;
     private GenericRecord m_record;
 
-    public ParquetRecordIterator (ParquetReader<GenericRecord> reader)
+    public JaqyParquetIterator (ParquetReader<GenericRecord> reader)
     {
         m_reader = reader;
     }
