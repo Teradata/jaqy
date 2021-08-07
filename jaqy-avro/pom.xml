@@ -115,55 +115,94 @@
 										<exclude>META-INF/*.RSA</exclude>
 									</excludes>
 								</filter>
+                                <filter>
+                                    <artifact>org.apache.hadoop:hadoop-common</artifact>
+                                    <includes>
+                                        <include>org/apache/hadoop/conf/**</include>
+                                        <include>org/apache/hadoop/io/**</include>
+                                        <include>org/apache/hadoop/fs/**</include>
+                                        <include>org/apache/hadoop/security/token/**</include>
+                                        <include>org/apache/hadoop/util/Progressable*</include>
+                                        <include>org/apache/hadoop/util/Shell*</include>
+                                        <include>org/apache/hadoop/util/StringUtils*</include>
+                                    </includes>
+                                </filter>
 							</filters>
 							<artifactSet>
 								<excludes>
-									<exclude>org.yuanheng:*</exclude>
-									<exclude>org.yuanheng.cookcc:*</exclude>
-									<exclude>com.teradata.jaqy:jaqy-core</exclude>
-									<exclude>org.jline:*</exclude>
-									<exclude>org.slf4j:slf4j-api:*</exclude>
+                                    <exclude>com.teradata.jaqy:jaqy-core</exclude>
+                                    <exclude>org.jline:*</exclude>
+                                    <exclude>org.yuanheng:*</exclude>
+                                    <exclude>org.yuanheng.cookcc:*</exclude>
+
+                                    <!-- Parquet Related -->
+                                    <exclude>aopalliance:*</exclude>
+                                    <exclude>commons-beanutils:*</exclude>
 									<exclude>commons-cli:*</exclude>
-									<exclude>org.apache.commons:commons-exec</exclude>
-									<exclude>org.eclipse.jetty.websocket:*</exclude>
-													<exclude>org.eclipse.jetty:*</exclude>
-									<exclude>javax.annotation:*</exclude>
-									<exclude>javax.activation:*</exclude>
-									<exclude>javax.servlet:*</exclude>
-													<exclude>javax.servlet.jsp:*</exclude>
-									<exclude>javax.ws.rs:*</exclude>
-									<exclude>javax.xml.bind:*</exclude>
-													<exclude>com.sun.jersey:*</exclude>
-									<exclude>org.apache.hadoop.thirdparty:*</exclude>
-									<exclude>org.apache.curator:*</exclude>
-									<exclude>org.apache.yetus:*</exclude>
-													<exclude>org.apache.zookeeper:*</exclude>
-													<exclude>org.apache.kerby:*</exclude>
-									<exclude>org.apache.htrace:*</exclude>
-									<exclude>org.apache.hadoop:hadoop-mapreduce-client-jobclient:*</exclude>
-									<exclude>org.apache.hadoop:hadoop-mapreduce-client-common:*</exclude>
-									<exclude>org.apache.hadoop:hadoop-annotations:*</exclude>
-									<exclude>org.apache.hadoop:hadoop-yarn-client:*</exclude>
-									<exclude>org.apache.hadoop:hadoop-yarn-common:*</exclude>
-									<exclude>com.google.guava:*</exclude>
-													<exclude>com.google.protobuf:*</exclude>
+                                    <exclude>commons-codec:*</exclude>
+                                    <exclude>commons-io:*</exclude>
+                                    <exclude>commons-logging:*</exclude>
+                                    <exclude>commons-net:*</exclude>
+                                    <exclude>commons-pool:*</exclude>
+									<exclude>com.sun.jersey:*</exclude>
+                                    <exclude>com.fasterxml.jackson.jaxrs:*</exclude>
+                                    <exclude>com.fasterxml.jackson.module:*</exclude>
+                                    <exclude>com.fasterxml.jackson.core:jackson-databind:*</exclude>
+                                    <exclude>com.fasterxml.jackson.core:jackson-annotations:*</exclude>
+                                    <exclude>com.github.stephenc.jcip:*</exclude>
+                                    <exclude>com.google.code.gson:*</exclude>
+                                    <exclude>com.google.guava:*</exclude>
+                                    <exclude>com.google.inject:guice:*</exclude>
+                                    <exclude>com.google.inject.extensions:*</exclude>
+                                    <exclude>com.google.j2objc:*</exclude>
+									<exclude>com.google.protobuf:*</exclude>
 									<exclude>com.google.re2j:*</exclude>
-									<exclude>com.google.inject:guice:*</exclude>
-									<exclude>org.checkerframework:*</exclude>
-									<exclude>com.google.j2objc:*</exclude>
 									<exclude>com.google.code.findbugs:*</exclude>
-									<exclude>org.codehaus.mojo:*</exclude>
+									<exclude>com.jcraft:jsch</exclude>
 									<exclude>com.nimbusds:*</exclude>
-									<exclude>com.fasterxml.jackson.jaxrs:*</exclude>
-									<exclude>com.github.stephenc.jcip:*</exclude>
+                                    <exclude>com.squareup.okhttp:*</exclude>
+                                    <exclude>com.squareup.okio:*</exclude>
+                                    <exclude>com.sun.jersey.contribs:*</exclude>
+                                    <exclude>com.sun.xml.bind:*</exclude>
+                                    <exclude>dnsjava:*</exclude>
+                                    <exclude>io.netty:*</exclude>
+                                    <exclude>jakarta.activation:*</exclude>
+                                    <exclude>jakarta.xml.bind:*</exclude>
+                                    <exclude>javax.annotation:*</exclude>
+                                    <exclude>javax.activation:*</exclude>
+                                    <exclude>javax.inject:*</exclude>
+                                    <exclude>javax.servlet:*</exclude>
+                                    <exclude>javax.servlet.jsp:*</exclude>
+                                    <exclude>javax.ws.rs:*</exclude>
+                                    <exclude>javax.xml.bind:*</exclude>
+                                    <exclude>log4j:*</exclude>
 									<exclude>net.minidev:*</exclude>
-									<exclude>org.ow2.asm:*</exclude>
-									<exclude>io.netty:*</exclude>
-									<exclude>dnsjava:*</exclude>
-									<exclude>com.squareup.okhttp:*</exclude>
-									<exclude>com.squareup.okio:*</exclude>
-									<exclude>jakarta.xml.bind:*</exclude>
-									<exclude>jakarta.activation:*</exclude>
+                                    <exclude>org.apache.commons:*</exclude>
+                                    <exclude>org.apache.curator:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-annotations:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-auth:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-hdfs-client:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-mapreduce-client-jobclient:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-mapreduce-client-common:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-yarn-api:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-yarn-client:*</exclude>
+                                    <exclude>org.apache.hadoop:hadoop-yarn-common:*</exclude>
+                                    <exclude>org.apache.hadoop.thirdparty:*</exclude>
+                                    <exclude>org.apache.htrace:*</exclude>
+                                    <exclude>org.apache.httpcomponents:*</exclude>
+                                    <exclude>org.apache.kerby:*</exclude>
+                                    <exclude>org.apache.yetus:*</exclude>
+                                    <exclude>org.apache.zookeeper:*</exclude>
+                                    <exclude>org.checkerframework:*</exclude>
+                                    <exclude>org.codehaus.jackson:*</exclude>
+                                    <exclude>org.codehaus.jettison:*</exclude>
+                                    <exclude>org.codehaus.mojo:*</exclude>
+                                    <exclude>org.codehaus.woodstox:*</exclude>
+                                    <exclude>org.eclipse.jetty:*</exclude>
+                                    <exclude>org.eclipse.jetty.websocket:*</exclude>
+                                    <exclude>org.ow2.asm:*</exclude>
+                                    <exclude>org.slf4j:slf4j-api:*</exclude>
+                                    <exclude>org.slf4j:slf4j-log4j12:*</exclude>
 								</excludes>
 							</artifactSet>
 							<transformers>
