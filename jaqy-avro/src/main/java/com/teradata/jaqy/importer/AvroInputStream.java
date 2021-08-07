@@ -23,7 +23,7 @@ import org.apache.avro.file.SeekableInput;
 /**
  * @author  Heng Yuan
  */
-class AvroInputStream implements SeekableInput
+public class AvroInputStream implements SeekableInput
 {
     private final FileInputStream m_is;
 

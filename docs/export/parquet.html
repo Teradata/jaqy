@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pq &mdash; Jaqy 1.2.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'1.2.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pipe" href="pipe.html" />
+    <link rel="prev" title="json" href="json.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Jaqy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Main</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">Copyright / License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/Teradata/jaqy">Github Source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jdbcdriver.html">JDBC Drivers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aliasexp.html">Aliases and Expression Expansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../load.html">Load and Exporting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clientrs.html">Client Side ResultSet Handling</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Building Jaqy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comment.html">Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../format.html">Display Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exitcode.html">Exit Code</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../export.html">Export Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="avro.html">avro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csv.html">csv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excel.html">excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="json.html">json</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipe.html">pipe</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../import.html">Import Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../largedataset.html">Large Data Set Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path.html">Path Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin.html">Plugin Loading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../script.html">Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setting.html">Settings</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../jdbclimitations.html">JDBC Limitations</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Jaqy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../export.html">Export Formats</a> &raquo;</li>
+        
+      <li>pq</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pq">
+<h1>pq<a class="headerlink" href="#pq" title="Permalink to this headline">¶</a></h1>
+<p>This feature requires <code class="docutils literal"><span class="pre">jaqy-avro</span></code> plugin.  It exports
+<a class="reference external" href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a>
+files.</p>
+<p>Unfortunately, due to the fact that parquet has hard code dependency
+on hadoop libraries, the size of this plugin is ~20MB.</p>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text"><div class="highlight"><pre><span></span>-b,--blocksize &lt;arg&gt;     sets the row group / block size
+-c,--compression &lt;arg&gt;   sets the compression codec
+-d,--padding &lt;arg&gt;       sets the maximum padding size
+-p,--pagesize &lt;arg&gt;      sets the page size
+-r,--rowcount &lt;arg&gt;      sets the row count limit
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>For <code class="docutils literal"><span class="pre">--pagesize</span></code> and <code class="docutils literal"><span class="pre">--blocksize</span></code>, it is possible to use
+<code class="docutils literal"><span class="pre">mb</span></code> and <code class="docutils literal"><span class="pre">gb</span></code> suffixes to specify the size.  For instance,
+<code class="docutils literal"><span class="pre">1mb</span></code> would be 1 * 1024 * 1024 bytes.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="supported-compression-codecs">
+<h2>Supported Compression Codecs<a class="headerlink" href="#supported-compression-codecs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Compression</th>
+<th class="head">extension</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>brotli</td>
+<td>.br</td>
+</tr>
+<tr class="row-odd"><td>gzip</td>
+<td>.gz</td>
+</tr>
+<tr class="row-even"><td>lz4</td>
+<td>.lz4</td>
+</tr>
+<tr class="row-odd"><td>lzo</td>
+<td>.lzo</td>
+</tr>
+<tr class="row-even"><td>snappy</td>
+<td>.snappy</td>
+</tr>
+<tr class="row-odd"><td>zstd</td>
+<td>.zstd</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>It is possible to specify the compression codec implicitly by using the
+corresponding file extension in the file name.</li>
+<li>LZ4 compression requires the native hadoop installation.  This is one of
+the things hard coded by the Apache Parquet library.</li>
+<li>LZO compression requires a separate library due to its
+<a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL license</a>.
+Please see <a class="reference external" href="https://github.com/twitter/hadoop-lzo">https://github.com/twitter/hadoop-lzo</a> for the build
+instruction.</li>
+</ul>
+</div>
+<div class="section" id="database-type-to-avro-type-mapping">
+<h2>Database Type to AVRO Type Mapping<a class="headerlink" href="#database-type-to-avro-type-mapping" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Database Type</th>
+<th class="head">AVRO Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BOOLEAN</td>
+<td>BOOLEAN</td>
+</tr>
+<tr class="row-odd"><td>TINYINT
+SMALLINT
+INTEGER</td>
+<td>INTEGER</td>
+</tr>
+<tr class="row-even"><td>BIGINT</td>
+<td>LONG</td>
+</tr>
+<tr class="row-odd"><td>FLOAT</td>
+<td>FLOAT</td>
+</tr>
+<tr class="row-even"><td>DOUBLE</td>
+<td>DOUBLE</td>
+</tr>
+<tr class="row-odd"><td>ARRAY</td>
+<td>ARRAY</td>
+</tr>
+<tr class="row-even"><td>BINARY
+VARBINARY
+LONGVARBINARY
+BLOB</td>
+<td>BYTES</td>
+</tr>
+<tr class="row-odd"><td>DECIMAL
+NUMERIC
+REAL
+CHAR
+VARCHAR
+CLOB</td>
+<td>STRING</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last">
+<li><p class="first">DECIMAL is converted to string to preserve the precision.</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Array.html">Array</a>
+is in general treated as array of string types.  The primary reason is
+that there is no way to get the array element type in JDBC.</p>
+<blockquote>
+<div><ul class="simple">
+<li>For PostgreSQL, because such information can be easily guessed, it
+is supported for some well known types.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/sql/Array.html">Struct</a>
+is exported as array of string types.</p>
+<blockquote>
+<div><ul class="simple">
+<li>For Teradata,
+<a class="reference external" href="https://info.teradata.com/HTMLPubs/DB_TTU_16_00/index.html#page/SQL_Reference%2FB035-1143-160K%2Fphj1472241382702.html%23">PERIOD</a>
+data types, which are transmitted as Struct types,
+are converted into formats that matches their BTEQ output formats.</li>
+<li>For PostgreSQL, the driver reports Struct type even though the data
+is actually string.  Jaqy had a specific workaround for this
+inconsistency.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">For types not listed in the above table, they are stored as STRING.  AVRO
+exporter relies on the toString() function of the object retrieved by the
+JDBC driver to obtain the output.  There is no guarantee such String
+representations can be used for import.</p>
+</li>
+<li><p class="first">For the explanation of page size, row group / block size, etc, see
+<a class="reference external" href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- use snappy compression implicitly</span>
+<span class="p">.</span><span class="n">export</span> <span class="n">pq</span> <span class="n">myfile</span><span class="p">.</span><span class="n">parquet</span><span class="p">.</span><span class="n">snappy</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="pipe.html" class="btn btn-neutral float-right" title="pipe" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="json.html" class="btn btn-neutral float-left" title="json" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2017-2021, Teradata Corporation.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

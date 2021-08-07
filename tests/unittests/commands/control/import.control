@@ -11,6 +11,7 @@ type:
   excel
   json
   pipe
+  pq
 
 avro type options:
 
@@ -66,6 +67,9 @@ json type options:
   -r,--rowexp <arg>            sets the row expression
 
 pipe type options:
+
+
+pq type options:
 
 
 -- 0/1 - 0 ----------------------------------------------------------------

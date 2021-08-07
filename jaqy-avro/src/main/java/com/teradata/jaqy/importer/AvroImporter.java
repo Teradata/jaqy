@@ -18,11 +18,8 @@ package com.teradata.jaqy.importer;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.sql.Types;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericDatumReader;
@@ -35,30 +32,16 @@ import com.teradata.jaqy.connection.JaqyPreparedStatement;
 import com.teradata.jaqy.interfaces.JaqyHelper;
 import com.teradata.jaqy.interfaces.JaqyImporter;
 import com.teradata.jaqy.interfaces.Path;
+import com.teradata.jaqy.path.FilePath;
 import com.teradata.jaqy.schema.ParameterInfo;
 import com.teradata.jaqy.schema.SchemaInfo;
 import com.teradata.jaqy.utils.AvroUtils;
-import com.teradata.jaqy.utils.TypesUtils;
 
 /**
  * @author Heng Yuan
  */
-class AvroImporter implements JaqyImporter
+public class AvroImporter implements JaqyImporter
 {
-    private static Object unwrapAvroObject (Object v)
-    {
-        if (v instanceof CharSequence)
-            return v.toString ();
-        if (v instanceof ByteBuffer)
-        {
-            ByteBuffer bb = (ByteBuffer)v;
-            byte[] bytes = new byte[bb.remaining ()];
-            bb.get (bytes);
-            return bytes;
-        }
-        return v;
-    }
-
     private final Path m_file;
     private final JaqyConnection m_conn;
     private DataFileReader<GenericRecord> m_dataFileReader;
@@ -77,12 +60,11 @@ class AvroImporter implements JaqyImporter
     private void openFile (Path file) throws IOException
     {
         DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord> ();
-        InputStream is = file.getInputStream ();
-        if (!(is instanceof FileInputStream))
+        if (!(file instanceof FilePath))
         {
-            is.close ();
-            throw new IOException ("Unable to get file based InputStream from " + file.getPath ());
+            throw new IOException (getName () + " only supports file path.");
         }
+        InputStream is = file.getInputStream ();
         m_dataFileReader = new DataFileReader<GenericRecord> (new AvroInputStream ((FileInputStream)is), reader);
 
         m_iter = m_dataFileReader.iterator ();
@@ -130,140 +112,6 @@ class AvroImporter implements JaqyImporter
         return false;
     }
 
-    private Object getObject (Object v, ParameterInfo paramInfo) throws Exception
-    {
-        if (v == null)
-            return null;
-
-        JaqyHelper helper = m_conn.getHelper ();
-        switch (paramInfo.type)
-        {
-            case Types.BIT:
-            case Types.BOOLEAN:
-            {
-                if (v instanceof Boolean)
-                    return v;
-                if (v instanceof Number)
-                    return v;
-                if (v instanceof CharSequence)
-                    return v.toString ();
-                break;
-            }
-            case Types.TINYINT:
-            case Types.SMALLINT:
-            case Types.INTEGER:
-            case Types.BIGINT:
-            case Types.REAL:
-            case Types.FLOAT:
-            case Types.DOUBLE:
-            case Types.DECIMAL:
-            case Types.NUMERIC:
-            {
-                if (v instanceof Boolean)
-                {
-                    if (((Boolean)v).booleanValue ())
-                        return 1;
-                    else
-                        return 0;
-                }
-                if (v instanceof Number)
-                    return v;
-                if (v instanceof CharSequence)
-                    return v.toString ();
-                break;
-            }
-            case Types.CHAR:
-            case Types.VARCHAR:
-            case Types.LONGVARCHAR:
-            case Types.CLOB:
-            case Types.NCHAR:
-            case Types.NVARCHAR:
-            case Types.LONGNVARCHAR:
-            case Types.NCLOB:
-            case Types.SQLXML:
-            case Types.DATE:
-            case Types.TIME:
-            case Types.TIMESTAMP:
-            case Types.TIME_WITH_TIMEZONE:
-            case Types.TIMESTAMP_WITH_TIMEZONE:
-            {
-                if (v instanceof CharSequence)
-                    return v.toString ();
-                break;
-            }
-            case Types.BINARY:
-            case Types.VARBINARY:
-            case Types.LONGVARBINARY:
-            case Types.BLOB:
-            {
-                if (v instanceof ByteBuffer)
-                {
-                    ByteBuffer bb = (ByteBuffer) v;
-                    byte[] bytes = new byte[bb.remaining ()];
-                    bb.get (bytes);
-                    return bytes;
-                }
-                break;
-            }
-            case Types.ARRAY:
-            {
-                if (v instanceof List)
-                {
-                    Object[] objs = new Object[((List<?>)v).size ()];
-                    ((List<?>) v).toArray (objs);
-                    for (int i = 0; i < objs.length; ++i)
-                    {
-                        objs[i] = unwrapAvroObject (objs[i]);
-                    }
-                    return helper.createArrayOf (paramInfo, objs);
-                }
-                break;
-            }
-            case Types.STRUCT:
-            {
-                if (v instanceof List)
-                {
-                    Object[] objs = new Object[((List<?>)v).size ()];
-                    ((List<?>) v).toArray (objs);
-                    for (int i = 0; i < objs.length; ++i)
-                    {
-                        objs[i] = unwrapAvroObject (objs[i]);
-                    }
-                    return helper.createStruct (paramInfo, objs);
-                }
-                break;
-            }
-            case Types.OTHER:
-            {
-                if (v instanceof CharSequence)
-                    return v.toString ();
-                if (v instanceof ByteBuffer)
-                {
-                    ByteBuffer bb = (ByteBuffer) v;
-                    byte[] bytes = new byte[bb.remaining ()];
-                    bb.get (bytes);
-                    return bytes;
-                }
-                break;
-            }
-            case Types.NULL:
-            {
-                // MySQL do not provide type info
-                if (v instanceof CharSequence)
-                    return v.toString ();
-                if (v instanceof ByteBuffer)
-                {
-                    ByteBuffer bb = (ByteBuffer) v;
-                    byte[] bytes = new byte[bb.remaining ()];
-                    bb.get (bytes);
-                    return bytes;
-                }
-                return v;
-            }
-        }
-        throw new IOException ("Type mismatch: object is " + v.getClass () + ", target type is " + TypesUtils.getTypeName (paramInfo.type));
-    }
-
     @Override
     public void setParameters (String[] exps)
     {
@@ -287,8 +135,9 @@ class AvroImporter implements JaqyImporter
 
     private Object getObject (int index, ParameterInfo paramInfo, JaqyInterpreter interpreter) throws Exception
     {
+        JaqyHelper helper = m_conn.getHelper ();
         if (m_exps == null)
-            return getObject (m_record.get (index), paramInfo);
-        return getObject (m_record.get (m_exps[index]), paramInfo);
+            return AvroUtils.getDbObject (m_record.get (index), paramInfo, helper);
+        return AvroUtils.getDbObject (m_record.get (m_exps[index]), paramInfo, helper);
     }
 }

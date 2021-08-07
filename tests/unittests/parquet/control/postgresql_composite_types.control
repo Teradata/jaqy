@@ -1,0 +1,337 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- test PostgreSQL various data types
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+.debug resultset on
+-- 0/3 - 0 ----------------------------------------------------------------
+.debug preparedstatement on
+-- 0/4 - 0 ----------------------------------------------------------------
+
+CREATE TYPE Complex AS
+(
+	r DOUBLE PRECISION,
+	i DOUBLE PRECISION
+);
+-- success. update count = 0
+-- 1/4 - 0 ----------------------------------------------------------------
+
+CREATE TABLE ComplexTable
+(
+	a  INTEGER,
+	c1 Complex
+);
+-- success. update count = 0
+-- 2/4 - 0 ----------------------------------------------------------------
+
+INSERT INTO ComplexTable VALUES (1, '(1,1)');
+-- success. update count = 1
+-- 3/4 - 0 ----------------------------------------------------------------
+INSERT INTO ComplexTable VALUES (2, '(2,2)');
+-- success. update count = 1
+-- 4/4 - 0 ----------------------------------------------------------------
+INSERT INTO ComplexTable VALUES (3, '(2,)');
+-- success. update count = 1
+-- 5/4 - 0 ----------------------------------------------------------------
+INSERT INTO ComplexTable VALUES (4, NULL);
+-- success. update count = 1
+-- 6/4 - 0 ----------------------------------------------------------------
+
+.export pq t.parquet
+-- 6/5 - 0 ----------------------------------------------------------------
+SELECT * FROM ComplexTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         STRUCT
+    SQL Type                                     complex
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+-- activity count = 4
+-- 7/5 - 0 ----------------------------------------------------------------
+.import pq t.parquet
+-- 7/6 - 0 ----------------------------------------------------------------
+INSERT INTO ComplexTable ({{a}}, {{c1}});
+-- failure 0: [42601] ERROR: syntax error at or near "$1"
+  Position: 27
+-- 8/6 - 0 ----------------------------------------------------------------
+.format json -p on
+-- 8/7 - 0 ----------------------------------------------------------------
+SELECT * FROM ComplexTable ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         STRUCT
+    SQL Type                                     complex
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+[
+	{
+		"a" : 1,
+		"c1" : "(1,1)"
+	},
+	{
+		"a" : 2,
+		"c1" : "(2,2)"
+	},
+	{
+		"a" : 3,
+		"c1" : "(2,)"
+	},
+	{
+		"a" : 4,
+		"c1" : null
+	}
+]
+-- activity count = 4
+-- 9/7 - 0 ----------------------------------------------------------------
+
+DROP TABLE ComplexTable;
+-- success. update count = 0
+-- 10/7 - 0 ---------------------------------------------------------------
+
+CREATE TYPE Complex2 AS
+(
+	c1 Complex,
+	c2 Complex[]
+);
+-- success. update count = 0
+-- 11/7 - 0 ---------------------------------------------------------------
+
+CREATE TABLE ComplexTable2
+(
+	a  INTEGER,
+	c1 Complex2
+);
+-- success. update count = 0
+-- 12/7 - 0 ---------------------------------------------------------------
+
+INSERT INTO ComplexTable2 VALUES (1, '("(1,1)","{""(2,2)""}")');
+-- success. update count = 1
+-- 13/7 - 0 ---------------------------------------------------------------
+INSERT INTO ComplexTable2 VALUES (2, '("(2,2)","{""(2,2)"",null}")');
+-- success. update count = 1
+-- 14/7 - 0 ---------------------------------------------------------------
+INSERT INTO ComplexTable2 VALUES (3, '("(1,1)",)');
+-- success. update count = 1
+-- 15/7 - 0 ---------------------------------------------------------------
+INSERT INTO ComplexTable2 VALUES (4, NULL);
+-- success. update count = 1
+-- 16/7 - 0 ---------------------------------------------------------------
+
+.export pq t.parquet
+-- 16/8 - 0 ---------------------------------------------------------------
+SELECT * FROM ComplexTable2 ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable2
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         STRUCT
+    SQL Type                                     complex2
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable2
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+-- activity count = 4
+-- 17/8 - 0 ---------------------------------------------------------------
+.import pq t.parquet
+-- 17/9 - 0 ---------------------------------------------------------------
+INSERT INTO ComplexTable2 ({{a}}, {{c1}});
+-- failure 0: [42601] ERROR: syntax error at or near "$1"
+  Position: 28
+-- 18/9 - 0 ---------------------------------------------------------------
+.format json -p on
+-- 18/10 - 0 --------------------------------------------------------------
+SELECT * FROM ComplexTable2 ORDER BY a;
+ResultSet Column Count                       2
+  Index                                        1
+    Name                                         a
+    Label                                        a
+    Type                                         INTEGER
+    SQL Type                                     int4
+    Java Class                                   java.lang.Integer
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable2
+    Display Size                                 11
+    Precision                                    10
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               N
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       Y
+    Writable                                     Y
+  Index                                        2
+    Name                                         c1
+    Label                                        c1
+    Type                                         STRUCT
+    SQL Type                                     complex2
+    Java Class                                   java.lang.String
+    Catalog                                      
+    Schema                                       
+    Table Name                                   complextable2
+    Display Size                                 2147483647
+    Precision                                    2147483647
+    Scale                                        0
+    Auto Increment                               N
+    Case Sensitive                               Y
+    Currency                                     N
+    Definitely Writable                          N
+    Nullable                                     1
+    Read Only                                    N
+    Searchable                                   Y
+    Signed                                       N
+    Writable                                     Y
+-- success --
+[
+	{
+		"a" : 1,
+		"c1" : "(\"(1,1)\",\"{\"\"(2,2)\"\"}\")"
+	},
+	{
+		"a" : 2,
+		"c1" : "(\"(2,2)\",\"{\"\"(2,2)\"\",NULL}\")"
+	},
+	{
+		"a" : 3,
+		"c1" : "(\"(1,1)\",)"
+	},
+	{
+		"a" : 4,
+		"c1" : null
+	}
+]
+-- activity count = 4
+-- 19/10 - 0 --------------------------------------------------------------
+
+DROP TABLE ComplexTable2;
+-- success. update count = 0
+-- 20/10 - 0 --------------------------------------------------------------
+DROP TYPE Complex2;
+-- success. update count = 0
+-- 21/10 - 0 --------------------------------------------------------------
+DROP TYPE Complex;
+-- success. update count = 0
+-- 22/10 - 0 --------------------------------------------------------------
+.close
+-- 22/11 - 0 --------------------------------------------------------------
+.os rm -f t.parquet
+-- 22/12 - 0 --------------------------------------------------------------
+

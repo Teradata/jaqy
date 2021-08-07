@@ -9,6 +9,7 @@ format
 general
 json
 mysql
+parquet
 pipe
 postgresql
 settings
