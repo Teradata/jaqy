@@ -96,12 +96,44 @@ SELECT * FROM MyTable ORDER BY a;
 -- success --
 -- activity count = 7
 -- 15/13 - 0 --------------------------------------------------------------
+.export pq --pagesize -1 dummy.pq
+-- error: Invalid page size.
+-- 15/14 - 0 --------------------------------------------------------------
+.export pq --pagesize asdf dummy.pq
+-- error: Invalid page size.
+-- 15/15 - 0 --------------------------------------------------------------
+.export pq --blocksize -1 dummy.pq
+-- error: Invalid block size.
+-- 15/16 - 0 --------------------------------------------------------------
+.export pq --blocksize asdf dummy.pq
+-- error: Invalid block size.
+-- 15/17 - 0 --------------------------------------------------------------
+.export pq --rowcount -1 dummy.pq
+-- error: Invalid row count size.
+-- 15/18 - 0 --------------------------------------------------------------
+.export pq --rowcount asdf dummy.pq
+-- error: Invalid row count size.
+-- 15/19 - 0 --------------------------------------------------------------
+.export pq --padding -1 dummy.pq
+-- error: Invalid padding size.
+-- 15/20 - 0 --------------------------------------------------------------
+.export pq --padding asdf dummy.pq
+-- error: Invalid padding size.
+-- 15/21 - 0 --------------------------------------------------------------
+.export pq --pagesize 1 --blocksize 1 --rowcount 1 --padding 1 file9.parquet.snappy
+-- 15/22 - 0 --------------------------------------------------------------
+.export pq --pagesize 2mb --blocksize 1mb --rowcount 20000 --padding 1000 file9.parquet.snappy
+-- 15/23 - 0 --------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY a;
+-- success --
+-- activity count = 7
+-- 16/23 - 0 --------------------------------------------------------------
 
 DROP TABLE MyTable;
 -- success. update count = 1
--- 16/13 - 0 --------------------------------------------------------------
+-- 17/23 - 0 --------------------------------------------------------------
 .close
--- 16/14 - 0 --------------------------------------------------------------
+-- 17/24 - 0 --------------------------------------------------------------
 
-.os rm -f file?.parquet
--- 16/15 - 0 --------------------------------------------------------------
+.os rm -f file?.parquet*
+-- 17/25 - 0 --------------------------------------------------------------

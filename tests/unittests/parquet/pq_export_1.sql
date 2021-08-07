@@ -32,8 +32,19 @@ SELECT * FROM MyTable ORDER BY a;
 SELECT * FROM MyTable ORDER BY a;
 .export pq -c zstd file8.parquet
 SELECT * FROM MyTable ORDER BY a;
+.export pq --pagesize -1 dummy.pq
+.export pq --pagesize asdf dummy.pq
+.export pq --blocksize -1 dummy.pq
+.export pq --blocksize asdf dummy.pq
+.export pq --rowcount -1 dummy.pq
+.export pq --rowcount asdf dummy.pq
+.export pq --padding -1 dummy.pq
+.export pq --padding asdf dummy.pq
+.export pq --pagesize 1 --blocksize 1 --rowcount 1 --padding 1 file9.parquet.snappy
+.export pq --pagesize 2mb --blocksize 1mb --rowcount 20000 --padding 1000 file9.parquet.snappy
+SELECT * FROM MyTable ORDER BY a;
 
 DROP TABLE MyTable;
 .close
 
-.os rm -f file?.parquet
+.os rm -f file?.parquet*
