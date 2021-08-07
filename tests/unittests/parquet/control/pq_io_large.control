@@ -116,9 +116,11 @@ SELECT * FROM MyTable ORDER BY 1;
 -- activity count = 4194304
 -- 7/6 - 0 ----------------------------------------------------------------
 
+-- ignore begin
 .os stat -c "%n: %s" pq_io_large.parquet.snappy
 pq_io_large.parquet.snappy: 162956719
 -- 7/7 - 0 ----------------------------------------------------------------
+-- ignore end
 
 DELETE FROM MyTable;
 -- success. update count = 4194304

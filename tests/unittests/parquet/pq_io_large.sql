@@ -42,7 +42,9 @@ SELECT a, b, t1 FROM MyTable WHERE a < 5 ORDER BY 1;
 .export pq --pagesize 2mb --blocksize 1mb --rowcount 20000 --padding 1000 pq_io_large.parquet.snappy
 SELECT * FROM MyTable ORDER BY 1;
 
+-- ignore begin
 .os stat -c "%n: %s" pq_io_large.parquet.snappy
+-- ignore end
 
 DELETE FROM MyTable;
 
