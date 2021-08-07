@@ -15,5 +15,20 @@ INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
+.import pq data/file1.parquet.gz
+.importtable -c MyTable
+SELECT * FROM MyTable ORDER BY a;
+DELETE FROM MyTable;
+
+.import pq data/file1.parquet.snappy
+.importtable -c MyTable
+SELECT * FROM MyTable ORDER BY a;
+DELETE FROM MyTable;
+
+.import pq data/file1.parquet.zstd
+.importtable -c MyTable
+SELECT * FROM MyTable ORDER BY a;
+DELETE FROM MyTable;
+
 DROP TABLE MyTable;
 
