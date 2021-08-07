@@ -17,6 +17,7 @@ INSERT INTO MyTable VALUES ({{a}}, {{b}}, {{c}}, {{d}});
 SELECT * FROM MyTable ORDER BY a;
 DELETE FROM MyTable;
 
+.import pq https://github.com/Teradata/jaqy/raw/master/tests/unittests/parquet/data/file1.parquet
 .import pq data/file1.parquet.gz
 .importtable -c MyTable
 SELECT * FROM MyTable ORDER BY a;
