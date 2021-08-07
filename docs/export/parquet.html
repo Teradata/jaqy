@@ -223,6 +223,14 @@ on hadoop libraries, the size of this plugin is ~20MB.</p>
 -r,--rowcount &lt;arg&gt;      sets the row count limit
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>For <code class="docutils literal"><span class="pre">--pagesize</span></code> and <code class="docutils literal"><span class="pre">--blocksize</span></code>, it is possible to use
+<code class="docutils literal"><span class="pre">mb</span></code> and <code class="docutils literal"><span class="pre">gb</span></code> suffixes to specify the size.  For instance,
+<code class="docutils literal"><span class="pre">1mb</span></code> would be 1 * 1024 * 1024 bytes.</li>
+</ul>
+</div>
 </div>
 <div class="section" id="supported-compression-codecs">
 <h2>Supported Compression Codecs<a class="headerlink" href="#supported-compression-codecs" title="Permalink to this headline">¶</a></h2>
@@ -258,14 +266,14 @@ on hadoop libraries, the size of this plugin is ~20MB.</p>
 </tbody>
 </table>
 <ul class="simple">
+<li>It is possible to specify the compression codec implicitly by using the
+corresponding file extension in the file name.</li>
 <li>LZ4 compression requires the native hadoop installation.  This is one of
 the things hard coded by the Apache Parquet library.</li>
 <li>LZO compression requires a separate library due to its
 <a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL license</a>.
 Please see <a class="reference external" href="https://github.com/twitter/hadoop-lzo">https://github.com/twitter/hadoop-lzo</a> for the build
 instruction.</li>
-<li>It is possible to specify the compression codec implicitly by using the
-corresponding file extension.</li>
 </ul>
 </div>
 <div class="section" id="database-type-to-avro-type-mapping">
@@ -359,7 +367,8 @@ representations can be used for import.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">export</span> <span class="n">pq</span> <span class="o">-</span><span class="n">myfile</span><span class="p">.</span><span class="n">parquet</span><span class="p">.</span><span class="n">snappy</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- use snappy compression implicitly</span>
+<span class="p">.</span><span class="n">export</span> <span class="n">pq</span> <span class="n">myfile</span><span class="p">.</span><span class="n">parquet</span><span class="p">.</span><span class="n">snappy</span>
 <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MyTable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>

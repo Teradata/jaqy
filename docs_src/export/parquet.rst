@@ -19,6 +19,12 @@ Options
 	  -p,--pagesize <arg>      sets the page size
 	  -r,--rowcount <arg>      sets the row count limit
 
+.. note::
+
+	* For ``--pagesize`` and ``--blocksize``, it is possible to use
+	  ``mb`` and ``gb`` suffixes to specify the size.  For instance,
+	  ``1mb`` would be 1 * 1024 * 1024 bytes.
+
 Supported Compression Codecs
 ****************************
 
@@ -38,6 +44,9 @@ Supported Compression Codecs
 | zstd          | .zstd           |
 +---------------+-----------------+
 
+* It is possible to specify the compression codec implicitly by using the
+  corresponding file extension in the file name.
+
 * LZ4 compression requires the native hadoop installation.  This is one of
   the things hard coded by the Apache Parquet library.
 
@@ -45,9 +54,6 @@ Supported Compression Codecs
   `GPL license <https://www.gnu.org/licenses/gpl-3.0.en.html>`__.
   Please see https://github.com/twitter/hadoop-lzo for the build
   instruction.
-
-* It is possible to specify the compression codec implicitly by using the
-  corresponding file extension.
 
 Database Type to AVRO Type Mapping
 **********************************
@@ -118,7 +124,8 @@ Example
 
 .. code-block:: sql
 
-	.export pq -myfile.parquet.snappy
+	-- use snappy compression implicitly
+	.export pq myfile.parquet.snappy
 	SELECT * FROM MyTable ORDER BY a;
 
 See Also

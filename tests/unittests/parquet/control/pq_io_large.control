@@ -1,0 +1,160 @@
+Jaqy Console 1.2.0
+-- 0/0 - 0 ----------------------------------------------------------------
+--------------------------------------------------------------------------
+-- pq import / export combo test
+--------------------------------------------------------------------------
+.run ../common/postgresql_setup.sql
+-- Running script: ../common/postgresql_setup.sql
+-- 0/1 - 0 ----------------------------------------------------------------
+.open -u postgres postgresql://localhost/?stringtype=unspecified
+-- 0/2 - 0 ----------------------------------------------------------------
+
+-- Listing tables: .public.mytable
+
+CREATE TABLE MyTable
+(
+	a  INTEGER,
+	b  DOUBLE PRECISION,
+	t1 VARCHAR(100),
+	t2 VARCHAR(100)
+);
+-- success. update count = 0
+-- 1/2 - 0 ----------------------------------------------------------------
+
+INSERT INTO MyTable VALUES (1, 1, NULL, NULL);
+-- success. update count = 1
+-- 2/2 - 0 ----------------------------------------------------------------
+
+.repeat 22
+-- 2/3 - 0 ----------------------------------------------------------------
+INSERT INTO MyTable
+SELECT a + (SELECT MAX(a) FROM MyTable),
+       b, NULL, NULL
+FROM MyTable;
+-- iteration: 1
+-- success. update count = 1
+-- iteration: 2
+-- success. update count = 2
+-- iteration: 3
+-- success. update count = 4
+-- iteration: 4
+-- success. update count = 8
+-- iteration: 5
+-- success. update count = 16
+-- iteration: 6
+-- success. update count = 32
+-- iteration: 7
+-- success. update count = 64
+-- iteration: 8
+-- success. update count = 128
+-- iteration: 9
+-- success. update count = 256
+-- iteration: 10
+-- success. update count = 512
+-- iteration: 11
+-- success. update count = 1024
+-- iteration: 12
+-- success. update count = 2048
+-- iteration: 13
+-- success. update count = 4096
+-- iteration: 14
+-- success. update count = 8192
+-- iteration: 15
+-- success. update count = 16384
+-- iteration: 16
+-- success. update count = 32768
+-- iteration: 17
+-- success. update count = 65536
+-- iteration: 18
+-- success. update count = 131072
+-- iteration: 19
+-- success. update count = 262144
+-- iteration: 20
+-- success. update count = 524288
+-- iteration: 21
+-- success. update count = 1048576
+-- iteration: 22
+-- success. update count = 2097152
+-- 3/3 - 0 ----------------------------------------------------------------
+
+SELECT COUNT(*) FROM MyTable;
+-- success --
+  count
+-------
+4194304
+-- activity count = 1
+-- 4/3 - 0 ----------------------------------------------------------------
+
+UPDATE MyTable
+SET b = (a * 0.001),
+    t1 = 'POINT(' || a || ' ' || a || ')',
+	t2 = 'POINT(' || a || ' ' || sin(a * 0.001) || ')'
+;
+-- success. update count = 4194304
+-- 5/3 - 0 ----------------------------------------------------------------
+
+SELECT a, b, t1 FROM MyTable WHERE a < 5 ORDER BY 1;
+-- success --
+a     b t1
+- ----- ----------
+1 0.001 POINT(1 1)
+2 0.002 POINT(2 2)
+3 0.003 POINT(3 3)
+4 0.004 POINT(4 4)
+-- activity count = 4
+-- 6/3 - 0 ----------------------------------------------------------------
+
+-- set the fetch size to avoid memory exhausting by JDBC driver.
+.set autocommit off
+-- 6/4 - 0 ----------------------------------------------------------------
+.set fetchsize 20000
+-- 6/5 - 0 ----------------------------------------------------------------
+.export pq --pagesize 2mb --blocksize 1mb --rowcount 20000 --padding 1000 pq_io_large.parquet.snappy
+-- 6/6 - 0 ----------------------------------------------------------------
+SELECT * FROM MyTable ORDER BY 1;
+-- success --
+-- activity count = 4194304
+-- 7/6 - 0 ----------------------------------------------------------------
+
+.os stat -c "%n: %s" pq_io_large.parquet.snappy
+pq_io_large.parquet.snappy: 162956719
+-- 7/7 - 0 ----------------------------------------------------------------
+
+DELETE FROM MyTable;
+-- success. update count = 4194304
+-- 8/7 - 0 ----------------------------------------------------------------
+
+.import pq pq_io_large.parquet.snappy
+-- 8/8 - 0 ----------------------------------------------------------------
+.importtable -c MyTable
+-- INSERTION --
+INSERT INTO MyTable VALUES (?,?,?,?)
+-- 9/9 - 0 ----------------------------------------------------------------
+
+.set autocommit on
+-- 9/10 - 0 ---------------------------------------------------------------
+
+SELECT COUNT(*) FROM MyTable;
+-- success --
+  count
+-------
+4194304
+-- activity count = 1
+-- 10/10 - 0 --------------------------------------------------------------
+SELECT a, b, t1 FROM MyTable WHERE a < 5 ORDER BY 1;
+-- success --
+a     b t1
+- ----- ----------
+1 0.001 POINT(1 1)
+2 0.002 POINT(2 2)
+3 0.003 POINT(3 3)
+4 0.004 POINT(4 4)
+-- activity count = 4
+-- 11/10 - 0 --------------------------------------------------------------
+
+DROP TABLE MyTable;
+-- success. update count = 0
+-- 12/10 - 0 --------------------------------------------------------------
+
+.os rm -f pq_io_large.parquet.snappy
+-- 12/11 - 0 --------------------------------------------------------------
