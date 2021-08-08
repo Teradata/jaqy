@@ -148,7 +148,6 @@
 									<exclude>com.sun.jersey:*</exclude>
                                     <exclude>com.fasterxml.jackson.jaxrs:*</exclude>
                                     <exclude>com.fasterxml.jackson.module:*</exclude>
-                                    <exclude>com.fasterxml.jackson.core:jackson-databind:*</exclude>
                                     <exclude>com.fasterxml.jackson.core:jackson-annotations:*</exclude>
                                     <exclude>com.github.stephenc.jcip:*</exclude>
                                     <exclude>com.google.code.gson:*</exclude>
