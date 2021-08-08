@@ -4,7 +4,10 @@ The column syntax is similar to that of SELECT expression list, except that
 the only expression supported is the column itself.  The column can be renamed
 using AS clause.
 
+Column indexes also be used, but need to have a @ prefix.
+
 Examples:
 
 .project a, b
 .project a AS Test, b as "Column 2"
+.project @1, @2 AS bbb
