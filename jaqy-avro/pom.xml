@@ -201,7 +201,6 @@
                                     <exclude>org.eclipse.jetty:*</exclude>
                                     <exclude>org.eclipse.jetty.websocket:*</exclude>
                                     <exclude>org.ow2.asm:*</exclude>
-                                    <exclude>org.slf4j:slf4j-api:*</exclude>
                                     <exclude>org.slf4j:slf4j-log4j12:*</exclude>
 								</excludes>
 							</artifactSet>
