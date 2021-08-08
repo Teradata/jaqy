@@ -100,7 +100,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.4.3</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -123,12 +123,85 @@
                                     <includes>
                                         <include>org/apache/hadoop/conf/**</include>
                                         <include>org/apache/hadoop/io/**</include>
-                                        <include>org/apache/hadoop/fs/**</include>
+                                        <include>org/apache/hadoop/fs/*.class</include>
                                         <include>org/apache/hadoop/security/token/**</include>
                                         <include>org/apache/hadoop/util/**</include>
                                     </includes>
                                 </filter>
+                                <filter>
+                                    <artifact>org.apache.avro:avro</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-avro</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-column</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-common</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-encoding</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-hadoop</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-jackson</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.parquet:parquet-format-structures</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.github.luben:zstd-jni</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.xerial.snappy:snappy-java</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.tukaani:xz</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.slf4j:slf4j-nop</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
 							</filters>
+							<minimizeJar>true</minimizeJar>
 							<artifactSet>
 								<excludes>
                                     <exclude>com.teradata.jaqy:jaqy-core</exclude>
