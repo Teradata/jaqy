@@ -17,12 +17,18 @@ names and ``AS`` clause is supported.
 
 It should be noted that ``"`` is always used to quote column names.
 
+Sometimes it is easier to refer a column by its index (starting from 1).
+One can use ``@1`` instead.
+
 Example
 ~~~~~~~
 
 .. code-block:: text
 
 	.project a AS "Column 1", b
+	SELECT * FROM MyTable ORDER BY a;
+
+	.project @1 AS "Column 1", @2
 	SELECT * FROM MyTable ORDER BY a;
 
 See Also

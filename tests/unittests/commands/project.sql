@@ -29,6 +29,17 @@ SELECT * FROM MyTable ORDER BY a;
 .project b
 SELECT * FROM MyTable ORDER BY a;
 
+.project @0
+.project @00
+.project @55
+SELECT * FROM MyTable ORDER BY a;
+
+.project @2
+SELECT * FROM MyTable ORDER BY a;
+
+.project @2 AS bbb
+SELECT * FROM MyTable ORDER BY a;
+
 .filter a > 3 and a < 10
 .project b
 SELECT * FROM MyTable ORDER BY a;

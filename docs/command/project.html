@@ -262,10 +262,15 @@ memory.</p>
 <p>The syntax is basically similar to SELECT clause, but only simple column
 names and <code class="docutils literal"><span class="pre">AS</span></code> clause is supported.</p>
 <p>It should be noted that <code class="docutils literal"><span class="pre">&quot;</span></code> is always used to quote column names.</p>
+<p>Sometimes it is easier to refer a column by its index (starting from 1).
+One can use <code class="docutils literal"><span class="pre">&#64;1</span></code> instead.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-text"><div class="highlight"><pre><span></span>.project a AS &quot;Column 1&quot;, b
+SELECT * FROM MyTable ORDER BY a;
+
+.project @1 AS &quot;Column 1&quot;, @2
 SELECT * FROM MyTable ORDER BY a;
 </pre></div>
 </div>

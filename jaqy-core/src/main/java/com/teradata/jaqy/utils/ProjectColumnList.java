@@ -19,6 +19,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.teradata.jaqy.JaqyException;
 import com.teradata.jaqy.JaqyInterpreter;
 import com.teradata.jaqy.connection.JaqyResultSetMetaData;
 import com.teradata.jaqy.helper.DummyHelper;
@@ -57,14 +58,34 @@ public class ProjectColumnList
         FullColumnInfo[] columnInfos = new FullColumnInfo[numCols];
         ResultSetMetaData rsmd = rs.getMetaData ().getMetaData ();
         JaqyHelper helper = rs.getHelper ();
+        int columnCount = rsmd.getColumnCount ();
         for (int i = 0; i < numCols; ++i)
         {
             ProjectColumn column = m_columnList.get (i);
-            int index = rs.findColumn (column.name);
+            int index;
+            if (column.columnIndex > 0)
+            {
+                if (column.columnIndex > columnCount)
+                {
+                    throw new JaqyException ("Invalid projection column: " + column.columnIndex);
+                }
+                index = column.columnIndex;
+            }
+            else
+            {
+                index = rs.findColumn (column.name);
+            }
             columnInfos[i] = ResultSetMetaDataUtils.getColumnInfo (rsmd, index, helper);
-            columnInfos[i].name = column.asName;
-            columnInfos[i].label = column.asName;
-            ColumnNode exp =new ColumnNode (column.name);
+            if (column.name == null)
+            {
+                column.name = columnInfos[i].label;
+            }
+            if (column.asName != null)
+            {
+                columnInfos[i].name = column.asName;
+                columnInfos[i].label = column.asName;
+            }
+            ColumnNode exp = new ColumnNode (column.name);
             exp.bind (rs, null, interpreter);
             exps[i] = exp;
         }

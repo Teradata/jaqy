@@ -20,8 +20,8 @@ import java.io.StringReader;
 
 import org.yuanheng.cookcc.*;
 
-import com.teradata.jaqy.utils.ProjectColumnList;
 import com.teradata.jaqy.utils.ProjectColumn;
+import com.teradata.jaqy.utils.ProjectColumnList;
 import com.teradata.jaqy.utils.StringUtils;
 
 /**
@@ -33,12 +33,12 @@ public class ProjectParser extends GeneratedProjectParser
     @CookCCToken
     static enum Token
     {
-        NAME, COMMA, AS
+        COLUMNID, NAME, COMMA, AS
     }
 
     private static IOException getErrorException ()
     {
-        return new IOException ("invalid WHERE syntax.");
+        return new IOException ("invalid project syntax.");
     }
 
     private ProjectColumnList m_expList;
@@ -64,6 +64,17 @@ public class ProjectParser extends GeneratedProjectParser
     String scanIdentifier ()
     {
         return yyText ();
+    }
+
+    @Lex (pattern = "@([0-9]+)", token = "COLUMNID")
+    Integer scanColumnId () throws IOException
+    {
+        Integer id = Integer.parseInt (yyText ().substring (1));
+        if (id < 1)
+        {
+            throw getErrorException ();
+        }
+        return id;
     }
 
     @Lex (pattern = "'\"'([^\"]|('\"\"'))*'\"'", token = "NAME")
@@ -124,6 +135,23 @@ public class ProjectParser extends GeneratedProjectParser
     {
         ProjectColumn col = new ProjectColumn ();
         col.name = name;
+        col.asName = asName;
+        return col;
+    }
+
+    @Rule (lhs = "exp", rhs = "COLUMNID", args = "1")
+    ProjectColumn parseColumnId (Integer id)
+    {
+        ProjectColumn col = new ProjectColumn ();
+        col.columnIndex = id;
+        return col;
+    }
+
+    @Rule (lhs = "exp", rhs = "COLUMNID AS NAME", args = "1 3")
+    ProjectColumn parseColumnIdAsName (Integer id, String asName)
+    {
+        ProjectColumn col = new ProjectColumn ();
+        col.columnIndex = id;
         col.asName = asName;
         return col;
     }
