@@ -128,6 +128,12 @@
                                         <include>org/apache/hadoop/util/**</include>
                                     </includes>
                                 </filter>
+                                <filter>
+                                    <artifact>com.google.guava:guava</artifact>
+                                    <includes>
+                                        <include>com/google/common/base/Preconditions*</include>
+                                    </includes>
+                                </filter>
 							</filters>
 							<artifactSet>
 								<excludes>
@@ -150,7 +156,8 @@
                                     <exclude>com.fasterxml.jackson.module:*</exclude>
                                     <exclude>com.github.stephenc.jcip:*</exclude>
                                     <exclude>com.google.code.gson:*</exclude>
-                                    <exclude>com.google.guava:*</exclude>
+                                    <exclude>com.google.guava:failureaccess:*</exclude>
+                                    <exclude>com.google.guava:listenablefuture:*</exclude>
                                     <exclude>com.google.inject:guice:*</exclude>
                                     <exclude>com.google.inject.extensions:*</exclude>
                                     <exclude>com.google.j2objc:*</exclude>
