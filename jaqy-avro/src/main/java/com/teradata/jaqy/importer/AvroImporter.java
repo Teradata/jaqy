@@ -122,13 +122,14 @@ public class AvroImporter implements JaqyImporter
     public Object importColumn (JaqyPreparedStatement stmt, int column, ParameterInfo paramInfo, Collection<Object> freeList, JaqyInterpreter interpreter) throws Exception
     {
         Object obj = getObject (column - 1, paramInfo, interpreter);
+        JaqyHelper helper = stmt.getHelper ();
         if (obj == null)
         {
-            stmt.setNull (column, paramInfo.type, paramInfo.typeName);
+            helper.setCSVNull (stmt, column, paramInfo, interpreter);
         }
         else
         {
-            stmt.getHelper ().setObject (stmt, column, paramInfo, obj, freeList, interpreter);
+            helper.setCSVObject (stmt, column, paramInfo, obj, freeList, interpreter);
         }
         return obj;
     }
