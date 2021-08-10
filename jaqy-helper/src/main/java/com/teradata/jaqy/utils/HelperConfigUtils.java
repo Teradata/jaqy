@@ -78,6 +78,7 @@ public class HelperConfigUtils
         features.noCatalog = !v.getBoolean ("catalog", true);
         features.noStream = !v.getBoolean ("stream", true);
         features.streamLength = v.getBoolean ("streamLength", true);
+        features.setObjectType = v.getBoolean ("setObjectType", true);
         return features;
     }
 

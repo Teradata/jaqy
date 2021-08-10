@@ -35,6 +35,8 @@ public class JdbcFeatures
     public boolean noStream;
     /** Does the stream requiring the length parameter */
     public boolean streamLength = true;
+    /** Does the setObject requiring the data type */
+    public boolean setObjectType = true;
 
     // ---------- DatabaseMetaData -------------------------
 

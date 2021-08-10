@@ -12,3 +12,5 @@ excel_import_7.sql
 excel_io_1.sql
 excel_io_2.sql
 excel_io_3.sql
+type_datetime_mysql.sql
+type_datetime_postgresql.sql

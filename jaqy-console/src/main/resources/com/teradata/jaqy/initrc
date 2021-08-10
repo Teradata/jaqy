@@ -13,7 +13,8 @@
 	"protocol":	"mysql",
 	"features": {
 		"schema" : false,
-		"stream" : false
+		"stream" : false,
+		"setObjectType" : false
 	},
 	"typeMap": [
 		{ "type" : "CHAR", "name" : "CHAR({0,number,#})", "maxPrecision" : 255 },
@@ -88,6 +89,9 @@
 },
 {
 	"protocol":	"derby",
+    "features": {
+        "setObjectType" : false
+    },
 	"typeMap": [
 		{ "type" : "BINARY", "name" : "CHAR ({0,number,#}) FOR BIT DATA", "maxPrecision" : 254 },
 		{ "type" : "VARBINARY", "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "maxPrecision" : 32672 },

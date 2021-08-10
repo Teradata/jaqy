@@ -18,6 +18,9 @@ package com.teradata.jaqy.importer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -203,9 +206,17 @@ public class ExcelImporter implements JaqyImporter
         int         index = getIndex (column - 1);
         Object      value = null;
 
-        try
+        Cell cell = null;
+        if (m_row.hasCell (index))
         {
-            Cell cell = m_row.getCell (index);
+            cell = m_row.getCell (index);
+        }
+        if (cell == null)
+        {
+            value = null;
+        }
+        else
+        {
             if (cell.getText ().isEmpty ())
             {
                 value = null;
@@ -221,7 +232,10 @@ public class ExcelImporter implements JaqyImporter
                         paramInfo.type == Types.TIMESTAMP ||
                         paramInfo.type == Types.TIMESTAMP_WITH_TIMEZONE)
                     {
-                        value = cell.asDate ();
+                        LocalDateTime localDateTime = cell.asDate ();
+                        LocalDate date = localDateTime.toLocalDate ();
+                        LocalTime time = localDateTime.toLocalTime ();
+                        value = date.toString () + " " + time.toString ();
                     }
                     else
                     {
@@ -258,9 +272,6 @@ public class ExcelImporter implements JaqyImporter
                     break;
                 }
             }
-        }
-        catch (Exception ex)
-        {
         }
         if (value == null)
         {

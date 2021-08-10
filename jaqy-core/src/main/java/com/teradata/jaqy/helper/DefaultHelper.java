@@ -680,7 +680,7 @@ public class DefaultHelper implements JaqyHelper
             {
                 if (o instanceof SQLXML)
                 {
-                    stmt.setObject (columnIndex, o);
+                    stmt.setSQLXML (columnIndex, (SQLXML)o);
                     return;
                 }
                 else if (o instanceof CharSequence)
@@ -726,7 +726,14 @@ public class DefaultHelper implements JaqyHelper
             return;
         }
 
-        stmt.setObject (columnIndex, o);
+        if (m_features.setObjectType)
+        {
+            stmt.setObject (columnIndex, o, paramInfo.type);
+        }
+        else
+        {
+            stmt.setObject (columnIndex, o);
+        }
     }
 
     /**
