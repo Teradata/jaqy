@@ -21,7 +21,7 @@ case "$BUILD" in
 		make docs
 		;;
 	pkg)
-		mvn clean package -Dmaven.test.skip=true
+		mvn clean package -Dmaven.test.skip=true && cp jaqy-avro/target/jaqy-avro*.jar jaqy-s3/target/jaqy-s3*.jar jaqy-azure/target/jaqy-azure*.jar dist
 		;;
 	test)
 		mvn clean package
