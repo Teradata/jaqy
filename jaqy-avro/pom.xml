@@ -141,6 +141,12 @@
                                     </includes>
                                 </filter>
                                 <filter>
+                                    <artifact>com.google.guava:guava</artifact>
+                                    <includes>
+                                        <include>com/google/common/cache/**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
                                     <artifact>org.apache.avro:avro</artifact>
                                     <includes>
                                         <include>**</include>
