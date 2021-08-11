@@ -149,9 +149,9 @@ INSERT INTO BinTable VALUES (2, E'\\xfacefeed');
 SELECT * FROM BinTable ORDER BY c1;
 -- success --
 c1 c2
--- --
- 1 de
- 2 fa
+-- --------
+ 1 deadbeef
+ 2 facefeed
 -- activity count = 2
 -- 25/3 - 0 ---------------------------------------------------------------
 DROP TABLE BinTable;

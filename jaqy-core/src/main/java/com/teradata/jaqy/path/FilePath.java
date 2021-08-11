@@ -104,4 +104,10 @@ public class FilePath implements Path
     {
         m_file.delete ();
     }
+
+    @Override
+    public String toString ()
+    {
+        return m_file.toString ();
+    }
 }

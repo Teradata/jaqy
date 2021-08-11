@@ -46,6 +46,10 @@ public class FilePathTest
         path = handler.getPath (file.getAbsolutePath (), null);
         Assert.assertNotNull (path);
         OutputStream os = path.getOutputStream ();
+
+        FilePath filePath = (FilePath)path;
+        Assert.assertEquals (filePath.getFile ().toString (), path.toString ());
+
         String str = "abcdefghijklmnopqrstuvwxyz";
         os.write (str.getBytes ("UTF-8"));
         os.close ();

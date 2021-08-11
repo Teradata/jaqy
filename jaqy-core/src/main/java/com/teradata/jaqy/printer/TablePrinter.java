@@ -113,8 +113,10 @@ class TablePrinter implements JaqyPrinter
                 widths[i] = 0;
 
                 int dispSize = ResultSetUtils.getDisplayWidth (rs, i + 1);
-                if (dispSize <= m_columnThreshold)
+                if (dispSize > 0 && dispSize <= m_columnThreshold)
+                {
                     widths[i] = dispSize;
+                }
             }
             shrink (columns, widths, rs, handlers, limit, interpreter);
         }

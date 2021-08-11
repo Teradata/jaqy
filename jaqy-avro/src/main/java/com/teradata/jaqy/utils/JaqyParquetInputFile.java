@@ -46,4 +46,10 @@ public class JaqyParquetInputFile implements InputFile
     {
         return new JaqyParquetFileSeekableInputStream ((FileInputStream)m_path.getInputStream ());
     }
+
+    @Override
+    public String toString ()
+    {
+        return m_path.toString ();
+    }
 }

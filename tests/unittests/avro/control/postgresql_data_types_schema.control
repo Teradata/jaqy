@@ -323,9 +323,9 @@ INSERT INTO BinTable2 VALUES (?,?)
 SELECT * FROM BinTable2 ORDER BY a;
 -- success --
 a c1
-- --
-1 de
-2 fa
+- --------
+1 deadbeef
+2 facefeed
 3 ?
 -- activity count = 3
 -- 53/19 - 0 --------------------------------------------------------------

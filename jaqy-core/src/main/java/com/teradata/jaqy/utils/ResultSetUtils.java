@@ -74,6 +74,11 @@ public class ResultSetUtils
             {
                 int size = meta.getColumnDisplaySize (column);
                 computeSize = size * 2;
+                if (computeSize < 0)
+                {
+                    // overflow
+                    computeSize = Integer.MAX_VALUE;
+                }
                 break;
             }
             default:
