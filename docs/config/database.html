@@ -227,6 +227,9 @@ only be applied before connecting to the database.</p>
 streams or LOBs.</li>
 <li><code class="docutils literal"><span class="pre">&quot;streamLength&quot;</span> <span class="pre">:</span> <span class="pre">false</span></code> if the driver does not support the length
 information in setCharacterStream and setBinaryStream calls.</li>
+<li><code class="docutils literal"><span class="pre">*setObjectType*</span> <span class="pre">:</span> <span class="pre">false</span></code> if driver does provide accurate type information
+for parameter input.  As the result, when importing data, this parameter
+type should not be passed to setObject call.</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">schemaSQL</span></code> is used by <a class="reference external" href="../command/pwd.html">.pwd</a> and
 <a class="reference external" href="../command/list.html">.list</a> commands to determine the current schema.</p>

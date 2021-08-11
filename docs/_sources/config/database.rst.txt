@@ -28,6 +28,9 @@ Field Description
   streams or LOBs.
 * ``"streamLength" : false`` if the driver does not support the length
   information in setCharacterStream and setBinaryStream calls.
+* ``*setObjectType* : false`` if driver does provide accurate type information
+  for parameter input.  As the result, when importing data, this parameter
+  type should not be passed to setObject call.
 
 ``schemaSQL`` is used by `.pwd <../command/pwd.html>`__ and
 `.list <../command/list.html>`__ commands to determine the current schema.
