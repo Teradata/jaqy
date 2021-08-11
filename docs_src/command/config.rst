@@ -3,6 +3,8 @@
 
 ``.config`` configures database handlings using JSON.  For more information
 on the format, see `Database Configurations <../config/database.html>`__.
+The intent is that Jaqy can be adapted to a new database more easily without
+writing a specific helper plugin for it.
 
 .. note::
 
@@ -19,7 +21,8 @@ Example
 		"protocol":	"mysql",
 		"features": {
 			"schema" : false,
-			"stream" : false
+			"stream" : false,
+			"setObjectType" : false
 		},
 		"typeMap": [
 			{ "type" : "CHAR", "name" : "CHAR({0,number,#})", "maxPrecision" : 255 },
@@ -54,7 +57,11 @@ Example
 	},
 	{
 		"protocol":	"postgresql",
+		"features": {
+			"streamLength" : false
+		},
 		"typeMap": [
+			{ "type" : "SMALLINT", "name" : "int2" },
 			{ "type" : "CHAR", "name" : "char({0,number,#})", "maxPrecision" : 2147483648 },
 			{ "type" : "VARCHAR", "name" : "varchar({0,number,#})", "maxPrecision" : 2147483648 },
 			{ "type" : "CLOB", "name" : "text", "maxPrecision" : 2147483648 },
@@ -64,6 +71,8 @@ Example
 		],
 		"importTypeMap": [
 			{ "type" : "BOOLEAN", "name" : "bool" },
+			{ "type" : "SMALLINT", "name" : "int2" },
+			{ "type" : "INTEGER", "name" : "int4" },
 			{ "type" : "CHAR", "name" : "text" },
 			{ "type" : "VARCHAR", "name" : "text" },
 			{ "type" : "CLOB", "name" : "text" },
@@ -88,6 +97,9 @@ Example
 	},
 	{
 		"protocol":	"derby",
+		"features": {
+			"setObjectType" : false
+		},
 		"typeMap": [
 			{ "type" : "BINARY", "name" : "CHAR ({0,number,#}) FOR BIT DATA", "maxPrecision" : 254 },
 			{ "type" : "VARBINARY", "name" : "VARCHAR ({0,number,#}) FOR BIT DATA", "maxPrecision" : 32672 },

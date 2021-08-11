@@ -253,7 +253,9 @@
   <div class="section" id="config">
 <h1>.config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h1>
 <p><code class="docutils literal"><span class="pre">.config</span></code> configures database handlings using JSON.  For more information
-on the format, see <a class="reference external" href="../config/database.html">Database Configurations</a>.</p>
+on the format, see <a class="reference external" href="../config/database.html">Database Configurations</a>.
+The intent is that Jaqy can be adapted to a new database more easily without
+writing a specific helper plugin for it.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Database configurations does not apply to the current active connection.</p>
@@ -266,7 +268,8 @@ on the format, see <a class="reference external" href="../config/database.html">
         &quot;protocol&quot;:     &quot;mysql&quot;,
         &quot;features&quot;: {
                 &quot;schema&quot; : false,
-                &quot;stream&quot; : false
+                &quot;stream&quot; : false,
+                &quot;setObjectType&quot; : false
         },
         &quot;typeMap&quot;: [
                 { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;CHAR({0,number,#})&quot;, &quot;maxPrecision&quot; : 255 },
@@ -301,7 +304,11 @@ on the format, see <a class="reference external" href="../config/database.html">
 },
 {
         &quot;protocol&quot;:     &quot;postgresql&quot;,
+        &quot;features&quot;: {
+                &quot;streamLength&quot; : false
+        },
         &quot;typeMap&quot;: [
+                { &quot;type&quot; : &quot;SMALLINT&quot;, &quot;name&quot; : &quot;int2&quot; },
                 { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;char({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
                 { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;varchar({0,number,#})&quot;, &quot;maxPrecision&quot; : 2147483648 },
                 { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;text&quot;, &quot;maxPrecision&quot; : 2147483648 },
@@ -311,6 +318,8 @@ on the format, see <a class="reference external" href="../config/database.html">
         ],
         &quot;importTypeMap&quot;: [
                 { &quot;type&quot; : &quot;BOOLEAN&quot;, &quot;name&quot; : &quot;bool&quot; },
+                { &quot;type&quot; : &quot;SMALLINT&quot;, &quot;name&quot; : &quot;int2&quot; },
+                { &quot;type&quot; : &quot;INTEGER&quot;, &quot;name&quot; : &quot;int4&quot; },
                 { &quot;type&quot; : &quot;CHAR&quot;, &quot;name&quot; : &quot;text&quot; },
                 { &quot;type&quot; : &quot;VARCHAR&quot;, &quot;name&quot; : &quot;text&quot; },
                 { &quot;type&quot; : &quot;CLOB&quot;, &quot;name&quot; : &quot;text&quot; },
@@ -335,6 +344,9 @@ on the format, see <a class="reference external" href="../config/database.html">
 },
 {
         &quot;protocol&quot;:     &quot;derby&quot;,
+        &quot;features&quot;: {
+                &quot;setObjectType&quot; : false
+        },
         &quot;typeMap&quot;: [
                 { &quot;type&quot; : &quot;BINARY&quot;, &quot;name&quot; : &quot;CHAR ({0,number,#}) FOR BIT DATA&quot;, &quot;maxPrecision&quot; : 254 },
                 { &quot;type&quot; : &quot;VARBINARY&quot;, &quot;name&quot; : &quot;VARCHAR ({0,number,#}) FOR BIT DATA&quot;, &quot;maxPrecision&quot; : 32672 },
