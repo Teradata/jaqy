@@ -62,6 +62,7 @@
 				<configuration>
 					<includesTestSourceRoots>false</includesTestSourceRoots>
 					<excludes>
+                        <exclude>org/apache/**</exclude>
 						<exclude>com/teradata/jaqy/helper/Teradata*.java</exclude>
 						<exclude>com/teradata/jaqy/utils/DummyConnection.java</exclude>
 						<exclude>com/teradata/jaqy/utils/ExceptionUtils.java</exclude>
