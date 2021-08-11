@@ -30,7 +30,7 @@ Syntax
 javascript
 
 * If the script is not specified, it displays the current handler.
-* If the value here is simply "none", the handler would do nothing.
+* If the value here is simply ``none``, the handler would do nothing.
 * If the value here is simply ``default``, it restores the default handler.
 * Otherwise, it is evaluated as a javascript.
 
