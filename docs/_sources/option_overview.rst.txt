@@ -21,7 +21,7 @@ Entering Commands
 ~~~~~~~~~~~~~~~~~
 
 You do not need to enter each command as a whole string as Jaqy can concatenate
-the parameters into a separated by space.
+the parameters into a string.
 
 .. code-block:: bash
 
