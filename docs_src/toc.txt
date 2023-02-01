@@ -24,6 +24,7 @@
 	:hidden:
 
 	build
+	option
 	command
 	comment
 	config
