@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Teradata
+ * Copyright (c) 2017-2026 Teradata
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,9 +128,10 @@ public class PathUtils
             ArrayList<String> pathList = new ArrayList<String> ();
             for (String p : paths)
             {
-                String[] newPaths = splitWindows (p);
-                for (String p2 : newPaths)
-                    pathList.add (p2);
+//                String[] newPaths = splitWindows (p);
+//                for (String p2 : newPaths)
+//                    pathList.add (p2);
+                pathList.add (p);
             }
             paths = new String[pathList.size ()];
             pathList.toArray (paths);
